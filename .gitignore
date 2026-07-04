@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# LWS local-only
+CLAUDE.md
+INSTRUCTIONS.md
+_reference/
+DESIGN.md
+.env
