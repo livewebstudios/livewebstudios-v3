@@ -1,0 +1,260 @@
+---
+/**
+ * Namesake — the second STUDIOS mega-panel headliner.
+ * Premium personal-brand sites for solo professionals: attorneys going solo,
+ * performers, consultants, and individuals whose name IS the business.
+ *
+ * Reuses the whole LWS system (Base, Nav, Footer, Glass, ShaderHero) and
+ * re-themes the accent from cyan to brass (#C9A55A, the sanctioned Namesake
+ * token already defined in global.css) by overriding the accent custom
+ * properties on the .theme-namesake wrapper. Every descendant that reads
+ * var(--cyan) / var(--cyan-soft) / var(--line) re-themes automatically, so
+ * no component is forked. The shader frame is driven by the accent prop.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+import ShaderHero from "../components/ShaderHero.tsx";
+
+const audience = [
+  {
+    ico: "§",
+    title: "Attorneys going solo",
+    body: "You left the firm. The clients you win now find you by name, not by letterhead. Your site is the first argument you make.",
+  },
+  {
+    ico: "♪",
+    title: "Performers & artists",
+    body: "A booking page that reads like a press kit. Reel, dates, and reputation in one place a promoter can trust in ten seconds.",
+  },
+  {
+    ico: "◆",
+    title: "Consultants & advisors",
+    body: "Independent expertise needs a home that signals it. A personal site that carries the weight your resume can't.",
+  },
+  {
+    ico: "❖",
+    title: "Founders & principals",
+    body: "Sometimes the person is the brand. When your name opens doors, the site behind it should be worth walking through.",
+  },
+];
+
+const approach = [
+  {
+    k: "01",
+    title: "Your name, set in type",
+    body: "We start with the one asset nobody can copy: your name. Typography, spacing, and restraint do the work that stock photography can't.",
+  },
+  {
+    k: "02",
+    title: "A narrative, not a brochure",
+    body: "Your story is the differentiator. We structure the site around the arc a client actually follows: who you are, what you've done, why it matters.",
+  },
+  {
+    k: "03",
+    title: "Built to be found",
+    body: "Fast, clean, AI-platformed HTML that reads well to a hiring partner and to Google alike. Your name should rank for your name.",
+  },
+];
+---
+
+<Base
+  title="Namesake by Live Web Studios | Personal Brand Sites for Solo Professionals"
+  description="Namesake builds premium personal websites for solo professionals: attorneys going solo, performers, consultants, and founders whose name is the brand. A studio of Live Web Studios."
+  canonical="https://livewebstudios.com/namesake"
+>
+  <Nav />
+
+  <main class="theme-namesake">
+    <!-- HERO -->
+    <section class="hero">
+      <ShaderHero client:load accent="#C9A55A" />
+      <div class="wrap hero-in">
+        <div class="chip"><span class="dot"></span> A STUDIO OF LIVE WEB STUDIOS</div>
+        <p class="eyebrow is-center mb-lg">PERSONAL BRAND · SOLO PROFESSIONALS · BY NAME</p>
+        <h1 class="hero-h1">Your name is <em>the</em> business.</h1>
+        <p class="hero-sub">Namesake builds premium personal sites for people whose reputation carries the work.</p>
+        <div class="hero-btns">
+          <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="#work" class="btn btn-ghost">See the approach ↓</a>
+        </div>
+        <div class="telemetry">
+          <span>FOR <b>SOLO PROS</b></span>
+          <span>BUILD <b>AI PLATFORMED</b></span>
+          <span>BY <b>LIVE WEB STUDIOS</b></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- POSITIONING -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="feature">
+          <span class="eyebrow is-center mb-md">WHAT NAMESAKE IS</span>
+          <h2>Live Web Studios builds businesses a home. Namesake builds a person one.</h2>
+          <p>Most sites sell a company. Namesake sells you. When the client is choosing a person, not a vendor, the website has a different job: carry your name, your record, and your judgment with the weight they deserve. That is the only thing we build here.</p>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- AUDIENCE -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHO IT'S FOR</span>
+          <h2>When the name on the door is yours.</h2>
+        </div>
+        <div class="grid-svc grid-svc--2">
+          {audience.map((a) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{a.ico}</div>
+                <h3>{a.title}</h3>
+                <p>{a.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section id="work" class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE APPROACH</span>
+          <h2>Editorial, not templated.</h2>
+        </div>
+        <div class="ns-steps">
+          {approach.map((s) => (
+            <article class="ns-step reveal">
+              <span class="ns-step-k">{s.k}</span>
+              <div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE / NARRATIVE -->
+    <section class="sec-pad is-alt">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">THE DIFFERENCE</span>
+          <div class="sec-head is-flush"><h2>Reputation, rendered.</h2></div>
+          <p>Live Web Studios has built for North Jersey businesses since 2004. Namesake is that same craft pointed at a single person: the founder, the performer, the attorney who just hung their own shingle.</p>
+          <p>No page builders. No stock-photo sameness. A site that reads like it was made for one name, because it was.</p>
+          <p class="kick">Your name should look like it means something. We make sure it does.</p>
+          <div class="mt-lg"><a href="contact.html" class="btn btn-ghost">Reach out. →</a></div>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big ns-mark">Aa</div>
+          <div class="mark">Namesake · A Studio of Live Web Studios</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to put your name on it?</h2>
+          <p>Tell me who you are and what you're building. I'll tell you what it could look like.</p>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Brass sub-brand theming. Overriding the accent custom properties on the
+     wrapper re-themes every descendant that reads them (buttons, eyebrows,
+     glass borders, hero em, telemetry) with zero component forks. */
+  .theme-namesake {
+    --cyan: #c9a55a;          /* brass base — drives buttons, dots, eyebrow rule */
+    --cyan-soft: #e3cb8b;     /* light brass — eyebrow text, hero em, telemetry */
+    --cyan-2: #a9863c;        /* deep brass — button gradient base */
+    --cyan-deep: #4a3a12;
+    --on-accent: #1a1206;     /* dark warm ink on brass surfaces (~8:1) */
+    --line: rgba(201, 165, 90, 0.16);
+    --line-2: rgba(201, 165, 90, 0.08);
+  }
+
+  /* Two hero pieces hardcode cyan rgba and live inside the React island, so
+     custom-property inheritance can't reach them — retheme them explicitly. */
+  .theme-namesake :global(.hero-fallback) {
+    background:
+      radial-gradient(46% 38% at 50% 46%, rgba(201, 165, 90, 0.14), transparent 62%),
+      radial-gradient(78% 58% at 50% 48%, rgba(201, 165, 90, 0.06), transparent 72%),
+      var(--bg);
+  }
+
+  /* Two-up audience grid (system default grid-svc is 3-up). */
+  .grid-svc--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Editorial numbered steps — brass keyline down the left. */
+  .ns-steps {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+  .ns-step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.6rem;
+    align-items: start;
+    padding: 1.6rem 1.8rem;
+    border-left: 1px solid var(--line);
+    background: rgba(201, 165, 90, 0.03);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+  }
+  .ns-step-k {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--cyan-soft);
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+  .ns-step h3 {
+    font-size: 1.22rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+  .ns-step p {
+    color: var(--muted);
+    font-size: 0.98rem;
+    max-width: 60ch;
+  }
+
+  /* Editorial portrait mark — brass, serif-weight glyph instead of the JW block. */
+  .ns-mark {
+    color: rgba(201, 165, 90, 0.18);
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .grid-svc--2 {
+      grid-template-columns: 1fr;
+    }
+    .ns-step {
+      padding: 1.3rem 1.4rem;
+      gap: 1.1rem;
+    }
+  }
+</style>
