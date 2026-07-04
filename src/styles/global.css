@@ -464,3 +464,37 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
   .work-grid{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
 }
+
+/* ============================================================
+   Phase 2E — blog index (CMS-rendered cards)
+   ============================================================ */
+
+/* is-visible: standing-pattern reveal alias so blog.js's fallback path
+   reveals a card even if window.LWS is unavailable. */
+.reveal.is-visible{opacity:1;transform:none}
+
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.blog-empty{grid-column:1 / -1;text-align:center;color:var(--muted);font-family:var(--mono);font-size:.9rem;padding:2rem 0}
+.blog-card{
+  display:flex;flex-direction:column;height:100%;overflow:hidden;
+  border:1px solid var(--line);border-radius:var(--r-lg);background:rgba(11,18,32,.4);
+  transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease);
+}
+.blog-card:hover{transform:translateY(-4px);border-color:rgba(56,189,248,.35);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 50px rgba(56,189,248,.10)}
+.blog-thumb{aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--line-2);background:var(--panel)}
+.blog-thumb img{width:100%;height:100%;object-fit:cover}
+.blog-thumb--empty{ /* CSS placeholder when a post has no thumbnail */
+  display:grid;place-items:center;
+  background:
+    linear-gradient(135deg,rgba(56,189,248,.10),transparent 60%),
+    repeating-linear-gradient(45deg,rgba(125,211,252,.05) 0 2px,transparent 2px 14px),
+    var(--panel);
+}
+.blog-thumb--empty span{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+.blog-meta{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.blog-date{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-soft)}
+.blog-title{font-size:1.18rem;font-weight:600;color:var(--ink-soft);line-height:1.25;margin:0}
+.blog-sum{color:var(--muted);font-size:.92rem;margin:0}
+
+@media (max-width:900px){.blog-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.blog-grid{grid-template-columns:1fr}}

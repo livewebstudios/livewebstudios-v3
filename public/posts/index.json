@@ -1,0 +1,28 @@
+{
+  "posts": [
+    {
+      "title": "Why we build with AI now",
+      "slug": "why-we-build-with-ai-now",
+      "date": "2026-07-01",
+      "summary": "AI does the repetitive part of a build so the time goes where it counts: fast, clean sites Google rewards and clients actually understand.",
+      "thumbnail": "",
+      "body": "This is a starter post. Replace it from the admin at /admin/ once Netlify Identity is set up.\n\nAI-platformed sites are static, quick, and low-maintenance. No plugin nightmares, no security drama."
+    },
+    {
+      "title": "One person, full agency standards",
+      "slug": "one-person-full-agency-standards",
+      "date": "2026-06-20",
+      "summary": "You get one person who knows your whole site, not a ticket number. Here is what that looks like day to day.",
+      "thumbnail": "",
+      "body": "This is a starter post. Edit or delete it from the CMS.\n\nEvery site is built from scratch, tested, and handed over ready for opening night."
+    },
+    {
+      "title": "Local search, done right",
+      "slug": "local-search-done-right",
+      "date": "2026-06-05",
+      "summary": "Real businesses, real searches, North Jersey and beyond. A short primer on the local SEO that actually moves the needle.",
+      "thumbnail": "",
+      "body": "This is a starter post. Swap in real content from /admin/.\n\nClean HTML, honest structure, and pages that answer what people are actually searching for."
+    }
+  ]
+}

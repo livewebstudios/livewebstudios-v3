@@ -1,0 +1,45 @@
+# Decap CMS config — Live Web Studios blog
+# Per specs/cms-decap.md: FILE collection (a single JSON file), never a
+# folder/markdown collection and no GitHub Action. Netlify Identity handles
+# auth; Git Gateway commits the save. Files live under public/ so Astro
+# serves them from the built site (dist/ mirrors public/).
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Uploaded media commits under public/ and serves at /images/uploads/.
+# public_folder is kept relative per the LWS path rule (no leading slash),
+# so rendered <img> references resolve on any host the site is moved to.
+media_folder: "public/images/uploads"
+public_folder: "images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    files:
+      - name: "posts"
+        label: "Blog posts"
+        file: "public/posts/index.json"
+        description: "Every blog post lives in this one file. Newest publish date shows first on the site."
+        fields:
+          - label: "Posts"
+            name: "posts"
+            widget: "list"
+            label_singular: "Post"
+            summary: "{{fields.date}} · {{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Slug", name: "slug", widget: "string", hint: "URL id, lowercase-with-dashes" }
+              - {
+                  label: "Publish date",
+                  name: "date",
+                  widget: "datetime",
+                  date_format: "YYYY-MM-DD",
+                  time_format: false,
+                  format: "YYYY-MM-DD",
+                  picker_utc: true,
+                }
+              - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences shown on the blog index card." }
+              - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false }
+              - { label: "Body", name: "body", widget: "markdown" }

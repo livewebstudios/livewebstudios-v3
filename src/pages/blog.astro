@@ -1,0 +1,62 @@
+---
+/**
+ * /blog — blog index. Cards are rendered client-side by blog.js from the
+ * single JSON collection (public/posts/index.json) that Decap CMS writes.
+ * Structure/aesthetic here; content is CMS-managed. Single H1, semantic
+ * HTML5. Individual post pages + JSON-LD are out of scope (held for 2F).
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base
+  title="Blog | Live Web Studios, North Jersey Web Design & AI Builds"
+  description="Notes on web design, hosting, local SEO, and AI-platformed builds from Jon Wolf at Live Web Studios in North Jersey."
+  canonical="https://livewebstudios.com/blog"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">THE LWS BLOG</span>
+        <h1 class="page-h1">Notes from the <em>workbench</em>.</h1>
+        <p class="page-lede">Straight talk on web design, hosting, local search, and building with AI. No fluff, no jargon.</p>
+      </div>
+    </section>
+
+    <!-- POSTS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <!-- blog.js injects .blog-card articles here from posts/index.json -->
+        <div id="blog-list" class="blog-grid" aria-live="polite">
+          <p class="blog-empty">Loading posts…</p>
+        </div>
+        <noscript>
+          <p class="blog-empty">Our blog posts load with JavaScript enabled. Please turn it on, or reach out and we'll send you what you're looking for.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">GOT A PROJECT?</span>
+          <h2>Less reading, more building.</h2>
+        </div>
+        <div class="hero-btns reveal">
+          <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <!-- Client-side blog renderer (relative src per path rule) -->
+  <script is:inline src="blog.js"></script>
+</Base>

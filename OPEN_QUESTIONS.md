@@ -89,4 +89,52 @@ the other sub-brand doorways (`live-web-photos.html`,
 
 ## SESSION 2E — Decap CMS blog
 
-_(populated during 2E)_
+### 2E-1 · Master login template ships a forbidden caret version (upstream bug)
+The branded login master
+(`livewebstudios/claude-global-config/index.html`) loads Decap via
+`decap-cms@^3.0.0` — a **caret range**, which `specs/cms-decap.md` HARD
+RULE explicitly forbids ("the caret is what silently pulls a broken
+release" that crashes the image widget). So I made **two** changes to the
+template, not one: (1) the `<title>`, and (2) pinned `@3.1.2`. The brief
+said "only the `<title>` changes," but the version-pin hard rule wins.
+- **Action for Jon:** Fix the master template in the global-config repo so
+  it pins `@3.1.2` too. Every site cloned from it currently inherits the
+  caret bug.
+
+### 2E-2 · Netlify dashboard steps I can't do from code
+These are on you (Netlify UI), and the CMS won't work until they're done:
+1. Connect the repo to Netlify for auto-deploy on `main`.
+2. Enable **Netlify Identity** (invite-only, not open signup).
+3. Enable **Git Gateway**.
+4. Invite yourself/the client from Identity.
+The Netlify Identity widget is already on the homepage so invite links
+resolve once Identity is enabled.
+
+### 2E-3 · No GitHub Action was created (correct per spec)
+Deliverable 4 said "if this requires a GitHub Action, use the heredoc
+pattern." It does **not**: the file collection writes
+`public/posts/index.json` directly and Netlify redeploys in ~30s. Per the
+spec, folder collections + Actions are "fragile… skip it entirely." So
+there is no Action and no `[skip ci]` anywhere. `posts/index.json` is
+seeded with 3 starter posts (clearly starter content, edit/delete from
+`/admin/`).
+
+### 2E-4 · Media path trade-off (thumbnails)
+`config.yml` sets `public_folder: "images/uploads"` (relative) to honor
+the LWS path rule, instead of the spec sample's root-relative
+`/images/uploads`. Live render is correct and path-compliant, and the
+renderer strips any leading slash defensively. Possible minor side effect:
+Decap's **in-editor** image preview for optional thumbnails may not
+resolve in the admin UI (cosmetic, admin-only). Flag if you'd rather have
+editor previews and accept root-relative stored refs.
+
+### 2E-5 · Blog SEO is deliberately deferred
+Blog cards render client-side from JSON (the standing LWS pattern), so
+individual posts aren't crawlable as separate URLs and there are no
+per-post pages or JSON-LD yet. That's per the brief (SEO/schema held for
+Session 2F). Confirm you want post detail pages + Article schema in 2F.
+
+### 2E-6 · GA4 still a placeholder
+Every page (via `Base.astro`) ships the GA4 snippet with
+`G-XXXXXXXXXX`. Swap in the real Measurement ID before launch. (Same
+placeholder noted for all Phase 2 pages.)
