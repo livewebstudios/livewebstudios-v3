@@ -1,0 +1,79 @@
+---
+/**
+ * /work — portfolio (canonical URL; /portfolio 301s here per _redirects).
+ * Grid structure ready to receive real client entries. Every card below is
+ * a clearly-marked PLACEHOLDER — no real client names or sites are published
+ * here. Which of Jon's 35+ clients to feature publicly is his call (flagged
+ * in OPEN_QUESTIONS.md). Thumbnails are CSS-only, no stock imagery.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+// PLACEHOLDER portfolio entries — structure only. Replace `cat` / `title` /
+// `body` / `href` with approved real client work before launch.
+const projects = [
+  { cat: "Contractor · North Jersey", title: "Placeholder Project 01", body: "Service-area site with quote capture and gallery." },
+  { cat: "Restaurant · North Jersey", title: "Placeholder Project 02", body: "Menu, reservations, and location built for local search." },
+  { cat: "Law Firm · North Jersey", title: "Placeholder Project 03", body: "Practice-area pages and intake form for a solo attorney." },
+  { cat: "Medical & Dental", title: "Placeholder Project 04", body: "Patient-first site with appointment requests and services." },
+  { cat: "Band & Artist", title: "Placeholder Project 05", body: "Tour dates, reel, and booking, powered by Live Band Web Studios." },
+  { cat: "Real Estate", title: "Placeholder Project 06", body: "Listings-forward site with lead capture and area guides." },
+];
+---
+
+<Base
+  title="Our Work | Live Web Studios Portfolio, North Jersey Web Design"
+  description="Selected work from Live Web Studios: custom, AI-platformed websites for North Jersey contractors, restaurants, law firms, medical practices, and more."
+  canonical="https://livewebstudios.com/work"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">SELECTED WORK</span>
+        <h1 class="page-h1">The work speaks <em>first</em>.</h1>
+        <p class="page-lede">Real sites for real North Jersey businesses. Built from scratch, tuned for search, and handed over ready for opening night.</p>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO GRID -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <!-- PLACEHOLDER GRID: entries below are structure only, not real client work.
+             Confirm featured clients with Jon before launch (see OPEN_QUESTIONS.md). -->
+        <div class="work-grid">
+          {projects.map((p) => (
+            <article class="work-card reveal">
+              <div class="work-thumb"><span>Preview coming soon</span></div>
+              <div class="work-meta">
+                <span class="work-cat">{p.cat}</span>
+                <h2 class="work-title">{p.title}</h2>
+                <p>{p.body}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p class="work-note">Case studies from the live portfolio are being added. Want to see work in your industry? <a href="contact.html">Reach out.</a></p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">YOUR SITE NEXT</span>
+          <h2>Let's build the one you show off.</h2>
+        </div>
+        <div class="hero-btns reveal">
+          <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

@@ -48,7 +48,42 @@ exist. However, `Nav`/`Footer`/`StudiosPanel` all link to `live-band.html`.
 
 ## SESSION 2D — Remaining Tier A pages
 
-_(populated during 2D)_
+### 2D-1 · /work — which real clients to feature (Jon's call)
+Per the brief, `/work` ships with **6 clearly-marked placeholder entries**
+("Placeholder Project 01–06"), NOT real client names. `clients.md` holds
+35+ real clients (B-Line Counseling, BP Electric, Brian Halligan Law, …),
+but choosing which to feature publicly is your decision.
+- **Question for Jon:** Which clients (and which of their live URLs /
+  screenshots) go in the portfolio? Once you pick, the grid in
+  `src/pages/work.astro` swaps in directly (the `projects` array).
+
+### 2D-2 · /contact — Formspree endpoint is a placeholder
+The form posts to `https://formspree.io/f/YOUR_FORM_ID`. Swap for the
+real LWS Formspree form ID before launch. Pattern is per
+`specs/boilerplate-design.md`: `_next` absolute redirect
+(`https://livewebstudios.com/contact?sent=1`, which triggers the on-page
+"Message sent" banner) + `_gotcha` honeypot. `_subject` is set.
+- **Question for Jon:** Provide the Formspree form ID (or confirm you
+  want a dedicated `/thanks` page instead of the `?sent=1` banner).
+
+### 2D-3 · /about — placeholder facts to confirm
+Marked in-source with `<!-- PLACEHOLDER: confirm with Jon -->`:
+- **"35+ Active Clients"** — from the brief; confirm exact number.
+- **"200+ Sites Shipped"** — carried over from the homepage telemetry;
+  confirm it's accurate for the about-page stat.
+- **Business hours** — currently "By appointment. I answer fast." Confirm
+  or replace with real hours.
+All about copy is structure-first and will go through a `/jonvoice` pass.
+
+### 2D-4 · Dangling nav link: /services is not built
+The top nav (`Nav.astro`) links `services.html`, but no services page
+exists (it's outside the 2C/2D/2E scope). Same for the footer's town /
+industry SEO landing pages (`web-design-*.html`, `*-websites.html`) and
+the other sub-brand doorways (`live-web-photos.html`,
+`live-ai-studios.html`). These 404 until built.
+- **Question for Jon:** Schedule a session for `/services` + the footer
+  SEO landing pages, or remove `SERVICES` from the top nav until it's
+  ready? (Flagging, not touching the shared Nav without your call.)
 
 ---
 

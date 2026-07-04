@@ -1,0 +1,147 @@
+---
+/**
+ * /about — Jon Wolf / Live Web Studios story.
+ * Structure-first for a later /jonvoice pass. Any invented specific is
+ * marked <!-- PLACEHOLDER: confirm with Jon --> rather than stated as fact.
+ * Reuses the flagship design language (cyan, Glass, .split, .stats, .trio).
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+
+const studios = [
+  {
+    label: "THE FLAGSHIP",
+    title: "Live Web Studios",
+    body: "Custom, AI-platformed websites, hosting, and SEO for North Jersey businesses.",
+    href: "index.html",
+    go: "Home",
+  },
+  {
+    label: "SUB-BRAND",
+    title: "Live Band Web Studios",
+    body: "Sites built for bands and artists who play live. Tour dates, reels, bookings.",
+    href: "live-band.html",
+    go: "See the stage",
+  },
+  {
+    label: "SUB-BRAND",
+    title: "Namesake",
+    body: "Premium personal-brand sites for solo professionals whose name is the business.",
+    href: "namesake.html",
+    go: "Make your name",
+  },
+];
+---
+
+<Base
+  title="About Live Web Studios | Jon Wolf, Web Designer in North Jersey"
+  description="Live Web Studios is Jon Wolf: a North Jersey web studio building custom, AI-platformed websites since 2004. One person, one call, real accountability."
+  canonical="https://livewebstudios.com/about"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">SINCE 2004 · SADDLE BROOK, NJ</span>
+        <h1 class="page-h1">One person. Full <em>agency</em> standards.</h1>
+        <p class="page-lede">Live Web Studios is Jon Wolf. Two decades of building and maintaining websites for North Jersey businesses, now with AI doing the heavy lifting.</p>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">THE SHORT VERSION</span>
+          <div class="sec-head is-flush"><h2>I'm a web guy.</h2></div>
+          <p>Not an agency of 40. Not a platform. Just me, Jon Wolf, building and maintaining websites for North Jersey businesses since 2004.</p>
+          <p>I started in IT. Wore a tie. Hated it. A plumber friend needed a website, I built it, and things kind of snowballed from there.</p>
+          <p>These days I'm deep into AI-built sites: fast, clean HTML that Google rewards and clients actually understand. No plugin nightmares. No security drama. Just sites that work.</p>
+          <p class="kick">My number's on the website. I pick up.</p>
+          <div class="mt-lg"><a href="contact.html" class="btn btn-primary">Let's talk. →</a></div>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">JW</div>
+          <div class="mark">Jon Wolf · Founder · Est. 2004</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">BY THE NUMBERS</span>
+          <h2>Two decades, still answering the phone.</h2>
+        </div>
+        <div class="stats reveal">
+          <div class="stat"><b>2004</b><span>Established</span></div>
+          <!-- PLACEHOLDER: confirm with Jon — brief says "35+ client portfolio" -->
+          <div class="stat"><b>35+</b><span>Active Clients</span></div>
+          <!-- PLACEHOLDER: confirm with Jon — homepage states "200+ sites shipped" -->
+          <div class="stat"><b>200+</b><span>Sites Shipped</span></div>
+          <div class="stat"><b>3</b><span>Studios</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW I WORK -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">◧</div>
+          <div class="mark">Built AI Platformed</div>
+        </Glass>
+        <div class="copy reveal">
+          <span class="eyebrow">HOW I WORK</span>
+          <div class="sec-head is-flush"><h2>Built right, then handed over.</h2></div>
+          <p>Every site is built from scratch. No page builders, no template graveyards, no thirty plugins waiting to break. AI does the repetitive work so I can spend the time on the things that actually matter for your business.</p>
+          <p>When a site goes live, it's ready. Tested, reviewed, approved, and yours. No soft launches. No "we'll fix it after."</p>
+          <p class="kick">You get one person who knows your whole site. Not a ticket number.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE STUDIOS -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE STUDIOS</span>
+          <h2>Three doors, one workbench.</h2>
+        </div>
+        <div class="trio">
+          {studios.map((s) => (
+            <a class="glass-inner card-pad reveal" href={s.href}>
+              <span class="label">{s.label}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+              <span class="more">{s.go} →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Want to work with the guy who builds it?</h2>
+          <p>Reach out anytime. I'm around.</p>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

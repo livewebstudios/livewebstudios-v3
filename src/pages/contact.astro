@@ -1,0 +1,142 @@
+---
+/**
+ * /contact — Formspree contact form (standard LWS pattern).
+ * Fields: name, email, phone (optional), project type, message.
+ * Per specs/boilerplate-design.md: Formspree `_next` hidden field for the
+ * thank-you redirect (MUST be absolute — Formspree redirects from its own
+ * domain back to ours), plus the `_gotcha` honeypot on every form.
+ * The Formspree form ID is a PLACEHOLDER — swap for the real endpoint.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+---
+
+<Base
+  title="Contact Live Web Studios | Web Design in North Jersey"
+  description="Tell Jon Wolf about your project. Web design, hosting, SEO, and AI builds for North Jersey businesses. Call 732.801.9611 or send a note."
+  canonical="https://livewebstudios.com/contact"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">LET'S TALK</span>
+        <h1 class="page-h1">Tell me about your <em>project</em>.</h1>
+        <p class="page-lede">The more you tell me, the better the first call goes. Prefer the phone? It's right here: 732.801.9611. I pick up.</p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="sec-pad">
+      <div class="wrap contact-grid">
+        <!-- FORM -->
+        <Glass class="reveal" innerClass="form-pad">
+          <!-- Success banner shown after Formspree redirects back with ?sent=1 -->
+          <div id="form-ok" class="feature" hidden>
+            <span class="eyebrow is-center mb-md">MESSAGE SENT</span>
+            <h2>Got it. Talk soon.</h2>
+            <p>Thanks for reaching out. I'll get back to you shortly, usually the same day.</p>
+          </div>
+
+          <!-- PLACEHOLDER: replace YOUR_FORM_ID with the real Formspree endpoint -->
+          <form
+            id="contact-form"
+            action="https://formspree.io/f/YOUR_FORM_ID"
+            method="POST"
+          >
+            <!-- Absolute redirect back to this page (Formspree posts from its own domain) -->
+            <input type="hidden" name="_next" value="https://livewebstudios.com/contact?sent=1" />
+            <input type="hidden" name="_subject" value="New project inquiry from livewebstudios.com" />
+            <!-- Honeypot: real users never see or fill this -->
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="phone">Phone <span class="opt">(optional)</span></label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" />
+              </div>
+              <div class="field">
+                <label for="project">Project type</label>
+                <select id="project" name="project type" required>
+                  <option value="" selected disabled>Choose one…</option>
+                  <option>New website</option>
+                  <option>Website redesign</option>
+                  <option>Hosting &amp; maintenance</option>
+                  <option>SEO &amp; local search</option>
+                  <option>AI build or automation</option>
+                  <option>Band or personal site</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field full">
+              <label for="message">What are you building?</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Send →</button>
+            </div>
+          </form>
+        </Glass>
+
+        <!-- DETAILS -->
+        <aside class="contact-aside reveal">
+          <span class="label">DIRECT LINES</span>
+          <h3>Reach out.</h3>
+          <div class="contact-line">
+            <span class="k">Phone</span>
+            <a href="tel:7328019611">732.801.9611</a>
+          </div>
+          <div class="contact-line">
+            <span class="k">Email</span>
+            <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>
+          </div>
+          <div class="contact-line">
+            <span class="k">Studio</span>
+            <span>446 Saddle River Rd., Unit 2</span>
+            <span>Saddle Brook, NJ 07663</span>
+          </div>
+          <div class="contact-line">
+            <span class="k">Hours</span>
+            <!-- PLACEHOLDER: confirm business hours with Jon -->
+            <span>By appointment. I answer fast.</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    // Reveal the success banner when Formspree redirects back with ?sent=1,
+    // and hide the form so the confirmation reads clean. Progressive: with JS
+    // off, the visitor still lands on a working contact page.
+    (function () {
+      if (new URLSearchParams(window.location.search).get("sent") === "1") {
+        var ok = document.getElementById("form-ok");
+        var form = document.getElementById("contact-form");
+        if (ok) ok.hidden = false;
+        if (form) form.hidden = true;
+        if (ok && ok.scrollIntoView) ok.scrollIntoView({ block: "center" });
+      }
+    })();
+  </script>
+</Base>

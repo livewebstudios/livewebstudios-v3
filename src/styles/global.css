@@ -359,3 +359,108 @@ footer ul li a:hover{color:var(--cyan-soft)}
   /* no entrance movement — reveal content is simply present */
   .reveal{opacity:1;transform:none;transition:none}
 }
+
+/* ============================================================
+   Phase 2D — interior Tier A pages (about / work / contact)
+   Additive patterns only; no existing rule is changed. Reuses the
+   palette, glass, and button system above.
+   ============================================================ */
+
+/* ---- Interior page header (compact hero for interior pages) ---- */
+.page-head{
+  position:relative;text-align:center;overflow:hidden;
+  padding-block:clamp(4rem,8vw,7rem) clamp(2.5rem,5vw,4rem);
+  border-bottom:1px solid var(--line-2);
+}
+.page-head::before{ /* soft accent bloom behind the heading */
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 70% at 50% 0%,rgba(56,189,248,.10),transparent 65%);
+}
+.page-head .wrap{position:relative;z-index:1}
+h1.page-h1{
+  font-size:clamp(2.2rem,5.2vw,3.7rem);font-weight:800;line-height:1.05;
+  letter-spacing:-.03em;color:var(--ink-soft);max-width:20ch;margin:1.1rem auto 0;
+}
+h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
+.page-lede{margin:1.4rem auto 0;max-width:54ch;color:var(--muted);font-size:clamp(1.02rem,1.5vw,1.22rem)}
+
+/* ---- About: stats band ---- */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;
+}
+.stat{
+  padding:1.6rem 1.4rem;border:1px solid var(--line);border-radius:var(--r-md);
+  background:rgba(11,18,32,.4);text-align:center;
+}
+.stat b{display:block;font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:800;color:var(--cyan-soft);letter-spacing:-.02em;line-height:1}
+.stat span{display:block;margin-top:.55rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+
+/* ---- About: studios trio ---- */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.trio .glass-inner{height:100%}
+.trio h3{font-size:1.14rem;font-weight:600;color:var(--ink-soft);margin-bottom:.5rem}
+.trio .label{display:block;margin-bottom:1rem}
+.trio p{color:var(--muted);font-size:.92rem;margin-bottom:1.2rem}
+.trio .more{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan-soft);display:inline-flex;gap:.4rem;transition:gap .2s var(--ease)}
+.trio a.glass-inner:hover .more{gap:.8rem}
+
+/* ---- Work: portfolio grid ---- */
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.work-card{
+  display:block;height:100%;border:1px solid var(--line);border-radius:var(--r-lg);
+  background:rgba(11,18,32,.4);overflow:hidden;
+  transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease);
+}
+.work-card:hover{transform:translateY(-4px);border-color:rgba(56,189,248,.35);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 50px rgba(56,189,248,.10)}
+.work-thumb{ /* placeholder canvas — CSS only, no stock imagery */
+  aspect-ratio:16/10;position:relative;display:grid;place-items:center;
+  background:
+    linear-gradient(135deg,rgba(56,189,248,.10),transparent 60%),
+    repeating-linear-gradient(45deg,rgba(125,211,252,.05) 0 2px,transparent 2px 14px),
+    var(--panel);
+  border-bottom:1px solid var(--line-2);
+}
+.work-thumb span{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+.work-meta{padding:1.3rem 1.4rem}
+.work-cat{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-soft)}
+.work-title{font-size:1.12rem;font-weight:600;color:var(--ink-soft);margin:.5rem 0 .4rem}
+.work-card p{color:var(--muted);font-size:.9rem}
+.work-note{margin-top:2.5rem;text-align:center;color:var(--muted-2);font-size:.86rem}
+
+/* ---- Contact: form + details ---- */
+.contact-grid{display:grid;grid-template-columns:1.4fr .85fr;gap:2.5rem;align-items:start}
+.form-pad{padding:clamp(1.6rem,3vw,2.4rem)}
+.form-row{display:grid;gap:1.1rem;grid-template-columns:1fr 1fr}
+.field{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.1rem}
+.field.full{grid-column:1 / -1}
+.field label{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.field label .opt{color:var(--muted-2);text-transform:none;letter-spacing:.04em}
+.field input,.field select,.field textarea{
+  font-family:var(--sans);font-size:.95rem;color:var(--ink);
+  background:rgba(5,7,11,.6);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:.8rem .9rem;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+}
+.field textarea{resize:vertical;min-height:130px}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(56,189,248,.14);
+}
+.field select{appearance:none;cursor:pointer}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden} /* Formspree honeypot */
+.form-actions{margin-top:.4rem}
+.contact-aside h3{font-size:1.06rem;font-weight:600;color:var(--ink-soft);margin-bottom:.3rem}
+.contact-aside .label{display:block;margin-bottom:1.4rem}
+.contact-line{display:flex;flex-direction:column;gap:.2rem;margin-bottom:1.3rem}
+.contact-line .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+.contact-line a,.contact-line span{color:var(--ink);font-size:1.02rem}
+.contact-line a:hover{color:var(--cyan-soft)}
+
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .trio{grid-template-columns:1fr}
+  .work-grid{grid-template-columns:1fr 1fr}
+  .contact-grid{grid-template-columns:1fr;gap:2rem}
+}
+@media (max-width:560px){
+  .work-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+}
