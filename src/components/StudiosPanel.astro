@@ -1,0 +1,46 @@
+---
+/**
+ * StudiosPanel — the curated STUDIOS mega-panel.
+ * Renders as static HTML/CSS: all four brand links exist in page source for
+ * every visitor and every crawler. JS (in Nav.astro) enhances open/close and
+ * animation ONLY — CSS :hover / :focus-within keep it usable without JS.
+ * Two weights: headliner cards (Live Band amber, Namesake ink+brass) +
+ * support rows (Live Web Photos, Live AI Studios).
+ */
+import Glass from "./Glass.astro";
+---
+
+<div class="mega" id="studios-panel" role="region" aria-label="Studios">
+  <Glass variant="plain" innerClass="mega-inner">
+    <div class="mega-head">
+      <span class="eyebrow">THE STUDIOS</span>
+      <p class="mega-sub">Four doors. Pick the room that fits your work.</p>
+    </div>
+
+    <div class="mega-headliners">
+      <a class="mega-card mega-card--band" href="live-band.html">
+        <span class="mega-kicker">HEADLINER</span>
+        <span class="mega-name">LIVE BAND WEB STUDIOS</span>
+        <span class="mega-hook">Sites for bands and artists who play live.</span>
+        <span class="mega-go">See the stage</span>
+      </a>
+      <a class="mega-card mega-card--namesake" href="namesake.html">
+        <span class="mega-kicker">HEADLINER</span>
+        <span class="mega-name">NAMESAKE</span>
+        <span class="mega-hook">A sharp personal site for solo pros.</span>
+        <span class="mega-go">Make your name</span>
+      </a>
+    </div>
+
+    <div class="mega-support">
+      <a class="mega-row" href="live-web-photos.html">
+        <span class="mega-row-title">LIVE WEB PHOTOS</span>
+        <span class="mega-row-sub">AI IMAGE ENHANCEMENT</span>
+      </a>
+      <a class="mega-row" href="live-ai-studios.html">
+        <span class="mega-row-title">LIVE AI STUDIOS</span>
+        <span class="mega-row-sub">AI BUILDS &amp; AUTOMATION</span>
+      </a>
+    </div>
+  </Glass>
+</div>

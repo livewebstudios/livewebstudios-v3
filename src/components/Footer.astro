@@ -1,0 +1,101 @@
+---
+/**
+ * Footer — carries the location + industry search-entry pages (footer + sitemap
+ * only, NOT top nav — people land on these from Google, they don't navigate to
+ * them). Plus brand, quick links, services, contact, badge, and LWS credit.
+ * Slugs here are the link targets; the pages themselves are built in 2D and any
+ * slug change gets a _redirects line.
+ */
+const towns = [
+  ["Saddle Brook", "web-design-saddle-brook.html"],
+  ["Paramus", "web-design-paramus.html"],
+  ["Hackensack", "web-design-hackensack.html"],
+  ["Ridgewood", "web-design-ridgewood.html"],
+  ["Fair Lawn", "web-design-fair-lawn.html"],
+  ["Rochelle Park", "web-design-rochelle-park.html"],
+  ["Elmwood Park", "web-design-elmwood-park.html"],
+  ["Glen Rock", "web-design-glen-rock.html"],
+];
+const industries = [
+  ["Contractors", "contractor-websites.html"],
+  ["Restaurants", "restaurant-websites.html"],
+  ["Law Firms", "law-firm-websites.html"],
+  ["Medical & Dental", "medical-websites.html"],
+  ["Real Estate", "real-estate-websites.html"],
+  ["Salons & Spas", "salon-websites.html"],
+  ["Bands & Artists", "live-band.html"],
+  ["Auto Services", "auto-service-websites.html"],
+];
+---
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="foot-logo">
+          <img src="images/logoRGB.png" alt="Live Web Studios" width="800" height="257" loading="lazy" decoding="async" />
+        </div>
+        <p>Built in North Jersey since 2004.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="work.html">Work</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Studios</h4>
+        <ul>
+          <li><a href="live-band.html">Live Band Web Studios</a></li>
+          <li><a href="namesake.html">Namesake</a></li>
+          <li><a href="live-web-photos.html">Live Web Photos</a></li>
+          <li><a href="live-ai-studios.html">Live AI Studios</a></li>
+        </ul>
+      </div>
+      <div class="foot-contact">
+        <h4>Contact</h4>
+        <span>732.801.9611</span>
+        <span>jonwolf@livewebstudios.com</span>
+        <span>446 Saddle River Rd., Unit 2</span>
+        <span>Saddle Brook, NJ 07663</span>
+      </div>
+    </div>
+
+    <div class="foot-directory">
+      <div>
+        <h4>Web Design by Town</h4>
+        <ul class="foot-dir-list">
+          {towns.map(([label, href]) => (
+            <li><a href={href}>{label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4>Web Design by Industry</h4>
+        <ul class="foot-dir-list">
+          {industries.map(([label, href]) => (
+            <li><a href={href}>{label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <p>© 2026 Live Web Studios · All rights reserved · Built AI Platformed</p>
+      <a
+        class="badge"
+        href="https://livewebstudios.com"
+        aria-label="Verified &amp; Secured by Live Web Studios"
+      >
+        <img src="images/verifiedsecured.png" alt="Verified &amp; Secured by Live Web Studios" width="168" height="56" loading="lazy" decoding="async" />
+      </a>
+    </div>
+    <p class="foot-credit">
+      Built by <a href="https://livewebstudios.com">Live Web Studios</a>
+    </p>
+  </div>
+</footer>

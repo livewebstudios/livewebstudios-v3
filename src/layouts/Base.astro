@@ -1,0 +1,124 @@
+---
+import "@fontsource-variable/plus-jakarta-sans";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+const {
+  title = "Live Web Studios | Web Design, Hosting & AI Builds in North Jersey",
+  description =
+    "Live Web Studios builds and maintains custom, AI-platformed websites for North Jersey businesses. Web design, hosting, and SEO since 2004. Real work. Real results. One call.",
+  canonical = "https://livewebstudios.com/",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" href="favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://livewebstudios.com/images/logoRGB.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- GA4 placeholder: replace G-XXXXXXXXXX with the real Measurement ID before launch -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-XXXXXXXXXX");
+    </script>
+  </head>
+  <body>
+    <slot />
+
+    <script is:inline>
+      // Reveal on scroll — exposes window.LWS.observe(el) so dynamically
+      // inserted content (CMS, Phase 2 islands) can register for the same
+      // entrance treatment. IntersectionObserver is the primary path; a
+      // geometry check + passive scroll fallback guarantees content is never
+      // trapped at opacity:0 (IO failure, or anchor-jumping past a section).
+      // Respects prefers-reduced-motion.
+      (function () {
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var supported = "IntersectionObserver" in window;
+        var count = 0;
+
+        function show(el) {
+          el.classList.add("in");
+        }
+        function inView(el) {
+          var r = el.getBoundingClientRect();
+          return r.top < window.innerHeight * 0.92 && r.bottom > 0;
+        }
+
+        var io = supported
+          ? new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (en) {
+                  if (en.isIntersecting) {
+                    show(en.target);
+                    io.unobserve(en.target);
+                  }
+                });
+              },
+              { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+            )
+          : null;
+
+        window.LWS = window.LWS || {};
+        window.LWS.observe = function (el) {
+          if (!el) return;
+          if (reduce || !io) {
+            show(el);
+            return;
+          }
+          el.style.transitionDelay = (count++ % 3) * 0.06 + "s";
+          if (inView(el)) {
+            show(el); // already visible: reveal now, don't wait on IO
+            return;
+          }
+          io.observe(el);
+        };
+
+        // Fallback: reveal anything at or above the fold line that IO hasn't
+        // caught — covers in-view elements AND any fast-scrolled past (top < 0),
+        // so content is never stranded at opacity:0.
+        function sweep() {
+          var pending = document.querySelectorAll(".reveal:not(.in)");
+          for (var i = 0; i < pending.length; i++) {
+            if (pending[i].getBoundingClientRect().top < window.innerHeight * 0.92) {
+              show(pending[i]);
+            }
+          }
+        }
+        window.addEventListener("scroll", sweep, { passive: true });
+        window.addEventListener("resize", sweep, { passive: true });
+
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          window.LWS.observe(el);
+        });
+        requestAnimationFrame(sweep);
+      })();
+    </script>
+  </body>
+</html>

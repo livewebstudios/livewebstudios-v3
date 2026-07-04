@@ -1,0 +1,80 @@
+---
+import StudiosPanel from "./StudiosPanel.astro";
+---
+
+<header class="nav" data-nav>
+  <div class="wrap nav-in">
+    <a class="nav-logo" href="index.html" aria-label="Live Web Studios">
+      <img src="images/logoRGB.png" alt="Live Web Studios" width="800" height="257" decoding="async" />
+    </a>
+
+    <nav class="nav-links" id="nav-links" aria-label="Primary">
+      <a href="work.html">WORK</a>
+      <a href="services.html">SERVICES</a>
+      <a href="about.html">ABOUT</a>
+      <div class="studios" data-studios>
+        <button
+          type="button"
+          class="studios-trigger"
+          aria-expanded="false"
+          aria-controls="studios-panel"
+          aria-haspopup="true"
+        >STUDIOS <span class="studios-caret" aria-hidden="true">↓</span></button>
+        <StudiosPanel />
+      </div>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="contact.html" class="btn btn-primary">Let's Talk</a>
+      <button
+        type="button"
+        class="burger"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="nav-links"
+      >☰</button>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  // Progressive enhancement for the nav: STUDIOS mega-panel open/close and the
+  // mobile burger menu. All links are already in the static HTML (crawlable);
+  // this only adds click-toggle, keyboard, and outside-click behaviour.
+  (function () {
+    var header = document.querySelector("[data-nav]");
+    if (!header) return;
+
+    // --- STUDIOS mega-panel ---
+    var studios = header.querySelector("[data-studios]");
+    var trigger = studios && studios.querySelector(".studios-trigger");
+    if (studios && trigger) {
+      var closeStudios = function () {
+        studios.classList.remove("is-open");
+        trigger.setAttribute("aria-expanded", "false");
+      };
+      trigger.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = studios.classList.toggle("is-open");
+        trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeStudios();
+      });
+      document.addEventListener("click", function (e) {
+        if (!studios.contains(e.target)) closeStudios();
+      });
+    }
+
+    // --- Mobile burger menu ---
+    var burger = header.querySelector(".burger");
+    if (burger) {
+      burger.addEventListener("click", function () {
+        var open = header.classList.toggle("nav-open");
+        burger.setAttribute("aria-expanded", open ? "true" : "false");
+        burger.textContent = open ? "✕" : "☰";
+      });
+    }
+  })();
+</script>

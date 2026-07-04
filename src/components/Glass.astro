@@ -1,0 +1,41 @@
+---
+/**
+ * Glass — the one systemized glass surface for the whole system.
+ * Backdrop blur + top specular edge are baked in; variants map to the
+ * exact treatments used in the reference mockup:
+ *   - "shell" (default) → gradient-border shell wrapping the glass
+ *   - "plain"           → glass surface, no gradient shell (nav dropdown)
+ *   - "inner"           → borderless glass-inner card surface (services)
+ * Do not hand-roll one-off glass anywhere else.
+ */
+interface Props {
+  variant?: "shell" | "plain" | "inner";
+  class?: string; // classes on the outer element
+  innerClass?: string; // classes on the glass surface
+}
+const { variant = "shell", class: cls = "", innerClass = "" } = Astro.props;
+---
+
+{
+  variant === "shell" && (
+    <div class:list={["shell", cls]}>
+      <div class:list={["glass", innerClass]}>
+        <slot />
+      </div>
+    </div>
+  )
+}
+{
+  variant === "plain" && (
+    <div class:list={["glass", cls, innerClass]}>
+      <slot />
+    </div>
+  )
+}
+{
+  variant === "inner" && (
+    <div class:list={["glass-inner", cls, innerClass]}>
+      <slot />
+    </div>
+  )
+}

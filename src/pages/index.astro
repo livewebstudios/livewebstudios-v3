@@ -1,17 +1,150 @@
 ---
-
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+import ShaderHero from "../components/ShaderHero.tsx";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base>
+  <Nav />
+
+  <main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <ShaderHero client:load accent="#38BDF8" />
+    <div class="wrap hero-in">
+      <div class="chip"><span class="dot"></span> LIVE · TAKING NEW PROJECTS</div>
+      <p class="eyebrow is-center mb-lg">NORTH JERSEY · WEB DESIGN · AI BUILDS · SINCE 2004</p>
+      <h1 class="hero-h1">Web design. Hosting. <em>AI-powered</em> builds.</h1>
+      <p class="hero-sub">Real work. Real results. One call.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-primary">Let's Talk →</a>
+        <a href="#services" class="btn btn-ghost">See The Work ↓</a>
+      </div>
+      <div class="telemetry">
+        <span>ESTABLISHED <b>2004</b></span>
+        <span>SITES SHIPPED <b>200+</b></span>
+        <span>RESPONSE <b>ONE CALL</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>Web Hosting</span><span>Website Design</span><span>AI Automation</span><span>SEO Optimization</span><span>E-Commerce</span><span>Logo &amp; Brand Identity</span><span>Custom Graphics</span><span>Site Maintenance</span><span>Content Strategy</span><span>Keyword Reporting</span><span>Domain Registration</span><span>Performance Audits</span>
+      <span>Web Hosting</span><span>Website Design</span><span>AI Automation</span><span>SEO Optimization</span><span>E-Commerce</span><span>Logo &amp; Brand Identity</span><span>Custom Graphics</span><span>Site Maintenance</span><span>Content Strategy</span><span>Keyword Reporting</span><span>Domain Registration</span><span>Performance Audits</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services" class="sec-pad">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="eyebrow">WHAT WE BUILD</span>
+        <h2>Everything your business needs online.</h2>
+      </div>
+      <div class="grid-svc">
+        <div class="card reveal">
+          <Glass variant="inner" innerClass="card-pad">
+            <div class="ico">◧</div>
+            <h3>Website Design &amp; Development</h3>
+            <p>Built from scratch. No templates, no page builders.</p>
+            <span class="more">LEARN MORE →</span>
+          </Glass>
+        </div>
+        <div class="card reveal">
+          <Glass variant="inner" innerClass="card-pad">
+            <div class="ico">⛭</div>
+            <h3>Web Hosting &amp; Maintenance</h3>
+            <p>Dedicated infrastructure. Jon watches it so you don't have to.</p>
+            <span class="more">LEARN MORE →</span>
+          </Glass>
+        </div>
+        <div class="card reveal">
+          <Glass variant="inner" innerClass="card-pad">
+            <div class="ico">✦</div>
+            <h3>AI Platformed Websites <span class="tag-new">NEW</span></h3>
+            <p>Next-gen static sites built with AI. Faster. Cleaner. Lower maintenance.</p>
+            <span class="more">LEARN MORE →</span>
+          </Glass>
+        </div>
+        <div class="card reveal">
+          <Glass variant="inner" innerClass="card-pad">
+            <div class="ico">◎</div>
+            <h3>SEO &amp; Local Search</h3>
+            <p>Real businesses. Real searches. North Jersey and beyond.</p>
+            <span class="more">LEARN MORE →</span>
+          </Glass>
+        </div>
+        <div class="card reveal">
+          <Glass variant="inner" innerClass="card-pad">
+            <div class="ico">⟐</div>
+            <h3>AI Workflow Consulting</h3>
+            <p>Finding where AI tools save you actual time and money.</p>
+            <span class="more">LEARN MORE →</span>
+          </Glass>
+        </div>
+        <div class="card reveal">
+          <Glass variant="inner" innerClass="card-pad">
+            <div class="ico">◈</div>
+            <h3>Monthly Site Care</h3>
+            <p>Ongoing partner. Not a one-time vendor.</p>
+            <span class="more">LEARN MORE →</span>
+          </Glass>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="sec-pad is-alt">
+    <div class="wrap split">
+      <div class="copy reveal">
+        <span class="eyebrow">WHO YOU'RE WORKING WITH</span>
+        <div class="sec-head is-flush"><h2>I'm a web guy.</h2></div>
+        <p>Not an agency of 40. Not a platform. Just me, Jon Wolf, building and maintaining websites for North Jersey businesses since 2004.</p>
+        <p>I started in IT. Wore a tie. Hated it. A plumber friend needed a website, I built it, and things kind of snowballed from there.</p>
+        <p>These days I'm deep into AI-built sites. Fast, clean HTML that Google rewards and clients actually understand. No plugin nightmares. No security drama. Just sites that work.</p>
+        <p class="kick">My number's on the website. I pick up.</p>
+        <div class="mt-lg"><a href="#about" class="btn btn-ghost">More About Me →</a></div>
+      </div>
+      <Glass class="reveal" innerClass="portrait">
+        <div class="frame-lines"></div>
+        <div class="big">JW</div>
+        <div class="mark">Jon Wolf · Founder · Est. 2004</div>
+      </Glass>
+    </div>
+  </section>
+
+  <!-- FEATURE -->
+  <section class="sec-pad">
+    <div class="wrap">
+      <Glass class="reveal" innerClass="feature">
+        <span class="eyebrow is-center mb-md">THE LWS WAY</span>
+        <h2>Every site we launch is opening night.</h2>
+        <p>We don't deliver half-finished work. When a site goes live, it's ready. Tested, reviewed, approved, and yours. No soft launches. No "we'll fix it after." The curtain goes up when the show is ready.</p>
+      </Glass>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact" class="sec-pad">
+    <div class="wrap">
+      <Glass class="reveal" innerClass="cta">
+        <h2>Ready to talk about your site?</h2>
+        <p>Reach out anytime. I'm around.</p>
+        <div class="hero-btns">
+          <a href="#contact" class="btn btn-primary">Let's Talk →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </Glass>
+    </div>
+  </section>
+
+  </main>
+
+  <Footer />
+</Base>
