@@ -1,0 +1,154 @@
+---
+/**
+ * /services — the destination for the top-nav SERVICES link and the homepage
+ * "LEARN MORE" service cards. Built from existing primitives only (page-head,
+ * grid-svc, card, Glass, trio, feature, cta) — no new CSS. The six services
+ * mirror the homepage grid one-for-one so the two pages stay in sync; each card
+ * carries an id anchor so homepage cards can deep-link (services.html#hosting).
+ * Copy is Mode B (jon_voice_master), em-dash-free per the client-facing ban.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+
+const services = [
+  {
+    id: "web-design",
+    ico: "◧",
+    title: "Website Design & Development",
+    body: "Built from scratch for your business. No templates, no page builders, no thirty plugins waiting to break. Clean, fast HTML that loads quick and reads right on every screen.",
+  },
+  {
+    id: "hosting",
+    ico: "⛭",
+    title: "Web Hosting & Maintenance",
+    body: "Dedicated, secured infrastructure with real uptime. I watch it so you don't have to. Updates, backups, and the boring stuff handled before it ever becomes your problem.",
+  },
+  {
+    id: "ai-platformed",
+    ico: "✦",
+    title: "AI Platformed Websites",
+    tag: "NEW",
+    body: "Next-gen static sites built with AI doing the heavy lifting. Faster, cleaner, and cheaper to maintain than a bloated CMS. Google rewards it and you can actually understand it.",
+  },
+  {
+    id: "seo",
+    ico: "◎",
+    title: "SEO & Local Search",
+    body: "Real businesses, real searches, right here in North Jersey and beyond. On-page structure, local listings, and monthly keyword reporting so you can see exactly where you stand.",
+  },
+  {
+    id: "ai-consulting",
+    ico: "⟐",
+    title: "AI Workflow Consulting",
+    body: "Two decades of watching what actually saves a small business time and money. I find where AI tools fit your day, set them up, and skip the ones that are all hype.",
+  },
+  {
+    id: "site-care",
+    ico: "◈",
+    title: "Monthly Site Care",
+    body: "An ongoing partner, not a one-time vendor. Content edits, tweaks, new pages, and a person who already knows your whole site when something needs to change.",
+  },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "We talk.",
+    body: "One call. You tell me what your business does and what the site needs to do for it. No sales script, no discovery-fee runaround.",
+  },
+  {
+    n: "02",
+    title: "I build.",
+    body: "Built from scratch and shown to you along the way. AI handles the repetitive work so I spend the time on what moves the needle for you.",
+  },
+  {
+    n: "03",
+    title: "You go live.",
+    body: "When it launches, it's ready. Tested, reviewed, approved, and yours. No soft launches. No we'll fix it after.",
+  },
+];
+---
+
+<Base
+  title="Services | Web Design, Hosting, SEO & AI Builds · Live Web Studios"
+  description="What Live Web Studios builds: custom websites, dedicated hosting, AI-platformed sites, local SEO, and monthly care for North Jersey businesses. Real work since 2004."
+  canonical="https://livewebstudios.com/services"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">WHAT WE BUILD · SINCE 2004</span>
+        <h1 class="page-h1">Everything your business needs <em>online</em>.</h1>
+        <p class="page-lede">Design, hosting, SEO, and AI builds under one roof. One person who knows your whole site, on the other end of one phone number.</p>
+      </div>
+    </section>
+
+    <!-- SERVICE GRID -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="grid-svc">
+          {services.map((s) => (
+            <div id={s.id} class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.title}{s.tag && <span class="tag-new">{s.tag}</span>}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">HOW IT WORKS</span>
+          <h2>Three steps, no runaround.</h2>
+        </div>
+        <div class="trio">
+          {steps.map((s) => (
+            <div class="glass-inner card-pad reveal">
+              <span class="label">{s.n}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- BRAND STATEMENT -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="feature">
+          <span class="eyebrow is-center mb-md">THE LWS WAY</span>
+          <h2>Every site we launch is opening night.</h2>
+          <p>You get one person who knows your whole build, not a ticket number in a queue. My number's on the website. I pick up.</p>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Not sure which piece you need?</h2>
+          <p>Tell me what your business does. I'll tell you straight what would actually help.</p>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
