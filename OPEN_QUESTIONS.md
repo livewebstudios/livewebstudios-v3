@@ -45,25 +45,27 @@ Original flag (kept for the record): the 2C/2D/2E brief said 2B "should
 already be done in this same run"; it was not (baseline was `75b65c5`), so
 the links 404'd until this session closed the gap.
 
-### 2B-1 · Slug naming: prompt said /live-band-web-studios, repo says /live-band
-The Session 2B brief repeatedly referenced `/live-band-web-studios` as the
-page URL and called it canonical. The repo's **locked** `_redirects`
-(Phase 2 §3, "finalized 2026-07-04") says the opposite: `/live-band` is
-canonical and `/live-band-web-studios` **301s into it** for old bookmarks.
-Nav/footer/mega-panel all link to `live-band.html` (→ `/live-band`), so the
-actual 404 was on `/live-band`.
-- **Decision made:** Built the page at `/live-band` (canonical per the
-  locked file). This fixes the real 404 with no redirect hop and does not
-  reverse a locked decision. Building at `/live-band-web-studios` would not
-  have fixed the 404 (nothing links there) and would have required flipping
-  the locked redirect.
-- **Note:** the `/live-band-web-studios → /live-band` 301 is a Netlify
-  runtime redirect; `astro preview` doesn't process `_redirects`, so that
-  hop can only be confirmed on a Netlify deploy. The rule itself is present
-  and correct in `public/_redirects`.
-- **Question for Jon:** If you actually want the long slug canonical
-  instead, it's a two-line change (flip the `_redirects` rule + swap the
-  page's canonical tag) — say the word. Otherwise `/live-band` stands.
+### 2B-1 · Slug naming: /live-band vs /live-band-web-studios — ✅ RESOLVED
+**RESOLVED (commit `40bcbe6`). Jon chose `/live-band-web-studios` as
+canonical, reversing the Phase 2 §3 lock.**
+
+Background: Session 2B originally built the page at `/live-band` because the
+**locked** `_redirects` (Phase 2 §3, "finalized 2026-07-04") made
+`/live-band` canonical and 301'd the long slug into it, and every internal
+link pointed to `live-band.html`. That was flagged here as an open question.
+
+Resolution applied:
+- Page renamed `live-band.astro` → `live-band-web-studios.astro`
+  (`/live-band-web-studios.html`; old `/live-band.html` no longer built).
+- `_redirects` rule reversed to `/live-band → /live-band-web-studios 301`,
+  with an audit-trail comment noting the reversal overrides the prior lock.
+- All internal links (mega-panel, footer ×2, about trio) and the page's
+  canonical + og:url now point to `/live-band-web-studios`; sitemap
+  regenerates to match.
+- **Note:** the `/live-band → /live-band-web-studios` 301 is a Netlify
+  runtime redirect; `astro preview` doesn't process `_redirects`, so the old
+  path 404s locally (expected). The redirect can only be confirmed on a
+  Netlify deploy. The rule is present and correct in `public/_redirects`.
 
 ---
 

@@ -21,7 +21,9 @@ this file consolidates the highlights.
 | 2E | `53630ee` | Decap CMS blog (file collection, branded login, /blog) |
 | — | `8409f42` | SESSION_SUMMARY.md (2C/2D/2E) |
 | **2B** | **`01bdb80`** | **Live Band Web Studios landing page (amber) — closes the 2B 404 gap** |
-| — | (this file) | SESSION_SUMMARY.md update (2B) |
+| — | `53fafdd` | Docs: close 2B gap in OPEN_QUESTIONS + SESSION_SUMMARY |
+| **2B-flip** | **`40bcbe6`** | **Flip canonical to /live-band-web-studios (reverses the Phase 2 §3 lock per Jon)** |
+| — | (this file) | SESSION_SUMMARY.md update (2B-flip) |
 
 Prior baseline: `75b65c5` (Phase 1 + Session 2A).
 
@@ -33,13 +35,11 @@ The 2C/2D/2E run flagged that Session 2B was never built, leaving
 `live-band.html` (linked from nav, footer, and the STUDIOS mega-panel)
 404'ing. **That gap is now closed** (commit `01bdb80`).
 
-- New `src/pages/live-band.astro` → `/live-band.html`. Canonical
-  **`/live-band`** per the **locked** Session 2A `_redirects`
-  (`/live-band-web-studios` 301s into it). The 2B brief called
-  `/live-band-web-studios` canonical, but the repo's locked file and every
-  actual link say `/live-band` — so the page was built at `/live-band`,
-  which is what actually fixes the 404 with no redirect hop. See
-  OPEN_QUESTIONS 2B-1.
+- `src/pages/live-band-web-studios.astro` → `/live-band-web-studios.html`.
+  **Canonical `/live-band-web-studios`.** (2B originally built at
+  `/live-band` per the then-locked `_redirects`; Jon later chose the long
+  slug as canonical, so it was renamed and the redirect reversed in commit
+  `40bcbe6` — see the "Canonical flip" note below and OPEN_QUESTIONS 2B-1.)
 - Reuses Base/Nav/Footer/Glass/ShaderHero; re-themes cyan → **amber
   `#FCD34D`** (sanctioned token already in `global.css`) via a
   `.theme-live-band` wrapper — identical scoping to 2C's `.theme-namesake`,
@@ -59,6 +59,20 @@ The 2C/2D/2E run flagged that Session 2B was never built, leaving
   portal shader used for cyan/brass, consistent and fork-free.)
 - Verified by actually loading the page (200, no redirect hop on the
   mega-panel/footer links), not by grepping the route string.
+
+### Canonical flip (commit `40bcbe6`)
+Jon decided `/live-band-web-studios` should be canonical after all,
+reversing the Phase 2 §3 lock. Applied:
+- Renamed `live-band.astro` → `live-band-web-studios.astro` (build output
+  now `/live-band-web-studios.html`; old `/live-band.html` no longer built).
+- Reversed the `_redirects` rule to `/live-band → /live-band-web-studios`
+  (301), with an audit-trail comment preserving the prior rule + reason.
+- Updated all internal links (mega-panel, footer ×2, about trio) and the
+  page's canonical + og:url to `/live-band-web-studios`; sitemap regenerated.
+- Content and amber theme untouched. Verified in-browser: new URL 200 with
+  H1 + amber intact, all links point straight to it. The
+  `/live-band → /live-band-web-studios` 301 is Netlify-runtime only (old
+  path 404s in `astro preview`, as expected) and can't be tested locally.
 
 ---
 
@@ -135,10 +149,11 @@ The 2C/2D/2E run flagged that Session 2B was never built, leaving
 - **All pages** — swap GA4 `G-XXXXXXXXXX` for the real Measurement ID.
 
 **Cross-session gap:**
-- **Session 2B (Live Band Web Studios) — ✅ CLOSED** in commit `01bdb80`.
-  `src/pages/live-band.astro` now exists; the nav / footer / mega-panel
-  links resolve 200 with no redirect hop. (Only open follow-up: confirm the
-  `/live-band` vs `/live-band-web-studios` slug — see OPEN_QUESTIONS 2B-1.)
+- **Session 2B (Live Band Web Studios) — ✅ CLOSED** (page in `01bdb80`,
+  canonical flipped to `/live-band-web-studios` in `40bcbe6`).
+  `src/pages/live-band-web-studios.astro` builds and the nav / footer /
+  mega-panel links resolve 200 with no redirect hop. Slug question
+  (OPEN_QUESTIONS 2B-1) is now resolved: Jon chose the long slug canonical.
 - **Still-dangling nav/footer links (out of scope):** `services.html`
   (top nav), `live-web-photos.html`, `live-ai-studios.html` (mega-panel),
   and the footer's town/industry SEO landing pages (`web-design-*.html`,
@@ -162,11 +177,11 @@ featured-client selection), not a cap overflow.
 ## Working tree state
 
 - Branch `main`, **clean** — all changes committed.
-- **Nothing pushed to origin.** Local `main` is ahead of `origin/main` by 6
-  commits (`73f5028`, `d4c6220`, `53630ee`, `8409f42`, `01bdb80`, + this
-  summary-update commit).
+- **Nothing pushed to origin.** Local `main` is ahead of `origin/main` by 8
+  commits (`73f5028`, `d4c6220`, `53630ee`, `8409f42`, `01bdb80`, `53fafdd`,
+  `40bcbe6`, + this summary-update commit).
 - Site builds clean: **7 pages** (index, namesake, about, work, contact,
-  blog, **live-band**) plus `admin/`, `posts/index.json`, and `blog.js`
-  static assets.
+  blog, **live-band-web-studios**) plus `admin/`, `posts/index.json`, and
+  `blog.js` static assets.
 - `.claude/launch.json` unchanged from baseline (a temporary preview config
   was used during verification and reverted each time).
