@@ -108,7 +108,7 @@ header.nav{
   border-bottom:1px solid var(--line-2);
 }
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
-.nav-logo img{height:30px;width:auto}
+.nav-logo img{height:46px;width:auto}
 .nav-links{display:flex;align-items:center;gap:2rem}
 .nav-links a,.studios-trigger{
   font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
@@ -123,15 +123,15 @@ header.nav{
 /* ---- STUDIOS mega-panel ---- */
 .studios{position:relative}
 .mega{
-  position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(8px);
-  width:min(640px,90vw);opacity:0;visibility:hidden;pointer-events:none;
+  position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);
+  width:min(640px,90vw);padding-top:16px;opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .26s var(--ease),transform .26s var(--ease),visibility .26s var(--ease);z-index:60;
 }
 .studios:hover .mega,.studios:focus-within .mega,.studios.is-open .mega{
   opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);
 }
 .studios:hover .studios-caret,.studios.is-open .studios-caret{transform:rotate(180deg)}
-.mega-inner{padding:1.1rem;background:rgba(9,14,24,.9)} /* more opaque than base glass: nav overlay over busy hero */
+.mega-inner{padding:1.1rem;background:rgba(7,11,20,.99);backdrop-filter:blur(30px) saturate(150%);-webkit-backdrop-filter:blur(30px) saturate(150%)} /* frosted, near-opaque: nav backdrop-filter ancestor neutralizes the child blur, so alpha carries the readability over a bright hero */
 .mega-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
 .mega-sub{color:var(--muted);font-size:.82rem}
 .mega-headliners{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
@@ -310,7 +310,9 @@ footer ul li a:hover{color:var(--cyan-soft)}
   display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;
   padding-top:2.5rem;margin-bottom:2.5rem;border-top:1px solid var(--line-2);
 }
-.foot-dir-list{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem 1.4rem}
+.foot-dir-list{display:grid;grid-template-columns:repeat(4,1fr);gap:.3rem 1.4rem}
+.foot-dir-list li{margin-bottom:0}
+.foot-dir-list a{font-size:.8rem;letter-spacing:.06em}
 
 /* ---- Utilities (replace mockup inline styles; LWS no-inline-style rule) ---- */
 .eyebrow.is-center{justify-content:center}
