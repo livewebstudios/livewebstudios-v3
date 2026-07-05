@@ -11,6 +11,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
+import VideoBg from "../components/VideoBg.astro";
 ---
 
 <Base
@@ -22,7 +23,8 @@ import Glass from "../components/Glass.astro";
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head">
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">LET'S TALK</span>
         <h1 class="page-h1">Tell me about your <em>project</em>.</h1>
@@ -31,7 +33,8 @@ import Glass from "../components/Glass.astro";
     </section>
 
     <!-- CONTACT -->
-    <section class="sec-pad">
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="strong" />
       <div class="wrap contact-grid">
         <!-- FORM -->
         <Glass class="reveal" innerClass="form-pad">

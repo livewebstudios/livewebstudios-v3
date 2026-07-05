@@ -120,5 +120,45 @@ const {
         requestAnimationFrame(sweep);
       })();
     </script>
+
+    <script is:inline>
+      // Lazy background videos (VideoBg): attach src + play only when a section
+      // scrolls near view, pause when it leaves, so a page never decodes all of
+      // its videos at once. Muted/loop/playsinline live on the element.
+      // Respects prefers-reduced-motion (loads a still frame, never plays).
+      (function () {
+        var vids = document.querySelectorAll(".videobg__v[data-src]");
+        if (!vids.length) return;
+        var reduce =
+          window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function attach(v) {
+          if (!v.getAttribute("src")) v.setAttribute("src", v.dataset.src);
+        }
+        function play(v) {
+          if (!reduce && v.play) {
+            var p = v.play();
+            if (p && p.catch) p.catch(function () {});
+          }
+        }
+
+        if (!("IntersectionObserver" in window)) {
+          vids.forEach(function (v) { attach(v); play(v); });
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (en) {
+              var v = en.target;
+              if (en.isIntersecting) { attach(v); play(v); }
+              else if (v.pause) v.pause();
+            });
+          },
+          { rootMargin: "300px 0px" }
+        );
+        vids.forEach(function (v) { io.observe(v); });
+      })();
+    </script>
   </body>
 </html>

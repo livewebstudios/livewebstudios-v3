@@ -324,6 +324,21 @@ footer ul li a:hover{color:var(--cyan-soft)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .reveal.in{opacity:1;transform:none}
 
+/* ---- Video section backgrounds (VideoBg component) ---- */
+.has-videobg{position:relative;overflow:hidden;isolation:isolate}
+.has-videobg > .wrap{position:relative;z-index:1}
+.videobg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.videobg__v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.videobg__scrim{position:absolute;inset:0}
+/* Hero: let the video read through the middle, sink the edges. */
+.videobg--hero .videobg__scrim{background:
+  radial-gradient(130% 92% at 50% 34%, rgba(5,7,11,.42), rgba(5,7,11,.80) 72%),
+  linear-gradient(180deg, rgba(5,7,11,.52) 0%, rgba(5,7,11,.90) 100%);}
+/* Default: body sections — keep headings/cards fully legible. */
+.videobg--default .videobg__scrim{background:linear-gradient(180deg, rgba(5,7,11,.82) 0%, rgba(5,7,11,.90) 100%);}
+/* Strong: dense text (footer, contact form) — near-opaque. */
+.videobg--strong .videobg__scrim{background:linear-gradient(180deg, rgba(5,7,11,.88) 0%, rgba(5,7,11,.95) 100%);}
+
 @media (max-width:900px){
   /* Burger opens nav-links as a slide-down menu; mega-panel renders inline. */
   .nav-links{

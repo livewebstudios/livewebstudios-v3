@@ -9,6 +9,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import VideoBg from "../components/VideoBg.astro";
 
 // PLACEHOLDER portfolio entries — structure only. Replace `cat` / `title` /
 // `body` / `href` with approved real client work before launch.
@@ -31,7 +32,8 @@ const projects = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head">
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">SELECTED WORK</span>
         <h1 class="page-h1">The work speaks <em>first</em>.</h1>
@@ -40,7 +42,8 @@ const projects = [
     </section>
 
     <!-- PORTFOLIO GRID -->
-    <section class="sec-pad">
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="default" />
       <div class="wrap">
         <!-- PLACEHOLDER GRID: entries below are structure only, not real client work.
              Confirm featured clients with Jon before launch (see OPEN_QUESTIONS.md). -->

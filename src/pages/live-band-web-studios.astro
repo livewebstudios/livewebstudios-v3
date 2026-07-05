@@ -11,18 +11,17 @@
  * /live-band, which is now the fold-in 301): nav, footer, and the STUDIOS
  * mega-panel all link straight here; /live-band 301s in for old bookmarks.
  *
- * Reuses the whole LWS system (Base, Nav, Footer, Glass, ShaderHero) and
- * re-themes the accent cyan -> amber (#FCD34D, the sanctioned Live Band
- * token already in global.css) by overriding the accent custom properties
- * on the .theme-live-band wrapper. Same scoping pattern 2C used for
- * .theme-namesake, so no component is forked. The shader frame is driven by
- * the accent prop.
+ * Reuses the whole LWS system (Base, Nav, Footer, Glass) and re-themes the
+ * accent cyan -> amber (#FCD34D, the sanctioned Live Band token already in
+ * global.css) by overriding the accent custom properties on the
+ * .theme-live-band wrapper. Same scoping pattern 2C used for .theme-namesake,
+ * so no component is forked. The hero uses the orange-beam looping video.
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
-import ShaderHero from "../components/ShaderHero.tsx";
+import VideoBg from "../components/VideoBg.astro";
 
 const kit = [
   {
@@ -58,7 +57,7 @@ const kit = [
   <main class="theme-live-band">
     <!-- HERO -->
     <section class="hero">
-      <ShaderHero client:load accent="#FCD34D" />
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
       <div class="wrap hero-in">
         <div class="chip"><span class="dot"></span> A STUDIO OF LIVE WEB STUDIOS</div>
         <p class="eyebrow is-center mb-lg">TOURING BANDS · ARTISTS · LIVE ACTS</p>
@@ -109,7 +108,8 @@ const kit = [
     </section>
 
     <!-- FEATURE / NARRATIVE -->
-    <section class="sec-pad">
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="default" />
       <div class="wrap split">
         <div class="copy reveal">
           <span class="eyebrow">THE DIFFERENCE</span>

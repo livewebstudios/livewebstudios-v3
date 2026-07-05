@@ -9,6 +9,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
+import VideoBg from "../components/VideoBg.astro";
 
 const studios = [
   {
@@ -44,7 +45,8 @@ const studios = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head">
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">SINCE 2004 · SADDLE BROOK, NJ</span>
         <h1 class="page-h1">One person. Full <em>agency</em> standards.</h1>
@@ -73,7 +75,8 @@ const studios = [
     </section>
 
     <!-- STATS -->
-    <section class="sec-pad is-alt">
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">BY THE NUMBERS</span>

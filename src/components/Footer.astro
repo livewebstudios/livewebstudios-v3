@@ -5,7 +5,12 @@
  * them). Plus brand, quick links, services, contact, badge, and LWS credit.
  * Slugs here are the link targets; the pages themselves are built in 2D and any
  * slug change gets a _redirects line.
+ *
+ * Background: bg-blue-fog looping video on every page (strong scrim keeps the
+ * dense footer text and links legible). The var(--bg-2) fill stays as fallback.
  */
+import VideoBg from "./VideoBg.astro";
+
 const towns = [
   ["Saddle Brook", "web-design-saddle-brook.html"],
   ["Paramus", "web-design-paramus.html"],
@@ -28,7 +33,8 @@ const industries = [
 ];
 ---
 
-<footer>
+<footer class="has-videobg">
+  <VideoBg src="bg-blue-fog.mp4" scrim="strong" />
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">

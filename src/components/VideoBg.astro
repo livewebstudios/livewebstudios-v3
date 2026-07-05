@@ -1,0 +1,34 @@
+---
+/**
+ * VideoBg — one systemized looping-video section background.
+ *
+ * Drop inside a section that carries `has-videobg` (that class sets
+ * position/overflow so the video clips to the section and the content sits
+ * above it). The `.hero` section is already positioned, so it does not need
+ * the helper class.
+ *
+ * Lazy: the <video> gets no src until it scrolls near view (observer lives in
+ * Base.astro), plays while in view, and pauses when off-screen — so a page
+ * never decodes all of its videos at once. Muted + loop + playsinline. Honors
+ * prefers-reduced-motion (loads a still frame, never autoplays). The section's
+ * own flat background shows through until the video loads, so there is no blank
+ * flash. Relative src per the LWS path rule.
+ */
+interface Props {
+  src: string;                          // filename in public/video-bg/
+  scrim?: "hero" | "default" | "strong"; // readability overlay strength
+}
+const { src, scrim = "default" } = Astro.props;
+---
+
+<div class:list={["videobg", `videobg--${scrim}`]} aria-hidden="true">
+  <video
+    class="videobg__v"
+    muted
+    loop
+    playsinline
+    preload="none"
+    data-src={`video-bg/${src}`}
+  ></video>
+  <div class="videobg__scrim"></div>
+</div>

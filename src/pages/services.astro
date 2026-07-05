@@ -11,6 +11,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
+import VideoBg from "../components/VideoBg.astro";
 
 const services = [
   {
@@ -80,7 +81,8 @@ const steps = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head">
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">WHAT WE BUILD · SINCE 2004</span>
         <h1 class="page-h1">Everything your business needs <em>online</em>.</h1>
@@ -125,7 +127,8 @@ const steps = [
     </section>
 
     <!-- BRAND STATEMENT -->
-    <section class="sec-pad">
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
       <div class="wrap">
         <Glass class="reveal" innerClass="feature">
           <span class="eyebrow is-center mb-md">THE LWS WAY</span>

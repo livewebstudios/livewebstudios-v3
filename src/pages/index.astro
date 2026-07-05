@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
-import ShaderHero from "../components/ShaderHero.tsx";
+import VideoBg from "../components/VideoBg.astro";
 ---
 
 <Base>
@@ -13,7 +13,7 @@ import ShaderHero from "../components/ShaderHero.tsx";
 
   <!-- HERO -->
   <section class="hero">
-    <ShaderHero client:load accent="#38BDF8" />
+    <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
     <div class="wrap hero-in">
       <div class="chip"><span class="dot"></span> LIVE · TAKING NEW PROJECTS</div>
       <p class="eyebrow is-center mb-lg">NORTH JERSEY · WEB DESIGN · AI BUILDS · SINCE 2004</p>
@@ -120,7 +120,8 @@ import ShaderHero from "../components/ShaderHero.tsx";
   </section>
 
   <!-- FEATURE -->
-  <section class="sec-pad">
+  <section class="sec-pad has-videobg">
+    <VideoBg src="bg-color-tv.mp4" scrim="default" />
     <div class="wrap">
       <Glass class="reveal" innerClass="feature">
         <span class="eyebrow is-center mb-md">THE LWS WAY</span>

@@ -8,6 +8,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import VideoBg from "../components/VideoBg.astro";
 ---
 
 <Base
@@ -19,7 +20,8 @@ import Footer from "../components/Footer.astro";
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head">
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">THE LWS BLOG</span>
         <h1 class="page-h1">Notes from the <em>workbench</em>.</h1>
@@ -41,7 +43,8 @@ import Footer from "../components/Footer.astro";
     </section>
 
     <!-- CTA -->
-    <section class="sec-pad is-alt">
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="default" />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">GOT A PROJECT?</span>
