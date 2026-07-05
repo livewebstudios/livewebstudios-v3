@@ -1,0 +1,188 @@
+---
+/**
+ * Live Band Web Studios — the first STUDIOS mega-panel headliner.
+ * Sites built for professional, touring bands and artists: tour dates,
+ * setlists, press kits / EPKs, and booking. The differentiator from core
+ * LWS (business sites) and Namesake (solo personal brand) is the working
+ * band: a group that gigs, tours, and gets booked.
+ *
+ * Canonical URL is /live-band (built as live-band.html) per the locked
+ * Session 2A _redirects — nav, footer, and the STUDIOS mega-panel all link
+ * straight here; /live-band-web-studios 301s in for old bookmarks.
+ *
+ * Reuses the whole LWS system (Base, Nav, Footer, Glass, ShaderHero) and
+ * re-themes the accent cyan -> amber (#FCD34D, the sanctioned Live Band
+ * token already in global.css) by overriding the accent custom properties
+ * on the .theme-live-band wrapper. Same scoping pattern 2C used for
+ * .theme-namesake, so no component is forked. The shader frame is driven by
+ * the accent prop.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+import ShaderHero from "../components/ShaderHero.tsx";
+
+const kit = [
+  {
+    ico: "◷",
+    title: "Tour dates that stay current",
+    body: "A dates list you can update the day a gig gets added or moved. Fans and promoters see the real schedule, not last spring's.",
+  },
+  {
+    ico: "✦",
+    title: "A press kit that opens doors",
+    body: "EPK essentials in one link: bio, hi-res photos, stage plot, tech rider, and quotes. What a booker needs to say yes fast.",
+  },
+  {
+    ico: "♪",
+    title: "Music and setlists front and center",
+    body: "Embed the streaming links, drop the reel, show the setlist. The site sounds like the band before anyone hits play.",
+  },
+  {
+    ico: "◉",
+    title: "Booking without the back-and-forth",
+    body: "One clear way to reach you for shows, features, and press. The inquiry lands in your inbox, not a contact-form void.",
+  },
+];
+---
+
+<Base
+  title="Live Band Web Studios | Websites for Touring Bands & Artists"
+  description="Live Band Web Studios builds websites for professional touring bands and artists: tour dates, press kits and EPKs, setlists, music, and booking. A studio of Live Web Studios."
+  canonical="https://livewebstudios.com/live-band"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- HERO -->
+    <section class="hero">
+      <ShaderHero client:load accent="#FCD34D" />
+      <div class="wrap hero-in">
+        <div class="chip"><span class="dot"></span> A STUDIO OF LIVE WEB STUDIOS</div>
+        <p class="eyebrow is-center mb-lg">TOURING BANDS · ARTISTS · LIVE ACTS</p>
+        <h1 class="hero-h1">Sites for bands who <em>play live</em>.</h1>
+        <p class="hero-sub">Tour dates, press kit, setlists, and booking, built to move as fast as the band does.</p>
+        <div class="hero-btns">
+          <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="#kit" class="btn btn-ghost">See what you get ↓</a>
+        </div>
+        <div class="telemetry">
+          <span>FOR <b>LIVE ACTS</b></span>
+          <span>BUILD <b>AI PLATFORMED</b></span>
+          <span>BY <b>LIVE WEB STUDIOS</b></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- POSITIONING -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="feature">
+          <span class="eyebrow is-center mb-md">WHAT LIVE BAND IS</span>
+          <h2>Your band works the room. Your site should work the booker.</h2>
+          <p>A gigging band has different needs than a business or a solo pro. Dates change. Press asks for a kit. Promoters want a stage plot by end of day. Live Band Web Studios builds the one place that holds all of it, kept current and ready the minute someone goes looking for you.</p>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- WHAT YOU GET -->
+    <section id="kit" class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT YOU GET</span>
+          <h2>Everything a working band needs online.</h2>
+        </div>
+        <div class="grid-svc grid-svc--2">
+          {kit.map((k) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{k.ico}</div>
+                <h3>{k.title}</h3>
+                <p>{k.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE / NARRATIVE -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">THE DIFFERENCE</span>
+          <div class="sec-head is-flush"><h2>Built for the road.</h2></div>
+          <p>Live Web Studios has built for North Jersey since 2004. Live Band is that same craft pointed at the stage: fast, clean sites that load on a phone in a parking lot before doors.</p>
+          <p>No bloated band-site builders. No plugin that breaks the week you drop a single. Just a site that keeps up with the calendar and makes the band look as good online as it sounds live.</p>
+          <p class="kick">The show is ready. The site should be too.</p>
+          <div class="mt-lg"><a href="contact.html" class="btn btn-ghost">Reach out. →</a></div>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big lb-mark">♪</div>
+          <div class="mark">Live Band · A Studio of Live Web Studios</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Got a band that needs a home?</h2>
+          <p>Tell me who you are and where you're playing. I'll tell you what the site could do.</p>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Amber sub-brand theming. Overriding the accent custom properties on the
+     wrapper re-themes every descendant that reads them (buttons, eyebrows,
+     glass borders, hero em, telemetry) with zero component forks. Same
+     naming/scoping as 2C's .theme-namesake. */
+  .theme-live-band {
+    --cyan: #fcd34d;          /* amber base — buttons, dots, eyebrow rule */
+    --cyan-soft: #fde68a;     /* light amber — eyebrow text, hero em, telemetry */
+    --cyan-2: #f59e0b;        /* deep amber — button gradient base */
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;     /* dark ink on amber surfaces (~12:1) */
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  /* Hero fallback poster hardcodes cyan rgba and lives inside the React
+     island, so custom-property inheritance can't reach it — retheme amber. */
+  .theme-live-band :global(.hero-fallback) {
+    background:
+      radial-gradient(46% 38% at 50% 46%, rgba(252, 211, 77, 0.14), transparent 62%),
+      radial-gradient(78% 58% at 50% 48%, rgba(252, 211, 77, 0.06), transparent 72%),
+      var(--bg);
+  }
+
+  /* Two-up card grid (system default grid-svc is 3-up). Mirrors the
+     grid-svc--2 pattern 2C introduced for Namesake. */
+  .grid-svc--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Portrait mark — amber glyph instead of the JW block. */
+  .lb-mark {
+    color: rgba(252, 211, 77, 0.16);
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .grid-svc--2 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
