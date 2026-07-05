@@ -1,9 +1,12 @@
 # Live Web Studios v3 — Netlify redirects
 # Every moved URL gets a 301. Audited against the page manifest at pre-launch QA.
 
-# Locked (Phase 2 §3, finalized 2026-07-04): /live-band stays canonical (nav +
-# footer link straight to it). The long slug folds into it for old links/bookmarks.
-/live-band-web-studios     /live-band     301
+# Reversed 2026-07-04: /live-band-web-studios is now canonical per Jon's
+# decision, overriding the Phase 2 §3 lock (which had made /live-band canonical).
+# Nav + footer + mega-panel now link straight to the long slug; the short
+# /live-band folds into it for old links/bookmarks.
+# (Prior locked rule, kept for audit trail: /live-band-web-studios -> /live-band 301.)
+/live-band                 /live-band-web-studios     301
 
 # Locked (Phase 2 §3)
 /portfolio                 /work          301
