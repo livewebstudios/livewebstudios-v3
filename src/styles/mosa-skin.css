@@ -1,0 +1,443 @@
+/* ============================================================
+   MOSA skin for Live Web Studios v3
+   Load AFTER global.css. Overrides only style values — no markup,
+   no class names, no page content. Delete the import to revert.
+
+   Install:
+     1. copy this file to src/styles/mosa-skin.css
+     2. in src/layouts/Base.astro, add BELOW the global.css import:
+          import "../styles/mosa-skin.css";
+     3. npm i @fontsource-variable/geist @fontsource/geist-mono
+        then add above it:
+          import "@fontsource-variable/geist";
+          import "@fontsource/geist-mono/400.css";
+          import "@fontsource/geist-mono/500.css";
+        (or delete the two font imports and keep Jakarta/Plex — see FONTS below)
+   ============================================================ */
+
+/* ---- MOSA token layer ---------------------------------------
+   Two seeds. Everything else is alpha over them, per MOSA colors.css. */
+:root{
+  --mosa-bg-rgb:0 0 0;
+  --mosa-fg-rgb:255 255 255;
+  /* Accent: LWS cyan retained. For pure MOSA monochrome, set this to
+     255 255 255 and the entire site goes hueless. */
+  --mosa-accent-rgb:56 189 248;
+}
+
+/* ---- Remap the LWS variables onto MOSA values ----------------
+   Every existing rule in global.css reads these, so the whole site
+   re-skins from this block alone. */
+:root{
+  --bg:rgb(var(--mosa-bg-rgb));
+  --bg-2:rgb(var(--mosa-fg-rgb)/.02);
+  --panel:rgb(var(--mosa-fg-rgb)/.04);
+  --panel-2:rgb(var(--mosa-fg-rgb)/.06);
+
+  --ink:rgb(var(--mosa-fg-rgb)/.85);
+  --ink-soft:rgb(var(--mosa-fg-rgb));
+  --muted:rgb(var(--mosa-fg-rgb)/.6);
+  --muted-2:rgb(var(--mosa-fg-rgb)/.45);
+
+  --cyan:rgb(var(--mosa-accent-rgb));
+  --cyan-soft:rgb(var(--mosa-accent-rgb)/.85);
+  --cyan-deep:rgb(var(--mosa-accent-rgb)/.25);
+  --cyan-2:rgb(var(--mosa-accent-rgb)/.9);
+  --on-accent:rgb(var(--mosa-bg-rgb));
+
+  --amber:#FCD34D;
+  --brass:#C9A55A;
+
+  --line:rgb(var(--mosa-fg-rgb)/.1);
+  --line-2:rgb(var(--mosa-fg-rgb)/.06);
+
+  /* MOSA radius scale — mostly sharp. Rounding is an emphasis decision. */
+  --r-sm:2px; --r-md:2px; --r-lg:6px; --r-xl:8px;
+
+  /* MOSA elevation — borders do the work, not glow. */
+  --shadow-low:none;
+  --shadow-high:none;
+
+  --ease:cubic-bezier(.4,0,.2,1);
+
+  /* FONTS: comment these two lines out to keep Plus Jakarta / IBM Plex. */
+  --sans:'Geist Variable','Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --wrap:1280px;
+}
+
+/* ---- Surfaces: flat panels, no liquid glass -------------------
+   MOSA has no gradient shells or backdrop bloom. Surfaces are fg-alpha
+   over bg with a hairline border. */
+.shell{background:none;padding:0;border-radius:var(--r-lg)}
+.glass,.glass-inner{
+  background:rgb(var(--mosa-fg-rgb)/.02);
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+  border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:none;
+}
+.glass::after{display:none}
+.card:hover{transform:none}
+.card:hover .glass-inner{
+  background:rgb(var(--mosa-fg-rgb)/.04);
+  border-color:rgb(var(--mosa-fg-rgb)/.2);box-shadow:none;
+}
+
+/* ---- Buttons: solid inverse, no gradient, no lift ------------- */
+.btn{
+  font-family:var(--mono);letter-spacing:var(--mosa-track-button,.12em);
+  border-radius:var(--r-sm);
+}
+.btn-primary{
+  background:rgb(var(--mosa-fg-rgb));color:rgb(var(--mosa-bg-rgb));
+  font-weight:500;box-shadow:none;border-color:transparent;
+}
+.btn-primary:hover{
+  background:rgb(var(--mosa-fg-rgb)/.85);transform:none;box-shadow:none;
+}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{
+  background:rgb(var(--mosa-fg-rgb)/.04);border-color:rgb(var(--mosa-fg-rgb)/.2);
+  color:var(--ink-soft);transform:none;
+}
+
+/* ---- Nav / chrome -------------------------------------------- */
+header.nav{background:rgb(var(--mosa-bg-rgb)/.85)}
+.mega-inner{background:rgb(10 10 10/.98);backdrop-filter:none;-webkit-backdrop-filter:none}
+.mega-card{background:rgb(var(--mosa-fg-rgb)/.03);border-radius:var(--r-sm)}
+.mega-card::before{display:none}
+.mega-card:hover{transform:none}
+.mega-card--band:hover,.mega-card--namesake:hover{box-shadow:none}
+.chip{
+  background:transparent;border:1px solid var(--line);
+  backdrop-filter:none;border-radius:var(--r-sm);
+}
+.chip::after{display:none}
+.chip .dot{box-shadow:none}
+
+/* ---- Hero: no vignette bloom, flat field ---------------------- */
+.hero::before{background:linear-gradient(180deg,transparent 55%,rgb(var(--mosa-bg-rgb)) 100%)}
+.hero-fallback{background:rgb(var(--mosa-bg-rgb))}
+h1.hero-h1,h1.page-h1{letter-spacing:var(--mosa-track-tight,-.02em);font-weight:500}
+h1.hero-h1 em,h1.page-h1 em{color:var(--muted)}
+.page-head::before{display:none}
+.sec-head h2,.feature h2,.cta h2{font-weight:500;letter-spacing:-.01em}
+
+/* ---- Cards / grids / stats ------------------------------------ */
+.work-card,.blog-card,.stat{
+  background:rgb(var(--mosa-fg-rgb)/.02);border-radius:var(--r-lg);
+}
+.work-card:hover,.blog-card:hover{
+  transform:none;box-shadow:none;
+  border-color:rgb(var(--mosa-fg-rgb)/.2);background:rgb(var(--mosa-fg-rgb)/.04);
+}
+.work-thumb,.blog-thumb--empty{
+  background:rgb(var(--mosa-fg-rgb)/.04);
+}
+.card .ico{
+  background:transparent;border:1px solid var(--line);
+  color:var(--ink-soft);border-radius:var(--r-sm);
+}
+.tag-new{
+  background:rgb(var(--mosa-fg-rgb));color:rgb(var(--mosa-bg-rgb));
+  font-weight:500;letter-spacing:var(--mosa-track-caps,.14em);
+}
+.stat b{color:var(--ink-soft);font-weight:500}
+
+/* ---- Forms ---------------------------------------------------- */
+.field input,.field select,.field textarea{
+  background:rgb(var(--mosa-fg-rgb)/.02);border-radius:var(--r-sm);
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:rgb(var(--mosa-fg-rgb)/.4);box-shadow:none;
+}
+
+/* ---- CTA / footer --------------------------------------------- */
+.cta::before{display:none}
+footer{background:rgb(var(--mosa-fg-rgb)/.02)}
+
+/* ---- Video scrims: MOSA scrim value --------------------------- */
+.videobg--hero .videobg__scrim{
+  background:linear-gradient(180deg,rgb(var(--mosa-bg-rgb)/.5) 0%,rgb(var(--mosa-bg-rgb)/.88) 100%);
+}
+.videobg--default .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.85)}
+.videobg--strong .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.93)}
+
+/* ============================================================
+   LAYOUT — MOSA placement rules
+   Everything below is position/alignment only. No content, images,
+   or video sources are touched. Delete this section to keep the
+   MOSA colors and type but return to your original layout.
+   ============================================================ */
+
+/* ---- Hero: left-aligned, bottom-anchored ---------------------
+   MOSA anchors hero copy to the lower-left of the frame instead of
+   centering it, so the background image/video reads through the top. */
+.hero-in{
+  text-align:left;
+  display:flex;flex-direction:column;align-items:flex-start;
+  max-width:var(--wrap);margin-inline:auto;
+  padding-inline:clamp(1.25rem,4vw,2.5rem);
+  padding-block:14rem 5rem;
+}
+h1.hero-h1{
+  margin:0;max-width:18ch;
+  font-size:clamp(2.8rem,5.6vw,4.6rem);
+  line-height:var(--mosa-leading-hero,1.12);
+}
+.hero-sub{margin:1.6rem 0 0;max-width:46ch;text-align:left}
+.hero-btns{justify-content:flex-start;margin-top:2.5rem;gap:0}
+/* MOSA pairs the primary + secondary button flush, sharing one edge. */
+.hero-btns .btn{border-radius:0}
+.telemetry{
+  justify-content:flex-start;margin-top:3.5rem;padding-inline:0;
+  border-bottom:0;
+}
+.chip{margin-bottom:1.6rem}
+
+/* ---- Nav: bordered segments ----------------------------------
+   MOSA boxes each nav item and lets the boxes share edges, so the
+   nav reads as one segmented control rather than floating links. */
+.nav-links{gap:0;border:1px solid var(--line)}
+.nav-links > a,.studios-trigger{
+  padding:.85rem 1.15rem;border-right:1px solid var(--line);
+}
+.nav-links > a:last-child{border-right:0}
+.nav-links > a:hover,.studios-trigger:hover{
+  background:rgb(var(--mosa-fg-rgb)/.06);color:var(--ink-soft);
+}
+.nav-in{height:84px}
+.nav-cta .btn{padding:.85rem 1.4rem;border-radius:0}
+
+/* ---- Interior page heads: left-aligned ------------------------ */
+.page-head{text-align:left;padding-block:9rem 4rem}
+h1.page-h1{margin:1.1rem 0 0;max-width:18ch}
+.page-lede{margin:1.4rem 0 0;max-width:52ch}
+.sec-head.center{text-align:left;margin-inline:0}
+.sec-head.center .eyebrow{justify-content:flex-start}
+.feature,.cta{text-align:left}
+.feature h2,.cta h2{margin-inline:0;max-width:22ch}
+.feature p,.cta p{margin-inline:0}
+.cta .hero-btns{justify-content:flex-start}
+
+/* ---- Section rhythm: MOSA's 120px band ------------------------ */
+.sec-pad{padding-block:120px}
+
+/* ---- Grid field on alt sections -------------------------------
+   The faint ruled grid behind MOSA sections. Pure background, sits
+   under all content. */
+.sec-pad.is-alt{
+  background:
+    linear-gradient(rgb(var(--mosa-fg-rgb)/.025) 1px,transparent 1px) 0 0/100% 80px,
+    linear-gradient(90deg,rgb(var(--mosa-fg-rgb)/.025) 1px,transparent 1px) 0 0/80px 100%,
+    rgb(var(--mosa-fg-rgb)/.02);
+}
+
+/* ---- Contact: MOSA column split ------------------------------- */
+.contact-grid{grid-template-columns:1.25fr .9fr;gap:2rem;align-items:start}
+.contact-aside{
+  display:flex;flex-direction:column;gap:1rem;
+}
+.contact-line{
+  margin-bottom:0;padding:1.4rem 1.5rem;
+  border:1px solid var(--line);background:rgb(var(--mosa-fg-rgb)/.02);
+}
+
+/* ---- Footer: MOSA spacing ------------------------------------- */
+footer{padding-block:120px 2rem}
+.foot-bottom{padding-top:2rem}
+
+/* ---- Full-bleed chrome ---------------------------------------
+   MOSA runs the nav edge-to-edge and starts hero copy near the left
+   viewport edge. Body sections keep the centered container. */
+header.nav .wrap{max-width:none;padding-inline:clamp(1.5rem,3vw,2.5rem)}
+.hero-in{max-width:none;padding-inline:clamp(1.5rem,5vw,6.5rem)}
+h1.hero-h1{max-width:22ch}
+
+/* ---- Eyebrow: dot, not dash ----------------------------------- */
+.eyebrow{color:var(--muted);letter-spacing:var(--mosa-track-label,.06em);text-transform:none}
+.eyebrow::before{
+  width:6px;height:6px;border-radius:50%;
+  background:rgb(var(--mosa-fg-rgb));
+}
+
+/* ---- Nav type: mono, sentence case, tight --------------------- */
+.nav-links > a,.studios-trigger{
+  text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
+  font-size:var(--mosa-text-sm,14px);color:var(--ink);
+}
+.btn,.nav-cta .btn{text-transform:uppercase}
+
+/* ============================================================
+   PASS 2 — targeted corrections
+   Higher specificity so these beat global.css regardless of order.
+   ============================================================ */
+
+/* ---- Nav buttons: MOSA segmented control ---------------------- */
+header.nav .nav-links{gap:0;border:1px solid var(--line)}
+header.nav .nav-links > a,header.nav .studios-trigger{
+  font-family:var(--mono);font-size:var(--mosa-text-sm,14px);
+  text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
+  color:var(--ink);padding:.95rem 1.35rem;
+  border-right:1px solid var(--line);border-radius:0;
+}
+header.nav .nav-links > a:last-child{border-right:0}
+header.nav .nav-links > a:hover,header.nav .studios-trigger:hover{
+  background:rgb(var(--mosa-fg-rgb)/.07);color:var(--ink-soft);
+}
+header.nav .nav-cta .btn{
+  font-family:var(--mono);font-size:var(--mosa-text-sm,14px);
+  text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
+  padding:.95rem 1.5rem;
+}
+
+/* ---- Headings: MOSA weight (regular, not bold) ----------------- */
+.sec-head h2,.feature h2,.cta h2,h1.hero-h1,h1.page-h1,
+.page-head h1,section h2{
+  font-family:var(--sans);font-weight:var(--mosa-weight-regular,400);
+  letter-spacing:var(--mosa-track-tight,-.02em);
+}
+
+/* ---- Cards: MOSA format ---------------------------------------
+   Circular outlined icon, generous gap, mono title, muted body. */
+.card .glass-inner,.card-pad{padding:2.4rem}
+.card .ico,.trio .ico{
+  width:52px;height:52px;border-radius:var(--mosa-radius-full,9999px);
+  background:transparent;border:1px solid var(--line);
+  color:var(--ink-soft);margin-bottom:2.6rem;
+}
+.card h3,.trio h3,.work-title,.blog-title,.contact-aside h3{
+  font-family:var(--mono);font-weight:var(--mosa-weight-medium,500);
+  font-size:var(--mosa-text-h3,22px);
+  letter-spacing:var(--mosa-track-mono,.02em);
+  color:var(--ink-soft);margin-bottom:.9rem;
+}
+.card p,.trio p,.work-card p,.blog-sum{
+  font-size:var(--mosa-text-body,15px);
+  line-height:var(--mosa-leading-body,1.6);
+  color:var(--muted);
+}
+.card .more,.trio .more{
+  font-family:var(--mono);text-transform:none;
+  letter-spacing:var(--mosa-track-mono,.02em);color:var(--muted);
+}
+.card:hover .more,.trio a:hover .more{color:var(--ink-soft)}
+.grid-svc,.trio{gap:1.5rem}
+
+/* ============================================================
+   PASS 3 — full-site sweep
+   Covers every remaining class used across index / services / about /
+   work / blog / contact. Nothing here touches markup or copy.
+   ============================================================ */
+
+/* ---- Mono labels + eyebrows ----------------------------------- */
+.label,.work-cat,.blog-date,.foot-bottom p,.foot-credit,.mark,
+.telemetry span,.marquee-track span{
+  font-family:var(--mono);color:var(--muted);
+  letter-spacing:var(--mosa-track-label,.06em);
+}
+.work-cat,.blog-date{text-transform:none;font-size:var(--mosa-text-xs,12px)}
+/* Page heads are left-aligned in this skin, so the centered eyebrow
+   modifier would fight the layout. */
+.eyebrow.is-center{justify-content:flex-start}
+.telemetry b{color:var(--ink-soft);font-weight:var(--mosa-weight-regular,400)}
+
+/* ---- Marquee: neutral separators ------------------------------ */
+.marquee{background:rgb(var(--mosa-fg-rgb)/.02)}
+.marquee-track span::before{
+  content:"/";color:var(--muted-2);font-size:var(--mosa-text-xs,12px);
+}
+
+/* ---- Split / portrait blocks ---------------------------------- */
+.split{gap:4rem}
+.split .copy .kick{
+  color:var(--ink-soft);font-weight:var(--mosa-weight-regular,400);
+  font-size:var(--mosa-text-lead,17px);
+}
+.portrait{background:rgb(var(--mosa-fg-rgb)/.02)}
+.portrait .frame-lines{border-radius:0;border-color:var(--line)}
+.portrait .big{
+  color:rgb(var(--mosa-fg-rgb)/.12);
+  font-weight:var(--mosa-weight-regular,400);
+}
+.portrait .mark{letter-spacing:var(--mosa-track-caps,.14em)}
+
+/* ---- Work / blog detail --------------------------------------- */
+.work-thumb span,.blog-thumb--empty span{
+  font-family:var(--mono);color:var(--muted-2);text-transform:none;
+}
+.work-note{
+  color:var(--muted);font-size:var(--mosa-text-body,15px);text-align:left;
+}
+.work-note a{color:var(--ink-soft);text-decoration:underline}
+.blog-meta{padding:1.8rem}
+
+/* ---- Footer ---------------------------------------------------- */
+footer h4{
+  color:var(--muted-2);letter-spacing:var(--mosa-track-caps,.14em);
+  font-family:var(--mono);
+}
+footer ul li a{
+  text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
+  font-family:var(--mono);font-size:var(--mosa-text-sm,14px);
+}
+footer ul li a:hover{color:var(--ink-soft)}
+.foot-grid{gap:3rem}
+.foot-directory{border-top-color:var(--line-2)}
+.badge img{opacity:.6}
+.badge:hover img{opacity:1}
+
+/* ---- Links ----------------------------------------------------- */
+a{color:inherit}
+main a:not(.btn):not(.card):not(.work-card):not(.blog-card):not(.glass-inner):hover{
+  color:var(--ink-soft);
+}
+
+/* ============================================================
+   PASS 3b — scoped-style pages (namesake, live-band-web-studios)
+   Those two pages ship Astro <style> blocks, which outrank an external
+   stylesheet. !important is the only way to reach them from here.
+   If Claude Code later strips those <style> blocks, delete this block.
+   ============================================================ */
+
+/* Sub-brand accents kept, but structure matched to MOSA. */
+.theme-namesake .ns-step,.theme-live-band .card{border-radius:var(--r-md)!important}
+.theme-namesake .ns-step{
+  background:rgb(var(--mosa-fg-rgb)/.02)!important;
+  border-left-color:var(--line)!important;
+}
+.theme-namesake .ns-step h3,.theme-namesake .fh-hero h1{
+  font-weight:var(--mosa-weight-regular,400)!important;
+}
+.theme-namesake .ns-step h3{
+  font-family:var(--mono)!important;
+  font-size:var(--mosa-text-h3,22px)!important;
+}
+.theme-namesake .ns-step-k{font-weight:var(--mosa-weight-regular,400)!important}
+.theme-namesake .fh-hero h1{letter-spacing:var(--mosa-track-tight,-.02em)!important}
+.theme-namesake .fh-portraits__p{border-radius:0!important;box-shadow:none!important}
+.theme-namesake .ns-mark,.theme-live-band .lb-mark{
+  font-weight:var(--mosa-weight-regular,400)!important;
+}
+
+/* ---- Nav case override ----------------------------------------
+   Nav.astro types its link text in capitals (WORK, SERVICES…), so
+   text-transform:none can't help. Force lowercase, then re-capitalize
+   the first letter. Markup and copy stay untouched. */
+header.nav .nav-links > a,header.nav .studios-trigger{
+  text-transform:lowercase;display:inline-flex;align-items:center;
+}
+header.nav .nav-links > a::first-letter,
+header.nav .studios-trigger::first-letter{text-transform:uppercase}
+
+@media (max-width:900px){
+  .hero-in{padding-block:9rem 4rem;padding-inline:clamp(1.25rem,4vw,2.5rem)}
+  header.nav .nav-links{border:0}
+  header.nav .nav-links > a,header.nav .studios-trigger{border-right:0}
+  .sec-pad{padding-block:72px}
+  footer{padding-block:72px 2rem}
+  .card .glass-inner,.card-pad{padding:1.8rem}
+  .card .ico,.trio .ico{margin-bottom:1.6rem}
+  .split{gap:2.5rem}
+  .foot-grid{gap:2rem}
+}
