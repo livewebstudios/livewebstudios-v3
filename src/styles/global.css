@@ -302,7 +302,7 @@ footer ul li a:hover{color:var(--cyan-soft)}
 .foot-credit{margin-top:1.4rem;text-align:center;color:var(--muted-2);font-size:.72rem;font-family:var(--mono);letter-spacing:.1em}
 .foot-credit a{color:var(--cyan-soft)}
 .foot-credit a:hover{color:var(--cyan)}
-.badge img{width:150px;height:auto;opacity:.85;transition:opacity .2s var(--ease)}
+.badge img{width:168px;height:56px;opacity:.85;transition:opacity .2s var(--ease)}
 .badge:hover img{opacity:1}
 
 /* ---- Footer directory (location + industry search-entry pages) ---- */
