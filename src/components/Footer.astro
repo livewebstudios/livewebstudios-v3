@@ -1,101 +1,118 @@
 ---
 /**
- * Footer — carries the location + industry search-entry pages (footer + sitemap
- * only, NOT top nav — people land on these from Google, they don't navigate to
- * them). Plus brand, quick links, services, contact, badge, and LWS credit.
- * Slugs here are the link targets; the pages themselves are built in 2D and any
- * slug change gets a _redirects line.
+ * Footer — restructured 2026-08-15 per Jon (MOSA AI reference screenshot):
+ * left brand block (logo, tagline, newsletter subscribe) + link columns
+ * (Pages / Services / Industries / Studios & Pricing / Legal) + clean bottom
+ * bar (copyright · badge · credit). Newsletter form posts to the same
+ * Mailchimp endpoint as /newsletter. Town pages stay held for a later phase.
  *
- * Background: bg-blue-fog looping video on every page (strong scrim keeps the
- * dense footer text and links legible). The var(--bg-2) fill stays as fallback.
+ * Background: bg-blue-fog looping video (strong scrim for dense-link
+ * legibility). Link text Title Case per Jon's nav-case decision.
  */
 import VideoBg from "./VideoBg.astro";
 import { relPrefix } from "../lib/relPrefix";
 const rel = relPrefix(Astro.url.pathname);
 
-/* Town pages are a later phase (per Jon 2026-08-15: skip for now). The old
- * slugs (web-design-saddle-brook.html …) 404'd, so the town directory is
- * held out of the footer until those pages exist. */
-const industries = [
-  ["Construction", "industries/construction.html"],
-  ["Law Firms", "industries/law-firm.html"],
-  ["Dental", "industries/dental.html"],
-  ["Healthcare", "industries/healthcare.html"],
-  ["Real Estate", "industries/real-estate.html"],
-  ["Financial Services", "industries/financial-services.html"],
-  ["Insurance", "industries/insurance.html"],
-  ["Manufacturing", "industries/manufacturing.html"],
-  ["Nonprofit", "industries/nonprofit.html"],
-  ["B2B", "industries/b2b.html"],
-  ["Bands & Artists", "live-band-web-studios.html"],
+// Exact Mailchimp endpoint from the live newsletter page.
+const MAILCHIMP_ACTION =
+  "https://livewebstudios.us18.list-manage.com/subscribe/post?u=612de0c3a91b0bcc090cd2337&id=30b288c666&f_id=00d229e7f0";
+
+const cols = [
+  {
+    h: "Pages",
+    links: [
+      ["Home", "index.html"],
+      ["Work", "work.html"],
+      ["About", "about.html"],
+      ["Blog", "blog.html"],
+      ["FAQ", "faq.html"],
+      ["Newsletter", "newsletter.html"],
+      ["Contact", "contact.html"],
+    ],
+  },
+  {
+    h: "Services",
+    links: [
+      ["Website Design", "services/website-design.html"],
+      ["AI Platform", "services/ai-platform.html"],
+      ["Hosting", "services/hosting.html"],
+      ["SEO & Marketing", "services/seo.html"],
+      ["E-Commerce", "services/ecommerce.html"],
+      ["Branding", "services/branding.html"],
+      ["All Services", "services.html"],
+    ],
+  },
+  {
+    h: "Industries",
+    links: [
+      ["Construction", "industries/construction.html"],
+      ["Law Firms", "industries/law-firm.html"],
+      ["Dental", "industries/dental.html"],
+      ["Healthcare", "industries/healthcare.html"],
+      ["Real Estate", "industries/real-estate.html"],
+      ["Insurance", "industries/insurance.html"],
+      ["All Industries", "industries.html"],
+    ],
+  },
+  {
+    h: "Studios",
+    links: [
+      ["Live Band Web Studios", "live-band-web-studios.html"],
+      ["Namesake", "namesake.html"],
+      ["Live Web Photos", "ecosystem/live-web-photos.html"],
+      ["Live AI Studios", "ecosystem/live-ai-studios.html"],
+      ["Design Pricing", "pricing/design-pricing.html"],
+      ["Hosting Pricing", "pricing/hosting-pricing.html"],
+      ["SEO Pricing", "pricing/seo-pricing.html"],
+    ],
+  },
+  {
+    h: "Legal",
+    links: [
+      ["Privacy", "privacy.html"],
+      ["Terms", "terms.html"],
+    ],
+  },
 ];
 ---
 
 <footer class="has-videobg">
   <VideoBg src="bg-blue-fog.mp4" scrim="strong" />
   <div class="wrap">
-    <div class="foot-grid">
+    <div class="foot-cols">
       <div class="foot-brand">
         <div class="foot-logo">
           <img src={`${rel}images/logoRGB.png`} alt="Live Web Studios" width="800" height="257" loading="lazy" decoding="async" />
         </div>
-        <p>Built in North Jersey since 2004.</p>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul>
-          <li><a href={`${rel}index.html`}>Home</a></li>
-          <li><a href={`${rel}work.html`}>Work</a></li>
-          <li><a href={`${rel}services.html`}>Services</a></li>
-          <li><a href={`${rel}industries.html`}>Industries</a></li>
-          <li><a href={`${rel}about.html`}>About</a></li>
-          <li><a href={`${rel}blog.html`}>Blog</a></li>
-          <li><a href={`${rel}faq.html`}>FAQ</a></li>
-          <li><a href={`${rel}newsletter.html`}>Newsletter</a></li>
-          <li><a href={`${rel}contact.html`}>Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Studios</h4>
-        <ul>
-          <li><a href={`${rel}live-band-web-studios.html`}>Live Band Web Studios</a></li>
-          <li><a href={`${rel}namesake.html`}>Namesake</a></li>
-          <li><a href={`${rel}ecosystem/live-web-photos.html`}>Live Web Photos</a></li>
-          <li><a href={`${rel}ecosystem/live-ai-studios.html`}>Live AI Studios</a></li>
-        </ul>
-        <h4 class="foot-h4-gap">Pricing</h4>
-        <ul>
-          <li><a href={`${rel}pricing/design-pricing.html`}>Design</a></li>
-          <li><a href={`${rel}pricing/hosting-pricing.html`}>Hosting</a></li>
-          <li><a href={`${rel}pricing/seo-pricing.html`}>SEO</a></li>
-          <li><a href={`${rel}pricing/seo-marketing-pricing.html`}>SEO &amp; AI Marketing</a></li>
-        </ul>
-      </div>
-      <div class="foot-contact">
-        <h4>Contact</h4>
-        <span>732.801.9611</span>
-        <span>jonwolf@livewebstudios.com</span>
-        <span>446 Saddle River Rd., Unit 2</span>
-        <span>Saddle Brook, NJ 07663</span>
-      </div>
-    </div>
+        <p class="foot-tag">Custom, AI-platformed websites for small business. Built in North Jersey since 2004.</p>
 
-    <div class="foot-directory">
-      <div>
-        <h4>Web Design by Industry</h4>
-        <ul class="foot-dir-list">
-          {industries.map(([label, href]) => (
-            <li><a href={`${rel}${href}`}>{label}</a></li>
-          ))}
-        </ul>
+        <span class="foot-loop">STAY IN THE LOOP</span>
+        <form class="foot-sub" action={MAILCHIMP_ACTION} method="post" target="_blank">
+          <input type="email" name="EMAIL" required autocomplete="email" placeholder="your@email.com" aria-label="Email address" />
+          <div class="foot-honeypot" aria-hidden="true">
+            <input type="text" name="b_612de0c3a91b0bcc090cd2337_30b288c666" tabindex="-1" value="" />
+          </div>
+          <input type="hidden" name="tags" value="2524065" />
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+
+        <div class="foot-contactline">
+          <span>732.801.9611</span>
+          <span>jonwolf@livewebstudios.com</span>
+          <span>446 Saddle River Rd., Unit 2, Saddle Brook, NJ 07663</span>
+        </div>
       </div>
-      <div>
-        <h4>Legal</h4>
-        <ul class="foot-dir-list">
-          <li><a href={`${rel}privacy.html`}>Privacy Policy</a></li>
-          <li><a href={`${rel}terms.html`}>Terms of Service</a></li>
-        </ul>
-      </div>
+
+      {cols.map((c) => (
+        <div class="foot-col">
+          <h4>{c.h}</h4>
+          <ul>
+            {c.links.map(([label, href]) => (
+              <li><a href={`${rel}${href}`}>{label}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
 
     <div class="foot-bottom">
@@ -115,7 +132,100 @@ const industries = [
 </footer>
 
 <style>
-  .foot-h4-gap {
+  /* Footer layout — scoped, existing tokens only. */
+  .foot-cols {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.4fr) repeat(5, 1fr);
+    gap: 2.5rem 2rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .foot-tag {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 30ch;
+    margin: 1rem 0 1.6rem;
+  }
+  .foot-loop {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--muted-2);
+    margin-bottom: 0.6rem;
+  }
+  .foot-sub {
+    display: flex;
+    max-width: 340px;
+  }
+  .foot-sub input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    background: rgba(5, 7, 11, 0.5);
+    border: 1px solid var(--line);
+    border-right: 0;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    padding: 0.62rem 0.9rem;
+  }
+  .foot-sub input[type="email"]::placeholder {
+    color: var(--muted-2);
+  }
+  .foot-sub .btn {
+    padding: 0.62rem 1.1rem;
+    white-space: nowrap;
+  }
+  .foot-honeypot {
+    position: absolute;
+    left: -5000px;
+  }
+  .foot-contactline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
     margin-top: 1.6rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .foot-col h4 {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 1rem;
+  }
+  .foot-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .foot-col a {
+    color: var(--muted);
+    font-size: 0.88rem;
+    transition: color 0.2s var(--ease);
+  }
+  .foot-col a:hover {
+    color: var(--cyan-soft);
+  }
+  @media (max-width: 1100px) {
+    .foot-cols {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .foot-brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 640px) {
+    .foot-cols {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>
