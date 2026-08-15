@@ -3,8 +3,8 @@
  * /work — portfolio (canonical URL; /portfolio 301s here per _redirects).
  * Ported from the live site (livewebstudios.com/portfolio): the 12 real client
  * projects already published publicly there, rebuilt on v3's work-card grid.
- * Thumbnails (images/portfolio/*.jpg) aren't in v3 yet, so work-thumb--empty
- * placeholders stand in; each card links out to the live client site.
+ * Thumbnails live at images/portfolio/*.jpg (copied from the live site);
+ * each card links out to the live client site.
  * EM DASH BAN applied to descriptions. One exception: the band name
  * "Winslow — An Evening of the Eagles" is kept verbatim (proper name). Flagged.
  */
@@ -14,29 +14,29 @@ import Footer from "../components/Footer.astro";
 import VideoBg from "../components/VideoBg.astro";
 
 const projects = [
-  { cat: "AI Image Services", title: "Live Web Photos", href: "https://livewebphotos.com/",
+  { cat: "AI Image Services", title: "Live Web Photos", img: "images/portfolio/livewebphotos.jpg", href: "https://livewebphotos.com/",
     body: "The AI image-enhancement division of Live Web Studios, virtual staging, product retouching, and architectural visualization delivered at scale in about 48 hours." },
-  { cat: "Personal Site", title: "Jon Wolf Studios", href: "https://jonwolfstudios.com/",
+  { cat: "Personal Site", title: "Jon Wolf Studios", img: "images/portfolio/jonwolfstudios.jpg", href: "https://jonwolfstudios.com/",
     body: "The personal site of LWS founder Jon Wolf, North Jersey keyboardist, guitarist, web developer, and AI workflow consultant, built on our follow-spot animation engine." },
-  { cat: "Electrical Contractor", title: "Mike DiNinno Electric", href: "https://mikedininnoelectric.com/",
+  { cat: "Electrical Contractor", title: "Mike DiNinno Electric", img: "images/portfolio/mikedininnoelectric.jpg", href: "https://mikedininnoelectric.com/",
     body: "A veteran-owned, licensed electrical contractor in Clifton, NJ with 30+ years of residential, commercial, and industrial work, panel upgrades, generators, and 24/7 emergency service." },
-  { cat: "Industrial Maintenance", title: "Energy Services NA", href: "https://energyservicesna.netlify.app/about",
+  { cat: "Industrial Maintenance", title: "Energy Services NA", img: "images/portfolio/energyservicesna.jpg", href: "https://energyservicesna.netlify.app/about",
     body: "An ISO 9001-certified industrial maintenance firm in Hillsborough, NJ, gas turbine, control valve, pump repair, and specialized welding for power-generation plants across North America." },
-  { cat: "Tribute Band", title: "The British Invasion Years", href: "https://britishinvasionyears.netlify.app/",
+  { cat: "Tribute Band", title: "The British Invasion Years", img: "images/portfolio/britishinvasionyears.jpg", href: "https://britishinvasionyears.netlify.app/",
     body: "A live '60s British Invasion concert show touring theaters coast to coast, tour dates, video, and booking for the band fronted by LWS's own Jon Wolf." },
-  { cat: "Construction", title: "Catcord Construction", href: "https://catcord.com",
+  { cat: "Construction", title: "Catcord Construction", img: "images/portfolio/catcord.jpg", href: "https://catcord.com",
     body: "A construction management firm serving New York and New Jersey, specializing in commercial, healthcare, office, retail, and multi-family builds." },
-  { cat: "Welding & Steel", title: "Weir Welding", href: "https://stagingweirwelding.livewebstudios.com",
+  { cat: "Welding & Steel", title: "Weir Welding", img: "images/portfolio/weirwelding.jpg", href: "https://stagingweirwelding.livewebstudios.com",
     body: "Structural steel fabrication and erection company serving NJ, NY, and PA, built as a full static site rebuild with Decap CMS blog integration." },
-  { cat: "Architecture", title: "NHA Architects", href: "https://stagingnha-arch.livewebstudios.com",
+  { cat: "Architecture", title: "NHA Architects", img: "images/portfolio/nhaarchitect.jpg", href: "https://stagingnha-arch.livewebstudios.com",
     body: "A Bergen County residential architecture firm specializing in custom home design, renovations, and planning & zoning approvals across Northern NJ and beyond." },
-  { cat: "Logistics", title: "Same Day Logistics", href: "https://samedaylogistics.com",
+  { cat: "Logistics", title: "Same Day Logistics", img: "images/portfolio/samedaylogistics.jpg", href: "https://samedaylogistics.com",
     body: "A nationwide 24/7 courier and logistics company headquartered in NJ, offering local courier, medical delivery, airfreight, and specialized logistics services." },
-  { cat: "Event Rental", title: "Valley Tent", href: "https://valleytent.com",
+  { cat: "Event Rental", title: "Valley Tent", img: "images/portfolio/valleytent.jpg", href: "https://valleytent.com",
     body: "A full-service event rental company offering tents, glassware, linens, and tableware for weddings and events throughout the region." },
-  { cat: "Tribute Band", title: "Winslow — An Evening of the Eagles", href: "https://winsloweaglestribute.com",
+  { cat: "Tribute Band", title: "Winslow — An Evening of the Eagles", img: "images/portfolio/winslow.jpg", href: "https://winsloweaglestribute.com",
     body: "A professional Eagles tribute band featuring tour dates, performance info, and fan resources for one of the most sought-after tribute acts on the East Coast." },
-  { cat: "Nonprofit", title: "Bergen Area", href: "https://bergenarea.org",
+  { cat: "Nonprofit", title: "Bergen Area", img: "images/portfolio/bergenarea.jpg", href: "https://bergenarea.org",
     body: "The Bergen County Narcotics Anonymous area website, providing meeting information, resources, and community support for recovery." },
 ];
 ---
@@ -70,8 +70,8 @@ const projects = [
         <div class="work-grid">
           {projects.map((p) => (
             <article class="work-card reveal">
-              <a class="work-thumb work-thumb--empty" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${p.title}`}>
-                <span>VIEW SITE →</span>
+              <a class="work-thumb work-thumb--img" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${p.title}`}>
+                <img src={p.img} alt={`${p.title} website`} loading="lazy" />
               </a>
               <div class="work-meta">
                 <span class="work-cat">{p.cat}</span>
@@ -102,3 +102,20 @@ const projects = [
 
   <Footer />
 </Base>
+
+<style>
+  /* Real thumbnails in the work grid; global .work-thumb stays the CSS
+     placeholder for cards without imagery. Scoped here, not in global.css. */
+  .work-thumb--img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.4s var(--ease);
+  }
+  .work-card:hover .work-thumb--img img {
+    transform: scale(1.04);
+  }
+</style>

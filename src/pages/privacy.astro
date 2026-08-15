@@ -1,0 +1,99 @@
+---
+/**
+ * /privacy — ported from livewebstudios.com/privacy. Content verbatim.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const sections = [
+  {
+    h: "Overview",
+    body: ["Live Web Studios respects your privacy. This policy explains what data we collect through livewebstudios.com."],
+  },
+  {
+    h: "What We Collect",
+    list: [
+      "Contact form data: Name, business, email, phone, message.",
+      "Analytics: Anonymized data via Google Analytics 4.",
+      "Server logs: Standard request logs for security.",
+    ],
+  },
+  {
+    h: "How We Use It",
+    body: ["Contact data is used solely to respond. Analytics improves our content. We do not sell data."],
+  },
+  {
+    h: "Your Rights",
+    body: ["Email jonwolf@livewebstudios.com to request access, correction, or deletion."],
+  },
+  {
+    h: "Contact",
+    body: ["Live Web Studios · Saddle Brook, NJ · 732.801.9611"],
+  },
+];
+---
+
+<Base
+  title="Privacy Policy | Live Web Studios"
+  description="Privacy policy for livewebstudios.com. What we collect, how we use it, and your rights."
+  canonical="https://livewebstudios.com/privacy"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">LEGAL</span>
+        <h1 class="page-h1">Privacy <em>Policy</em>.</h1>
+        <p class="page-lede">Last updated: April 2026</p>
+      </div>
+    </section>
+
+    <!-- BODY -->
+    <section class="sec-pad">
+      <div class="wrap legal-wrap">
+        {sections.map((s) => (
+          <div class="legal-block reveal">
+            <h2>{s.h}</h2>
+            {s.body && s.body.map((p) => <p>{p}</p>)}
+            {s.list && (
+              <ul>
+                {s.list.map((i) => <li>{i}</li>)}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Legal text layout — scoped, existing tokens only. */
+  .legal-wrap {
+    max-width: 720px;
+  }
+  .legal-block {
+    margin-bottom: 2.6rem;
+  }
+  .legal-block h2 {
+    font-size: 1.3rem;
+    color: var(--ink-soft);
+    margin: 0 0 0.8rem;
+  }
+  .legal-block p,
+  .legal-block li {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .legal-block ul {
+    margin: 0 0 0 1.3rem;
+  }
+  .legal-block li {
+    margin-bottom: 0.4rem;
+  }
+</style>

@@ -1,14 +1,37 @@
 ---
 /**
- * /blog — blog index. Cards are rendered client-side by blog.js from the
- * single JSON collection (public/posts/index.json) that Decap CMS writes.
- * Structure/aesthetic here; content is CMS-managed. Single H1, semantic
- * HTML5. Individual post pages + JSON-LD are out of scope (held for 2F).
+ * /blog — blog index, statically rendered from the blog content collection
+ * (src/content/blog). Replaces the old client-side blog.js/JSON approach,
+ * which was the reason posts weren't getting indexed: Google saw an empty
+ * shell. Now every card is real HTML at build time, and Decap writes new
+ * posts straight into the collection folder.
  */
+import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import VideoBg from "../components/VideoBg.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const cards = posts.map((post) => {
+  const slug = post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+  const rawImage = post.data.image ?? post.data.thumbnail ?? "";
+  return {
+    slug,
+    title: post.data.title,
+    summary: post.data.description ?? post.data.excerpt ?? "",
+    image: rawImage.replace(/^\//, ""),
+    dateLabel: post.data.date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }),
+  };
+});
 ---
 
 <Base
@@ -32,13 +55,24 @@ import VideoBg from "../components/VideoBg.astro";
     <!-- POSTS -->
     <section class="sec-pad">
       <div class="wrap">
-        <!-- blog.js injects .blog-card articles here from posts/index.json -->
-        <div id="blog-list" class="blog-grid" aria-live="polite">
-          <p class="blog-empty">Loading posts…</p>
+        <div class="blog-grid">
+          {cards.map((c) => (
+            <a class="blog-card" href={`blog/${c.slug}.html`}>
+              {c.image ? (
+                <div class="blog-thumb">
+                  <img src={c.image} alt={c.title} loading="lazy" />
+                </div>
+              ) : (
+                <div class="blog-thumb--empty"><span>LWS</span></div>
+              )}
+              <div class="blog-meta">
+                <span class="blog-date">{c.dateLabel}</span>
+                <h2 class="blog-title">{c.title}</h2>
+                <p class="blog-sum">{c.summary}</p>
+              </div>
+            </a>
+          ))}
         </div>
-        <noscript>
-          <p class="blog-empty">Our blog posts load with JavaScript enabled. Please turn it on, or reach out and we'll send you what you're looking for.</p>
-        </noscript>
       </div>
     </section>
 
@@ -59,7 +93,4 @@ import VideoBg from "../components/VideoBg.astro";
   </main>
 
   <Footer />
-
-  <!-- Client-side blog renderer (relative src per path rule) -->
-  <script is:inline src="blog.js"></script>
 </Base>

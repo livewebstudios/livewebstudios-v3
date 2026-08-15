@@ -1,0 +1,246 @@
+---
+/**
+ * /pricing/seo-marketing-pricing — ported from livewebstudios.com.
+ * Content verbatim; EM DASH BAN applied ("real leads — not vanity metrics"
+ * -> comma; "That hasn't changed — it's" -> new sentence). Ranges hyphenated.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const tiers = [
+  {
+    name: "Starter",
+    price: "$750",
+    sub: "Essential Local SEO",
+    featured: false,
+    items: [
+      "Technical SEO audit (speed, mobile, links)",
+      "5-10 local keyword targeting",
+      "Title tags & meta description optimization",
+      "URL structure recommendations",
+      "Google Business Profile setup/optimization",
+      "Google Analytics & Search Console setup",
+      "Basic schema markup implementation",
+      "Monthly traffic & ranking report",
+      "NAP consistency audit",
+    ],
+  },
+  {
+    name: "Growth",
+    price: "$1,500",
+    sub: "Content + Local Dominance",
+    featured: true,
+    items: [
+      "Everything in Starter, plus:",
+      "15-20 keywords + competitor terms",
+      "2 SEO-optimized blog posts/month",
+      "Service page optimization",
+      "Local directory & citation building",
+      "Technical SEO fixes (structure, speed)",
+      "Review monitoring & response strategy",
+      "Competitor ranking & backlink audit",
+      "AI-ready content structuring",
+      "Enhanced monthly reporting",
+    ],
+  },
+  {
+    name: "Authority",
+    price: "$2,500",
+    sub: "Full SEO + AI Search",
+    featured: false,
+    items: [
+      "Everything in Growth, plus:",
+      "30+ keywords with long-tail targeting",
+      "4 blogs or resources/month",
+      "AI Answer Engine Optimization (AEO/GEO)",
+      "Schema markup for AI search visibility",
+      "Hyper-local targeting (neighborhoods/cities)",
+      "Citation management (50+ directories)",
+      "Quality backlink outreach & acquisition",
+      "Social media content sharing",
+      "ROI analysis, conversion tracking, heatmaps",
+      "AI citation monitoring & reporting",
+    ],
+  },
+];
+
+const addons = [
+  {
+    name: "AI Search Visibility (AEO/GEO)",
+    price: "$500-$800/mo",
+    body: "Optimize for ChatGPT, Google AI Overviews, Perplexity, and voice search. Schema markup, entity optimization, citation monitoring.",
+  },
+  {
+    name: "Additional Blog Content",
+    price: "$250-$400/post",
+    body: "SEO-optimized, AI-assisted blog posts. Research, writing, on-page optimization, and publishing included.",
+  },
+  {
+    name: "Social Media Management",
+    price: "$400-$750/mo",
+    body: "Content creation and scheduling for Facebook, Instagram, and LinkedIn. 8-12 posts/month with engagement monitoring.",
+  },
+  {
+    name: "Google Business Profile Management",
+    price: "$200/mo",
+    body: "Weekly updates, photo uploads, review response strategy, Q&A management, and post publishing.",
+  },
+  {
+    name: "Email Newsletter Campaign",
+    price: "$300-$500/mo",
+    body: "Monthly HTML newsletter. Design, copywriting, list management, and performance reporting via Mailchimp.",
+  },
+];
+
+const reality = [
+  {
+    h: "AI Search Is No Longer Optional",
+    body: "Over half of all searches now end without a click. Google AI Overviews, ChatGPT, and voice assistants pull answers from structured, authoritative content. If your site isn't optimized for AI, you're invisible to a growing share of customers.",
+  },
+  {
+    h: "AEO & GEO Are the New SEO",
+    body: "Answer Engine Optimization and Generative Engine Optimization structure your content so AI systems cite and recommend your business. Our Authority tier and AI add-on include both.",
+  },
+  {
+    h: "Content Quality Over Volume",
+    body: "Google and AI systems reward expertise, depth, and structured data over keyword stuffing. We focus on authoritative content that ranks AND gets cited by AI.",
+  },
+  {
+    h: "Schema Markup Is the Backbone",
+    body: "Structured data tells search engines and AI exactly what your business does, where you serve, and why you're an authority. Every tier includes schema implementation.",
+  },
+  {
+    h: "Local SEO Still Delivers Fastest ROI",
+    body: "For NJ/NY service businesses, a fully optimized Google Business Profile drives 30-50% more calls and map clicks. That hasn't changed. It's just more competitive. We handle it all.",
+  },
+];
+---
+
+<Base
+  title="SEO & AI-Powered Marketing Pricing | Live Web Studios"
+  description="SEO and AI-optimized marketing packages for NJ/NY small businesses. Starter $750/mo, Growth $1,500/mo, Authority $2,500/mo. AEO/GEO, content, local SEO."
+  canonical="https://livewebstudios.com/pricing/seo-marketing-pricing"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">PRICING</span>
+        <h1 class="page-h1">SEO &amp; AI-Powered <em>Marketing</em>.</h1>
+        <p class="page-lede">Boost Visibility. Drive Traffic. Dominate AI Search. Achieve Results.</p>
+        <p class="page-lede">Live Web Studios delivers expert SEO and AI-optimized marketing services for small businesses across NJ and NY. From local search dominance to AI answer engine visibility, we build strategies that drive real leads, not vanity metrics.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Get Your Free Audit →</a>
+          <a href="#addons" class="btn btn-ghost">View Add-Ons</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONTHLY PACKAGES -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">MONTHLY PACKAGES</span>
+          <h2>Choose Your Growth Level</h2>
+          <p>All packages include a 3-month minimum commitment and a free kick-off audit.</p>
+        </div>
+        <div class="grid-svc trio">
+          {tiers.map((t) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                {t.featured && <span class="tag-new">MOST POPULAR</span>}
+                <h3>{t.name}</h3>
+                <p class="kick">{t.price}<span class="label"> /mo</span></p>
+                <p>{t.sub}</p>
+                <ul>
+                  {t.items.map((i) => <li>{i}</li>)}
+                </ul>
+                <a class="more" href="../contact.html">GET STARTED →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ADD-ONS -->
+    <section class="sec-pad is-alt" id="addons">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">ADD-ON SERVICES</span>
+          <h2>Customize Your Package</h2>
+          <p>Available as standalone services or paired with any monthly package.</p>
+        </div>
+        <div class="grid-svc">
+          {addons.map((a) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <h3>{a.name}</h3>
+                <p class="kick"><span class="label">{a.price}</span></p>
+                <p>{a.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY AI SEARCH MATTERS -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE NEW REALITY</span>
+          <h2>Why AI Search Matters Now</h2>
+          <p>The rules of search have changed. Here's what your business needs to know.</p>
+        </div>
+        <div class="grid-svc">
+          {reality.map((r) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <h3>{r.h}</h3>
+                <p>{r.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">LET'S TALK</span>
+          <h2>Ready to grow?</h2>
+          <p>Every engagement starts with a free 30-minute consultation and site audit. Let's talk about where you are and where you want to be.</p>
+        </div>
+        <div class="hero-btns reveal">
+          <a href="../contact.html" class="btn btn-primary">Get Your Free Audit →</a>
+          <a href="mailto:jonwolf@livewebstudios.com" class="btn btn-ghost">jonwolf@livewebstudios.com</a>
+        </div>
+        <p class="pricing-fineprint reveal">All packages require a 3-month minimum commitment. Prices effective April 2026.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .pricing-fineprint {
+    margin-top: 2rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--muted-2);
+  }
+</style>

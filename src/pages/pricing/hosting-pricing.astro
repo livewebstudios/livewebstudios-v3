@@ -1,0 +1,96 @@
+---
+/**
+ * /pricing/hosting-pricing — ported from livewebstudios.com. Content verbatim.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const tiers = [
+  {
+    name: "Static",
+    price: "$45",
+    unit: " /mo",
+    featured: false,
+    cta: "CHOOSE STATIC",
+    items: ["Static HTML sites", "SSL + CDN", "Daily backups", "Uptime monitoring"],
+  },
+  {
+    name: "Standard",
+    price: "$95",
+    unit: " /mo",
+    featured: true,
+    badge: "MOST POPULAR",
+    cta: "CHOOSE STANDARD",
+    items: ["WordPress / CMS", "LiteSpeed", "Offsite backups", "Security hardening", "Monthly report"],
+  },
+  {
+    name: "Pro",
+    price: "$195",
+    unit: " /mo",
+    featured: false,
+    cta: "CHOOSE PRO",
+    items: ["E-commerce / high-traffic", "Dedicated resources", "4-hour emergency", "Quarterly review"],
+  },
+];
+---
+
+<Base
+  title="Hosting Pricing | Live Web Studios"
+  description="Managed hosting from Live Web Studios. Static sites $45/mo, WordPress/CMS $95/mo, e-commerce $195/mo. SSL, backups, monitoring included."
+  canonical="https://livewebstudios.com/pricing/hosting-pricing"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">HOSTING PRICING</span>
+        <h1 class="page-h1">Hosting <em>Pricing</em>.</h1>
+        <p class="page-lede">Honest ranges. No long-term contracts.</p>
+      </div>
+    </section>
+
+    <!-- TIERS -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc trio">
+          {tiers.map((t) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                {t.featured && <span class="tag-new">{t.badge}</span>}
+                <h3>{t.name}</h3>
+                <p class="kick">{t.price}<span class="label">{t.unit}</span></p>
+                <ul>
+                  {t.items.map((i) => <li>{i}</li>)}
+                </ul>
+                <a class="more" href="../contact.html">{t.cta} →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">MOVING FROM ANOTHER HOST?</span>
+          <h2>We handle the migration, DNS, and testing.</h2>
+        </div>
+        <div class="hero-btns reveal">
+          <a href="../contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

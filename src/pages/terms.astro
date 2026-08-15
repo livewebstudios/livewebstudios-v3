@@ -1,0 +1,66 @@
+---
+/**
+ * /terms — ported from livewebstudios.com/terms. Content verbatim.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const sections = [
+  { h: "Use of Site", body: "By using livewebstudios.com you agree to these terms. Content is property of Live Web Studios." },
+  { h: "Engagement Terms", body: "Project work is governed by the proposal or service agreement you sign." },
+  { h: "Intellectual Property", body: "All copy, code, and design are © Live Web Studios." },
+  { h: "Contact", body: "jonwolf@livewebstudios.com" },
+];
+---
+
+<Base
+  title="Terms of Service | Live Web Studios"
+  description="Terms of service for livewebstudios.com."
+  canonical="https://livewebstudios.com/terms"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">LEGAL</span>
+        <h1 class="page-h1">Terms of <em>Service</em>.</h1>
+        <p class="page-lede">Last updated: April 2026</p>
+      </div>
+    </section>
+
+    <!-- BODY -->
+    <section class="sec-pad">
+      <div class="wrap legal-wrap">
+        {sections.map((s) => (
+          <div class="legal-block reveal">
+            <h2>{s.h}</h2>
+            <p>{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .legal-wrap {
+    max-width: 720px;
+  }
+  .legal-block {
+    margin-bottom: 2.6rem;
+  }
+  .legal-block h2 {
+    font-size: 1.3rem;
+    color: var(--ink-soft);
+    margin: 0 0 0.8rem;
+  }
+  .legal-block p {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+</style>

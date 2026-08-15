@@ -1,0 +1,94 @@
+---
+/**
+ * /pricing/design-pricing — ported from livewebstudios.com. Content verbatim;
+ * numeric ranges hyphenated per existing port convention.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const tiers = [
+  {
+    name: "Brochure",
+    price: "$3,500",
+    unit: " +",
+    featured: false,
+    items: ["5-8 pages", "Custom static design", "Mobile responsive", "SEO foundation", "90-day support"],
+  },
+  {
+    name: "Content Site",
+    price: "$6,500",
+    unit: " +",
+    featured: true,
+    badge: "MOST COMMON",
+    items: ["10-20 pages", "Decap CMS blog", "Custom design system", "Full SEO build", "3 launch blog posts"],
+  },
+  {
+    name: "E-Commerce",
+    price: "$9,500",
+    unit: " +",
+    featured: false,
+    items: ["Product catalog", "Custom checkout", "Payment integration", "Product schema", "Image processing"],
+  },
+];
+---
+
+<Base
+  title="Design Pricing | Live Web Studios"
+  description="Website design pricing from Live Web Studios. Brochure sites from $3,500, content sites from $6,500, e-commerce from $9,500. Honest ranges, no long-term contracts."
+  canonical="https://livewebstudios.com/pricing/design-pricing"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">DESIGN PRICING</span>
+        <h1 class="page-h1">Design <em>Pricing</em>.</h1>
+        <p class="page-lede">Honest ranges. No long-term contracts.</p>
+      </div>
+    </section>
+
+    <!-- TIERS -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc trio">
+          {tiers.map((t) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                {t.featured && <span class="tag-new">{t.badge}</span>}
+                <h3>{t.name}</h3>
+                <p class="kick">{t.price}<span class="label">{t.unit}</span></p>
+                <ul>
+                  {t.items.map((i) => <li>{i}</li>)}
+                </ul>
+                <a class="more" href="../contact.html">GET A QUOTE →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">NOT SURE WHICH FITS?</span>
+          <h2>Every project starts with a conversation.</h2>
+        </div>
+        <div class="hero-btns reveal">
+          <a href="../contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

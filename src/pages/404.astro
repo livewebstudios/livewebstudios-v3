@@ -1,0 +1,74 @@
+---
+/**
+ * /404 — ported from livewebstudios.com/404. Content verbatim; EM DASH BAN
+ * applied ("Contact us — tell us" -> "Contact us... tell us").
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import VideoBg from "../components/VideoBg.astro";
+---
+
+<Base
+  title="Page Not Found | Live Web Studios"
+  description="This page moved, doesn't exist, or was retired. Head back to the Live Web Studios homepage."
+  canonical="https://livewebstudios.com/404"
+  noindex={true}
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">404</span>
+        <h1 class="page-h1">Page Not <em>Found</em>.</h1>
+        <p class="page-lede">This page moved, doesn't exist, or was retired during one of our redesigns over the past 23 years.</p>
+        <div class="hero-btns">
+          <a href="index.html" class="btn btn-primary">Back to Home →</a>
+          <a href="services.html" class="btn btn-ghost">See Services</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEXT STEPS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="copy reveal notfound-copy">
+          <span class="eyebrow">WHAT YOU CAN DO NEXT</span>
+          <p>If you followed an old bookmark or an external link, one of these usually gets you unstuck.</p>
+          <ul>
+            <li><a href="contact.html">Contact us</a>... tell us what you were looking for and we'll point you to the right place.</li>
+            <li>Browse the <a href="work.html">portfolio</a> for recent launches.</li>
+            <li>Read the <a href="blog.html">blog</a> for updates on web, SEO, and AI.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .notfound-copy {
+    max-width: 640px;
+    margin-inline: auto;
+  }
+  .notfound-copy .eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .notfound-copy p,
+  .notfound-copy li {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .notfound-copy ul {
+    margin: 1rem 0 0 1.3rem;
+  }
+  .notfound-copy li {
+    margin-bottom: 0.6rem;
+  }
+</style>

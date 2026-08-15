@@ -13,25 +13,21 @@ import VideoBg from "./VideoBg.astro";
 import { relPrefix } from "../lib/relPrefix";
 const rel = relPrefix(Astro.url.pathname);
 
-const towns = [
-  ["Saddle Brook", "web-design-saddle-brook.html"],
-  ["Paramus", "web-design-paramus.html"],
-  ["Hackensack", "web-design-hackensack.html"],
-  ["Ridgewood", "web-design-ridgewood.html"],
-  ["Fair Lawn", "web-design-fair-lawn.html"],
-  ["Rochelle Park", "web-design-rochelle-park.html"],
-  ["Elmwood Park", "web-design-elmwood-park.html"],
-  ["Glen Rock", "web-design-glen-rock.html"],
-];
+/* Town pages are a later phase (per Jon 2026-08-15: skip for now). The old
+ * slugs (web-design-saddle-brook.html …) 404'd, so the town directory is
+ * held out of the footer until those pages exist. */
 const industries = [
-  ["Contractors", "contractor-websites.html"],
-  ["Restaurants", "restaurant-websites.html"],
-  ["Law Firms", "law-firm-websites.html"],
-  ["Medical & Dental", "medical-websites.html"],
-  ["Real Estate", "real-estate-websites.html"],
-  ["Salons & Spas", "salon-websites.html"],
+  ["Construction", "industries/construction.html"],
+  ["Law Firms", "industries/law-firm.html"],
+  ["Dental", "industries/dental.html"],
+  ["Healthcare", "industries/healthcare.html"],
+  ["Real Estate", "industries/real-estate.html"],
+  ["Financial Services", "industries/financial-services.html"],
+  ["Insurance", "industries/insurance.html"],
+  ["Manufacturing", "industries/manufacturing.html"],
+  ["Nonprofit", "industries/nonprofit.html"],
+  ["B2B", "industries/b2b.html"],
   ["Bands & Artists", "live-band-web-studios.html"],
-  ["Auto Services", "auto-service-websites.html"],
 ];
 ---
 
@@ -51,7 +47,11 @@ const industries = [
           <li><a href={`${rel}index.html`}>Home</a></li>
           <li><a href={`${rel}work.html`}>Work</a></li>
           <li><a href={`${rel}services.html`}>Services</a></li>
+          <li><a href={`${rel}industries.html`}>Industries</a></li>
           <li><a href={`${rel}about.html`}>About</a></li>
+          <li><a href={`${rel}blog.html`}>Blog</a></li>
+          <li><a href={`${rel}faq.html`}>FAQ</a></li>
+          <li><a href={`${rel}newsletter.html`}>Newsletter</a></li>
           <li><a href={`${rel}contact.html`}>Contact</a></li>
         </ul>
       </div>
@@ -60,8 +60,15 @@ const industries = [
         <ul>
           <li><a href={`${rel}live-band-web-studios.html`}>Live Band Web Studios</a></li>
           <li><a href={`${rel}namesake.html`}>Namesake</a></li>
-          <li><a href={`${rel}live-web-photos.html`}>Live Web Photos</a></li>
-          <li><a href={`${rel}live-ai-studios.html`}>Live AI Studios</a></li>
+          <li><a href={`${rel}ecosystem/live-web-photos.html`}>Live Web Photos</a></li>
+          <li><a href={`${rel}ecosystem/live-ai-studios.html`}>Live AI Studios</a></li>
+        </ul>
+        <h4 class="foot-h4-gap">Pricing</h4>
+        <ul>
+          <li><a href={`${rel}pricing/design-pricing.html`}>Design</a></li>
+          <li><a href={`${rel}pricing/hosting-pricing.html`}>Hosting</a></li>
+          <li><a href={`${rel}pricing/seo-pricing.html`}>SEO</a></li>
+          <li><a href={`${rel}pricing/seo-marketing-pricing.html`}>SEO &amp; AI Marketing</a></li>
         </ul>
       </div>
       <div class="foot-contact">
@@ -75,19 +82,18 @@ const industries = [
 
     <div class="foot-directory">
       <div>
-        <h4>Web Design by Town</h4>
-        <ul class="foot-dir-list">
-          {towns.map(([label, href]) => (
-            <li><a href={`${rel}${href}`}>{label}</a></li>
-          ))}
-        </ul>
-      </div>
-      <div>
         <h4>Web Design by Industry</h4>
         <ul class="foot-dir-list">
           {industries.map(([label, href]) => (
             <li><a href={`${rel}${href}`}>{label}</a></li>
           ))}
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul class="foot-dir-list">
+          <li><a href={`${rel}privacy.html`}>Privacy Policy</a></li>
+          <li><a href={`${rel}terms.html`}>Terms of Service</a></li>
         </ul>
       </div>
     </div>
@@ -107,3 +113,9 @@ const industries = [
     </p>
   </div>
 </footer>
+
+<style>
+  .foot-h4-gap {
+    margin-top: 1.6rem;
+  }
+</style>

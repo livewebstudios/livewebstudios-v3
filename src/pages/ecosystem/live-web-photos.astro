@@ -1,0 +1,92 @@
+---
+/**
+ * /ecosystem/live-web-photos — sister-company page, ported verbatim.
+ * EM DASH BAN applied ("output — usually 48 hours" -> "output, usually
+ * in 48 hours").
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const markets = [
+  { ico: "◧", title: "Real Estate", body: "Virtual staging, enhanced exteriors." },
+  { ico: "▤", title: "E-Commerce", body: "Consistent product photography at scale." },
+  { ico: "◎", title: "Professionals", body: "Headshots across multiple contexts." },
+];
+
+const steps = [
+  { n: "01", title: "Submit", body: "Send your photos or briefing." },
+  { n: "02", title: "Process", body: "We run them through our AI pipeline." },
+  { n: "03", title: "Receive", body: "Studio-quality output, usually in 48 hours." },
+];
+---
+
+<Base
+  title="Live Web Photos | AI Image Production — Live Web Studios Ecosystem"
+  description="Live Web Photos: AI-powered bulk image production for real estate, e-commerce, and professionals. A Live Web Studios sister company."
+  canonical="https://livewebstudios.com/ecosystem/live-web-photos"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">SISTER COMPANY</span>
+        <h1 class="page-h1">Studio-Quality Visuals. Infinite <em>Scale</em>.</h1>
+        <p class="page-lede">AI-powered bulk image production for real estate, e-commerce, professionals.</p>
+        <div class="hero-btns">
+          <a href="https://livewebphotos.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Site →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKETS -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc trio">
+          {markets.map((m) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{m.ico}</div>
+                <h3>{m.title}</h3>
+                <p>{m.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">HOW IT WORKS</span>
+          <h2>Three steps. That's the whole process.</h2>
+        </div>
+        <div class="grid-svc trio">
+          {steps.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <span class="eyebrow">{s.n}</span>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+        <div class="hero-btns reveal">
+          <a href="https://livewebphotos.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Live Web Photos →</a>
+          <a href="../contact.html" class="btn btn-ghost">Reach out.</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

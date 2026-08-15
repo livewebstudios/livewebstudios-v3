@@ -67,20 +67,23 @@
   --wrap:1280px;
 }
 
-/* ---- Surfaces: flat panels, no liquid glass -------------------
-   MOSA has no gradient shells or backdrop bloom. Surfaces are fg-alpha
-   over bg with a hairline border. */
+/* ---- Surfaces: glass panels ----------------------------------
+   Translucent cards with backdrop blur so the video backgrounds
+   read through. (Was flat fg-alpha; reworked per Jon 2026-08-15.) */
 .shell{background:none;padding:0;border-radius:var(--r-lg)}
 .glass,.glass-inner{
-  background:rgb(var(--mosa-fg-rgb)/.02);
-  backdrop-filter:none;-webkit-backdrop-filter:none;
-  border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:none;
+  background:rgb(var(--mosa-bg-rgb)/.32);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border:1px solid rgb(var(--mosa-fg-rgb)/.12);border-radius:var(--r-lg);
+  box-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.06);
 }
 .glass::after{display:none}
 .card:hover{transform:none}
 .card:hover .glass-inner{
-  background:rgb(var(--mosa-fg-rgb)/.04);
-  border-color:rgb(var(--mosa-fg-rgb)/.2);box-shadow:none;
+  background:rgb(var(--mosa-bg-rgb)/.44);
+  border-color:rgb(var(--mosa-fg-rgb)/.24);
+  box-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.1);
 }
 
 /* ---- Buttons: solid inverse, no gradient, no lift ------------- */
@@ -123,13 +126,16 @@ h1.hero-h1 em,h1.page-h1 em{color:var(--muted)}
 .page-head::before{display:none}
 .sec-head h2,.feature h2,.cta h2{font-weight:500;letter-spacing:-.01em}
 
-/* ---- Cards / grids / stats ------------------------------------ */
+/* ---- Cards / grids / stats: glass so video reads through ------ */
 .work-card,.blog-card,.stat{
-  background:rgb(var(--mosa-fg-rgb)/.02);border-radius:var(--r-lg);
+  background:rgb(var(--mosa-bg-rgb)/.32);border-radius:var(--r-lg);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-color:rgb(var(--mosa-fg-rgb)/.12);
 }
 .work-card:hover,.blog-card:hover{
   transform:none;box-shadow:none;
-  border-color:rgb(var(--mosa-fg-rgb)/.2);background:rgb(var(--mosa-fg-rgb)/.04);
+  border-color:rgb(var(--mosa-fg-rgb)/.24);background:rgb(var(--mosa-bg-rgb)/.44);
 }
 .work-thumb,.blog-thumb--empty{
   background:rgb(var(--mosa-fg-rgb)/.04);
@@ -156,12 +162,15 @@ h1.hero-h1 em,h1.page-h1 em{color:var(--muted)}
 .cta::before{display:none}
 footer{background:rgb(var(--mosa-fg-rgb)/.02)}
 
-/* ---- Video scrims: MOSA scrim value --------------------------- */
+/* ---- Video scrims: bright videos, minimal overcast ------------
+   (Was .5/.88, .85, .93 — Jon 2026-08-15: "make those background
+   videos bright... no overcast darkness". Glass cards now carry
+   text readability, so the scrim only eases section transitions.) */
 .videobg--hero .videobg__scrim{
-  background:linear-gradient(180deg,rgb(var(--mosa-bg-rgb)/.5) 0%,rgb(var(--mosa-bg-rgb)/.88) 100%);
+  background:linear-gradient(180deg,rgb(var(--mosa-bg-rgb)/.12) 0%,rgb(var(--mosa-bg-rgb)/.45) 100%);
 }
-.videobg--default .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.85)}
-.videobg--strong .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.93)}
+.videobg--default .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.28)}
+.videobg--strong .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.55)}
 
 /* ============================================================
    LAYOUT — MOSA placement rules
@@ -420,15 +429,12 @@ main a:not(.btn):not(.card):not(.work-card):not(.blog-card):not(.glass-inner):ho
   font-weight:var(--mosa-weight-regular,400)!important;
 }
 
-/* ---- Nav case override ----------------------------------------
-   Nav.astro types its link text in capitals (WORK, SERVICES…), so
-   text-transform:none can't help. Force lowercase, then re-capitalize
-   the first letter. Markup and copy stay untouched. */
+/* ---- Nav case ------------------------------------------------
+   ALL CAPS per the LWS NAV TEXT RULE (the earlier MOSA lowercase
+   override is removed; markup already types capitals). */
 header.nav .nav-links > a,header.nav .studios-trigger{
-  text-transform:lowercase;display:inline-flex;align-items:center;
+  display:inline-flex;align-items:center;
 }
-header.nav .nav-links > a::first-letter,
-header.nav .studios-trigger::first-letter{text-transform:uppercase}
 
 @media (max-width:900px){
   .hero-in{padding-block:9rem 4rem;padding-inline:clamp(1.25rem,4vw,2.5rem)}

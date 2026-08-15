@@ -1,0 +1,57 @@
+---
+/**
+ * /thank-you — contact form success page, ported from livewebstudios.com.
+ * Content verbatim. noindex (form destination, not a landing page).
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import VideoBg from "../components/VideoBg.astro";
+---
+
+<Base
+  title="Thank You | Live Web Studios"
+  description="Message received. Jon typically replies the same day."
+  canonical="https://livewebstudios.com/thank-you"
+  noindex={true}
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">MESSAGE SENT</span>
+        <h1 class="page-h1">Thank <em>You</em>.</h1>
+        <p class="page-lede">We received your info. Jon typically replies the same day (often within a few hours).</p>
+      </div>
+    </section>
+
+    <!-- WHAT HAPPENS NEXT -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT HAPPENS NEXT</span>
+          <h2>Keep an eye on your inbox.</h2>
+          <p>If you included a phone number, expect a quick call or text. Otherwise, watch your inbox (and spam folder) for a reply from jonwolf@livewebstudios.com.</p>
+        </div>
+        <div class="hero-btns reveal">
+          <a href="work.html" class="btn btn-primary">See Work →</a>
+          <a href="index.html" class="btn btn-ghost">Back to Home</a>
+        </div>
+        <p class="ty-urgent reveal">Need something urgent? Call <a href="tel:7328019611">732.801.9611</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .ty-urgent {
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--muted);
+  }
+</style>

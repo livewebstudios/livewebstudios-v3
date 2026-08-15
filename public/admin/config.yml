@@ -1,45 +1,50 @@
 # Decap CMS config — Live Web Studios blog
-# Per specs/cms-decap.md: FILE collection (a single JSON file), never a
-# folder/markdown collection and no GitHub Action. Netlify Identity handles
-# auth; Git Gateway commits the save. Files live under public/ so Astro
-# serves them from the built site (dist/ mirrors public/).
+# Folder collection writing markdown into the Astro content collection
+# (src/content/blog). Each save commits via Git Gateway -> Netlify rebuilds ->
+# Astro statically renders the post as real HTML with meta, canonical, and
+# JSON-LD. This replaces the old single-JSON + client-side-render setup, which
+# is why posts weren't getting indexed by Google (crawlers saw an empty shell).
+# Note: the specs/cms-decap.md "file collections only" rule predates the Astro
+# build; no GitHub Action is needed here because Astro IS the build step.
+# Decap stays pinned to 3.1.2 in admin/index.html per the spec.
 
 backend:
   name: git-gateway
   branch: main
 
-# Uploaded media commits under public/ and serves at /images/uploads/.
-# public_folder is kept relative per the LWS path rule (no leading slash),
-# so rendered <img> references resolve on any host the site is moved to.
+# Uploads commit under public/ and serve at images/uploads/. public_folder
+# stays root-relative here because Decap stores it in frontmatter; the Astro
+# templates strip the leading slash and emit relative paths per the LWS rule.
 media_folder: "public/images/uploads"
-public_folder: "images/uploads"
+public_folder: "/images/uploads"
 
 collections:
   - name: "blog"
-    label: "Blog"
-    files:
-      - name: "posts"
-        label: "Blog posts"
-        file: "public/posts/index.json"
-        description: "Every blog post lives in this one file. Newest publish date shows first on the site."
-        fields:
-          - label: "Posts"
-            name: "posts"
-            widget: "list"
-            label_singular: "Post"
-            summary: "{{fields.date}} · {{fields.title}}"
-            fields:
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Slug", name: "slug", widget: "string", hint: "URL id, lowercase-with-dashes" }
-              - {
-                  label: "Publish date",
-                  name: "date",
-                  widget: "datetime",
-                  date_format: "YYYY-MM-DD",
-                  time_format: false,
-                  format: "YYYY-MM-DD",
-                  picker_utc: true,
-                }
-              - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences shown on the blog index card." }
-              - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false }
-              - { label: "Body", name: "body", widget: "markdown" }
+    label: "Blog Posts"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sort_by: ["date"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        picker_utc: true
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "1-2 sentences. Shown on blog cards and used as the Google search snippet. Write it like a search result."
+      - { label: "Featured Image", name: "image", widget: "image", required: false, hint: "Card thumbnail + top of the post." }
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        default: []
+        hint: "Optional. Type a word and press Enter."
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, required: false, hint: "Tick to hide this post from the public blog." }
+      - { label: "Body", name: "body", widget: "markdown" }

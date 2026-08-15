@@ -1,7 +1,69 @@
 ---
+/**
+ * Nav — context-aware site navigation. One component, three contexts:
+ *   main site  -> WORK · SERVICES (mega) · INDUSTRIES · ABOUT · STUDIOS · CONTACT
+ *   /namesake* -> Namesake sub-brand nav + "← LIVE WEB STUDIOS" escape hatch
+ *   /live-band-web-studios* -> LBWS sub-brand nav + escape hatch
+ * Context is derived from Astro.url.pathname, so every page gets the right
+ * nav automatically. All links are static HTML (crawlable); JS only enhances
+ * dropdown toggles and the mobile burger. ALL CAPS per the LWS NAV TEXT RULE.
+ */
 import StudiosPanel from "./StudiosPanel.astro";
 import { relPrefix } from "../lib/relPrefix";
-const rel = relPrefix(Astro.url.pathname);
+
+const path = Astro.url.pathname;
+const rel = relPrefix(path);
+
+type Ctx = "main" | "namesake" | "band";
+const ctx: Ctx = path.includes("/namesake")
+  ? "namesake"
+  : path.includes("/live-band-web-studios")
+    ? "band"
+    : "main";
+
+/* Services mega columns — every live service page, grouped. */
+const svcCols = [
+  {
+    label: "BUILD",
+    links: [
+      ["WEBSITE DESIGN", "services/website-design.html"],
+      ["E-COMMERCE", "services/ecommerce.html"],
+      ["HOSTING", "services/hosting.html"],
+      ["MAINTENANCE PLANS", "services/maintenance-plans.html"],
+      ["SEO & MARKETING", "services/seo.html"],
+    ],
+  },
+  {
+    label: "AI",
+    links: [
+      ["AI PLATFORM", "services/ai-platform.html"],
+      ["AI BUSINESS SERVICES", "services/ai-business-services.html"],
+      ["AI WORKFLOW", "services/ai-workflow.html"],
+      ["AI IMAGE", "services/ai-image.html"],
+    ],
+  },
+  {
+    label: "BRAND",
+    links: [
+      ["BRANDING", "services/branding.html"],
+      ["LOGO DESIGN", "services/logo-design.html"],
+      ["CUSTOM STYLES & CARDS", "services/custom-styles-and-carousel-cards.html"],
+      ["CONSULTING", "services/consulting.html"],
+    ],
+  },
+];
+
+const bandLinks = [
+  ["PORTFOLIO", "live-band-web-studios/portfolio.html"],
+  ["PRICING", "live-band-web-studios/pricing.html"],
+  ["PERSONAL SITES", "live-band-web-studios/personal-sites.html"],
+  ["FORMS", "live-band-web-studios/forms.html"],
+];
+
+const namesakeLinks = [
+  ["HOW IT WORKS", "namesake/how-it-works.html"],
+  ["START", "namesake/start.html"],
+];
 ---
 
 <header class="nav" data-nav>
@@ -10,25 +72,113 @@ const rel = relPrefix(Astro.url.pathname);
       <img src={`${rel}images/logoRGB.png`} alt="Live Web Studios" width="800" height="257" decoding="async" />
     </a>
 
-    <nav class="nav-links" id="nav-links" aria-label="Primary">
-      <a href={`${rel}work.html`}>WORK</a>
-      <a href={`${rel}services.html`}>SERVICES</a>
-      <a href={`${rel}about.html`}>ABOUT</a>
-      <div class="studios" data-studios>
-        <button
-          type="button"
-          class="studios-trigger"
-          aria-expanded="false"
-          aria-controls="studios-panel"
-          aria-haspopup="true"
-        >STUDIOS <span class="studios-caret" aria-hidden="true">↓</span></button>
-        <StudiosPanel />
-      </div>
-      <a href={`${rel}contact.html`}>CONTACT</a>
-    </nav>
+    {ctx === "main" && (
+      <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href={`${rel}work.html`}>WORK</a>
+
+        <div class="studios" data-dd>
+          <button
+            type="button"
+            class="studios-trigger"
+            aria-expanded="false"
+            aria-controls="services-panel"
+            aria-haspopup="true"
+          >SERVICES <span class="studios-caret" aria-hidden="true">↓</span></button>
+
+          <div class="mega mega--services" id="services-panel" role="region" aria-label="Services">
+            <div class="mega-inner svc-inner">
+              <div class="mega-head">
+                <span class="eyebrow">SERVICES</span>
+                <p class="mega-sub">Thirteen ways in. One studio.</p>
+              </div>
+              <div class="svc-cols">
+                {svcCols.map((col) => (
+                  <div class="svc-col">
+                    <span class="svc-col-label">{col.label}</span>
+                    {col.links.map(([label, href]) => (
+                      <a class="svc-link" href={`${rel}${href}`}>{label}</a>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div class="mega-support svc-bottom">
+                <a class="mega-row" href={`${rel}services.html`}>
+                  <span class="mega-row-title">ALL SERVICES →</span>
+                  <span class="mega-row-sub">THE FULL LINEUP</span>
+                </a>
+                <a class="mega-row" href={`${rel}pricing/design-pricing.html`}>
+                  <span class="mega-row-title">PRICING →</span>
+                  <span class="mega-row-sub">DESIGN · HOSTING · SEO</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href={`${rel}industries.html`}>INDUSTRIES</a>
+        <a href={`${rel}about.html`}>ABOUT</a>
+
+        <div class="studios" data-dd>
+          <button
+            type="button"
+            class="studios-trigger"
+            aria-expanded="false"
+            aria-controls="studios-panel"
+            aria-haspopup="true"
+          >STUDIOS <span class="studios-caret" aria-hidden="true">↓</span></button>
+          <StudiosPanel />
+        </div>
+
+        <a href={`${rel}contact.html`}>CONTACT</a>
+      </nav>
+    )}
+
+    {ctx === "namesake" && (
+      <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a class="nav-back" href={`${rel}index.html`}>← LIVE WEB STUDIOS</a>
+        <a href={`${rel}namesake.html`}>NAMESAKE</a>
+        {namesakeLinks.map(([label, href]) => (
+          <a href={`${rel}${href}`}>{label}</a>
+        ))}
+        <div class="studios" data-dd>
+          <button
+            type="button"
+            class="studios-trigger"
+            aria-expanded="false"
+            aria-controls="studios-panel"
+            aria-haspopup="true"
+          >STUDIOS <span class="studios-caret" aria-hidden="true">↓</span></button>
+          <StudiosPanel />
+        </div>
+      </nav>
+    )}
+
+    {ctx === "band" && (
+      <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a class="nav-back" href={`${rel}index.html`}>← LIVE WEB STUDIOS</a>
+        <a href={`${rel}live-band-web-studios.html`}>LIVE BAND</a>
+        {bandLinks.map(([label, href]) => (
+          <a href={`${rel}${href}`}>{label}</a>
+        ))}
+        <div class="studios" data-dd>
+          <button
+            type="button"
+            class="studios-trigger"
+            aria-expanded="false"
+            aria-controls="studios-panel"
+            aria-haspopup="true"
+          >STUDIOS <span class="studios-caret" aria-hidden="true">↓</span></button>
+          <StudiosPanel />
+        </div>
+      </nav>
+    )}
 
     <div class="nav-cta">
-      <a href={`${rel}contact.html`} class="btn btn-primary">Let's Talk</a>
+      {ctx === "namesake" ? (
+        <a href={`${rel}namesake/start.html`} class="btn btn-primary">Start Yours</a>
+      ) : (
+        <a href={`${rel}contact.html`} class="btn btn-primary">Let's Talk</a>
+      )}
       <button
         type="button"
         class="burger"
@@ -41,33 +191,48 @@ const rel = relPrefix(Astro.url.pathname);
 </header>
 
 <script is:inline>
-  // Progressive enhancement for the nav: STUDIOS mega-panel open/close and the
-  // mobile burger menu. All links are already in the static HTML (crawlable);
-  // this only adds click-toggle, keyboard, and outside-click behaviour.
+  // Progressive enhancement: dropdown open/close (SERVICES + STUDIOS share the
+  // same mechanism via [data-dd]) and the mobile burger. All links are already
+  // in the static HTML (crawlable).
   (function () {
     var header = document.querySelector("[data-nav]");
     if (!header) return;
 
-    // --- STUDIOS mega-panel ---
-    var studios = header.querySelector("[data-studios]");
-    var trigger = studios && studios.querySelector(".studios-trigger");
-    if (studios && trigger) {
-      var closeStudios = function () {
-        studios.classList.remove("is-open");
-        trigger.setAttribute("aria-expanded", "false");
-      };
+    var dds = header.querySelectorAll("[data-dd]");
+    dds.forEach(function (dd) {
+      var trigger = dd.querySelector(".studios-trigger");
+      if (!trigger) return;
       trigger.addEventListener("click", function (e) {
         e.stopPropagation();
-        var open = studios.classList.toggle("is-open");
+        // close the others first so only one panel is open
+        dds.forEach(function (other) {
+          if (other !== dd) {
+            other.classList.remove("is-open");
+            var t = other.querySelector(".studios-trigger");
+            if (t) t.setAttribute("aria-expanded", "false");
+          }
+        });
+        var open = dd.classList.toggle("is-open");
         trigger.setAttribute("aria-expanded", open ? "true" : "false");
       });
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") closeStudios();
+    });
+    var closeAll = function () {
+      dds.forEach(function (dd) {
+        dd.classList.remove("is-open");
+        var t = dd.querySelector(".studios-trigger");
+        if (t) t.setAttribute("aria-expanded", "false");
       });
-      document.addEventListener("click", function (e) {
-        if (!studios.contains(e.target)) closeStudios();
+    };
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeAll();
+    });
+    document.addEventListener("click", function (e) {
+      var inside = false;
+      dds.forEach(function (dd) {
+        if (dd.contains(e.target)) inside = true;
       });
-    }
+      if (!inside) closeAll();
+    });
 
     // --- Mobile burger menu ---
     var burger = header.querySelector(".burger");
@@ -80,3 +245,49 @@ const rel = relPrefix(Astro.url.pathname);
     }
   })();
 </script>
+
+<style>
+  /* Services mega + sub-brand nav additions — scoped, existing tokens only. */
+  .mega--services {
+    width: min(720px, 92vw);
+  }
+  .svc-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+  }
+  .svc-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .svc-col-label {
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.2em;
+    color: var(--cyan-soft);
+    padding: 0.35rem 0.6rem 0.5rem;
+  }
+  .svc-link {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 0.42rem 0.6rem;
+    border-radius: var(--r-sm);
+    transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .svc-link:hover {
+    color: var(--ink-soft);
+    background: rgba(56, 189, 248, 0.08);
+  }
+  .nav-back {
+    color: var(--muted-2);
+  }
+  @media (max-width: 900px) {
+    .svc-cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

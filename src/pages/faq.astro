@@ -1,0 +1,216 @@
+---
+/**
+ * /faq — ported from livewebstudios.com/faq. All 13 Q/A pairs verbatim except
+ * the EM DASH BAN pass (dashes converted to commas/periods/ellipses). Native
+ * <details> accordions, no JS. FAQPage JSON-LD for rich results.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import VideoBg from "../components/VideoBg.astro";
+
+const categories = [
+  {
+    cat: "Website Design",
+    items: [
+      {
+        q: "How long does it take to build a website?",
+        a: "Most brochure and service sites take 2-4 weeks from kickoff to launch. Larger projects with custom functionality or e-commerce typically run 4-8 weeks. We set a clear timeline at the start and stick to it.",
+      },
+      {
+        q: "Do I own my website when it's done?",
+        a: "100%. Every file, every line of code, every image... yours. We don't hold sites hostage behind proprietary platforms or monthly rental fees. You can host it anywhere and hand it to any developer if you ever need to.",
+      },
+      {
+        q: "Will my site work on mobile phones and tablets?",
+        a: "Every site we build is mobile-first, not an afterthought. We test across devices and screen sizes before anything goes live.",
+      },
+      {
+        q: "What's the difference between a static site and WordPress?",
+        a: "WordPress is a database-driven platform with themes, plugins, and regular updates that can break things. Static HTML sites have no database, no plugins, load 3-5x faster, and have a dramatically smaller attack surface. For most small businesses, a well-built static site outperforms WordPress on every meaningful metric.",
+      },
+    ],
+  },
+  {
+    cat: "SEO & Marketing",
+    items: [
+      {
+        q: "How long does SEO take to work?",
+        a: "Honest answer: 3-6 months to see meaningful movement, 6-12 months for significant results. SEO is a long-term investment. Anyone promising page-one results in 30 days is selling you something. Every action we take moves you in the right direction, and the results compound over time.",
+      },
+      {
+        q: "What's the difference between SEO and paid ads?",
+        a: "Paid ads put you at the top immediately, but the moment you stop paying, you disappear. SEO builds organic rankings that persist and grow over time without ongoing ad spend. Most businesses benefit from both, but SEO delivers better long-term ROI.",
+      },
+      {
+        q: "Do I need to be on Google Business Profile?",
+        a: "Yes, absolutely. For local businesses, your Google Business Profile is often more visible than your website in local searches. We set it up, optimize it, and keep it current as part of our SEO work.",
+      },
+    ],
+  },
+  {
+    cat: "Hosting & Maintenance",
+    items: [
+      {
+        q: "What happens if my site goes down?",
+        a: "We monitor uptime around the clock. If your site goes down, we get alerted and start working immediately, usually before you even notice. Most outages on our managed server are resolved within minutes.",
+      },
+      {
+        q: "Can I move my existing site to your hosting?",
+        a: "Yes. We handle the migration, DNS transfer, and testing. Most migrations are completed with zero downtime.",
+      },
+      {
+        q: "What's included in a maintenance plan?",
+        a: "Uptime monitoring, security scanning, regular backups, content updates (up to a set number of hours per month), and a monthly report on site performance. You get a partner, not a ticket system.",
+      },
+    ],
+  },
+  {
+    cat: "AI Services",
+    items: [
+      {
+        q: "What is an AI Platformed website?",
+        a: "It's a static HTML site built with an AI-assisted pipeline, from content generation and SEO optimization to image production and performance monitoring. Not a chatbot on your site. A fundamentally different way of building your digital presence. Faster. Cleaner. Cheaper to maintain.",
+      },
+      {
+        q: "Is AI-built content good for SEO?",
+        a: "When it's done right, yes. We use AI to draft and optimize content, then review and refine everything before it ships. Google ranks content on quality and relevance, not whether a human or machine wrote the first draft.",
+      },
+      {
+        q: "Do I need to know anything about AI to work with you?",
+        a: "Not a thing. You tell us what your business needs. We figure out where AI helps. You get a better site, faster, at a lower ongoing cost. That's it.",
+      },
+    ],
+  },
+];
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: categories.flatMap((c) =>
+    c.items.map((i) => ({
+      "@type": "Question",
+      name: i.q,
+      acceptedAnswer: { "@type": "Answer", text: i.a },
+    })),
+  ),
+});
+---
+
+<Base
+  title="FAQ | Live Web Studios | Web Design, Hosting, SEO & AI Questions"
+  description="Answers to common questions about website design, hosting, SEO, and AI-platformed builds from Live Web Studios in Saddle Brook, NJ."
+  canonical="https://livewebstudios.com/faq"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">GOT QUESTIONS?</span>
+        <h1 class="page-h1">Frequently Asked <em>Questions</em>.</h1>
+        <p class="page-lede">Based in Saddle Brook, NJ. Serving clients nationwide.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec-pad">
+      <div class="wrap faq-wrap">
+        {categories.map((c) => (
+          <div class="faq-group reveal">
+            <span class="eyebrow">{c.cat.toUpperCase()}</span>
+            {c.items.map((i) => (
+              <details class="faq-item">
+                <summary>
+                  <h2 class="faq-q">{i.q}</h2>
+                  <span class="faq-arrow" aria-hidden="true">▾</span>
+                </summary>
+                <p class="faq-a">{i.a}</p>
+              </details>
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">STILL HAVE A QUESTION?</span>
+          <h2>Call Jon directly. He picks up.</h2>
+        </div>
+        <div class="hero-btns reveal">
+          <a href="contact.html" class="btn btn-primary">Send a message →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script type="application/ld+json" set:html={jsonLd} is:inline />
+</Base>
+
+<style>
+  /* FAQ accordions — scoped, existing tokens only. */
+  .faq-wrap {
+    max-width: 820px;
+  }
+  .faq-group {
+    margin-bottom: 3rem;
+  }
+  .faq-group > .eyebrow {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .faq-item {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(11, 18, 32, 0.4);
+    margin-bottom: 0.7rem;
+    overflow: hidden;
+    transition: border-color 0.3s var(--ease);
+  }
+  .faq-item[open],
+  .faq-item:hover {
+    border-color: rgba(56, 189, 248, 0.35);
+  }
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.3rem;
+    cursor: pointer;
+    list-style: none;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-q {
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.35;
+  }
+  .faq-arrow {
+    color: var(--cyan-soft);
+    flex-shrink: 0;
+    transition: transform 0.25s var(--ease);
+  }
+  .faq-item[open] .faq-arrow {
+    transform: rotate(180deg);
+  }
+  .faq-a {
+    padding: 0 1.3rem 1.2rem;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+</style>

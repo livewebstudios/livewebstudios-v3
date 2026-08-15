@@ -1,0 +1,66 @@
+---
+/**
+ * /ecosystem/live-ai-studios — sister-company page, ported verbatim.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const services = [
+  { ico: "◎", title: "AI Readiness", body: "Where you are. Where you can go." },
+  { ico: "✦", title: "Leadership Briefings", body: "Board-level education." },
+  { ico: "▤", title: "Department Training", body: "Hands-on programs by team." },
+  { ico: "◈", title: "Workflow Automation", body: "Custom design + implementation." },
+  { ico: "▦", title: "Ongoing Strategy", body: "Dedicated AI partner retainer." },
+  { ico: "◧", title: "Industry Programs", body: "Professional services, medical, logistics, finance." },
+];
+---
+
+<Base
+  title="Live AI Studios | Enterprise AI Consulting — Live Web Studios Ecosystem"
+  description="Live AI Studios: enterprise AI consulting, leadership training, and workflow design. A Live Web Studios sister company."
+  canonical="https://livewebstudios.com/ecosystem/live-ai-studios"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">SISTER COMPANY</span>
+        <h1 class="page-h1">AI for Your Business. For <em>Real</em>.</h1>
+        <p class="page-lede">Enterprise AI consulting, leadership training, workflow design.</p>
+        <div class="hero-btns">
+          <a href="https://liveaistudios.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Site →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          {services.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+        <div class="hero-btns reveal">
+          <a href="https://liveaistudios.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Live AI Studios →</a>
+          <a href="../contact.html" class="btn btn-ghost">Reach out.</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
