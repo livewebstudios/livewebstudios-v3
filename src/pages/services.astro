@@ -19,34 +19,34 @@ const groups = [
   {
     label: "WEBSITES & HOSTING",
     cards: [
-      { ico: "◧", title: "Website Design & Development", body: "Hand-coded, mobile-first, SEO-structured, fast.", href: "services/website-design.html", bg: "images/services/card-website-design.png" },
-      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html" },
-      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html" },
-      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Tiered plans from $79/mo. Set it. Don't forget it.", href: "services/maintenance-plans.html" },
+      { ico: "◧", title: "Website Design & Development", body: "Hand-coded, mobile-first, SEO-structured, fast.", href: "services/website-design.html", icon: "images/icons/svc-website-design.png", bg: "images/services/card-website-design.png" },
+      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html", icon: "images/icons/svc-ai-platform.png" },
+      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html", icon: "images/icons/svc-hosting.png" },
+      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Tiered plans from $79/mo. Set it. Don't forget it.", href: "services/maintenance-plans.html", icon: "images/icons/svc-maintenance.png" },
     ],
   },
   {
     label: "GROWTH & VISIBILITY",
     cards: [
-      { ico: "◎", title: "SEO & Digital Marketing", body: "Technical SEO, content, local visibility, monthly reporting.", href: "services/seo.html" },
-      { ico: "▤", title: "Website Audits & Consulting", tag: "NEW", body: "Find out why your site isn't working. Written report + call.", href: "services/consulting.html" },
+      { ico: "◎", title: "SEO & Digital Marketing", body: "Technical SEO, content, local visibility, monthly reporting.", href: "services/seo.html", icon: "images/icons/svc-seo.png" },
+      { ico: "▤", title: "Website Audits & Consulting", tag: "NEW", body: "Find out why your site isn't working. Written report + call.", href: "services/consulting.html", icon: "images/icons/svc-consulting.png" },
     ],
   },
   {
     label: "AI & AUTOMATION",
     cards: [
-      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html" },
-      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html" },
-      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html" },
+      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html", icon: "images/icons/svc-ai-business.png" },
+      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html", icon: "images/icons/svc-ai-workflow.png" },
+      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html", icon: "images/icons/svc-ai-image.png" },
     ],
   },
   {
     label: "BRAND & COMMERCE",
     cards: [
-      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html" },
-      { ico: "✧", title: "Logo Design & Graphics", body: "Marks that work at 16px and 16 feet. All file formats.", href: "services/logo-design.html", bg: "images/services/card-logo-design.png" },
-      { ico: "⬢", title: "E-Commerce Solutions", body: "WooCommerce, Shopify, custom storefronts. Built to convert.", href: "services/ecommerce.html", bg: "images/services/card-ecommerce.png" },
-      { ico: "✷", title: "Custom Styles & Carousel Cards", tag: "NEW", body: "Archie, Mid-Century American & Pop-Art graphic sets for hero panels, carousels, and feature cards.", href: "services/custom-styles-and-carousel-cards.html" },
+      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html", icon: "images/icons/svc-branding.png" },
+      { ico: "✧", title: "Logo Design & Graphics", body: "Marks that work at 16px and 16 feet. All file formats.", href: "services/logo-design.html", icon: "images/icons/svc-logo-design.png", bg: "images/services/card-logo-design.png" },
+      { ico: "⬢", title: "E-Commerce Solutions", body: "WooCommerce, Shopify, custom storefronts. Built to convert.", href: "services/ecommerce.html", icon: "images/icons/svc-ecommerce.png", bg: "images/services/card-ecommerce.png" },
+      { ico: "✷", title: "Custom Styles & Carousel Cards", tag: "NEW", body: "Archie, Mid-Century American & Pop-Art graphic sets for hero panels, carousels, and feature cards.", href: "services/custom-styles-and-carousel-cards.html", icon: "images/icons/svc-custom-styles.png" },
     ],
   },
 ];
@@ -113,7 +113,7 @@ const faqs = [
                     <img class="card-bg-img" src={c.bg} alt="" loading="lazy" decoding="async" />
                     <div class="card-bg-scrim" aria-hidden="true"></div>
                     <div class="card-pad card-bg-content">
-                      <div class="ico">{c.ico}</div>
+                      <img class="ico-img" src={c.icon} alt="" width="72" height="72" loading="lazy" decoding="async" />
                       <h3>{c.title}{c.tag && <span class="tag-new">{c.tag}</span>}</h3>
                       <p>{c.body}</p>
                       <a class="more" href={c.href}>SEE DETAILS →</a>
@@ -122,7 +122,7 @@ const faqs = [
                 ) : (
                   <div class="card reveal">
                     <Glass variant="inner" innerClass="card-pad">
-                      <div class="ico">{c.ico}</div>
+                      <img class="ico-img" src={c.icon} alt="" width="72" height="72" loading="lazy" decoding="async" />
                       <h3>{c.title}{c.tag && <span class="tag-new">{c.tag}</span>}</h3>
                       <p>{c.body}</p>
                       <a class="more" href={c.href}>SEE DETAILS →</a>
@@ -233,11 +233,17 @@ const faqs = [
   }
   .card-bg-img {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    inset: -6%;
+    width: 112%;
+    height: 112%;
     object-fit: cover;
     z-index: 0;
+    transition: transform 1.6s var(--ease);
+    will-change: transform;
+  }
+  /* Clouds drift on hover (slow pan + gentle zoom) */
+  .card--bg:hover .card-bg-img {
+    transform: translate3d(-2.5%, -2%, 0) scale(1.06);
   }
   .card-bg-scrim {
     position: absolute;
@@ -254,5 +260,16 @@ const faqs = [
   }
   .card-bg-content .more {
     margin-top: auto;
+  }
+
+  /* AI-generated icon tiles (flat two-tone, logo blue #00A8D0 on dark navy) */
+  .ico-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    margin-bottom: 1.2rem;
+    display: block;
+    object-fit: cover;
   }
 </style>

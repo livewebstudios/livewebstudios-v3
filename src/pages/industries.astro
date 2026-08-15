@@ -15,16 +15,16 @@ import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
 
 const industries = [
-  { ico: "◎", title: "Healthcare", body: "HIPAA-aware websites for medical practices, clinics, and health organizations.", slug: "healthcare" },
-  { ico: "❖", title: "Law Firm", body: "Professional websites for law firms. Practice area pages, intake forms, local SEO.", slug: "law-firm" },
-  { ico: "◈", title: "Financial Services", body: "Websites for financial advisors, CPAs, and wealth management firms.", slug: "financial-services" },
-  { ico: "⛭", title: "Construction", body: "Project showcase sites for contractors, builders, and construction companies.", slug: "construction" },
-  { ico: "◧", title: "Real Estate", body: "Listing-ready websites for brokers, agents, and property management.", slug: "real-estate" },
-  { ico: "▦", title: "Manufacturing", body: "Catalog and capability sites for manufacturers and industrial businesses.", slug: "manufacturing" },
-  { ico: "✦", title: "Dental", body: "Patient-focused websites for dental practices with online booking integration.", slug: "dental" },
-  { ico: "✧", title: "Nonprofit", body: "Mission-driven websites for nonprofits, schools, and community organizations.", slug: "nonprofit" },
-  { ico: "⬡", title: "B2B", body: "Lead-generation websites for B2B companies and professional services.", slug: "b2b" },
-  { ico: "◉", title: "Insurance", body: "Quote-ready websites for insurance agencies and brokers.", slug: "insurance" },
+  { ico: "◎", title: "Healthcare", body: "HIPAA-aware websites for medical practices, clinics, and health organizations.", slug: "healthcare", icon: "images/icons/ind-healthcare.png" },
+  { ico: "❖", title: "Law Firm", body: "Professional websites for law firms. Practice area pages, intake forms, local SEO.", slug: "law-firm", icon: "images/icons/ind-law-firm.png" },
+  { ico: "◈", title: "Financial Services", body: "Websites for financial advisors, CPAs, and wealth management firms.", slug: "financial-services", icon: "images/icons/ind-financial-services.png" },
+  { ico: "⛭", title: "Construction", body: "Project showcase sites for contractors, builders, and construction companies.", slug: "construction", icon: "images/icons/ind-construction.png" },
+  { ico: "◧", title: "Real Estate", body: "Listing-ready websites for brokers, agents, and property management.", slug: "real-estate", icon: "images/icons/ind-real-estate.png" },
+  { ico: "▦", title: "Manufacturing", body: "Catalog and capability sites for manufacturers and industrial businesses.", slug: "manufacturing", icon: "images/icons/ind-manufacturing.png" },
+  { ico: "✦", title: "Dental", body: "Patient-focused websites for dental practices with online booking integration.", slug: "dental", icon: "images/icons/ind-dental.png" },
+  { ico: "✧", title: "Nonprofit", body: "Mission-driven websites for nonprofits, schools, and community organizations.", slug: "nonprofit", icon: "images/icons/ind-nonprofit.png" },
+  { ico: "⬡", title: "B2B", body: "Lead-generation websites for B2B companies and professional services.", slug: "b2b", icon: "images/icons/ind-b2b.png" },
+  { ico: "◉", title: "Insurance", body: "Quote-ready websites for insurance agencies and brokers.", slug: "insurance", icon: "images/icons/ind-insurance.png" },
 ];
 
 // FAQ — ported verbatim (em dashes converted to colons/commas/periods).
@@ -84,7 +84,7 @@ const faqs = [
           {industries.map((i) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{i.ico}</div>
+                <img class="ico-img" src={i.icon} alt="" width="72" height="72" loading="lazy" decoding="async" />
                 <h3>{i.title}</h3>
                 <p>{i.body}</p>
                 <a class="more" href={`industries/${i.slug}.html`}>SEE DETAILS →</a>
@@ -168,5 +168,16 @@ const faqs = [
     padding: 0 1.3rem 1.2rem;
     color: var(--muted);
     max-width: 68ch;
+  }
+
+  /* AI-generated icon tiles (flat two-tone, logo blue #00A8D0 on dark navy) */
+  .ico-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    margin-bottom: 1.2rem;
+    display: block;
+    object-fit: cover;
   }
 </style>
