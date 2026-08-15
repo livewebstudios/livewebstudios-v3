@@ -1,0 +1,78 @@
+---
+/**
+ * /services/ai-workflow — ported from the live site
+ * (livewebstudios.com/services/ai-workflow). Rebuilt on v3 layouts/components.
+ * Hero illustration dropped per no-image rule. No em dashes in body copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const cards = [
+  { ico: "▤", title: "Content Pipelines", body: "Blog, social, product descriptions." },
+  { ico: "✦", title: "Customer Comms", body: "Templates, triage, responses." },
+  { ico: "▦", title: "Reporting", body: "Weekly & monthly summaries." },
+  { ico: "❖", title: "Lead Qualification", body: "Scoring, follow-up sequences." },
+  { ico: "◈", title: "Image Processing", body: "Bulk editing, backgrounds." },
+  { ico: "◎", title: "SEO Monitoring", body: "Position tracking, alerts." },
+];
+---
+
+<Base
+  title="AI Workflow Automation | Live Web Studios"
+  description="Automate content, communications, reporting, and lead qualification with AI workflows built for SMBs. AI automation from Live Web Studios, Saddle Brook, NJ."
+  canonical="https://livewebstudios.com/services/ai-workflow"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">NEW IN 2026</span>
+        <h1 class="page-h1">Stop Doing Things AI Can Do <em>Better</em>.</h1>
+        <p class="page-lede">AI workflow automation for SMBs.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Map Your Workflows →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKFLOW CARDS -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          {cards.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to Get Time Back?</h2>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Talk Workflows →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

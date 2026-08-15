@@ -1,0 +1,131 @@
+---
+/**
+ * /industries/construction — ported from live construction.html.
+ * Imports TWO dots up; links "../services/*.html", "../contact.html",
+ * "../industries.html". COPY RULES: em dashes converted (marked <!-- em-dash -->);
+ * "Learn More" → "SEE DETAILS →"; free-consultation CTA line reworded. Images
+ * dropped; Glass portrait placeholder stands in. Smart quotes normalized.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const services = [
+  { ico: "◧", title: "Website Design", body: "Project galleries, service pages, and conversion-focused structure.", href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local visibility for \"service + town\" searches that actually drive calls.", href: "../services/seo.html" },
+  { ico: "▦", title: "AI Image Services", body: "Cleaner, more consistent project photos for a premium first impression.", href: "../services/ai-image.html" },
+];
+
+const builds = [
+  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for construction audiences." },
+  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
+  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
+  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
+  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
+  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+];
+---
+
+<Base
+  title="Construction Web Design | Live Web Studios"
+  description="Project showcase sites for contractors, builders, and construction companies."
+  canonical="https://livewebstudios.com/industries/construction"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">CONSTRUCTION</span>
+        <h1 class="page-h1">Show the Work. <em>Win the Job.</em></h1>
+        <p class="page-lede">Project showcase websites for contractors and builders. Fast, mobile-first, and built to rank in your service area.</p>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">CONSTRUCTION</span>
+          <div class="sec-head is-flush"><h2>Why Construction Businesses Choose LWS</h2></div>
+          <p>Construction buyers don't "browse." They shortlist. Homeowners, property managers, and GCs want proof fast: what you build, how clean the work is, and whether you're local and reliable. If your site buries your portfolio, loads slowly on a phone, or looks like every other contractor template, you're losing jobs before you even get the call.</p>
+          <!-- em-dash: "you actually want—kitchens" → "you actually want: kitchens"; "the foundation—titles" → "the foundation: titles" -->
+          <p>We build construction websites that lead with the work. Big, fast-loading project galleries, clear service-area targeting, and pages built around the jobs you actually want: kitchens, additions, commercial build-outs, roofing, siding, you name it. SEO isn't an add-on here; it's the foundation: titles, headings, schema, and a structure Google can understand.</p>
+          <!-- em-dash: "feels steadier—and a brand" → "feels steadier, and a brand" -->
+          <p>Most contractors see the same pattern after launch: more calls from "ready now" prospects, better quality leads from local search, and fewer tire-kickers because the site answers the basics up front. The end result is a pipeline that feels steadier, and a brand that commands better pricing.</p>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">⛭</div>
+          <div class="mark">CONSTRUCTION</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SERVICES</span>
+          <h2>Services We Provide for Construction Companies</h2>
+        </div>
+        <p class="page-lede is-center mb-lg">Portfolio-forward design, local rankings, and imagery that sells the quality of your work.</p>
+        <div class="grid-svc">
+          {services.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+                <a class="more" href={c.href}>SEE DETAILS →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE BUILD -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT WE BUILD</span>
+          <h2>What We Build for Construction</h2>
+        </div>
+        <div class="grid-svc">
+          {builds.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to Upgrade Your Construction Website?</h2>
+          <p>Let's talk about your construction website.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Get a Proposal →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+          <p class="more"><a href="../industries.html">← All industries</a></p>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

@@ -1,0 +1,105 @@
+---
+/**
+ * /services/ai-business-services — ported from the live site
+ * (livewebstudios.com/services/ai-business-services). Rebuilt on v3
+ * layouts/components. Hero illustration dropped per no-image rule.
+ * EM DASH BAN applied. The "Live AI Studios" card links to an /ecosystem
+ * page not yet ported to v3 (flagged in the port report).
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const cards = [
+  { ico: "◈", title: "Strategy & Roadmap", body: "Assess where you are and map which AI tools will move the needle. Real ROI analysis." },
+  { ico: "✦", title: "Team Training", body: "From AI basics to prompt engineering. Half-day, full-day, or monthly." },
+  { ico: "⛭", title: "Tool Selection", body: "We cut through the noise and implement what fits." },
+  { ico: "⬡", title: "Custom Workflows", body: "Content, comms, docs, reporting, automated and scalable." },
+  { ico: "❖", title: "Ongoing Consulting", body: "Monthly retainer. Dedicated AI partner." },
+];
+---
+
+<Base
+  title="AI Business Services | Live Web Studios"
+  description="AI strategy, team training, tool selection, and custom workflow automation for businesses. AI consulting from Live Web Studios, Saddle Brook, NJ."
+  canonical="https://livewebstudios.com/services/ai-business-services"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">NEW IN 2026</span>
+        <h1 class="page-h1">AI Isn't <em>Optional</em> Anymore.</h1>
+        <p class="page-lede">For companies that want to lead, not follow.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Book a Strategy Call →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT AI CAN DO -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="copy reveal">
+          <span class="eyebrow">WHAT AI CAN ACTUALLY DO FOR YOUR BUSINESS</span>
+          <div class="sec-head is-flush"><h2>AI Isn't Coming for Your Business. But Your Competitors Using It Might Be.</h2></div>
+          <!-- em-dash: "better funded — they're moving faster" → "better funded. They're moving faster" -->
+          <p>The businesses winning right now aren't necessarily bigger or better funded. They're moving faster. They're using AI to produce content in hours instead of weeks, respond to leads in minutes instead of days, and analyze performance data without hiring a data analyst. If your competitors have figured this out and you haven't, the gap will only grow.</p>
+          <!-- em-dash: "keeps changing — which it does" → "keeps changing, which it does" -->
+          <p>Our AI business services aren't about hype or demos. We sit down with your team, map your actual workflows, find the places where AI saves real time and money, and implement the right tools. We train your staff to use them. And we stay on as the technology keeps changing, which it does, constantly.</p>
+          <p>This isn't a one-size-fits-all package. Every project starts with an honest look at where AI can actually help your specific business. If it can't, we'll tell you that too.</p>
+          <p>See how AI is changing website builds with our <a href="ai-platform.html">LWS AI Platform →</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICE CARDS -->
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-blue-fog.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          {cards.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+          <div class="card reveal">
+            <Glass variant="inner" innerClass="card-pad">
+              <div class="ico">◎</div>
+              <span class="tag-new">SISTER CO.</span>
+              <h3>Live AI Studios</h3>
+              <p>Enterprise-level consulting.</p>
+              <a class="more" href="../live-ai-studios.html">VISIT →</a>
+            </Glass>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready for an Honest AI Assessment?</h2>
+          <p>30 minutes. No deck.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Book a Call →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

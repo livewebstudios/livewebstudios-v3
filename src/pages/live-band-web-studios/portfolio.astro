@@ -1,0 +1,149 @@
+---
+/**
+ * /live-band-web-studios/portfolio — ported from the live site
+ * (livewebstudios.com/live-band-web-studios/portfolio). One folder deep (two
+ * dots up on imports). Wrapped in .theme-live-band for the amber accent (token
+ * override reproduced in scoped <style>). No <img>: live thumbnails are
+ * placeholders anyway, rebuilt on the system work-grid / work-thumb--empty
+ * cards. External hrefs kept EXACT. EM DASH BAN applied to all ported copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+// Portfolio cards — ported (placeholder bios kept; em dashes converted). Cards
+// without a live URL (href null) render a non-link thumb and no VIEW SITE link.
+const work = [
+  {
+    cat: "TOURING / PRO",
+    name: "THE BRITISH INVASION YEARS",
+    genre: "British Invasion Tribute · Tri-State / National",
+    // em-dash: "[Jon to provide — 2-3 sentences...]" → comma
+    desc: "[Jon to provide, 2-3 sentences about the band, markets, notable venues]",
+    href: null,
+  },
+  {
+    cat: "TOURING / PRO",
+    name: "WINSLOW EAGLES TRIBUTE",
+    genre: "Eagles Tribute · Northeast / Regional",
+    desc: "[Jon to provide, 2-3 sentences]",
+    href: "https://winsloweaglestribute.com",
+  },
+  {
+    cat: "PERSONAL SITE",
+    name: "JONWOLFNJ.COM",
+    genre: "Personal Musician Site · North Jersey",
+    desc: "[Jon to provide, 2-3 sentences]",
+    href: null,
+  },
+];
+
+// SEO cards — shared Live Band SEO block (em dashes converted).
+const seo = [
+  { ico: "⟨⟩", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
+  { ico: "◎", title: "The Words People Type", body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page." },
+  { ico: "▤", title: "Blog Articles Engines Love", body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings." },
+];
+---
+
+<Base
+  title="Portfolio | Live Band Web Studios"
+  description="Real band websites. Real results. See the work."
+  canonical="https://livewebstudios.com/live-band-web-studios/portfolio"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">THE WORK</span>
+        <h1 class="page-h1"><em>The Work</em>.</h1>
+        <p class="page-lede">Every site here was built from scratch. Not from a template. Not from a page builder.</p>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO GRID -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="work-grid">
+          {work.map((w) => (
+            <article class="work-card reveal">
+              {w.href ? (
+                <a class="work-thumb work-thumb--empty" href={w.href} target="_blank" rel="noopener noreferrer">
+                  <span>{w.genre}</span>
+                </a>
+              ) : (
+                <div class="work-thumb work-thumb--empty">
+                  <span>{w.genre}</span>
+                </div>
+              )}
+              <div class="work-meta">
+                <span class="work-cat">{w.cat}</span>
+                <h2 class="work-title">{w.name}</h2>
+                <p>{w.desc}</p>
+                {w.href ? (
+                  <a class="more" href={w.href} target="_blank" rel="noopener noreferrer">VIEW SITE →</a>
+                ) : (
+                  <span class="more more--muted">SITE COMING SOON</span>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="sec-head center mt-lg reveal">
+          <p class="page-lede is-center">More sites launching in 2026. Portfolio updates as each site goes live.</p>
+          <div class="hero-btns is-center mt-lg">
+            <a class="btn btn-ghost" href="mailto:jonwolf@livewebstudios.com?subject=Band Website Inquiry">Want to Be on This Page? →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO / AI PLATFORM -->
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">FOUND ON GOOGLE, NOT JUST BUILT</span>
+          <h2>SEO Is Baked Into Every Build</h2>
+        </div>
+        <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
+        <div class="grid-svc">
+          {seo.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+        <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Amber sub-brand theming — token override reproduced from live-band-web-studios.astro. */
+  .theme-live-band {
+    --cyan: #fcd34d;
+    --cyan-soft: #fde68a;
+    --cyan-2: #f59e0b;
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  .work-cat { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.16em; color: var(--cyan-soft); display: block; margin-bottom: 0.5rem; }
+  .more--muted { color: var(--muted-2); cursor: default; }
+</style>

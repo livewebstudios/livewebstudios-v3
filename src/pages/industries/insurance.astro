@@ -1,0 +1,132 @@
+---
+/**
+ * /industries/insurance — ported from live insurance.html.
+ * Imports TWO dots up; links "../services/*.html", "../contact.html",
+ * "../industries.html". COPY RULES: em dashes converted (marked <!-- em-dash -->);
+ * "Learn More" → "SEE DETAILS →"; free-consultation CTA line reworded. Images
+ * dropped; Glass portrait placeholder stands in. Smart quotes/ellipsis normalized.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const services = [
+  { ico: "◧", title: "Website Design", body: "Clear quoting paths, mobile-first forms, and trust-forward layout.", href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local rankings and service-page optimization that drives quote requests.", href: "../services/seo.html" },
+  { ico: "⛭", title: "Hosting", body: "Fast hosting and maintenance so your site stays up and stays quick.", href: "../services/hosting.html" },
+];
+
+const builds = [
+  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for insurance audiences." },
+  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
+  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
+  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
+  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
+  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+];
+---
+
+<Base
+  title="Insurance Web Design | Live Web Studios"
+  description="Quote-ready websites for insurance agencies and brokers."
+  canonical="https://livewebstudios.com/industries/insurance"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">INSURANCE</span>
+        <h1 class="page-h1">Get More Quotes. <em>Lose Fewer Leads.</em></h1>
+        <!-- em-dash: "agencies and brokers — mobile-first" → "agencies and brokers, mobile-first" -->
+        <p class="page-lede">Quote-ready websites for insurance agencies and brokers, mobile-first, fast, and built for local search.</p>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">INSURANCE</span>
+          <div class="sec-head is-flush"><h2>Why Insurance Businesses Choose LWS</h2></div>
+          <!-- em-dash: "\"window shop\"—they comparison shop" → "\"window shop.\" They comparison shop"; ellipsis normalized -->
+          <p>Insurance shoppers don't "window shop." They comparison shop. They're looking for answers fast: what you offer, who you cover, and how quickly they can get a quote. If your site is slow, confusing, or hides the next step, you don't just lose a lead... you lose it to a competitor who made it easier.</p>
+          <p>We build insurance websites that are quote-first and trust-first: clear product/service pages (auto, home, life, business), simple navigation, prominent contact options, and forms that work on mobile without making people pinch-zoom like it's 2012. We also structure pages for local SEO so you show up for "insurance agent near me" searches in the towns you actually serve.</p>
+          <!-- em-dash: "lead volume rises—and the leads" → "lead volume rises, and the leads" -->
+          <p>Most agencies see more completed quote requests, fewer abandoned forms, and better quality inbound because the site qualifies prospects up front. When your site is fast, clear, and built to be found, lead volume rises, and the leads get better.</p>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">◉</div>
+          <div class="mark">INSURANCE</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SERVICES</span>
+          <h2>Services We Provide for Insurance Agencies</h2>
+        </div>
+        <p class="page-lede is-center mb-lg">Quote-ready UX, local visibility, and a site that builds credibility fast.</p>
+        <div class="grid-svc">
+          {services.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+                <a class="more" href={c.href}>SEE DETAILS →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE BUILD -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT WE BUILD</span>
+          <h2>What We Build for Insurance</h2>
+        </div>
+        <div class="grid-svc">
+          {builds.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to Upgrade Your Insurance Website?</h2>
+          <p>Let's talk about your insurance website.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Get a Proposal →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+          <p class="more"><a href="../industries.html">← All industries</a></p>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

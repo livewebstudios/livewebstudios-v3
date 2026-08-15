@@ -8,6 +8,8 @@
  * support rows (Live Web Photos, Live AI Studios).
  */
 import Glass from "./Glass.astro";
+import { relPrefix } from "../lib/relPrefix";
+const rel = relPrefix(Astro.url.pathname);
 ---
 
 <div class="mega" id="studios-panel" role="region" aria-label="Studios">
@@ -18,13 +20,13 @@ import Glass from "./Glass.astro";
     </div>
 
     <div class="mega-headliners">
-      <a class="mega-card mega-card--band" href="live-band-web-studios.html">
+      <a class="mega-card mega-card--band" href={`${rel}live-band-web-studios.html`}>
         <span class="mega-kicker">HEADLINER</span>
         <span class="mega-name">LIVE BAND WEB STUDIOS</span>
         <span class="mega-hook">Sites for bands and artists who play live.</span>
         <span class="mega-go">See the stage</span>
       </a>
-      <a class="mega-card mega-card--namesake" href="namesake.html">
+      <a class="mega-card mega-card--namesake" href={`${rel}namesake.html`}>
         <span class="mega-kicker">HEADLINER</span>
         <span class="mega-name">NAMESAKE</span>
         <span class="mega-hook">A sharp personal site for solo pros.</span>
@@ -33,11 +35,11 @@ import Glass from "./Glass.astro";
     </div>
 
     <div class="mega-support">
-      <a class="mega-row" href="live-web-photos.html">
+      <a class="mega-row" href={`${rel}live-web-photos.html`}>
         <span class="mega-row-title">LIVE WEB PHOTOS</span>
         <span class="mega-row-sub">AI IMAGE ENHANCEMENT</span>
       </a>
-      <a class="mega-row" href="live-ai-studios.html">
+      <a class="mega-row" href={`${rel}live-ai-studios.html`}>
         <span class="mega-row-title">LIVE AI STUDIOS</span>
         <span class="mega-row-sub">AI BUILDS &amp; AUTOMATION</span>
       </a>

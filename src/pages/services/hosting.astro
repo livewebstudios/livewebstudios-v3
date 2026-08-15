@@ -1,0 +1,99 @@
+---
+/**
+ * /services/hosting — ported from the live site
+ * (livewebstudios.com/services/hosting). Rebuilt on v3 layouts/components.
+ * Hero illustration dropped per no-image rule. EM DASH BAN applied.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const features = [
+  { ico: "⬡", title: "Managed VPS", body: "Your own environment." },
+  { ico: "✦", title: "LiteSpeed", body: "Fast. Period." },
+  { ico: "⛭", title: "Free SSL", body: "Encrypted by default." },
+  { ico: "◎", title: "Daily Backups", body: "Offsite on Backblaze." },
+  { ico: "❖", title: "Security", body: "Hidden logins, brute force protection." },
+  { ico: "▦", title: "Monthly Reports", body: "Uptime + SEO performance." },
+];
+---
+
+<Base
+  title="Hosting & Maintenance | Live Web Studios"
+  description="Managed VPS hosting with LiteSpeed, daily backups, SSL, and security hardening. Expert website maintenance from Live Web Studios, Saddle Brook, NJ."
+  canonical="https://livewebstudios.com/services/hosting"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-blue-fog.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">HOSTING</span>
+        <h1 class="page-h1">Your Site. Up. <em>Always</em>.</h1>
+        <p class="page-lede">Managed hosting &amp; maintenance.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Get Hosting →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY HOSTING MATTERS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="copy reveal">
+          <span class="eyebrow">WHY HOSTING MATTERS</span>
+          <div class="sec-head is-flush"><h2>Your Hosting Is Either Working for You or Against You</h2></div>
+          <!-- em-dash: "your visitors — it actively hurts" → "your visitors, it actively hurts" -->
+          <p>Hosting is the foundation your website sits on. Cheap shared hosting means you share a server with hundreds of other sites. When they get traffic spikes, your site slows down. When they get hacked, the whole server is at risk. Page speed is a direct Google ranking factor, so slow hosting doesn't just frustrate your visitors, it actively hurts your SEO.</p>
+          <!-- em-dash: "through KnownHost — one of the most" → "through KnownHost, one of the most" -->
+          <p>We host client sites on a managed VPS (Virtual Private Server) through KnownHost, one of the most reliable hosting providers in the industry. Your site gets its own dedicated resources, LiteSpeed web server technology, daily backups stored offsite on Backblaze, SSL encryption, and active security hardening. We monitor uptime around the clock and handle all technical maintenance so you never have to think about it.</p>
+          <p>Every hosted site benefits from regular <a href="seo.html">SEO monitoring →</a>, included in our Standard and Premium maintenance plans.</p>
+          <p>Every hosting client gets a monthly report showing uptime statistics, security scan results, and basic SEO performance. You stay informed without having to lift a finger.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTION-GRADE HOSTING -->
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">INCLUDED</span>
+          <h2>Production-Grade Hosting</h2>
+        </div>
+        <div class="grid-svc">
+          {features.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Done With Hosting Headaches?</h2>
+          <p>We handle the tech. You run your business.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Move to LWS →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

@@ -1,0 +1,79 @@
+---
+/**
+ * /services/ai-image — ported from the live site
+ * (livewebstudios.com/services/ai-image). Rebuilt on v3 layouts/components.
+ * Hero illustration dropped per no-image rule. No em dashes in body copy.
+ * The closing CTA links to an /ecosystem page (Live Web Photos) not yet
+ * ported to v3 (flagged in the port report).
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const cards = [
+  { ico: "⬢", title: "For E-Commerce", body: "Bulk background removal, product staging, consistent lighting." },
+  { ico: "✦", title: "For Real Estate", body: "Virtual staging, sky replacement, mood transformation." },
+  { ico: "❖", title: "For Professionals", body: "AI headshots. One session, infinite applications." },
+  { ico: "✎", title: "For Designers", body: "Scene composition, mood adjustment, palette matching." },
+];
+---
+
+<Base
+  title="AI Image Manipulation | Live Web Studios"
+  description="Bulk product photos, virtual staging, and AI headshots, studio-quality at scale. AI image services from Live Web Studios, Saddle Brook, NJ."
+  canonical="https://livewebstudios.com/services/ai-image"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">NEW IN 2026</span>
+        <h1 class="page-h1">Studio-Quality Photos. <em>Without a Studio.</em></h1>
+        <p class="page-lede">AI image manipulation &amp; bulk production.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Get Started →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- USE-CASE CARDS -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          {cards.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Need Photos at Scale?</h2>
+          <p>Visit our sister company Live Web Photos.</p>
+          <div class="hero-btns">
+            <a href="../live-web-photos.html" class="btn btn-primary">Visit livewebphotos.com →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

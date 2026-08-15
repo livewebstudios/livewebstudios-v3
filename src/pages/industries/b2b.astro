@@ -1,0 +1,133 @@
+---
+/**
+ * /industries/b2b — ported from live b2b.html.
+ * Imports TWO dots up; links "../services/*.html", "../contact.html",
+ * "../industries.html". COPY RULES: em dashes converted (marked <!-- em-dash -->);
+ * "Learn More" → "SEE DETAILS →"; free-consultation CTA line reworded. Images
+ * dropped; Glass portrait placeholder stands in. Smart quotes normalized.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const services = [
+  { ico: "◧", title: "Website Design", body: "Positioning, structure, and UX that guides buyers to the next step.", href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Visibility for the keywords your buyers search before they ever email you.", href: "../services/seo.html" },
+  { ico: "▤", title: "Audits & Consulting", body: "Find what's blocking conversions and rankings, then fix it with a plan.", href: "../services/consulting.html" },
+];
+
+const builds = [
+  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for B2B audiences." },
+  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
+  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
+  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
+  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
+  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+];
+---
+
+<Base
+  title="B2B Web Design | Live Web Studios"
+  description="Lead-generation websites for B2B companies and professional services."
+  canonical="https://livewebstudios.com/industries/b2b"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">B2B</span>
+        <h1 class="page-h1">Your Business Clients Are <em>Researching You Right Now.</em></h1>
+        <!-- em-dash: "for B2B companies — built to rank" → "for B2B companies, built to rank" -->
+        <p class="page-lede">Lead-generation websites for B2B companies, built to rank, convert, and represent your brand at the highest level.</p>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">B2B</span>
+          <div class="sec-head is-flush"><h2>Why B2B Businesses Choose LWS</h2></div>
+          <!-- em-dash: "build a shortlist—often before" → "build a shortlist, often before" -->
+          <p>B2B buyers don't impulse-buy. They research, compare, and build a shortlist, often before you ever hear from them. That means your website has one job: clearly explain what you do, who you do it for, and why you're the safe choice. If your messaging is vague or your site feels outdated, you'll never make the list.</p>
+          <!-- em-dash: "decision-makers use—not just" → "decision-makers use, not just" -->
+          <p>We build B2B websites that sell without sounding salesy: clear positioning, simple navigation, service pages that answer real buyer questions, and proof you can back up (case studies, outcomes, process). Then we structure it for search so you show up for the exact terms decision-makers use, not just your company name.</p>
+          <!-- em-dash: "referrals and outbound—when people click" → "referrals and outbound. When people click" -->
+          <p>In this space, the usual wins are better-qualified inbound leads, shorter sales cycles (because prospects arrive educated), and improved conversion from referrals and outbound. When people click your link, they don't bounce. The result is a site that acts like a serious business development asset, not a brochure.</p>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">⬡</div>
+          <div class="mark">B2B</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SERVICES</span>
+          <h2>Services We Provide for B2B Companies</h2>
+        </div>
+        <p class="page-lede is-center mb-lg">Messaging clarity, search visibility, and a site built to convert serious buyers.</p>
+        <div class="grid-svc">
+          {services.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+                <a class="more" href={c.href}>SEE DETAILS →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE BUILD -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT WE BUILD</span>
+          <h2>What We Build for B2B</h2>
+        </div>
+        <div class="grid-svc">
+          {builds.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to Upgrade Your B2B Website?</h2>
+          <p>Let's talk about your B2B website.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Get a Proposal →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+          <p class="more"><a href="../industries.html">← All industries</a></p>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

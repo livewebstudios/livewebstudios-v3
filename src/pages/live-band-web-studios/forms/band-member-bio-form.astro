@@ -1,0 +1,578 @@
+---
+/**
+ * /live-band-web-studios/forms/band-member-bio-form — ported from the live
+ * site (livewebstudios.com/live-band-web-studios/forms/band-member-bio-form).
+ *
+ * FORM MECHANICS PRESERVED EXACTLY. Real Formspree endpoint
+ * (https://formspree.io/f/mojbzzak), POST, the live AJAX-submit +
+ * inline-success mechanism, and the consent-button group that writes the
+ * hidden posting_consent field are all reproduced verbatim. Every field
+ * name= attribute is unchanged (checkbox groups keep their shared names so
+ * Formspree receives every value). Rebuilt on v3 layouts/components in the
+ * amber .theme-live-band system. EM DASH BAN applied to visible copy;
+ * <option> text and consent data-val strings are left verbatim because they
+ * are the submitted payload values.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Glass from "../../../components/Glass.astro";
+import VideoBg from "../../../components/VideoBg.astro";
+---
+
+<Base
+  title="Band Member Bio Form | Live Band Web Studios"
+  description="Individual band member intake form for Live Band Web Studios. Gear, history, influences, and your story. Fill in what you've got, goes directly to Jon Wolf."
+  canonical="https://livewebstudios.com/live-band-web-studios/forms/band-member-bio-form"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- HERO -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">MEMBER INTAKE</span>
+        <h1 class="page-h1">Tell Us Your <em>Story</em>.</h1>
+        <p class="page-lede">Fill in what you've got. Skip what you don't. The more you give us, the better the bio, the EPK, and the site copy.</p>
+        <p class="page-lede optnote">Every field is optional. No required fields. No asterisks. No pressure.</p>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="strong" />
+      <div class="wrap form-wrap">
+        <!-- Inline success screen, shown by the AJAX handler on a 200 -->
+        <div id="success-screen" class="form-success reveal">
+          <div class="big">We Got It.</div>
+          <p>Jon will take it from here. Check your email if you included one.</p>
+          <a class="btn btn-ghost back-link" href="../../live-band-web-studios.html">Back to Live Band Web Studios</a>
+        </div>
+
+        <Glass class="reveal" innerClass="form-pad">
+          <!-- Real live Formspree endpoint + method preserved verbatim -->
+          <form id="bioForm" action="https://formspree.io/f/mojbzzak" method="POST">
+
+            <!-- 1 — THE BASICS -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">01 · THE BASICS</span>
+                <h2>The Basics</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="full_name">Full Name</label>
+                  <input type="text" id="full_name" name="full_name" placeholder="The name on stage" />
+                </div>
+                <div class="field">
+                  <label for="stage_name">Stage Name / Nickname</label>
+                  <input type="text" id="stage_name" name="stage_name" placeholder="What the band calls you" />
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="Booking / contact email" />
+                </div>
+                <div class="field">
+                  <label for="phone">Phone</label>
+                  <input type="tel" id="phone" name="phone" placeholder="For the advance sheet" />
+                </div>
+                <div class="field">
+                  <label for="hometown">Hometown / Where You're Based</label>
+                  <input type="text" id="hometown" name="hometown" placeholder="City, State" />
+                </div>
+                <div class="field">
+                  <!-- em-dash: placeholder "Roughly — no pressure" -> comma -->
+                  <label for="years_pro">Years Playing Professionally</label>
+                  <input type="text" id="years_pro" name="years_pro" placeholder="Roughly, no pressure" />
+                </div>
+                <div class="field full">
+                  <!-- em-dash: "One-liner — how would you describe yourself" -> comma -->
+                  <label for="one_liner">One-liner, how would you describe yourself as a musician?</label>
+                  <input type="text" id="one_liner" name="one_liner" placeholder="The shortest version of your musical identity" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 2 — INSTRUMENTS & ROLE -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">02 · INSTRUMENTS & ROLE</span>
+                <h2>Instruments &amp; Role in the Band</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <fieldset class="field full">
+                  <legend class="field-legend">Primary Instrument(s), check all that apply</legend>
+                  <div class="opt-chips">
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Lead Vocals" /> Lead Vocals</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Background Vocals" /> Background Vocals</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Guitar" /> Guitar</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Acoustic Guitar" /> Acoustic Guitar</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Bass" /> Bass</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Drums" /> Drums</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Keys / Piano" /> Keys / Piano</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Organ" /> Organ</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Synth" /> Synth</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Horns" /> Horns</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Violin / Strings" /> Violin / Strings</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Pedal Steel" /> Pedal Steel</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Lap Steel" /> Lap Steel</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Harmonica" /> Harmonica</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Banjo / Mandolin" /> Banjo / Mandolin</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Turntables / DJ" /> Turntables / DJ</label>
+                    <label class="opt-chip"><input type="checkbox" name="instrument" value="Other" /> Other</label>
+                  </div>
+                </fieldset>
+                <fieldset class="field full">
+                  <legend class="field-legend">Role(s) in this Band, check all that apply</legend>
+                  <div class="opt-chips">
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Lead Vocalist" /> Lead Vocalist</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Background Vocalist" /> Background Vocalist</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Lead Guitarist" /> Lead Guitarist</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Rhythm Guitarist" /> Rhythm Guitarist</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Bassist" /> Bassist</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Drummer" /> Drummer</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Keyboardist" /> Keyboardist</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Multi-Instrumentalist" /> Multi-Instrumentalist</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Bandleader / MD" /> Bandleader / MD</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Horn Section" /> Horn Section</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Percussionist" /> Percussionist</label>
+                    <label class="opt-chip"><input type="checkbox" name="band_role" value="Other" /> Other</label>
+                  </div>
+                </fieldset>
+                <div class="field full">
+                  <label for="other_instruments">Other instruments / anything else you play</label>
+                  <input type="text" id="other_instruments" name="other_instruments" placeholder="Grab bag, anything counts" />
+                </div>
+                <div class="field full">
+                  <label for="songwriting">Do you contribute to songwriting?</label>
+                  <select id="songwriting" name="songwriting">
+                    <option value="">Select...</option>
+                    <!-- option text = submitted value; em dash kept verbatim for payload fidelity -->
+                    <option>Yes — primary writer</option>
+                    <option>Yes — co-writer</option>
+                    <option>Sometimes / collaboratively</option>
+                    <option>Not in this project</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3 — GEAR & RIG -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">03 · GEAR & RIG</span>
+                <h2>Gear &amp; Rig</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <!-- em-dash: "Main live rig — what are you running" -> comma -->
+                  <label for="live_rig">Main live rig, what are you running on stage?</label>
+                  <textarea id="live_rig" name="live_rig" rows="3" placeholder="Amps, boards, keys, in-ears, whatever's in your world. Brands and models if you've got them."></textarea>
+                </div>
+                <div class="field full">
+                  <!-- em-dash: placeholder "hardware — whatever's on your desk" -> comma -->
+                  <label for="studio_rig">Studio / recording setup</label>
+                  <textarea id="studio_rig" name="studio_rig" rows="3" placeholder="DAW, interface, go-to plugins, hardware, whatever's on your desk."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="guitars">Guitar(s) you're known for <span class="opt">(add as many as you want, one per line)</span></label>
+                  <textarea id="guitars" name="guitars" rows="5" placeholder="Les Paul, Strat, Tele, ES-335, signature model..."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="keys_gear">Keys / Synths <span class="opt">(add as many as you want, one per line)</span></label>
+                  <textarea id="keys_gear" name="keys_gear" rows="5" placeholder="Nord Electro, Korg Kronos, Moog, Mainstage rig..."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="amps">Amps <span class="opt">(add as many as you want, one per line)</span></label>
+                  <textarea id="amps" name="amps" rows="5" placeholder="Marshall JCM800, Fender Twin, Mesa Boogie, Kemper..."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="drum_gear">Drum kit / cymbals <span class="opt">(add as many as you want, one per line)</span></label>
+                  <textarea id="drum_gear" name="drum_gear" rows="5" placeholder="DW Collector's, Pearl Masters, Zildjian A Custom hats..."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="gear_story">Any gear story worth telling?</label>
+                  <textarea id="gear_story" name="gear_story" rows="3" placeholder="Vintage find, went on the road with it for 20 years, broke down at a show..."></textarea>
+                </div>
+                <div class="field">
+                  <label for="monitor_pref">In-ears or wedges?</label>
+                  <select id="monitor_pref" name="monitor_pref">
+                    <option value="">Select...</option>
+                    <!-- option text = submitted value; em dash kept verbatim for payload fidelity -->
+                    <option>In-ears (IEM) — always</option>
+                    <option>Wedges — always</option>
+                    <option>Either — depends on the gig</option>
+                    <option>I don't care, just make it loud</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="travel_rig">Do you travel with your rig?</label>
+                  <select id="travel_rig" name="travel_rig">
+                    <option value="">Select...</option>
+                    <!-- option text = submitted value; em dash kept verbatim for payload fidelity -->
+                    <option>Full rig — I drive it everywhere</option>
+                    <option>Partial — some backline substitution on fly dates</option>
+                    <option>Total backline needed for fly dates</option>
+                    <option>N/A</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 — PREVIOUS BANDS & EXPERIENCE -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">04 · PREVIOUS BANDS & EXPERIENCE</span>
+                <h2>Previous Bands &amp; Experience</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <label for="prev_bands">Previous bands you want mentioned</label>
+                  <textarea id="prev_bands" name="prev_bands" rows="4" placeholder="Name, genre, years active, what you did. As many as you want."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="notable_shows">Noteworthy shows, tours, or venues</label>
+                  <textarea id="notable_shows" name="notable_shows" rows="4" placeholder="The Beacon. Madison Square Garden. Six-week run through the Southeast..."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="session_work">Session work, studio recordings, or notable collaborations</label>
+                  <textarea id="session_work" name="session_work" rows="4" placeholder="Albums you played on, artists you've recorded with, jingle sessions..."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="top_market">Biggest market where you've built a draw</label>
+                  <input type="text" id="top_market" name="top_market" placeholder="e.g. Tri-state, Southeast, national" />
+                </div>
+                <fieldset class="field full">
+                  <legend class="field-legend">Types of gigs you've done, check all that apply</legend>
+                  <div class="opt-chips">
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="Club dates" /> Club dates</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="Theater shows" /> Theater shows</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="Festivals" /> Festivals</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="Corporate / private events" /> Corporate / private events</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="Session / studio work" /> Session / studio work</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="Residencies" /> Residencies</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="National touring" /> National touring</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="International touring" /> International touring</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="TV / film" /> TV / film</label>
+                    <label class="opt-chip"><input type="checkbox" name="gig_type" value="Broadway / theater" /> Broadway / theater</label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <!-- 5 — INFLUENCES & MUSICAL BACKGROUND -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">05 · INFLUENCES & BACKGROUND</span>
+                <h2>Influences &amp; Musical Background</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <label for="influences">Top influences, musicians or bands</label>
+                  <textarea id="influences" name="influences" rows="3" placeholder="The ones that shaped how you play. Doesn't matter the era."></textarea>
+                </div>
+                <fieldset class="field full">
+                  <legend class="field-legend">Genres you live in, check all that apply</legend>
+                  <div class="opt-chips">
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Rock" /> Rock</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Blues" /> Blues</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Country" /> Country</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Americana" /> Americana</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Folk" /> Folk</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Jazz" /> Jazz</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="R&amp;B / Soul" /> R&amp;B / Soul</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Funk" /> Funk</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Pop" /> Pop</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Metal / Hard Rock" /> Metal / Hard Rock</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Punk" /> Punk</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Hip-Hop" /> Hip-Hop</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Electronic / EDM" /> Electronic / EDM</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Classical" /> Classical</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Gospel" /> Gospel</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Latin" /> Latin</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Reggae / Ska" /> Reggae / Ska</label>
+                    <label class="opt-chip"><input type="checkbox" name="genre" value="Other" /> Other</label>
+                  </div>
+                </fieldset>
+                <div class="field full">
+                  <!-- em-dash: placeholder "The origin story — short or long" -> comma -->
+                  <label for="how_started">How did you get started?</label>
+                  <textarea id="how_started" name="how_started" rows="3" placeholder="First instrument, first band, first gig. The origin story, short or long."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="training">Formal training, music school, or self-taught?</label>
+                  <textarea id="training" name="training" rows="3" placeholder="Berklee, private lessons, YouTube rabbit holes, your dad's record collection..."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="style">Any particular style or technique you're known for?</label>
+                  <textarea id="style" name="style" rows="3" placeholder="Fingerpicking, hybrid picking, big drumming, chord extensions..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6 — THE HUMAN STUFF -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">06 · THE HUMAN STUFF</span>
+                <h2>The Human Stuff</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <!-- em-dash: placeholder "obsessions — makes the bio feel human" -> comma -->
+                  <label for="off_stage">What do you do when you're not playing?</label>
+                  <textarea id="off_stage" name="off_stage" rows="3" placeholder="Day job, hobbies, family stuff, obsessions, makes the bio feel human."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="personal_note">Anything you want fans to know about you that doesn't show up in the music?</label>
+                  <textarea id="personal_note" name="personal_note" rows="3" placeholder="Totally open. Or totally blank. Up to you."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="road_story">Best story from the road or a show</label>
+                  <textarea id="road_story" name="road_story" rows="3" placeholder="Broke down. Show went crazy. Gear died. Promoter disappeared..."></textarea>
+                </div>
+                <div class="field">
+                  <label for="dream_tour">If you could tour with anyone, alive or dead, who is it?</label>
+                  <input type="text" id="dream_tour" name="dream_tour" placeholder="One answer. No overthinking." />
+                </div>
+                <div class="field">
+                  <label for="fav_venue">Favorite venue you've ever played</label>
+                  <input type="text" id="fav_venue" name="fav_venue" placeholder="Name it. City too." />
+                </div>
+              </div>
+            </div>
+
+            <!-- 7 — SOCIAL, STREAMING & WEB -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">07 · SOCIAL, STREAMING & WEB</span>
+                <h2>Social, Streaming &amp; Web</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <label for="website">Personal website</label>
+                  <input type="url" id="website" name="website" placeholder="https://yoursite.com" />
+                  <input type="hidden" name="has_website" value="yes" />
+                </div>
+                <div class="field">
+                  <label for="instagram">Instagram</label>
+                  <input type="text" id="instagram" name="instagram" placeholder="@handle" />
+                </div>
+                <div class="field">
+                  <label for="facebook">Facebook</label>
+                  <input type="url" id="facebook" name="facebook" placeholder="https://..." />
+                </div>
+                <div class="field">
+                  <label for="tiktok">TikTok</label>
+                  <input type="text" id="tiktok" name="tiktok" placeholder="@handle" />
+                </div>
+                <div class="field">
+                  <label for="youtube">YouTube</label>
+                  <input type="url" id="youtube" name="youtube" placeholder="https://..." />
+                </div>
+                <div class="field">
+                  <label for="spotify">Spotify Artist Page</label>
+                  <input type="url" id="spotify" name="spotify" placeholder="https://..." />
+                </div>
+                <div class="field">
+                  <label for="reverbnation_bandcamp">ReverbNation / Bandcamp</label>
+                  <input type="url" id="reverbnation_bandcamp" name="reverbnation_bandcamp" placeholder="https://..." />
+                </div>
+                <div class="field">
+                  <label for="soundcloud">SoundCloud</label>
+                  <input type="url" id="soundcloud" name="soundcloud" placeholder="https://..." />
+                </div>
+              </div>
+            </div>
+
+            <!-- 8 — PHOTOS & MEDIA -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">08 · PHOTOS & MEDIA</span>
+                <h2>Photos &amp; Media</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <label for="photo_link">Link to press photos or photo folder</label>
+                  <input type="url" id="photo_link" name="photo_link" placeholder="Google Drive, Dropbox, wherever they live" />
+                </div>
+                <div class="field">
+                  <label for="live_video">Best live video of you playing</label>
+                  <input type="url" id="live_video" name="live_video" placeholder="YouTube link, the one you'd send a promoter" />
+                </div>
+                <div class="field">
+                  <label for="studio_video">Best studio / official music video</label>
+                  <input type="url" id="studio_video" name="studio_video" placeholder="YouTube or Vimeo link" />
+                </div>
+                <div class="field full">
+                  <label for="press_quotes">Press quotes or reviews you want included</label>
+                  <textarea id="press_quotes" name="press_quotes" rows="4" placeholder="Paste any press mentions, reviews, or quotes. Include the source if you can."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- 9 — ANYTHING ELSE -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">09 · ANYTHING ELSE</span>
+                <h2>Anything Else</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <label for="anything_else">Anything we didn't ask that you want on the site</label>
+                  <textarea id="anything_else" name="anything_else" rows="4" placeholder="Dump it here. Rough notes, random facts, things your bandmates would say about you."></textarea>
+                </div>
+                <div class="field full">
+                  <!-- em-dash: placeholder "Off limits — noted and respected" -> comma -->
+                  <label for="dont_include">Anything you do NOT want on the site</label>
+                  <textarea id="dont_include" name="dont_include" rows="3" placeholder="Off limits, noted and respected. No questions asked."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- 10 — BEFORE YOU SEND -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <!-- "Before You Submit" -> "Before You Send"; em dash -> comma -->
+                <span class="eyebrow">10 · BEFORE YOU SEND</span>
+                <h2>Before You Send, A Quick Question</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <span class="field-legend">Is it okay to use any of this in a post or feature on the website?</span>
+              <div class="consent-group">
+                <button type="button" class="consent-btn" id="consentYes" data-val="Yes, go for it">Yes, go for it</button>
+                <!-- data-val strings are the submitted posting_consent value; kept verbatim -->
+                <button type="button" class="consent-btn" id="consentMaybe" data-val="Maybe — run it by me first">Maybe, run it by me first</button>
+                <button type="button" class="consent-btn" id="consentNo" data-val="No — keep it internal only">No, keep it internal only</button>
+              </div>
+              <input type="hidden" name="posting_consent" id="posting_consent_field" value="" />
+              <div class="field full">
+                <label for="consent_notes">Any comments, questions, or limits on what gets posted?</label>
+                <!-- em-dash: placeholder "E.g. — fine to post" -> dropped dash -->
+                <textarea id="consent_notes" name="consent_notes" rows="3" placeholder="E.g. fine to post the bio and gear stuff, but keep the road story between us."></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions" style="text-align:center">
+              <button type="submit" class="btn btn-primary">Send It to Jon →</button>
+              <!-- em-dash: "Jon gets it directly — no auto-responder" -> comma -->
+              <p class="submit-note">Sends securely. Jon gets it directly, no auto-responder, no ticket system.</p>
+            </div>
+          </form>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    /* Consent buttons -> set hidden posting_consent. Preserved verbatim. */
+    (function () {
+      var hidden = document.getElementById("posting_consent_field");
+      var btns = document.querySelectorAll(".consent-btn");
+      btns.forEach(function (b) {
+        b.addEventListener("click", function () {
+          btns.forEach(function (x) { x.classList.remove("active"); });
+          b.classList.add("active");
+          if (hidden) hidden.value = b.getAttribute("data-val");
+        });
+      });
+    })();
+
+    /* Formspree AJAX submit -> inline success, no redirect.
+       Endpoint preserved verbatim: https://formspree.io/f/mojbzzak */
+    (function () {
+      var form = document.getElementById("bioForm");
+      var success = document.getElementById("success-screen");
+      if (!form) return;
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var btn = form.querySelector("button[type=submit]");
+        if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+        try {
+          var res = await fetch("https://formspree.io/f/mojbzzak", {
+            method: "POST", body: new FormData(form), headers: { Accept: "application/json" }
+          });
+          if (res.ok) {
+            form.style.display = "none";
+            success.classList.add("show");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            if (btn) { btn.disabled = false; btn.textContent = "Send It to Jon →"; }
+            alert("Something went wrong sending the form. Please email jonwolf@livewebstudios.com directly.");
+          }
+        } catch (err) {
+          if (btn) { btn.disabled = false; btn.textContent = "Send It to Jon →"; }
+          alert("Something went wrong sending the form. Please email jonwolf@livewebstudios.com directly.");
+        }
+      });
+    })();
+  </script>
+</Base>
+
+<style>
+  .theme-live-band {
+    --cyan: #fcd34d;
+    --cyan-soft: #fde68a;
+    --cyan-2: #f59e0b;
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  .form-wrap { max-width: 920px; }
+  .optnote { color: var(--cyan-soft); font-size: 0.95rem; margin-top: 0.8rem; }
+
+  .fgroup { margin-bottom: 2.6rem; }
+  .fgroup:last-of-type { margin-bottom: 0; }
+  .fgroup-head { margin-bottom: 1.6rem; }
+  .fgroup-head h2 {
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.01em; margin-top: 0.7rem; color: var(--ink-soft);
+  }
+  .fgroup-note { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+
+  .field-legend {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 0.15rem; display: block;
+  }
+  fieldset.field { border: 0; padding: 0; margin: 0 0 1.1rem; min-inline-size: auto; }
+
+  .opt-chips { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.15rem; }
+  .opt-chip {
+    display: inline-flex; align-items: center; gap: 0.45rem; background: var(--panel-2);
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.55rem 1rem;
+    cursor: pointer; font-size: 0.9rem; color: var(--ink); min-height: 44px;
+  }
+  .opt-chip input { accent-color: var(--cyan); width: 16px; height: 16px; min-height: 16px; margin: 0; }
+  .opt-chip:hover { border-color: var(--cyan); }
+  .opt-chip:has(input:checked) { background: rgba(252, 211, 77, 0.14); border-color: var(--cyan); color: var(--ink-soft); }
+
+  .consent-group { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.6rem 0 1.1rem; }
+  .consent-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem; background: var(--panel-2);
+    border: 1px solid var(--line); border-radius: 8px; padding: 0.75rem 1.1rem; cursor: pointer;
+    color: var(--ink); font-family: inherit; font-size: 0.92rem; min-height: 44px;
+  }
+  .consent-btn:hover { border-color: var(--cyan); }
+  .consent-btn.active { background: rgba(252, 211, 77, 0.14); border-color: var(--cyan); color: var(--ink-soft); }
+
+  .form-success { display: none; text-align: center; padding: 3rem 1.5rem 3.5rem; }
+  .form-success.show { display: block; }
+  .form-success .big { font-size: clamp(2.4rem, 7vw, 3.4rem); font-weight: 700; color: var(--cyan-soft); line-height: 1.05; }
+  .form-success p { color: var(--ink); margin-top: 0.9rem; }
+  .form-success .back-link { margin-top: 1.8rem; }
+
+  .submit-note { color: var(--muted); font-size: 0.85rem; margin-top: 0.9rem; }
+</style>

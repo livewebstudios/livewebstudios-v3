@@ -29,44 +29,54 @@ const portraits = [
   src: `images/portraits/portrait-${String(n).padStart(2, "0")}.jpg`,
 }));
 
-const audience = [
-  {
-    ico: "§",
-    title: "Attorneys going solo",
-    body: "You left the firm. The clients you win now find you by name, not by letterhead. Your site is the first argument you make.",
-  },
-  {
-    ico: "♪",
-    title: "Performers & artists",
-    body: "A booking page that reads like a press kit. Reel, dates, and reputation in one place a promoter can trust in ten seconds.",
-  },
+// Value stack — ported from live Namesake overview (em dashes converted).
+const values = [
   {
     ico: "◆",
-    title: "Consultants & advisors",
-    body: "Independent expertise needs a home that signals it. A personal site that carries the weight your resume can't.",
+    title: "Fully custom design",
+    body: "No templates. No drag-and-drop. Every pixel is drawn for you, your look, your story, your name front and center.",
   },
   {
     ico: "❖",
-    title: "Founders & principals",
-    body: "Sometimes the person is the brand. When your name opens doors, the site behind it should be worth walking through.",
+    title: "Custom imagery & illustration",
+    body: "Original visuals, photo work, art direction. Not stock. The images carry your name as carefully as the words do.",
+  },
+  {
+    ico: "▶",
+    title: "Motion that moves",
+    body: "Ambient video, parallax, fluid interaction. A Namesake site feels alive the moment someone lands, that's the whole point.",
+  },
+  {
+    ico: "◎",
+    title: "Built for how people find you now",
+    body: "Clean structure, schema, and SEO from day one, AI Platformed, so the search tools doing the looking actually find you. Including the AI ones.",
+  },
+  {
+    ico: "✎",
+    title: "Yours to run",
+    body: "When it's done, it's yours. Update it through a simple editor anytime, no developer required, no surprise bill to keep it online. And Jon's number is on the site if you ever want a hand.",
   },
 ];
 
-const approach = [
+// Live example sites — ported from live Namesake "See it live" block.
+const examples = [
   {
-    k: "01",
-    title: "Your name, set in type",
-    body: "We start with the one asset nobody can copy: your name. Typography, spacing, and restraint do the work that stock photography can't.",
+    name: "jonwolfstudios.com",
+    body: "Jon Wolf, developer, musician, and the builder behind Namesake. A spare, architectural personal site that carries his creative and technical worlds in one place.",
+    href: "https://jonwolfstudios.com",
+    go: "Visit the site →",
   },
   {
-    k: "02",
-    title: "A narrative, not a brochure",
-    body: "Your story is the differentiator. We structure the site around the arc a client actually follows: who you are, what you've done, why it matters.",
+    name: "drrozcohen.com",
+    body: "Dr. Roz Cohen of Socius Strategies, a warm, credible home for a speaker and consultant. Built to carry her voice on culture, belonging, and inclusion.",
+    href: "https://drrozcohen.com",
+    go: "Visit the site →",
   },
   {
-    k: "03",
-    title: "Built to be found",
-    body: "Fast, clean, AI-platformed HTML that reads well to a hiring partner and to Google alike. Your name should rank for your name.",
+    name: "Your site here",
+    body: "Another name, another one-of-a-kind build. Watch this space.",
+    href: null,
+    go: "More coming soon",
   },
 ];
 ---
@@ -103,13 +113,14 @@ const approach = [
 
       <!-- Foreground copy -->
       <div class="fh-hero__inner">
-        <div class="chip"><span class="dot"></span> A STUDIO OF LIVE WEB STUDIOS</div>
+        <div class="chip"><span class="dot"></span> NAMESAKE · BY LIVE WEB STUDIOS</div>
         <span class="eyebrow">PERSONAL BRAND · SOLO PROFESSIONALS · BY NAME</span>
-        <h1>Your name is <em>the</em> business.</h1>
-        <p class="fh-lead">Namesake builds premium personal sites for people whose reputation carries the work.</p>
+        <h1>The website your name <em>deserves</em>.</h1>
+        <!-- em-dash: "the people behind the work — executives..." → comma -->
+        <p class="fh-lead">Custom personal sites for the people behind the work, executives, founders, attorneys, performers. Not a template. Not a profile page. A site built entirely around you.</p>
         <div class="fh-btn-row">
-          <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
-          <a href="#work" class="btn btn-ghost">See the approach ↓</a>
+          <a href="contact.html" class="btn btn-primary">Start with your name →</a>
+          <a href="#work" class="btn btn-ghost">See how it works ↓</a>
         </div>
       </div>
 
@@ -124,27 +135,24 @@ const approach = [
       <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="default" />
       <div class="wrap">
         <Glass class="reveal" innerClass="feature">
-          <span class="eyebrow is-center mb-md">WHAT NAMESAKE IS</span>
-          <h2>Live Web Studios builds businesses a home. Namesake builds a person one.</h2>
-          <p>Most sites sell a company. Namesake sells you. When the client is choosing a person, not a vendor, the website has a different job: carry your name, your record, and your judgment with the weight they deserve. That is the only thing we build here.</p>
+          <span class="eyebrow is-center mb-md">WHY NAMESAKE</span>
+          <h2>Built entirely for you.</h2>
+          <!-- em-dash: "hand-built from a blank page — by Live Web Studios, the same..." → comma -->
+          <p>No templates. No page builders. Every Namesake site is hand-built from a blank page, by Live Web Studios, the same North Jersey studio that's been building the web since 2004.</p>
         </Glass>
       </div>
     </section>
 
-    <!-- AUDIENCE -->
+    <!-- VALUE STACK (ported from live) -->
     <section class="sec-pad is-alt">
       <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">WHO IT'S FOR</span>
-          <h2>When the name on the door is yours.</h2>
-        </div>
-        <div class="grid-svc grid-svc--2">
-          {audience.map((a) => (
+        <div class="grid-svc">
+          {values.map((v) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{a.ico}</div>
-                <h3>{a.title}</h3>
-                <p>{a.body}</p>
+                <div class="ico">{v.ico}</div>
+                <h3>{v.title}</h3>
+                <p>{v.body}</p>
               </Glass>
             </div>
           ))}
@@ -152,43 +160,48 @@ const approach = [
       </div>
     </section>
 
-    <!-- APPROACH -->
+    <!-- HOW IT WORKS (teaser, ported from live) -->
     <section id="work" class="sec-pad">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">THE APPROACH</span>
-          <h2>Editorial, not templated.</h2>
-        </div>
-        <div class="ns-steps">
-          {approach.map((s) => (
-            <article class="ns-step reveal">
-              <span class="ns-step-k">{s.k}</span>
-              <div>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
-              </div>
-            </article>
-          ))}
+      <div class="wrap split">
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big ns-mark">Aa</div>
+          <div class="mark">The process · Start to launch</div>
+        </Glass>
+        <div class="copy reveal">
+          <span class="eyebrow">THE PROCESS</span>
+          <div class="sec-head is-flush"><h2>Simple, and built around you.</h2></div>
+          <!-- em-dash: "Namesake builds — custom, on a private staging server" → comma -->
+          <p>No intake maze. No mockups pulled from a template library. Jon listens, then Namesake builds, custom, on a private staging server, until it's exactly yours. Five clean steps, start to launch.</p>
+          <div class="mt-lg"><a href="contact.html" class="btn btn-ghost">See how it works →</a></div>
         </div>
       </div>
     </section>
 
-    <!-- FEATURE / NARRATIVE -->
+    <!-- EXAMPLES (ported from live "See it live") -->
     <section class="sec-pad is-alt">
-      <div class="wrap split">
-        <div class="copy reveal">
-          <span class="eyebrow">THE DIFFERENCE</span>
-          <div class="sec-head is-flush"><h2>Reputation, rendered.</h2></div>
-          <p>Live Web Studios has built for North Jersey businesses since 2004. Namesake is that same craft pointed at a single person: the founder, the performer, the attorney who just hung their own shingle.</p>
-          <p>No page builders. No stock-photo sameness. A site that reads like it was made for one name, because it was.</p>
-          <p class="kick">Your name should look like it means something. We make sure it does.</p>
-          <div class="mt-lg"><a href="contact.html" class="btn btn-ghost">Reach out. →</a></div>
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE PROOF</span>
+          <h2>See it live.</h2>
         </div>
-        <Glass class="reveal" innerClass="portrait">
-          <div class="frame-lines"></div>
-          <div class="big ns-mark">Aa</div>
-          <div class="mark">Namesake · A Studio of Live Web Studios</div>
-        </Glass>
+        <div class="trio">
+          {examples.map((e) => (
+            e.href ? (
+              <a class="glass-inner card-pad reveal" href={e.href} target="_blank" rel="noopener">
+                <h3>{e.name}</h3>
+                <p>{e.body}</p>
+                <span class="more">{e.go}</span>
+              </a>
+            ) : (
+              <div class="glass-inner card-pad reveal">
+                <h3>{e.name}</h3>
+                <p>{e.body}</p>
+                <span class="more">{e.go}</span>
+              </div>
+            )
+          ))}
+        </div>
       </div>
     </section>
 
@@ -196,10 +209,12 @@ const approach = [
     <section class="sec-pad">
       <div class="wrap">
         <Glass class="reveal" innerClass="cta">
-          <h2>Ready to put your name on it?</h2>
-          <p>Tell me who you are and what you're building. I'll tell you what it could look like.</p>
+          <span class="eyebrow is-center mb-md">READY WHEN YOU ARE</span>
+          <h2>Let's build yours.</h2>
+          <!-- em-dash: "the rest is a real conversation — no pressure, no pitch" → comma -->
+          <p>It starts with your name. Type it in, tell Namesake a little about you, and the rest is a real conversation, no pressure, no pitch.</p>
           <div class="hero-btns">
-            <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+            <a href="contact.html" class="btn btn-primary">Start with your name →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
           </div>
         </Glass>

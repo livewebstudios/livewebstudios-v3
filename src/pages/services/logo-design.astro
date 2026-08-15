@@ -1,0 +1,86 @@
+---
+/**
+ * /services/logo-design — ported from the live site
+ * (livewebstudios.com/services/logo-design). Rebuilt on v3 layouts/components.
+ * Hero illustration dropped per no-image rule. No em dashes in body copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+---
+
+<Base
+  title="Logo Design & Graphics | Live Web Studios"
+  description="Logo design and graphic services, all formats, all media. Social, print, presentations, signage. Live Web Studios, Saddle Brook, NJ. Est. 2004."
+  canonical="https://livewebstudios.com/services/logo-design"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">LOGO DESIGN</span>
+        <h1 class="page-h1">First Impressions Are <em>Permanent</em>.</h1>
+        <p class="page-lede">Logo design &amp; graphic services.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Start a Logo Project →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT YOU GET / GRAPHIC SERVICES -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          <div class="card reveal">
+            <Glass variant="inner" innerClass="card-pad">
+              <div class="ico">✧</div>
+              <h3>What You Get</h3>
+              <ul>
+                <li>3 initial concepts</li>
+                <li>2 rounds of revisions</li>
+                <li>Every format (AI, EPS, SVG, PNG, PDF)</li>
+                <li>Color, B&amp;W, reversed versions</li>
+                <li>Style guide</li>
+              </ul>
+            </Glass>
+          </div>
+          <div class="card reveal">
+            <Glass variant="inner" innerClass="card-pad">
+              <div class="ico">◈</div>
+              <h3>Graphic Services</h3>
+              <ul>
+                <li>Social media assets</li>
+                <li>Print collateral</li>
+                <li>Signage artwork</li>
+                <li>Presentation templates</li>
+                <li>AI-assisted imagery</li>
+              </ul>
+            </Glass>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready for a Mark That Lasts?</h2>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Start Your Logo →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

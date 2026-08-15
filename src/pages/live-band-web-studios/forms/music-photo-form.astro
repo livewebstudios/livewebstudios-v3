@@ -1,0 +1,499 @@
+---
+/**
+ * /live-band-web-studios/forms/music-photo-form — ported from the live site
+ * (livewebstudios.com/live-band-web-studios/forms/music-photo-form).
+ *
+ * FORM MECHANICS PRESERVED EXACTLY. Real Formspree endpoint
+ * (https://formspree.io/f/mvznpvnq), POST, the hidden _subject field, the
+ * live AJAX-submit + inline-success mechanism, the single-select energy pills
+ * (writing the hidden on_stage_energy field) and the "Other:" toggles are all
+ * reproduced verbatim. Every field name= attribute and every checkbox/pill
+ * value is unchanged (they are the submission payload). Rebuilt on v3
+ * layouts/components in the amber .theme-live-band system. Decorative inline
+ * SVG icons dropped. EM DASH BAN applied to visible copy.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Glass from "../../../components/Glass.astro";
+import VideoBg from "../../../components/VideoBg.astro";
+---
+
+<Base
+  title="Music Photo Form | Live Band Web Studios"
+  description="Musician intake and photo guide. Submit your band info and get the AI photo guide, Live Band Web Photos by Live Web Studios."
+  canonical="https://livewebstudios.com/live-band-web-studios/forms/music-photo-form"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- HERO -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">PHOTO GUIDE</span>
+        <h1 class="page-h1">Music Photo <em>Form</em>.</h1>
+        <!-- em-dash: "photo guide — everything we need ... come out right" -> comma -->
+        <p class="page-lede">Musician intake and photo guide, everything we need to capture your band at its best, plus the AI photo guide so your reference shots come out right.</p>
+        <p class="page-lede optnote">Only your artist name is required. Every other field is optional.</p>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="strong" />
+      <div class="wrap form-wrap">
+        <!-- Inline success screen, shown by the AJAX handler on a 200 -->
+        <div id="mpf-success" class="form-success reveal">
+          <div class="big">Got It. Thanks!</div>
+          <!-- en dash range "1–2" -> "1 to 2" -->
+          <p>Your Music Photo Form is on its way to Jon. Expect a reply within 1 to 2 business days. Now go take some photos.</p>
+          <a class="btn btn-ghost back-link" href="../../live-band-web-studios.html">Back to Live Band Web Studios</a>
+        </div>
+
+        <div id="mpf-form-wrap">
+          <Glass class="reveal" innerClass="form-pad">
+            <div class="fgroup-head" style="margin-bottom:1.4rem">
+              <span class="eyebrow">LIVE WEB STUDIOS · LIVE BAND WEB PHOTOS</span>
+              <h2>Musician intake &amp; photo guide</h2>
+              <!-- em-dash: "at its best — and create professional web images" -> comma -->
+              <p class="fgroup-note">Everything we need to capture your band at its best, and create professional web images from your existing photos.</p>
+            </div>
+
+            <div class="note-block">
+              <!-- em-dash: "optional — but the more you share ... turn out" -> comma -->
+              <p>Only your artist name is required. Every other field is optional, but the more you share, the better your photos and web content will turn out. Think of this as a creative brief, not a questionnaire.</p>
+            </div>
+
+            <!-- Real live Formspree endpoint + hidden _subject preserved verbatim -->
+            <form id="mpf-form" action="https://formspree.io/f/mvznpvnq" method="POST">
+              <input type="hidden" name="_subject" value="New Music Photo Form Submission" />
+
+              <!-- SECTION 1 -->
+              <div class="fgroup">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 1 · THE BASICS</span>
+                  <h2>The basics</h2>
+                </div>
+                <div class="form-row">
+                  <div class="field full">
+                    <label for="band-name">Band or artist name <span class="req-star">*</span></label>
+                    <input type="text" id="band-name" name="band_name" placeholder="The Loud Collective" required />
+                  </div>
+                  <div class="field full">
+                    <label for="genre">Genre / style</label>
+                    <input type="text" id="genre" name="genre" placeholder="Classic Rock, Jazz, Originals..." />
+                  </div>
+                  <div class="field">
+                    <label for="contact-name">Your name (primary contact)</label>
+                    <input type="text" id="contact-name" name="contact_name" placeholder="First &amp; last name" />
+                  </div>
+                  <div class="field">
+                    <label for="role">Your role in the band</label>
+                    <input type="text" id="role" name="role" placeholder="Vocalist, Manager, Guitarist..." />
+                  </div>
+                  <div class="field full">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" placeholder="you@yourband.com" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECTION 2 -->
+              <div class="fgroup">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 2 · ON STAGE</span>
+                  <h2>On stage</h2>
+                </div>
+                <div class="form-row">
+                  <div class="field full">
+                    <label for="description">Physical description</label>
+                    <!-- em-dash: "describe yourself briefly — height, hair, build" -> comma -->
+                    <p class="field-hint">In addition to the photos you'll send us, describe yourself briefly, height, hair, build, anything distinctive. This helps us generate accurate and consistent AI images of you.</p>
+                    <textarea id="description" name="description" placeholder="e.g. Tall, curly red hair, usually in all black, always wears a Les Paul..."></textarea>
+                  </div>
+                  <div class="field full">
+                    <label>On-stage energy</label>
+                    <p class="field-hint">Pick the one that best captures how you come across live. This shapes the visual direction of your photos.</p>
+                    <div class="sel-pills" id="energy-pills">
+                      <span class="sel-pill" data-group="energy" onclick="selectPill(this)">High-energy &amp; explosive</span>
+                      <span class="sel-pill" data-group="energy" onclick="selectPill(this)">Cool &amp; commanding</span>
+                      <span class="sel-pill" data-group="energy" onclick="selectPill(this)">Warm &amp; crowd-connected</span>
+                      <span class="sel-pill" data-group="energy" onclick="selectPill(this)">Gritty &amp; authentic</span>
+                      <span class="sel-pill" data-group="energy" onclick="selectPill(this)">Smooth &amp; soulful</span>
+                      <span class="sel-pill" data-group="energy" onclick="selectPill(this)">Theatrical &amp; dramatic</span>
+                    </div>
+                    <input type="hidden" name="on_stage_energy" id="energy-val" />
+                    <div class="other-row">
+                      <input type="checkbox" id="energy-other-cb" onchange="toggleOther('energy-other-cb','energy-other-txt','energy-val')" />
+                      <label class="other-label" for="energy-other-cb">Other:</label>
+                      <input type="text" class="other-text" id="energy-other-txt" name="on_stage_energy_other" placeholder="describe your energy..." disabled />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECTION 3 -->
+              <div class="fgroup">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 3 · VISUAL STYLE</span>
+                  <h2>Visual style</h2>
+                </div>
+                <div class="form-row">
+                  <div class="field full">
+                    <label>Visual vibe</label>
+                    <p class="field-hint">Select all that apply, this shapes the look and feel of your final images.</p>
+                    <div class="check-grid">
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Dark &amp; cinematic" /> Dark &amp; cinematic</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Raw &amp; gritty" /> Raw &amp; gritty</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Clean &amp; polished" /> Clean &amp; polished</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Vintage / retro" /> Vintage / retro</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="High-energy &amp; live" /> High-energy &amp; live</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Moody &amp; atmospheric" /> Moody &amp; atmospheric</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Fun &amp; upbeat" /> Fun &amp; upbeat</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Studio / artistic" /> Studio / artistic</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Hippie / bohemian" /> Hippie / bohemian</label>
+                      <label class="check-item"><input type="checkbox" name="vibe[]" value="Glam / theatrical" /> Glam / theatrical</label>
+                    </div>
+                    <div class="other-row">
+                      <input type="checkbox" id="vibe-other-cb" onchange="toggleOther('vibe-other-cb','vibe-other-txt',null)" />
+                      <label class="other-label" for="vibe-other-cb">Other:</label>
+                      <input type="text" class="other-text" id="vibe-other-txt" name="vibe_other" placeholder="describe your vibe..." disabled />
+                    </div>
+                  </div>
+
+                  <div class="field full">
+                    <label>Stage attire / wardrobe</label>
+                    <div class="check-grid">
+                      <label class="check-item"><input type="checkbox" name="attire[]" value="Jeans &amp; a t-shirt" /> Jeans &amp; a t-shirt</label>
+                      <label class="check-item"><input type="checkbox" name="attire[]" value="Band merch / uniform" /> Band merch / uniform</label>
+                      <label class="check-item"><input type="checkbox" name="attire[]" value="Business casual" /> Business casual</label>
+                      <label class="check-item"><input type="checkbox" name="attire[]" value="Dressed up / formal" /> Dressed up / formal</label>
+                      <label class="check-item"><input type="checkbox" name="attire[]" value="Full costume / themed" /> Full costume / themed</label>
+                      <label class="check-item"><input type="checkbox" name="attire[]" value="Hippie / flowing outfits" /> Hippie / flowing outfits</label>
+                    </div>
+                    <div class="other-row">
+                      <input type="checkbox" id="attire-other-cb" onchange="toggleOther('attire-other-cb','attire-other-txt',null)" />
+                      <label class="other-label" for="attire-other-cb">Other:</label>
+                      <input type="text" class="other-text" id="attire-other-txt" name="attire_other" placeholder="describe your look..." disabled />
+                    </div>
+                  </div>
+
+                  <div class="field full">
+                    <label for="inspiration">Artists whose visual style you admire</label>
+                    <input type="text" id="inspiration" name="inspiration" placeholder="Foo Fighters, Lake Street Dive, Grateful Dead..." />
+                  </div>
+                  <div class="field full">
+                    <label for="colors">Colors to feature or avoid</label>
+                    <input type="text" id="colors" name="colors" placeholder="e.g. Feature our red-and-black brand colors. Avoid anything neon." />
+                  </div>
+                  <div class="field full">
+                    <label for="hard-nos">Hard no's</label>
+                    <input type="text" id="hard-nos" name="hard_nos" placeholder="No open-mouth shots. Avoid the back of the stage. No flash." />
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECTION 4 -->
+              <div class="fgroup">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 4 · HOW TO SHOOT FOR AI</span>
+                  <h2>How to photograph yourself for AI</h2>
+                </div>
+                <p class="field-hint" style="margin-bottom:.6rem">The photos you send me are the raw material I use to place you into different scenes, stages, environments, and creative scenarios using AI. The better your reference shots, the more realistic and varied the final results. These aren't finished photos, they're reference material. You're giving me enough to work with.</p>
+                <!-- em-dash: "The more variety you give me — angles ... — the more situations" -> commas -->
+                <p class="field-hint" style="margin-bottom:1rem">The more variety you give me, angles, expressions, lighting conditions, the more situations I can put you in. Shoot as many as you can.</p>
+
+                <div class="step-list">
+                  <div class="step">
+                    <span class="step-num">1</span>
+                    <div class="step-body">
+                      <strong>Good lighting is everything</strong>
+                      <!-- em-dash: "Overcast daylight is ideal — no harsh shadows" -> comma -->
+                      Natural light near a window is your best friend. Overcast daylight is ideal, no harsh shadows, no blown-out highlights. Shade outdoors also works great. Avoid shooting in the dark or under fluorescent overhead light.
+                    </div>
+                  </div>
+                  <div class="step">
+                    <span class="step-num">2</span>
+                    <div class="step-body">
+                      <strong>Shoot from multiple angles</strong>
+                      Front-facing, left profile, right profile, slightly above, slightly below. I need to understand how you look from different perspectives so I can place you convincingly in any scene. Five to ten shots from varied angles goes a long way.
+                    </div>
+                  </div>
+                  <div class="step">
+                    <span class="step-num">3</span>
+                    <div class="step-body">
+                      <strong>Vary your expressions</strong>
+                      Serious, smiling, mid-performance intensity, relaxed, eyes closed. The more expressions I have to work from, the more authentic your AI images will look, whether it's a press shot, a live moment, or a candid.
+                    </div>
+                  </div>
+                  <div class="step">
+                    <span class="step-num">4</span>
+                    <div class="step-body">
+                      <strong>Include full-body and close-up shots</strong>
+                      Close-ups of your face are essential. But also send full-body shots so I can see your posture, your instrument, your stage presence, and your outfit. Both are needed for different types of scenes.
+                    </div>
+                  </div>
+                  <div class="step">
+                    <span class="step-num">5</span>
+                    <div class="step-body">
+                      <strong>Plain or simple backgrounds preferred</strong>
+                      <!-- em-dash: "open sky outdoors — anything clean" -> comma -->
+                      A white wall, a plain door, open sky outdoors, anything clean and uncluttered. I'm extracting you from the background, so complex backgrounds just make that harder.
+                    </div>
+                  </div>
+                  <div class="step">
+                    <span class="step-num">6</span>
+                    <div class="step-body">
+                      <strong>Wear what you perform in</strong>
+                      Send a few shots in your stage outfit or signature look. Also send a few in everyday clothes. I can place you in different wardrobe via AI, but having your real look as reference makes the results more accurate.
+                    </div>
+                  </div>
+                  <div class="step">
+                    <span class="step-num">7</span>
+                    <div class="step-body">
+                      <strong>Use Portrait Mode for headshots, landscape for everything else</strong>
+                      <!-- em-dash: "iPhone Portrait Mode — it blurs the background" -> comma -->
+                      For individual close-ups: switch to iPhone Portrait Mode, it blurs the background and sharpens your face, which is exactly what I need. For full-body and band shots: rotate your phone horizontal (landscape).
+                    </div>
+                  </div>
+                  <div class="step">
+                    <span class="step-num">8</span>
+                    <div class="step-body">
+                      <strong>Include your instrument</strong>
+                      Shots of you holding or playing your instrument, guitar in hand, sticks in the air, keys at your fingertips. Also useful: close-ups of hands on strings, the drum kit, your pedal board. These details make the final images feel real, not generated.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="callout callout--warn">
+                  <!-- en dash range "20–40" -> "20 to 40" -->
+                  Aim for 20 to 40 photos minimum across different angles, expressions, and lighting. The more reference you give me, the more scenes I can create for you. More is always better here.
+                </div>
+
+                <p style="font-size:.95rem;font-weight:600;color:var(--ink-soft);margin:1.5rem 0 .4rem">How to send your photos</p>
+                <!-- em-dash: "never via text message or screenshot" already comma; "Send at full resolution — never" -> comma -->
+                <p class="field-hint" style="margin-bottom:0">Send at full resolution, never via text message or screenshot. Use any of these options:</p>
+
+                <div class="send-grid">
+                  <div class="send-card">
+                    <strong>Google Drive</strong>
+                    <span>Upload to a folder, click Share, and send me the link. Great for large batches.</span>
+                  </div>
+                  <div class="send-card">
+                    <strong>Dropbox</strong>
+                    <!-- em-dash: "Request files — no Dropbox account needed" -> comma -->
+                    <span>Use "Request files", no Dropbox account needed on your end. We can set up a link for you.</span>
+                  </div>
+                  <div class="send-card">
+                    <strong>WeTransfer</strong>
+                    <!-- em-dash: "Go to wetransfer.com — free, no account" -> comma -->
+                    <span>Go to wetransfer.com, free, no account needed. Drag photos in, enter our email, hit Send.</span>
+                  </div>
+                  <div class="send-card">
+                    <strong>iCloud Link</strong>
+                    <span>In iPhone Photos, select shots &rarr; Share &rarr; Copy iCloud Link &rarr; paste into an email to us.</span>
+                  </div>
+                </div>
+
+                <div class="callout">
+                  <!-- em-dash: "standard text — compression kills the quality" -> comma -->
+                  Send everything to <strong>jonwolf@livewebstudios.com</strong> with your band name in the subject line. Never send via iMessage or standard text, compression kills the quality permanently.
+                </div>
+              </div>
+
+              <!-- SECTION 5 -->
+              <div class="fgroup">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 5 · ANYTHING ELSE</span>
+                  <h2>Anything else?</h2>
+                </div>
+                <div class="field full">
+                  <label for="notes">Specific scenes, scenarios, locations, or anything else that helps us understand your vision</label>
+                  <textarea id="notes" name="notes" placeholder="e.g. I'd love shots that look like I'm performing at a big arena. Would love a moody outdoor scene. The band has a retro 70s look, lean into that..." style="min-height:120px"></textarea>
+                </div>
+              </div>
+
+              <div class="form-actions" style="text-align:center">
+                <!-- "Submit — let's get this show on the road" -> "Send it, let's get this show on the road" -->
+                <button type="submit" class="btn btn-primary f-submit">Send it, let's get this show on the road →</button>
+                <!-- em-dash: "1–2 business days"; "No spam — just results" -> comma -->
+                <p class="submit-note">After sending, Jon Wolf at Live Web Studios will follow up within 1 to 2 business days. No spam, just results.</p>
+              </div>
+            </form>
+          </Glass>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    /* Pill single-select + Other-row toggling. Preserved verbatim from the
+       live music-photo-form (selectPill / toggleOther are global so the inline
+       onclick / onchange handlers reach them). */
+    function selectPill(el) {
+      var group = el.getAttribute("data-group");
+      var hiddenInput = document.getElementById(group + "-val");
+      document.querySelectorAll('.sel-pill[data-group="' + group + '"]').forEach(function (p) {
+        p.classList.remove("selected");
+      });
+      el.classList.add("selected");
+      if (hiddenInput) hiddenInput.value = el.textContent.trim();
+      var otherCb = document.getElementById(group + "-other-cb");
+      if (otherCb) {
+        otherCb.checked = false;
+        var otherTxt = document.getElementById(group + "-other-txt");
+        if (otherTxt) { otherTxt.disabled = true; otherTxt.value = ""; }
+      }
+    }
+
+    function toggleOther(cbId, txtId, valId) {
+      var cb = document.getElementById(cbId);
+      var txt = document.getElementById(txtId);
+      txt.disabled = !cb.checked;
+      if (cb.checked) {
+        txt.focus();
+        var group = cbId.replace("-other-cb", "");
+        document.querySelectorAll('.sel-pill[data-group="' + group + '"]').forEach(function (p) {
+          p.classList.remove("selected");
+        });
+        if (valId) document.getElementById(valId).value = "";
+      } else {
+        txt.value = "";
+      }
+    }
+
+    /* Formspree AJAX submit -> inline success screen.
+       Endpoint preserved verbatim: https://formspree.io/f/mvznpvnq */
+    (function () {
+      var form = document.getElementById("mpf-form");
+      var wrap = document.getElementById("mpf-form-wrap");
+      var success = document.getElementById("mpf-success");
+      if (!form) return;
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var btn = form.querySelector("button[type=submit]");
+        var original = "Send it, let's get this show on the road →";
+        if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+        try {
+          var res = await fetch("https://formspree.io/f/mvznpvnq", {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" }
+          });
+          if (res.ok) {
+            if (wrap) wrap.style.display = "none";
+            if (success) success.classList.add("show");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            if (btn) { btn.disabled = false; btn.textContent = original; }
+            alert("Something went wrong sending the form. Please email jonwolf@livewebstudios.com directly.");
+          }
+        } catch (err) {
+          if (btn) { btn.disabled = false; btn.textContent = original; }
+          alert("Something went wrong sending the form. Please email jonwolf@livewebstudios.com directly.");
+        }
+      });
+    })();
+  </script>
+</Base>
+
+<style>
+  .theme-live-band {
+    --cyan: #fcd34d;
+    --cyan-soft: #fde68a;
+    --cyan-2: #f59e0b;
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  .form-wrap { max-width: 920px; }
+  .optnote { color: var(--cyan-soft); font-size: 0.95rem; margin-top: 0.8rem; }
+
+  .fgroup { margin-bottom: 2.6rem; }
+  .fgroup:last-of-type { margin-bottom: 0; }
+  .fgroup-head { margin-bottom: 1.6rem; }
+  .fgroup-head h2 {
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.01em; margin-top: 0.7rem; color: var(--ink-soft);
+  }
+  .fgroup-note { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+
+  .field-hint { color: var(--muted); font-size: 0.85rem; line-height: 1.55; margin: -0.15rem 0 0.15rem; }
+  .req-star { color: var(--cyan-soft); }
+
+  .note-block {
+    background: var(--panel-2); border: 1px solid var(--line); border-left: 3px solid var(--cyan);
+    border-radius: 10px; padding: 1.1rem 1.3rem; margin: 0 0 1.6rem; font-size: 0.94rem;
+    color: var(--ink); line-height: 1.6;
+  }
+  .note-block a { color: var(--cyan-soft); }
+
+  .sel-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem; }
+  .sel-pill {
+    display: inline-flex; align-items: center; padding: 0.5rem 1rem; border: 1px solid var(--line);
+    border-radius: 999px; font-size: 0.88rem; color: var(--ink); cursor: pointer;
+    background: var(--panel-2); user-select: none; min-height: 40px;
+  }
+  .sel-pill:hover { border-color: var(--cyan); color: var(--cyan-soft); }
+  .sel-pill.selected { background: rgba(252, 211, 77, 0.14); border-color: var(--cyan); color: var(--cyan-soft); font-weight: 500; }
+
+  .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem; }
+  .check-item {
+    display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; color: var(--ink);
+    cursor: pointer; padding: 0.6rem 0.8rem; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--panel-2);
+  }
+  .check-item:hover { border-color: var(--cyan); }
+  .check-item input { accent-color: var(--cyan); width: 15px; height: 15px; min-height: 15px; margin: 0; flex-shrink: 0; }
+
+  .other-row {
+    display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.8rem; border: 1px solid var(--line);
+    border-radius: 8px; background: var(--panel-2); margin-top: 0.6rem;
+  }
+  .other-row input[type="checkbox"] { accent-color: var(--cyan); width: 15px; height: 15px; min-height: 15px; margin: 0; flex-shrink: 0; }
+  .other-row .other-label { font-size: 0.9rem; color: var(--ink); white-space: nowrap; cursor: pointer; }
+  .other-row .other-text {
+    flex: 1; border: none; border-bottom: 1px solid var(--line); border-radius: 0; padding: 0.15rem 0.3rem;
+    font-size: 0.9rem; color: var(--ink); background: transparent; min-height: auto;
+  }
+  .other-row .other-text:focus { border-bottom-color: var(--cyan); box-shadow: none; outline: none; }
+  .other-row .other-text:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .step-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.4rem; }
+  .step {
+    display: flex; gap: 1rem; align-items: flex-start; background: var(--panel-2);
+    border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem 1.1rem;
+  }
+  .step-num { font-family: var(--mono); font-size: 1.2rem; font-weight: 700; color: var(--cyan-soft); min-width: 22px; line-height: 1.2; flex-shrink: 0; }
+  .step-body { font-size: 0.9rem; color: var(--ink); line-height: 1.55; }
+  .step-body strong { display: block; font-weight: 600; color: var(--ink-soft); margin-bottom: 0.2rem; }
+
+  .callout {
+    background: var(--panel-2); border: 1px solid var(--cyan); border-radius: 8px;
+    padding: 0.8rem 1.05rem; font-size: 0.9rem; color: var(--cyan-soft); line-height: 1.6; margin-top: 0.9rem;
+  }
+  .callout strong { color: var(--ink-soft); }
+  .callout--warn { border-color: #e6a817; color: #fcd34d; }
+
+  .send-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 0.9rem; }
+  .send-card { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem; }
+  .send-card strong { display: block; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 0.25rem; }
+  .send-card span { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+  .form-success { display: none; text-align: center; padding: 3rem 1.5rem 3.5rem; }
+  .form-success.show { display: block; }
+  .form-success .big { font-size: clamp(2.4rem, 7vw, 3.4rem); font-weight: 700; color: var(--cyan-soft); line-height: 1.05; }
+  .form-success p { color: var(--ink); margin-top: 0.9rem; }
+  .form-success .back-link { margin-top: 1.8rem; }
+
+  .submit-note { color: var(--muted); font-size: 0.85rem; margin-top: 0.9rem; }
+
+  @media (max-width: 600px) {
+    .check-grid, .send-grid { grid-template-columns: 1fr; }
+  }
+</style>

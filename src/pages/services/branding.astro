@@ -1,0 +1,78 @@
+---
+/**
+ * /services/branding — ported from the live site
+ * (livewebstudios.com/services/branding). Rebuilt on v3 layouts/components.
+ * Hero illustration dropped per no-image rule. No em dashes in body copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const cards = [
+  { ico: "✎", title: "Logo Systems", body: "Primary, secondary, horizontal, stacked, icon-only." },
+  { ico: "◈", title: "Color & Type", body: "Palette + typography with guidelines." },
+  { ico: "▤", title: "Print Collateral", body: "Cards, letterhead, envelopes." },
+  { ico: "❖", title: "Digital Assets", body: "Email sigs, social profiles." },
+  { ico: "▦", title: "Style Guide", body: "Branded PDF. Everything documented." },
+  { ico: "⬡", title: "Source Files", body: "AI, EPS, SVG, PDF, PNG, WebP." },
+];
+---
+
+<Base
+  title="Branding & Corporate Identity | Live Web Studios"
+  description="Logo systems, color palettes, typography, and brand guidelines for businesses nationwide. Corporate identity packages from Live Web Studios, Saddle Brook, NJ."
+  canonical="https://livewebstudios.com/services/branding"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">BRANDING</span>
+        <h1 class="page-h1">Your Brand. Built to <em>Last</em>.</h1>
+        <p class="page-lede">Branding &amp; corporate identity design.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Start a Brand Project →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRAND CARDS -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          {cards.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to Re-Brand?</h2>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Get a Brand Quote →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

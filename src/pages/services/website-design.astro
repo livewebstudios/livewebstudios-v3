@@ -1,0 +1,122 @@
+---
+/**
+ * /services/website-design — ported from the live site
+ * (livewebstudios.com/services/website-design). Rebuilt on v3
+ * layouts/components. Hero illustration + split photo dropped per the
+ * no-image rule (Glass portrait placeholder stands in for the split).
+ * EM DASH BAN applied to body copy (spots marked <!-- em-dash -->).
+ * FORBIDDEN PHRASE: live CTA subhead led with "Free consultation." — dropped.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const included = [
+  { ico: "✎", title: "Custom Design", body: "No templates. Built around your brand." },
+  { ico: "▤", title: "Mobile Responsive", body: "Looks right on every screen." },
+  { ico: "◎", title: "On-Page SEO", body: "Title tags, schema, meta, H-hierarchy." },
+  { ico: "▦", title: "Contact Form", body: "Formspree integration." },
+  { ico: "◈", title: "Google Analytics 4", body: "Real data. No black box." },
+  { ico: "⛭", title: "SSL + Security", body: "Certificate + hardening included." },
+];
+---
+
+<Base
+  title="Website Design & Development | Live Web Studios"
+  description="Custom hand-coded websites built for speed, SEO, and longevity. No templates, no page builders. Based in Saddle Brook, NJ, serving businesses nationwide."
+  canonical="https://livewebstudios.com/services/website-design"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">WEBSITE DESIGN</span>
+        <h1 class="page-h1">Sites That Make People Stop <em>Scrolling</em>.</h1>
+        <p class="page-lede">Hand-coded, mobile-first, built to rank.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Start Your Build →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUR APPROACH -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">◧</div>
+          <div class="mark">Custom Web Design</div>
+        </Glass>
+        <div class="copy reveal">
+          <span class="eyebrow">OUR APPROACH</span>
+          <div class="sec-head is-flush"><h2>Hand-Coded. Mobile-First. Built to Rank.</h2></div>
+          <p>We build websites the right way: semantically structured for SEO, fast enough to make Google happy, and clean enough to maintain for years.</p>
+          <p>No page builders. No bloated themes. Production-grade HTML, CSS, and vanilla JavaScript that loads in under 2 seconds.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY IT MATTERS -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="copy reveal">
+          <span class="eyebrow">WHY IT MATTERS</span>
+          <div class="sec-head is-flush"><h2>Most Websites Fail Before Anyone Reads Them</h2></div>
+          <!-- em-dash: "should care — they're gone" → "should care, they're gone" -->
+          <p>The average visitor decides whether to stay or leave within 3 seconds. If your site loads slowly, looks like it was built in 2015, or doesn't immediately tell visitors what you do and why they should care, they're gone. And they probably went to a competitor.</p>
+          <!-- em-dash: "static HTML websites — not WordPress" → "static HTML websites, not WordPress" -->
+          <p>We build static HTML websites, not WordPress, not Wix, not Squarespace. Why? Because static sites load 3-5x faster, have no plugins to break, no databases to hack, and no monthly platform fees. They're built to last, built to rank, and built to represent your business at the highest level.</p>
+          <!-- em-dash: "from day one — title tags" → "from day one: title tags" -->
+          <p>Every site we build is mobile-first, fully responsive, and includes on-page SEO from day one: title tags, meta descriptions, schema markup, and proper heading structure. Because a beautiful website that nobody can find is just expensive art.</p>
+          <p>Pair your new site with our <a href="seo.html">SEO services →</a> to start ranking from day one.</p>
+          <p>Looking for a complete brand? See our <a href="branding.html">Branding &amp; Identity services →</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVERY BUILD COMES WITH -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">INCLUDED</span>
+          <h2>Every Build Comes With</h2>
+        </div>
+        <div class="grid-svc">
+          {included.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Let's Talk About Your Site.</h2>
+          <!-- forbidden: dropped leading "Free consultation." -->
+          <p>We'll review what you have and recommend what fits.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Get a Quote →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

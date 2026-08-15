@@ -1,0 +1,224 @@
+---
+/**
+ * /live-band-web-studios/personal-sites — ported from the live site
+ * (livewebstudios.com/live-band-web-studios/personal-sites). One folder deep
+ * (two dots up on imports). Wrapped in .theme-live-band for the amber accent
+ * (token override reproduced in scoped <style>). No <img>: live hero video +
+ * bg photos dropped for page-head + VideoBg / flat sections. Tabler icon font
+ * (external CDN) dropped for glyphs. EM DASH BAN applied to all ported copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+// What every personal site includes — ported from live (5 cards).
+const includes = [
+  { ico: "◉", title: "Bio Page", body: "Your story. Where you've been. What you play. Who you've played with. Written in plain English by someone who understands what a session player's résumé actually looks like." },
+  { ico: "◎", title: "Touring Page", body: "Past markets. Notable venues. Tour history. Booking contact. The page that tells a promoter or talent buyer exactly where you've worked and who to call." },
+  { ico: "▶", title: "Media Page", body: "YouTube embeds. Audio clips. Press photos. Your best live footage front and center, not buried three clicks deep." },
+  { ico: "❖", title: "Photos Page", body: "High-res gallery. Press shots. Live shots. The photos a venue, promoter, or publication would actually need." },
+  { ico: "☎", title: "Contact Page", body: "One clean contact form. Your booking email. Your management contact if applicable. No noise." },
+];
+
+// Who this is for — role pills.
+const roles = [
+  "Sidemen", "Session Players", "Touring Keyboardists", "Guitarists", "Drummers",
+  "Bassists", "Vocalists", "Bandleaders", "Music Directors", "Producers",
+  "Songwriters", "Solo Artists", "Tribute Act Members",
+];
+
+// Merch pills.
+const merch = ["T-Shirts", "Hats", "Posters", "CDs", "Vinyl", "Signed Merch", "Digital Downloads"];
+
+// SEO cards — shared Live Band SEO block (em dashes converted).
+const seo = [
+  { ico: "⟨⟩", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
+  { ico: "◎", title: "The Words People Type", body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page." },
+  { ico: "▤", title: "Blog Articles Engines Love", body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings." },
+];
+---
+
+<Base
+  title="Personal Musician Sites | Live Band Web Studios"
+  description="Your name. Your domain. Custom websites for individual musicians, built by someone who's been on the road. Bio, touring, media, merch, and more."
+  canonical="https://livewebstudios.com/live-band-web-studios/personal-sites"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">A SERVICE OF LIVE BAND WEB STUDIOS</span>
+        <h1 class="page-h1">Your Name. <em>Your Site</em>.</h1>
+        <p class="page-lede">Custom websites for the working musician. You're more than a band member. You've been in the circuit long enough to know that your name is a brand. A Facebook page isn't a website. A Linktree isn't a presence. We build you something that actually represents what you do, and where you've been.</p>
+        <div class="hero-btns is-center mt-lg">
+          <a class="btn btn-primary" href="mailto:jonwolf@livewebstudios.com?subject=Personal Musician Site Inquiry">Talk to Jon →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT EVERY PERSONAL SITE INCLUDES -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <h2>What Every Personal Site Includes</h2>
+        </div>
+        <div class="grid-svc">
+          {includes.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ADD-ONS -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <h2>Add-Ons, Built for Working Musicians</h2>
+          <p class="page-lede is-center">Pricing is consultation-based. These are the options.</p>
+        </div>
+        <div class="grid-svc grid-svc--2">
+          <div class="card reveal">
+            <Glass variant="inner" innerClass="card-pad">
+              <div class="ico">✎</div>
+              <h3>Blog Articles</h3>
+              <!-- em-dash: "written by Jon in your voice — tour updates" → comma -->
+              <p>Monthly posts written by Jon in your voice, tour updates, gear talk, behind-the-scenes. Local SEO that gets your name in front of people searching for players in your markets. The kind of content that makes you look like you're everywhere.</p>
+              <p class="addon-note">Add-on · Consultation pricing</p>
+            </Glass>
+          </div>
+          <div class="card reveal">
+            <Glass variant="inner" innerClass="card-pad">
+              <div class="ico">▦</div>
+              <h3>Merch Store</h3>
+              <!-- em-dash: "Whatever you're selling — we build" → comma -->
+              <p>T-shirts. Hats. Posters. CDs. Vinyl. Whatever you're selling, we build a clean, functional store into your personal site. No WooCommerce sprawl. No plugin roulette. A real storefront that works on every device.</p>
+              <div class="pills">
+                {merch.map((m) => <span class="pill">{m}</span>)}
+              </div>
+              <p class="addon-note">Add-on · Consultation pricing</p>
+            </Glass>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW PRICING WORKS -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">HOW PRICING WORKS</span>
+          <div class="sec-head is-flush"><h2>Priced on a real call.</h2></div>
+          <!-- em-dash: "Every musician is different — the build scope" → comma -->
+          <p>Personal sites are priced on consultation. Every musician is different, the build scope, the add-ons, the hosting term, the ongoing content needs. Jon doesn't believe in pricing you from a dropdown. He believes in a 20-minute call.</p>
+          <p>What always stays the same: hand-built HTML, KnownHost hosting on the same server that's been running LWS since 2004, and Jon on the phone when something needs to happen.</p>
+          <div class="mt-lg"><a class="btn btn-primary" href="mailto:jonwolf@livewebstudios.com?subject=Personal Musician Site Inquiry">Start the Conversation →</a></div>
+        </div>
+        <Glass class="reveal" innerClass="card-pad">
+          <span class="label">READY TO TALK?</span>
+          <h3>Jon Wolf</h3>
+          <p><a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a></p>
+          <p><a href="tel:7328019611">732.801.9611</a></p>
+          <p class="addon-note">Call anytime.</p>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- YOUR NAME, YOUR DOMAIN -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="feature">
+          <div class="ico is-center">◉</div>
+          <h2>Your Name, Your Domain</h2>
+          <!-- em-dash: "custom domain — YourNameMusic.com..." → commas -->
+          <p>Every personal site includes a custom domain, YourNameMusic.com, JohnSmithGuitar.com, whatever makes sense for your brand. Jon handles registration, DNS, and setup. You don't touch a terminal.</p>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- WHO THIS IS FOR -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <h2>Who This Is For</h2>
+        </div>
+        <div class="pills pills--center reveal">
+          {roles.map((r) => <span class="pill">{r}</span>)}
+        </div>
+        <p class="page-lede is-center mt-lg reveal">If you've ever had a gig you can't explain on Facebook, you need a real website.</p>
+      </div>
+    </section>
+
+    <!-- SEO / AI PLATFORM -->
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">FOUND ON GOOGLE, NOT JUST BUILT</span>
+          <h2>SEO Is Baked Into Every Build</h2>
+        </div>
+        <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
+        <div class="grid-svc">
+          {seo.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+        <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Amber sub-brand theming — token override reproduced from live-band-web-studios.astro. */
+  .theme-live-band {
+    --cyan: #fcd34d;
+    --cyan-soft: #fde68a;
+    --cyan-2: #f59e0b;
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  .grid-svc--2 { grid-template-columns: repeat(2, 1fr); }
+  .ico.is-center { text-align: center; }
+
+  .addon-note { color: var(--cyan-soft); font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; margin-top: 1rem; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+  .pills--center { justify-content: center; max-width: 820px; margin-inline: auto; }
+  .pill {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    background: rgba(252, 211, 77, 0.04);
+  }
+
+  @media (max-width: 900px) {
+    .grid-svc--2 { grid-template-columns: 1fr; }
+  }
+</style>

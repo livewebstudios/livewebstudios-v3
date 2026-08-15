@@ -1,0 +1,293 @@
+---
+/**
+ * /live-band-web-studios/pricing — ported from the live site
+ * (livewebstudios.com/live-band-web-studios/pricing). One folder deep (two dots
+ * up on imports). Wrapped in .theme-live-band for the amber accent (token
+ * override reproduced in scoped <style>, matching the hub). No <img>: the live
+ * hero video/photo is replaced with a page-head + VideoBg. Prices kept verbatim.
+ * Tabler icon font (external CDN) dropped; glyph markers used instead.
+ * EM DASH BAN applied to all ported copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+// FAQ — ported (em dashes converted).
+const faqs = [
+  { q: "What does prepaid mean?", a: "You pay for the year upfront. Jon doesn't do monthly invoices. In 20-plus years, no client has had a problem with it." },
+  // em-dash: "Hosting is prepaid — no refunds" → comma
+  { q: "What if I need to cancel?", a: "Hosting is prepaid, no refunds if you leave early. The site is yours. Jon hands it over clean." },
+  { q: "Can I upgrade from Basic to Touring/Pro?", a: "Yes. Call Jon. We'll figure out the difference and build the add-ons." },
+  // em-dash: "Need more? Just ask — we'll work it out" → comma
+  { q: "Who handles updates?", a: "You handle gig dates and set lists through the CMS. Jon handles everything else in your monthly hour. Need more? Just ask, we'll work it out." },
+  // em-dash: "high-res preferred — Jon will tell you" → comma
+  { q: "Do I need to supply my own photos and videos?", a: "Yes on photos (high-res preferred, Jon will tell you what works). Video embeds come from your YouTube channel. Jon will tell you exactly which ones to point him at." },
+  { q: "What's the blog about?", a: "Local SEO. Every show in a new market is a blog post that gets your name in front of people searching for live music in that city. It's the long game. It works." },
+];
+
+// SEO cards — the shared Live Band SEO block (em dashes converted).
+const seo = [
+  { ico: "⟨⟩", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
+  { ico: "◎", title: "The Words People Type", body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page." },
+  { ico: "▤", title: "Blog Articles Engines Love", body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings." },
+];
+---
+
+<Base
+  title="Pricing | Live Band Web Studios"
+  description="Two tiers. No templates. Custom band websites starting at $600/year. Built by a musician."
+  canonical="https://livewebstudios.com/live-band-web-studios/pricing"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">NO CONTRACTS · NO SURPRISES · NO WORDPRESS</span>
+        <h1 class="page-h1"><em>Pricing</em>.</h1>
+        <p class="page-lede">Two tiers. Prepaid annually. Built from scratch every time.</p>
+      </div>
+    </section>
+
+    <!-- PRICING CARDS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="grid-svc grid-svc--2">
+          <!-- BASIC -->
+          <div class="card reveal">
+            <Glass variant="inner" innerClass="card-pad price-card">
+              <span class="tier-badge tier-badge--gold">Basic</span>
+              <div class="price-amt">$600 <span class="price-note">/ year</span></div>
+              <div class="price-note">(prepaid annually)</div>
+              <div class="price-build">Build: FREE</div>
+
+              <p class="price-head">Includes:</p>
+              <ul class="feats">
+                <li>Custom hand-built site (HTML/CSS/JS, no WordPress, no page builders, no templates, ever)</li>
+                <li>Gig page with upcoming shows</li>
+                <li>Photo gallery</li>
+                <li>YouTube video embeds</li>
+                <li>Decap CMS access. Band updates their own gig dates without calling Jon</li>
+                <li>1 hour/month of updates by Jon (photos, copy, minor changes)</li>
+                <li>Monthly SEO + traffic report</li>
+                <li>Monthly suggestions form link included in every report</li>
+              </ul>
+
+              <p class="price-head">Does not include:</p>
+              <ul class="feats feats--neg">
+                <li>Blog posts</li>
+                <li>EPK page</li>
+                <li>Member bios</li>
+                <li>Set list management</li>
+              </ul>
+
+              <a class="btn btn-ghost" href="mailto:jonwolf@livewebstudios.com?subject=Basic Tier Inquiry">Start With Basic →</a>
+            </Glass>
+          </div>
+
+          <!-- TOURING / PRO -->
+          <div class="card reveal">
+            <Glass variant="inner" innerClass="card-pad price-card">
+              <span class="tier-badge tier-badge--cyan">Touring / Pro</span>
+              <div class="price-amt-sm">$995 build</div>
+              <div class="price-plus">+</div>
+              <div class="price-amt">$1,548 <span class="price-note">/ year</span></div>
+              <div class="price-note">(prepaid annually)</div>
+
+              <p class="price-head">Includes everything in Basic, plus:</p>
+              <ul class="feats">
+                <li>Full custom multi-page site</li>
+                <li>
+                  Electronic Press Kit (EPK) page:
+                  <ul class="feats-sub">
+                    <li>Bio (3-5 sentences, industry-reader ready)</li>
+                    <li>High-res photo download links</li>
+                    <li>Audio/video samples (YouTube embeds + streaming)</li>
+                    <li>Notable venues / tour history</li>
+                    <li>Press quotes</li>
+                    <li>Tech rider summary (PA requirements, monitor setup, stage plot PDF link, input list PDF link, backline)</li>
+                    <li>Set list (CMS-managed, always current)</li>
+                    <li>Booking contact, one line</li>
+                  </ul>
+                </li>
+                <li>Set list management. Band members update via Decap CMS</li>
+                <li>Member bio pages, built from member bio forms; placeholders until forms arrive</li>
+                <li>
+                  3 SEO blog posts per month written by Jon:
+                  <ul class="feats-sub">
+                    <li>Local SEO (show posts targeting city + venue + genre keywords)</li>
+                    <li>Gear / equipment posts (band's voice)</li>
+                    <li>Behind the scenes / rehearsal (band's voice)</li>
+                    <li>Venue recaps / press-style posts</li>
+                  </ul>
+                </li>
+                <li>Monthly SEO + traffic + keyword ranking report</li>
+              </ul>
+
+              <a class="btn btn-primary" href="mailto:jonwolf@livewebstudios.com?subject=Touring Pro Tier Inquiry">Start With Touring / Pro →</a>
+            </Glass>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAYMENT NOTE -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="feature">
+          <!-- em-dash: "a payment plan can be arranged — talk to Jon" → comma -->
+          <p>Yearly prepaid is standard. Half up front + a payment plan can be arranged, talk to Jon. Every site is a real conversation, not a checkout flow.</p>
+          <p class="mt-lg"><a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a> · <a href="tel:7328019611">732.801.9611</a></p>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- PERSONAL SITES TEASER -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <h2>Individual Musician? We Do That Too.</h2>
+          <p class="page-lede is-center">Personal sites for solo artists, sidemen, studio players, and anyone who's more than just a band member. Consultation-based pricing.</p>
+          <div class="hero-btns is-center mt-lg">
+            <a class="btn btn-ghost" href="personal-sites.html">See Personal Sites →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2>Good Questions</h2>
+        </div>
+        <div class="faq reveal">
+          {faqs.map((f) => (
+            <details class="faq-item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO / AI PLATFORM -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <!-- em-dash: "Found on Google — Not Just Built" → comma -->
+          <span class="eyebrow">FOUND ON GOOGLE, NOT JUST BUILT</span>
+          <h2>SEO Is Baked Into Every Build</h2>
+        </div>
+        <!-- em-dash: "core part of what we do — every site is engineered" → comma -->
+        <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
+        <div class="grid-svc">
+          {seo.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+        <!-- em-dash: "Google didn't tweak the rules — it rewrote them" → comma -->
+        <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Amber sub-brand theming — token override reproduced from live-band-web-studios.astro. */
+  .theme-live-band {
+    --cyan: #fcd34d;
+    --cyan-soft: #fde68a;
+    --cyan-2: #f59e0b;
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  /* Two-up card grid (system default grid-svc is 3-up). */
+  .grid-svc--2 { grid-template-columns: repeat(2, 1fr); }
+
+  /* Pricing card internals. */
+  .price-card { display: flex; flex-direction: column; }
+  .tier-badge {
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    margin-bottom: 1rem;
+  }
+  .tier-badge--gold { color: #e3cb8b; background: rgba(201, 165, 90, 0.1); }
+  .tier-badge--cyan { color: var(--cyan-soft); background: rgba(252, 211, 77, 0.1); }
+  .price-amt { font-family: var(--sans); font-weight: 700; font-size: 2.2rem; color: var(--ink-soft); }
+  .price-amt-sm { font-family: var(--sans); font-weight: 600; font-size: 1.2rem; color: var(--ink-soft); }
+  .price-plus { color: var(--muted-2); font-size: 1.1rem; margin: 0.1rem 0; }
+  .price-note { font-size: 0.9rem; color: var(--muted-2); font-weight: 400; }
+  .price-build { color: var(--cyan-soft); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em; margin-top: 0.6rem; }
+  .price-head { font-weight: 600; color: var(--ink-soft); margin-top: 1.4rem; margin-bottom: 0.6rem; }
+
+  .feats { list-style: none; display: grid; gap: 0.55rem; }
+  .feats li { position: relative; padding-left: 1.5rem; color: var(--muted); font-size: 0.94rem; }
+  .feats li::before { content: "✓"; position: absolute; left: 0; color: var(--cyan-soft); font-weight: 700; }
+  .feats--neg li::before { content: "✕"; color: var(--muted-2); }
+  .feats-sub { list-style: none; display: grid; gap: 0.4rem; margin-top: 0.5rem; margin-left: 0.2rem; }
+  .feats-sub li { padding-left: 1.2rem; font-size: 0.9rem; }
+  .feats-sub li::before { content: "•"; color: var(--muted-2); }
+
+  .price-card .btn { margin-top: auto; align-self: flex-start; }
+
+  /* FAQ accordion — native <details>, styled with system tokens (from services). */
+  .faq { max-width: 760px; margin-inline: auto; }
+  .faq-item {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md, 12px);
+    background: rgba(255, 255, 255, 0.015);
+    margin-top: 0.9rem;
+    overflow: hidden;
+  }
+  .faq-item > summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 1.1rem 1.3rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .faq-item > summary::-webkit-details-marker { display: none; }
+  .faq-item > summary::after {
+    content: "+";
+    font-family: var(--mono);
+    color: var(--cyan-soft);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.25s var(--ease, ease);
+  }
+  .faq-item[open] > summary::after { transform: rotate(45deg); }
+  .faq-item > p { padding: 0 1.3rem 1.2rem; color: var(--muted); max-width: 68ch; }
+
+  @media (max-width: 900px) {
+    .grid-svc--2 { grid-template-columns: 1fr; }
+  }
+</style>

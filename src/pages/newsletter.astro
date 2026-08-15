@@ -1,0 +1,83 @@
+---
+/**
+ * /newsletter — ported from livewebstudios.com/newsletter.
+ * The exact Mailchimp embedded form is preserved: action URL (u/id/f_id),
+ * FNAME + EMAIL fields, the bot-trap field name, and the hidden tags value.
+ * The live page used js/newsletter.js for an inline AJAX confirmation panel;
+ * v3 has no such script, so this posts to Mailchimp directly (opens Mailchimp's
+ * standard confirmation) via target="_blank". EM DASH BAN applied.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+import VideoBg from "../components/VideoBg.astro";
+
+// Exact Mailchimp endpoint from the live newsletter page (built as an expression
+// so the & characters aren't HTML-entity-parsed).
+const MAILCHIMP_ACTION =
+  "https://livewebstudios.us18.list-manage.com/subscribe/post?u=612de0c3a91b0bcc090cd2337&id=30b288c666&f_id=00d229e7f0";
+---
+
+<Base
+  title="Sign Up for Our Newsletter | Live Web Studios"
+  description="Get web, AI, and workflow tips from Live Web Studios, straight to your inbox. Sign up in a few seconds."
+  canonical="https://livewebstudios.com/newsletter"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">NEWSLETTER</span>
+        <h1 class="page-h1">Get the <em>Newsletter</em>.</h1>
+        <p class="page-lede">Web, AI, and the occasional music-tech tangent. No spam, no nonsense, unsubscribe whenever.</p>
+      </div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="strong" />
+      <div class="wrap">
+        <Glass class="reveal" innerClass="form-pad">
+          <span class="eyebrow is-center mb-md">JOIN THE NEWSLETTER</span>
+
+          <!-- Mailchimp embedded form — endpoint + field names preserved exactly -->
+          <form
+            id="newsletterForm"
+            action={MAILCHIMP_ACTION}
+            method="post"
+            target="_blank"
+            novalidate
+          >
+            <div class="field full">
+              <label for="mce-FNAME">First name <span class="opt">(optional)</span></label>
+              <input id="mce-FNAME" type="text" name="FNAME" autocomplete="given-name" placeholder="First name" />
+            </div>
+
+            <div class="field full">
+              <label for="mce-EMAIL">Email address</label>
+              <input id="mce-EMAIL" type="email" name="EMAIL" required autocomplete="email" placeholder="you@yourcompany.com" />
+            </div>
+
+            <!-- Mailchimp bot trap. Off-screen, never display:none. Do not rename. -->
+            <div class="hp" aria-hidden="true">
+              <input type="text" name="b_612de0c3a91b0bcc090cd2337_30b288c666" tabindex="-1" value="" />
+            </div>
+            <input type="hidden" name="tags" value="2524065" />
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="newsletterSubmit">Sign Me Up →</button>
+            </div>
+
+            <p class="opt" style="margin-top:1rem">We'll never sell or share your email. One click to unsubscribe, always.</p>
+          </form>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

@@ -1,11 +1,10 @@
 ---
 /**
- * /contact — Formspree contact form (standard LWS pattern).
- * Fields: name, email, phone (optional), project type, message.
- * Per specs/boilerplate-design.md: Formspree `_next` hidden field for the
- * thank-you redirect (MUST be absolute — Formspree redirects from its own
- * domain back to ours), plus the `_gotcha` honeypot on every form.
- * The Formspree form ID is a PLACEHOLDER — swap for the real endpoint.
+ * /contact — ported from the live site (livewebstudios.com/contact).
+ * Real Formspree endpoint (mbdqyrwg) and live field set + copy brought over,
+ * rebuilt on v3 layouts/components. Keeps the v3 honeypot (_gotcha) and the
+ * ?sent=1 success-banner pattern rather than the live thank-you.html redirect
+ * (that page doesn't exist in v3). EM DASH BAN applied to ported copy.
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
@@ -15,8 +14,8 @@ import VideoBg from "../components/VideoBg.astro";
 ---
 
 <Base
-  title="Contact Live Web Studios | Web Design in North Jersey"
-  description="Tell Jon Wolf about your project. Web design, hosting, SEO, and AI builds for North Jersey businesses. Call 732.801.9611 or send a note."
+  title="Contact | Live Web Studios"
+  description="Reach Jon Wolf directly, no account managers, no phone trees. Web design, hosting, SEO, and AI services for North Jersey businesses and beyond."
   canonical="https://livewebstudios.com/contact"
 >
   <Nav />
@@ -26,9 +25,9 @@ import VideoBg from "../components/VideoBg.astro";
     <section class="page-head has-videobg">
       <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
       <div class="wrap">
-        <span class="eyebrow is-center mb-lg">LET'S TALK</span>
-        <h1 class="page-h1">Tell me about your <em>project</em>.</h1>
-        <p class="page-lede">The more you tell me, the better the first call goes. Prefer the phone? It's right here: 732.801.9611. I pick up.</p>
+        <span class="eyebrow is-center mb-lg">CONTACT</span>
+        <h1 class="page-h1">Let's Build <em>Something</em>.</h1>
+        <p class="page-lede">Or just ask a question. We answer those too.</p>
       </div>
     </section>
 
@@ -45,15 +44,15 @@ import VideoBg from "../components/VideoBg.astro";
             <p>Thanks for reaching out. I'll get back to you shortly, usually the same day.</p>
           </div>
 
-          <!-- PLACEHOLDER: replace YOUR_FORM_ID with the real Formspree endpoint -->
+          <!-- Real live Formspree endpoint, ported from the live contact page -->
           <form
             id="contact-form"
-            action="https://formspree.io/f/YOUR_FORM_ID"
+            action="https://formspree.io/f/mbdqyrwg"
             method="POST"
           >
             <!-- Absolute redirect back to this page (Formspree posts from its own domain) -->
             <input type="hidden" name="_next" value="https://livewebstudios.com/contact?sent=1" />
-            <input type="hidden" name="_subject" value="New project inquiry from livewebstudios.com" />
+            <input type="hidden" name="_subject" value="New LWS Inquiry" />
             <!-- Honeypot: real users never see or fill this -->
             <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
@@ -63,62 +62,71 @@ import VideoBg from "../components/VideoBg.astro";
                 <input type="text" id="name" name="name" autocomplete="name" required />
               </div>
               <div class="field">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" autocomplete="email" required />
+                <label for="business">Business <span class="opt">(optional)</span></label>
+                <input type="text" id="business" name="business" autocomplete="organization" />
               </div>
             </div>
 
             <div class="form-row">
               <div class="field">
-                <label for="phone">Phone <span class="opt">(optional)</span></label>
-                <input type="tel" id="phone" name="phone" autocomplete="tel" />
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required />
               </div>
               <div class="field">
-                <label for="project">Project type</label>
-                <select id="project" name="project type" required>
-                  <option value="" selected disabled>Choose one…</option>
-                  <option>New website</option>
-                  <option>Website redesign</option>
-                  <option>Hosting &amp; maintenance</option>
-                  <option>SEO &amp; local search</option>
-                  <option>AI build or automation</option>
-                  <option>Band or personal site</option>
-                  <option>Something else</option>
-                </select>
+                <label for="phone">Phone <span class="opt">(optional)</span></label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" />
               </div>
             </div>
 
             <div class="field full">
-              <label for="message">What are you building?</label>
+              <label for="service">Service interested in</label>
+              <select id="service" name="service">
+                <option value="" selected>Service Interested In…</option>
+                <option>Website Design</option>
+                <option>AI Platform</option>
+                <option>Hosting</option>
+                <option>SEO</option>
+                <option>AI Business Services</option>
+                <option>AI Workflow</option>
+                <option>Branding</option>
+                <option>E-Commerce</option>
+                <option>Audit</option>
+                <option>Not Sure Yet</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="message">Tell us about your project</label>
               <textarea id="message" name="message" required></textarea>
             </div>
 
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Send →</button>
+              <button type="submit" class="btn btn-primary">Send It →</button>
             </div>
           </form>
         </Glass>
 
         <!-- DETAILS -->
         <aside class="contact-aside reveal">
-          <span class="label">DIRECT LINES</span>
-          <h3>Reach out.</h3>
+          <span class="label">DIRECT LINE</span>
+          <h3>Talk to Jon.</h3>
+          <p>You work directly with the founder. No account managers. No phone trees.</p>
           <div class="contact-line">
-            <span class="k">Phone</span>
-            <a href="tel:7328019611">732.801.9611</a>
+            <span class="k">Name</span>
+            <span>Jon Wolf · President</span>
           </div>
           <div class="contact-line">
             <span class="k">Email</span>
             <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>
           </div>
           <div class="contact-line">
-            <span class="k">Studios</span>
-            <span>Offices in NJ and Florida</span>
+            <span class="k">Phone</span>
+            <a href="tel:7328019611">732.801.9611</a>
           </div>
           <div class="contact-line">
-            <span class="k">Hours</span>
-            <!-- PLACEHOLDER: confirm business hours with Jon -->
-            <span>By appointment. I answer fast.</span>
+            <!-- em-dash: "Saddle Brook, NJ — Serving..." → period -->
+            <span class="k">Area</span>
+            <span>Saddle Brook, NJ. Serving North Jersey and Nationwide.</span>
           </div>
         </aside>
       </div>

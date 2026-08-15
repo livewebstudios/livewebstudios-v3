@@ -1,0 +1,139 @@
+---
+/**
+ * /live-band-web-studios/forms — ported from the live site
+ * (livewebstudios.com/live-band-web-studios/forms). A hub/index that links to
+ * the three form pages (built by another agent) at forms/*.html. One folder
+ * deep (two dots up on imports). Wrapped in .theme-live-band for the amber
+ * accent (token override reproduced in scoped <style>). No <img>: live hero
+ * photo dropped for page-head + VideoBg. Tabler icon font dropped for glyphs.
+ * EM DASH BAN applied to all ported copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+// Form cards — hub links to the three form pages (em dashes converted).
+const forms = [
+  {
+    ico: "♪",
+    // em-dash: "New Bands — Start Here" → comma
+    badge: "New Bands, Start Here",
+    title: "Band Bio Form",
+    body: "Fill this out before we start the build. The more detail you give us, the less back-and-forth we do over email. This goes to Jon directly. He reads every one.",
+    href: "forms/band-bio-form.html",
+    cta: "Fill Out the Band Bio Form →",
+    primary: true,
+  },
+  {
+    ico: "◉",
+    badge: "Individual Members",
+    title: "Band Member Bio Form",
+    body: "One form per band member. Covers your gear, your history, your influences, your story. Fill in what you've got. The more you give us, the better your bio page and EPK copy will be.",
+    href: "forms/band-member-bio-form.html",
+    cta: "Fill Out the Member Bio Form →",
+    primary: false,
+  },
+  {
+    ico: "❖",
+    badge: "Photos & AI Imagery",
+    title: "Music Photo Form",
+    // em-dash: "AI-generated scenes — all in your look" → comma
+    body: "Musician intake & photo guide. Tell us your visual vibe, then follow the photo guide to shoot reference shots we'll turn into press photos, EPK images, and AI-generated scenes, all in your look.",
+    href: "forms/music-photo-form.html",
+    cta: "Fill Out the Music Photo Form →",
+    primary: true,
+  },
+];
+
+// SEO cards — shared Live Band SEO block (em dashes converted).
+const seo = [
+  { ico: "⟨⟩", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
+  { ico: "◎", title: "The Words People Type", body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page." },
+  { ico: "▤", title: "Blog Articles Engines Love", body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings." },
+];
+---
+
+<Base
+  title="Forms | Live Band Web Studios"
+  description="Band bio form and member bio form for Live Band Web Studios clients."
+  canonical="https://livewebstudios.com/live-band-web-studios/forms"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">CLIENT FORMS</span>
+        <h1 class="page-h1"><em>Forms</em>.</h1>
+        <p class="page-lede">Fill in what you've got. Skip what you don't. We'll figure out the rest together.</p>
+        <p class="forms-note is-center">Everything is optional. No required fields. No asterisks. No pressure.</p>
+      </div>
+    </section>
+
+    <!-- FORM CARDS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="grid-svc">
+          {forms.map((f) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{f.ico}</div>
+                <span class="label">{f.badge}</span>
+                <h3>{f.title}</h3>
+                <p>{f.body}</p>
+                <a class={f.primary ? "btn btn-primary" : "btn btn-ghost"} href={f.href}>{f.cta}</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+        <p class="page-lede is-center mt-lg reveal">All three forms go directly to Jon Wolf at <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>. No auto-responder. No chatbot. A real person gets this.</p>
+      </div>
+    </section>
+
+    <!-- SEO / AI PLATFORM -->
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">FOUND ON GOOGLE, NOT JUST BUILT</span>
+          <h2>SEO Is Baked Into Every Build</h2>
+        </div>
+        <!-- em-dash: "core part of what we do — every site is engineered" → comma -->
+        <p class="page-lede is-center mb-lg reveal">Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
+        <div class="grid-svc">
+          {seo.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+        <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Amber sub-brand theming — token override reproduced from live-band-web-studios.astro. */
+  .theme-live-band {
+    --cyan: #fcd34d;
+    --cyan-soft: #fde68a;
+    --cyan-2: #f59e0b;
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  .forms-note { color: var(--cyan-soft); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.8rem; }
+</style>

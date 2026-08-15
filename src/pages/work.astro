@@ -1,31 +1,49 @@
 ---
 /**
  * /work — portfolio (canonical URL; /portfolio 301s here per _redirects).
- * Grid structure ready to receive real client entries. Every card below is
- * a clearly-marked PLACEHOLDER — no real client names or sites are published
- * here. Which of Jon's 35+ clients to feature publicly is his call (flagged
- * in OPEN_QUESTIONS.md). Thumbnails are CSS-only, no stock imagery.
+ * Ported from the live site (livewebstudios.com/portfolio): the 12 real client
+ * projects already published publicly there, rebuilt on v3's work-card grid.
+ * Thumbnails (images/portfolio/*.jpg) aren't in v3 yet, so work-thumb--empty
+ * placeholders stand in; each card links out to the live client site.
+ * EM DASH BAN applied to descriptions. One exception: the band name
+ * "Winslow — An Evening of the Eagles" is kept verbatim (proper name). Flagged.
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import VideoBg from "../components/VideoBg.astro";
 
-// PLACEHOLDER portfolio entries — structure only. Replace `cat` / `title` /
-// `body` / `href` with approved real client work before launch.
 const projects = [
-  { cat: "Contractor · North Jersey", title: "Placeholder Project 01", body: "Service-area site with quote capture and gallery." },
-  { cat: "Restaurant · North Jersey", title: "Placeholder Project 02", body: "Menu, reservations, and location built for local search." },
-  { cat: "Law Firm · North Jersey", title: "Placeholder Project 03", body: "Practice-area pages and intake form for a solo attorney." },
-  { cat: "Medical & Dental", title: "Placeholder Project 04", body: "Patient-first site with appointment requests and services." },
-  { cat: "Band & Artist", title: "Placeholder Project 05", body: "Tour dates, reel, and booking, powered by Live Band Web Studios." },
-  { cat: "Real Estate", title: "Placeholder Project 06", body: "Listings-forward site with lead capture and area guides." },
+  { cat: "AI Image Services", title: "Live Web Photos", href: "https://livewebphotos.com/",
+    body: "The AI image-enhancement division of Live Web Studios, virtual staging, product retouching, and architectural visualization delivered at scale in about 48 hours." },
+  { cat: "Personal Site", title: "Jon Wolf Studios", href: "https://jonwolfstudios.com/",
+    body: "The personal site of LWS founder Jon Wolf, North Jersey keyboardist, guitarist, web developer, and AI workflow consultant, built on our follow-spot animation engine." },
+  { cat: "Electrical Contractor", title: "Mike DiNinno Electric", href: "https://mikedininnoelectric.com/",
+    body: "A veteran-owned, licensed electrical contractor in Clifton, NJ with 30+ years of residential, commercial, and industrial work, panel upgrades, generators, and 24/7 emergency service." },
+  { cat: "Industrial Maintenance", title: "Energy Services NA", href: "https://energyservicesna.netlify.app/about",
+    body: "An ISO 9001-certified industrial maintenance firm in Hillsborough, NJ, gas turbine, control valve, pump repair, and specialized welding for power-generation plants across North America." },
+  { cat: "Tribute Band", title: "The British Invasion Years", href: "https://britishinvasionyears.netlify.app/",
+    body: "A live '60s British Invasion concert show touring theaters coast to coast, tour dates, video, and booking for the band fronted by LWS's own Jon Wolf." },
+  { cat: "Construction", title: "Catcord Construction", href: "https://catcord.com",
+    body: "A construction management firm serving New York and New Jersey, specializing in commercial, healthcare, office, retail, and multi-family builds." },
+  { cat: "Welding & Steel", title: "Weir Welding", href: "https://stagingweirwelding.livewebstudios.com",
+    body: "Structural steel fabrication and erection company serving NJ, NY, and PA, built as a full static site rebuild with Decap CMS blog integration." },
+  { cat: "Architecture", title: "NHA Architects", href: "https://stagingnha-arch.livewebstudios.com",
+    body: "A Bergen County residential architecture firm specializing in custom home design, renovations, and planning & zoning approvals across Northern NJ and beyond." },
+  { cat: "Logistics", title: "Same Day Logistics", href: "https://samedaylogistics.com",
+    body: "A nationwide 24/7 courier and logistics company headquartered in NJ, offering local courier, medical delivery, airfreight, and specialized logistics services." },
+  { cat: "Event Rental", title: "Valley Tent", href: "https://valleytent.com",
+    body: "A full-service event rental company offering tents, glassware, linens, and tableware for weddings and events throughout the region." },
+  { cat: "Tribute Band", title: "Winslow — An Evening of the Eagles", href: "https://winsloweaglestribute.com",
+    body: "A professional Eagles tribute band featuring tour dates, performance info, and fan resources for one of the most sought-after tribute acts on the East Coast." },
+  { cat: "Nonprofit", title: "Bergen Area", href: "https://bergenarea.org",
+    body: "The Bergen County Narcotics Anonymous area website, providing meeting information, resources, and community support for recovery." },
 ];
 ---
 
 <Base
-  title="Our Work | Live Web Studios Portfolio, North Jersey Web Design"
-  description="Selected work from Live Web Studios: custom, AI-platformed websites for North Jersey contractors, restaurants, law firms, medical practices, and more."
+  title="Portfolio | Live Web Studios — Web Design & Development NJ"
+  description="Explore websites designed and built by Live Web Studios. From construction firms to logistics companies, we build fast, beautiful, and SEO-optimized websites for small businesses."
   canonical="https://livewebstudios.com/work"
 >
   <Nav />
@@ -35,9 +53,9 @@ const projects = [
     <section class="page-head has-videobg">
       <VideoBg src="bg-corner.mp4" scrim="hero" />
       <div class="wrap">
-        <span class="eyebrow is-center mb-lg">SELECTED WORK</span>
-        <h1 class="page-h1">The work speaks <em>first</em>.</h1>
-        <p class="page-lede">Real sites for real North Jersey businesses. Built from scratch, tuned for search, and handed over ready for opening night.</p>
+        <span class="eyebrow is-center mb-lg">PORTFOLIO</span>
+        <h1 class="page-h1">Real Work. Real <em>Results</em>.</h1>
+        <p class="page-lede">A selection of sites built, rebuilt, and ranked by Live Web Studios.</p>
       </div>
     </section>
 
@@ -45,21 +63,25 @@ const projects = [
     <section class="sec-pad has-videobg">
       <VideoBg src="bg-color-tv.mp4" scrim="default" />
       <div class="wrap">
-        <!-- PLACEHOLDER GRID: entries below are structure only, not real client work.
-             Confirm featured clients with Jon before launch (see OPEN_QUESTIONS.md). -->
+        <div class="sec-head center reveal">
+          <span class="eyebrow">OUR WORK</span>
+          <h2>A selection of websites designed, built, and maintained by Live Web Studios.</h2>
+        </div>
         <div class="work-grid">
           {projects.map((p) => (
             <article class="work-card reveal">
-              <div class="work-thumb"><span>Preview coming soon</span></div>
+              <a class="work-thumb work-thumb--empty" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${p.title}`}>
+                <span>VIEW SITE →</span>
+              </a>
               <div class="work-meta">
                 <span class="work-cat">{p.cat}</span>
                 <h2 class="work-title">{p.title}</h2>
                 <p>{p.body}</p>
+                <a class="more" href={p.href} target="_blank" rel="noopener noreferrer">VIEW SITE →</a>
               </div>
             </article>
           ))}
         </div>
-        <p class="work-note">Case studies from the live portfolio are being added. Want to see work in your industry? <a href="contact.html">Reach out.</a></p>
       </div>
     </section>
 
@@ -67,11 +89,11 @@ const projects = [
     <section class="sec-pad is-alt">
       <div class="wrap">
         <div class="sec-head center reveal">
-          <span class="eyebrow">YOUR SITE NEXT</span>
-          <h2>Let's build the one you show off.</h2>
+          <span class="eyebrow">WANT TO BE NEXT?</span>
+          <h2>If you like what you see, let's talk.</h2>
         </div>
         <div class="hero-btns reveal">
-          <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="contact.html" class="btn btn-primary">Start a Project →</a>
           <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
         </div>
       </div>

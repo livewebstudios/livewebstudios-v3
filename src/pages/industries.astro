@@ -1,0 +1,172 @@
+---
+/**
+ * /industries — the Industries hub, ported from live industries/index.html.
+ * Intro + a grid of all 10 industry verticals + FAQ + CTA, rebuilt on v3
+ * layouts/components. Root-level page, so imports go ONE dot up and in-page
+ * links to an industry are "industries/<name>.html".
+ * COPY RULES APPLIED: em dashes converted per the ban (marked <!-- em-dash -->);
+ * bare "Learn More" (forbidden) → "SEE DETAILS →". Live hero illustration and
+ * Clutch badge images dropped (no <img> in v3 ports). Marquee strip dropped.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+import VideoBg from "../components/VideoBg.astro";
+
+const industries = [
+  { ico: "◎", title: "Healthcare", body: "HIPAA-aware websites for medical practices, clinics, and health organizations.", slug: "healthcare" },
+  { ico: "❖", title: "Law Firm", body: "Professional websites for law firms. Practice area pages, intake forms, local SEO.", slug: "law-firm" },
+  { ico: "◈", title: "Financial Services", body: "Websites for financial advisors, CPAs, and wealth management firms.", slug: "financial-services" },
+  { ico: "⛭", title: "Construction", body: "Project showcase sites for contractors, builders, and construction companies.", slug: "construction" },
+  { ico: "◧", title: "Real Estate", body: "Listing-ready websites for brokers, agents, and property management.", slug: "real-estate" },
+  { ico: "▦", title: "Manufacturing", body: "Catalog and capability sites for manufacturers and industrial businesses.", slug: "manufacturing" },
+  { ico: "✦", title: "Dental", body: "Patient-focused websites for dental practices with online booking integration.", slug: "dental" },
+  { ico: "✧", title: "Nonprofit", body: "Mission-driven websites for nonprofits, schools, and community organizations.", slug: "nonprofit" },
+  { ico: "⬡", title: "B2B", body: "Lead-generation websites for B2B companies and professional services.", slug: "b2b" },
+  { ico: "◉", title: "Insurance", body: "Quote-ready websites for insurance agencies and brokers.", slug: "insurance" },
+];
+
+// FAQ — ported verbatim (em dashes converted to colons/commas/periods).
+const faqs = [
+  {
+    q: "Do you specialize in specific industries?",
+    // em-dash: "wide range — law firms" → "wide range: law firms"
+    a: "We work across a wide range: law firms, healthcare, construction, real estate, financial services, nonprofits, and more. Each industry has its own compliance concerns, audience expectations, and conversion patterns. We know the difference and build accordingly.",
+  },
+  {
+    q: "Can you match the professional standards my industry requires?",
+    // em-dash: "for contractors — we tailor" → "for contractors, we tailor"
+    a: "Yes. Whether that means HIPAA-conscious design for healthcare, trust-forward layouts for law firms, or lead-generation focus for contractors, we tailor every build to what actually works in your space.",
+  },
+  {
+    q: "My industry is competitive online. Can you help me stand out?",
+    // em-dash: "from day one — not bolted" → "from day one, not bolted"
+    a: "That's exactly what we do. We combine clean, premium design with SEO built into every page from day one, not bolted on after. The goal is a site that looks better and ranks higher than your competitors.",
+  },
+  {
+    q: "I have a very specific audience. Will you understand my business?",
+    // em-dash: "template shop — we ask" → "template shop, we ask"
+    a: "We start every project with a deep dive into your business, your customers, and your market. We're not a template shop, we ask the right questions before we write a single line of code.",
+  },
+  {
+    q: "What if my industry isn't listed on your site?",
+    // em-dash: "Reach out — if it's" → "Reach out. If it's"
+    a: "If you serve real customers and need a serious web presence, we can help. Reach out. If it's outside our wheelhouse we'll tell you straight, but chances are we've worked in something close.",
+  },
+];
+---
+
+<Base
+  title="Industries We Serve | Live Web Studios"
+  description="Web design, SEO, and AI services tailored for healthcare, legal, finance, construction, real estate, and more."
+  canonical="https://livewebstudios.com/industries"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">INDUSTRIES</span>
+        <h1 class="page-h1">Built for <em>Your Industry.</em></h1>
+        <!-- em-dash: "unique requirements — compliance" → "unique requirements: compliance" -->
+        <p class="page-lede">We don't do generic. Every industry has unique requirements: compliance, terminology, audience expectations. We build for yours.</p>
+      </div>
+    </section>
+
+    <!-- INDUSTRY GRID -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <p class="page-lede is-center mb-lg">Pick your field. Every build is shaped around how your customers actually search, decide, and convert.</p>
+        <div class="grid-svc">
+          {industries.map((i) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{i.ico}</div>
+                <h3>{i.title}</h3>
+                <p>{i.body}</p>
+                <a class="more" href={`industries/${i.slug}.html`}>SEE DETAILS →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2>Frequently asked questions</h2>
+        </div>
+        <p class="page-lede is-center mb-lg">How we approach regulated, competitive, and niche verticals.</p>
+        <div class="faq reveal">
+          {faqs.map((f) => (
+            <details class="faq-item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Don't See Your Industry?</h2>
+          <p>We've built for dozens of verticals. Let's talk about yours.</p>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">Get a Proposal →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* FAQ accordion — native <details>, styled with system tokens.
+     Mirrors the treatment on /services (global.css has no .faq rules). */
+  .faq { max-width: 760px; margin-inline: auto; }
+  .faq-item {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md, 12px);
+    background: rgba(255, 255, 255, 0.015);
+    margin-top: 0.9rem;
+    overflow: hidden;
+  }
+  .faq-item > summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 1.1rem 1.3rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .faq-item > summary::-webkit-details-marker { display: none; }
+  .faq-item > summary::after {
+    content: "+";
+    font-family: var(--mono);
+    color: var(--cyan-soft);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.25s var(--ease, ease);
+  }
+  .faq-item[open] > summary::after { transform: rotate(45deg); }
+  .faq-item > p {
+    padding: 0 1.3rem 1.2rem;
+    color: var(--muted);
+    max-width: 68ch;
+  }
+</style>

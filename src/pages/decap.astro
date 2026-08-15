@@ -1,0 +1,243 @@
+---
+/**
+ * /decap — ported from livewebstudios.com/decap (client CMS guide,
+ * "How to Add Tour Dates"). noindex/nofollow, as on live. The page keeps its
+ * own bespoke light-card-on-navy guide styling (deliberately different from the
+ * marketing site so clients can read it like a printed doc). All classes are
+ * namespaced under .dg to avoid colliding with global.css. Screenshots
+ * (images/1-decap.png … 6-decap.png) aren't in v3 yet, so labelled placeholder
+ * frames stand in. EM DASH BAN applied.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const fields = [
+  ["VENUE NAME", "req", "The full name of the venue. e.g., The Stone Pony"],
+  ["CITY / STATE", "req", "City and state. e.g., Asbury Park, NJ"],
+  ["DATE", "req", "Use the date picker or type in MM/DD/YYYY format."],
+  ["SHOW TIME", "opt", "e.g., 8:00 PM. Leave blank if not confirmed yet."],
+  ["TICKET / EVENT URL", "opt", "Paste a link to Eventbrite, Facebook event, or venue page."],
+  ["BUTTON LABEL", "opt", "Text for the ticket button. Defaults to GET TICKETS. Options: MORE INFO · FREE ADMISSION"],
+  ["NOTES", "opt", "Any extra info. e.g., Free Admission · 21+"],
+];
+
+const powerFeatures = [
+  ["🗑️", "Old Dates Drop Out Automatically", "Past shows disappear from the live site on their own. You don't have to clean anything up."],
+  ["↕️", "Sort Any Way You Want", "Shows can be displayed in any order on any page: chronological, featured first, reverse. Totally your call."],
+  ["🧩", "Custom Fields", "Need a \"Doors Time\" field? A \"Support Act\" field? New fields can be added easily without rebuilding anything."],
+  ["📄", "Show Up Anywhere on the Site", "The same show data can feed the homepage, a dedicated tour page, or both. One entry, multiple places."],
+];
+---
+
+<Base
+  title="How to Add Tour Dates | Live Web Studios Client Guide"
+  description="Step-by-step guide for adding and managing tour dates in your Decap CMS admin panel. Built by Live Web Studios."
+  canonical="https://livewebstudios.com/decap"
+  noindex={true}
+>
+  <Nav />
+
+  <main id="main">
+    <div class="dg">
+      <header class="dg-header">
+        <span class="dg-tag">Client Guide</span>
+        <h1>How to Add Tour Dates</h1>
+        <p>A step-by-step walkthrough for managing your show calendar through the Decap CMS admin panel.</p>
+      </header>
+
+      <div class="dg-wrap">
+        <!-- BEFORE YOU BEGIN -->
+        <div class="dg-callout dg-callout--info">
+          <span class="dg-callout__icon" aria-hidden="true">📧</span>
+          <div>
+            <!-- em-dash: "Before you begin — check your email." → comma -->
+            <strong>Before you begin, check your email.</strong>
+            You should have received an invitation email from Jon Wolf at Live Web Studios. That email contains a link to verify your address and set your password. You can't log in until that's done. Check your spam folder if you don't see it. Once you're set up, you won't need to do this again.
+          </div>
+        </div>
+
+        <!-- STEP 0 -->
+        <div class="dg-step">
+          <div class="dg-step__head"><span class="dg-step__num">0</span><h2>Go to Your Admin Panel</h2></div>
+          <div class="dg-step__body">
+            <p>Open your browser and go to your website address with <strong>/admin</strong> added to the end. For example:</p>
+            <p><strong>yourband.com/admin</strong></p>
+            <p>Bookmark this URL. You'll use it every time.</p>
+            <div class="dg-shot"><span>Screenshot: the Decap CMS admin landing page. One button. Hard to miss.</span></div>
+          </div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="dg-step">
+          <div class="dg-step__head"><span class="dg-step__num">1</span><h2>Log In</h2></div>
+          <div class="dg-step__body">
+            <p>Click <strong>"Login with Netlify Identity."</strong> A login dialog will appear. Enter your email address and the password you set when you accepted the invitation.</p>
+            <div class="dg-shot"><span>Screenshot: enter your email and password, then click Log in.</span></div>
+            <p style="margin-top:1rem">Forgot your password? Hit <strong>"Forgot password?"</strong> right on that screen and it'll email you a reset link.</p>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="dg-step">
+          <div class="dg-step__head"><span class="dg-step__num">2</span><h2>Find Tour Dates in the Dashboard</h2></div>
+          <div class="dg-step__body">
+            <p>After you log in, you'll land on the <strong>Collections</strong> dashboard. This is the main menu for everything your site manages.</p>
+            <p>Click <strong>Site Content</strong> in the left column, then click <strong>Tour Dates</strong> from the list.</p>
+            <div class="dg-shot"><span>Screenshot: click "Site Content" on the left, then "Tour Dates."</span></div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="dg-step">
+          <div class="dg-step__head"><span class="dg-step__num">3</span><h2>Add a New Show</h2></div>
+          <div class="dg-step__body">
+            <p>You'll see your current show list. To add a new date, click <strong>"Add shows +"</strong> on the right side of the SHOWS bar.</p>
+            <div class="dg-shot"><span>Screenshot: click "Add shows +" to create a new entry, then scroll down to the bottom where the new blank form opens.</span></div>
+            <div class="dg-callout dg-callout--tip" style="margin-top:1.25rem">
+              <span class="dg-callout__icon" aria-hidden="true">💡</span>
+              <div><strong>Scroll down after clicking.</strong> The new entry form opens at the bottom of the list, below all your existing shows. Scroll all the way down to find it.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="dg-step">
+          <div class="dg-step__head"><span class="dg-step__num">4</span><h2>Fill In the Show Details</h2></div>
+          <div class="dg-step__body">
+            <!-- em-dash: "The rest are optional — leave them blank" → period -->
+            <p>Fill in the fields for the new show. Required fields are marked below. The rest are optional. Leave them blank if you don't have that info yet.</p>
+            <table class="dg-table">
+              <thead><tr><th>Field</th><th>What to Enter</th></tr></thead>
+              <tbody>
+                {fields.map(([name, req, desc]) => (
+                  <tr>
+                    <td>{name} <span class={`dg-badge dg-badge--${req}`}>{req === "req" ? "Required" : "Optional"}</span></td>
+                    <td>{desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div class="dg-shot"><span>Screenshot: the new show entry form. Fill in what you have and leave the rest blank.</span></div>
+          </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="dg-step">
+          <div class="dg-step__head"><span class="dg-step__num">5</span><h2>Publish Your Changes</h2></div>
+          <div class="dg-step__body">
+            <p>When you're done, scroll back up to the top and click the <strong>Publish</strong> button. You'll see a green <strong>"Entry saved"</strong> confirmation in the top right.</p>
+            <div class="dg-shot"><span>Screenshot: green "Entry saved" toast = you're done. Your site updates automatically within about 30 seconds.</span></div>
+            <div class="dg-callout dg-callout--success" style="margin-top:1.25rem">
+              <span class="dg-callout__icon" aria-hidden="true">✅</span>
+              <div><strong>That's it.</strong> No FTP. No plugins. No contacting anyone. The site rebuilds itself and the new date is live within about 30 seconds.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- POWER FEATURES -->
+        <section class="dg-power">
+          <h2>What Else This System Can Do</h2>
+          <p class="dg-power__lede">Your tour date system is fully customizable. Here's what's already built in, and what can be added.</p>
+          <div class="dg-cards">
+            {powerFeatures.map(([icon, title, body]) => (
+              <div class="dg-card">
+                <div class="dg-card__icon" aria-hidden="true">{icon}</div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- HELP CTA -->
+        <div class="dg-help">
+          <h2>Need Something Changed?</h2>
+          <!-- em-dash: "...anything else on the site — reach out." → question + Reach out -->
+          <p>Questions about your admin, new fields, or anything else on the site? Reach out.</p>
+          <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Bespoke client-guide styling, namespaced under .dg so nothing collides with
+     global.css. Light cards on a soft navy field with a slow drifting glow. */
+  .dg {
+    --g-blue: #1a9ed4; --g-dark: #0f172a; --g-text: #334155; --g-muted: #475569;
+    --g-border: #e2e8f0; --g-bg: #f8fafc; --g-white: #fff; --g-radius: 10px;
+    --g-shadow: 0 4px 6px -1px rgba(15,23,42,0.07), 0 2px 4px -2px rgba(15,23,42,0.05);
+    position: relative; isolation: isolate; color: var(--g-text); line-height: 1.65;
+  }
+  .dg::before {
+    content: ""; position: absolute; inset: -20%; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(44% 40% at 15% 18%, rgba(91,164,207,0.30), transparent 62%),
+      radial-gradient(48% 44% at 85% 24%, rgba(56,128,184,0.32), transparent 64%),
+      radial-gradient(56% 52% at 50% 88%, rgba(40,100,158,0.26), transparent 68%);
+    animation: dgDrift 30s ease-in-out infinite alternate;
+  }
+  @keyframes dgDrift { 0%{transform:translate3d(0,0,0) scale(1)} 50%{transform:translate3d(2.5%,-2%,0) scale(1.06)} 100%{transform:translate3d(-2%,1.5%,0) scale(1.03)} }
+  @media (prefers-reduced-motion: reduce) { .dg::before { animation: none } }
+
+  .dg-header { color: #fff; padding: 6rem 2rem 2rem; text-align: center; }
+  .dg-tag { display:inline-block; background:var(--g-blue); color:#fff; font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:.3rem .85rem; border-radius:999px; margin-bottom:1rem; }
+  .dg-header h1 { font-size: clamp(1.75rem,4vw,2.75rem); font-weight:800; line-height:1.15; margin-bottom:.75rem; }
+  .dg-header p { font-size:1.05rem; color:rgba(255,255,255,.72); max-width:560px; margin:0 auto; }
+
+  .dg-wrap { max-width:960px; margin:0 auto; padding:2rem 2rem 5rem; }
+
+  .dg-callout { border-radius:var(--g-radius); padding:1.25rem 1.5rem; margin-bottom:2rem; font-size:.95rem; line-height:1.6; display:flex; gap:1rem; align-items:flex-start; }
+  .dg-callout__icon { font-size:1.4rem; flex-shrink:0; margin-top:.05rem; }
+  .dg-callout--info { background:#eff6ff; border:1px solid #bfdbfe; }
+  .dg-callout--success { background:#f0fdf4; border:1px solid #bbf7d0; }
+  .dg-callout--tip { background:#fffbeb; border:1px solid #fde68a; }
+  .dg-callout strong { display:block; margin-bottom:.2rem; color:var(--g-dark); }
+
+  .dg-step { background:var(--g-white); border:1px solid var(--g-border); border-radius:var(--g-radius); box-shadow:var(--g-shadow); margin-bottom:2.5rem; overflow:hidden; }
+  .dg-step__head { display:flex; align-items:center; gap:1rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--g-border); }
+  .dg-step__num { width:2.25rem; height:2.25rem; border-radius:50%; background:var(--g-blue); color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .dg-step__head h2 { font-size:1.2rem; font-weight:700; color:var(--g-dark); }
+  .dg-step__body { padding:1.5rem; }
+  .dg-step__body p { margin-bottom:.85rem; }
+  .dg-step__body p:last-child { margin-bottom:0; }
+  .dg-step__body strong { color:var(--g-dark); }
+
+  .dg-shot { margin:1.5rem 0 .5rem; border-radius:var(--g-radius); border:2px dashed #94a3b8; background:var(--g-bg); min-height:120px; display:flex; align-items:center; justify-content:center; padding:1.5rem; }
+  .dg-shot span { font-size:.85rem; color:var(--g-muted); font-style:italic; text-align:center; max-width:52ch; }
+
+  .dg-table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem; }
+  .dg-table th { text-align:left; padding:.6rem 1rem; background:var(--g-bg); color:var(--g-muted); font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; border-bottom:2px solid var(--g-border); }
+  .dg-table td { padding:.75rem 1rem; border-bottom:1px solid var(--g-border); vertical-align:top; color:var(--g-text); }
+  .dg-table tr:last-child td { border-bottom:none; }
+  .dg-table td:first-child { font-weight:600; color:var(--g-dark); white-space:nowrap; }
+  .dg-badge { display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:.15rem .5rem; border-radius:4px; margin-left:.4rem; vertical-align:middle; }
+  .dg-badge--req { background:#fee2e2; color:#b91c1c; }
+  .dg-badge--opt { background:#f0fdf4; color:#166534; }
+
+  .dg-power { margin-top:3rem; }
+  .dg-power h2 { font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:.4rem; }
+  .dg-power__lede { color:rgba(255,255,255,.72); margin-bottom:.5rem; }
+  .dg-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; margin-top:1.5rem; }
+  .dg-card { background:var(--g-white); border:1px solid var(--g-border); border-radius:var(--g-radius); padding:1.25rem 1.5rem; box-shadow:var(--g-shadow); }
+  .dg-card__icon { font-size:1.6rem; margin-bottom:.6rem; }
+  .dg-card h3 { font-size:1rem; font-weight:700; color:var(--g-dark); margin-bottom:.4rem; }
+  .dg-card p { font-size:.9rem; color:var(--g-muted); }
+
+  .dg-help { background:#16223b; color:#fff; border:1px solid rgba(255,255,255,.10); border-radius:var(--g-radius); padding:2rem; text-align:center; margin-top:3rem; }
+  .dg-help h2 { font-size:1.4rem; font-weight:800; margin-bottom:.5rem; }
+  .dg-help p { color:rgba(255,255,255,.72); margin-bottom:1.25rem; font-size:.95rem; }
+  .dg-help a { display:inline-block; background:var(--g-blue); color:#fff; font-weight:700; font-size:.9rem; letter-spacing:.03em; padding:.8rem 1.75rem; border-radius:6px; text-decoration:none; }
+  .dg-help a:hover { opacity:.88; }
+
+  @media (max-width:640px) {
+    .dg-wrap { padding:1.5rem 1.25rem 4rem; }
+    .dg-step__body { padding:1.25rem; }
+    .dg-table { font-size:.85rem; }
+    .dg-table th, .dg-table td { padding:.6rem .75rem; }
+  }
+</style>

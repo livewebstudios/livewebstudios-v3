@@ -1,9 +1,11 @@
 ---
 /**
- * /about — Jon Wolf / Live Web Studios story.
- * Structure-first for a later /jonvoice pass. Any invented specific is
- * marked <!-- PLACEHOLDER: confirm with Jon --> rather than stated as fact.
- * Reuses the flagship design language (cyan, Glass, .split, .stats, .trio).
+ * /about — ported from the live site (livewebstudios.com/about) content.
+ * Exact copy from the live About page, rebuilt on v3 layouts/components.
+ * EM DASH BAN: live copy used em dashes throughout; converted to commas /
+ * periods per the global client-facing rule. Spots marked <!-- em-dash -->.
+ * Live used real photos (1about.jpg, 2about.jpg) not present in v3 yet, so
+ * Glass placeholders stand in until the images are added to public/images.
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
@@ -11,34 +13,30 @@ import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
 
-const studios = [
+const reasons = [
   {
-    label: "THE FLAGSHIP",
-    title: "Live Web Studios",
-    body: "Custom, AI-platformed websites, hosting, and SEO for North Jersey businesses.",
-    href: "index.html",
-    go: "Home",
+    title: "23 Years of Pattern Recognition",
+    body: "We've seen every trend, every algorithm update, every \"next big thing.\" That experience means we spend your budget on what works, not what's fashionable.",
   },
   {
-    label: "SUB-BRAND",
-    title: "Live Band Web Studios",
-    body: "Sites built for bands and artists who play live. Tour dates, reels, bookings.",
-    href: "live-band-web-studios.html",
-    go: "See the stage",
+    title: "AI-Native Workflow",
+    // em-dash: "better imagery — without" → "better imagery, without"
+    body: "We rebuilt our entire pipeline around AI tools in 2023. Faster builds, smarter SEO, better imagery, without inflating what we charge you.",
   },
   {
-    label: "SUB-BRAND",
-    title: "Namesake",
-    body: "Premium personal-brand sites for solo professionals whose name is the business.",
-    href: "namesake.html",
-    go: "Make your name",
+    title: "No Account Managers. Just Jon.",
+    body: "You work directly with the person who built the business. No handoffs. No phone trees.",
+  },
+  {
+    title: "Built to Last",
+    body: "We don't build sites you'll need to replace in 18 months. Static-HTML architecture: fast, secure, and infinitely portable.",
   },
 ];
 ---
 
 <Base
-  title="About Live Web Studios | Jon Wolf, Web Designer in North Jersey"
-  description="Live Web Studios is Jon Wolf: a North Jersey web studio building custom, AI-platformed websites since 2004. One person, one call, real accountability."
+  title="About | Live Web Studios"
+  description="Live Web Studios was founded in 2004 by Jon Wolf. 23 years building web presences, now leading with AI. North Jersey, nationwide."
   canonical="https://livewebstudios.com/about"
 >
   <Nav />
@@ -48,85 +46,96 @@ const studios = [
     <section class="page-head has-videobg">
       <VideoBg src="bg-color-tv.mp4" scrim="hero" />
       <div class="wrap">
-        <span class="eyebrow is-center mb-lg">SINCE 2004 · SADDLE BROOK, NJ</span>
-        <h1 class="page-h1">One person. Full <em>agency</em> standards.</h1>
-        <p class="page-lede">Live Web Studios is Jon Wolf. Two decades of building and maintaining websites for North Jersey businesses, now with AI doing the heavy lifting.</p>
+        <span class="eyebrow is-center mb-lg">LIVE WEB STUDIOS · EST. 2004 · NORTH JERSEY</span>
+        <h1 class="page-h1">23 Years In. <em>Just Getting Started.</em></h1>
+        <p class="page-lede">Live Web Studios was founded in 2004 by Jon Wolf. Two decades building web presences, now leading with AI.</p>
       </div>
     </section>
 
-    <!-- STORY -->
+    <!-- OUR STORY -->
     <section class="sec-pad">
       <div class="wrap split">
-        <div class="copy reveal">
-          <span class="eyebrow">THE SHORT VERSION</span>
-          <div class="sec-head is-flush"><h2>I'm a web guy.</h2></div>
-          <p>Not an agency of 40. Not a platform. Just me, Jon Wolf, building and maintaining websites for North Jersey businesses since 2004.</p>
-          <p>I started in IT. Wore a tie. Hated it. A plumber friend needed a website, I built it, and things kind of snowballed from there.</p>
-          <p>These days I'm deep into AI-built sites: fast, clean HTML that Google rewards and clients actually understand. No plugin nightmares. No security drama. Just sites that work.</p>
-          <p class="kick">My number's on the website. I pick up.</p>
-          <div class="mt-lg"><a href="contact.html" class="btn btn-primary">Let's talk. →</a></div>
-        </div>
         <Glass class="reveal" innerClass="portrait">
           <div class="frame-lines"></div>
           <div class="big">JW</div>
           <div class="mark">Jon Wolf · Founder · Est. 2004</div>
         </Glass>
+        <div class="copy reveal">
+          <span class="eyebrow">OUR STORY</span>
+          <div class="sec-head is-flush"><h2>Two Decades. One Conviction.</h2></div>
+          <p>In 2004, Jon Wolf launched Live Web Studios out of a simple conviction: small businesses deserve the same quality web presence as Fortune 500 companies.</p>
+          <p>Two decades later, that conviction hasn't changed. What has changed is everything else.</p>
+          <!-- em-dash: "adapt — we got ahead" → "adapt. We got ahead." -->
+          <p>We've watched the web evolve from static HTML brochures to dynamic CMS platforms to the AI-powered landscape we operate in today. We didn't just adapt. We got ahead.</p>
+          <p>Today, LWS is a full-service digital agency specializing in AI-assisted web development, SEO, hosting, and business automation. We serve clients across New Jersey and nationwide.</p>
+          <!-- em-dash: "And yes — we still" → "And yes, we still" -->
+          <p class="kick">And yes, we still answer the phone.</p>
+        </div>
       </div>
     </section>
 
-    <!-- STATS -->
+    <!-- WHAT MAKES US DIFFERENT -->
     <section class="sec-pad is-alt has-videobg">
       <VideoBg src="bg-corner.mp4" scrim="default" />
       <div class="wrap">
         <div class="sec-head center reveal">
-          <span class="eyebrow">BY THE NUMBERS</span>
-          <h2>Two decades, still answering the phone.</h2>
+          <span class="eyebrow">WHAT MAKES US DIFFERENT</span>
+          <h2>Four Reasons Clients Stay</h2>
         </div>
-        <div class="stats reveal">
-          <div class="stat"><b>2004</b><span>Established</span></div>
-          <!-- PLACEHOLDER: confirm with Jon — brief says "35+ client portfolio" -->
-          <div class="stat"><b>35+</b><span>Active Clients</span></div>
-          <!-- PLACEHOLDER: confirm with Jon — homepage states "200+ sites shipped" -->
-          <div class="stat"><b>200+</b><span>Sites Shipped</span></div>
-          <div class="stat"><b>3</b><span>Studios</span></div>
+        <div class="grid-svc">
+          {reasons.map((r) => (
+            <div class="glass-inner card-pad reveal">
+              <h3>{r.title}</h3>
+              <p>{r.body}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
 
-    <!-- HOW I WORK -->
+    <!-- FOUNDER -->
     <section class="sec-pad">
       <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">FOUNDER</span>
+          <div class="sec-head is-flush"><h2>The Human Behind the Pixels</h2></div>
+          <!-- em-dash: "in IT — wearing a tie" → "in IT, wearing a tie" -->
+          <p>Jon Wolf started Live Web Studios in 2004. Before that, he was in IT, wearing a tie and hating it. A plumber friend asked him to build a website, and things kind of snowballed from there.</p>
+          <p>Now 23 years in, Jon is still the one building the sites, handling the hosting, writing the code, and answering the phone. No account managers in the middle.</p>
+          <p>When he's not working, Jon gigs nationally as a keyboardist and guitarist. He also runs Live Web Photos (AI image services) and Live AI Studios (AI consulting for larger businesses).</p>
+          <div class="mt-lg"><a href="contact.html" class="btn btn-primary">Get in Touch →</a></div>
+        </div>
         <Glass class="reveal" innerClass="portrait">
           <div class="frame-lines"></div>
           <div class="big">◧</div>
-          <div class="mark">Built AI Platformed</div>
+          <div class="mark">Jon Wolf · Keyboardist · Builder</div>
         </Glass>
-        <div class="copy reveal">
-          <span class="eyebrow">HOW I WORK</span>
-          <div class="sec-head is-flush"><h2>Built right, then handed over.</h2></div>
-          <p>Every site is built from scratch. No page builders, no template graveyards, no thirty plugins waiting to break. AI does the repetitive work so I can spend the time on the things that actually matter for your business.</p>
-          <p>When a site goes live, it's ready. Tested, reviewed, approved, and yours. No soft launches. No "we'll fix it after."</p>
-          <p class="kick">You get one person who knows your whole site. Not a ticket number.</p>
-        </div>
       </div>
     </section>
 
-    <!-- THE STUDIOS -->
+    <!-- MISSION / VISION / VALUES -->
     <section class="sec-pad is-alt">
       <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">THE STUDIOS</span>
-          <h2>Three doors, one workbench.</h2>
-        </div>
         <div class="trio">
-          {studios.map((s) => (
-            <a class="glass-inner card-pad reveal" href={s.href}>
-              <span class="label">{s.label}</span>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-              <span class="more">{s.go} →</span>
-            </a>
-          ))}
+          <div class="glass-inner card-pad reveal">
+            <span class="label">MISSION</span>
+            <!-- em-dash: "real business results — not just" → "real business results, not just" -->
+            <p>To build web presences that generate real business results, not just pretty pictures on a screen.</p>
+          </div>
+          <div class="glass-inner card-pad reveal">
+            <span class="label">VISION</span>
+            <!-- em-dash: "the big guys — without" → "the big guys, without" -->
+            <p>A future where any small business has a site as fast, smart, and polished as the big guys, without the big-agency price tag.</p>
+          </div>
+          <div class="glass-inner card-pad reveal">
+            <span class="label">VALUES</span>
+            <ul>
+              <li>Transparency over hype</li>
+              <li>Performance over aesthetics (though we'll take both)</li>
+              <li>Long-term relationships over project churn</li>
+              <li>Real skills over buzzwords</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -135,10 +144,11 @@ const studios = [
     <section class="sec-pad">
       <div class="wrap">
         <Glass class="reveal" innerClass="cta">
-          <h2>Want to work with the guy who builds it?</h2>
-          <p>Reach out anytime. I'm around.</p>
+          <h2>Let's Build Something That Lasts.</h2>
+          <!-- em-dash: "full rebuilds — talk to" → "full rebuilds. Talk to" -->
+          <p>From quick consults to full rebuilds. Talk to the person who'll actually do the work.</p>
           <div class="hero-btns">
-            <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+            <a href="contact.html" class="btn btn-primary">Start a Project →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
           </div>
         </Glass>

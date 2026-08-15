@@ -1,0 +1,98 @@
+---
+/**
+ * /services/ai-platform — ported from the live site
+ * (livewebstudios.com/services/ai-platform). Rebuilt on v3
+ * layouts/components. Hero illustration dropped per the no-image rule.
+ * EM DASH BAN applied to body copy; numeric ranges hyphenated.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const pillars = [
+  { num: "01", ico: "✦", title: "Faster Builds", body: "AI-assisted pipeline reduces build time by 60-70%. Sites launch faster and cost less." },
+  { num: "02", ico: "▤", title: "Smarter Content", body: "Every page built with AI-assisted SEO analysis: keywords, structure, schema from line one." },
+  { num: "03", ico: "▦", title: "Better Imagery", body: "AI image generation produces studio-quality visuals at scale. No photographer blockers." },
+  { num: "04", ico: "◎", title: "Continuous Improvement", body: "AI-monitored sites surface performance issues and competitive gaps automatically." },
+];
+---
+
+<Base
+  title="AI-Powered Website Platform | Live Web Studios"
+  description="AI-powered website builds: faster delivery, smarter content, better imagery. The LWS AI platform serves businesses nationwide from Saddle Brook, NJ."
+  canonical="https://livewebstudios.com/services/ai-platform"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">NEW IN 2026</span>
+        <h1 class="page-h1">We Rebuilt How Websites <em>Get Built</em>.</h1>
+        <p class="page-lede">The LWS AI-Powered Website Platform.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Start an AI-Powered Build →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO + WHAT THIS MEANS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="copy reveal">
+          <!-- em-dash: "not an add-on — it's the foundation" → "not an add-on. It's the foundation" -->
+          <p class="kick">In 2023, we started integrating AI into every part of our workflow. By 2026, it's not an add-on. It's the foundation.</p>
+          <span class="eyebrow">WHAT THIS MEANS FOR YOU</span>
+          <div class="sec-head is-flush"><h2>This Isn't a Chatbot. It's a Different Way of Working.</h2></div>
+          <!-- em-dash: "digital presence — from the first line" → "digital presence, from the first line" -->
+          <p>When people hear "AI," they think of a chatbot answering questions on a website. That's not what we're talking about. Our AI platform is the infrastructure behind how we build and maintain your digital presence, from the first line of content to the final performance report.</p>
+          <!-- numeric range 60–70% → 60-70% -->
+          <p>In practice, this means: your website gets built faster (60-70% faster than traditional workflows), your content is keyword-optimized from the first draft, your images are studio-quality without hiring a photographer, and your site is continuously monitored for performance and competitive gaps.</p>
+          <!-- em-dash: "better product — faster, smarter" → "better product: faster, smarter" -->
+          <p>Clients on the LWS AI platform get a measurably better product: faster, smarter, and at a lower cost than the old way of doing things. That's the whole point.</p>
+          <p>See how AI is changing website builds with our <a href="website-design.html">Website Design process →</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOUR PILLARS -->
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-blue-fog.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          {pillars.map((p) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{p.ico}</div>
+                <span class="label">{p.num}</span>
+                <h3>{p.title}</h3>
+                <p>{p.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>This Is Not Chatbots.</h2>
+          <p>A fundamentally different approach to how your digital presence is built and maintained.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Talk to Jon →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

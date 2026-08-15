@@ -1,0 +1,133 @@
+---
+/**
+ * /industries/healthcare — ported from live industries/healthcare.html.
+ * One folder deep, so imports go TWO dots up and in-page links are
+ * "../services/*.html", "../contact.html", "../industries.html".
+ * COPY RULES: em dashes converted per the ban (marked <!-- em-dash -->); bare
+ * "Learn More" (forbidden) → "SEE DETAILS →"; the live "Free consultation for
+ * healthcare businesses" CTA line (brushes the free-consultation ban) reworded
+ * to "Let's talk about your healthcare website." Split photo + hero illustration
+ * dropped (no <img> in v3 ports); a Glass portrait placeholder stands in.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const services = [
+  { ico: "◧", title: "Website Design", body: "Mobile-first UX, clear service pages, and forms that actually work.", href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local rankings and service-page optimization to bring in new patients.", href: "../services/seo.html" },
+  { ico: "⛭", title: "Hosting", body: "Reliable managed hosting so your site stays fast and stays up.", href: "../services/hosting.html" },
+];
+
+const builds = [
+  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for healthcare audiences." },
+  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
+  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
+  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
+  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
+  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+];
+---
+
+<Base
+  title="Healthcare Web Design | Live Web Studios"
+  description="HIPAA-aware websites for medical practices, clinics, and health organizations."
+  canonical="https://livewebstudios.com/industries/healthcare"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">HEALTHCARE</span>
+        <h1 class="page-h1">Your Patients Are Searching. <em>Make Sure They Find You.</em></h1>
+        <p class="page-lede">HIPAA-aware websites for medical practices and health organizations that convert visitors into patients.</p>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">HEALTHCARE</span>
+          <div class="sec-head is-flush"><h2>Why Healthcare Businesses Choose LWS</h2></div>
+          <p>Medical practices live and die by local search. When someone needs a specialist, a dentist, or a therapist, the first thing they do is Google it. If your site loads slowly, looks outdated, or doesn't show up in local results, those patients are calling your competitor.</p>
+          <p>We build HIPAA-aware websites that load fast, rank locally, and make it easy for new patients to reach you. Every page is structured for search, every form is clean and functional, and the design builds the kind of trust that converts first-time visitors into long-term patients.</p>
+          <p>In this space, the results are usually clear within the first few months: more patient inquiries, better map-pack visibility, and fewer missed opportunities because contact paths are obvious on mobile. Several healthcare clients see meaningful increases in new patient inquiries within the first 90 days of launch.</p>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">◎</div>
+          <div class="mark">HEALTHCARE</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SERVICES</span>
+          <h2>Services We Provide for Healthcare</h2>
+        </div>
+        <!-- em-dash: "built in—because patients" → "built in, because patients" -->
+        <p class="page-lede is-center mb-lg">Fast, trust-forward sites with local SEO built in, because patients don't scroll forever.</p>
+        <div class="grid-svc">
+          {services.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+                <a class="more" href={c.href}>SEE DETAILS →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE BUILD -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT WE BUILD</span>
+          <h2>What We Build for Healthcare</h2>
+        </div>
+        <div class="grid-svc">
+          {builds.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to Upgrade Your Healthcare Website?</h2>
+          <p>Let's talk about your healthcare website.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Get a Proposal →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+          <p class="more"><a href="../industries.html">← All industries</a></p>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

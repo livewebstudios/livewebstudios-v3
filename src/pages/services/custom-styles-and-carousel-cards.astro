@@ -1,0 +1,118 @@
+---
+/**
+ * /services/custom-styles-and-carousel-cards — ported from the live site
+ * (livewebstudios.com/services/custom-styles-and-carousel-cards).
+ *
+ * The live page is a large image gallery: a tabbed style library with photo
+ * grids, branded carousel cards, and a lightbox (JS-driven). Per the no-image
+ * rule, ALL of that imagery (30+ style photos and branded cards across 5 sets)
+ * plus the lightbox/tabs JS are DROPPED. The five styles and their card
+ * categories are represented faithfully here as TEXT cards. See port report.
+ *
+ * EM DASH BAN applied to hero subhead, gallery intro, and closing CTA.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const cardCategories = [
+  "Show Concept",
+  "Band Credentials",
+  "Setlist / Name-Drops",
+  "Audience / Emotion",
+  "Fan Engagement",
+];
+
+const styles = [
+  { ico: "✦", name: "Archie", photos: 6, note: "Bold, comic-inspired ink and halftone." },
+  { ico: "❖", name: "Golden Gate", photos: 8, note: "Warm, sun-washed West Coast poster art." },
+  { ico: "◈", name: "Pop-Art", photos: 8, note: "High-saturation, screen-print energy." },
+  { ico: "⬡", name: "Mid-Century American", photos: 8, note: "Clean retro type and muted palettes." },
+  { ico: "◎", name: "Owsley", photos: 8, note: "Psychedelic, liquid-light concert graphics." },
+];
+---
+
+<Base
+  title="Custom Styles & Carousel Cards | Live Web Studios"
+  description="Five hand-crafted graphic style sets, Archie, Mid-Century, Pop-Art, Golden Gate & Owsley, for website heroes, carousels, and feature cards."
+  canonical="https://livewebstudios.com/services/custom-styles-and-carousel-cards"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">STYLE LIBRARY</span>
+        <h1 class="page-h1">Custom Styles &amp; <em>Carousel Cards</em>.</h1>
+        <!-- em-dash: "graphic sets — built to make" → "graphic sets, built to make" -->
+        <p class="page-lede">Distinctive graphic sets, built to make your hero panels, carousels, and feature cards look like nobody else's.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY INTRO -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="copy reveal">
+          <span class="eyebrow">STYLE LIBRARY</span>
+          <div class="sec-head is-flush"><h2>Pick a Style. We Build the Cards Around It.</h2></div>
+          <!-- em-dash: "hand-tuned look — not a stock filter" → "hand-tuned look, not a stock filter" -->
+          <!-- em-dash: "feature-card art — mix categories" → "feature-card art. Mix categories" -->
+          <p>Every set below is a real, hand-tuned look, not a stock filter. Each style ships with its own original photos plus branded cards where the band name, tour dates, and taglines are painted right into the artwork. We'll produce a matched run of hero images, carousel slides, and feature-card art. Mix categories, request a custom palette, or hand us a moodboard and we'll build something entirely yours. Sample content is from our build for <a href="https://www.britishinvasionyears.com/" target="_blank" rel="noopener">The British Invasion Years</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STYLE SETS (text cards, gallery imagery dropped) -->
+    <section class="sec-pad is-alt has-videobg">
+      <VideoBg src="bg-blue-fog.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">FIVE STYLE SETS</span>
+          <h2>Each Set: Original Photos + Carousel Cards</h2>
+          <p>Every style includes a run of original photos and branded carousel cards across five copy categories.</p>
+        </div>
+        <div class="grid-svc">
+          {styles.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.name}</h3>
+                <p>{s.note}</p>
+                <p class="kick">{s.photos} original photos</p>
+                <span class="label">CAROUSEL CARDS</span>
+                <ul>
+                  {cardCategories.map((c) => <li>{c}</li>)}
+                </ul>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Want a Set Built for Your Brand?</h2>
+          <!-- em-dash: "the vibe — I'll mock up cards" → "the vibe. I'll mock up cards" -->
+          <p>Tell me the vibe. I'll mock up cards in the style that fits. Mix any of these, or invent something new.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Let's talk. →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

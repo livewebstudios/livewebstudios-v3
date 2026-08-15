@@ -1,0 +1,241 @@
+---
+/**
+ * /namesake/how-it-works — ported from the live site
+ * (livewebstudios.com/namesake/how-it-works). One folder deep, so imports use
+ * two dots up. Wrapped in .theme-namesake so it inherits the brass accent
+ * (the token-override block is reproduced in the scoped <style> below, matching
+ * the namesake.astro hub). No <img>: the live floating-portrait hero + logo SVG
+ * are dropped for a page-head hero. EM DASH BAN applied to all ported copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+// Five steps — ported from live (em dashes converted to commas/periods).
+const steps = [
+  {
+    title: "Tell Namesake about you.",
+    // em-dash: "Ten minutes, tops — and you can skip" → comma
+    body: "A short, painless intake. Who you are, what you do, what the site needs to pull off. Ten minutes, tops, and you can skip anything you want.",
+  },
+  {
+    title: "Namesake designs and builds.",
+    body: "Fully custom, from a blank page, on a private staging server. No templates. No mockups pulled from a library. Built by hand, the way it's been done here since 2004.",
+  },
+  {
+    title: "You take a look.",
+    // em-dash: "on staging — not a flat picture" → comma
+    body: "See the real thing on staging, not a flat picture of it. Ask for changes. Sit with it. When it's right, you give the nod.",
+  },
+  {
+    title: "It goes live.",
+    // em-dash: "walks you through it himself — an actual conversation" → comma
+    body: "Point your domain and you're up. Jon walks you through it himself, an actual conversation, not a PDF and a good-luck.",
+  },
+  {
+    title: "It's yours.",
+    // em-dash: "right on the site — call anytime" → comma
+    body: "Manage and update it yourself anytime through a simple editor. And Jon's number stays right on the site, call anytime you want a hand.",
+  },
+];
+
+// What's included — ported from live (6 items; bold lead + detail).
+const included = [
+  { ico: "◆", title: "Fully custom design.", body: "Built from scratch, around your name, no templates, no page builders." },
+  { ico: "❖", title: "Custom imagery, illustration & photo work.", body: "Original visuals and art direction. Never stock." },
+  { ico: "▶", title: "Animated & video backgrounds.", body: "Ambient motion and parallax that make the site feel alive." },
+  { ico: "◫", title: "Responsive on every device.", body: "Phone, tablet, laptop, the big monitor, it holds up everywhere." },
+  { ico: "◎", title: "SEO + schema, AI Platformed.", body: "Built to be found by Google, and by the AI tools doing the searching now." },
+  { ico: "✎", title: "Editor access.", body: "Update your own content anytime, no developer required, no surprise bill." },
+];
+
+// Live examples — ported from live "See it live" block (em dashes converted).
+const examples = [
+  {
+    name: "jonwolfstudios.com",
+    body: "Jon Wolf, developer, musician, and the builder behind Namesake. A spare, architectural personal site that carries his creative and technical worlds in one place.",
+    href: "https://jonwolfstudios.com",
+    go: "Visit the site →",
+  },
+  {
+    name: "drrozcohen.com",
+    body: "Dr. Roz Cohen of Socius Strategies, a warm, credible home for a speaker and consultant. Built to carry her voice on culture, belonging, and inclusion.",
+    href: "https://drrozcohen.com",
+    go: "Visit the site →",
+  },
+  {
+    name: "Your site here",
+    body: "Another name, another one-of-a-kind build. Watch this space.",
+    href: null,
+    go: "More coming soon",
+  },
+];
+---
+
+<Base
+  title="How It Works | Namesake by Live Web Studios"
+  description="How Namesake builds your personal website, a simple, fully custom process from intake to launch. No templates, ever."
+  canonical="https://livewebstudios.com/namesake/how-it-works"
+>
+  <Nav />
+
+  <main class="theme-namesake">
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <div class="chip is-center"><span class="dot"></span> NAMESAKE · BY LIVE WEB STUDIOS</div>
+        <span class="eyebrow is-center mb-lg">THE PROCESS</span>
+        <h1 class="page-h1">How it <em>works</em>.</h1>
+        <p class="page-lede">Simple, and built entirely around you.</p>
+      </div>
+    </section>
+
+    <!-- THE PROCESS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE PROCESS</span>
+          <h2>Five steps. Start to launch.</h2>
+          <!-- em-dash: "then Namesake builds — and you see" → comma -->
+          <p class="page-lede is-center">No intake maze. No template-library mockups. Jon listens first, then Namesake builds, and you see the real thing before anything goes live.</p>
+        </div>
+        <div class="ns-steps">
+          {steps.map((s, i) => (
+            <div class="ns-step reveal">
+              <span class="ns-step-k">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT'S INCLUDED -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT'S INCLUDED</span>
+          <h2>Everything the name carries.</h2>
+          <p class="page-lede is-center">One custom build, top to bottom. Here's what comes with a Namesake site.</p>
+        </div>
+        <div class="grid-svc">
+          {included.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLES -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE PROOF</span>
+          <h2>See it live.</h2>
+        </div>
+        <div class="trio">
+          {examples.map((e) => (
+            e.href ? (
+              <a class="glass-inner card-pad reveal" href={e.href} target="_blank" rel="noopener noreferrer">
+                <h3>{e.name}</h3>
+                <p>{e.body}</p>
+                <span class="more">{e.go}</span>
+              </a>
+            ) : (
+              <div class="glass-inner card-pad reveal">
+                <h3>{e.name}</h3>
+                <p>{e.body}</p>
+                <span class="more">{e.go}</span>
+              </div>
+            )
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <span class="eyebrow is-center mb-md">READY WHEN YOU ARE</span>
+          <h2>Start with your name.</h2>
+          <!-- em-dash: "That's the whole first step — the rest is a real conversation" → comma -->
+          <p>Type it in and tell Namesake a little about you. That's the whole first step, the rest is a real conversation.</p>
+          <div class="hero-btns">
+            <a href="start.html" class="btn btn-primary">Start with your name →</a>
+            <a href="../namesake.html" class="btn btn-ghost">Namesake overview →</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Brass sub-brand theming — token override reproduced from namesake.astro. */
+  .theme-namesake {
+    --cyan: #c9a55a;
+    --cyan-soft: #e3cb8b;
+    --cyan-2: #a9863c;
+    --cyan-deep: #4a3a12;
+    --on-accent: #1a1206;
+    --line: rgba(201, 165, 90, 0.16);
+    --line-2: rgba(201, 165, 90, 0.08);
+  }
+
+  /* Editorial numbered steps — brass keyline down the left (from hub). */
+  .ns-steps {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 900px;
+    margin-inline: auto;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .ns-step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.6rem;
+    align-items: start;
+    padding: 1.6rem 1.8rem;
+    border-left: 1px solid var(--line);
+    background: rgba(201, 165, 90, 0.03);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+  }
+  .ns-step-k {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--cyan-soft);
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+  .ns-step h3 {
+    font-size: 1.22rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+  .ns-step p {
+    color: var(--muted);
+    font-size: 0.98rem;
+    max-width: 60ch;
+  }
+
+  @media (max-width: 900px) {
+    .ns-step { padding: 1.3rem 1.4rem; gap: 1.1rem; }
+  }
+</style>

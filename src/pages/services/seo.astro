@@ -1,0 +1,164 @@
+---
+/**
+ * /services/seo — ported from the live site (livewebstudios.com/services/seo).
+ * Rebuilt on v3 layouts/components. Hero illustration dropped per no-image rule.
+ * EM DASH BAN applied to body + tier bullets; numeric ranges hyphenated.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const services = [
+  { ico: "◎", title: "Technical Audit", body: "Speed, mobile, structure." },
+  { ico: "✦", title: "Keyword Research", body: "Local + service-specific." },
+  { ico: "▤", title: "On-Page Optimization", body: "Tags, meta, schema." },
+  { ico: "◈", title: "Google Business Profile", body: "Setup & optimization." },
+  { ico: "▦", title: "Content Creation", body: "Blog posts, service pages." },
+  { ico: "◧", title: "Monthly Reporting", body: "Real data. Real insights." },
+];
+
+const tiers = [
+  {
+    name: "Basic",
+    price: "$525",
+    featured: false,
+    blurb: "Essential SEO for getting started. Best for businesses that need a solid local foundation.",
+    items: [
+      "Website audit (speed, mobile, broken links)",
+      "Keyword research: 5-10 local keywords",
+      "On-page optimization (title tags, meta, headers)",
+      "URL structure recommendations",
+      "Google Business Profile setup or update",
+      "Google Analytics & Search Console setup",
+      "Monthly traffic and ranking report",
+    ],
+  },
+  {
+    name: "Standard",
+    price: "$975",
+    featured: true,
+    blurb: "Advanced strategies to grow your reach. Best for businesses ready to compete seriously in local search.",
+    items: [
+      "Everything in Basic, plus:",
+      "Expanded research: 15-20 keywords including competitor terms",
+      "Two optimized blog posts per month",
+      "Service page optimization",
+      "Local directory optimization + citation building",
+      "Technical SEO: broken links, site structure, page speed",
+      "Reputation management: review monitoring and response",
+      "Competitor rankings and backlink audit",
+      "Enhanced monthly report with keyword tracking and competitor comparisons",
+    ],
+  },
+  {
+    name: "Premium",
+    price: "$1,525",
+    featured: false,
+    blurb: "Comprehensive SEO for maximum visibility and results. Best for competitive markets and multi-service businesses.",
+    items: [
+      "Everything in Standard, plus:",
+      "Advanced research: 30+ keywords with long-tail variations",
+      "Four blog posts or content resources per month",
+      "Infographics, guides, or case studies",
+      "Hyper-local targeting for surrounding neighborhoods and cities",
+      "Citations across 50+ directories",
+      "Link building: outreach for quality backlinks",
+      "Schema markup for service areas and reviews",
+      "Advanced crawlability and structured data optimization",
+      "Social media post-sharing (Facebook, Instagram, LinkedIn)",
+      "ROI analysis, conversion tracking, heatmaps, and insights",
+    ],
+  },
+];
+---
+
+<Base
+  title="SEO & Digital Marketing | Live Web Studios"
+  description="Expert SEO services for small business, Saddle Brook, NJ. Local SEO, keyword research, content, technical audits. Plans from $525/mo. 23 years experience."
+  canonical="https://livewebstudios.com/services/seo"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">SEO &amp; MARKETING</span>
+        <h1 class="page-h1">Rank Higher. Get Found. <em>Grow</em>.</h1>
+        <p class="page-lede">SEO for small business, 23 years of search experience, North Jersey and nationwide.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Get Started →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT'S INCLUDED -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          {services.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT IS SEO -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="copy reveal">
+          <span class="eyebrow">WHAT IS SEO?</span>
+          <div class="sec-head is-flush"><h2>Your Customers Are Searching. The Question Is Whether They Find You.</h2></div>
+          <!-- em-dash: "SEO — Search Engine Optimization — is" → "SEO, Search Engine Optimization, is" -->
+          <!-- em-dash: "top of that list — and stay there" → "top of that list, and stay there" -->
+          <p>SEO, Search Engine Optimization, is the process of making your website show up when people search for what you offer. When someone types "plumber near me" or "NJ divorce attorney" or "best Italian restaurant in Saddle Brook," Google decides which websites to show first. SEO is how you get to the top of that list, and stay there.</p>
+          <p>Unlike paid ads that stop the moment you stop paying, SEO builds compounding value over time. A well-optimized page on your site can drive traffic and leads for years without additional spend. It's the highest-ROI marketing investment most small businesses can make.</p>
+          <!-- em-dash: "algorithm after algorithm — and we've stayed" → "algorithm after algorithm, and we've stayed" -->
+          <p>At Live Web Studios, we've been doing this for 23 years. We've watched Google evolve through algorithm after algorithm, and we've stayed ahead of every shift. We don't chase tricks or shortcuts. We build sites and content that Google trusts, and we do it the right way.</p>
+          <p>SEO works best on a fast, well-structured site. See how our <a href="website-design.html">Website Design process →</a> sets you up for search success.</p>
+          <p>Track your results with our <a href="hosting.html">Hosting &amp; Maintenance plans →</a> that include monthly SEO reports.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO PLANS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SEO PLANS</span>
+          <h2>Transparent Pricing. No Contracts.</h2>
+          <p>Three tiers designed for different stages of growth. All plans include a monthly performance report.</p>
+        </div>
+        <div class="grid-svc trio">
+          {tiers.map((t) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                {t.featured && <span class="tag-new">MOST POPULAR</span>}
+                <h3>{t.name}</h3>
+                <p class="kick">{t.price}<span class="label"> /mo</span></p>
+                <p>{t.blurb}</p>
+                <ul>
+                  {t.items.map((i) => <li>{i}</li>)}
+                </ul>
+                <a class="more" href="../contact.html">GET STARTED →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

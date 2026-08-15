@@ -23,27 +23,38 @@ import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
 
-const kit = [
+// What We Build — ported from live (3 cards).
+const build = [
   {
-    ico: "◷",
-    title: "Tour dates that stay current",
-    body: "A dates list you can update the day a gig gets added or moved. Fans and promoters see the real schedule, not last spring's.",
+    ico: "▦",
+    title: "Full Band Sites",
+    body: "Gig pages. Photo galleries. Video embeds. EPK. Set list management. Everything a touring band needs, and nothing they don't. Updated by the band via CMS, maintained by Jon.",
   },
   {
     ico: "✦",
-    title: "A press kit that opens doors",
-    body: "EPK essentials in one link: bio, hi-res photos, stage plot, tech rider, and quotes. What a booker needs to say yes fast.",
-  },
-  {
-    ico: "♪",
-    title: "Music and setlists front and center",
-    body: "Embed the streaming links, drop the reel, show the setlist. The site sounds like the band before anyone hits play.",
+    title: "EPK Pages",
+    body: "The document that gets you the gig. Bio, tech rider, stage plot, input list, booking contact, all in one page, formatted for talent buyers and FOH engineers who've seen a hundred of these.",
   },
   {
     ico: "◉",
-    title: "Booking without the back-and-forth",
-    body: "One clear way to reach you for shows, features, and press. The inquiry lands in your inbox, not a contact-form void.",
+    title: "Personal Sites",
+    body: "Your name. Your domain. Your story. Individual musician sites with bio, touring history, media, photos, and merch. Built for the working musician who's more than just a band member.",
   },
+];
+
+// How It Works — ported from live (4 steps).
+const steps = [
+  { ico: "☎", title: "The Call", body: "We talk. Jon listens. No intake forms, no auto-replies. You get Jon." },
+  { ico: "✎", title: "The Build", body: "Custom design starts after the call. No guessing. No mockups from a template library." },
+  { ico: "▲", title: "The Launch", body: "Staging review, your approval, then live. You get a walk-through. Not a PDF." },
+  { ico: "◫", title: "The Ongoing", body: "Monthly SEO reports. Blog posts. Gig calendar updates. Jon doesn't disappear after launch." },
+];
+
+// SEO section — ported from live (3 cards).
+const seo = [
+  { ico: "⟨⟩", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
+  { ico: "◎", title: "The Words People Type", body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page." },
+  { ico: "▤", title: "Blog Articles Engines Love", body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings." },
 ];
 ---
 
@@ -59,18 +70,18 @@ const kit = [
     <section class="hero">
       <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
       <div class="wrap hero-in">
-        <div class="chip"><span class="dot"></span> A STUDIO OF LIVE WEB STUDIOS</div>
+        <div class="chip"><span class="dot"></span> A SERVICE OF LIVE WEB STUDIOS</div>
         <p class="eyebrow is-center mb-lg">TOURING BANDS · ARTISTS · LIVE ACTS</p>
-        <h1 class="hero-h1">Sites for bands who <em>play live</em>.</h1>
-        <p class="hero-sub">Tour dates, press kit, setlists, and booking, built to move as fast as the band does.</p>
+        <h1 class="hero-h1">Your band deserves a website as serious as your <em>rider</em>.</h1>
+        <p class="hero-sub">Hand-built. Custom. No templates. No page builders. Built by a musician who's been on every side of that stage.</p>
         <div class="hero-btns">
           <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
-          <a href="#kit" class="btn btn-ghost">See what you get ↓</a>
+          <a href="#kit" class="btn btn-ghost">See what we build ↓</a>
         </div>
         <div class="telemetry">
-          <span>FOR <b>LIVE ACTS</b></span>
-          <span>BUILD <b>AI PLATFORMED</b></span>
-          <span>BY <b>LIVE WEB STUDIOS</b></span>
+          <span>HAND-BUILT <b>MADE TO LAST</b></span>
+          <span>BUILT BY A <b>MUSICIAN</b></span>
+          <span>YOUR BAND <b>YOUR SITE</b></span>
         </div>
       </div>
     </section>
@@ -79,27 +90,27 @@ const kit = [
     <section class="sec-pad">
       <div class="wrap">
         <Glass class="reveal" innerClass="feature">
-          <span class="eyebrow is-center mb-md">WHAT LIVE BAND IS</span>
-          <h2>Your band works the room. Your site should work the booker.</h2>
-          <p>A gigging band has different needs than a business or a solo pro. Dates change. Press asks for a kit. Promoters want a stage plot by end of day. Live Band Web Studios builds the one place that holds all of it, kept current and ready the minute someone goes looking for you.</p>
+          <span class="eyebrow is-center mb-md">WHY NOT A TEMPLATE</span>
+          <h2>They give you a template. We build you a website.</h2>
+          <p>The drag-and-drop site builders all start from the same place: a template someone else designed for someone else's band. Every site we build starts from scratch. Your colors. Your vibe. Your music. Fast load times. Nothing breaks, nothing needs babysitting, and there's never a surprise bill to keep it running.</p>
         </Glass>
       </div>
     </section>
 
-    <!-- WHAT YOU GET -->
+    <!-- WHAT WE BUILD (ported from live) -->
     <section id="kit" class="sec-pad is-alt">
       <div class="wrap">
         <div class="sec-head center reveal">
-          <span class="eyebrow">WHAT YOU GET</span>
-          <h2>Everything a working band needs online.</h2>
+          <span class="eyebrow">FOR BANDS · FOR SOLO ARTISTS · FOR THE WHOLE CIRCUIT</span>
+          <h2>What We Build</h2>
         </div>
-        <div class="grid-svc grid-svc--2">
-          {kit.map((k) => (
+        <div class="grid-svc">
+          {build.map((b) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{k.ico}</div>
-                <h3>{k.title}</h3>
-                <p>{k.body}</p>
+                <div class="ico">{b.ico}</div>
+                <h3>{b.title}</h3>
+                <p>{b.body}</p>
               </Glass>
             </div>
           ))}
@@ -107,23 +118,51 @@ const kit = [
       </div>
     </section>
 
-    <!-- FEATURE / NARRATIVE -->
+    <!-- HOW IT WORKS (ported from live) -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE PROCESS</span>
+          <h2>How It Works</h2>
+        </div>
+        <div class="grid-svc">
+          {steps.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO (ported from live) -->
     <section class="sec-pad has-videobg">
       <VideoBg src="bg-color-tv.mp4" scrim="default" />
-      <div class="wrap split">
-        <div class="copy reveal">
-          <span class="eyebrow">THE DIFFERENCE</span>
-          <div class="sec-head is-flush"><h2>Built for the road.</h2></div>
-          <p>Live Web Studios has built for North Jersey since 2004. Live Band is that same craft pointed at the stage: fast, clean sites that load on a phone in a parking lot before doors.</p>
-          <p>No bloated band-site builders. No plugin that breaks the week you drop a single. Just a site that keeps up with the calendar and makes the band look as good online as it sounds live.</p>
-          <p class="kick">The show is ready. The site should be too.</p>
-          <div class="mt-lg"><a href="contact.html" class="btn btn-ghost">Reach out. →</a></div>
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <!-- em-dash: "Found on Google — Not Just Built" → comma -->
+          <span class="eyebrow">FOUND ON GOOGLE, NOT JUST BUILT</span>
+          <h2>SEO Is Baked Into Every Build</h2>
         </div>
-        <Glass class="reveal" innerClass="portrait">
-          <div class="frame-lines"></div>
-          <div class="big lb-mark">♪</div>
-          <div class="mark">Live Band · A Studio of Live Web Studios</div>
-        </Glass>
+        <!-- em-dash: "core part of what we do — every site is engineered" → comma -->
+        <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
+        <div class="grid-svc">
+          {seo.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.ico}</div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+        <!-- em-dash: "Google didn't tweak the rules — it rewrote them" → comma -->
+        <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
       </div>
     </section>
 
@@ -131,10 +170,10 @@ const kit = [
     <section class="sec-pad is-alt">
       <div class="wrap">
         <Glass class="reveal" innerClass="cta">
-          <h2>Got a band that needs a home?</h2>
-          <p>Tell me who you are and where you're playing. I'll tell you what the site could do.</p>
+          <h2>Ready to Stop Sending People to Your Facebook Page?</h2>
+          <p>Let's build the site your live show actually deserves.</p>
           <div class="hero-btns">
-            <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
+            <a href="contact.html" class="btn btn-primary">Get in Touch →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
           </div>
         </Glass>

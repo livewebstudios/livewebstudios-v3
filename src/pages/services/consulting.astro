@@ -1,0 +1,81 @@
+---
+/**
+ * /services/consulting — ported from the live site
+ * (livewebstudios.com/services/consulting). Rebuilt on v3 layouts/components.
+ * Hero illustration dropped per no-image rule. No em dashes in body copy.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const cards = [
+  { ico: "◎", title: "Technical SEO", body: "Speed, mobile, crawlability." },
+  { ico: "▤", title: "Content Analysis", body: "Tags, headings, keywords." },
+  { ico: "✦", title: "Keyword Gaps", body: "What you should rank for." },
+  { ico: "◈", title: "Local SEO", body: "GBP, citations, reviews." },
+  { ico: "❖", title: "UX & Conversion", body: "What keeps visitors from converting." },
+  { ico: "⬡", title: "Competition", body: "How you stack up." },
+];
+---
+
+<Base
+  title="Website Audits & Consulting | Live Web Studios"
+  description="Technical SEO and UX website audits with written report and 1-hour walkthrough. From $499. Live Web Studios, Saddle Brook, NJ."
+  canonical="https://livewebstudios.com/services/consulting"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">AUDITS &amp; CONSULTING</span>
+        <h1 class="page-h1">Find Out Why Your Site <em>Isn't Working</em>.</h1>
+        <p class="page-lede">Website audit &amp; consulting.</p>
+        <div class="hero-btns">
+          <a href="../contact.html" class="btn btn-primary">Order an Audit →</a>
+          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUDIT CARDS -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="grid-svc">
+          {cards.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- DELIVERABLE -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <span class="eyebrow">DELIVERABLE</span>
+          <h2>Written Report + 1-Hour Walkthrough</h2>
+          <p>You own the report. Implement yourself or hire us.</p>
+          <p class="kick">Starting at $499</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Order Your Audit →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

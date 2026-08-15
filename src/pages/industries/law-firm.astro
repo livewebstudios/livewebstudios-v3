@@ -1,0 +1,133 @@
+---
+/**
+ * /industries/law-firm — ported from live industries/law-firm.html.
+ * Imports TWO dots up; in-page links "../services/*.html", "../contact.html",
+ * "../industries.html". COPY RULES: em dashes converted (marked <!-- em-dash -->);
+ * "Learn More" → "SEE DETAILS →"; free-consultation CTA line reworded to
+ * "Let's talk about your law firm website." Split/hero images dropped; Glass
+ * portrait placeholder stands in. Smart quotes normalized to straight.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const services = [
+  { ico: "◧", title: "Website Design", body: "Practice-area structure, trust-forward layout, mobile-first performance.", href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local rankings for \"practice area + city,\" plus technical SEO that actually sticks.", href: "../services/seo.html" },
+  { ico: "❖", title: "Branding", body: "Consistency across your site, print, presentations, and signage.", href: "../services/branding.html" },
+];
+
+const builds = [
+  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for law firm audiences." },
+  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
+  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
+  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
+  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
+  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+];
+---
+
+<Base
+  title="Law Firm Web Design | Live Web Studios"
+  description="Professional websites for law firms. Practice area pages, intake forms, local SEO."
+  canonical="https://livewebstudios.com/industries/law-firm"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">LAW FIRM</span>
+        <h1 class="page-h1">Your Website Should Work <em>as Hard as You Do.</em></h1>
+        <!-- em-dash: "for law firms — built" → "for law firms, built" -->
+        <p class="page-lede">Professional websites for law firms, built to rank locally, generate leads, and establish authority.</p>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">LAW FIRM</span>
+          <div class="sec-head is-flush"><h2>Why Law Firm Businesses Choose LWS</h2></div>
+          <!-- em-dash: "stick around — they'll call" → "stick around. They'll call" -->
+          <p>Potential clients searching for an attorney are already stressed. They're making decisions fast, and your website is the first "conversation" you have with them. If it loads slowly, feels generic, or makes it hard to understand your practice areas, they won't stick around. They'll call the next firm on the page.</p>
+          <!-- em-dash: "of legal—reviews...language—so" → parenthetical -->
+          <p>We build law firm websites that establish authority immediately: clean, premium design, clear practice area pages, intake paths that don't bury the phone number, and local SEO baked in from day one. We also understand the marketing realities of legal (reviews, disclaimers, and careful language) so your site looks sharp without crossing lines.</p>
+          <p>In this space, the wins are measurable. Firms typically see higher-quality inquiries (not just "more traffic"), improved Google Business Profile visibility, and more calls from people searching by practice area + town. The goal isn't a prettier site. It's a site that earns trust and generates real cases.</p>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">❖</div>
+          <div class="mark">LAW FIRM</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SERVICES</span>
+          <h2>Services We Provide for Law Firms</h2>
+        </div>
+        <p class="page-lede is-center mb-lg">A high-trust brand, a fast site, and search visibility that brings in the right calls.</p>
+        <div class="grid-svc">
+          {services.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+                <a class="more" href={c.href}>SEE DETAILS →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE BUILD -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT WE BUILD</span>
+          <h2>What We Build for Law Firms</h2>
+        </div>
+        <div class="grid-svc">
+          {builds.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to Upgrade Your Law Firm Website?</h2>
+          <p>Let's talk about your law firm website.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Get a Proposal →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+          <p class="more"><a href="../industries.html">← All industries</a></p>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

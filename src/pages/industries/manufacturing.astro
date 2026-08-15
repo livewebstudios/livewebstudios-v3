@@ -1,0 +1,133 @@
+---
+/**
+ * /industries/manufacturing — ported from live manufacturing.html.
+ * Imports TWO dots up; links "../services/*.html", "../contact.html",
+ * "../industries.html". COPY RULES: em dashes converted (marked <!-- em-dash -->);
+ * "Learn More" → "SEE DETAILS →"; free-consultation CTA line reworded. Images
+ * dropped; Glass portrait placeholder stands in. Smart quotes normalized.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+
+const services = [
+  { ico: "◧", title: "Website Design", body: "Product and capability pages organized for clarity and conversion.", href: "../services/website-design.html" },
+  // em-dash: "products—not just your company name" → "products, not just your company name"
+  { ico: "◎", title: "SEO", body: "Rank for processes, materials, and products, not just your company name.", href: "../services/seo.html" },
+  { ico: "⛭", title: "Hosting", body: "Fast hosting and maintenance so your catalogs and pages stay quick.", href: "../services/hosting.html" },
+];
+
+const builds = [
+  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for manufacturing audiences." },
+  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
+  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
+  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
+  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
+  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+];
+---
+
+<Base
+  title="Manufacturing Web Design | Live Web Studios"
+  description="Catalog and capability sites for manufacturers and industrial businesses."
+  canonical="https://livewebstudios.com/industries/manufacturing"
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">MANUFACTURING</span>
+        <h1 class="page-h1">Your Capabilities Deserve a Website <em>That Shows Them Off.</em></h1>
+        <!-- em-dash: "industrial businesses — built to impress" → "industrial businesses, built to impress" -->
+        <p class="page-lede">Catalog and capability sites for manufacturers and industrial businesses, built to impress buyers and rank for your products.</p>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="sec-pad">
+      <div class="wrap split">
+        <div class="copy reveal">
+          <span class="eyebrow">MANUFACTURING</span>
+          <div class="sec-head is-flush"><h2>Why Manufacturing Businesses Choose LWS</h2></div>
+          <!-- em-dash: "than \"look nice\"—it has to" → "than \"look nice.\" It has to" -->
+          <p>Manufacturing sites have a unique problem: the product is often complex, the buyer is technical, and the sales cycle is long. Your website needs to do more than "look nice." It has to communicate capabilities, materials, tolerances, certifications, industries served, and what makes you the right supplier. If that info is missing or buried, buyers move on to a competitor who makes it easier.</p>
+          <!-- em-dash: "buyers actually search—part numbers...queries—so" → parenthetical -->
+          <p>We build capability-driven websites that organize the details without overwhelming visitors. Clear navigation, structured product/service pages, fast performance, and content that supports both engineers and procurement. We also build SEO around the terms buyers actually search (part numbers, processes, materials, and "manufacturer near me" queries) so you get found for more than your brand name.</p>
+          <p>Manufacturers typically see better quality inbound inquiries, more quote requests from the right industries, and stronger conversion from trade show or outreach traffic because the site answers questions that normally slow deals down. Think fewer "what do you do?" calls and more "can you quote this?" conversations.</p>
+        </div>
+        <Glass class="reveal" innerClass="portrait">
+          <div class="frame-lines"></div>
+          <div class="big">▦</div>
+          <div class="mark">MANUFACTURING</div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SERVICES</span>
+          <h2>Services We Provide for Manufacturers</h2>
+        </div>
+        <p class="page-lede is-center mb-lg">Capability-first structure, technical SEO, and a site that makes procurement confident.</p>
+        <div class="grid-svc">
+          {services.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+                <a class="more" href={c.href}>SEE DETAILS →</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE BUILD -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT WE BUILD</span>
+          <h2>What We Build for Manufacturing</h2>
+        </div>
+        <div class="grid-svc">
+          {builds.map((c) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{c.ico}</div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Ready to Upgrade Your Manufacturing Website?</h2>
+          <p>Let's talk about your manufacturing website.</p>
+          <div class="hero-btns">
+            <a href="../contact.html" class="btn btn-primary">Get a Proposal →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+          <p class="more"><a href="../industries.html">← All industries</a></p>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

@@ -1,0 +1,555 @@
+---
+/**
+ * /live-band-web-studios/forms/band-bio-form — ported from the live site
+ * (livewebstudios.com/live-band-web-studios/forms/band-bio-form).
+ *
+ * FORM MECHANICS PRESERVED EXACTLY. Real Formspree endpoint
+ * (https://formspree.io/f/mbdbvoar), POST, and the live AJAX-submit +
+ * inline-success mechanism are reproduced verbatim, along with the
+ * "we don't have a website" toggle that writes the hidden has_website field.
+ * Every field name= attribute is unchanged (they map to the email payload).
+ * Rebuilt on the v3 layouts/components in the amber .theme-live-band system.
+ * EM DASH BAN applied to visible copy; radio/checkbox VALUE attributes are
+ * left verbatim to keep the submission payload identical.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Glass from "../../../components/Glass.astro";
+import VideoBg from "../../../components/VideoBg.astro";
+---
+
+<Base
+  title="Band Bio Form | Live Band Web Studios"
+  description="New band intake form for Live Band Web Studios. Fill in what you've got, skip what you don't. Goes directly to Jon Wolf."
+  canonical="https://livewebstudios.com/live-band-web-studios/forms/band-bio-form"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- HERO -->
+    <section class="page-head has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">BAND INTAKE</span>
+        <h1 class="page-h1">Band Bio <em>Form</em>.</h1>
+        <p class="page-lede">This is how we start. Fill in what you've got, skip what you don't. Jon gets it and goes from there.</p>
+        <p class="page-lede optnote">Every field is optional. No required fields. No asterisks. No pressure.</p>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="strong" />
+      <div class="wrap form-wrap">
+        <!-- Inline success screen, shown by the AJAX handler on a 200 -->
+        <div id="success-screen" class="form-success reveal">
+          <div class="big">We Got It.</div>
+          <p>Jon will be in touch. Keep an eye on your inbox.</p>
+          <a class="btn btn-ghost back-link" href="../../live-band-web-studios.html">Back to Live Band Web Studios</a>
+        </div>
+
+        <Glass class="reveal" innerClass="form-pad">
+          <!-- Real live Formspree endpoint, method + hidden field preserved verbatim -->
+          <form id="bioForm" action="https://formspree.io/f/mbdbvoar" method="POST">
+            <input type="hidden" name="has_website" id="has_website" value="" />
+
+            <!-- 1 — THE BASICS -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">01 · THE BASICS</span>
+                <h2>The Basics</h2>
+                <p class="fgroup-note">All optional, give us what you can.</p>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="band_name">Band name <span class="opt">(the one on the poster)</span></label>
+                  <input type="text" id="band_name" name="band_name" />
+                </div>
+                <div class="field">
+                  <label for="primary_contact_name">Primary contact name</label>
+                  <input type="text" id="primary_contact_name" name="primary_contact_name" />
+                </div>
+                <div class="field">
+                  <label for="primary_contact_email">Email address</label>
+                  <input type="email" id="primary_contact_email" name="primary_contact_email" />
+                </div>
+                <div class="field">
+                  <label for="primary_contact_phone">Phone number</label>
+                  <input type="tel" id="primary_contact_phone" name="primary_contact_phone" />
+                </div>
+                <div class="field full">
+                  <label for="band_website_current">Current website <span class="opt">(if any)</span></label>
+                  <input type="url" id="band_website_current" name="band_website_current" placeholder="https://" />
+                  <span class="toggle-line"><input type="checkbox" id="noWebsite" /> We don't have one</span>
+                </div>
+                <div class="field">
+                  <label for="band_formed_year">Year formed</label>
+                  <input type="text" id="band_formed_year" name="band_formed_year" />
+                </div>
+                <div class="field">
+                  <label for="home_base_city">Home base city + state</label>
+                  <input type="text" id="home_base_city" name="home_base_city" />
+                </div>
+                <div class="field">
+                  <label for="num_members">Number of members</label>
+                  <input type="text" id="num_members" name="num_members" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 2 — THE SOUND -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">02 · THE SOUND</span>
+                <h2>The Sound</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <!-- em-dash: "Genre / style — in your own words" -> comma -->
+                  <label for="genre_description">Genre / style, in your own words. Don't overthink it.</label>
+                  <textarea id="genre_description" name="genre_description" rows="4" placeholder="Classic rock? Motown? Prog? Whatever. Just say it."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="sounds_like">Who do you sound like? <span class="opt">(Or who do people say you sound like?)</span></label>
+                  <textarea id="sounds_like" name="sounds_like" rows="3" placeholder="Doesn't have to be flattering. Just honest."></textarea>
+                </div>
+                <fieldset class="field full">
+                  <legend class="field-legend">Original material or covers?</legend>
+                  <div class="opt-chips">
+                    <label class="opt-chip"><input type="radio" name="original_or_cover" value="Original material only" /> Original material only</label>
+                    <label class="opt-chip"><input type="radio" name="original_or_cover" value="Cover band" /> Cover band</label>
+                    <label class="opt-chip"><input type="radio" name="original_or_cover" value="Mix of both" /> Mix of both</label>
+                  </div>
+                </fieldset>
+                <div class="field full">
+                  <label for="set_length">Typical set length <span class="opt">(e.g. 2 x 45 min sets)</span></label>
+                  <input type="text" id="set_length" name="set_length" />
+                </div>
+                <div class="field full">
+                  <!-- em-dash: "horns, strings — whatever you've got" -> comma (placeholder) -->
+                  <label for="instruments_in_band">Instruments in the lineup</label>
+                  <textarea id="instruments_in_band" name="instruments_in_band" rows="3" placeholder="Guitar, bass, keys, drums, horns, strings, whatever you've got."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3 — YOUR HISTORY -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">03 · YOUR HISTORY</span>
+                <h2>Your History</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <label for="origin_story">How did the band start?</label>
+                  <textarea id="origin_story" name="origin_story" rows="5" placeholder="The real version. How you met, what the original goal was, how it evolved."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="years_active">How many years have you been gigging?</label>
+                  <input type="text" id="years_active" name="years_active" />
+                </div>
+                <div class="field full">
+                  <label for="notable_venues">Notable venues you've played</label>
+                  <textarea id="notable_venues" name="notable_venues" rows="5" placeholder="Name the rooms. Include cities. The bigger and more specific the better."></textarea>
+                </div>
+                <div class="field full">
+                  <!-- em-dash: "Tri-state, Southeast, national — wherever" -> comma (placeholder) -->
+                  <label for="past_touring_markets">Past touring markets / cities</label>
+                  <textarea id="past_touring_markets" name="past_touring_markets" rows="3" placeholder="Tri-state, Southeast, national, wherever you've worked."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="festival_credits">Festivals or notable events</label>
+                  <textarea id="festival_credits" name="festival_credits" rows="3" placeholder="Any festivals, fairs, major private events, casino shows, etc."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="notable_support_acts">Opened for or shared a bill with?</label>
+                  <textarea id="notable_support_acts" name="notable_support_acts" rows="3" placeholder="If you've opened for anyone notable, put it here."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="press_quotes">Press quotes or media mentions</label>
+                  <textarea id="press_quotes" name="press_quotes" rows="5" placeholder="Paste quotes or publication names. If you have a press page or link, drop it below."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="press_links">Links to press, reviews, or write-ups</label>
+                  <textarea id="press_links" name="press_links" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 — THE DIGITAL FOOTPRINT -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">04 · THE DIGITAL FOOTPRINT</span>
+                <h2>The Digital Footprint</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="youtube_channel">YouTube channel URL</label>
+                  <input type="url" id="youtube_channel" name="youtube_channel" placeholder="https://" />
+                </div>
+                <div class="field">
+                  <label for="facebook_page">Facebook page</label>
+                  <input type="url" id="facebook_page" name="facebook_page" placeholder="https://" />
+                </div>
+                <div class="field full">
+                  <label for="youtube_featured_videos">Specific video links to feature on the site</label>
+                  <textarea id="youtube_featured_videos" name="youtube_featured_videos" rows="4" placeholder="Drop as many as you want. We'll pick the best ones together."></textarea>
+                </div>
+                <div class="field">
+                  <label for="instagram_handle">Instagram handle</label>
+                  <input type="text" id="instagram_handle" name="instagram_handle" placeholder="@yourband" />
+                </div>
+                <div class="field">
+                  <label for="tiktok_handle">TikTok handle</label>
+                  <input type="text" id="tiktok_handle" name="tiktok_handle" placeholder="@yourband" />
+                </div>
+                <div class="field">
+                  <label for="spotify_link">Spotify artist page</label>
+                  <input type="url" id="spotify_link" name="spotify_link" placeholder="https://" />
+                </div>
+                <div class="field">
+                  <label for="apple_music_link">Apple Music</label>
+                  <input type="url" id="apple_music_link" name="apple_music_link" placeholder="https://" />
+                </div>
+                <div class="field">
+                  <label for="bandcamp_link">Bandcamp</label>
+                  <input type="url" id="bandcamp_link" name="bandcamp_link" placeholder="https://" />
+                </div>
+                <div class="field">
+                  <label for="soundcloud_link">SoundCloud</label>
+                  <input type="url" id="soundcloud_link" name="soundcloud_link" placeholder="https://" />
+                </div>
+                <div class="field full">
+                  <label for="epk_link">Existing EPK link <span class="opt">(if you have one)</span></label>
+                  <input type="url" id="epk_link" name="epk_link" placeholder="https://" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 5 — PHOTOS -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">05 · PHOTOS</span>
+                <h2>Photos</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="note-block">
+                <h3>Sending Us Your Photos</h3>
+                <p>Send high-res photos to Jon directly. Three ways to do it:</p>
+                <ol>
+                  <li>Google Drive, share a folder with <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a></li>
+                  <li>Dropbox, share a folder link and paste it in the field below</li>
+                  <li>WeTransfer, send to <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a></li>
+                </ol>
+                <p>The more the better. Live shots, press shots, band photos, individual shots. High-res is always better than low-res. JPG or PNG, not compressed web exports.</p>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="google_drive_link">Google Drive folder link <span class="opt">(if using Drive)</span></label>
+                  <input type="url" id="google_drive_link" name="google_drive_link" placeholder="https://" />
+                </div>
+                <div class="field">
+                  <label for="dropbox_link">Dropbox folder link <span class="opt">(if using Dropbox)</span></label>
+                  <input type="url" id="dropbox_link" name="dropbox_link" placeholder="https://" />
+                </div>
+                <div class="field full">
+                  <label for="photo_notes">Any notes about the photos, which are press shots, which are live, which you want featured</label>
+                  <textarea id="photo_notes" name="photo_notes" rows="3"></textarea>
+                </div>
+                <fieldset class="field full">
+                  <legend class="field-legend">Do you have professional photos?</legend>
+                  <div class="opt-chips">
+                    <!-- em dash kept inside VALUE for payload fidelity -->
+                    <label class="opt-chip"><input type="radio" name="has_professional_photos" value="Yes — professional press shots available" /> Yes, professional press shots available</label>
+                    <label class="opt-chip"><input type="radio" name="has_professional_photos" value="Live shots only" /> Live shots only</label>
+                    <label class="opt-chip"><input type="radio" name="has_professional_photos" value="Not yet — we'll sort it out" /> Not yet, we'll sort it out</label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <!-- 6 — THE BUILD -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">06 · THE BUILD</span>
+                <h2>The Build</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <label for="site_goals">What do you want the site to accomplish?</label>
+                  <textarea id="site_goals" name="site_goals" rows="5" placeholder="Get more bookings? Look more professional? Have an EPK to hand out? All of the above?"></textarea>
+                </div>
+                <div class="field full">
+                  <label for="design_inspiration">Bands or sites you like the look of</label>
+                  <textarea id="design_inspiration" name="design_inspiration" rows="4" placeholder="URLs, band names, specific sites. Even &quot;I hate this look&quot; examples help."></textarea>
+                </div>
+                <div class="field full">
+                  <!-- em-dash: "merch links — whatever is non-negotiable" -> comma (placeholder) -->
+                  <label for="must_haves">Anything that MUST be on the site</label>
+                  <textarea id="must_haves" name="must_haves" rows="4" placeholder="Specific photos, a specific video, a booking form, merch links, whatever is non-negotiable."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="must_not_haves">Anything that should NOT be on the site</label>
+                  <textarea id="must_not_haves" name="must_not_haves" rows="3" placeholder="Old press? A show you'd rather forget? An ex-member? Tell us."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="timeline">Any deadline or target launch?</label>
+                  <input type="text" id="timeline" name="timeline" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 7 — BOOKING + MANAGEMENT -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">07 · BOOKING + MANAGEMENT</span>
+                <h2>Booking + Management</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="booking_contact_name">Booking contact name</label>
+                  <input type="text" id="booking_contact_name" name="booking_contact_name" />
+                </div>
+                <div class="field">
+                  <label for="booking_contact_email">Booking contact email</label>
+                  <input type="email" id="booking_contact_email" name="booking_contact_email" />
+                </div>
+                <div class="field">
+                  <label for="booking_contact_phone">Booking contact phone</label>
+                  <input type="tel" id="booking_contact_phone" name="booking_contact_phone" />
+                </div>
+                <div class="field">
+                  <label for="management_contact">Management contact <span class="opt">(if applicable)</span></label>
+                  <input type="text" id="management_contact" name="management_contact" />
+                </div>
+                <div class="field full">
+                  <label for="booking_regions">What markets do you accept bookings in?</label>
+                  <textarea id="booking_regions" name="booking_regions" rows="3" placeholder="Regional only? National? Fly dates? Drive markets only?"></textarea>
+                </div>
+                <div class="field full">
+                  <label for="fee_range">General fee range <span class="opt">(so we know how to position the booking contact page)</span></label>
+                  <input type="text" id="fee_range" name="fee_range" placeholder="You don't have to answer this." />
+                </div>
+              </div>
+            </div>
+
+            <!-- 8 — TECH RIDER -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">08 · TECH RIDER</span>
+                <h2>Tech Rider</h2>
+                <!-- em-dash: "building an EPK page. If you don't know the details yet, skip it — we'll work it out" -> comma -->
+                <p class="fgroup-note">This section matters most for Touring/Pro clients building an EPK page. If you don't know the details yet, skip it, we'll work it out.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <!-- em-dash: "Mains, subs, monitors — what do you need" -> comma (placeholder) -->
+                  <label for="pa_requirements">PA requirements</label>
+                  <textarea id="pa_requirements" name="pa_requirements" rows="4" placeholder="Mains, subs, monitors, what do you need from the venue?"></textarea>
+                </div>
+                <fieldset class="field full">
+                  <legend class="field-legend">Monitor type</legend>
+                  <div class="opt-chips">
+                    <label class="opt-chip"><input type="radio" name="monitor_type" value="Wedge monitors" /> Wedge monitors</label>
+                    <label class="opt-chip"><input type="radio" name="monitor_type" value="In-ear monitors (IEM)" /> In-ear monitors (IEM)</label>
+                    <label class="opt-chip"><input type="radio" name="monitor_type" value="Both depending on the show" /> Both depending on the show</label>
+                    <label class="opt-chip"><input type="radio" name="monitor_type" value="No preference / flexible" /> No preference / flexible</label>
+                  </div>
+                </fieldset>
+                <div class="field">
+                  <label for="num_monitor_mixes">Number of separate monitor mixes needed</label>
+                  <input type="text" id="num_monitor_mixes" name="num_monitor_mixes" />
+                </div>
+                <div class="field">
+                  <label for="num_inputs">Approximate number of inputs <span class="opt">(channels on stage)</span></label>
+                  <input type="text" id="num_inputs" name="num_inputs" />
+                </div>
+                <div class="field full">
+                  <!-- em-dash: "what do you need from the venue — amps, drums, keys" -> comma (placeholder) -->
+                  <label for="backline_requirements">Backline requirements</label>
+                  <textarea id="backline_requirements" name="backline_requirements" rows="4" placeholder="Do you bring everything? What do you need from the venue, amps, drums, keys?"></textarea>
+                </div>
+                <div class="field full">
+                  <label for="fly_in_considerations">Fly-in gig considerations</label>
+                  <textarea id="fly_in_considerations" name="fly_in_considerations" rows="3" placeholder="What do you need if you're flying in? What's the minimum backline you'll accept?"></textarea>
+                </div>
+                <fieldset class="field full">
+                  <legend class="field-legend">Stage plot</legend>
+                  <div class="opt-chips">
+                    <!-- em dash kept inside VALUE for payload fidelity -->
+                    <label class="opt-chip"><input type="radio" name="stage_plot_available" value="Yes — I have a stage plot PDF" /> Yes, I have a stage plot PDF</label>
+                    <label class="opt-chip"><input type="radio" name="stage_plot_available" value="Not yet" /> Not yet</label>
+                    <label class="opt-chip"><input type="radio" name="stage_plot_available" value="I'll need help creating one" /> I'll need help creating one</label>
+                  </div>
+                </fieldset>
+                <div class="field full">
+                  <label for="stage_plot_link">Stage plot PDF link <span class="opt">(Google Drive, Dropbox, etc.)</span></label>
+                  <input type="url" id="stage_plot_link" name="stage_plot_link" placeholder="https://" />
+                </div>
+                <fieldset class="field full">
+                  <!-- em-dash: "Input list — needed, approved, or recommended" -> comma -->
+                  <legend class="field-legend">Input list, needed, approved, or recommended for venue soundmen</legend>
+                  <div class="opt-chips">
+                    <label class="opt-chip"><input type="radio" name="input_list_available" value="Yes" /> Yes</label>
+                    <label class="opt-chip"><input type="radio" name="input_list_available" value="Not yet" /> Not yet</label>
+                    <label class="opt-chip"><input type="radio" name="input_list_available" value="Need help creating one" /> Need help creating one</label>
+                  </div>
+                </fieldset>
+                <div class="field full">
+                  <label for="input_list_link">Input list PDF link</label>
+                  <input type="url" id="input_list_link" name="input_list_link" placeholder="https://" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 9 — ANYTHING ELSE -->
+            <div class="fgroup">
+              <div class="fgroup-head">
+                <span class="eyebrow">09 · ANYTHING ELSE</span>
+                <h2>Anything Else</h2>
+                <p class="fgroup-note">All optional.</p>
+              </div>
+              <div class="form-row">
+                <div class="field full">
+                  <label for="additional_notes">Anything else we should know?</label>
+                  <textarea id="additional_notes" name="additional_notes" rows="5" placeholder="Weird lineup changes? A story that explains the band? A thing that always comes up? Put it here."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="do_not_include">Is there anything you do NOT want published on the site?</label>
+                  <textarea id="do_not_include" name="do_not_include" rows="3" placeholder="No questions asked."></textarea>
+                </div>
+                <div class="field full">
+                  <label for="ideas_suggestions">Ideas or suggestions for your site?</label>
+                  <textarea id="ideas_suggestions" name="ideas_suggestions" rows="4" placeholder="Any functionality ideas, features you've seen elsewhere, things you've always wanted on a band site."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions" style="text-align:center">
+              <button type="submit" class="btn btn-primary">Send It to Jon →</button>
+              <!-- em-dash: "Jon gets it directly — no auto-responder" -> comma -->
+              <p class="submit-note">Sends securely. Jon gets it directly, no auto-responder, no ticket system.</p>
+            </div>
+          </form>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    /* "We don't have a website" toggle -> sets hidden has_website field.
+       Preserved verbatim from the live band-bio-form. */
+    (function () {
+      var cb = document.getElementById("noWebsite");
+      var url = document.getElementById("band_website_current");
+      var hidden = document.getElementById("has_website");
+      if (cb) {
+        cb.addEventListener("change", function () {
+          if (cb.checked) { hidden.value = "no"; url.value = ""; url.disabled = true; url.style.opacity = "0.5"; }
+          else { hidden.value = ""; url.disabled = false; url.style.opacity = "1"; }
+        });
+      }
+    })();
+
+    /* Formspree AJAX submit -> inline success, no redirect.
+       Endpoint preserved verbatim: https://formspree.io/f/mbdbvoar */
+    (function () {
+      var form = document.getElementById("bioForm");
+      var success = document.getElementById("success-screen");
+      if (!form) return;
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var btn = form.querySelector("button[type=submit]");
+        if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+        try {
+          var res = await fetch("https://formspree.io/f/mbdbvoar", {
+            method: "POST", body: new FormData(form), headers: { Accept: "application/json" }
+          });
+          if (res.ok) {
+            form.style.display = "none";
+            success.classList.add("show");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            if (btn) { btn.disabled = false; btn.textContent = "Send It to Jon →"; }
+            alert("Something went wrong sending the form. Please email jonwolf@livewebstudios.com directly.");
+          }
+        } catch (err) {
+          if (btn) { btn.disabled = false; btn.textContent = "Send It to Jon →"; }
+          alert("Something went wrong sending the form. Please email jonwolf@livewebstudios.com directly.");
+        }
+      });
+    })();
+  </script>
+</Base>
+
+<style>
+  /* Amber sub-brand theming — overrides the accent custom properties on the
+     wrapper so every descendant re-themes cyan -> amber with no component fork.
+     Same block as live-band-web-studios.astro. */
+  .theme-live-band {
+    --cyan: #fcd34d;
+    --cyan-soft: #fde68a;
+    --cyan-2: #f59e0b;
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  .form-wrap { max-width: 920px; }
+  .optnote { color: var(--cyan-soft); font-size: 0.95rem; margin-top: 0.8rem; }
+
+  .fgroup { margin-bottom: 2.6rem; }
+  .fgroup:last-of-type { margin-bottom: 0; }
+  .fgroup-head { margin-bottom: 1.6rem; }
+  .fgroup-head h2 {
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.01em; margin-top: 0.7rem; color: var(--ink-soft);
+  }
+  .fgroup-note { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+
+  .field-legend {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 0.15rem;
+  }
+  fieldset.field { border: 0; padding: 0; margin: 0 0 1.1rem; min-inline-size: auto; }
+
+  .opt-chips { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.15rem; }
+  .opt-chip {
+    display: inline-flex; align-items: center; gap: 0.45rem; background: var(--panel-2);
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.55rem 1rem;
+    cursor: pointer; font-size: 0.9rem; color: var(--ink); min-height: 44px;
+  }
+  .opt-chip input { accent-color: var(--cyan); width: 16px; height: 16px; min-height: 16px; margin: 0; }
+  .opt-chip:hover { border-color: var(--cyan); }
+  .opt-chip:has(input:checked) { background: rgba(252, 211, 77, 0.14); border-color: var(--cyan); color: var(--ink-soft); }
+
+  .note-block {
+    background: var(--panel-2); border: 1px solid var(--line); border-left: 3px solid var(--cyan);
+    border-radius: 10px; padding: 1.2rem 1.35rem; margin: 0 0 1.4rem; font-size: 0.94rem;
+    color: var(--ink); line-height: 1.6;
+  }
+  .note-block h3 { font-size: 1.05rem; color: var(--cyan-soft); margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+  .note-block ol { margin: 0.5rem 0 0.5rem 1.2rem; list-style: decimal; }
+  .note-block li { margin-bottom: 0.3rem; }
+  .note-block a { color: var(--cyan-soft); }
+
+  .toggle-line { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.88rem; color: var(--muted); }
+  .toggle-line input { width: 18px; height: 18px; min-height: 18px; accent-color: var(--cyan); }
+
+  .form-success { display: none; text-align: center; padding: 3rem 1.5rem 3.5rem; }
+  .form-success.show { display: block; }
+  .form-success .big { font-size: clamp(2.4rem, 7vw, 3.4rem); font-weight: 700; color: var(--cyan-soft); line-height: 1.05; }
+  .form-success p { color: var(--ink); margin-top: 0.9rem; }
+  .form-success .back-link { margin-top: 1.8rem; }
+
+  .submit-note { color: var(--muted); font-size: 0.85rem; margin-top: 0.9rem; }
+</style>

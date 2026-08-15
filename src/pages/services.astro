@@ -1,11 +1,13 @@
 ---
 /**
- * /services — the destination for the top-nav SERVICES link and the homepage
- * "LEARN MORE" service cards. Built from existing primitives only (page-head,
- * grid-svc, card, Glass, trio, feature, cta) — no new CSS. The six services
- * mirror the homepage grid one-for-one so the two pages stay in sync; each card
- * carries an id anchor so homepage cards can deep-link (services.html#hosting).
- * Copy is Mode B (jon_voice_master), em-dash-free per the client-facing ban.
+ * /services — ported from the live site (livewebstudios.com/services).
+ * The live services hub: 4 category groups (13 services) + FAQ + CTA, rebuilt
+ * on v3 layouts/components. NOTE: the 13 cards deep-link to services/*.html
+ * subpages that DON'T EXIST in v3 yet (part of the ~30 missing pages) — links
+ * are relative so they resolve once those subpages are ported.
+ * COPY RULES APPLIED: em dashes converted per the ban; bare "Learn More"
+ * (forbidden) → "See details →"; the live "Get a Free Consultation" CTA
+ * (brushes the "free consultation" ban) → "Let's talk." Flagged for Jon.
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
@@ -13,68 +15,73 @@ import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
 
-const services = [
+const groups = [
   {
-    id: "web-design",
-    ico: "◧",
-    title: "Website Design & Development",
-    body: "Built from scratch for your business. No templates, no page builders, no thirty plugins waiting to break. Clean, fast HTML that loads quick and reads right on every screen.",
+    label: "WEBSITES & HOSTING",
+    cards: [
+      { ico: "◧", title: "Website Design & Development", body: "Hand-coded, mobile-first, SEO-structured, fast.", href: "services/website-design.html" },
+      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html" },
+      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html" },
+      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Tiered plans from $79/mo. Set it. Don't forget it.", href: "services/maintenance-plans.html" },
+    ],
   },
   {
-    id: "hosting",
-    ico: "⛭",
-    title: "Web Hosting & Maintenance",
-    body: "Dedicated, secured infrastructure with real uptime. I watch it so you don't have to. Updates, backups, and the boring stuff handled before it ever becomes your problem.",
+    label: "GROWTH & VISIBILITY",
+    cards: [
+      { ico: "◎", title: "SEO & Digital Marketing", body: "Technical SEO, content, local visibility, monthly reporting.", href: "services/seo.html" },
+      { ico: "▤", title: "Website Audits & Consulting", tag: "NEW", body: "Find out why your site isn't working. Written report + call.", href: "services/consulting.html" },
+    ],
   },
   {
-    id: "ai-platformed",
-    ico: "✦",
-    title: "AI Platformed Websites",
-    tag: "NEW",
-    body: "Next-gen static sites built with AI doing the heavy lifting. Faster, cleaner, and cheaper to maintain than a bloated CMS. Google rewards it and you can actually understand it.",
+    label: "AI & AUTOMATION",
+    cards: [
+      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html" },
+      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html" },
+      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html" },
+    ],
   },
   {
-    id: "seo",
-    ico: "◎",
-    title: "SEO & Local Search",
-    body: "Real businesses, real searches, right here in North Jersey and beyond. On-page structure, local listings, and monthly keyword reporting so you can see exactly where you stand.",
-  },
-  {
-    id: "ai-consulting",
-    ico: "⟐",
-    title: "AI Workflow Consulting",
-    body: "Two decades of watching what actually saves a small business time and money. I find where AI tools fit your day, set them up, and skip the ones that are all hype.",
-  },
-  {
-    id: "site-care",
-    ico: "◈",
-    title: "Monthly Site Care",
-    body: "An ongoing partner, not a one-time vendor. Content edits, tweaks, new pages, and a person who already knows your whole site when something needs to change.",
+    label: "BRAND & COMMERCE",
+    cards: [
+      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html" },
+      { ico: "✧", title: "Logo Design & Graphics", body: "Marks that work at 16px and 16 feet. All file formats.", href: "services/logo-design.html" },
+      { ico: "⬢", title: "E-Commerce Solutions", body: "WooCommerce, Shopify, custom storefronts. Built to convert.", href: "services/ecommerce.html" },
+      { ico: "✷", title: "Custom Styles & Carousel Cards", tag: "NEW", body: "Archie, Mid-Century American & Pop-Art graphic sets for hero panels, carousels, and feature cards.", href: "services/custom-styles-and-carousel-cards.html" },
+    ],
   },
 ];
 
-const steps = [
+// FAQ — ported verbatim (em dashes converted, numeric ranges hyphenated).
+const faqs = [
   {
-    n: "01",
-    title: "We talk.",
-    body: "One call. You tell me what your business does and what the site needs to do for it. No sales script, no discovery-fee runaround.",
+    q: "How long does it take to build a website?",
+    a: "Most brochure and service sites take 2-4 weeks from kickoff to launch. Larger projects with custom functionality, e-commerce, or CMS integration typically run 4-8 weeks. We set a clear timeline at the start and stick to it.",
   },
   {
-    n: "02",
-    title: "I build.",
-    body: "Built from scratch and shown to you along the way. AI handles the repetitive work so I spend the time on what moves the needle for you.",
+    q: "Do I own my website when it's done?",
+    // em-dash: "every image — yours" → "every image, yours"
+    a: "100%. Every file, every line of code, every image, yours. We don't hold sites hostage behind proprietary platforms or monthly \"rental\" fees. You can host it anywhere and hand it to any developer if you ever need to.",
   },
   {
-    n: "03",
-    title: "You go live.",
-    body: "When it launches, it's ready. Tested, reviewed, approved, and yours. No soft launches. No we'll fix it after.",
+    q: "Will my site work on mobile and tablets?",
+    // em-dash: "by design — not an afterthought" → "by design, not an afterthought"
+    a: "Every site we build is mobile-first by design, not an afterthought. We test across devices and screen sizes before anything goes live.",
+  },
+  {
+    q: "Can I update the site myself after it launches?",
+    a: "Yes. For sites with a blog or content that changes regularly, we set up a simple CMS so you can make updates without touching code. For structural changes, we handle those for you.",
+  },
+  {
+    q: "Do you offer ongoing support after launch?",
+    // em-dash: "your business — we keep" → "your business. We keep"
+    a: "Absolutely. We offer monthly hosting and maintenance plans that cover updates, security monitoring, backups, and priority support. You focus on your business. We keep the site running.",
   },
 ];
 ---
 
 <Base
-  title="Services | Web Design, Hosting, SEO & AI Builds · Live Web Studios"
-  description="What Live Web Studios builds: custom websites, dedicated hosting, AI-platformed sites, local SEO, and monthly care for North Jersey businesses. Real work since 2004."
+  title="Services | Live Web Studios"
+  description="Full-service digital agency: web design, AI platform, hosting, SEO, AI business services, branding, e-commerce, and more."
   canonical="https://livewebstudios.com/services"
 >
   <Nav />
@@ -84,57 +91,53 @@ const steps = [
     <section class="page-head has-videobg">
       <VideoBg src="bg-color-tv.mp4" scrim="hero" />
       <div class="wrap">
-        <span class="eyebrow is-center mb-lg">WHAT WE BUILD · SINCE 2004</span>
-        <h1 class="page-h1">Everything your business needs <em>online</em>.</h1>
-        <p class="page-lede">Design, hosting, SEO, and AI builds under one roof. One person who knows your whole site, on the other end of one phone number.</p>
+        <span class="eyebrow is-center mb-lg">SERVICES</span>
+        <h1 class="page-h1">Everything Your Business Needs <em>Online</em>.</h1>
+        <p class="page-lede">And some things you didn't know you needed yet.</p>
       </div>
     </section>
 
-    <!-- SERVICE GRID -->
+    <!-- SERVICE GROUPS -->
     <section class="sec-pad">
       <div class="wrap">
-        <div class="grid-svc">
-          {services.map((s) => (
-            <div id={s.id} class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{s.ico}</div>
-                <h3>{s.title}{s.tag && <span class="tag-new">{s.tag}</span>}</h3>
-                <p>{s.body}</p>
-              </Glass>
+        <!-- em-dash: "by category below—everything" → "by category below. Everything" -->
+        <p class="page-lede is-center mb-lg">Most clients start with <a href="services/website-design.html">custom website design</a>, <a href="services/ai-platform.html">our AI-assisted platform build</a>, or <a href="services/hosting.html">managed hosting</a>. Skim by category below. Everything ties back to a faster, clearer site.</p>
+
+        {groups.map((g) => (
+          <div class="svc-group">
+            <div class="sec-head reveal"><span class="eyebrow">{g.label}</span></div>
+            <div class="grid-svc">
+              {g.cards.map((c) => (
+                <div class="card reveal">
+                  <Glass variant="inner" innerClass="card-pad">
+                    <div class="ico">{c.ico}</div>
+                    <h3>{c.title}{c.tag && <span class="tag-new">{c.tag}</span>}</h3>
+                    <p>{c.body}</p>
+                    <a class="more" href={c.href}>SEE DETAILS →</a>
+                  </Glass>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
+    <!-- FAQ -->
     <section class="sec-pad is-alt">
       <div class="wrap">
         <div class="sec-head center reveal">
-          <span class="eyebrow">HOW IT WORKS</span>
-          <h2>Three steps, no runaround.</h2>
+          <span class="eyebrow">FAQ</span>
+          <h2>Frequently asked questions</h2>
         </div>
-        <div class="trio">
-          {steps.map((s) => (
-            <div class="glass-inner card-pad reveal">
-              <span class="label">{s.n}</span>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </div>
+        <div class="faq reveal">
+          {faqs.map((f) => (
+            <details class="faq-item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
           ))}
         </div>
-      </div>
-    </section>
-
-    <!-- BRAND STATEMENT -->
-    <section class="sec-pad has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="default" />
-      <div class="wrap">
-        <Glass class="reveal" innerClass="feature">
-          <span class="eyebrow is-center mb-md">THE LWS WAY</span>
-          <h2>Every site we launch is opening night.</h2>
-          <p>You get one person who knows your whole build, not a ticket number in a queue. My number's on the website. I pick up.</p>
-        </Glass>
       </div>
     </section>
 
@@ -142,8 +145,8 @@ const steps = [
     <section class="sec-pad">
       <div class="wrap">
         <Glass class="reveal" innerClass="cta">
-          <h2>Not sure which piece you need?</h2>
-          <p>Tell me what your business does. I'll tell you straight what would actually help.</p>
+          <h2>Not Sure Which Service Fits?</h2>
+          <p>Let's figure it out together. No pressure, no pitch.</p>
           <div class="hero-btns">
             <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
@@ -155,3 +158,46 @@ const steps = [
 
   <Footer />
 </Base>
+
+<style>
+  /* Category-group spacing for the services hub. */
+  .svc-group { margin-top: clamp(2.5rem, 5vw, 4rem); }
+  .svc-group:first-of-type { margin-top: 0; }
+  .svc-group .sec-head { margin-bottom: 1.5rem; }
+
+  /* FAQ accordion — native <details>, styled with system tokens. */
+  .faq { max-width: 760px; margin-inline: auto; }
+  .faq-item {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md, 12px);
+    background: rgba(255, 255, 255, 0.015);
+    margin-top: 0.9rem;
+    overflow: hidden;
+  }
+  .faq-item > summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 1.1rem 1.3rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .faq-item > summary::-webkit-details-marker { display: none; }
+  .faq-item > summary::after {
+    content: "+";
+    font-family: var(--mono);
+    color: var(--cyan-soft);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.25s var(--ease, ease);
+  }
+  .faq-item[open] > summary::after { transform: rotate(45deg); }
+  .faq-item > p {
+    padding: 0 1.3rem 1.2rem;
+    color: var(--muted);
+    max-width: 68ch;
+  }
+</style>

@@ -14,11 +14,13 @@
  * own flat background shows through until the video loads, so there is no blank
  * flash. Relative src per the LWS path rule.
  */
+import { relPrefix } from "../lib/relPrefix";
 interface Props {
   src: string;                          // filename in public/video-bg/
   scrim?: "hero" | "default" | "strong"; // readability overlay strength
 }
 const { src, scrim = "default" } = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
 ---
 
 <div class:list={["videobg", `videobg--${scrim}`]} aria-hidden="true">
@@ -28,7 +30,7 @@ const { src, scrim = "default" } = Astro.props;
     loop
     playsinline
     preload="none"
-    data-src={`video-bg/${src}`}
+    data-src={`${rel}video-bg/${src}`}
   ></video>
   <div class="videobg__scrim"></div>
 </div>
