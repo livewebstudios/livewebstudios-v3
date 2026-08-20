@@ -15,6 +15,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
+import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
 
 const cardCategories = [
@@ -83,7 +84,6 @@ const styles = [
           {styles.map((s) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{s.ico}</div>
                 <h3>{s.name}</h3>
                 <p>{s.note}</p>
                 <p class="kick">{s.photos} original photos</p>
@@ -91,6 +91,7 @@ const styles = [
                 <ul>
                   {cardCategories.map((c) => <li>{c}</li>)}
                 </ul>
+                <CardIcon title={s.name} />
               </Glass>
             </div>
           ))}

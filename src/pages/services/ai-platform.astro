@@ -9,6 +9,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
+import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
 
 const pillars = [
@@ -68,10 +69,10 @@ const pillars = [
           {pillars.map((p) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{p.ico}</div>
                 <span class="label">{p.num}</span>
                 <h3>{p.title}</h3>
                 <p>{p.body}</p>
+                <CardIcon title={p.title} />
               </Glass>
             </div>
           ))}

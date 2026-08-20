@@ -60,6 +60,20 @@ const svcCols = [
   },
 ];
 
+/* Industries dropdown — all 10 verticals (Jon 2026-08-15). */
+const indLinks = [
+  ["Healthcare", "industries/healthcare.html"],
+  ["Law Firm", "industries/law-firm.html"],
+  ["Financial Services", "industries/financial-services.html"],
+  ["Construction", "industries/construction.html"],
+  ["Real Estate", "industries/real-estate.html"],
+  ["Manufacturing", "industries/manufacturing.html"],
+  ["Dental", "industries/dental.html"],
+  ["Nonprofit", "industries/nonprofit.html"],
+  ["B2B", "industries/b2b.html"],
+  ["Insurance", "industries/insurance.html"],
+];
+
 const bandLinks = [
   ["Portfolio", "live-band-web-studios/portfolio.html"],
   ["Pricing", "live-band-web-studios/pricing.html"],
@@ -125,7 +139,40 @@ const namesakeLinks = [
         </div>
       </div>
 
-      <a href={`${rel}industries.html`}>Industries</a>
+      <div class="studios" data-dd>
+        <span class="dd-pair">
+          <a class="studios-trigger" href={`${rel}industries.html`}>Industries</a>
+          <button
+            type="button"
+            class="dd-toggle"
+            aria-label="Open industries menu"
+            aria-expanded="false"
+            aria-controls="industries-panel"
+            aria-haspopup="true"
+          ><span class="studios-caret" aria-hidden="true">↓</span></button>
+        </span>
+
+        <div class="mega mega--industries" id="industries-panel" role="region" aria-label="Industries">
+          <div class="mega-inner">
+            <div class="mega-head">
+              <span class="eyebrow">INDUSTRIES</span>
+              <p class="mega-sub">Built for your field.</p>
+            </div>
+            <div class="ind-cols">
+              {indLinks.map(([label, href]) => (
+                <a class="svc-link" href={`${rel}${href}`}>{label}</a>
+              ))}
+            </div>
+            <div class="mega-support">
+              <a class="mega-row" href={`${rel}industries.html`}>
+                <span class="mega-row-title">All Industries →</span>
+                <span class="mega-row-sub">Ten verticals, one standard</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <a href={`${rel}about.html`}>About</a>
 
       <div class="studios" data-dd>
@@ -249,6 +296,15 @@ const namesakeLinks = [
   .mega--services {
     width: min(720px, 92vw);
   }
+  .mega--industries {
+    width: min(480px, 92vw);
+  }
+  .ind-cols {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 1rem;
+    margin-bottom: 0.8rem;
+  }
   .svc-cols {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -329,7 +385,8 @@ const namesakeLinks = [
     font-size: 0.68rem;
   }
   @media (max-width: 900px) {
-    .svc-cols {
+    .svc-cols,
+    .ind-cols {
       grid-template-columns: 1fr;
     }
     .subnav-in {

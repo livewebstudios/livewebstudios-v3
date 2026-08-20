@@ -1,0 +1,882 @@
+---
+/**
+ * CardIcon — animated SVG illustration tiles for service/industry cards.
+ * Replaces the static AI-generated PNG icon set (Jon 2026-08-15: "make them
+ * move"). Each concept is a hand-built two-tone glyph (white + logo blue
+ * #00A8D0 on dark navy) with a subject-matched animation: gears spin, the
+ * pencil writes, bar columns rise and fall, report pages turn, the logo mark
+ * wiggles, workflow boxes pass a dot around, etc.
+ *
+ * Usage: <CardIcon title={card.title} /> — the title is normalized and mapped
+ * to a concept below. Unknown titles fall back to the "brand" mark.
+ *
+ * Styles are is:global (glyphs are injected via set:html, so scoped styles
+ * would not match); everything is namespaced ik-/ikf- to avoid collisions.
+ * prefers-reduced-motion disables all CSS animation.
+ */
+export interface Props {
+  title: string;
+}
+const { title = "" } = Astro.props;
+
+/* normalized card title → concept key */
+const MAP: Record<string, string> = {
+  // build
+  "website design & development": "browser",
+  "website design": "browser",
+  "custom design": "browser",
+  "ai-powered website platform": "ai-chip",
+  "live ai studios": "ai-chip",
+  "web hosting & maintenance": "server",
+  "hosting": "server",
+  "managed hosting": "server",
+  "managed vps": "server",
+  "monthly maintenance plans": "gears",
+  // growth
+  "seo & digital marketing": "seo",
+  "seo": "seo",
+  "seo strategy": "seo",
+  "technical seo": "seo",
+  "seo monitoring": "seo",
+  "website audits & consulting": "checklist",
+  "audits & consulting": "checklist",
+  "technical audit": "checklist",
+  "what you get": "checklist",
+  // ai
+  "ai business services": "briefcase",
+  "for professionals": "briefcase",
+  "ai workflow automation": "workflow",
+  "custom workflows": "workflow",
+  "content pipelines": "workflow",
+  "ai image manipulation": "image",
+  "ai image services": "image",
+  "image processing": "image",
+  "better imagery": "image",
+  // brand
+  "branding & corporate identity": "brand",
+  "branding": "brand",
+  "logo design & graphics": "logo",
+  "logo systems": "logo",
+  "e-commerce solutions": "cart",
+  "woocommerce": "cart",
+  "for e-commerce": "cart",
+  "custom styles & carousel cards": "carousel",
+  "shopify": "bag",
+  "custom static": "bolt",
+  "secure checkout": "card-pay",
+  "seo product pages": "tag",
+  // shared feature cards
+  "mobile-first": "phone",
+  "mobile responsive": "phone",
+  "lead generation": "funnel",
+  "lead qualification": "funnel",
+  "content strategy": "pencil",
+  "content creation": "pencil",
+  "smarter content": "pencil",
+  "content edits": "pencil",
+  "content analysis": "doc-scan",
+  "ongoing support": "headset",
+  "priority support": "headset",
+  "ongoing consulting": "headset",
+  "monthly reports": "report",
+  "monthly reporting": "report",
+  "monthly seo report": "report",
+  "reporting": "report",
+  "daily backups": "backup",
+  "security": "shield",
+  "security monitoring": "shield",
+  "ssl + security": "lock",
+  "free ssl": "lock",
+  "litespeed": "speed",
+  "faster builds": "rocket",
+  "continuous improvement": "loop",
+  "google analytics 4": "chart-bars",
+  "competition": "trophy",
+  "keyword research": "keywords",
+  "keyword gaps": "keywords",
+  "local seo": "map-pin",
+  "google business profile": "map-pin",
+  "on-page seo": "sliders",
+  "on-page optimization": "sliders",
+  "ux & conversion": "cursor",
+  "contact form": "envelope",
+  "strategy & roadmap": "roadmap",
+  "team training": "grad-cap",
+  "tool selection": "wrench",
+  "customer comms": "chat",
+  "style guide": "palette",
+  "color & type": "palette",
+  "graphic services": "palette",
+  "for designers": "palette",
+  "print collateral": "printer",
+  "digital assets": "folder",
+  "source files": "folder",
+  // industries
+  "healthcare": "heart-pulse",
+  "law firm": "scales",
+  "financial services": "chart-line",
+  "construction": "crane",
+  "real estate": "house",
+  "for real estate": "house",
+  "manufacturing": "factory",
+  "dental": "tooth",
+  "nonprofit": "heart-hands",
+  "b2b": "exchange",
+  "insurance": "shield-check",
+  // style sets
+  "archie": "art",
+  "golden gate": "art",
+  "pop-art": "art",
+  "mid-century american": "art",
+  "owsley": "art",
+};
+
+/* Concept glyphs. Shared stroke/fill classes: ik-s white stroke, ik-sb blue
+   stroke, ik-sl light-blue stroke, ik-f/ik-fb/ik-fl fills, ik-thin 2.5px.
+   .ikm = transform-box:fill-box (animate about own center); inline
+   transform-origin styles used where the pivot is elsewhere. */
+const ICONS: Record<string, string> = {
+  browser: `
+    <rect class="ik-s" x="20" y="26" width="56" height="44" rx="5"/>
+    <line class="ik-s ik-thin" x1="20" y1="36" x2="76" y2="36"/>
+    <circle class="ik-fb" cx="26.5" cy="31" r="1.8"/><circle class="ik-fl" cx="32.5" cy="31" r="1.8"/>
+    <rect class="ik-fb ikm ik-line1" x="26" y="43" width="34" height="4.5" rx="2.25" style="transform-origin:left center"/>
+    <rect class="ik-f ikm ik-line2" x="26" y="52" width="44" height="4.5" rx="2.25" style="transform-origin:left center" opacity=".85"/>
+    <rect class="ik-fl ikm ik-line3" x="26" y="61" width="24" height="4.5" rx="2.25" style="transform-origin:left center"/>`,
+
+  "ai-chip": `
+    <line class="ik-s ik-thin" x1="40" y1="32" x2="40" y2="25"/><line class="ik-s ik-thin" x1="48" y1="32" x2="48" y2="25"/><line class="ik-s ik-thin" x1="56" y1="32" x2="56" y2="25"/>
+    <line class="ik-s ik-thin" x1="40" y1="64" x2="40" y2="71"/><line class="ik-s ik-thin" x1="48" y1="64" x2="48" y2="71"/><line class="ik-s ik-thin" x1="56" y1="64" x2="56" y2="71"/>
+    <line class="ik-s ik-thin" x1="32" y1="40" x2="25" y2="40"/><line class="ik-s ik-thin" x1="32" y1="48" x2="25" y2="48"/><line class="ik-s ik-thin" x1="32" y1="56" x2="25" y2="56"/>
+    <line class="ik-s ik-thin" x1="64" y1="40" x2="71" y2="40"/><line class="ik-s ik-thin" x1="64" y1="48" x2="71" y2="48"/><line class="ik-s ik-thin" x1="64" y1="56" x2="71" y2="56"/>
+    <rect class="ik-s" x="32" y="32" width="32" height="32" rx="7"/>
+    <circle class="ik-fb ikm ik-pulse" cx="48" cy="48" r="6"/>
+    <g class="ik-orbit" style="transform-box:view-box;transform-origin:48px 48px"><circle class="ik-fl" cx="48" cy="36.5" r="2.6"/></g>`,
+
+  server: `
+    <rect class="ik-s" x="26" y="26" width="44" height="16" rx="4"/>
+    <rect class="ik-s" x="26" y="46" width="44" height="16" rx="4"/>
+    <line class="ik-sb ik-thin" x1="32" y1="34" x2="46" y2="34"/>
+    <line class="ik-sb ik-thin" x1="32" y1="54" x2="46" y2="54"/>
+    <circle class="ik-fb ik-led1" cx="58" cy="34" r="2.2"/><circle class="ik-fl ik-led2" cx="64" cy="34" r="2.2"/>
+    <circle class="ik-fl ik-led3" cx="58" cy="54" r="2.2"/><circle class="ik-fb ik-led4" cx="64" cy="54" r="2.2"/>
+    <path class="ik-sb ik-thin ik-dataline" d="M30,70 H66" stroke-dasharray="4 6"/>`,
+
+  gears: `
+    <g class="ikm ik-gearA">
+      <circle class="ik-s" cx="38" cy="54" r="11"/>
+      <g class="ik-s"><line x1="51" y1="54" x2="56" y2="54"/><line x1="47.2" y1="63.2" x2="50.7" y2="66.7"/><line x1="38" y1="67" x2="38" y2="72"/><line x1="28.8" y1="63.2" x2="25.3" y2="66.7"/><line x1="25" y1="54" x2="20" y2="54"/><line x1="28.8" y1="44.8" x2="25.3" y2="41.3"/><line x1="38" y1="41" x2="38" y2="36"/><line x1="47.2" y1="44.8" x2="50.7" y2="41.3"/></g>
+      <circle class="ik-fb" cx="38" cy="54" r="4"/>
+    </g>
+    <g class="ikm ik-gearB">
+      <circle class="ik-sb" cx="63" cy="34" r="7"/>
+      <g class="ik-sb"><line x1="70" y1="34" x2="74" y2="34"/><line x1="66.5" y1="40.1" x2="68.5" y2="43.5"/><line x1="59.5" y1="40.1" x2="57.5" y2="43.5"/><line x1="56" y1="34" x2="52" y2="34"/><line x1="59.5" y1="27.9" x2="57.5" y2="24.4"/><line x1="66.5" y1="27.9" x2="68.5" y2="24.4"/></g>
+      <circle class="ik-f" cx="63" cy="34" r="2.5"/>
+    </g>`,
+
+  seo: `
+    <rect class="ik-f ikm ik-bar1" x="28" y="52" width="6" height="14" rx="2" style="transform-origin:center bottom"/>
+    <rect class="ik-fb ikm ik-bar2" x="38" y="44" width="6" height="22" rx="2" style="transform-origin:center bottom"/>
+    <rect class="ik-fl ikm ik-bar3" x="48" y="36" width="6" height="30" rx="2" style="transform-origin:center bottom"/>
+    <line class="ik-s ik-thin" x1="24" y1="66" x2="72" y2="66" opacity=".6"/>
+    <g class="ikm ik-sweep">
+      <circle class="ik-s" cx="58" cy="42" r="11"/>
+      <line class="ik-s" x1="66" y1="50" x2="74" y2="58"/>
+    </g>`,
+
+  checklist: `
+    <rect class="ik-s" x="28" y="24" width="40" height="50" rx="5"/>
+    <rect class="ik-fb" x="42" y="20" width="12" height="7" rx="2.5"/>
+    <polyline class="ik-sb ikm ik-chk1" points="34,39 37,42 43,35"/>
+    <line class="ik-s ik-thin" x1="47" y1="39" x2="61" y2="39"/>
+    <polyline class="ik-sb ikm ik-chk2" points="34,51 37,54 43,47"/>
+    <line class="ik-s ik-thin" x1="47" y1="51" x2="61" y2="51"/>
+    <polyline class="ik-sb ikm ik-chk3" points="34,63 37,66 43,59"/>
+    <line class="ik-s ik-thin" x1="47" y1="63" x2="61" y2="63"/>`,
+
+  briefcase: `
+    <path class="ik-s ik-thin" d="M41,36 v-4 a3,3 0 0 1 3,-3 h8 a3,3 0 0 1 3,3 v4"/>
+    <rect class="ik-s" x="26" y="36" width="44" height="30" rx="6"/>
+    <line class="ik-s ik-thin" x1="26" y1="50" x2="70" y2="50"/>
+    <rect class="ik-fb ikm ik-pulse" x="44" y="47" width="8" height="7" rx="2"/>
+    <path class="ik-fl ikm ik-twinkle" d="M68,22 l1.8,4.2 4.2,1.8 -4.2,1.8 -1.8,4.2 -1.8,-4.2 -4.2,-1.8 4.2,-1.8 z"/>`,
+
+  workflow: `
+    <rect class="ik-s ikm ik-bob1" x="20" y="26" width="18" height="14" rx="3"/>
+    <rect class="ik-sb ikm ik-bob2" x="58" y="26" width="18" height="14" rx="3"/>
+    <rect class="ik-s ikm ik-bob3" x="39" y="56" width="18" height="14" rx="3"/>
+    <path class="ik-s ik-thin" d="M40,33 H56" opacity=".7"/>
+    <path class="ik-s ik-thin" d="M67,42 V63 H59" opacity=".7"/>
+    <path class="ik-s ik-thin" d="M37,63 H29 V42" opacity=".7"/>
+    <polyline class="ik-s ik-thin" points="53,30 56,33 53,36" opacity=".7"/>
+    <polyline class="ik-s ik-thin" points="62,60 59,63 62,66" opacity=".7"/>
+    <polyline class="ik-s ik-thin" points="26,45 29,42 32,45" opacity=".7"/>
+    <circle class="ik-fl" r="3"><animateMotion dur="4.5s" repeatCount="indefinite" path="M38,33 H67 V63 H29 V33 H38"/></circle>`,
+
+  image: `
+    <rect class="ik-s" x="22" y="28" width="52" height="40" rx="5"/>
+    <circle class="ik-fb ikm ik-sun" cx="38" cy="42" r="5"/>
+    <path class="ik-s ik-thin" d="M26,64 l11,-13 8,9 6,-7 13,11"/>
+    <path class="ik-fl ikm ik-twinkle" d="M64,34 l1.5,3.5 3.5,1.5 -3.5,1.5 -1.5,3.5 -1.5,-3.5 -3.5,-1.5 3.5,-1.5 z"/>`,
+
+  brand: `
+    <circle class="ik-sl ik-thin ik-ring" cx="48" cy="48" r="20" style="transform-box:view-box;transform-origin:48px 48px"/>
+    <path class="ik-s ikm ik-sway" d="M48,26 L70,48 48,70 26,48 Z"/>
+    <path class="ik-fb ikm ik-pulse" d="M48,38 L58,48 48,58 38,48 Z"/>`,
+
+  logo: `
+    <g class="ikm ik-wiggle">
+      <circle class="ik-s" cx="48" cy="48" r="16"/>
+      <circle class="ik-fb" cx="48" cy="48" r="4.5"/>
+    </g>
+    <g class="ik-arcspin" style="transform-box:view-box;transform-origin:48px 48px">
+      <path class="ik-sb" d="M48,26 a22,22 0 0 1 22,22" stroke-width="5"/>
+    </g>`,
+
+  cart: `
+    <g class="ikm ik-rock" style="transform-origin:center bottom">
+      <path class="ik-s" d="M24,30 h7 l6,26 h27 l6,-19 H35"/>
+      <circle class="ik-f" cx="42" cy="66" r="3.6"/>
+      <circle class="ik-f" cx="62" cy="66" r="3.6"/>
+    </g>
+    <rect class="ik-fb ikm ik-drop" x="48" y="16" width="9" height="9" rx="2"/>`,
+
+  carousel: `
+    <rect class="ik-s ik-thin ikm ik-cardback" x="24" y="33" width="26" height="34" rx="4" opacity=".45"/>
+    <rect class="ik-sb ik-thin ikm ik-cardmid" x="33" y="30" width="27" height="37" rx="4" opacity=".8"/>
+    <g class="ikm ik-cardfront">
+      <rect class="ik-s" x="43" y="27" width="29" height="41" rx="4"/>
+      <line class="ik-sb ik-thin" x1="49" y1="38" x2="66" y2="38"/>
+      <line class="ik-s ik-thin" x1="49" y1="46" x2="66" y2="46" opacity=".7"/>
+      <line class="ik-s ik-thin" x1="49" y1="54" x2="60" y2="54" opacity=".7"/>
+    </g>`,
+
+  bag: `
+    <g class="ikm ik-bounce">
+      <path class="ik-sb ik-thin" d="M40,40 v-7 a8,8 0 0 1 16,0 v7"/>
+      <path class="ik-s" d="M31,40 h34 l-3,29 a4,4 0 0 1 -4,4 H38 a4,4 0 0 1 -4,-4 z"/>
+      <circle class="ik-fb ikm ik-pulse" cx="48" cy="56" r="3.5"/>
+    </g>`,
+
+  bolt: `
+    <circle class="ik-sl ik-thin ik-ring" cx="48" cy="48" r="22" style="transform-box:view-box;transform-origin:48px 48px" opacity=".5"/>
+    <polygon class="ik-fb ik-flash" points="53,20 33,52 45,52 41,76 63,42 50,42"/>`,
+
+  "card-pay": `
+    <g class="ikm ik-tilt">
+      <rect class="ik-s" x="24" y="36" width="48" height="30" rx="5"/>
+      <rect class="ik-fb" x="26" y="42" width="44" height="6"/>
+      <line class="ik-s ik-thin" x1="31" y1="57" x2="47" y2="57"/>
+    </g>
+    <g class="ikm ik-pop">
+      <circle class="ik-fb" cx="66" cy="30" r="8"/>
+      <polyline class="ik-s" points="62,30 65,33 70,26"/>
+    </g>`,
+
+  tag: `
+    <g class="ik-swing" style="transform-box:view-box;transform-origin:64px 30px">
+      <path class="ik-s" d="M58,26 h12 a4,4 0 0 1 4,4 v12 L52,64 36,48 z"/>
+      <circle class="ik-fb" cx="66" cy="34" r="2.6"/>
+      <line class="ik-sb ik-thin" x1="46" y1="46" x2="54" y2="54"/>
+    </g>`,
+
+  phone: `
+    <g class="ikm ik-tilt">
+      <rect class="ik-s" x="36" y="22" width="24" height="50" rx="6"/>
+      <line class="ik-s ik-thin" x1="44" y1="27" x2="52" y2="27" opacity=".7"/>
+      <line class="ik-sb ik-thin ik-cas1" x1="41" y1="36" x2="55" y2="36"/>
+      <line class="ik-s ik-thin ik-cas2" x1="41" y1="43" x2="55" y2="43"/>
+      <line class="ik-sl ik-thin ik-cas3" x1="41" y1="50" x2="51" y2="50"/>
+      <circle class="ik-fb" cx="48" cy="65" r="2.2"/>
+    </g>`,
+
+  funnel: `
+    <path class="ik-s" d="M28,26 H68 L54,46 v14 l-12,8 V46 Z"/>
+    <circle class="ik-fb ik-fall1" cx="43" cy="22" r="2.6"/>
+    <circle class="ik-fl ik-fall2" cx="50" cy="20" r="2.4"/>
+    <circle class="ik-f ik-fall3" cx="57" cy="23" r="2.2"/>
+    <circle class="ik-fb ikm ik-pulse" cx="48" cy="74" r="2.8"/>`,
+
+  pencil: `
+    <path class="ik-sb ik-penline" d="M26,68 q6,-5 12,0 t12,0 t14,0" pathLength="100"/>
+    <g class="ik-penmove">
+      <g transform="translate(28,66) rotate(-35)">
+        <path class="ik-f" d="M0,0 L-4,-9 L4,-9 Z"/>
+        <rect class="ik-fb" x="-4" y="-27" width="8" height="18" rx="1.5"/>
+        <rect class="ik-f" x="-4" y="-31" width="8" height="4" rx="1.5" opacity=".8"/>
+      </g>
+    </g>`,
+
+  "doc-scan": `
+    <rect class="ik-s" x="30" y="22" width="36" height="52" rx="4"/>
+    <line class="ik-s ik-thin" x1="37" y1="33" x2="59" y2="33" opacity=".8"/>
+    <line class="ik-sb ik-thin" x1="37" y1="42" x2="59" y2="42"/>
+    <line class="ik-s ik-thin" x1="37" y1="51" x2="59" y2="51" opacity=".8"/>
+    <line class="ik-sb ik-thin" x1="37" y1="60" x2="52" y2="60"/>
+    <rect class="ik-fl ikm ik-scan" x="28" y="28" width="40" height="5" rx="2.5" opacity=".55"/>`,
+
+  headset: `
+    <path class="ik-s" d="M30,50 v-2 a18,18 0 0 1 36,0 v2"/>
+    <rect class="ik-fb" x="27" y="48" width="8" height="14" rx="3.5"/>
+    <rect class="ik-fb" x="61" y="48" width="8" height="14" rx="3.5"/>
+    <path class="ik-s ik-thin" d="M65,62 v2 a6,6 0 0 1 -6,6 h-6"/>
+    <path class="ik-sl ik-thin ik-wave1" d="M74,42 a12,12 0 0 1 0,14" fill="none"/>
+    <path class="ik-sl ik-thin ik-wave2" d="M79,38 a18,18 0 0 1 0,22" fill="none"/>`,
+
+  report: `
+    <rect class="ik-s" x="30" y="22" width="36" height="52" rx="4"/>
+    <line class="ik-sb ik-thin" x1="37" y1="34" x2="59" y2="34"/>
+    <line class="ik-s ik-thin" x1="37" y1="43" x2="59" y2="43" opacity=".75"/>
+    <line class="ik-s ik-thin" x1="37" y1="52" x2="59" y2="52" opacity=".75"/>
+    <line class="ik-sb ik-thin" x1="37" y1="61" x2="50" y2="61"/>
+    <rect class="ik-page" x="30" y="22" width="36" height="52" rx="4" style="transform-box:view-box;transform-origin:30px 48px"/>`,
+
+  backup: `
+    <path class="ik-s" d="M35,60 a10,10 0 0 1 1,-19.9 A14,14 0 0 1 63,37 a9.5,9.5 0 0 1 -1,23 z"/>
+    <g class="ikm ik-rise">
+      <line class="ik-sb" x1="48" y1="70" x2="48" y2="50"/>
+      <polyline class="ik-sb" points="42,56 48,50 54,56"/>
+    </g>`,
+
+  shield: `
+    <path class="ik-s" d="M48,22 l20,7 v14 c0,14 -9,22 -20,27 -11,-5 -20,-13 -20,-27 V29 z"/>
+    <rect class="ik-fl ikm ik-scan" x="33" y="32" width="30" height="4.5" rx="2.25" opacity=".6"/>
+    <circle class="ik-fb ikm ik-pulse" cx="48" cy="46" r="4"/>`,
+
+  lock: `
+    <path class="ik-sb ikm ik-shackle" d="M38,44 v-8 a10,10 0 0 1 20,0 v8"/>
+    <rect class="ik-s" x="32" y="44" width="32" height="26" rx="6"/>
+    <circle class="ik-fb" cx="48" cy="54" r="3.2"/>
+    <line class="ik-sb" x1="48" y1="56" x2="48" y2="62"/>`,
+
+  speed: `
+    <path class="ik-s" d="M26,62 a22,22 0 0 1 44,0"/>
+    <line class="ik-s ik-thin" x1="30" y1="48" x2="34" y2="50" opacity=".7"/>
+    <line class="ik-s ik-thin" x1="48" y1="38" x2="48" y2="42" opacity=".7"/>
+    <line class="ik-s ik-thin" x1="66" y1="48" x2="62" y2="50" opacity=".7"/>
+    <line class="ik-sb ik-needle" x1="48" y1="62" x2="48" y2="44" style="transform-box:view-box;transform-origin:48px 62px"/>
+    <circle class="ik-f" cx="48" cy="62" r="4"/>
+    <line class="ik-s" x1="30" y1="70" x2="66" y2="70" opacity=".5"/>`,
+
+  rocket: `
+    <g class="ikm ik-lift">
+      <path class="ik-s" d="M48,20 c8,7 11,15 11,23 0,6 -2,12 -4,17 H41 c-2,-5 -4,-11 -4,-17 0,-8 3,-16 11,-23 z"/>
+      <circle class="ik-sb" cx="48" cy="40" r="4.5"/>
+      <path class="ik-fb" d="M37,52 l-7,10 8,-2 z"/>
+      <path class="ik-fb" d="M59,52 l7,10 -8,-2 z"/>
+      <path class="ik-fl ikm ik-flame" d="M44,62 q4,12 4,12 t4,-12 z" style="transform-origin:center top"/>
+    </g>`,
+
+  loop: `
+    <g class="ik-arcspin" style="transform-box:view-box;transform-origin:48px 48px">
+      <path class="ik-s" d="M48,28 a20,20 0 0 1 20,20" fill="none"/>
+      <polyline class="ik-s" points="63,44 68,48 72,43"/>
+      <path class="ik-sb" d="M48,68 a20,20 0 0 1 -20,-20" fill="none"/>
+      <polyline class="ik-sb" points="33,52 28,48 24,53"/>
+    </g>
+    <circle class="ik-fb ikm ik-pulse" cx="48" cy="48" r="4"/>`,
+
+  "chart-bars": `
+    <line class="ik-s" x1="24" y1="70" x2="72" y2="70" opacity=".6"/>
+    <rect class="ik-f ikm ik-bar1" x="27" y="46" width="8" height="24" rx="2" style="transform-origin:center bottom"/>
+    <rect class="ik-fb ikm ik-bar2" x="39" y="36" width="8" height="34" rx="2" style="transform-origin:center bottom"/>
+    <rect class="ik-fl ikm ik-bar3" x="51" y="42" width="8" height="28" rx="2" style="transform-origin:center bottom"/>
+    <rect class="ik-fb ikm ik-bar4" x="63" y="30" width="8" height="40" rx="2" style="transform-origin:center bottom"/>`,
+
+  trophy: `
+    <g class="ikm ik-sway" style="transform-origin:center bottom">
+      <path class="ik-s" d="M36,26 h24 v12 a12,12 0 0 1 -24,0 z"/>
+      <path class="ik-sb ik-thin" d="M36,30 h-8 a8,8 0 0 0 8,10"/>
+      <path class="ik-sb ik-thin" d="M60,30 h8 a8,8 0 0 1 -8,10"/>
+      <line class="ik-s" x1="48" y1="50" x2="48" y2="60"/>
+      <rect class="ik-f" x="38" y="60" width="20" height="5" rx="2"/>
+      <rect class="ik-fl ikm ik-shine" x="42" y="26" width="4" height="18" rx="2" opacity="0" transform="rotate(20 48 36)"/>
+    </g>`,
+
+  keywords: `
+    <line class="ik-s ik-thin" x1="26" y1="34" x2="56" y2="34" opacity=".8"/>
+    <rect class="ik-fb ikm ik-hl" x="24" y="43" width="26" height="9" rx="3" opacity=".28"/>
+    <line class="ik-sb ik-thin" x1="26" y1="47.5" x2="46" y2="47.5"/>
+    <line class="ik-s ik-thin" x1="26" y1="61" x2="50" y2="61" opacity=".8"/>
+    <g class="ikm ik-float">
+      <circle class="ik-s" cx="60" cy="50" r="10"/>
+      <line class="ik-s" x1="67" y1="57" x2="74" y2="64"/>
+    </g>`,
+
+  "map-pin": `
+    <ellipse class="ik-sl ik-thin ik-ripple" cx="48" cy="66" rx="9" ry="2.6" style="transform-box:view-box;transform-origin:48px 66px"/>
+    <g class="ikm ik-pindrop">
+      <path class="ik-s" d="M48,26 a13,13 0 0 1 13,13 c0,10 -13,25 -13,25 s-13,-15 -13,-25 a13,13 0 0 1 13,-13 z"/>
+      <circle class="ik-fb" cx="48" cy="39" r="4.5"/>
+    </g>`,
+
+  sliders: `
+    <line class="ik-s ik-thin" x1="28" y1="34" x2="68" y2="34" opacity=".55"/>
+    <line class="ik-s ik-thin" x1="28" y1="48" x2="68" y2="48" opacity=".55"/>
+    <line class="ik-s ik-thin" x1="28" y1="62" x2="68" y2="62" opacity=".55"/>
+    <circle class="ik-fb ik-slide1" cx="35" cy="34" r="4.5"/>
+    <circle class="ik-fl ik-slide2" cx="61" cy="48" r="4.5"/>
+    <circle class="ik-f ik-slide3" cx="42" cy="62" r="4.5"/>`,
+
+  cursor: `
+    <rect class="ik-s ikm ik-btnpulse" x="26" y="38" width="34" height="16" rx="8"/>
+    <line class="ik-sb ik-thin" x1="33" y1="46" x2="53" y2="46"/>
+    <g class="ik-cursorgo">
+      <g transform="translate(58,54)">
+        <path class="ik-f" d="M0,0 v14 l3.2,-3.2 2.6,6 3.4,-1.6 -2.6,-6 4.6,0 z"/>
+      </g>
+    </g>`,
+
+  envelope: `
+    <polygon class="ik-fb ikm ik-flap" points="26,37 48,21 70,37" opacity=".9" style="transform-origin:center bottom"/>
+    <rect class="ik-s" x="26" y="37" width="44" height="30" rx="4"/>
+    <polyline class="ik-sb ik-thin" points="26,39 48,55 70,39"/>`,
+
+  roadmap: `
+    <path class="ik-s ik-thin ik-route" d="M26,66 C36,48 42,72 52,54 60,40 62,44 68,32" stroke-dasharray="5 5"/>
+    <line class="ik-s ik-thin" x1="68" y1="32" x2="68" y2="22"/>
+    <polygon class="ik-fb ikm ik-flagwave" points="68,22 78,25 68,28" style="transform-origin:left center"/>
+    <circle class="ik-fl" r="3.2"><animateMotion dur="4s" repeatCount="indefinite" path="M26,66 C36,48 42,72 52,54 60,40 62,44 68,32"/></circle>`,
+
+  "grad-cap": `
+    <g class="ikm ik-sway">
+      <polygon class="ik-fb" points="48,28 74,38 48,48 22,38" stroke="#E9F2FA" stroke-width="3" stroke-linejoin="round"/>
+      <path class="ik-s" d="M36,44 v10 c0,4 24,4 24,0 V44"/>
+    </g>
+    <g class="ik-tassel" style="transform-box:view-box;transform-origin:70px 40px">
+      <line class="ik-sl ik-thin" x1="70" y1="40" x2="70" y2="54"/>
+      <circle class="ik-fl" cx="70" cy="56" r="2.6"/>
+    </g>`,
+
+  wrench: `
+    <path class="ik-sb" d="M48,45 m-7,0 a7,7 0 1 0 7,-7" fill="none" opacity="0"/>
+    <g class="ik-ratchet" style="transform-box:view-box;transform-origin:44px 56px">
+      <path class="ik-s" d="M50.5,49.5 A9,9 0 1 0 53,58" fill="none"/>
+      <line class="ik-s" x1="52" y1="49" x2="70" y2="31" stroke-width="6"/>
+    </g>
+    <path class="ik-sb" d="M44,50 l5.2,3 v6 l-5.2,3 -5.2,-3 v-6 z" fill="none"/>`,
+
+  chat: `
+    <g class="ikm ik-bob1">
+      <rect class="ik-s" x="24" y="28" width="30" height="18" rx="8"/>
+      <path class="ik-s" d="M32,46 l-2,6 8,-6" fill="none"/>
+      <line class="ik-s ik-thin" x1="31" y1="37" x2="47" y2="37" opacity=".7"/>
+    </g>
+    <g class="ikm ik-bob2">
+      <rect class="ik-fb" x="42" y="50" width="30" height="18" rx="8"/>
+      <path class="ik-fb" d="M64,68 l2,6 -8,-6"/>
+      <circle class="ik-f ik-typ1" cx="51" cy="59" r="2"/>
+      <circle class="ik-f ik-typ2" cx="57" cy="59" r="2"/>
+      <circle class="ik-f ik-typ3" cx="63" cy="59" r="2"/>
+    </g>`,
+
+  palette: `
+    <circle class="ik-s" cx="48" cy="48" r="21"/>
+    <circle class="ik-s ik-thin" cx="58" cy="57" r="5"/>
+    <circle class="ik-fb ik-dot1" cx="38" cy="39" r="3.6"/>
+    <circle class="ik-fl ik-dot2" cx="49" cy="33" r="3.6"/>
+    <circle class="ik-f ik-dot3" cx="59" cy="39" r="3.6"/>
+    <circle class="ik-fb ik-dot4" cx="35" cy="51" r="3.6"/>`,
+
+  printer: `
+    <g class="ikm ik-printpage">
+      <rect class="ik-f" x="37" y="50" width="22" height="16" rx="2"/>
+      <line class="ik-sb ik-thin" x1="41" y1="56" x2="55" y2="56"/>
+      <line class="ik-sb ik-thin" x1="41" y1="61" x2="51" y2="61"/>
+    </g>
+    <rect class="ik-s" x="26" y="36" width="44" height="18" rx="4"/>
+    <path class="ik-s ik-thin" d="M34,36 v-8 h28 v8"/>
+    <circle class="ik-fb ik-led1" cx="64" cy="42" r="2.2"/>`,
+
+  folder: `
+    <rect class="ik-f ikm ik-peek1" x="36" y="30" width="22" height="14" rx="2" opacity=".9"/>
+    <rect class="ik-fl ikm ik-peek2" x="44" y="26" width="22" height="14" rx="2"/>
+    <path class="ik-s" d="M26,36 h13 l5,6 h26 v24 a4,4 0 0 1 -4,4 H30 a4,4 0 0 1 -4,-4 z" fill="#0C1424"/>
+    <line class="ik-sb ik-thin" x1="34" y1="58" x2="50" y2="58"/>`,
+
+  "heart-pulse": `
+    <path class="ik-s ikm ik-beat" d="M48,70 C31,56 24,44 31,34 c5,-7 14,-6 17,1 3,-7 12,-8 17,-1 7,10 0,22 -17,36 z"/>
+    <polyline class="ik-sb ik-thin ik-ecg" points="28,48 38,48 43,40 49,57 54,44 57,48 68,48" pathLength="100"/>`,
+
+  scales: `
+    <line class="ik-s" x1="48" y1="30" x2="48" y2="66"/>
+    <line class="ik-s" x1="36" y1="70" x2="60" y2="70"/>
+    <circle class="ik-fb" cx="48" cy="27" r="3.4"/>
+    <g class="ik-tiltbeam" style="transform-box:view-box;transform-origin:48px 34px">
+      <line class="ik-s" x1="28" y1="34" x2="68" y2="34"/>
+      <line class="ik-s ik-thin" x1="28" y1="34" x2="23" y2="46"/><line class="ik-s ik-thin" x1="28" y1="34" x2="33" y2="46"/>
+      <path class="ik-sb" d="M21,46 a7,7 0 0 0 14,0" fill="none"/>
+      <line class="ik-s ik-thin" x1="68" y1="34" x2="63" y2="46"/><line class="ik-s ik-thin" x1="68" y1="34" x2="73" y2="46"/>
+      <path class="ik-sb" d="M61,46 a7,7 0 0 0 14,0" fill="none"/>
+    </g>`,
+
+  "chart-line": `
+    <polyline class="ik-s ik-thin" points="26,26 26,68 72,68" opacity=".6"/>
+    <polyline class="ik-sb ik-chartdraw" points="30,60 40,50 50,56 60,38 68,32" pathLength="100"/>
+    <circle class="ik-fl ikm ik-pulse" cx="68" cy="32" r="3.4"/>`,
+
+  crane: `
+    <line class="ik-s" x1="34" y1="72" x2="34" y2="26"/>
+    <line class="ik-s" x1="26" y1="72" x2="42" y2="72"/>
+    <line class="ik-s" x1="34" y1="30" x2="72" y2="30"/>
+    <line class="ik-s ik-thin" x1="34" y1="26" x2="52" y2="30" opacity=".7"/>
+    <rect class="ik-f" x="24" y="32" width="8" height="7" rx="1.5"/>
+    <line class="ik-sb ik-thin" x1="64" y1="30" x2="64" y2="56">
+      <animate attributeName="y2" values="56;44;56" dur="3.2s" repeatCount="indefinite" calcMode="spline" keySplines=".45,0,.55,1;.45,0,.55,1"/>
+    </line>
+    <g><animateTransform attributeName="transform" type="translate" values="0 0;0 -12;0 0" dur="3.2s" repeatCount="indefinite" calcMode="spline" keySplines=".45,0,.55,1;.45,0,.55,1"/>
+      <rect class="ik-fb" x="58" y="56" width="12" height="9" rx="1.5"/>
+    </g>`,
+
+  house: `
+    <path class="ik-s" d="M28,50 L48,32 68,50 V70 H28 z"/>
+    <rect class="ik-sb ik-thin" x="44" y="56" width="9" height="14"/>
+    <rect class="ik-fb ik-glowwin" x="33" y="54" width="7.5" height="7.5" rx="1"/>
+    <path class="ik-fl ikm ik-twinkle" d="M66,24 l1.6,3.8 3.8,1.6 -3.8,1.6 -1.6,3.8 -1.6,-3.8 -3.8,-1.6 3.8,-1.6 z"/>`,
+
+  factory: `
+    <path class="ik-s" d="M26,70 V48 l11,7 v-7 l11,7 v-9 h12 V70 z"/>
+    <rect class="ik-s ik-thin" x="60" y="34" width="10" height="12"/>
+    <circle class="ik-fl ik-smoke1" cx="65" cy="28" r="3"/>
+    <circle class="ik-fl ik-smoke2" cx="67" cy="24" r="2.4"/>
+    <g class="ikm ik-gearA">
+      <circle class="ik-sb" cx="40" cy="60" r="5"/>
+      <g class="ik-sb ik-thin"><line x1="46" y1="60" x2="49" y2="60"/><line x1="40" y1="66" x2="40" y2="69"/><line x1="34" y1="60" x2="31" y2="60"/><line x1="40" y1="54" x2="40" y2="51"/></g>
+    </g>`,
+
+  tooth: `
+    <path class="ik-s ikm ik-sway" d="M39,26 c-9,0 -12,10 -9,19 3,8 4,23 8,23 5,0 4,-11 10,-11 6,0 5,11 10,11 4,0 5,-15 8,-23 3,-9 0,-19 -9,-19 -7,0 -7,4 -9,4 -2,0 -2,-4 -9,-4 z"/>
+    <path class="ik-fl ikm ik-twinkle" d="M62,30 l1.6,3.8 3.8,1.6 -3.8,1.6 -1.6,3.8 -1.6,-3.8 -3.8,-1.6 3.8,-1.6 z"/>
+    <path class="ik-fb ikm ik-twinkle2" d="M32,58 l1.3,3 3,1.3 -3,1.3 -1.3,3 -1.3,-3 -3,-1.3 3,-1.3 z"/>`,
+
+  "heart-hands": `
+    <path class="ik-s ik-thin" d="M26,56 q5,12 16,14"/>
+    <path class="ik-s ik-thin" d="M70,56 q-5,12 -16,14"/>
+    <path class="ik-fb ikm ik-beat" d="M48,58 C38,50 34,43 38,37 c3,-4 8,-3 10,1 2,-4 7,-5 10,-1 4,6 0,13 -10,21 z"/>
+    <path class="ik-fl ikm ik-risefade" d="M62,34 c-3,-2 -4,-4 -3,-6 1,-1.5 3,-1 3.6,.4 .6,-1.4 2.6,-1.9 3.6,-.4 1,2 0,4 -4.2,6 z"/>`,
+
+  exchange: `
+    <rect class="ik-s ikm ik-bob1" x="22" y="36" width="16" height="24" rx="3"/>
+    <rect class="ik-sb ikm ik-bob2" x="58" y="36" width="16" height="24" rx="3"/>
+    <line class="ik-s ik-thin" x1="42" y1="42" x2="54" y2="42" opacity=".7"/>
+    <polyline class="ik-s ik-thin" points="51,39 54,42 51,45" opacity=".7"/>
+    <line class="ik-s ik-thin" x1="54" y1="54" x2="42" y2="54" opacity=".7"/>
+    <polyline class="ik-s ik-thin" points="45,51 42,54 45,57" opacity=".7"/>
+    <circle class="ik-fl" r="2.6"><animateMotion dur="2.2s" repeatCount="indefinite" path="M40,42 H56"/></circle>
+    <circle class="ik-fb" r="2.6"><animateMotion dur="2.2s" begin="1.1s" repeatCount="indefinite" path="M56,54 H40"/></circle>`,
+
+  "shield-check": `
+    <path class="ik-s" d="M48,22 l20,7 v14 c0,14 -9,22 -20,27 -11,-5 -20,-13 -20,-27 V29 z"/>
+    <polyline class="ik-sb ik-chkdraw" points="38,47 45,54 59,39" pathLength="100"/>`,
+
+  art: `
+    <rect class="ik-s" x="24" y="26" width="48" height="34" rx="3"/>
+    <line class="ik-s ik-thin" x1="32" y1="60" x2="27" y2="74" opacity=".7"/>
+    <line class="ik-s ik-thin" x1="64" y1="60" x2="69" y2="74" opacity=".7"/>
+    <line class="ik-s ik-thin" x1="48" y1="60" x2="48" y2="70" opacity=".7"/>
+    <path class="ik-sb ik-penline" d="M30,48 q9,-13 18,-5 t18,-5" pathLength="100"/>
+    <circle class="ik-fl ikm ik-pulse" cx="64" cy="33" r="2.8"/>`,
+};
+
+const norm = String(title).trim().toLowerCase();
+const concept = MAP[norm] ?? "brand";
+const glyph = ICONS[concept] ?? ICONS.brand;
+---
+
+<span class={`ico-anim ik--${concept}`} aria-hidden="true">
+  <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <rect class="ik-tile" x="2" y="2" width="92" height="92" rx="20"></rect>
+    <g set:html={glyph}></g>
+  </svg>
+</span>
+
+<style is:global>
+  /* ---- CardIcon layout: 2x tile, centered, anchored above the card foot ---- */
+  .ico-anim {
+    width: 144px;
+    height: 144px;
+    display: block;
+    margin: auto auto 1.4rem; /* top auto = pushes to card foot; l/r auto = centered */
+    padding-top: 0.4rem;
+    filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.35));
+  }
+  .ico-anim svg { width: 100%; height: 100%; display: block; }
+  @media (max-width: 640px) {
+    .ico-anim { width: 116px; height: 116px; }
+  }
+
+  /* ---- palette ---- */
+  .ik-tile { fill: #0c1424; stroke: rgba(125, 170, 210, 0.16); stroke-width: 1.5; }
+  .ik-s  { stroke: #e9f2fa; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .ik-sb { stroke: #00a8d0; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .ik-sl { stroke: #5bcfea; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .ik-thin { stroke-width: 2.5; }
+  .ik-f  { fill: #e9f2fa; }
+  .ik-fb { fill: #00a8d0; }
+  .ik-fl { fill: #5bcfea; }
+  .ikm { transform-box: fill-box; transform-origin: center; }
+
+  /* ---- shared keyframes ---- */
+  @keyframes ikf-spin   { to { transform: rotate(360deg); } }
+  @keyframes ikf-pulse  { 0%, 100% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.25); opacity: 1; } }
+  @keyframes ikf-twinkle{ 0%, 100% { transform: scale(0.55); opacity: 0.25; } 50% { transform: scale(1.15); opacity: 1; } }
+  @keyframes ikf-bob    { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+  @keyframes ikf-sway   { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+  @keyframes ikf-blink  { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
+  @keyframes ikf-ring   { 0% { transform: scale(0.7); opacity: 0.7; } 75%, 100% { transform: scale(1.22); opacity: 0; } }
+  @keyframes ikf-bar    { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+  @keyframes ikf-scan   { 0%, 100% { transform: translateY(0); opacity: 0.15; } 15% { opacity: 0.6; } 50% { transform: translateY(34px); opacity: 0.6; } 65% { opacity: 0.15; } }
+  @keyframes ikf-tilt   { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+  @keyframes ikf-pop    { 0% { transform: scale(0.2); opacity: 0; } 12% { transform: scale(1.15); opacity: 1; } 20% { transform: scale(1); } 72% { transform: scale(1); opacity: 1; } 88%, 100% { transform: scale(0.5); opacity: 0; } }
+  @keyframes ikf-chk    { 0% { transform: scale(0.2); opacity: 0; } 8% { transform: scale(1.15); opacity: 1; } 14% { transform: scale(1); } 78% { transform: scale(1); opacity: 1; } 92%, 100% { opacity: 0; } }
+  @keyframes ikf-dash   { to { stroke-dashoffset: -20; } }
+  @keyframes ikf-risefade { 0%, 100% { transform: translateY(4px); opacity: 0; } 30% { opacity: 1; } 70% { transform: translateY(-6px); opacity: 0.9; } 95% { opacity: 0; } }
+
+  /* browser: content lines type in, hold, clear */
+  @keyframes ikf-grow { 0% { transform: scaleX(0); } 30% { transform: scaleX(1); } 78% { transform: scaleX(1); } 95%, 100% { transform: scaleX(0); } }
+  .ik--browser .ik-line1 { animation: ikf-grow 4.2s ease-in-out infinite; }
+  .ik--browser .ik-line2 { animation: ikf-grow 4.2s ease-in-out 0.35s infinite; transform: scaleX(0); }
+  .ik--browser .ik-line3 { animation: ikf-grow 4.2s ease-in-out 0.7s infinite; transform: scaleX(0); }
+
+  /* ai-chip: core pulses, node orbits */
+  .ik--ai-chip .ik-pulse { animation: ikf-pulse 2.2s ease-in-out infinite; }
+  .ik-orbit { animation: ikf-spin 5s linear infinite; }
+
+  /* server: LEDs blink at odd intervals, data line streams */
+  .ik-led1 { animation: ikf-blink 1.3s ease-in-out infinite; }
+  .ik-led2 { animation: ikf-blink 1.9s ease-in-out 0.4s infinite; }
+  .ik-led3 { animation: ikf-blink 1.6s ease-in-out 0.8s infinite; }
+  .ik-led4 { animation: ikf-blink 1.1s ease-in-out 0.2s infinite; }
+  .ik-dataline { animation: ikf-dash 1.1s linear infinite; }
+
+  /* gears: counter-rotation */
+  .ik-gearA { animation: ikf-spin 8s linear infinite; }
+  .ik-gearB { animation: ikf-spin 5.5s linear infinite reverse; }
+
+  /* seo: magnifier sweeps, bars breathe */
+  @keyframes ikf-sweep { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-16px, 5px); } }
+  .ik-sweep { animation: ikf-sweep 4s ease-in-out infinite; }
+  .ik-bar1 { animation: ikf-bar 2.6s ease-in-out infinite; }
+  .ik-bar2 { animation: ikf-bar 3.1s ease-in-out 0.3s infinite; }
+  .ik-bar3 { animation: ikf-bar 2.3s ease-in-out 0.6s infinite; }
+  .ik-bar4 { animation: ikf-bar 3.4s ease-in-out 0.15s infinite; }
+
+  /* checklist: checks land one after another */
+  .ik-chk1 { animation: ikf-chk 4.5s ease-in-out infinite; }
+  .ik-chk2 { animation: ikf-chk 4.5s ease-in-out 0.6s infinite; opacity: 0; }
+  .ik-chk3 { animation: ikf-chk 4.5s ease-in-out 1.2s infinite; opacity: 0; }
+
+  /* generic reused bits */
+  .ik-pulse { animation: ikf-pulse 2.4s ease-in-out infinite; }
+  .ik-twinkle { animation: ikf-twinkle 2.6s ease-in-out infinite; }
+  .ik-twinkle2 { animation: ikf-twinkle 2.6s ease-in-out 1.3s infinite; }
+  .ik-bob1 { animation: ikf-bob 3s ease-in-out infinite; }
+  .ik-bob2 { animation: ikf-bob 3s ease-in-out 0.5s infinite; }
+  .ik-bob3 { animation: ikf-bob 3s ease-in-out 1s infinite; }
+  .ik-sway { animation: ikf-sway 4.5s ease-in-out infinite; }
+  .ik-ring { animation: ikf-ring 3s ease-out infinite; }
+  .ik-tilt { animation: ikf-tilt 4s ease-in-out infinite; }
+  .ik-pop { animation: ikf-pop 3.6s ease-in-out infinite; }
+  .ik-scan { animation: ikf-scan 3.2s ease-in-out infinite; }
+  .ik-risefade { animation: ikf-risefade 3s ease-in-out infinite; }
+
+  /* logo: occasional wiggle burst + accent arc spins */
+  @keyframes ikf-wiggle { 0% { transform: rotate(0); } 6% { transform: rotate(-12deg); } 13% { transform: rotate(9deg); } 20% { transform: rotate(-5deg); } 26% { transform: rotate(0); } 100% { transform: rotate(0); } }
+  .ik-wiggle { animation: ikf-wiggle 4.5s ease-in-out infinite; }
+  .ik-arcspin { animation: ikf-spin 4s linear infinite; }
+
+  /* cart: item drops in, cart rocks */
+  @keyframes ikf-drop { 0% { transform: translateY(-8px); opacity: 0; } 18% { transform: translateY(2px); opacity: 1; } 38% { transform: translateY(18px); opacity: 1; } 52%, 100% { transform: translateY(18px); opacity: 0; } }
+  .ik-drop { animation: ikf-drop 3s ease-in infinite; }
+  @keyframes ikf-rock { 0%, 20%, 100% { transform: rotate(0); } 40% { transform: rotate(-3deg); } 60% { transform: rotate(2deg); } 75% { transform: rotate(0); } }
+  .ik-rock { animation: ikf-rock 3s ease-in-out infinite; }
+
+  /* carousel: front card cycles out and back */
+  @keyframes ikf-shuffle { 0%, 100% { transform: translateX(0); opacity: 1; } 38% { transform: translateX(14px); opacity: 0; } 40% { transform: translateX(-16px); opacity: 0; } 70% { transform: translateX(0); opacity: 1; } }
+  .ik-cardfront { animation: ikf-shuffle 4s ease-in-out infinite; }
+  @keyframes ikf-shift { 0%, 100% { transform: translateX(0); } 40% { transform: translateX(5px); } 70% { transform: translateX(0); } }
+  .ik-cardmid { animation: ikf-shift 4s ease-in-out infinite; }
+  .ik-cardback { animation: ikf-shift 4s ease-in-out 0.12s infinite; }
+
+  /* bag bounce */
+  @keyframes ikf-bounce { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-5px); } 60% { transform: translateY(0); } 72% { transform: translateY(-2px); } 82% { transform: translateY(0); } }
+  .ik-bounce { animation: ikf-bounce 2.8s ease-in-out infinite; }
+
+  /* bolt flicker */
+  @keyframes ikf-flash { 0%, 38%, 62%, 100% { opacity: 1; } 45% { opacity: 0.3; } 50% { opacity: 1; } 55% { opacity: 0.45; } }
+  .ik-flash { animation: ikf-flash 2.6s linear infinite; }
+
+  /* tag swing */
+  @keyframes ikf-swing { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+  .ik-swing { animation: ikf-swing 3s ease-in-out infinite; }
+
+  /* phone: screen rows light up in sequence */
+  @keyframes ikf-cascade { 0%, 100% { opacity: 0.15; } 25% { opacity: 1; } 60% { opacity: 1; } 80% { opacity: 0.15; } }
+  .ik-cas1 { animation: ikf-cascade 3.3s ease-in-out infinite; }
+  .ik-cas2 { animation: ikf-cascade 3.3s ease-in-out 0.4s infinite; }
+  .ik-cas3 { animation: ikf-cascade 3.3s ease-in-out 0.8s infinite; }
+
+  /* funnel: leads fall through */
+  @keyframes ikf-fall { 0% { transform: translateY(-6px); opacity: 0; } 15% { opacity: 1; } 55% { transform: translateY(28px); opacity: 1; } 70%, 100% { transform: translateY(36px); opacity: 0; } }
+  .ik-fall1 { animation: ikf-fall 2.7s ease-in infinite; }
+  .ik-fall2 { animation: ikf-fall 2.7s ease-in 0.9s infinite; opacity: 0; }
+  .ik-fall3 { animation: ikf-fall 2.7s ease-in 1.8s infinite; opacity: 0; }
+
+  /* pencil writes a line, lifts, returns */
+  @keyframes ikf-penmove {
+    0% { transform: translate(0, 0); }
+    10% { transform: translate(4px, -1.5px); } 20% { transform: translate(9px, 0.5px); }
+    30% { transform: translate(15px, -1.5px); } 40% { transform: translate(21px, 0.5px); }
+    50% { transform: translate(27px, -1px); } 58% { transform: translate(32px, 0); }
+    70% { transform: translate(32px, -8px); opacity: 1; } 78% { opacity: 0; }
+    86% { transform: translate(0, -8px); opacity: 0; } 94% { opacity: 1; } 100% { transform: translate(0, 0); }
+  }
+  .ik-penmove { animation: ikf-penmove 4s ease-in-out infinite; }
+  @keyframes ikf-pendraw {
+    0% { stroke-dashoffset: 100; opacity: 1; } 58% { stroke-dashoffset: 0; opacity: 1; }
+    72% { opacity: 1; } 80% { opacity: 0; } 81% { stroke-dashoffset: 100; } 99% { opacity: 0; } 100% { opacity: 1; }
+  }
+  .ik-penline { stroke-dasharray: 100; animation: ikf-pendraw 4s ease-in-out infinite; }
+
+  /* headset waves */
+  @keyframes ikf-wave { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
+  .ik-wave1 { animation: ikf-wave 2s ease-in-out infinite; }
+  .ik-wave2 { animation: ikf-wave 2s ease-in-out 0.35s infinite; }
+
+  /* report: page turns over the spine */
+  .ik-page { fill: rgba(0, 168, 208, 0.22); stroke: #5bcfea; stroke-width: 2.5; animation: ikf-page 3.8s ease-in-out infinite; }
+  @keyframes ikf-page {
+    0% { transform: scaleX(1); opacity: 0.9; }
+    42% { transform: scaleX(-1); opacity: 0.3; }
+    50% { transform: scaleX(-1); opacity: 0; }
+    51% { transform: scaleX(1); opacity: 0; }
+    68% { transform: scaleX(1); opacity: 0.9; }
+    100% { transform: scaleX(1); opacity: 0.9; }
+  }
+
+  /* backup: arrow cycles up into the cloud */
+  @keyframes ikf-rise { 0% { transform: translateY(9px); opacity: 0; } 25% { opacity: 1; } 70% { transform: translateY(-3px); opacity: 1; } 88%, 100% { transform: translateY(-7px); opacity: 0; } }
+  .ik-rise { animation: ikf-rise 2.6s ease-in-out infinite; }
+
+  /* lock: shackle lifts and clicks shut */
+  @keyframes ikf-shackle { 0%, 45% { transform: translateY(0); } 58% { transform: translateY(-6px); } 72% { transform: translateY(-6px); } 80% { transform: translateY(0.8px); } 85%, 100% { transform: translateY(0); } }
+  .ik-shackle { animation: ikf-shackle 4s ease-in-out infinite; }
+
+  /* speedometer needle */
+  @keyframes ikf-needle { 0% { transform: rotate(-65deg); } 40% { transform: rotate(52deg); } 55% { transform: rotate(34deg); } 70% { transform: rotate(55deg); } 100% { transform: rotate(-65deg); } }
+  .ik-needle { animation: ikf-needle 3.6s ease-in-out infinite; }
+
+  /* rocket: lifts, flame flickers */
+  @keyframes ikf-lift { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-3px); } }
+  .ik-lift { animation: ikf-lift 2.4s ease-in-out infinite; }
+  @keyframes ikf-flame { 0%, 100% { transform: scaleY(0.55); opacity: 0.6; } 50% { transform: scaleY(1.15); opacity: 1; } }
+  .ik-flame { animation: ikf-flame 0.4s ease-in-out infinite; }
+
+  /* trophy shine sweep */
+  @keyframes ikf-shine { 0%, 55%, 100% { transform: translateX(-10px); opacity: 0; } 65% { opacity: 0.85; } 80% { transform: translateX(16px); opacity: 0; } }
+  .ik-shine { animation: ikf-shine 3.4s ease-in-out infinite; }
+
+  /* keywords: magnifier floats a small circuit; highlight breathes */
+  @keyframes ikf-float { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-5px, -4px); } 50% { transform: translate(-9px, 1px); } 75% { transform: translate(-4px, 4px); } }
+  .ik-float { animation: ikf-float 4.5s ease-in-out infinite; }
+  @keyframes ikf-hl { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.4; } }
+  .ik-hl { animation: ikf-hl 3s ease-in-out infinite; }
+
+  /* map pin: drops, bounces, ground ripple */
+  @keyframes ikf-pindrop { 0% { transform: translateY(-14px); opacity: 0; } 16% { transform: translateY(0); opacity: 1; } 24% { transform: translateY(-5px); } 32% { transform: translateY(0); } 78% { transform: translateY(0); opacity: 1; } 92%, 100% { transform: translateY(-14px); opacity: 0; } }
+  .ik-pindrop { animation: ikf-pindrop 3.8s ease-in-out infinite; }
+  @keyframes ikf-ripple { 0%, 12% { transform: scale(0.4); opacity: 0; } 20% { transform: scale(0.6); opacity: 0.8; } 55% { transform: scale(1.35); opacity: 0; } 100% { opacity: 0; } }
+  .ik-ripple { animation: ikf-ripple 3.8s ease-out infinite; }
+
+  /* sliders: knobs glide */
+  @keyframes ikf-slide1 { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(24px); } }
+  @keyframes ikf-slide2 { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-22px); } }
+  @keyframes ikf-slide3 { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(16px); } }
+  .ik-slide1 { animation: ikf-slide1 3.2s ease-in-out infinite; }
+  .ik-slide2 { animation: ikf-slide2 2.7s ease-in-out infinite; }
+  .ik-slide3 { animation: ikf-slide3 3.8s ease-in-out infinite; }
+
+  /* cursor: approaches the button, clicks, retreats */
+  @keyframes ikf-cursorgo {
+    0% { transform: translate(0, 0); } 32% { transform: translate(-15px, -11px) scale(1); }
+    42% { transform: translate(-15px, -11px) scale(0.82); } 50% { transform: translate(-15px, -11px) scale(1); }
+    72% { transform: translate(-15px, -11px); } 100% { transform: translate(0, 0); }
+  }
+  .ik-cursorgo { animation: ikf-cursorgo 3.6s ease-in-out infinite; transform-box: fill-box; transform-origin: top left; }
+  @keyframes ikf-btnpulse { 0%, 38%, 60%, 100% { transform: scale(1); } 45% { transform: scale(0.94); } 52% { transform: scale(1.03); } }
+  .ik-btnpulse { animation: ikf-btnpulse 3.6s ease-in-out infinite; }
+
+  /* envelope flap opens (mirror over the fold) */
+  @keyframes ikf-flap { 0%, 100% { transform: scaleY(1); } 38% { transform: scaleY(-0.85); } 58% { transform: scaleY(-0.85); } 80% { transform: scaleY(1); } }
+  .ik-flap { animation: ikf-flap 4s ease-in-out infinite; }
+
+  /* roadmap: dashed route flows, flag waves */
+  .ik-route { animation: ikf-dash 1.4s linear infinite; }
+  @keyframes ikf-flagwave { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(0.75); } }
+  .ik-flagwave { animation: ikf-flagwave 1.6s ease-in-out infinite; }
+
+  /* grad cap tassel */
+  @keyframes ikf-tassel { 0%, 100% { transform: rotate(-12deg); } 50% { transform: rotate(10deg); } }
+  .ik-tassel { animation: ikf-tassel 2.8s ease-in-out infinite; }
+
+  /* wrench ratchets around the bolt */
+  @keyframes ikf-ratchet {
+    0% { transform: rotate(0); } 18% { transform: rotate(-26deg); } 26% { transform: rotate(-20deg); }
+    44% { transform: rotate(-46deg); } 52% { transform: rotate(-40deg); } 70% { transform: rotate(-66deg); }
+    100% { transform: rotate(0); }
+  }
+  .ik-ratchet { animation: ikf-ratchet 3.6s ease-in-out infinite; }
+
+  /* chat typing dots */
+  @keyframes ikf-typing { 0%, 60%, 100% { opacity: 0.25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-2px); } }
+  .ik-typ1 { animation: ikf-typing 1.2s ease-in-out infinite; }
+  .ik-typ2 { animation: ikf-typing 1.2s ease-in-out 0.2s infinite; }
+  .ik-typ3 { animation: ikf-typing 1.2s ease-in-out 0.4s infinite; }
+
+  /* palette dots pulse in sequence */
+  @keyframes ikf-dot { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.45); } }
+  .ik-dot1 { animation: ikf-dot 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .ik-dot2 { animation: ikf-dot 2.8s ease-in-out 0.35s infinite; transform-box: fill-box; transform-origin: center; }
+  .ik-dot3 { animation: ikf-dot 2.8s ease-in-out 0.7s infinite; transform-box: fill-box; transform-origin: center; }
+  .ik-dot4 { animation: ikf-dot 2.8s ease-in-out 1.05s infinite; transform-box: fill-box; transform-origin: center; }
+
+  /* printer: page feeds out from behind the body */
+  @keyframes ikf-print { 0% { transform: translateY(-12px); opacity: 0; } 18% { transform: translateY(-8px); opacity: 1; } 60% { transform: translateY(6px); } 82% { transform: translateY(6px); opacity: 1; } 95%, 100% { transform: translateY(6px); opacity: 0; } }
+  .ik-printpage { animation: ikf-print 3.4s ease-in-out infinite; }
+
+  /* folder: files peek out */
+  @keyframes ikf-peek { 0%, 100% { transform: translateY(9px); opacity: 0; } 30% { transform: translateY(-3px); opacity: 1; } 65% { transform: translateY(-3px); opacity: 1; } 85% { transform: translateY(9px); opacity: 0; } }
+  .ik-peek1 { animation: ikf-peek 3.6s ease-in-out infinite; }
+  .ik-peek2 { animation: ikf-peek 3.6s ease-in-out 0.45s infinite; }
+
+  /* heartbeat: double thump */
+  @keyframes ikf-beat { 0%, 100% { transform: scale(1); } 10% { transform: scale(1.1); } 20% { transform: scale(1); } 30% { transform: scale(1.07); } 40% { transform: scale(1); } }
+  .ik-beat { animation: ikf-beat 1.9s ease-in-out infinite; }
+  @keyframes ikf-ecg { 0% { stroke-dashoffset: 100; } 45% { stroke-dashoffset: 0; } 70% { stroke-dashoffset: 0; opacity: 1; } 80% { opacity: 0; } 81% { stroke-dashoffset: 100; } 99% { opacity: 0; } 100% { stroke-dashoffset: 100; opacity: 1; } }
+  .ik-ecg { stroke-dasharray: 100; animation: ikf-ecg 3.2s linear infinite; }
+
+  /* scales tilt */
+  @keyframes ikf-tiltbeam { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+  .ik-tiltbeam { animation: ikf-tiltbeam 4s ease-in-out infinite; }
+
+  /* line chart draws itself */
+  @keyframes ikf-chartdraw { 0% { stroke-dashoffset: 100; } 50% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 0; opacity: 1; } 85% { opacity: 0; } 86% { stroke-dashoffset: 100; } 99% { opacity: 0; } 100% { stroke-dashoffset: 100; opacity: 1; } }
+  .ik-chartdraw { stroke-dasharray: 100; animation: ikf-chartdraw 4s ease-in-out infinite; }
+
+  /* house window glow */
+  @keyframes ikf-glowwin { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+  .ik-glowwin { animation: ikf-glowwin 2.8s ease-in-out infinite; }
+
+  /* factory smoke */
+  @keyframes ikf-smoke { 0% { transform: translateY(3px); opacity: 0; } 30% { opacity: 0.9; } 100% { transform: translateY(-10px); opacity: 0; } }
+  .ik-smoke1 { animation: ikf-smoke 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+  .ik-smoke2 { animation: ikf-smoke 2.4s ease-out 1.2s infinite; transform-box: fill-box; transform-origin: center; }
+
+  /* shield check draws in */
+  @keyframes ikf-chkdraw { 0% { stroke-dashoffset: 100; } 30% { stroke-dashoffset: 0; } 72% { stroke-dashoffset: 0; opacity: 1; } 84% { opacity: 0; } 85% { stroke-dashoffset: 100; } 99% { opacity: 0; } 100% { stroke-dashoffset: 100; opacity: 1; } }
+  .ik-chkdraw { stroke-dasharray: 100; animation: ikf-chkdraw 3.4s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ico-anim * { animation: none !important; }
+  }
+</style>

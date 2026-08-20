@@ -10,6 +10,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
+import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
 
 const services = [
@@ -79,9 +80,9 @@ const builds = [
           {services.map((c) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{c.ico}</div>
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
             </div>
@@ -102,9 +103,9 @@ const builds = [
           {builds.map((c) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{c.ico}</div>
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                <CardIcon title={c.title} />
               </Glass>
             </div>
           ))}

@@ -4,8 +4,25 @@
     {
       "name": "astro-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 4321
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 4321,
+      "autoPort": true
+    },
+    {
+      "name": "biy-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8899",
+        "-d",
+        "/Users/jonwolf/Desktop/local_files/website-clients/britishinvsionyears/build"
+      ],
+      "port": 8899,
+      "autoPort": false
     }
   ]
 }
