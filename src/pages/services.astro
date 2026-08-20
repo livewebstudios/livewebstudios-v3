@@ -17,8 +17,7 @@ import VideoBg from "../components/VideoBg.astro";
 import CardIcon from "../components/CardIcon.astro";
 
 /* Cloud card art — 3 source images cycled across all 13 cards (Jon: every
-   services card gets the cloud background). `flip` mirrors the art so
-   neighbors reusing the same file don't read as duplicates. */
+   services card gets the cloud background). */
 const bgW = "images/services/card-website-design.png";
 const bgL = "images/services/card-logo-design.png";
 const bgE = "images/services/card-ecommerce.png";
@@ -28,9 +27,9 @@ const groups = [
     label: "WEBSITES & HOSTING",
     cards: [
       { ico: "◧", title: "Website Design & Development", body: "Hand-coded, mobile-first, SEO-structured, fast.", href: "services/website-design.html", bg: bgW },
-      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html", bg: bgL, flip: true },
-      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html", bg: bgE, flip: true },
-      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Tiered plans from $79/mo. Set it. Don't forget it.", href: "services/maintenance-plans.html", bg: bgW, flip: true },
+      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html", bg: bgL },
+      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html", bg: bgE },
+      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Tiered plans from $79/mo. Set it. Don't forget it.", href: "services/maintenance-plans.html", bg: bgW },
     ],
   },
   {
@@ -43,15 +42,15 @@ const groups = [
   {
     label: "AI & AUTOMATION",
     cards: [
-      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html", bg: bgW, flip: true },
-      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html", bg: bgE, flip: true },
-      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html", bg: bgL, flip: true },
+      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html", bg: bgW },
+      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html", bg: bgE },
+      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html", bg: bgL },
     ],
   },
   {
     label: "BRAND & COMMERCE",
     cards: [
-      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html", bg: bgE, flip: true },
+      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html", bg: bgE },
       { ico: "✧", title: "Logo Design & Graphics", body: "Marks that work at 16px and 16 feet. All file formats.", href: "services/logo-design.html", bg: bgL },
       { ico: "⬢", title: "E-Commerce Solutions", body: "WooCommerce, Shopify, custom storefronts. Built to convert.", href: "services/ecommerce.html", bg: bgE },
       { ico: "✷", title: "Custom Styles & Carousel Cards", tag: "NEW", body: "Archie, Mid-Century American & Pop-Art graphic sets for hero panels, carousels, and feature cards.", href: "services/custom-styles-and-carousel-cards.html", bg: bgW },
@@ -117,7 +116,7 @@ const faqs = [
             <div class="grid-svc grid-svc--4">
               {g.cards.map((c) => (
                 <div class="card reveal card--bg">
-                  <img class={`card-bg-img${c.flip ? " is-flip" : ""}`} src={c.bg} alt="" loading="lazy" decoding="async" />
+                  <img class="card-bg-img" src={c.bg} alt="" loading="lazy" decoding="async" />
                   <div class="card-bg-scrim" aria-hidden="true"></div>
                   <div class="card-pad card-bg-content">
                     <h3>{c.title}{c.tag && <span class="tag-new">{c.tag}</span>}</h3>
@@ -231,7 +230,6 @@ const faqs = [
   /* Fills the whole card: max-width:none overrides the global img cap that
      left a dark band on the right edge. Base scale gives drift headroom. */
   .card-bg-img {
-    --sx: 1; /* is-flip mirrors reused art so neighbors don't match */
     position: absolute;
     inset: 0;
     width: 100%;
@@ -239,14 +237,13 @@ const faqs = [
     max-width: none;
     object-fit: cover;
     z-index: 0;
-    transform: scaleX(var(--sx)) scale(1.08);
-    transition: transform 3.2s var(--ease);
+    transform: scale(1);
+    transition: transform 5s var(--ease);
     will-change: transform;
   }
-  .card-bg-img.is-flip { --sx: -1; }
-  /* Clouds drift on hover (slow pan + deeper zoom, 2x duration) */
+  /* Clouds zoom in slowly on hover (no pan, no mirror — Jon 2026-08-19) */
   .card--bg:hover .card-bg-img {
-    transform: scaleX(var(--sx)) scale(1.16) translate3d(-2%, -1.5%, 0);
+    transform: scale(1.18);
   }
   .card-bg-scrim {
     position: absolute;
