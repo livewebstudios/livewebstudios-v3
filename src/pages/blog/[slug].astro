@@ -11,6 +11,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -63,6 +64,7 @@ const jsonLd = JSON.stringify({
         <span class="eyebrow is-center mb-lg">THE LWS BLOG</span>
         <h1 class="page-h1 post-h1">{post.data.title}</h1>
         <p class="post-date">{dateLabel}</p>
+        <HeroActions links />
       </div>
     </section>
 

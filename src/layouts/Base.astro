@@ -76,26 +76,6 @@ const rel = relPrefix(Astro.url.pathname);
         <feBlend in="rg" in2="bOnly" mode="screen" />
       </filter>
 
-      <!-- Line refraction: the sweeping scan bar as seen THROUGH the card
-           glass. Far bigger displacement than the art filter, plus a wide
-           channel spread, so the line bends and fans into colour where it
-           crosses a card (Jon 2026-08-27). -->
-      <filter id="lws-glass-line" x="-30%" y="-120%" width="160%" height="340%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.0016 0.0019" numOctaves="1" seed="11" result="noise" />
-        <feGaussianBlur in="noise" stdDeviation="9" result="soft" />
-        <feDisplacementMap in="SourceGraphic" in2="soft" scale="300" xChannelSelector="R" yChannelSelector="G" result="dR" />
-        <feDisplacementMap in="SourceGraphic" in2="soft" scale="215" xChannelSelector="R" yChannelSelector="G" result="dG" />
-        <feDisplacementMap in="SourceGraphic" in2="soft" scale="130" xChannelSelector="R" yChannelSelector="G" result="dB" />
-        <feColorMatrix in="dR" type="matrix" result="rOnly"
-          values="1 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 1 0" />
-        <feColorMatrix in="dG" type="matrix" result="gOnly"
-          values="0 0 0 0 0   0 1 0 0 0   0 0 0 0 0   0 0 0 1 0" />
-        <feColorMatrix in="dB" type="matrix" result="bOnly"
-          values="0 0 0 0 0   0 0 0 0 0   0 0 1 0 0   0 0 0 1 0" />
-        <feBlend in="rOnly" in2="gOnly" mode="screen" result="rg" />
-        <feBlend in="rg" in2="bOnly" mode="screen" result="rgb" />
-        <feGaussianBlur in="rgb" stdDeviation="7" />
-      </filter>
     </svg>
 
     <slot />
@@ -183,9 +163,17 @@ const rel = relPrefix(Astro.url.pathname);
           window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
         function attach(v) {
-          if (!v.getAttribute("src")) v.setAttribute("src", v.dataset.src);
+          if (!v.getAttribute("src")) {
+            v.setAttribute("src", v.dataset.src);
+            // data-once clips hold their last frame. Latch the finish so
+            // scrolling back into view does not restart them.
+            if (v.hasAttribute("data-once")) {
+              v.addEventListener("ended", function () { v.dataset.done = "1"; });
+            }
+          }
         }
         function play(v) {
+          if (v.hasAttribute("data-once") && v.dataset.done === "1") return;
           if (!reduce && v.play) {
             var p = v.play();
             if (p && p.catch) p.catch(function () {});

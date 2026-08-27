@@ -161,7 +161,34 @@ const namesakeLinks = [
         </div>
       </div>
 
-      <a href={`${rel}about.html`}>About</a>
+      <div class="studios" data-dd>
+        <span class="dd-pair">
+          <a class="studios-trigger" href={`${rel}about.html`}>About</a>
+          <button
+            type="button"
+            class="dd-toggle"
+            aria-label="Open about menu"
+            aria-expanded="false"
+            aria-controls="about-panel"
+            aria-haspopup="true"
+          ><span class="studios-caret" aria-hidden="true">↓</span></button>
+        </span>
+
+        <div class="mega mega--about" id="about-panel" role="region" aria-label="About">
+          <div class="mega-inner">
+            <div class="mega-support">
+              <a class="mega-row" href={`${rel}about.html`}>
+                <span class="mega-row-title">Our Story →</span>
+                <span class="mega-row-sub">23 years in, just getting started</span>
+              </a>
+              <a class="mega-row" href={`${rel}faq.html`}>
+                <span class="mega-row-title">FAQ →</span>
+                <span class="mega-row-sub">Straight answers, no sales pitch</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="studios" data-dd>
         <button
@@ -286,6 +313,15 @@ const namesakeLinks = [
   }
   .mega--industries {
     width: min(480px, 92vw);
+  }
+  .mega--about {
+    width: min(320px, 92vw);
+  }
+  /* .mega-support is a 2-col grid, which the Services/Industries panels use
+     for their single row. About carries two, so stack them instead of
+     squeezing both subtitles into 135px columns. */
+  .mega--about .mega-support {
+    grid-template-columns: 1fr;
   }
   .ind-cols {
     display: grid;

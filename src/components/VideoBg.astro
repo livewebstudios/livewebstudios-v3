@@ -18,8 +18,12 @@ import { relPrefix } from "../lib/relPrefix";
 interface Props {
   src: string;                          // filename in public/video-bg/
   scrim?: "hero" | "default" | "strong"; // readability overlay strength
+  /** Play through a single time and hold the last frame, instead of looping.
+      The observer in Base.astro honors data-once so scrolling back to the
+      section does not restart a clip that already finished. */
+  once?: boolean;
 }
-const { src, scrim = "default" } = Astro.props;
+const { src, scrim = "default", once = false } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 ---
 
@@ -27,7 +31,8 @@ const rel = relPrefix(Astro.url.pathname);
   <video
     class="videobg__v"
     muted
-    loop
+    loop={!once}
+    data-once={once ? "" : undefined}
     playsinline
     preload="none"
     data-src={`${rel}video-bg/${src}`}

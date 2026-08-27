@@ -1,10 +1,21 @@
 ---
 /**
- * ScanLines — CRT scanline texture + a slow sweeping scan bar.
+ * ScanLines — CRT scanline texture + a sweeping scan bar.
  *
  * Ported from the LWS dark-effects demo (dark-background-demo.netlify.app
- * #scanlines). The demo runs the bar at 3s; Jon 2026-08-27 asked for slower,
- * so it sweeps at 7s here.
+ * #scanlines).
+ *
+ * Two drivers live here:
+ *
+ *   lens={false} (default) — the original CSS keyframe sweep at 7s. Used by
+ *     the home page. Untouched.
+ *
+ *   lens={true} — one shared requestAnimationFrame controller publishes the
+ *     bar's section-space Y as --scan-y on the .has-scan section. The bar
+ *     itself rides that property, and every ServiceCard lens={true} on the
+ *     page reads the same number to draw its own refracted copy. One clock,
+ *     one source of truth (Jon 2026-08-27: two 7s keyframes staying in sync
+ *     only because they started together was a latent drift bug).
  *
  * Drop it as the FIRST child of a section that has `position:relative` and
  * `overflow:hidden`. It paints at z-index 0, so give the section's content
@@ -12,35 +23,319 @@
  *
  * Motion is disabled under prefers-reduced-motion; the static lines remain.
  */
+
+export interface Props {
+  /** Drive the bar from the shared rAF controller and feed the card lenses. */
+  lens?: boolean;
+}
+const { lens = false } = Astro.props;
 ---
 
 <div class="scan-lines" aria-hidden="true"></div>
-<div class="scan-bar" aria-hidden="true"></div>
+<div class:list={["scan-bar", lens && "scan-bar--raf"]} aria-hidden="true"></div>
 
-<script is:inline>
-  /* Each ServiceCard redraws the bar inside itself so the glass can refract
-     it. For the inside copy to line up with this one, every card needs to
-     know how tall the section is and how far down it sits. Measured here and
-     handed over as CSS custom properties. */
-  (function () {
-    function sync() {
-      document.querySelectorAll(".has-scan").forEach(function (sec) {
-        var h = sec.offsetHeight;
-        var top = sec.getBoundingClientRect().top;
-        sec.style.setProperty("--scan-sec-h", h + "px");
-        sec.querySelectorAll(".card--bg").forEach(function (card) {
-          var off = card.getBoundingClientRect().top - top;
-          card.style.setProperty("--scan-card-top", Math.round(off) + "px");
-          card.style.setProperty("--scan-sec-h", h + "px");
-        });
+{lens && (
+  <script is:inline>
+    /* Shared scan-line controller. Guarded so multiple <ScanLines lens /> on
+       one page still yield exactly one rAF loop. */
+    (function () {
+      if (window.__lwsScanCtl) return;
+      window.__lwsScanCtl = true;
+
+      /* ---- Tunables. ---------------------------------------------------- */
+      var SWEEP_MS = 9000; /* one full top-to-bottom pass */
+      var GAP_MS = 300; /* dark pause before the next pass begins */
+      var BAND_BASE = 26; /* band thickness at the rims; ~47px at focus */
+      /* ------------------------------------------------------------------- */
+
+      var CYCLE_MS = SWEEP_MS + GAP_MS;
+      var BAR_H = 5; /* .scan-bar height; the sweep starts one bar above 0 */
+      var SAMPLES = 24; /* path resolution across the card */
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* Fringe colours come from the tokens, so global.css stays the source
+         of truth for them. Parsed once to RGB for per-slice interpolation. */
+      function tokenRgb(name, fallback) {
+        var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+        var m = v.match(/^#([0-9a-f]{6})$/i);
+        if (m) {
+          var n = parseInt(m[1], 16);
+          return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+        }
+        m = v.match(/(\d+)[,\s]+(\d+)[,\s]+(\d+)/);
+        return m ? [+m[1], +m[2], +m[3]] : [53, 200, 255];
+      }
+      var VIOLET = tokenRgb("--scan-violet", "#8B5CFF");
+      var CYAN = tokenRgb("--scan-cyan", "#35c8ff");
+      var AMBER = tokenRgb("--scan-amber", "#E8C88A");
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function mixRgb(a, b, t) {
+        return "rgb(" + Math.round(lerp(a[0], b[0], t)) + "," +
+                        Math.round(lerp(a[1], b[1], t)) + "," +
+                        Math.round(lerp(a[2], b[2], t)) + ")";
+      }
+
+      /* Dispersion ramp across the band's thickness. d runs 0 at the edge
+         displaced FURTHER from the card centre to 1 at the nearer edge, so a
+         prism's short-wavelength-bends-hardest ordering puts violet on the
+         far edge and amber on the near one. Separation scales with |u|:
+         at focus the fringe stops collapse onto the cyan core at ~0.15 alpha,
+         at the rims they spread to full strength. */
+      function ramp(d, sep) {
+        var vPos = lerp(0.42, 0.18, sep);
+        var aPos = lerp(0.58, 0.82, sep);
+        var vA = lerp(0.15, 0.55, sep);
+        var aA = lerp(0.15, 0.5, sep);
+        if (d <= vPos) return { c: mixRgb(VIOLET, VIOLET, 0), a: lerp(0, vA, vPos ? d / vPos : 1) };
+        if (d <= 0.42) return { c: mixRgb(VIOLET, CYAN, (d - vPos) / Math.max(1e-6, 0.42 - vPos)), a: lerp(vA, 0.95, (d - vPos) / Math.max(1e-6, 0.42 - vPos)) };
+        if (d <= 0.58) return { c: mixRgb(CYAN, CYAN, 0), a: 0.95 };
+        if (d <= aPos) return { c: mixRgb(CYAN, AMBER, (d - 0.58) / Math.max(1e-6, aPos - 0.58)), a: lerp(0.95, aA, (d - 0.58) / Math.max(1e-6, aPos - 0.58)) };
+        return { c: mixRgb(AMBER, AMBER, 0), a: lerp(aA, 0, (d - aPos) / Math.max(1e-6, 1 - aPos)) };
+      }
+
+      var sections = [];
+      document.querySelectorAll(".scan-bar--raf").forEach(function (bar) {
+        var sec = bar.closest(".has-scan");
+        if (sec) sections.push({ sec: sec, bar: bar, h: 0, cards: [], visible: false });
       });
-    }
-    sync();
-    window.addEventListener("load", sync);
-    window.addEventListener("resize", sync);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
-  })();
-</script>
+      if (!sections.length) return;
+
+      /* Geometry is cached here and read only on resize / fonts-ready, never
+         per frame. */
+      function measure() {
+        sections.forEach(function (s) {
+          var secBox = s.sec.getBoundingClientRect();
+          s.h = s.sec.offsetHeight;
+          s.sec.style.setProperty("--scan-sec-h", s.h + "px");
+          s.cards = [];
+          s.sec.querySelectorAll(".card--lens").forEach(function (card) {
+            var svg = card.querySelector(".lens-svg");
+            if (!svg) return;
+            var r = card.getBoundingClientRect();
+            if (!r.width || !r.height) return;
+            svg.setAttribute("viewBox", "0 0 " + r.width + " " + r.height);
+            s.cards.push({
+              el: card,
+              svg: svg,
+              top: r.top - secBox.top,
+              left: r.left - secBox.left,
+              right: r.right - secBox.left,
+              w: r.width,
+              h: r.height,
+              glow: svg.querySelector(".lens-glow"),
+              caustic: svg.querySelector(".lens-caustic"),
+              causticAmber: svg.querySelector(".lens-caustic-amber"),
+              slices: svg.querySelectorAll(".lens-slice"),
+            });
+          });
+
+          /* Card rows, for masking the outside bar. Within a row's vertical
+             band the bar must survive only in the page margins either side of
+             the grid, never in the gutters between cards, so the four lenses
+             read as four separate objects. */
+          var byRow = {};
+          s.cards.forEach(function (c) {
+            var k = Math.round(c.top / 8);
+            (byRow[k] = byRow[k] || []).push(c);
+          });
+          s.rows = Object.keys(byRow).map(function (k) {
+            var g = byRow[k];
+            var top = Infinity, bottom = -Infinity, left = Infinity, right = -Infinity;
+            g.forEach(function (c) {
+              if (c.top < top) top = c.top;
+              if (c.top + c.h > bottom) bottom = c.top + c.h;
+              if (c.left < left) left = c.left;
+              if (c.right > right) right = c.right;
+            });
+            return { top: top, bottom: bottom, left: left, right: right };
+          });
+        });
+      }
+
+      /* The refraction model. Card-local coordinates: the card spans y 0..h,
+         so its centre is h/2 and the real line sits at scanY - card.top.
+
+           u    = (scanY - c) / (h / 2)      -1 at the top rim, +1 at the bottom
+           p    = 2x / w                     -1 at the left edge, +1 at the right
+           y(p) = c + (h/2) * u * (1 + 0.45 * (1 - u^2) * (0.35 + 0.65 * (1 - p^2)))
+
+         The 0.35 is a rim floor. Without it the bracket collapses to 1 at
+         p = +/-1 and the band meets the outside line exactly at both card
+         edges, which chains every card in the row into one continuous wavy
+         rule. With it the band stays displaced at the edges and breaks hard
+         against the outside line at the card boundary. That jump is the point;
+         it is not to be smoothed or feathered.
+
+         At u = 0 the whole term vanishes and the band is straight, dead centre.
+         Offset shifts the whole curve vertically, which is how the band's
+         thickness slices are built. */
+      function pathFor(card, u, offset) {
+        var half = card.h / 2;
+        var bow = 0.45 * (1 - u * u);
+        var d = "";
+        for (var i = 0; i <= SAMPLES; i++) {
+          var p = -1 + (2 * i) / SAMPLES;
+          var x = (card.w / 2) * (1 + p);
+          var y = half + half * u * (1 + bow * (0.35 + 0.65 * (1 - p * p))) + offset;
+          d += (i ? "L" : "M") + x.toFixed(2) + " " + y.toFixed(2) + " ";
+        }
+        return d;
+      }
+
+      function drawCard(card, scanY) {
+        var c = card.top + card.h / 2;
+        /* Inactive well beyond the rims: render nothing at all. */
+        if (Math.abs(scanY - c) > card.h) {
+          if (card.el.dataset.lensOn !== "0") {
+            card.el.dataset.lensOn = "0";
+            card.svg.style.opacity = "0";
+            card.el.style.setProperty("--rim-t", "0");
+            card.el.style.setProperty("--rim-b", "0");
+          }
+          return;
+        }
+        card.el.dataset.lensOn = "1";
+        card.svg.style.opacity = "1";
+
+        var u = (scanY - c) / (card.h / 2);
+        var au = Math.abs(u);
+        var focus = Math.max(0, 1 - au); /* 1 dead centre, 0 at the rims */
+        var sep = Math.min(1, au); /* fringe separation */
+
+        /* Band thickness: ~47px at focus, BAND_BASE at the rims. */
+        var t = BAND_BASE * (1 + 0.8 * focus);
+        var n = card.slices.length;
+        var sw = t / n;
+
+        for (var k = 0; k < n; k++) {
+          var q = (k + 0.5) / n; /* 0 at the band's top edge, 1 at its bottom */
+          /* Violet rides the edge displaced further from the card centre:
+             above centre that is the top edge, below centre the bottom. The
+             order flips on the sign of u. */
+          var dd = u < 0 ? q : 1 - q;
+          var st = ramp(dd, sep);
+          var sl = card.slices[k];
+          sl.setAttribute("d", pathFor(card, u, (q - 0.5) * t));
+          sl.setAttribute("stroke", st.c);
+          sl.setAttribute("stroke-width", (sw + 0.6).toFixed(2));
+          sl.setAttribute("opacity", st.a.toFixed(3));
+        }
+
+        /* 6 — glow bleed under the band, widened to match it. */
+        card.glow.setAttribute("d", pathFor(card, u, 0));
+        card.glow.setAttribute("stroke-width", t.toFixed(2));
+
+        /* 4 — caustic bloom pinned to the card centre, cyan with an amber tint. */
+        card.caustic.setAttribute("opacity", (focus * focus).toFixed(3));
+        card.causticAmber.setAttribute("opacity", (0.2 * focus * focus).toFixed(3));
+
+        /* 7 — rim specular: only in the last 15% of travel into each rim. */
+        var rim = Math.max(0, Math.min(1, (au - 0.85) / 0.15));
+        card.el.style.setProperty("--rim-t", u < 0 ? rim.toFixed(3) : "0");
+        card.el.style.setProperty("--rim-b", u > 0 ? rim.toFixed(3) : "0");
+      }
+
+      function render(s, scanY, barVisible) {
+        s.sec.style.setProperty("--scan-y", scanY.toFixed(2) + "px");
+        s.bar.style.opacity = barVisible ? "" : "0";
+
+        /* Crossing a card row: cut the outside bar across the whole grid, so
+           it survives only in the page margins. Four lenses, dark between. */
+        var row = null;
+        for (var r = 0; r < s.rows.length; r++) {
+          if (scanY + BAR_H > s.rows[r].top && scanY < s.rows[r].bottom) { row = s.rows[r]; break; }
+        }
+        if (row) {
+          s.bar.style.setProperty("--mask-l", row.left.toFixed(1) + "px");
+          s.bar.style.setProperty("--mask-r", row.right.toFixed(1) + "px");
+        } else {
+          s.bar.style.setProperty("--mask-l", "100%");
+          s.bar.style.setProperty("--mask-r", "100%");
+        }
+
+        for (var i = 0; i < s.cards.length; i++) drawCard(s.cards[i], scanY);
+      }
+
+      measure();
+
+      if (reduced) {
+        /* Frozen at the focus plane: line dead centre, arc perfectly flat. */
+        sections.forEach(function (s) {
+          render(s, s.h / 2, false);
+        });
+        window.addEventListener("resize", function () {
+          measure();
+          sections.forEach(function (s) {
+            render(s, s.h / 2, false);
+          });
+        });
+        return;
+      }
+
+      /* Only sections on screen get frames. */
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              for (var i = 0; i < sections.length; i++) {
+                if (sections[i].sec === e.target) sections[i].visible = e.isIntersecting;
+              }
+            });
+            kick();
+          },
+          { rootMargin: "120px 0px" }
+        );
+        sections.forEach(function (s) {
+          io.observe(s.sec);
+        });
+      } else {
+        sections.forEach(function (s) {
+          s.visible = true;
+        });
+      }
+
+      var raf = 0;
+      var start = performance.now();
+
+      function frame(now) {
+        raf = 0;
+        var any = false;
+        var t = (now - start) % CYCLE_MS;
+        var sweeping = t < SWEEP_MS;
+        for (var i = 0; i < sections.length; i++) {
+          var s = sections[i];
+          if (!s.visible) continue;
+          any = true;
+          /* Matches the original keyframe range: one bar above the top edge
+             down to the section's bottom edge. */
+          var y = sweeping ? -BAR_H + (t / SWEEP_MS) * (s.h + BAR_H) : s.h + BAR_H;
+          render(s, y, sweeping);
+        }
+        if (any) raf = requestAnimationFrame(frame);
+      }
+
+      function kick() {
+        if (raf) return;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].visible) {
+            raf = requestAnimationFrame(frame);
+            return;
+          }
+        }
+      }
+
+      function remeasure() {
+        measure();
+        kick();
+      }
+      window.addEventListener("load", remeasure);
+      window.addEventListener("resize", remeasure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+      kick();
+    })();
+  </script>
+)}
 
 <style>
   .scan-lines {
@@ -52,8 +347,8 @@
       0deg,
       transparent,
       transparent 2px,
-      rgba(0, 153, 204, 0.02) 2px,
-      rgba(0, 153, 204, 0.02) 4px
+      color-mix(in srgb, var(--scan-cyan-deep) 2%, transparent) 2px,
+      color-mix(in srgb, var(--scan-cyan-deep) 2%, transparent) 4px
     );
   }
   .scan-bar {
@@ -67,9 +362,9 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(0, 153, 204, 0.75),
-      #35c8ff,
-      rgba(0, 153, 204, 0.75),
+      color-mix(in srgb, var(--scan-cyan-deep) 75%, transparent),
+      var(--scan-cyan),
+      color-mix(in srgb, var(--scan-cyan-deep) 75%, transparent),
       transparent
     );
     animation: scanDown 7s linear infinite;
@@ -81,5 +376,32 @@
 
   @media (prefers-reduced-motion: reduce) {
     .scan-bar { animation: none; opacity: 0; }
+  }
+</style>
+
+<!-- The lens markup above is emitted inside {lens && ...}. Astro's scoped-CSS
+     pass only keeps selectors it can match statically against the template, and
+     it does not see through that conditional, so a scoped rule for
+     .scan-bar--raf is pruned and the bar keeps its 7s keyframe. Global, and
+     specific enough to beat the scoped .scan-bar[data-astro-cid] rule. -->
+<style is:global>
+  .has-scan .scan-bar.scan-bar--raf {
+    top: 0;
+    animation: none;
+    transform: translate3d(0, var(--scan-y, -5px), 0);
+    will-change: transform;
+    /* --mask-l/--mask-r are the card grid's left and right edges while the bar
+       is crossing a card row, and 100%/100% otherwise. The transparent middle
+       band is what removes the line from the inter-card gutters. */
+    -webkit-mask-image: linear-gradient(
+      90deg, #000 0 var(--mask-l, 100%),
+      transparent var(--mask-l, 100%) var(--mask-r, 100%),
+      #000 var(--mask-r, 100%)
+    );
+    mask-image: linear-gradient(
+      90deg, #000 0 var(--mask-l, 100%),
+      transparent var(--mask-l, 100%) var(--mask-r, 100%),
+      #000 var(--mask-r, 100%)
+    );
   }
 </style>

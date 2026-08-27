@@ -1,7 +1,7 @@
 ---
 /**
  * /services — ported from the live site (livewebstudios.com/services).
- * The live services hub: 4 category groups (13 services) + FAQ + CTA, rebuilt
+ * The live services hub: 4 category groups (13 services) + CTA, rebuilt
  * on v3 layouts/components. NOTE: the 13 cards deep-link to services/*.html
  * subpages that DON'T EXIST in v3 yet (part of the ~30 missing pages) — links
  * are relative so they resolve once those subpages are ported.
@@ -59,32 +59,6 @@ const groups = [
   },
 ];
 
-// FAQ — ported verbatim (em dashes converted, numeric ranges hyphenated).
-const faqs = [
-  {
-    q: "How long does it take to build a website?",
-    a: "Most brochure and service sites take 2-4 weeks from kickoff to launch. Larger projects with custom functionality, e-commerce, or CMS integration typically run 4-8 weeks. We set a clear timeline at the start and stick to it.",
-  },
-  {
-    q: "Do I own my website when it's done?",
-    // em-dash: "every image — yours" → "every image, yours"
-    a: "100%. Every file, every line of code, every image, yours. We don't hold sites hostage behind proprietary platforms or monthly \"rental\" fees. You can host it anywhere and hand it to any developer if you ever need to.",
-  },
-  {
-    q: "Will my site work on mobile and tablets?",
-    // em-dash: "by design — not an afterthought" → "by design, not an afterthought"
-    a: "Every site we build is mobile-first by design, not an afterthought. We test across devices and screen sizes before anything goes live.",
-  },
-  {
-    q: "Can I update the site myself after it launches?",
-    a: "Yes. For sites with a blog or content that changes regularly, we set up a simple CMS so you can make updates without touching code. For structural changes, we handle those for you.",
-  },
-  {
-    q: "Do you offer ongoing support after launch?",
-    // em-dash: "your business — we keep" → "your business. We keep"
-    a: "Absolutely. We offer monthly hosting and maintenance plans that cover updates, security monitoring, backups, and priority support. You focus on your business. We keep the site running.",
-  },
-];
 ---
 
 <Base
@@ -102,7 +76,7 @@ const faqs = [
         <span class="eyebrow is-center mb-lg">SERVICES</span>
         <h1 class="page-h1">Everything Your Business Needs <em>Online</em>.</h1>
         <p class="page-lede">And some things you didn't know you needed yet.</p>
-        <HeroActions />
+        <HeroActions links />
       </div>
     </section>
 
@@ -110,7 +84,7 @@ const faqs = [
 
     <!-- SERVICE GROUPS -->
     <section class="sec-pad has-scan">
-      <ScanLines />
+      <ScanLines lens />
       <div class="wrap">
         <!-- em-dash: "by category below—everything" → "by category below. Everything" -->
         <p class="page-lede is-center mb-lg">Most clients start with <a href="services/website-design.html">custom website design</a>, <a href="services/ai-platform.html">our AI-assisted platform build</a>, or <a href="services/hosting.html">managed hosting</a>. Skim by category below. Everything ties back to a faster, clearer site.</p>
@@ -120,29 +94,11 @@ const faqs = [
             <div class="sec-head reveal"><span class="eyebrow">{g.label}</span></div>
             <div class="grid-svc grid-svc--4">
               {g.cards.map((c) => (
-                <ServiceCard title={c.title} body={c.body} href={c.href} bg={c.bg} tag={c.tag} />
+                <ServiceCard title={c.title} body={c.body} href={c.href} bg={c.bg} tag={c.tag} lens />
               ))}
             </div>
           </div>
         ))}
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="sec-pad is-alt">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">FAQ</span>
-          <h2>Frequently asked questions</h2>
-        </div>
-        <div class="faq reveal">
-          {faqs.map((f) => (
-            <details class="faq-item">
-              <summary>{f.q}</summary>
-              <p>{f.a}</p>
-            </details>
-          ))}
-        </div>
       </div>
     </section>
 
@@ -179,42 +135,6 @@ const faqs = [
   .svc-group .sec-head .eyebrow {
     font-size: 0.86rem;
     color: #2BA6E0;
-  }
-
-  /* FAQ accordion — native <details>, styled with system tokens. */
-  .faq { max-width: 760px; margin-inline: auto; }
-  .faq-item {
-    border: 1px solid var(--line);
-    border-radius: var(--r-md, 12px);
-    background: rgba(255, 255, 255, 0.015);
-    margin-top: 0.9rem;
-    overflow: hidden;
-  }
-  .faq-item > summary {
-    cursor: pointer;
-    list-style: none;
-    padding: 1.1rem 1.3rem;
-    font-weight: 600;
-    color: var(--ink-soft);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-  .faq-item > summary::-webkit-details-marker { display: none; }
-  .faq-item > summary::after {
-    content: "+";
-    font-family: var(--mono);
-    color: var(--cyan-soft);
-    font-size: 1.2rem;
-    line-height: 1;
-    transition: transform 0.25s var(--ease, ease);
-  }
-  .faq-item[open] > summary::after { transform: rotate(45deg); }
-  .faq-item > p {
-    padding: 0 1.3rem 1.2rem;
-    color: var(--muted);
-    max-width: 68ch;
   }
 
   /* 4 columns on large screens (Jon 2026-08-15) */

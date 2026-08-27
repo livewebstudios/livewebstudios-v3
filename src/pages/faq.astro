@@ -31,6 +31,10 @@ const categories = [
         q: "What's the difference between a static site and WordPress?",
         a: "WordPress is a database-driven platform with themes, plugins, and regular updates that can break things. Static HTML sites have no database, no plugins, load 3-5x faster, and have a dramatically smaller attack surface. For most small businesses, a well-built static site outperforms WordPress on every meaningful metric.",
       },
+      {
+        q: "Can I update the site myself after it launches?",
+        a: "Yes. For sites with a blog or content that changes regularly, we set up a simple CMS so you can make updates without touching code. For structural changes, we handle those for you.",
+      },
     ],
   },
   {
@@ -64,6 +68,10 @@ const categories = [
       {
         q: "What's included in a maintenance plan?",
         a: "Uptime monitoring, security scanning, regular backups, content updates (up to a set number of hours per month), and a monthly report on site performance. You get a partner, not a ticket system.",
+      },
+      {
+        q: "Do you offer ongoing support after launch?",
+        a: "Absolutely. We offer monthly hosting and maintenance plans that cover updates, security monitoring, backups, and priority support. You focus on your business. We keep the site running.",
       },
     ],
   },
@@ -109,12 +117,12 @@ const jsonLd = JSON.stringify({
   <main>
     <!-- PAGE HEAD -->
     <section class="page-head has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <VideoBg src="line-to-graph.mp4" scrim="hero" once />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">GOT QUESTIONS?</span>
         <h1 class="page-h1">Frequently Asked <em>Questions</em>.</h1>
         <p class="page-lede">Based in Saddle Brook, NJ. Serving clients nationwide.</p>
-        <HeroActions />
+        <HeroActions links />
       </div>
     </section>
 
@@ -123,17 +131,26 @@ const jsonLd = JSON.stringify({
     <!-- FAQ -->
     <section class="sec-pad">
       <div class="wrap faq-wrap">
-        {categories.map((c) => (
+        {categories.map((c, ci) => (
           <div class="faq-group reveal">
             <span class="eyebrow">{c.cat.toUpperCase()}</span>
-            {c.items.map((i) => (
-              <details class="faq-item">
-                <summary>
+            {c.items.map((i, ii) => (
+              <div class="faq-item" data-faq-item>
+                <button
+                  class="faq-q-btn"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls={`faq-panel-${ci}-${ii}`}
+                >
                   <h2 class="faq-q">{i.q}</h2>
-                  <span class="faq-arrow" aria-hidden="true">▾</span>
-                </summary>
-                <p class="faq-a">{i.a}</p>
-              </details>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-panel" id={`faq-panel-${ci}-${ii}`}>
+                  <div class="faq-panel-inner">
+                    <p class="faq-a">{i.a}</p>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         ))}
@@ -159,6 +176,22 @@ const jsonLd = JSON.stringify({
   <Footer />
 
   <script type="application/ld+json" set:html={jsonLd} is:inline />
+
+  <script is:inline>
+    // FAQ accordion: click toggles open state; multiple items can be open.
+    (function () {
+      var items = document.querySelectorAll("[data-faq-item]");
+      items.forEach(function (item) {
+        var btn = item.querySelector(".faq-q-btn");
+        if (!btn) return;
+        btn.addEventListener("click", function () {
+          var willOpen = !item.classList.contains("is-open");
+          item.classList.toggle("is-open", willOpen);
+          btn.setAttribute("aria-expanded", String(willOpen));
+        });
+      });
+    })();
+  </script>
 </Base>
 
 <style>
@@ -179,23 +212,30 @@ const jsonLd = JSON.stringify({
     background: rgba(11, 18, 32, 0.4);
     margin-bottom: 0.7rem;
     overflow: hidden;
-    transition: border-color 0.3s var(--ease);
+    transition: border-color 0.35s var(--ease), background 0.35s var(--ease),
+      transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
   }
-  .faq-item[open],
   .faq-item:hover {
-    border-color: rgba(56, 189, 248, 0.35);
+    border-color: rgba(56, 189, 248, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   }
-  .faq-item summary {
+  .faq-item.is-open {
+    border-color: rgba(56, 189, 248, 0.4);
+    background: rgba(56, 189, 248, 0.05);
+  }
+  .faq-q-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    width: 100%;
     padding: 1.1rem 1.3rem;
+    background: none;
+    border: none;
     cursor: pointer;
-    list-style: none;
-  }
-  .faq-item summary::-webkit-details-marker {
-    display: none;
+    text-align: left;
+    font-family: inherit;
   }
   .faq-q {
     font-size: 1.02rem;
@@ -204,13 +244,44 @@ const jsonLd = JSON.stringify({
     margin: 0;
     line-height: 1.35;
   }
-  .faq-arrow {
-    color: var(--cyan-soft);
+  .faq-icon {
     flex-shrink: 0;
-    transition: transform 0.25s var(--ease);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    color: var(--cyan-soft);
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background 0.3s var(--ease), color 0.3s var(--ease),
+      border-color 0.3s var(--ease);
   }
-  .faq-item[open] .faq-arrow {
-    transform: rotate(180deg);
+  .faq-item.is-open .faq-icon {
+    transform: rotate(135deg);
+    background: var(--cyan-soft);
+    color: var(--on-accent);
+    border-color: var(--cyan-soft);
+  }
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .faq-item.is-open .faq-panel {
+    grid-template-rows: 1fr;
+  }
+  .faq-panel-inner {
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+  .faq-item.is-open .faq-panel-inner {
+    opacity: 1;
   }
   .faq-a {
     padding: 0 1.3rem 1.2rem;

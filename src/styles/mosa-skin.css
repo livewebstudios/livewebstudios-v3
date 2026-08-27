@@ -36,8 +36,8 @@
 
   --ink:rgb(var(--mosa-fg-rgb)/.85);
   --ink-soft:rgb(var(--mosa-fg-rgb));
-  --muted:rgb(var(--mosa-fg-rgb)/.6);
-  --muted-2:rgb(var(--mosa-fg-rgb)/.45);
+  --muted:rgb(var(--mosa-fg-rgb)/.74);
+  --muted-2:rgb(var(--mosa-fg-rgb)/.58);
 
   --cyan:rgb(var(--mosa-accent-rgb));
   --cyan-soft:rgb(var(--mosa-accent-rgb)/.85);
@@ -112,7 +112,7 @@
 }
 
 /* ---- Nav / chrome -------------------------------------------- */
-header.nav{background:rgb(var(--mosa-bg-rgb)/.65)}
+header.nav{background:rgb(var(--mosa-bg-rgb)/.6)}
 /* Dropdown panel background: frosted blue-slate gradient instead of flat
    black (Jon 2026-08-15: "doesnt look good black"). */
 .mega-inner{

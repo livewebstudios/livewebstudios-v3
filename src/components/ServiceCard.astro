@@ -9,6 +9,11 @@
  *
  * Card art is one shared blue-cloud image; each line of text sits in its own
  * translucent bubble over it, and the CTA stays bare.
+ *
+ * lens={true} adds the convex-lens refraction overlay: an SVG copy of the
+ * page scan line, bent by the y(p) model in ScanLines.astro. The old fixed
+ * profile bar (.card-scanwell / .card-scanbar / #lws-glass-line) moved but
+ * never changed shape, which was the complaint; this replaces it.
  */
 import CardIcon from "./CardIcon.astro";
 
@@ -22,15 +27,37 @@ export interface Props {
   tag?: string;
   /** CTA label. "Learn More" is a forbidden phrase, so the default is used. */
   cta?: string;
+  /** Draw the refracted scan line inside the card. Needs <ScanLines lens />. */
+  lens?: boolean;
 }
 
-const { title, body, href, bg, tag, cta = "SEE DETAILS →" } = Astro.props;
+const { title, body, href, bg, tag, cta = "SEE DETAILS →", lens = false } = Astro.props;
 ---
 
-<div class="card reveal card--bg">
+<div class:list={["card", "reveal", "card--bg", lens && "card--lens"]}>
+  {lens && <div class="card-occluder" aria-hidden="true"></div>}
   <img class="card-bg-img" src={bg} alt="" loading="lazy" decoding="async" />
   <div class="card-bg-scrim" aria-hidden="true"></div>
-  <div class="card-scanwell" aria-hidden="true"><i class="card-scanbar"></i></div>
+  {lens && (
+    <svg class="lens-svg" aria-hidden="true" focusable="false" preserveAspectRatio="none" viewBox="0 0 100 100">
+      {/* 6 — glow bleed, beneath the band, widened to the band's thickness */}
+      <path class="lens-glow" fill="none" />
+      {/* 4 — caustic bloom at the focus plane: cyan core, amber tint over it */}
+      <ellipse class="lens-caustic" cx="50%" cy="50%" rx="37.5%" ry="11%" opacity="0" />
+      <ellipse class="lens-caustic-amber" cx="50%" cy="50%" rx="37.5%" ry="11%" opacity="0" />
+      {/* The refracted BAND. A bowed band cannot take a correct across-thickness
+          gradient from a single filled path plus a linearGradient: the bow makes
+          the shape's bounding box much taller than the band, so the ramp smears
+          diagonally instead of running edge-to-edge. Built instead as stacked
+          sub-bands, each following y(p) at its own vertical offset, each flat-
+          coloured from the ramp. Same construction, evaluated per slice, and the
+          gradient tracks the curve exactly. */}
+      <g class="lens-band">
+        {Array.from({ length: 14 }).map(() => <path class="lens-slice" fill="none" />)}
+      </g>
+    </svg>
+  )}
+  {lens && <div class="card-rim" aria-hidden="true"></div>}
   <div class="card-pad card-bg-content">
     <h3>{title}{tag && <span class="tag-new">{tag}</span>}</h3>
     <p>{body}</p>
@@ -80,45 +107,6 @@ const { title, body, href, bg, tag, cta = "SEE DETAILS →" } = Astro.props;
     z-index: 1;
     background: linear-gradient(180deg, rgba(5, 7, 11, 0.20) 0%, rgba(5, 7, 11, 0.42) 100%);
   }
-  /* The scan bar, redrawn INSIDE the card so it can be refracted. The well is
-     as tall as the whole section and offset upward by this card's distance
-     from the section top (both set by the sync script in ScanLines), so this
-     copy tracks the outside bar exactly. The card's overflow:hidden clips it
-     to the glass. */
-  .card-scanwell {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: var(--scan-sec-h, 100%);
-    top: calc(-1 * var(--scan-card-top, 0px));
-    z-index: 1;
-    pointer-events: none;
-  }
-  /* 15x the outside line (5px -> 75px). Two crossed gradients multiplied give
-     a soft band with falloff on both axes, so the lens has something wide to
-     bend rather than a hard hairline (Jon 2026-08-27). */
-  .card-scanbar {
-    position: absolute;
-    left: -25%;
-    width: 150%;
-    height: 75px;
-    filter: url(#lws-glass-line);
-    /* Lens profile: an ellipse, so the band is at full height through the
-       middle of the card and tapers away at the rims — a convex lens
-       magnifying the line as it crosses. */
-    background:
-      radial-gradient(ellipse 52% 108% at 50% 50%, #6fdcff 0%, rgba(79, 212, 255, 0.75) 26%, rgba(0, 153, 204, 0.34) 56%, transparent 80%),
-      radial-gradient(ellipse 90% 46% at 50% 50%, rgba(0, 153, 204, 0.5) 0%, transparent 72%);
-    animation: scanDownCard 7s linear infinite;
-  }
-  @keyframes scanDownCard {
-    0% { top: -75px; }
-    100% { top: 100%; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .card-scanbar { animation: none; opacity: 0; }
-  }
 
   /* Convex lens shell: specular crown up top, a second bounce at the bottom,
      a lit rim, and edge darkening — the read of a thick curved glass blank
@@ -163,4 +151,84 @@ const { title, body, href, bg, tag, cta = "SEE DETAILS →" } = Astro.props;
   .card-bg-content > h3 { margin-bottom: 0.7rem; }
 
   /* Icon placement (size/centering) lives in CardIcon.astro */
+</style>
+
+<!-- Lens refraction. Global rather than scoped: the markup lives inside
+     {lens && ...}, and Astro's scoped-CSS pass drops selectors it cannot match
+     statically against the template, which left the overlay unstyled (the SVG
+     fell into normal flow and stretched the card). Every selector is nested
+     under .card--lens, so nothing reaches a non-lens card. -->
+<style is:global>
+  /* Masks the real .scan-bar where this card covers it. The art sits at
+     opacity .9 over a transparent card, so without this an unrefracted 10%
+     ghost of the straight line crosses the glass alongside the arc.
+
+     Both layers are the page background colour, identical to what already
+     sits behind the card, so neither changes how the card reads. The fill on
+     the card itself covers the border box: overflow:hidden clips children to
+     the PADDING box, so the occluder alone leaves the 1px translucent border
+     unmasked and the real line shows as a travelling dash along the rim. */
+  .card--lens {
+    background: var(--bg);
+  }
+  .card--lens > .card-occluder {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: var(--bg);
+  }
+
+  /* The refracted line. Clipped to the glass by the card's overflow:hidden
+     and its border-radius. Paths are written by the ScanLines controller. */
+  .card--lens > .lens-svg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+  /* Slices butt against each other; round caps or joins would scallop the
+     band's ends. Colour, width, offset and alpha all come from the controller. */
+  .card--lens .lens-slice {
+    stroke-linecap: butt;
+  }
+  /* Softens the seams between slices into a continuous ramp. */
+  .card--lens .lens-band {
+    filter: blur(1.5px);
+  }
+  .card--lens .lens-glow {
+    stroke: var(--scan-cyan);
+    stroke-linecap: round;
+    opacity: 0.25;
+    filter: blur(6px);
+  }
+  .card--lens .lens-caustic {
+    fill: var(--scan-cyan);
+    filter: blur(10px);
+  }
+  .card--lens .lens-caustic-amber {
+    fill: var(--scan-amber);
+    filter: blur(14px);
+  }
+
+  /* 7 — rim specular. Amounts come from the controller as --rim-t/--rim-b. */
+  .card--lens > .card-rim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow:
+      inset 0 2px 0 color-mix(in srgb, var(--scan-cyan) calc(var(--rim-t, 0) * 100%), transparent),
+      inset 0 -2px 0 color-mix(in srgb, var(--scan-cyan) calc(var(--rim-b, 0) * 100%), transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card--lens > .lens-svg { opacity: 1; }
+  }
 </style>

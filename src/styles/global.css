@@ -19,6 +19,12 @@
   --cyan-soft:#7DD3FC;
   --cyan-deep:#0B4A63;
   --cyan-2:#1B9FE0;      /* button-gradient base */
+  /* Scan line. Deliberately deeper than --cyan; do NOT collapse the two. */
+  --scan-cyan:#35c8ff;
+  --scan-cyan-deep:#0099cc;
+  /* Prism fringes for the in-card refracted band. */
+  --scan-violet:#8B5CFF;
+  --scan-amber:#E8C88A;
   --on-accent:#04121C;   /* near-black ink on cyan surfaces */
   /* Sub-brand accents (Phase 2 sub-brands + STUDIOS mega-panel doorways) */
   --amber:#FCD34D;      /* Live Band Web Studios */
