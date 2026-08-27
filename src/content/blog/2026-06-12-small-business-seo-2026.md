@@ -35,4 +35,4 @@ Every client report we send tracks impressions, clicks, and keyword position fro
 
 ---
 
-*Related: [Local SEO in 2026](https://livewebstudios.com/post.html?post=2026-08-14-local-seo-2026), [5 Website Mistakes That Kill Rankings](https://livewebstudios.com/post.html?post=2026-07-17-5-website-mistakes), and [SEO pricing](https://livewebstudios.com/pricing/seo-pricing.html).*
+*Related: [Local SEO in 2026](https://livewebstudios.com/post.html?post=2026-08-14-local-seo-2026) and [5 Website Mistakes That Kill Rankings](https://livewebstudios.com/post.html?post=2026-07-17-5-website-mistakes).*

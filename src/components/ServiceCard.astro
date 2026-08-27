@@ -1,0 +1,166 @@
+---
+/**
+ * ServiceCard — the cloud-art service card used on /services and the home page.
+ *
+ * Extracted from services.astro (Jon 2026-08-27: "make the home cards look
+ * exactly like the services cards") so both pages render from one source
+ * instead of two copies drifting apart. Markup + styles travel together;
+ * the styles are scoped, so nothing leaks to other card variants.
+ *
+ * Card art is one shared blue-cloud image; each line of text sits in its own
+ * translucent bubble over it, and the CTA stays bare.
+ */
+import CardIcon from "./CardIcon.astro";
+
+export interface Props {
+  title: string;
+  body: string;
+  href: string;
+  /** Relative path to the card art, e.g. "images/services/blue-clouds.jpg" */
+  bg: string;
+  /** Optional corner flag, e.g. "NEW" */
+  tag?: string;
+  /** CTA label. "Learn More" is a forbidden phrase, so the default is used. */
+  cta?: string;
+}
+
+const { title, body, href, bg, tag, cta = "SEE DETAILS →" } = Astro.props;
+---
+
+<div class="card reveal card--bg">
+  <img class="card-bg-img" src={bg} alt="" loading="lazy" decoding="async" />
+  <div class="card-bg-scrim" aria-hidden="true"></div>
+  <div class="card-scanwell" aria-hidden="true"><i class="card-scanbar"></i></div>
+  <div class="card-pad card-bg-content">
+    <h3>{title}{tag && <span class="tag-new">{tag}</span>}</h3>
+    <p>{body}</p>
+    <CardIcon title={title} />
+    <a class="more" href={href}>{cta}</a>
+  </div>
+</div>
+
+<style>
+  /* Cards with generated background art: image + scrim keep text readable */
+  .card--bg {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .card--bg:hover {
+    border-color: rgba(56, 189, 248, 0.35);
+  }
+  /* Fills the whole card: max-width:none overrides the global img cap that
+     left a dark band on the right edge. Base scale gives drift headroom. */
+  .card-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.9;
+    /* Heavy refraction: the cloud art bends and splits into colour fringes,
+       as through thick glass (Jon 2026-08-27). Filter lives in Base.astro.
+       Scaled up so the filter's displaced edges never expose the card. */
+    filter: url(#lws-glass) saturate(150%) contrast(108%);
+    transform: scale(1.12);
+    transition: transform 2.5s var(--ease);
+    will-change: transform;
+  }
+  /* Clouds zoom in slowly on hover (no pan, no mirror — Jon 2026-08-19) */
+  .card--bg:hover .card-bg-img {
+    transform: scale(1.3);
+  }
+  .card-bg-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(5, 7, 11, 0.20) 0%, rgba(5, 7, 11, 0.42) 100%);
+  }
+  /* The scan bar, redrawn INSIDE the card so it can be refracted. The well is
+     as tall as the whole section and offset upward by this card's distance
+     from the section top (both set by the sync script in ScanLines), so this
+     copy tracks the outside bar exactly. The card's overflow:hidden clips it
+     to the glass. */
+  .card-scanwell {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: var(--scan-sec-h, 100%);
+    top: calc(-1 * var(--scan-card-top, 0px));
+    z-index: 1;
+    pointer-events: none;
+  }
+  /* 15x the outside line (5px -> 75px). Two crossed gradients multiplied give
+     a soft band with falloff on both axes, so the lens has something wide to
+     bend rather than a hard hairline (Jon 2026-08-27). */
+  .card-scanbar {
+    position: absolute;
+    left: -25%;
+    width: 150%;
+    height: 75px;
+    filter: url(#lws-glass-line);
+    /* Lens profile: an ellipse, so the band is at full height through the
+       middle of the card and tapers away at the rims — a convex lens
+       magnifying the line as it crosses. */
+    background:
+      radial-gradient(ellipse 52% 108% at 50% 50%, #6fdcff 0%, rgba(79, 212, 255, 0.75) 26%, rgba(0, 153, 204, 0.34) 56%, transparent 80%),
+      radial-gradient(ellipse 90% 46% at 50% 50%, rgba(0, 153, 204, 0.5) 0%, transparent 72%);
+    animation: scanDownCard 7s linear infinite;
+  }
+  @keyframes scanDownCard {
+    0% { top: -75px; }
+    100% { top: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-scanbar { animation: none; opacity: 0; }
+  }
+
+  /* Convex lens shell: specular crown up top, a second bounce at the bottom,
+     a lit rim, and edge darkening — the read of a thick curved glass blank
+     sitting on the art (Jon 2026-08-27). */
+  .card--bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+      radial-gradient(130% 78% at 50% -14%, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.04) 46%, transparent 62%),
+      radial-gradient(110% 60% at 50% 114%, rgba(255, 255, 255, 0.09), transparent 58%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      inset 0 0 70px rgba(0, 0, 0, 0.55);
+  }
+
+  .card-bg-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Each line of card text sits in its own translucent bubble over the
+     cloud art (Jon 2026-08-27, MOSA reference). SEE DETAILS stays bare. */
+  .card-bg-content > h3,
+  .card-bg-content > p {
+    width: fit-content;
+    max-width: 100%;
+    background: rgba(5, 7, 11, 0.78);
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 0.55rem 0.8rem;
+  }
+  .card-bg-content > h3 { margin-bottom: 0.7rem; }
+
+  /* Icon placement (size/centering) lives in CardIcon.astro */
+</style>

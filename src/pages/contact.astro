@@ -11,6 +11,8 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
+import Marquee from "../components/Marquee.astro";
+import HeroActions from "../components/HeroActions.astro";
 ---
 
 <Base
@@ -28,8 +30,11 @@ import VideoBg from "../components/VideoBg.astro";
         <span class="eyebrow is-center mb-lg">CONTACT</span>
         <h1 class="page-h1">Let's Build <em>Something</em>.</h1>
         <p class="page-lede">Or just ask a question. We answer those too.</p>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- CONTACT -->
     <section class="sec-pad has-videobg">

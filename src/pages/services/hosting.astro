@@ -10,6 +10,8 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 const features = [
   { ico: "⬡", title: "Managed VPS", body: "Your own environment." },
@@ -36,12 +38,11 @@ const features = [
         <span class="eyebrow is-center mb-lg">HOSTING</span>
         <h1 class="page-h1">Your Site. Up. <em>Always</em>.</h1>
         <p class="page-lede">Managed hosting &amp; maintenance.</p>
-        <div class="hero-btns">
-          <a href="../contact.html" class="btn btn-primary">Get Hosting →</a>
-          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
-        </div>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- WHY HOSTING MATTERS -->
     <section class="sec-pad">

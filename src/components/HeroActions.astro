@@ -1,0 +1,89 @@
+---
+/**
+ * HeroActions — the standard hero button pair, plus the optional bottom link
+ * row that sits on the same baseline at the right.
+ *
+ * Jon 2026-08-27: every Live Web Studios hero carries "Let's Talk | See The
+ * Work" under the body copy, and See The Work goes to /work. NOT used on the
+ * Live Band Web Studios or Namesake pages, which run their own CTAs.
+ *
+ * The wrapper is a flex row with align-items:flex-end, which is what makes the
+ * link row's bottom edge land exactly level with the buttons' bottom edge.
+ */
+import { relPrefix } from "../lib/relPrefix";
+
+export interface Props {
+  /** Render the bottom-right link row (home hero). */
+  links?: boolean;
+}
+const { links = false } = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<div class:list={["hero-foot", links && "hero-foot--split"]}>
+  <div class="hero-btns">
+    <a href={`${rel}contact.html`} class="btn btn-primary">Let's Talk →</a>
+    <a href={`${rel}work.html`} class="btn btn-ghost">See The Work ↓</a>
+  </div>
+
+  {links && (
+    <nav class="hero-links" aria-label="More from Live Web Studios">
+      <a href={`${rel}live-band-web-studios.html`}>Live Band Web Studios</a>
+      <span class="hero-links-sep" aria-hidden="true">/</span>
+      <a href={`${rel}namesake.html`}>Namesake Personal Sites</a>
+      <span class="hero-links-sep" aria-hidden="true">/</span>
+      <a href={`${rel}faq.html`}>FAQ</a>
+    </nav>
+  )}
+</div>
+
+<style>
+  .hero-foot {
+    display: flex;
+    align-items: flex-end;
+    gap: 2rem;
+    width: 100%;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-foot--split {
+    justify-content: space-between;
+  }
+  /* The pair already carries its own top margin from the system; the wrapper
+     owns the spacing now so both children share one baseline. */
+  .hero-foot .hero-btns {
+    margin-top: 0;
+  }
+
+  .hero-links {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-left: auto;
+    text-align: right;
+    /* Three points under the hero body copy, which is clamp(1.05rem,1.6vw,1.3rem). */
+    font-size: calc(clamp(1.05rem, 1.6vw, 1.3rem) - 3px);
+    line-height: 1.2;
+  }
+  .hero-links a {
+    color: #fff;
+    transition: opacity 0.2s var(--ease);
+  }
+  .hero-links a:hover {
+    opacity: 0.7;
+  }
+  .hero-links-sep {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  @media (max-width: 900px) {
+    .hero-foot {
+      gap: 1.4rem;
+    }
+    .hero-links {
+      margin-left: 0;
+      text-align: left;
+    }
+  }
+</style>

@@ -37,4 +37,4 @@ If you serve a specific area and your site never says so, Google has no real rea
 
 ---
 
-*See also: [Small Business SEO in 2026](https://livewebstudios.com/post.html?post=2026-06-12-small-business-seo-2026) and [Local SEO in 2026](https://livewebstudios.com/post.html?post=2026-08-14-local-seo-2026). And check out [our SEO pricing](https://livewebstudios.com/pricing/seo-pricing.html).*
+*See also: [Small Business SEO in 2026](https://livewebstudios.com/post.html?post=2026-06-12-small-business-seo-2026) and [Local SEO in 2026](https://livewebstudios.com/post.html?post=2026-08-14-local-seo-2026).*

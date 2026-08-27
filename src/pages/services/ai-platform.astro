@@ -11,6 +11,8 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 const pillars = [
   { num: "01", ico: "✦", title: "Faster Builds", body: "AI-assisted pipeline reduces build time by 60-70%. Sites launch faster and cost less." },
@@ -35,12 +37,11 @@ const pillars = [
         <span class="eyebrow is-center mb-lg">NEW IN 2026</span>
         <h1 class="page-h1">We Rebuilt How Websites <em>Get Built</em>.</h1>
         <p class="page-lede">The LWS AI-Powered Website Platform.</p>
-        <div class="hero-btns">
-          <a href="../contact.html" class="btn btn-primary">Start an AI-Powered Build →</a>
-          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
-        </div>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- INTRO + WHAT THIS MEANS -->
     <section class="sec-pad">

@@ -111,10 +111,6 @@ const namesakeLinks = [
 
         <div class="mega mega--services" id="services-panel" role="region" aria-label="Services">
           <div class="mega-inner svc-inner">
-            <div class="mega-head">
-              <span class="eyebrow">SERVICES</span>
-              <p class="mega-sub">Thirteen ways in. One studio.</p>
-            </div>
             <div class="svc-cols">
               {svcCols.map((col) => (
                 <div class="svc-col">
@@ -129,10 +125,6 @@ const namesakeLinks = [
               <a class="mega-row" href={`${rel}services.html`}>
                 <span class="mega-row-title">All Services →</span>
                 <span class="mega-row-sub">The full lineup</span>
-              </a>
-              <a class="mega-row" href={`${rel}pricing/design-pricing.html`}>
-                <span class="mega-row-title">Pricing →</span>
-                <span class="mega-row-sub">Design · Hosting · SEO</span>
               </a>
             </div>
           </div>
@@ -154,10 +146,6 @@ const namesakeLinks = [
 
         <div class="mega mega--industries" id="industries-panel" role="region" aria-label="Industries">
           <div class="mega-inner">
-            <div class="mega-head">
-              <span class="eyebrow">INDUSTRIES</span>
-              <p class="mega-sub">Built for your field.</p>
-            </div>
             <div class="ind-cols">
               {indLinks.map(([label, href]) => (
                 <a class="svc-link" href={`${rel}${href}`}>{label}</a>

@@ -17,6 +17,8 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 const cardCategories = [
   "Show Concept",
@@ -51,12 +53,11 @@ const styles = [
         <h1 class="page-h1">Custom Styles &amp; <em>Carousel Cards</em>.</h1>
         <!-- em-dash: "graphic sets — built to make" → "graphic sets, built to make" -->
         <p class="page-lede">Distinctive graphic sets, built to make your hero panels, carousels, and feature cards look like nobody else's.</p>
-        <div class="hero-btns">
-          <a href="../contact.html" class="btn btn-primary">Let's talk. →</a>
-          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
-        </div>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- GALLERY INTRO -->
     <section class="sec-pad">

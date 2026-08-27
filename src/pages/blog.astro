@@ -11,6 +11,8 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import VideoBg from "../components/VideoBg.astro";
+import Marquee from "../components/Marquee.astro";
+import HeroActions from "../components/HeroActions.astro";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -49,8 +51,11 @@ const cards = posts.map((post) => {
         <span class="eyebrow is-center mb-lg">THE LWS BLOG</span>
         <h1 class="page-h1">Ideas, Insights, and Occasionally <em>Opinions</em>.</h1>
         <p class="page-lede">Web design, AI, SEO, and the business of the web.</p>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- POSTS -->
     <section class="sec-pad">

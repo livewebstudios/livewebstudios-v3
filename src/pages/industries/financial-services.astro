@@ -12,6 +12,8 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
   { ico: "◧", title: "Website Design", body: "Trust-forward layout, clean UX, and fast performance on every device.", href: "../services/website-design.html" },
@@ -44,8 +46,11 @@ const builds = [
         <span class="eyebrow is-center mb-lg">FINANCIAL SERVICES</span>
         <h1 class="page-h1">Trust Starts Online. <em>Make the First Impression Count.</em></h1>
         <p class="page-lede">Polished, credible websites for financial advisors, CPAs, and wealth management firms.</p>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

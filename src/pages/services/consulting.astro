@@ -10,6 +10,8 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
   { ico: "◎", title: "Technical SEO", body: "Speed, mobile, crawlability." },
@@ -23,7 +25,7 @@ const cards = [
 
 <Base
   title="Website Audits & Consulting | Live Web Studios"
-  description="Technical SEO and UX website audits with written report and 1-hour walkthrough. From $499. Live Web Studios, Saddle Brook, NJ."
+  description="Technical SEO and UX website audits with written report and 1-hour walkthrough. Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/consulting"
 >
   <Nav />
@@ -36,12 +38,11 @@ const cards = [
         <span class="eyebrow is-center mb-lg">AUDITS &amp; CONSULTING</span>
         <h1 class="page-h1">Find Out Why Your Site <em>Isn't Working</em>.</h1>
         <p class="page-lede">Website audit &amp; consulting.</p>
-        <div class="hero-btns">
-          <a href="../contact.html" class="btn btn-primary">Order an Audit →</a>
-          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
-        </div>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- AUDIT CARDS -->
     <section class="sec-pad has-videobg">
@@ -68,7 +69,6 @@ const cards = [
           <span class="eyebrow">DELIVERABLE</span>
           <h2>Written Report + 1-Hour Walkthrough</h2>
           <p>You own the report. Implement yourself or hire us.</p>
-          <p class="kick">Starting at $499</p>
           <div class="hero-btns">
             <a href="../contact.html" class="btn btn-primary">Order Your Audit →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>

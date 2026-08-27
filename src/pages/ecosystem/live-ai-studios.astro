@@ -7,6 +7,8 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
   { ico: "◎", title: "AI Readiness", body: "Where you are. Where you can go." },
@@ -33,11 +35,11 @@ const services = [
         <span class="eyebrow is-center mb-lg">SISTER COMPANY</span>
         <h1 class="page-h1">AI for Your Business. For <em>Real</em>.</h1>
         <p class="page-lede">Enterprise AI consulting, leadership training, workflow design.</p>
-        <div class="hero-btns">
-          <a href="https://liveaistudios.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Site →</a>
-        </div>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- SERVICES -->
     <section class="sec-pad has-videobg">

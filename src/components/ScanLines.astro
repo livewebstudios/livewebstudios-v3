@@ -1,0 +1,85 @@
+---
+/**
+ * ScanLines — CRT scanline texture + a slow sweeping scan bar.
+ *
+ * Ported from the LWS dark-effects demo (dark-background-demo.netlify.app
+ * #scanlines). The demo runs the bar at 3s; Jon 2026-08-27 asked for slower,
+ * so it sweeps at 7s here.
+ *
+ * Drop it as the FIRST child of a section that has `position:relative` and
+ * `overflow:hidden`. It paints at z-index 0, so give the section's content
+ * wrapper `position:relative; z-index:1` to sit above it.
+ *
+ * Motion is disabled under prefers-reduced-motion; the static lines remain.
+ */
+---
+
+<div class="scan-lines" aria-hidden="true"></div>
+<div class="scan-bar" aria-hidden="true"></div>
+
+<script is:inline>
+  /* Each ServiceCard redraws the bar inside itself so the glass can refract
+     it. For the inside copy to line up with this one, every card needs to
+     know how tall the section is and how far down it sits. Measured here and
+     handed over as CSS custom properties. */
+  (function () {
+    function sync() {
+      document.querySelectorAll(".has-scan").forEach(function (sec) {
+        var h = sec.offsetHeight;
+        var top = sec.getBoundingClientRect().top;
+        sec.style.setProperty("--scan-sec-h", h + "px");
+        sec.querySelectorAll(".card--bg").forEach(function (card) {
+          var off = card.getBoundingClientRect().top - top;
+          card.style.setProperty("--scan-card-top", Math.round(off) + "px");
+          card.style.setProperty("--scan-sec-h", h + "px");
+        });
+      });
+    }
+    sync();
+    window.addEventListener("load", sync);
+    window.addEventListener("resize", sync);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+  })();
+</script>
+
+<style>
+  .scan-lines {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 153, 204, 0.02) 2px,
+      rgba(0, 153, 204, 0.02) 4px
+    );
+  }
+  .scan-bar {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(1px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 153, 204, 0.75),
+      #35c8ff,
+      rgba(0, 153, 204, 0.75),
+      transparent
+    );
+    animation: scanDown 7s linear infinite;
+  }
+  @keyframes scanDown {
+    0% { top: -5px; }
+    100% { top: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scan-bar { animation: none; opacity: 0; }
+  }
+</style>

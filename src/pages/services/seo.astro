@@ -10,6 +10,8 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
   { ico: "◎", title: "Technical Audit", body: "Speed, mobile, structure." },
@@ -23,7 +25,6 @@ const services = [
 const tiers = [
   {
     name: "Basic",
-    price: "$525",
     featured: false,
     blurb: "Essential SEO for getting started. Best for businesses that need a solid local foundation.",
     items: [
@@ -38,7 +39,6 @@ const tiers = [
   },
   {
     name: "Standard",
-    price: "$975",
     featured: true,
     blurb: "Advanced strategies to grow your reach. Best for businesses ready to compete seriously in local search.",
     items: [
@@ -55,7 +55,6 @@ const tiers = [
   },
   {
     name: "Premium",
-    price: "$1,525",
     featured: false,
     blurb: "Comprehensive SEO for maximum visibility and results. Best for competitive markets and multi-service businesses.",
     items: [
@@ -77,7 +76,7 @@ const tiers = [
 
 <Base
   title="SEO & Digital Marketing | Live Web Studios"
-  description="Expert SEO services for small business, Saddle Brook, NJ. Local SEO, keyword research, content, technical audits. Plans from $525/mo. 23 years experience."
+  description="Expert SEO services for small business, Saddle Brook, NJ. Local SEO, keyword research, content, technical audits. 23 years experience."
   canonical="https://livewebstudios.com/services/seo"
 >
   <Nav />
@@ -90,12 +89,11 @@ const tiers = [
         <span class="eyebrow is-center mb-lg">SEO &amp; MARKETING</span>
         <h1 class="page-h1">Rank Higher. Get Found. <em>Grow</em>.</h1>
         <p class="page-lede">SEO for small business, 23 years of search experience, North Jersey and nationwide.</p>
-        <div class="hero-btns">
-          <a href="../contact.html" class="btn btn-primary">Get Started →</a>
-          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
-        </div>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- WHAT'S INCLUDED -->
     <section class="sec-pad has-videobg">
@@ -138,7 +136,7 @@ const tiers = [
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">SEO PLANS</span>
-          <h2>Transparent Pricing. No Contracts.</h2>
+          <h2>Three Levels of SEO. No Contracts.</h2>
           <p>Three tiers designed for different stages of growth. All plans include a monthly performance report.</p>
         </div>
         <div class="grid-svc trio">
@@ -147,7 +145,6 @@ const tiers = [
               <Glass variant="inner" innerClass="card-pad">
                 {t.featured && <span class="tag-new">MOST POPULAR</span>}
                 <h3>{t.name}</h3>
-                <p class="kick">{t.price}<span class="label"> /mo</span></p>
                 <p>{t.blurb}</p>
                 <ul>
                   {t.items.map((i) => <li>{i}</li>)}

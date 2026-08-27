@@ -41,4 +41,4 @@ If you have WooCommerce, complex backend needs, or a site that genuinely require
 
 ---
 
-*See also: [The Migration Process Explained](https://livewebstudios.com/post.html?post=2026-07-03-migration-process-explained), [The Hidden Cost of Outdated Hosting](https://livewebstudios.com/post.html?post=2026-05-22-hidden-cost-of-outdated-hosting), and [hosting pricing](https://livewebstudios.com/pricing/hosting-pricing.html).*
+*See also: [The Migration Process Explained](https://livewebstudios.com/post.html?post=2026-07-03-migration-process-explained) and [The Hidden Cost of Outdated Hosting](https://livewebstudios.com/post.html?post=2026-05-22-hidden-cost-of-outdated-hosting).*

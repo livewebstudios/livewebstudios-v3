@@ -1,0 +1,35 @@
+---
+/**
+ * Marquee — the scrolling services strip.
+ *
+ * Ran on the home page only; Jon 2026-08-27 asked for it on every Live Web
+ * Studios page. Deliberately NOT used on the Live Band Web Studios or
+ * Namesake pages, which carry their own sub-brand.
+ *
+ * The list is duplicated once so the CSS translate loop is seamless; the
+ * second copy is aria-hidden so screen readers read the services once.
+ * Animation is disabled under prefers-reduced-motion in global.css.
+ */
+const services = [
+  "Web Hosting",
+  "Website Design",
+  "AI Automation",
+  "SEO Optimization",
+  "E-Commerce",
+  "Logo & Brand Identity",
+  "Custom Graphics & Animation",
+  "Site Maintenance",
+  "Content Strategy",
+  "Monthly SEO & Keyword Reporting",
+  "Domain Registration",
+  "Social Media",
+  "Performance Audits",
+];
+---
+
+<div class="marquee" aria-label="Live Web Studios services">
+  <div class="marquee-track">
+    {services.map((s) => <span>{s}</span>)}
+    {services.map((s) => <span aria-hidden="true">{s}</span>)}
+  </div>
+</div>

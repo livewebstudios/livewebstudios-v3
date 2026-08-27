@@ -7,6 +7,8 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import VideoBg from "../components/VideoBg.astro";
+import Marquee from "../components/Marquee.astro";
+import HeroActions from "../components/HeroActions.astro";
 ---
 
 <Base
@@ -25,8 +27,11 @@ import VideoBg from "../components/VideoBg.astro";
         <span class="eyebrow is-center mb-lg">MESSAGE SENT</span>
         <h1 class="page-h1">Thank <em>You</em>.</h1>
         <p class="page-lede">We received your info. Jon typically replies the same day (often within a few hours).</p>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- WHAT HAPPENS NEXT -->
     <section class="sec-pad">

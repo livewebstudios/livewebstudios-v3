@@ -5,6 +5,8 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import Marquee from "../components/Marquee.astro";
+import HeroActions from "../components/HeroActions.astro";
 
 const sections = [
   {
@@ -48,8 +50,11 @@ const sections = [
         <span class="eyebrow is-center mb-lg">LEGAL</span>
         <h1 class="page-h1">Privacy <em>Policy</em>.</h1>
         <p class="page-lede">Last updated: April 2026</p>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- BODY -->
     <section class="sec-pad">

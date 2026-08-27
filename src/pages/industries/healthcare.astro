@@ -15,6 +15,8 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
   { ico: "◧", title: "Website Design", body: "Mobile-first UX, clear service pages, and forms that actually work.", href: "../services/website-design.html" },
@@ -47,8 +49,11 @@ const builds = [
         <span class="eyebrow is-center mb-lg">HEALTHCARE</span>
         <h1 class="page-h1">Your Patients Are Searching. <em>Make Sure They Find You.</em></h1>
         <p class="page-lede">HIPAA-aware websites for medical practices and health organizations that convert visitors into patients.</p>
+        <HeroActions />
       </div>
     </section>
+
+    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

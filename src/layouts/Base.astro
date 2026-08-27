@@ -55,6 +55,49 @@ const rel = relPrefix(Astro.url.pathname);
     </script>
   </head>
   <body>
+    <!-- Glass refraction filter (Jon 2026-08-27). Three displacement passes at
+         different scales, recombined per RGB channel, so the art bends AND
+         splits into prismatic fringes the way light does through thick glass.
+         Declared once per page; referenced from CSS as filter:url(#lws-glass). -->
+    <svg class="svg-defs" aria-hidden="true" focusable="false" width="0" height="0">
+      <filter id="lws-glass" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.0022 0.0026" numOctaves="1" seed="7" result="noise" />
+        <feGaussianBlur in="noise" stdDeviation="7" result="soft" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="34" xChannelSelector="R" yChannelSelector="G" result="dR" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="22" xChannelSelector="R" yChannelSelector="G" result="dG" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="11" xChannelSelector="R" yChannelSelector="G" result="dB" />
+        <feColorMatrix in="dR" type="matrix" result="rOnly"
+          values="1 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 1 0" />
+        <feColorMatrix in="dG" type="matrix" result="gOnly"
+          values="0 0 0 0 0   0 1 0 0 0   0 0 0 0 0   0 0 0 1 0" />
+        <feColorMatrix in="dB" type="matrix" result="bOnly"
+          values="0 0 0 0 0   0 0 0 0 0   0 0 1 0 0   0 0 0 1 0" />
+        <feBlend in="rOnly" in2="gOnly" mode="screen" result="rg" />
+        <feBlend in="rg" in2="bOnly" mode="screen" />
+      </filter>
+
+      <!-- Line refraction: the sweeping scan bar as seen THROUGH the card
+           glass. Far bigger displacement than the art filter, plus a wide
+           channel spread, so the line bends and fans into colour where it
+           crosses a card (Jon 2026-08-27). -->
+      <filter id="lws-glass-line" x="-30%" y="-120%" width="160%" height="340%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.0016 0.0019" numOctaves="1" seed="11" result="noise" />
+        <feGaussianBlur in="noise" stdDeviation="9" result="soft" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="300" xChannelSelector="R" yChannelSelector="G" result="dR" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="215" xChannelSelector="R" yChannelSelector="G" result="dG" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="130" xChannelSelector="R" yChannelSelector="G" result="dB" />
+        <feColorMatrix in="dR" type="matrix" result="rOnly"
+          values="1 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 1 0" />
+        <feColorMatrix in="dG" type="matrix" result="gOnly"
+          values="0 0 0 0 0   0 1 0 0 0   0 0 0 0 0   0 0 0 1 0" />
+        <feColorMatrix in="dB" type="matrix" result="bOnly"
+          values="0 0 0 0 0   0 0 0 0 0   0 0 1 0 0   0 0 0 1 0" />
+        <feBlend in="rOnly" in2="gOnly" mode="screen" result="rg" />
+        <feBlend in="rg" in2="bOnly" mode="screen" result="rgb" />
+        <feGaussianBlur in="rgb" stdDeviation="7" />
+      </filter>
+    </svg>
+
     <slot />
 
     <script is:inline>
