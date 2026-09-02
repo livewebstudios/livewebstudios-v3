@@ -9,10 +9,12 @@ import ScanLines from "../components/ScanLines.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 
-/* Home service cards — same six topics as before, rendered through the
-   shared ServiceCard so they match /services exactly (Jon 2026-08-27).
-   "LEARN MORE" was also a forbidden phrase; CTA now reads SEE DETAILS. */
-const bgCloud = "images/services/blue-clouds.jpg";
+/* Home service cards — same six topics, same shared ServiceCard.
+   "LEARN MORE" was a forbidden phrase; CTA reads SEE DETAILS.
+   2026-09-02: home now runs the dark carbon art via art="metal", so it
+   no longer matches /services (which keeps the blue clouds). That was
+   Jon's call and it overrides the 2026-08-27 "make them match" note. */
+const cardArt = "images/bg/metal-bg.jpg";
 const homeServices = [
   { title: "Website Design & Development", body: "Built from scratch. No templates, no page builders.", href: "services.html#web-design" },
   { title: "Web Hosting & Maintenance", body: "Dedicated infrastructure. Jon watches it so you don't have to.", href: "services.html#hosting" },
@@ -59,7 +61,7 @@ const homeServices = [
       </div>
       <div class="grid-svc">
         {homeServices.map((c) => (
-          <ServiceCard title={c.title} body={c.body} href={c.href} bg={bgCloud} tag={c.tag} />
+          <ServiceCard title={c.title} body={c.body} href={c.href} bg={cardArt} art="metal" tag={c.tag} />
         ))}
       </div>
     </div>

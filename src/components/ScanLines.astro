@@ -39,6 +39,179 @@
     window.addEventListener("load", sync);
     window.addEventListener("resize", sync);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+
+    /* ---- In-card lens band -------------------------------------------
+       One rAF loop drives every card's <canvas class="card-lens">. The
+       band is NOT a sprite: its geometry is rebuilt from u each frame.
+
+         u = (scanY - c) / (h/2)   c = card centre Y, h = card height
+         u = -1 top rim, 0 centre, +1 bottom rim
+
+       Shape table (Jon 2026-09-02), hit exactly at the knots and
+       interpolated linearly between them:
+
+         |u|    thickness   bow    alpha
+         0.0    95px        0px    1.00   dead straight, near-pure cyan
+         0.5    40px        22px   0.70
+         1.0    22px        40px   0.45   fringes fully separated
+
+       Bow direction is sign(u): negative u bows UP at the horizontal
+       midpoint, positive u bulges DOWN. Fringe order flips with it too,
+       violet upper/amber lower above centre and the reverse below, which
+       is why the band at -0.8 is a mirror of +0.8 rather than the same
+       shape moved. Across the card's width only the bow varies; thickness
+       and brightness are constant edge to edge, full bleed, hard cut. */
+    var PERIOD = 7000;
+    var reduce = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    /* Piecewise-linear through the three knots so the table values land
+       exactly on the table. */
+    function knot(a, k0, k05, k1) {
+      return a < 0.5 ? lerp(k0, k05, a / 0.5) : lerp(k05, k1, (a - 0.5) / 0.5);
+    }
+
+    /* One column-wide vertical slice of the band: cyan core plus the two
+       chromatic fringes, composited additively like real light. Returned
+       as a 1px-wide canvas that gets blitted across the card at the right
+       Y for each column. */
+    /* Intensities here are RELATIVE, normalised so the strip peaks at ~1.
+       Overall brightness is applied as globalAlpha at blit time instead of
+       being baked in per band. Baking it in meant the additive "lighter"
+       compositing saturated to 255 at both u=0 and u=0.5, so the 100% and
+       70% rows of the table rendered identically. Core and hot spot are
+       complementary (they always sum to 1) so the peak stays put and only
+       the caustic's share of it changes with u. */
+    function buildStrip(T, hotFrac, fringeA, sep, sgn, H) {
+      var s = document.createElement("canvas");
+      s.width = 1; s.height = H;
+      var c = s.getContext("2d");
+      var mid = H / 2;
+
+      function band(centre, thick, r, g, b, peak) {
+        if (peak <= 0 || thick <= 0) return;
+        var top = centre - thick / 2, bot = centre + thick / 2;
+        if (bot <= 0 || top >= H) return;
+        var grd = c.createLinearGradient(0, top, 0, bot);
+        var col = r + "," + g + "," + b;
+        grd.addColorStop(0, "rgba(" + col + ",0)");
+        grd.addColorStop(0.5, "rgba(" + col + "," + peak + ")");
+        grd.addColorStop(1, "rgba(" + col + ",0)");
+        c.fillStyle = grd;
+        c.fillRect(0, top, 1, thick);
+      }
+
+      c.globalCompositeOperation = "lighter";
+      /* Fringes sit on opposite edges and swap sides as u crosses zero. */
+      band(mid + sgn * sep, T * 0.55, 150, 90, 255, fringeA);   // violet
+      band(mid - sgn * sep, T * 0.55, 255, 170, 60, fringeA);   // amber
+      /* Cyan core last so it dominates the middle. */
+      band(mid, T, 60, 200, 255, 1 - hotFrac);
+      /* Caustic hot spot: only really present near u = 0, where the band
+         is thick, straight and at full brightness. */
+      band(mid, Math.max(2, T * 0.22), 210, 245, 255, hotFrac);
+      return s;
+    }
+
+    function drawCard(canvas, card, scanSecY) {
+      var w = card.clientWidth, h = card.clientHeight;
+      if (!w || !h) return;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+      }
+      var ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      var top = parseFloat(card.style.getPropertyValue("--scan-card-top")) || 0;
+      var scanY = scanSecY - top;              // scan position in card space
+      var u = (scanY - h / 2) / (h / 2);
+      if (u < -1.25 || u > 1.25) return;        // band is off this card
+
+      var a = Math.min(Math.abs(u), 1);
+      var sgn = u < 0 ? -1 : 1;
+      var T = knot(a, 95, 40, 22);
+      var bow = knot(a, 0, 22, 40) * sgn;       // +down, -up
+      var alpha = knot(a, 1.0, 0.70, 0.45);
+      var fringeA = knot(a, 0.12, 0.32, 0.55);
+      var sep = knot(a, 1, 9, 18);
+      /* Past the rims the table has no domain, so fade out instead of
+         popping off. */
+      if (Math.abs(u) > 1) alpha *= Math.max(0, 1 - (Math.abs(u) - 1) / 0.25);
+      if (alpha <= 0.001) return;
+
+      /* Caustic is at full share dead centre and gone by the rims. */
+      var hotFrac = 0.35 * (1 - a) * (1 - a);
+      var H = Math.ceil(T + 2 * sep + 8);
+      var strip = buildStrip(T, hotFrac, fringeA, sep, sgn, H);
+      ctx.globalAlpha = alpha;
+
+      /* Blit column by column. Only the centreline moves across the width,
+         so thickness and brightness stay constant edge to edge and the band
+         terminates in a hard vertical cut at the card border. */
+      var step = 2, half = w / 2;
+      for (var x = 0; x < w; x += step) {
+        var t = (x + step / 2 - half) / half;            // -1 .. +1
+        var disp = bow * Math.cos((Math.PI / 2) * Math.max(-1, Math.min(1, t)));
+        ctx.drawImage(strip, 0, 0, 1, H, x, scanY + disp - H / 2, step, H);
+      }
+    }
+
+    var lensCards = [];
+    function collect() {
+      lensCards = [];
+      document.querySelectorAll(".has-scan").forEach(function (sec) {
+        sec.querySelectorAll(".card--bg").forEach(function (card) {
+          var cv = card.querySelector(".card-lens");
+          if (cv) lensCards.push({ sec: sec, card: card, cv: cv });
+        });
+      });
+    }
+    collect();
+    document.addEventListener("DOMContentLoaded", collect);
+    window.addEventListener("load", collect);
+    window.addEventListener("resize", collect);
+
+    /* The loop must start unconditionally. ScanLines renders as the FIRST
+       child of the section, so at script-execution time the cards further
+       down the section are not parsed yet and collect() returns nothing.
+       Gating the loop on lensCards.length here meant it never started and
+       the in-card band never drew, even though the later collect() calls
+       filled the array. Re-collect from inside the loop until cards show up.
+       __lwsLensLoop guards against a second ScanLines on the same page
+       starting a duplicate loop. */
+    if (!reduce && !window.__lwsLensLoop) {
+      window.__lwsLensLoop = true;
+      var tick = 0;
+      var frame = function (now) {
+        if (!lensCards.length && tick % 30 === 0) collect();
+        tick++;
+        var p = (now % PERIOD) / PERIOD;
+        for (var i = 0; i < lensCards.length; i++) {
+          var e = lensCards[i];
+          var secH = e.sec.offsetHeight;
+          /* Matches the outside .scan-bar keyframes: top -5px -> 100%. */
+          var scanSecY = -5 + p * (secH + 5);
+          var r = e.sec.getBoundingClientRect();
+          /* Skip sections that are nowhere near the viewport. */
+          if (r.bottom < -200 || r.top > window.innerHeight + 200) {
+            var c2 = e.cv.getContext("2d");
+            c2.clearRect(0, 0, e.cv.width, e.cv.height);
+            continue;
+          }
+          drawCard(e.cv, e.card, scanSecY);
+        }
+        requestAnimationFrame(frame);
+      };
+      requestAnimationFrame(frame);
+    }
+
+    /* Exposed so the band can be pinned at a given u for verification. */
+    window.LWSLens = { drawCard: drawCard, collect: collect,
+      get cards() { return lensCards; } };
   })();
 </script>
 

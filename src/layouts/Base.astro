@@ -33,8 +33,11 @@ const rel = relPrefix(Astro.url.pathname);
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
 
-    <link rel="icon" type="image/svg+xml" href={`${rel}favicon.svg`} />
-    <link rel="icon" href={`${rel}favicon.ico`} />
+    {/* favicxon.png is the favicon (Jon 2026-09-02). The old favicon.svg
+        link is removed, not just reordered: browsers prefer an SVG icon over
+        a PNG regardless of order, so leaving it declared would have kept the
+        old mark showing. Filename keeps Jon's original spelling. */}
+    <link rel="icon" type="image/png" sizes="240x240" href={`${rel}images/favicxon.png`} />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
