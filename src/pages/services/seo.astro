@@ -12,6 +12,7 @@ import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
+import ScanLines from "../../components/ScanLines.astro";
 
 const services = [
   { ico: "◎", title: "Technical Audit", body: "Speed, mobile, structure." },
@@ -83,7 +84,7 @@ const tiers = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head has-videobg">
+    <section class="page-head page-head--glass has-videobg">
       <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">SEO &amp; MARKETING</span>
@@ -96,8 +97,9 @@ const tiers = [
     <Marquee />
 
     <!-- WHAT'S INCLUDED -->
-    <section class="sec-pad has-videobg">
+    <section class="sec-pad has-videobg has-scan">
       <VideoBg src="bg-corner.mp4" scrim="default" />
+      <ScanLines />
       <div class="wrap">
         <div class="grid-svc">
           {services.map((c) => (
@@ -132,7 +134,8 @@ const tiers = [
     </section>
 
     <!-- SEO PLANS -->
-    <section class="sec-pad">
+    <section class="sec-pad has-scan">
+      <ScanLines />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">SEO PLANS</span>

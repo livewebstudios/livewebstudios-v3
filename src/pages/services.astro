@@ -19,42 +19,44 @@ import ScanLines from "../components/ScanLines.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 
-/* Cloud card art — one shared blue-cloud image behind every card
-   (Jon 2026-08-27: all services cards use blue-clouds.jpg). */
-const bgCloud = "images/services/blue-clouds.jpg";
+/* Card art. Was one shared blue-cloud image; Jon 2026-09-03 wants these
+   reading as the home page's cards, so they run the same carbon weave and
+   the same art="metal" tuning (brightness up, scrim down, solid text
+   bubbles). Same file the home page uses, one source for both. */
+const cardArt = "images/bg/metal-bg.jpg";
 
 const groups = [
   {
     label: "WEBSITES & HOSTING",
     cards: [
-      { ico: "◧", title: "Website Design & Development", body: "Hand-coded, mobile-first, SEO-structured, fast.", href: "services/website-design.html", bg: bgCloud },
-      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html", bg: bgCloud },
-      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html", bg: bgCloud },
-      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Updates, backups, monitoring. Set it. Don't forget it.", href: "services/maintenance-plans.html", bg: bgCloud },
+      { ico: "◧", title: "Website Design & Development", body: "Hand-coded, mobile-first, SEO-structured, fast.", href: "services/website-design.html", bg: cardArt },
+      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html", bg: cardArt },
+      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html", bg: cardArt },
+      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Updates, backups, monitoring. Set it. Don't forget it.", href: "services/maintenance-plans.html", bg: cardArt },
     ],
   },
   {
     label: "GROWTH & VISIBILITY",
     cards: [
-      { ico: "◎", title: "SEO & Digital Marketing", body: "Technical SEO, content, local visibility, monthly reporting.", href: "services/seo.html", bg: bgCloud },
-      { ico: "▤", title: "Website Audits & Consulting", tag: "NEW", body: "Find out why your site isn't working. Written report + call.", href: "services/consulting.html", bg: bgCloud },
+      { ico: "◎", title: "SEO & Digital Marketing", body: "Technical SEO, content, local visibility, monthly reporting.", href: "services/seo.html", bg: cardArt },
+      { ico: "▤", title: "Website Audits & Consulting", tag: "NEW", body: "Find out why your site isn't working. Written report + call.", href: "services/consulting.html", bg: cardArt },
     ],
   },
   {
     label: "AI & AUTOMATION",
     cards: [
-      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html", bg: bgCloud },
-      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html", bg: bgCloud },
-      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html", bg: bgCloud },
+      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html", bg: cardArt },
+      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html", bg: cardArt },
+      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html", bg: cardArt },
     ],
   },
   {
     label: "BRAND & COMMERCE",
     cards: [
-      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html", bg: bgCloud },
-      { ico: "✧", title: "Logo Design & Graphics", body: "Marks that work at 16px and 16 feet. All file formats.", href: "services/logo-design.html", bg: bgCloud },
-      { ico: "⬢", title: "E-Commerce Solutions", body: "WooCommerce, Shopify, custom storefronts. Built to convert.", href: "services/ecommerce.html", bg: bgCloud },
-      { ico: "✷", title: "Custom Styles & Carousel Cards", tag: "NEW", body: "Archie, Mid-Century American & Pop-Art graphic sets for hero panels, carousels, and feature cards.", href: "services/custom-styles-and-carousel-cards.html", bg: bgCloud },
+      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html", bg: cardArt },
+      { ico: "✧", title: "Logo Design & Graphics", body: "Marks that work at 16px and 16 feet. All file formats.", href: "services/logo-design.html", bg: cardArt },
+      { ico: "⬢", title: "E-Commerce Solutions", body: "WooCommerce, Shopify, custom storefronts. Built to convert.", href: "services/ecommerce.html", bg: cardArt },
+      { ico: "✷", title: "Custom Styles & Carousel Cards", tag: "NEW", body: "Archie, Mid-Century American & Pop-Art graphic sets for hero panels, carousels, and feature cards.", href: "services/custom-styles-and-carousel-cards.html", bg: cardArt },
     ],
   },
 ];
@@ -96,7 +98,7 @@ const faqs = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head has-videobg">
+    <section class="page-head page-head--glass has-videobg">
       <VideoBg src="bg-color-tv.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">SERVICES</span>
@@ -120,7 +122,7 @@ const faqs = [
             <div class="sec-head reveal"><span class="eyebrow">{g.label}</span></div>
             <div class="grid-svc grid-svc--4">
               {g.cards.map((c) => (
-                <ServiceCard title={c.title} body={c.body} href={c.href} bg={c.bg} tag={c.tag} />
+                <ServiceCard title={c.title} body={c.body} href={c.href} bg={c.bg} art="metal" tag={c.tag} />
               ))}
             </div>
           </div>
@@ -129,7 +131,8 @@ const faqs = [
     </section>
 
     <!-- FAQ -->
-    <section class="sec-pad is-alt">
+    <section class="has-videobg sec-pad is-alt">
+      <VideoBg src="faq-mov.mp4" scrim="strong" />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">FAQ</span>
@@ -167,8 +170,6 @@ const faqs = [
 <style>
   /* Scanline stage for the services band (Jon 2026-08-27). The overlay
      paints at z-index 0; the content wrapper rides above it. */
-  .has-scan { position: relative; overflow: hidden; }
-  .has-scan > .wrap { position: relative; z-index: 1; }
 
   /* Category-group spacing for the services hub. */
   .svc-group { margin-top: clamp(2.5rem, 5vw, 4rem); }

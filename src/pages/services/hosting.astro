@@ -12,6 +12,7 @@ import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
+import ScanLines from "../../components/ScanLines.astro";
 
 const features = [
   { ico: "⬡", title: "Managed VPS", body: "Your own environment." },
@@ -32,7 +33,7 @@ const features = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head has-videobg">
+    <section class="page-head page-head--glass has-videobg">
       <VideoBg src="bg-blue-fog.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">HOSTING</span>
@@ -61,8 +62,9 @@ const features = [
     </section>
 
     <!-- PRODUCTION-GRADE HOSTING -->
-    <section class="sec-pad is-alt has-videobg">
+    <section class="sec-pad is-alt has-videobg has-scan">
       <VideoBg src="bg-corner.mp4" scrim="default" />
+      <ScanLines />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">INCLUDED</span>

@@ -1,14 +1,24 @@
 ---
 /**
- * ServiceCard — the cloud-art service card used on /services and the home page.
+ * ServiceCard — the art-backed service card used on /services and the home page.
  *
  * Extracted from services.astro (Jon 2026-08-27: "make the home cards look
  * exactly like the services cards") so both pages render from one source
  * instead of two copies drifting apart. Markup + styles travel together;
  * the styles are scoped, so nothing leaks to other card variants.
  *
- * Card art is one shared blue-cloud image; each line of text sits in its own
- * translucent bubble over it, and the CTA stays bare.
+ * Card art is one shared image per page; each line of text sits in its own
+ * bubble over it, and the CTA stays bare. Both pages run art="metal" now
+ * (Jon 2026-09-03: the carbon weave is the card background site-wide).
+ *
+ * Two scan reactions run on every card, driven per frame by ScanLines.astro
+ * (Jon 2026-09-03, "they were never alternatives"):
+ *
+ *   RIM LIGHT — the border brightens toward --scan-cyan and the card lifts on
+ *     a proximity value --d. Sells the glass EDGE.
+ *   LENS BAND — the .lens-svg overlay redraws the page scan line inside the
+ *     card, bent by the y(p) model in ScanLines.astro and split into prism
+ *     fringes. Sells the light passing THROUGH.
  */
 import CardIcon from "./CardIcon.astro";
 
@@ -16,14 +26,14 @@ export interface Props {
   title: string;
   body: string;
   href: string;
-  /** Relative path to the card art, e.g. "images/services/blue-clouds.jpg" */
+  /** Relative path to the card art, e.g. "images/bg/metal-bg.jpg" */
   bg: string;
   /** Optional corner flag, e.g. "NEW" */
   tag?: string;
   /** CTA label. "Learn More" is a forbidden phrase, so the default is used. */
   cta?: string;
   /**
-   * Art treatment. "cloud" is the blue-cloud default used on /services.
+   * Art treatment. "cloud" is the blue-cloud original; nothing ships it now.
    * "metal" retunes the stack for the dark carbon weave the home page uses:
    * that art is already near-black, so the scrim and edge vignette have to
    * come down or the card reads as a flat black rectangle.
@@ -34,10 +44,39 @@ export interface Props {
 const { title, body, href, bg, tag, cta = "SEE DETAILS →", art = "cloud" } = Astro.props;
 ---
 
-<div class:list={["card", "reveal", "card--bg", `card--art-${art}`]}>
+<div class:list={["card", "reveal", "card--bg", "card--lens", `card--art-${art}`]}>
+  <div class="card-occluder" aria-hidden="true"></div>
   <img class="card-bg-img" src={bg} alt="" loading="lazy" decoding="async" />
   <div class="card-bg-scrim" aria-hidden="true"></div>
-  <canvas class="card-lens" aria-hidden="true"></canvas>
+  <svg class="lens-svg" aria-hidden="true" focusable="false" preserveAspectRatio="none" viewBox="0 0 100 100">
+    <defs>
+      {/* Text guard. The controller sizes one hole per text bubble and sets
+          their fill-opacity from its TEXT_PASS tunable, so wherever the band
+          crosses a headline or body line it is cut by 60% and no copy gets
+          harder to read. Kept as a mask rather than forcing solid bubbles, so
+          the cloud variant can still run translucent panels. */}
+      <mask class="lens-textmask" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#fff" />
+        <rect class="lens-tm-hole" fill="#fff" fill-opacity="0.4" width="0" height="0" />
+        <rect class="lens-tm-hole" fill="#fff" fill-opacity="0.4" width="0" height="0" />
+      </mask>
+    </defs>
+    {/* Glow bleed, beneath the band, widened to the band's thickness */}
+    <path class="lens-glow" fill="none" />
+    {/* Caustic bloom at the focus plane: cyan core, amber tint over it */}
+    <ellipse class="lens-caustic" cx="50" cy="50" rx="20" ry="11" opacity="0" />
+    <ellipse class="lens-caustic-amber" cx="50" cy="50" rx="20" ry="11" opacity="0" />
+    {/* The refracted BAND. A bowed band cannot take a correct across-thickness
+        gradient from a single filled path plus a linearGradient: the bow makes
+        the shape's bounding box much taller than the band, so the ramp smears
+        diagonally instead of running edge-to-edge. Built instead as stacked
+        sub-bands, each following y(p) at its own vertical offset, each flat-
+        coloured from the ramp. Same construction, evaluated per slice, and the
+        gradient tracks the curve exactly. */}
+    <g class="lens-band">
+      {Array.from({ length: 14 }).map(() => <path class="lens-slice" fill="none" />)}
+    </g>
+  </svg>
   <div class="card-pad card-bg-content">
     <h3>{title}{tag && <span class="tag-new">{tag}</span>}</h3>
     <p>{body}</p>
@@ -87,31 +126,23 @@ const { title, body, href, bg, tag, cta = "SEE DETAILS →", art = "cloud" } = A
     z-index: 1;
     background: linear-gradient(180deg, rgba(5, 7, 11, 0.20) 0%, rgba(5, 7, 11, 0.42) 100%);
   }
-  /* The scan bar, redrawn INSIDE the card so the glass can bend it.
-     Was a fixed-shape sprite translated down the card, which meant every
-     frame was the same shape at a different Y (Jon 2026-09-02: "that is
-     the bug"). It is now a canvas whose band geometry is recomputed from
-     u every frame — thickness, bow magnitude, bow direction, brightness
-     and fringe separation are all functions of u, nothing is constant.
-     The driver lives in ScanLines.astro so one rAF loop serves the whole
-     section and stays in step with the outside bar.
+  /* Proximity reaction (Jon 2026-09-02). Nothing is drawn inside the card.
+     The scan bar passes behind it straight and unchanged; the card just
+     responds to how close the line is:
 
-     The #lws-glass-line displacement filter is deliberately gone: the band
-     now models the lens itself, and running a displacement map over it
-     would bend the "dead straight at u=0" case back out of true. */
-  .card-lens {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-    /* Full bleed with a hard cut at the card border: the card's own
-       overflow:hidden + border-radius does the clipping. */
-  }
+       d = clamp(1 - |scanY - c| / (h * 0.75), 0, 1)
 
-  @media (prefers-reduced-motion: reduce) {
-    .card-lens { display: none; }
+     --d, --rim-t and --rim-b are set per frame by the controller in
+     ScanLines.astro. Rim light leads on the edge the line is approaching
+     from, so --rim-t carries it while the line is above centre and --rim-b
+     once it is below. The lift is blur and spread only, so at d = 0 the
+     shadow has zero extent and is invisible. */
+  .card--bg {
+    border-top-color: color-mix(in srgb, var(--scan-cyan) calc(var(--rim-t, 0) * 100%), var(--line));
+    border-bottom-color: color-mix(in srgb, var(--scan-cyan) calc(var(--rim-b, 0) * 100%), var(--line));
+    box-shadow:
+      0 0 calc(var(--d, 0) * 8px) calc(var(--d, 0) * 2px)
+      color-mix(in srgb, var(--scan-cyan-deep) 25%, transparent);
   }
 
   /* Convex lens shell: specular crown up top, a second bounce at the bottom,
@@ -189,6 +220,83 @@ const { title, body, href, bg, tag, cta = "SEE DETAILS →", art = "cloud" } = A
       inset 0 1px 0 rgba(255, 255, 255, 0.3),
       inset 0 0 0 1px rgba(255, 255, 255, 0.06),
       inset 0 0 45px rgba(0, 0, 0, 0.35);
+  }
+  /* Solid text bubbles (Jon 2026-09-02: "no transparency at all"). At .78
+     over the carbon weave the texture read straight through the titles and
+     body copy. Fully opaque now, and the backdrop blur goes with it since
+     there is nothing left to see through. Metal only, so the cloud cards on
+     /services keep their translucent bubbles. */
+  .card--art-metal .card-bg-content > h3,
+  .card--art-metal .card-bg-content > p {
+    background: rgb(5, 7, 11);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* ---- Lens refraction (restored 2026-09-03) --------------------
+     Masks the real .scan-bar where this card covers it. The art sits at
+     opacity .9 over a transparent card, so without this an unrefracted 10%
+     ghost of the straight line crosses the glass alongside the arc.
+
+     Both layers are the page background colour, identical to what already
+     sits behind the card, so neither changes how the card reads. The fill on
+     the card itself covers the border box: overflow:hidden clips children to
+     the PADDING box, so the occluder alone leaves the 1px translucent border
+     unmasked and the real line shows as a travelling dash along the rim. */
+  .card--lens {
+    background: var(--bg);
+  }
+  .card--lens > .card-occluder {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: var(--bg);
+  }
+
+  /* The refracted line. Clipped to the glass by the card's overflow:hidden
+     and its border-radius. Paths are written by the ScanLines controller. */
+  .card--lens > .lens-svg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+  /* Slices butt against each other; round caps or joins would scallop the
+     band's ends. Colour, width, offset and alpha come from the controller. */
+  .lens-slice {
+    stroke-linecap: butt;
+  }
+  /* Softens the seams between slices into a continuous ramp. */
+  .lens-band {
+    filter: blur(1.5px);
+  }
+  /* Glow bleed. Blur was 6px; Jon 2026-09-03 wants it softer, so the band
+     reads as one light source rather than a drawn line with a halo. */
+  .lens-glow {
+    stroke: var(--scan-cyan);
+    stroke-linecap: round;
+    opacity: 0.25;
+    filter: blur(10px);
+  }
+  .lens-caustic {
+    fill: var(--scan-cyan);
+    filter: blur(10px);
+  }
+  .lens-caustic-amber {
+    fill: var(--scan-amber);
+    filter: blur(14px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Frozen at the focus plane rather than hidden: the controller renders
+       one static frame with the band dead centre and perfectly flat. */
+    .card--lens > .lens-svg { opacity: 1; }
   }
 
   /* Icon placement (size/centering) lives in CardIcon.astro */

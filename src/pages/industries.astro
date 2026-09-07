@@ -16,6 +16,7 @@ import VideoBg from "../components/VideoBg.astro";
 import CardIcon from "../components/CardIcon.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
+import ScanLines from "../components/ScanLines.astro";
 
 const industries = [
   { ico: "◎", title: "Healthcare", body: "HIPAA-aware websites for medical practices, clinics, and health organizations.", slug: "healthcare" },
@@ -69,7 +70,7 @@ const faqs = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head has-videobg">
+    <section class="page-head page-head--glass has-videobg">
       <VideoBg src="bg-color-tv.mp4" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">INDUSTRIES</span>
@@ -83,7 +84,8 @@ const faqs = [
     <Marquee />
 
     <!-- INDUSTRY GRID -->
-    <section class="sec-pad">
+    <section class="sec-pad has-scan">
+      <ScanLines />
       <div class="wrap">
         <p class="page-lede is-center mb-lg">Pick your field. Every build is shaped around how your customers actually search, decide, and convert.</p>
         <div class="grid-svc">
@@ -102,7 +104,8 @@ const faqs = [
     </section>
 
     <!-- FAQ -->
-    <section class="sec-pad is-alt">
+    <section class="has-videobg sec-pad is-alt">
+      <VideoBg src="faq-mov.mp4" scrim="strong" />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">FAQ</span>
