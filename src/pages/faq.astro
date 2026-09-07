@@ -175,17 +175,43 @@ const jsonLd = JSON.stringify({
     display: block;
     margin-bottom: 1rem;
   }
+  /* Glass accordions (Jon 2026-09-07: "glass transparency for easier
+     readability"). faq-mov.mp4 is a bright, busy backdrop, so this follows
+     the site glass-refract recipe with one deliberate change: the tint is
+     DARK rather than brightened. Blur + saturate keep the video reading
+     through as glass; the dark tint is what buys the text its contrast.
+     Brightening here, as .page-head--glass does over the hero, would wash
+     out white-on-glass copy at body size. */
   .faq-item {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: rgba(11, 18, 32, 0.4);
+    border: 1px solid rgb(var(--mosa-fg-rgb) / 0.18);
+    border-radius: var(--r-lg, 14px);
+    background: rgba(7, 11, 20, 0.52);
+    backdrop-filter: blur(22px) saturate(165%);
+    -webkit-backdrop-filter: blur(22px) saturate(165%);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--mosa-fg-rgb) / 0.14),
+      0 10px 30px rgba(0, 0, 0, 0.28);
     margin-bottom: 0.7rem;
     overflow: hidden;
-    transition: border-color 0.3s var(--ease);
+    transition:
+      border-color 0.3s var(--ease),
+      background 0.3s var(--ease);
   }
   .faq-item[open],
   .faq-item:hover {
-    border-color: rgba(56, 189, 248, 0.35);
+    border-color: rgba(56, 189, 248, 0.42);
+    background: rgba(7, 11, 20, 0.62);
+  }
+  /* Safari/Firefox with backdrop-filter unsupported: lean on alpha alone so
+     the copy never sits on a near-transparent panel over the video. */
+  @supports not (backdrop-filter: blur(1px)) {
+    .faq-item {
+      background: rgba(7, 11, 20, 0.88);
+    }
+    .faq-item[open],
+    .faq-item:hover {
+      background: rgba(7, 11, 20, 0.92);
+    }
   }
   .faq-item summary {
     display: flex;
@@ -217,7 +243,7 @@ const jsonLd = JSON.stringify({
   .faq-a {
     padding: 0 1.3rem 1.2rem;
     margin: 0;
-    color: var(--muted);
+    color: rgb(var(--mosa-fg-rgb) / 0.78);
     line-height: 1.65;
   }
 </style>

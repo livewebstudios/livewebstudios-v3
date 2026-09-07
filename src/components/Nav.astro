@@ -161,7 +161,34 @@ const namesakeLinks = [
         </div>
       </div>
 
-      <a href={`${rel}about.html`}>About</a>
+      <div class="studios" data-dd>
+        <span class="dd-pair">
+          <a class="studios-trigger" href={`${rel}about.html`}>About</a>
+          <button
+            type="button"
+            class="dd-toggle"
+            aria-label="Open about menu"
+            aria-expanded="false"
+            aria-controls="about-panel"
+            aria-haspopup="true"
+          ><span class="studios-caret" aria-hidden="true">↓</span></button>
+        </span>
+
+        <div class="mega mega--about" id="about-panel" role="region" aria-label="About">
+          <div class="mega-inner">
+            <div class="mega-support">
+              <a class="mega-row" href={`${rel}about.html`}>
+                <span class="mega-row-title">About Jon →</span>
+                <span class="mega-row-sub">Twenty years, one desk</span>
+              </a>
+              <a class="mega-row" href={`${rel}faq.html`}>
+                <span class="mega-row-title">FAQ →</span>
+                <span class="mega-row-sub">The questions we get asked</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="studios" data-dd>
         <button
@@ -286,6 +313,11 @@ const namesakeLinks = [
   }
   .mega--industries {
     width: min(480px, 92vw);
+  }
+  /* About holds two rows (About Jon, FAQ), so it sits narrower than the
+     industries grid. FAQ lives here and nowhere else (Jon 2026-09-07). */
+  .mega--about {
+    width: min(440px, 92vw);
   }
   .ind-cols {
     display: grid;

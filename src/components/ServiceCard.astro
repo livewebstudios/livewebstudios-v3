@@ -200,10 +200,18 @@ const { title, body, href, bg, tag, cta = "SEE DETAILS →", art = "cloud" } = A
      which is as small as this art can go. object-fit:cover means 1.0 is
      the floor (below that the image stops covering), and the base 1.12
      is the headroom the #lws-glass displacement needs so its bent edges
-     never expose the card corner. Going tighter than this would mean
-     tiling with background-repeat, which this file will not take: it
-     carries a lit centre and darkened corners, so a repeat would show a
-     visible grid of bright spots. */
+     never expose the card corner.
+
+     Grain: Jon 2026-09-07 asked for the weave twice as tight. CSS could
+     not do it (1.0 is the cover floor) and tiling this file with
+     background-repeat would show a grid, since it carries a lit centre
+     and dark corners. So the doubling was baked into the art instead:
+     metal-bg.jpg was split into its lighting (low frequency) and its
+     weave (high frequency), the weave was halved and tiled 2x2 with a
+     feathered wrap so it has no seam, then recomposited over the
+     ORIGINAL lighting. Measured weave pitch went 12.2px -> 6.1px with
+     the vignette unchanged (centre 47.1 -> 46.5, corners 13.9 both).
+     Same path, same dimensions, so nothing here had to change. */
   .card--art-metal .card-bg-img {
     opacity: 1;
     filter: url(#lws-glass) brightness(1.45) contrast(112%);

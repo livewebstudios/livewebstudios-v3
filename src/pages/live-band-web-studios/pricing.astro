@@ -14,19 +14,6 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import VideoBg from "../../components/VideoBg.astro";
 
-// FAQ — ported (em dashes converted).
-const faqs = [
-  { q: "What does \"prepaid\" mean?", a: "You pay for the year upfront. Jon doesn't do monthly invoices. In 20-plus years, no client has had a problem with it." },
-  // em-dash: "Hosting is prepaid — no refunds" → comma
-  { q: "What if I need to cancel?", a: "Hosting is prepaid, no refunds if you leave early. The site is yours. Jon hands it over clean." },
-  { q: "Can I upgrade from Basic to Touring/Pro?", a: "Yes. Call Jon. We'll figure out the difference and build the add-ons." },
-  // em-dash: "Need more? Just ask — we'll work it out" → comma
-  { q: "Who handles updates?", a: "You handle gig dates and set lists through the CMS. Jon handles everything else in your monthly hour. Need more? Just ask, we'll work it out." },
-  // em-dash: "high-res preferred — Jon will tell you" → comma
-  { q: "Do I need to supply my own photos and videos?", a: "Yes on photos (high-res preferred, Jon will tell you what works). Video embeds come from your YouTube channel. Jon will tell you exactly which ones to point him at." },
-  { q: "What's the blog about?", a: "Local SEO. Every show in a new market is a blog post that gets your name in front of people searching for live music in that city. It's the long game. It works." },
-];
-
 // SEO cards — the shared Live Band SEO block (em dashes converted).
 const seo = [
   { ico: "⟨⟩", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
@@ -159,25 +146,6 @@ const seo = [
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="has-videobg sec-pad is-alt">
-      <VideoBg src="faq-mov.mp4" scrim="strong" />
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">FAQ</span>
-          <h2>Good Questions</h2>
-        </div>
-        <div class="faq reveal">
-          {faqs.map((f) => (
-            <details class="faq-item">
-              <summary>{f.q}</summary>
-              <p>{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-
     <!-- SEO / AI PLATFORM -->
     <section class="sec-pad has-videobg">
       <VideoBg src="bg-color-tv.mp4" scrim="default" />
@@ -255,38 +223,6 @@ const seo = [
   .feats-sub li::before { content: "•"; color: var(--muted-2); }
 
   .price-card .btn { margin-top: auto; align-self: flex-start; }
-
-  /* FAQ accordion — native <details>, styled with system tokens (from services). */
-  .faq { max-width: 760px; margin-inline: auto; }
-  .faq-item {
-    border: 1px solid var(--line);
-    border-radius: var(--r-md, 12px);
-    background: rgba(255, 255, 255, 0.015);
-    margin-top: 0.9rem;
-    overflow: hidden;
-  }
-  .faq-item > summary {
-    cursor: pointer;
-    list-style: none;
-    padding: 1.1rem 1.3rem;
-    font-weight: 600;
-    color: var(--ink-soft);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-  .faq-item > summary::-webkit-details-marker { display: none; }
-  .faq-item > summary::after {
-    content: "+";
-    font-family: var(--mono);
-    color: var(--cyan-soft);
-    font-size: 1.2rem;
-    line-height: 1;
-    transition: transform 0.25s var(--ease, ease);
-  }
-  .faq-item[open] > summary::after { transform: rotate(45deg); }
-  .faq-item > p { padding: 0 1.3rem 1.2rem; color: var(--muted); max-width: 68ch; }
 
   @media (max-width: 900px) {
     .grid-svc--2 { grid-template-columns: 1fr; }
