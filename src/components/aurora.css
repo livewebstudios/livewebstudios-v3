@@ -1,0 +1,191 @@
+/* ============================================================
+   Aurora, animated hero background
+   Companion stylesheet for Aurora.jsx
+   All tuning happens through the component's props, which write
+   these custom properties onto the wrapper element.
+   ============================================================ */
+
+.aurora {
+  /* Fallbacks so the component still renders if props are omitted */
+  --aurora-bg: #0a1420;
+  --aurora-1: #00a9e0;
+  --aurora-2: #1e5f8c;
+  --aurora-3: #0e7f9c;
+  --aurora-speed: 32s;
+  --aurora-blur: 110px;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  background: var(--aurora-bg);
+  contain: paint;
+}
+
+.aurora__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(var(--aurora-blur));
+  mix-blend-mode: screen;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.aurora__orb--a {
+  width: 52vmax;
+  height: 52vmax;
+  top: -14vmax;
+  left: -10vmax;
+  background: radial-gradient(circle at 50% 50%,
+              var(--aurora-1) 0%, transparent 68%);
+  animation: aurora-drift-a var(--aurora-speed) ease-in-out infinite alternate;
+}
+
+.aurora__orb--b {
+  width: 44vmax;
+  height: 44vmax;
+  bottom: -16vmax;
+  right: -8vmax;
+  background: radial-gradient(circle at 50% 50%,
+              var(--aurora-2) 0%, transparent 70%);
+  animation: aurora-drift-b calc(var(--aurora-speed) * 1.35) ease-in-out infinite alternate;
+}
+
+.aurora__orb--c {
+  width: 34vmax;
+  height: 34vmax;
+  top: 32%;
+  left: 46%;
+  background: radial-gradient(circle at 50% 50%,
+              var(--aurora-3) 0%, transparent 72%);
+  animation: aurora-drift-c calc(var(--aurora-speed) * 1.7) ease-in-out infinite alternate;
+}
+
+/* Offset durations mean the three cycles never resync.
+   The loop is 32s / 43.2s / 54.4s, so the pattern does not
+   visibly repeat for several minutes. */
+@keyframes aurora-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(9vw, 7vh, 0) scale(1.16); }
+}
+
+@keyframes aurora-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.08); }
+  to   { transform: translate3d(-11vw, -6vh, 0) scale(0.94); }
+}
+
+@keyframes aurora-drift-c {
+  from { transform: translate3d(-6vw, 4vh, 0) scale(0.9); }
+  to   { transform: translate3d(7vw, -8vh, 0) scale(1.22); }
+}
+
+/* Grain + vignette. Inline SVG turbulence, no image request. */
+.aurora--grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.9;
+  background-image:
+    radial-gradient(ellipse at 50% 45%,
+      transparent 38%, rgba(0, 0, 0, 0.68) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  background-size: cover, 160px 160px;
+}
+
+.aurora__content {
+  position: relative;
+  z-index: 2;
+  width: min(64ch, 90vw);
+  padding: 2.5rem 0;
+}
+
+/* Large blur radii are expensive to composite on mobile GPUs. */
+@media (max-width: 640px) {
+  .aurora { --aurora-blur: 70px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora__orb { animation: none; }
+}
+
+/* ============================================================
+   aurora--bg, section-background variant
+   ------------------------------------------------------------
+   Added for Live Web Studios, not part of the original handoff.
+
+   The spec's Aurora is a hero WRAPPER: 100svh tall, content
+   centred in a 64ch well. Behind a card grid neither of those
+   is wanted, and this codebase already has a settled pattern
+   for section backdrops (VideoBg) where the layer is an
+   absolutely positioned SIBLING of .wrap rather than a wrapper
+   around it. Aurora is used that way here, so it needs to stop
+   being a hero.
+
+   This rides on the component's own `className` prop, which
+   exists for exactly this, so Aurora.jsx stays verbatim. Nothing
+   in the spec's "do not change" list is touched: the three
+   unequal durations, the reduced-motion rule and the z-index
+   order all still apply. The mobile blur step-down is repaired
+   rather than dropped, see the correction at the end.
+   ============================================================ */
+
+.aurora--bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  min-height: 0;
+  display: block;
+  pointer-events: none;
+}
+
+/* The content well carries no children in this mode. Collapse it so it
+   cannot add height to an absolutely positioned layer. */
+.aurora--bg > .aurora__content {
+  display: none;
+}
+
+/* The hero vignette is tuned to darken the edges of a full viewport. Over a
+   section it reads as a heavy band across the card grid, so the ellipse is
+   widened and the corner density pulled back. Grain stays. */
+.aurora--bg.aurora--grain::after {
+  opacity: 0.55;
+  background-image:
+    radial-gradient(ellipse at 50% 50%,
+      transparent 58%, rgba(0, 0, 0, 0.5) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  background-size: cover, 160px 160px;
+}
+
+/* Orb geometry is written in vmax/vw/vh, i.e. against the viewport, which is
+   right for a hero and too large for a section band. Scaled down so all three
+   orbs actually travel within the section instead of one filling it. */
+.aurora--bg .aurora__orb--a { width: 34vmax; height: 34vmax; top: -12vmax; left: -6vmax; }
+.aurora--bg .aurora__orb--b { width: 30vmax; height: 30vmax; bottom: -12vmax; right: -4vmax; }
+.aurora--bg .aurora__orb--c { width: 24vmax; height: 24vmax; top: 26%; left: 44%; }
+
+/* Section that hosts an .aurora--bg: establishes the stacking context the
+   absolute layer positions against, and keeps .wrap above it. */
+.has-aurora { position: relative; isolation: isolate; }
+.has-aurora > .wrap { position: relative; z-index: 2; }
+
+/* ------------------------------------------------------------
+   Mobile blur cap, correction
+
+   The spec lists "keep --aurora-blur reduced under 640px" as a do-not-change
+   guarantee, but as written it never fires. Aurora.jsx always writes
+   --aurora-blur inline from the prop, and an inline custom property beats the
+   `.aurora { --aurora-blur: 70px }` rule inside the media query, so a phone
+   composites the full 110px radius. Measured at 375px: blur(110px).
+
+   Overriding the orb's filter instead works, because nothing sets filter
+   inline. min() caps rather than forces, so an instance that deliberately
+   asks for less than 70px still gets what it asked for. The intent of the
+   original rule is preserved; only the mechanism changes.
+   ------------------------------------------------------------ */
+@media (max-width: 640px) {
+  .aurora__orb { filter: blur(min(var(--aurora-blur), 70px)); }
+}

@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
 import ServiceCard from "../components/ServiceCard.astro";
-import ScanLines from "../components/ScanLines.astro";
+import Aurora from "../components/Aurora.jsx";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 
@@ -52,8 +52,8 @@ const homeServices = [
   <Marquee />
 
   <!-- SERVICES -->
-  <section id="services" class="sec-pad has-scan">
-    <ScanLines />
+  <section id="services" class="sec-pad has-aurora">
+    <Aurora className="aurora--bg" />
     <div class="wrap">
       <div class="sec-head center reveal">
         <span class="eyebrow">WHAT WE BUILD</span>
@@ -138,6 +138,4 @@ const homeServices = [
 <style>
   /* Scanline stage for the services band (Jon 2026-08-27). The overlay
      paints at z-index 0; the content wrapper rides above it. */
-  .has-scan { position: relative; overflow: hidden; }
-  .has-scan > .wrap { position: relative; z-index: 1; }
 </style>

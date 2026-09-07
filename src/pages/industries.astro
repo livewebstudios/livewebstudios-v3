@@ -13,9 +13,14 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
-import CardIcon from "../components/CardIcon.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import Aurora from "../components/Aurora.jsx";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
+
+/* Same tiled weave the home and services grids use. Relative path per the
+   path rule; this page is root-level so it needs no prefix. */
+const cardArt = "images/bg/metal-weave.jpg";
 
 const industries = [
   { ico: "◎", title: "Healthcare", body: "HIPAA-aware websites for medical practices, clinics, and health organizations.", slug: "healthcare" },
@@ -83,19 +88,19 @@ const faqs = [
     <Marquee />
 
     <!-- INDUSTRY GRID -->
-    <section class="sec-pad">
+    <section class="sec-pad has-aurora">
+      <Aurora className="aurora--bg" />
       <div class="wrap">
         <p class="page-lede is-center mb-lg">Pick your field. Every build is shaped around how your customers actually search, decide, and convert.</p>
         <div class="grid-svc">
           {industries.map((i) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <h3>{i.title}</h3>
-                <p>{i.body}</p>
-                <CardIcon title={i.title} />
-                <a class="more" href={`industries/${i.slug}.html`}>SEE DETAILS →</a>
-              </Glass>
-            </div>
+            <ServiceCard
+              title={i.title}
+              body={i.body}
+              href={`industries/${i.slug}.html`}
+              bg={cardArt}
+              art="metal"
+            />
           ))}
         </div>
       </div>

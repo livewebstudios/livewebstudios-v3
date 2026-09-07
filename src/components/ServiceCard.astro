@@ -1,19 +1,19 @@
 ---
 /**
- * ServiceCard — the cloud-art service card used on /services and the home page.
+ * ServiceCard — the service card used on the home, services and industries grids.
  *
  * Extracted from services.astro (Jon 2026-08-27: "make the home cards look
  * exactly like the services cards") so both pages render from one source
  * instead of two copies drifting apart. Markup + styles travel together;
  * the styles are scoped, so nothing leaks to other card variants.
  *
- * Card art is one shared blue-cloud image; each line of text sits in its own
- * translucent bubble over it, and the CTA stays bare.
+ * Each line of text sits in its own translucent bubble over the art, and the
+ * CTA stays bare. art="metal" tiles the weave; art="cloud" cover-fits a bitmap.
  *
- * lens={true} adds the convex-lens refraction overlay: an SVG copy of the
- * page scan line, bent by the y(p) model in ScanLines.astro. The old fixed
- * profile bar (.card-scanwell / .card-scanbar / #lws-glass-line) moved but
- * never changed shape, which was the complaint; this replaces it.
+ * The lens refraction overlay was removed 2026-09-07 (Jon: "delete that scan
+ * line EVERYWHERE"). It existed only to bend the page scan line, so with the
+ * line gone it had nothing to refract. Its markup, its .card--lens global
+ * stylesheet and the ScanLines driver all went with it.
  */
 import CardIcon from "./CardIcon.astro";
 
@@ -27,8 +27,6 @@ export interface Props {
   tag?: string;
   /** CTA label. "Learn More" is a forbidden phrase, so the default is used. */
   cta?: string;
-  /** Draw the refracted scan line inside the card. Needs <ScanLines lens />. */
-  lens?: boolean;
   /**
    * Art treatment. "cloud" is the blue-cloud default used on /services.
    * "metal" retunes the stack for the dark carbon weave the home page uses:
@@ -40,7 +38,7 @@ export interface Props {
   art?: "cloud" | "metal";
 }
 
-const { title, body, href, bg, tag, cta = "SEE DETAILS →", lens = false, art = "cloud" } = Astro.props;
+const { title, body, href, bg, tag, cta = "SEE DETAILS →", art = "cloud" } = Astro.props;
 
 /* The weave is tiled from CSS, but the path has to stay relative per the
    project path rule and only the caller knows its depth. So it arrives as a
@@ -50,34 +48,13 @@ const isMetal = art === "metal";
 ---
 
 <div
-  class:list={["card", "reveal", "card--bg", `card--art-${art}`, lens && "card--lens"]}
+  class:list={["card", "reveal", "card--bg", `card--art-${art}`]}
   style={isMetal ? `--card-weave: url("${bg}")` : undefined}
 >
-  {lens && <div class="card-occluder" aria-hidden="true"></div>}
   {isMetal
     ? <div class="card-weave" aria-hidden="true"></div>
     : <img class="card-bg-img" src={bg} alt="" loading="lazy" decoding="async" />}
   <div class="card-bg-scrim" aria-hidden="true"></div>
-  {lens && (
-    <svg class="lens-svg" aria-hidden="true" focusable="false" preserveAspectRatio="none" viewBox="0 0 100 100">
-      {/* 6 — glow bleed, beneath the band, widened to the band's thickness */}
-      <path class="lens-glow" fill="none" />
-      {/* 4 — caustic bloom at the focus plane: cyan core, amber tint over it */}
-      <ellipse class="lens-caustic" cx="50%" cy="50%" rx="37.5%" ry="11%" opacity="0" />
-      <ellipse class="lens-caustic-amber" cx="50%" cy="50%" rx="37.5%" ry="11%" opacity="0" />
-      {/* The refracted BAND. A bowed band cannot take a correct across-thickness
-          gradient from a single filled path plus a linearGradient: the bow makes
-          the shape's bounding box much taller than the band, so the ramp smears
-          diagonally instead of running edge-to-edge. Built instead as stacked
-          sub-bands, each following y(p) at its own vertical offset, each flat-
-          coloured from the ramp. Same construction, evaluated per slice, and the
-          gradient tracks the curve exactly. */}
-      <g class="lens-band">
-        {Array.from({ length: 14 }).map(() => <path class="lens-slice" fill="none" />)}
-      </g>
-    </svg>
-  )}
-  {lens && <div class="card-rim" aria-hidden="true"></div>}
   <div class="card-pad card-bg-content">
     <h3>{title}{tag && <span class="tag-new">{tag}</span>}</h3>
     <p>{body}</p>
@@ -234,85 +211,37 @@ const isMetal = art === "metal";
       inset 0 0 45px rgba(0, 0, 0, 0.35);
   }
 
+  /* ---- Over an Aurora section background ----------------------------
+     Jon 2026-09-07: "make the cards have a glass refraction translucency
+     with the new section background glowing through."
+
+     Gated on :global(.has-aurora) so it only fires where an aurora is
+     actually behind the grid. Cards on every other section keep the solid
+     art they have. The ancestor is wrapped in :global() because .has-aurora
+     lives on the page's <section>, outside this component, so Astro must not
+     rewrite it into this component's scope.
+
+     backdrop-filter is what does the refracting, and it only reaches what is
+     BEHIND the card, so the aurora gets bent while the weave, a child, stays
+     crisp on top of it. That is the whole effect: texture on glass, colour
+     moving underneath. */
+  :global(.has-aurora) .card--bg {
+    background: rgba(11, 18, 32, 0.34);
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+  }
+  /* The weave has to stop being opaque or there is nothing to glow through.
+     It reads as a texture ON the glass rather than a filled panel. */
+  :global(.has-aurora) .card-weave {
+    opacity: 0.42;
+  }
+  /* Scrim exists to keep text legible over bright art. The aurora is already
+     darkened by its own vignette, so the linear ramp comes down: at full
+     strength it flattened the colour back out of the card. */
+  :global(.has-aurora) .card--art-metal .card-bg-scrim {
+    background:
+      radial-gradient(ellipse 82% 70% at 50% 40%, rgba(168, 178, 192, 0.07) 0%, rgba(168, 178, 192, 0) 70%),
+      linear-gradient(180deg, rgba(5, 7, 11, 0) 0%, rgba(5, 7, 11, 0.12) 100%);
+  }
   /* Icon placement (size/centering) lives in CardIcon.astro */
-</style>
-
-<!-- Lens refraction. Global rather than scoped: the markup lives inside
-     {lens && ...}, and Astro's scoped-CSS pass drops selectors it cannot match
-     statically against the template, which left the overlay unstyled (the SVG
-     fell into normal flow and stretched the card). Every selector is nested
-     under .card--lens, so nothing reaches a non-lens card. -->
-<style is:global>
-  /* Masks the real .scan-bar where this card covers it. The art sits at
-     opacity .9 over a transparent card, so without this an unrefracted 10%
-     ghost of the straight line crosses the glass alongside the arc.
-
-     Both layers are the page background colour, identical to what already
-     sits behind the card, so neither changes how the card reads. The fill on
-     the card itself covers the border box: overflow:hidden clips children to
-     the PADDING box, so the occluder alone leaves the 1px translucent border
-     unmasked and the real line shows as a travelling dash along the rim. */
-  .card--lens {
-    background: var(--bg);
-  }
-  .card--lens > .card-occluder {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: var(--bg);
-  }
-
-  /* The refracted line. Clipped to the glass by the card's overflow:hidden
-     and its border-radius. Paths are written by the ScanLines controller. */
-  .card--lens > .lens-svg {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0;
-    border-radius: inherit;
-    overflow: hidden;
-  }
-  /* Slices butt against each other; round caps or joins would scallop the
-     band's ends. Colour, width, offset and alpha all come from the controller. */
-  .card--lens .lens-slice {
-    stroke-linecap: butt;
-  }
-  /* Softens the seams between slices into a continuous ramp. */
-  .card--lens .lens-band {
-    filter: blur(1.5px);
-  }
-  .card--lens .lens-glow {
-    stroke: var(--scan-cyan);
-    stroke-linecap: round;
-    opacity: 0.25;
-    filter: blur(6px);
-  }
-  .card--lens .lens-caustic {
-    fill: var(--scan-cyan);
-    filter: blur(10px);
-  }
-  .card--lens .lens-caustic-amber {
-    fill: var(--scan-amber);
-    filter: blur(14px);
-  }
-
-  /* 7 — rim specular. Amounts come from the controller as --rim-t/--rim-b. */
-  .card--lens > .card-rim {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    border-radius: inherit;
-    box-shadow:
-      inset 0 2px 0 color-mix(in srgb, var(--scan-cyan) calc(var(--rim-t, 0) * 100%), transparent),
-      inset 0 -2px 0 color-mix(in srgb, var(--scan-cyan) calc(var(--rim-b, 0) * 100%), transparent);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .card--lens > .lens-svg { opacity: 1; }
-  }
 </style>
