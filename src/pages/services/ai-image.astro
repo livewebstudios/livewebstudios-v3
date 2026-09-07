@@ -16,10 +16,14 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
-  { ico: "⬢", title: "For E-Commerce", body: "Bulk background removal, product staging, consistent lighting." },
-  { ico: "✦", title: "For Real Estate", body: "Virtual staging, sky replacement, mood transformation." },
-  { ico: "❖", title: "For Professionals", body: "AI headshots. One session, infinite applications." },
-  { ico: "✎", title: "For Designers", body: "Scene composition, mood adjustment, palette matching." },
+  { ico: "⬢", title: "For E-Commerce", body: "Bulk background removal and product staging with lighting that matches across the whole catalog. A grid of products shot on six different days stops looking like it.",
+    points: ["Hundreds of SKUs in one pass", "Consistent look across the catalog"] },
+  { ico: "✦", title: "For Real Estate", body: "Virtual staging, sky replacement, and mood work. An empty room is hard to sell and a grey-sky exterior is worse, so neither has to be what the listing shows.",
+    points: ["Furnish an empty room without renting furniture", "Fix the weather you got stuck with"] },
+  { ico: "❖", title: "For Professionals", body: "AI headshots from one sitting. You get a set that works on the site, on LinkedIn, and in a proposal, without booking a photographer every time somebody joins.",
+    points: ["Multiple looks from a single session", "Matched so a whole team looks like a team"] },
+  { ico: "✎", title: "For Designers", body: "Scene composition, mood adjustment, palette matching. For when the shot is nearly right and the schedule has no room for another shoot.",
+    points: ["Match a photo to an existing palette", "Composite elements that were never in one frame"] },
 ];
 ---
 
@@ -54,6 +58,11 @@ const cards = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

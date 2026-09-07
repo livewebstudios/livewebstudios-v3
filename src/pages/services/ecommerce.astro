@@ -14,12 +14,18 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
-  { ico: "⬢", title: "WooCommerce", body: "Complex catalogs and inventories." },
-  { ico: "✦", title: "Custom Static", body: "Simpler SKUs, max speed." },
-  { ico: "❖", title: "Shopify", body: "Setup and customization." },
-  { ico: "▤", title: "Mobile-First", body: "Responsive on every device." },
-  { ico: "⛭", title: "Secure Checkout", body: "SSL + payment gateway." },
-  { ico: "◎", title: "SEO Product Pages", body: "Schema + category optimization." },
+  { ico: "⬢", title: "WooCommerce", body: "For complex catalogs and real inventory. When you need variants, tiered pricing, and stock that talks to something else, this is usually the right call.",
+    points: ["Handles variants and deep categories", "Connects to your existing inventory"] },
+  { ico: "✦", title: "Custom Static", body: "For a smaller catalog where speed is the whole point. No database to query means pages come back fast, and there is far less to keep patched.",
+    points: ["Fastest option for a short SKU list", "Almost nothing to maintain"] },
+  { ico: "❖", title: "Shopify", body: "Setup and customization when you would rather rent the plumbing than own it. Somebody else handles the servers, you pay monthly for that.",
+    points: ["Payments and hosting handled for you", "Theme customized so it is not stock"] },
+  { ico: "▤", title: "Mobile-First", body: "Most carts get abandoned on a phone, usually at checkout. So the phone layout is the one that gets designed first and tested hardest.",
+    points: ["Checkout built for one thumb", "Tested on real devices"] },
+  { ico: "⛭", title: "Secure Checkout", body: "SSL and a proper payment gateway. Card details go to the processor, never to your server, which keeps the scary part off your plate.",
+    points: ["Card data never touches your site", "PCI handled by the gateway"] },
+  { ico: "◎", title: "SEO Product Pages", body: "Product schema and category structure, so listings can show price and stock right in the search result. That is free real estate most stores never claim.",
+    points: ["Price and availability in search results", "Categories built to rank, not just to sort"] },
 ];
 ---
 
@@ -54,6 +60,11 @@ const cards = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

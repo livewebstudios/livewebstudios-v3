@@ -16,18 +16,24 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◧", title: "Website Design", body: "Project galleries, service pages, and conversion-focused structure.", href: "../services/website-design.html" },
-  { ico: "◎", title: "SEO", body: "Local visibility for \"service + town\" searches that actually drive calls.", href: "../services/seo.html" },
-  { ico: "▦", title: "AI Image Services", body: "Cleaner, more consistent project photos for a premium first impression.", href: "../services/ai-image.html" },
+  { ico: "◧", title: "Website Design", body: "Project galleries and service pages built to convert. Homeowners hire from photos, so the work goes first and the copy supports it.", points: ["Galleries sorted by project type", "Estimate request on every page"], href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local visibility for \"service + town\" searches that actually drive calls. That is the pattern homeowners type, and it is where the work comes from.", points: ["A page per service and town", "Built for calls, not traffic charts"], href: "../services/seo.html" },
+  { ico: "▦", title: "AI Image Services", body: "Cleaner, more consistent project photos. Job site photos are shot in whatever light there was, and it shows next to a competitor who staged theirs.", points: ["Consistent look across the gallery", "Bad lighting and clutter corrected"], href: "../services/ai-image.html" },
 ];
 
 const builds = [
-  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for construction audiences." },
-  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
-  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
-  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
-  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
-  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+  { ico: "◧", title: "Custom Design", body: "Your work is the pitch. Big project photos, before and after, and enough detail that someone can picture you doing their job.",
+    points: ["Galleries organized by project type", "License and insurance shown up front"] },
+  { ico: "◎", title: "SEO Strategy", body: "Service plus town, one page at a time. That is how contractors get found, and it is why a single page listing twelve towns never ranks for any of them.",
+    points: ["A page per service and per town", "Aimed at searches that end in a call"] },
+  { ico: "✦", title: "Lead Generation", body: "Estimate requests that capture the job type and the address, so you can tell a real lead from a tire-kicker before driving out there.",
+    points: ["Asks what the job actually is", "Photo upload so you can quote faster"] },
+  { ico: "▤", title: "Content Strategy", body: "Project write-ups and straight answers on cost and timeline. Homeowners search those before they search for you.",
+    points: ["Real projects, not stock scenarios", "Ranges given honestly"] },
+  { ico: "◉", title: "Mobile-First", body: "Homeowners look you up standing in the room they want fixed. Half your calls start on a phone screen in bad light.",
+    points: ["Tap to call from anywhere", "Photos that load fast on cell service"] },
+  { ico: "⛭", title: "Ongoing Support", body: "Hosting, maintenance, and monthly reporting. New job photos should go up while the work is fresh, not next winter.",
+    points: ["Send me photos, I post them", "Service area edits included"] },
 ];
 ---
 
@@ -86,6 +92,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
@@ -109,6 +120,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

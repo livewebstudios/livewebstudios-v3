@@ -17,12 +17,18 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const included = [
-  { ico: "✎", title: "Custom Design", body: "No templates. Built around your brand." },
-  { ico: "▤", title: "Mobile Responsive", body: "Looks right on every screen." },
-  { ico: "◎", title: "On-Page SEO", body: "Title tags, schema, meta, H-hierarchy." },
-  { ico: "▦", title: "Contact Form", body: "Formspree integration." },
-  { ico: "◈", title: "Google Analytics 4", body: "Real data. No black box." },
-  { ico: "⛭", title: "SSL + Security", body: "Certificate + hardening included." },
+  { ico: "✎", title: "Custom Design", body: "No templates. Built around your brand.",
+    points: ["Layout starts from your content, not a theme", "Your competitor cannot buy the same design"] },
+  { ico: "▤", title: "Mobile Responsive", body: "Looks right on every screen. Most of your visitors are holding a phone, so that is the layout I draw first and scale up from.",
+    points: ["Tap targets sized for thumbs", "Tested on real devices, not just a resized window"] },
+  { ico: "◎", title: "On-Page SEO", body: "Title tags, schema, meta, H-hierarchy. Built in as the page goes together, not bolted on by a plugin afterward.",
+    points: ["One H1 per page, headings in real order", "Schema markup for your business type", "Image alt text written, not auto-filled"] },
+  { ico: "▦", title: "Contact Form", body: "Formspree integration. Messages land in your inbox with spam filtering already on. No plugin, no database, nothing to keep patched.",
+    points: ["Replies come straight to your email", "Nothing stored on the site to breach"] },
+  { ico: "◈", title: "Google Analytics 4", body: "Real data. No black box. The property is yours and so is the login, so you can see where people came from and what they actually clicked.",
+    points: ["You own the account, not me", "Set up to track form sends and calls"] },
+  { ico: "⛭", title: "SSL + Security", body: "Certificate and hardening included. It renews itself, so there is nothing on your calendar and no browser warning waiting to scare people off.",
+    points: ["Auto-renewing certificate", "HTTPS forced on every page"] },
 ];
 ---
 
@@ -96,6 +102,11 @@ const included = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

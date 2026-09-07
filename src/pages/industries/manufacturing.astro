@@ -16,19 +16,25 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◧", title: "Website Design", body: "Product and capability pages organized for clarity and conversion.", href: "../services/website-design.html" },
+  { ico: "◧", title: "Website Design", body: "Product and capability pages organized for engineers. They want tolerances and materials, and they want them without wading through marketing copy.", points: ["Specs reachable in one click", "Certifications listed plainly"], href: "../services/website-design.html" },
   // em-dash: "products—not just your company name" → "products, not just your company name"
-  { ico: "◎", title: "SEO", body: "Rank for processes, materials, and products, not just your company name.", href: "../services/seo.html" },
-  { ico: "⛭", title: "Hosting", body: "Fast hosting and maintenance so your catalogs and pages stay quick.", href: "../services/hosting.html" },
+  { ico: "◎", title: "SEO", body: "Rank for processes and materials, not just your company name. A buyer sourcing a part searches the process, and has never heard of your shop.", points: ["A page per process you offer", "Material-specific pages"], href: "../services/seo.html" },
+  { ico: "⛭", title: "Hosting", body: "Fast hosting and maintenance so catalogs and spec sheets stay quick. Big PDF libraries are exactly where slow sites get slower.", points: ["Built to serve large documents", "Uptime monitored continuously"], href: "../services/hosting.html" },
 ];
 
 const builds = [
-  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for manufacturing audiences." },
-  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
-  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
-  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
-  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
-  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+  { ico: "◧", title: "Custom Design", body: "Engineers are looking for a spec, not a story. Give them capabilities, tolerances, and materials without three clicks of marketing first.",
+    points: ["Capabilities and tolerances stated", "Certifications shown up front"] },
+  { ico: "◎", title: "SEO Strategy", body: "Rank for processes and materials, not your company name. Buyers search the process they need done and have never heard of you yet.",
+    points: ["A page per process and material", "Targets how buyers actually search"] },
+  { ico: "✦", title: "Lead Generation", body: "RFQ forms that take a drawing or a spec file. Making an engineer describe a part in a text box is how quotes turn into email chains.",
+    points: ["Drawing and file upload", "Captures volume and material up front"] },
+  { ico: "▤", title: "Content Strategy", body: "Process pages, material guides, and capability detail. This is what gets you shortlisted by someone you will never speak to until the RFQ arrives.",
+    points: ["Technical depth engineers trust", "Spec sheets easy to find"] },
+  { ico: "◉", title: "Mobile-First", body: "Plant managers check you from the floor, not from a desk. Spec tables have to stay readable on a small screen.",
+    points: ["Spec tables that work on a phone", "Documents downloadable on the go"] },
+  { ico: "⛭", title: "Ongoing Support", body: "Hosting, maintenance, and monthly reporting. New equipment and certifications belong on the site the month you get them.",
+    points: ["Capability and cert updates included", "Spec sheet swaps handled"] },
 ];
 ---
 
@@ -88,6 +94,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
@@ -111,6 +122,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

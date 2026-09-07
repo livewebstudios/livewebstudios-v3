@@ -14,12 +14,18 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
-  { ico: "▤", title: "Content Pipelines", body: "Blog, social, product descriptions." },
-  { ico: "✦", title: "Customer Comms", body: "Templates, triage, responses." },
-  { ico: "▦", title: "Reporting", body: "Weekly & monthly summaries." },
-  { ico: "❖", title: "Lead Qualification", body: "Scoring, follow-up sequences." },
-  { ico: "◈", title: "Image Processing", body: "Bulk editing, backgrounds." },
-  { ico: "◎", title: "SEO Monitoring", body: "Position tracking, alerts." },
+  { ico: "▤", title: "Content Pipelines", body: "Blog posts, social, product descriptions. The draft gets written for you so the job becomes editing instead of staring at an empty page.",
+    points: ["Drafts in your voice, not generic filler", "A person still approves before anything ships"] },
+  { ico: "✦", title: "Customer Comms", body: "Templates, triage, and first-pass responses. The routine questions get answered fast and the ones that need you actually reach you.",
+    points: ["Common questions handled automatically", "Anything unusual routed to a human"] },
+  { ico: "▦", title: "Reporting", body: "Weekly and monthly summaries pulled together without anyone rebuilding a spreadsheet. It arrives written up, not as a pile of numbers to interpret.",
+    points: ["Same report, same day, every time", "Written in plain language"] },
+  { ico: "❖", title: "Lead Qualification", body: "Scoring and follow-up sequences, so the leads worth calling rise to the top. Nobody good sits in an inbox for three days going cold.",
+    points: ["Ranked by how likely they are to buy", "Follow-up fires whether or not anyone remembers"] },
+  { ico: "◈", title: "Image Processing", body: "Bulk editing and background work. What used to be an afternoon in Photoshop runs while you do something else.",
+    points: ["Whole folders at once", "Consistent output across the batch"] },
+  { ico: "◎", title: "SEO Monitoring", body: "Position tracking with alerts that fire when something moves. A ranking drop found in week one is a fix. Found in month six it is a rebuild.",
+    points: ["Watched daily, not when someone remembers", "You hear about drops early"] },
 ];
 ---
 
@@ -54,6 +60,11 @@ const cards = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

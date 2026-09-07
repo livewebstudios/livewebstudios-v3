@@ -16,11 +16,16 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
-  { ico: "◈", title: "Strategy & Roadmap", body: "Assess where you are and map which AI tools will move the needle. Real ROI analysis." },
-  { ico: "✦", title: "Team Training", body: "From AI basics to prompt engineering. Half-day, full-day, or monthly." },
-  { ico: "⛭", title: "Tool Selection", body: "We cut through the noise and implement what fits." },
-  { ico: "⬡", title: "Custom Workflows", body: "Content, comms, docs, reporting, automated and scalable." },
-  { ico: "❖", title: "Ongoing Consulting", body: "Monthly retainer. Dedicated AI partner." },
+  { ico: "◈", title: "Strategy & Roadmap", body: "We look at where you actually are and map which tools are worth the trouble. Sometimes the answer is that AI solves nothing here yet, and I will tell you that.",
+    points: ["Honest ROI math before you spend", "A short list, in the order to do it"] },
+  { ico: "✦", title: "Team Training", body: "From the basics through prompt writing, taught on your own work instead of toy examples. Half-day, full-day, or monthly if the team wants to keep going.",
+    points: ["Built around what your staff does daily", "Recorded so new hires get it too"] },
+  { ico: "⛭", title: "Tool Selection", body: "There are a hundred tools and most of them will not survive the year. I pick the few that fit how you already work and get them running.",
+    points: ["Chosen for your workflow, not the hype", "Set up and tested, not just recommended"] },
+  { ico: "⬡", title: "Custom Workflows", body: "Content, client comms, documents, reporting. The repetitive work gets automated so your people spend their day on the part that needs a person.",
+    points: ["Built around a task you actually repeat", "Documented so it survives staff turnover"] },
+  { ico: "❖", title: "Ongoing Consulting", body: "Monthly retainer. This field moves fast enough that a plan from last spring is already stale, so I keep watching it and tell you what changed.",
+    points: ["One person who knows your setup", "Call me when something breaks or something new lands"] },
 ];
 ---
 
@@ -71,6 +76,11 @@ const cards = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

@@ -16,18 +16,24 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◧", title: "Website Design", body: "Trust-forward layout, clean UX, and fast performance on every device.", href: "../services/website-design.html" },
-  { ico: "◎", title: "SEO", body: "Local search visibility and service-page optimization that brings qualified inquiries.", href: "../services/seo.html" },
-  { ico: "❖", title: "Branding", body: "Logo and identity systems that look sharp in print and online.", href: "../services/branding.html" },
+  { ico: "◧", title: "Website Design", body: "A layout built to earn trust quickly. You are asking strangers to hand over money, and the site is usually their first read on whether you are legitimate.", points: ["Credentials and registrations visible", "Fast on every device"], href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local visibility and service pages that bring qualified inquiries. Tax prep and retirement planning are different searches and different clients.", points: ["A page per service and town", "Aimed at clients ready to talk"], href: "../services/seo.html" },
+  { ico: "❖", title: "Branding", body: "Logo and identity that hold up in print and on screen. Financial clients still receive paper, and mismatched material reads as sloppy.", points: ["Press-ready files for print", "One identity across every touchpoint"], href: "../services/branding.html" },
 ];
 
 const builds = [
-  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for financial services audiences." },
-  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
-  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
-  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
-  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
-  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+  { ico: "◧", title: "Custom Design", body: "You are asking strangers to trust you with money. Credentials, a real address, and a clean fast site do more for that than any amount of stock photography.",
+    points: ["Credentials and registrations visible", "Team shown as actual people"] },
+  { ico: "◎", title: "SEO Strategy", body: "A page for each service and each town you serve. Retirement planning and tax prep attract different people and should not share a page.",
+    points: ["Service plus town, page by page", "Targets what clients search before calling"] },
+  { ico: "✦", title: "Lead Generation", body: "Consultation requests that ask enough to prepare for the meeting, without asking for anything sensitive over a web form.",
+    points: ["Never collects account or ID numbers", "Enough context to prep the first call"] },
+  { ico: "▤", title: "Content Strategy", body: "Plain answers on fees, process, and what working with you looks like. Fee transparency is still rare enough that being clear about it wins meetings.",
+    points: ["How you charge, said plainly", "Compliance-safe language throughout"] },
+  { ico: "◉", title: "Mobile-First", body: "People research advisors on a phone at night and call the next morning. That first read decides whether the call happens.",
+    points: ["Readable on a phone at night", "Tap to call in the morning"] },
+  { ico: "⛭", title: "Ongoing Support", body: "Hosting, maintenance, and monthly reporting. Disclosures and registrations have to stay current, and that is not a thing to leave to memory.",
+    points: ["Disclosures kept up to date", "Advisor and credential changes handled"] },
 ];
 ---
 
@@ -87,6 +93,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
@@ -110,6 +121,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

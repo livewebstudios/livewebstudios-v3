@@ -15,10 +15,14 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const pillars = [
-  { num: "01", ico: "✦", title: "Faster Builds", body: "AI-assisted pipeline reduces build time by 60-70%. Sites launch faster and cost less." },
-  { num: "02", ico: "▤", title: "Smarter Content", body: "Every page built with AI-assisted SEO analysis: keywords, structure, schema from line one." },
-  { num: "03", ico: "▦", title: "Better Imagery", body: "AI image generation produces studio-quality visuals at scale. No photographer blockers." },
-  { num: "04", ico: "◎", title: "Continuous Improvement", body: "AI-monitored sites surface performance issues and competitive gaps automatically." },
+  { num: "01", ico: "✦", title: "Faster Builds", body: "An AI-assisted pipeline cuts build time by 60 to 70%. That saving goes to you, not into my margin, and it is why a hand-built site does not have to carry a hand-built price.",
+    points: ["Weeks off the timeline, not days", "Same code quality, less of it typed by hand"] },
+  { num: "02", ico: "▤", title: "Smarter Content", body: "Every page gets AI-assisted SEO analysis before a line of it is written. Keywords, structure and schema are decided up front instead of being retrofitted six months later.",
+    points: ["Each page built against a real search", "Schema in from line one, not bolted on"] },
+  { num: "03", ico: "▦", title: "Better Imagery", body: "AI image generation gives you studio-quality visuals without booking a studio. No waiting on a shoot to launch, and no stock photo that shows up on a competitor site.",
+    points: ["Art directed to your brand, not generic stock", "New images whenever the site needs them"] },
+  { num: "04", ico: "◎", title: "Continuous Improvement", body: "Monitoring surfaces performance drops and competitive gaps on its own. You hear about a problem from me, not from a customer who could not load your site.",
+    points: ["Speed and uptime watched continuously", "Flagged before it costs you traffic"] },
 ];
 ---
 
@@ -73,6 +77,11 @@ const pillars = [
                 <span class="label">{p.num}</span>
                 <h3>{p.title}</h3>
                 <p>{p.body}</p>
+                {p.points && (
+                  <ul class="card-points">
+                    {p.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={p.title} />
               </Glass>
             </div>

@@ -578,3 +578,25 @@ body.page-detail .card:hover > .glass-inner{
   .page-detail .card > .glass-inner{transition:none}
   body.page-detail .card:hover > .glass-inner{transform:none}
 }
+
+/* ---- Detail-card bullet points -------------------------------
+   Optional `points` array on a detail card's data, for the cards where the
+   extra detail is genuinely a list rather than prose (Jon 2026-09-07: "add
+   more content... use bullets if/when necessary"). Cards without one render
+   exactly as before.
+
+   Custom marker rather than list-style, so the bullet takes the accent colour
+   and stays put when a point wraps to a second line. */
+.card-points{
+  list-style:none;margin:.9rem 0 0;padding:0;
+  display:flex;flex-direction:column;gap:.42rem;
+}
+.card-points li{
+  position:relative;padding-left:1.05rem;
+  color:var(--muted);font-size:.86rem;line-height:1.5;
+}
+.card-points li::before{
+  content:"";position:absolute;left:0;top:.52em;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--cyan-soft);opacity:.75;
+}

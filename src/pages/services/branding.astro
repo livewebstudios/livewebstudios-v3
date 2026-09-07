@@ -14,12 +14,18 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
-  { ico: "✎", title: "Logo Systems", body: "Primary, secondary, horizontal, stacked, icon-only." },
-  { ico: "◈", title: "Color & Type", body: "Palette + typography with guidelines." },
-  { ico: "▤", title: "Print Collateral", body: "Cards, letterhead, envelopes." },
-  { ico: "❖", title: "Digital Assets", body: "Email sigs, social profiles." },
-  { ico: "▦", title: "Style Guide", body: "Branded PDF. Everything documented." },
-  { ico: "⬡", title: "Source Files", body: "AI, EPS, SVG, PDF, PNG, WebP." },
+  { ico: "✎", title: "Logo Systems", body: "Primary, secondary, horizontal, stacked, icon-only. One logo is not enough the first time it has to fit a square avatar or the side of a truck.",
+    points: ["A version for every place it has to go", "Works at 16px and at 16 feet"] },
+  { ico: "◈", title: "Color & Type", body: "A palette and typefaces with rules for using them. Written down, so the next person who touches your material does not quietly invent a second brand.",
+    points: ["Exact values for print and screen", "Web fonts licensed and ready to install"] },
+  { ico: "▤", title: "Print Collateral", body: "Cards, letterhead, envelopes. Set up properly for a printer, with bleeds and real CMYK, so nothing comes back the wrong color.",
+    points: ["Press-ready files, not screen exports", "Send straight to any printer"] },
+  { ico: "❖", title: "Digital Assets", body: "Email signatures and social profiles, sized for each platform. The places people see you most often are usually the ones nobody gets around to updating.",
+    points: ["Cropped correctly per platform", "Signature that survives Outlook and Gmail"] },
+  { ico: "▦", title: "Style Guide", body: "A branded PDF with everything documented. Hand it to a printer, a new hire, or another agency and they can match what already exists.",
+    points: ["Spacing, sizing, and what not to do", "Written to be handed to someone else"] },
+  { ico: "⬡", title: "Source Files", body: "AI, EPS, SVG, PDF, PNG, WebP. You own all of it. If we stop working together tomorrow, nothing about your brand is locked in my drawer.",
+    points: ["Editable originals, not just flat exports", "Yours to keep, no strings"] },
 ];
 ---
 
@@ -54,6 +60,11 @@ const cards = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

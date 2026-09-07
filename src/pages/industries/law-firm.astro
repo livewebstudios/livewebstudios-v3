@@ -17,18 +17,24 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◧", title: "Website Design", body: "Practice-area structure, trust-forward layout, mobile-first performance.", href: "../services/website-design.html" },
-  { ico: "◎", title: "SEO", body: "Local rankings for \"practice area + city,\" plus technical SEO that actually sticks.", href: "../services/seo.html" },
-  { ico: "❖", title: "Branding", body: "Consistency across your site, print, presentations, and signage.", href: "../services/branding.html" },
+  { ico: "◧", title: "Website Design", body: "Practice-area structure with a layout that reads steady. Someone hiring a lawyer wants to feel like they found the adult in the room.", points: ["A real page per practice area", "Attorney bios that build trust"], href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local rankings for \"practice area + city,\" plus technical SEO that actually sticks. That phrase pattern is how legal clients search, almost without exception.", points: ["Targets the exact phrasing clients use", "Built to hold rankings, not spike"], href: "../services/seo.html" },
+  { ico: "❖", title: "Branding", body: "Consistency across your site, print, and signage. A firm that looks different on a business card than on its own homepage undercuts itself.", points: ["One identity everywhere it appears", "Press-ready files included"], href: "../services/branding.html" },
 ];
 
 const builds = [
-  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for law firm audiences." },
-  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
-  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
-  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
-  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
-  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+  { ico: "◧", title: "Custom Design", body: "Someone hiring a lawyer is usually having a bad month. The site has to feel steady and make the next step obvious, because they are not in the mood to hunt for it.",
+    points: ["Attorney bios that read like people", "Contact reachable from every page"] },
+  { ico: "◎", title: "SEO Strategy", body: "A page for each practice area, targeted to the towns you actually serve. A firm doing estate planning and DUI defense cannot rank for either from one blended page.",
+    points: ["Practice area plus city, page by page", "No page trying to cover two practices"] },
+  { ico: "✦", title: "Lead Generation", body: "Intake forms that ask enough to triage without feeling like a deposition. Every extra field costs you people who were ready to call.",
+    points: ["Short enough that people finish it", "Routed so nothing sits over a weekend"] },
+  { ico: "▤", title: "Content Strategy", body: "Plain-English answers to what people search before they hire anyone. Explaining the process is how a stranger decides you are the one to call.",
+    points: ["Written without the legalese", "Answers the questions asked before hiring"] },
+  { ico: "◉", title: "Mobile-First", body: "A lot of your traffic arrives from a phone, sometimes from a car or a hospital. Tap-to-call has to work on the first try.",
+    points: ["One tap to call from any page", "Forms usable one-handed"] },
+  { ico: "⛭", title: "Ongoing Support", body: "Hosting, maintenance, and monthly reporting. Adding an attorney or a practice area should take a phone call, not a project.",
+    points: ["Bio and practice updates included", "Disclaimers kept current"] },
 ];
 ---
 
@@ -88,6 +94,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
@@ -111,6 +122,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

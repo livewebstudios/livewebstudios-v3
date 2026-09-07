@@ -14,12 +14,18 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
-  { ico: "◎", title: "Technical SEO", body: "Speed, mobile, crawlability." },
-  { ico: "▤", title: "Content Analysis", body: "Tags, headings, keywords." },
-  { ico: "✦", title: "Keyword Gaps", body: "What you should rank for." },
-  { ico: "◈", title: "Local SEO", body: "GBP, citations, reviews." },
-  { ico: "❖", title: "UX & Conversion", body: "What keeps visitors from converting." },
-  { ico: "⬡", title: "Competition", body: "How you stack up." },
+  { ico: "◎", title: "Technical SEO", body: "Speed, mobile, crawlability. If Google is having trouble reading the site, nothing else on this list matters yet.",
+    points: ["Real page speed numbers, not a grade", "Anything blocking indexing, found and named"] },
+  { ico: "▤", title: "Content Analysis", body: "Tags, headings, keywords. Usually this turns up pages competing with each other for the same term without anyone realizing it.",
+    points: ["Pages ranked by what they could win", "Duplicate and cannibalized pages flagged"] },
+  { ico: "✦", title: "Keyword Gaps", body: "What you should rank for and do not. This is normally the shortest section of the report and the one that makes the most money.",
+    points: ["Searches your buyers use that you miss", "Sorted by what is realistic to win"] },
+  { ico: "◈", title: "Local SEO", body: "Google Business Profile, citations, reviews. For a service-area business this is often the difference between a busy phone and a quiet one.",
+    points: ["Listings checked for wrong addresses and numbers", "What to fix first, in order"] },
+  { ico: "❖", title: "UX & Conversion", body: "What stops visitors from calling. Plenty of sites get decent traffic and still lose almost everyone at the same spot on the page.",
+    points: ["Where people drop off and why", "Fixes ranked by effort against payoff"] },
+  { ico: "⬡", title: "Competition", body: "How you stack up against the shops you actually lose work to. Not a national list, the ones bidding the same jobs.",
+    points: ["What they rank for that you do not", "Where you are already ahead"] },
 ];
 ---
 
@@ -54,6 +60,11 @@ const cards = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

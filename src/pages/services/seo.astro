@@ -14,12 +14,18 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◎", title: "Technical Audit", body: "Speed, mobile, structure." },
-  { ico: "✦", title: "Keyword Research", body: "Local + service-specific." },
-  { ico: "▤", title: "On-Page Optimization", body: "Tags, meta, schema." },
-  { ico: "◈", title: "Google Business Profile", body: "Setup & optimization." },
-  { ico: "▦", title: "Content Creation", body: "Blog posts, service pages." },
-  { ico: "◧", title: "Monthly Reporting", body: "Real data. Real insights." },
+  { ico: "◎", title: "Technical Audit", body: "Speed, mobile, structure. This is the part that usually explains why a site nobody can find looks perfectly fine to its owner.",
+    points: ["Find what is actually blocking rankings", "Written up in plain English, not a tool export"] },
+  { ico: "✦", title: "Keyword Research", body: "Local and service-specific. I would rather own the searches your buyers type than rank for a big term that never turns into a phone call.",
+    points: ["Built around what people near you search", "Intent first, volume second"] },
+  { ico: "▤", title: "On-Page Optimization", body: "Tags, meta, schema. Done on the pages that can actually move, so the work goes where it pays.",
+    points: ["Titles written for humans and for Google", "Schema that matches your business type"] },
+  { ico: "◈", title: "Google Business Profile", body: "Setup and optimization. For a local business this is often worth more than the website itself, and it is the thing most people leave half-filled.",
+    points: ["Categories and service areas set properly", "Photos, hours, and Q and A filled in"] },
+  { ico: "▦", title: "Content Creation", body: "Blog posts and service pages that answer what people are already asking. Every page has a job or it does not get written.",
+    points: ["Pages built around real searches", "No filler posted to hit a quota"] },
+  { ico: "◧", title: "Monthly Reporting", body: "Real data. Real insights. You get what moved, what it means, and what I am doing about it next month.",
+    points: ["Rankings, traffic, and calls in one place", "A short read, not a 40-page PDF"] },
 ];
 
 const tiers = [
@@ -56,7 +62,7 @@ const tiers = [
   {
     name: "Premium",
     featured: false,
-    blurb: "Comprehensive SEO for maximum visibility and results. Best for competitive markets and multi-service businesses.",
+    blurb: "Everything in Growth, plus content and competitive work. Best for competitive markets and multi-service businesses.",
     items: [
       "Everything in Standard, plus:",
       "Advanced research: 30+ keywords with long-tail variations",
@@ -105,6 +111,11 @@ const tiers = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

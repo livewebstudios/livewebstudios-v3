@@ -16,18 +16,24 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◧", title: "Website Design", body: "Clear quoting paths, mobile-first forms, and trust-forward layout.", href: "../services/website-design.html" },
-  { ico: "◎", title: "SEO", body: "Local rankings and service-page optimization that drives quote requests.", href: "../services/seo.html" },
-  { ico: "⛭", title: "Hosting", body: "Fast hosting and maintenance so your site stays up and stays quick.", href: "../services/hosting.html" },
+  { ico: "◧", title: "Website Design", body: "Clear quoting paths and forms that work on a phone. People shop insurance by comparing, so anything slow or confusing loses them to the next tab.", points: ["A path per line of coverage", "Forms short enough to finish"], href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local rankings and service-page optimization that drives quote requests. Commercial and personal lines are different searches and different pages.", points: ["Coverage type plus town", "Commercial kept separate from personal"], href: "../services/seo.html" },
+  { ico: "⛭", title: "Hosting", body: "Fast hosting and maintenance so your site stays up and stays quick. Quote forms that go down are lost revenue you never find out about.", points: ["Forms monitored, not just the homepage", "Daily offsite backups"], href: "../services/hosting.html" },
 ];
 
 const builds = [
-  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for insurance audiences." },
-  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
-  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
-  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
-  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
-  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+  { ico: "◧", title: "Custom Design", body: "People shop insurance by comparing, and they bail the second a site feels slow or shady. Clean and quick beats clever here every time.",
+    points: ["Lines of coverage split clearly", "Carriers you represent shown plainly"] },
+  { ico: "◎", title: "SEO Strategy", body: "A page per line of coverage per town. Someone searching for commercial auto is a completely different customer than someone shopping renters.",
+    points: ["Coverage type plus town", "Commercial and personal kept separate"] },
+  { ico: "✦", title: "Lead Generation", body: "Quote forms split by coverage type, because asking a homeowner for their VIN is how you lose them. Ask only what that quote needs.",
+    points: ["A different form per line of business", "Short enough that people finish"] },
+  { ico: "▤", title: "Content Strategy", body: "Straight explanations of what a policy actually covers. Most people do not understand what they bought, and being the agent who explains it wins the call.",
+    points: ["Plain language, no policy jargon", "Answers the questions people are embarrassed to ask"] },
+  { ico: "◉", title: "Mobile-First", body: "Claims and quote checks happen on a phone, often right after something bad happened. That is the worst possible moment for a clumsy form.",
+    points: ["Tap to call during a claim", "Quote forms usable one-handed"] },
+  { ico: "⛭", title: "Ongoing Support", body: "Hosting, maintenance, and monthly reporting. Carriers and coverage change, and an outdated carrier list is a compliance problem, not just a stale page.",
+    points: ["Carrier and coverage updates included", "Licensing info kept current"] },
 ];
 ---
 
@@ -87,6 +93,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
@@ -110,6 +121,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

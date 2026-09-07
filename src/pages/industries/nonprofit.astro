@@ -16,18 +16,24 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◧", title: "Website Design", body: "Clear IA, modern design, and mobile-first accessibility.", href: "../services/website-design.html" },
-  { ico: "◎", title: "SEO", body: "Local visibility for programs, services, and community search intent.", href: "../services/seo.html" },
-  { ico: "⛭", title: "Hosting", body: "Reliable managed hosting and maintenance so your site doesn't become a \"project.\"", href: "../services/hosting.html" },
+  { ico: "◧", title: "Website Design", body: "Clear structure and real accessibility. Two audiences arrive here wanting opposite things, and both have to find their path immediately.", points: ["Get help and give help kept distinct", "Accessible for real, not just claimed"], href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local visibility for your programs. Someone who needs help searches what they need, never the name of the organization providing it.", points: ["A page per program you run", "Written for people seeking help"], href: "../services/seo.html" },
+  { ico: "⛭", title: "Hosting", body: "Reliable managed hosting so the site never becomes a \"project.\" Nonprofit staff turns over, and the site should not depend on one person who left.", points: ["No single point of failure on staff", "Maintenance handled, not delegated"], href: "../services/hosting.html" },
 ];
 
 const builds = [
-  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for nonprofit audiences." },
-  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
-  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
-  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
-  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
-  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+  { ico: "◧", title: "Custom Design", body: "Two audiences, opposite needs. Someone seeking help wants the program page immediately, and a donor wants to see where the money goes.",
+    points: ["Get help and give help, both obvious", "Accessible for real, not just claimed"] },
+  { ico: "◎", title: "SEO Strategy", body: "Program and service pages built for the person searching at their worst moment. They are not searching your organization's name.",
+    points: ["Pages for each program you run", "Written for people looking for help"] },
+  { ico: "✦", title: "Lead Generation", body: "Donation and volunteer signup that works on the first try. Every extra step between an impulse to give and the giving costs you real money.",
+    points: ["Donations in as few taps as possible", "Volunteer signup that reaches a person"] },
+  { ico: "▤", title: "Content Strategy", body: "Impact stories and annual reporting that show the work. Donors give to results they can picture, and grant committees read the same pages.",
+    points: ["Impact shown with real numbers", "Built with grant reviewers in mind"] },
+  { ico: "◉", title: "Mobile-First", body: "Donors give from a phone after seeing a post. If checkout takes more than a moment, that impulse is gone.",
+    points: ["Giving works fully on a phone", "Accessible to screen readers"] },
+  { ico: "⛭", title: "Ongoing Support", body: "Hosting, maintenance, and monthly reporting. Nonprofit staff turns over and nobody should inherit a site they cannot get into.",
+    points: ["Events and campaigns kept current", "No dependence on one staffer"] },
 ];
 ---
 
@@ -87,6 +93,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
@@ -110,6 +121,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

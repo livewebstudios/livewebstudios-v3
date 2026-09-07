@@ -16,18 +16,24 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◧", title: "Website Design", body: "Positioning, structure, and UX that guides buyers to the next step.", href: "../services/website-design.html" },
-  { ico: "◎", title: "SEO", body: "Visibility for the keywords your buyers search before they ever email you.", href: "../services/seo.html" },
-  { ico: "▤", title: "Audits & Consulting", body: "Find what's blocking conversions and rankings, then fix it with a plan.", href: "../services/consulting.html" },
+  { ico: "◧", title: "Website Design", body: "Positioning and structure that guide buyers to the next step. B2B deals involve people who research you for weeks without ever making contact.", points: ["Built for a long buying cycle", "Case studies placed where buyers look"], href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Visibility for what buyers search before they ever email you. They look up the problem long before they know what to call the solution.", points: ["Targets the problem, not your product name", "Catches buyers early in the cycle"], href: "../services/seo.html" },
+  { ico: "▤", title: "Audits & Consulting", body: "Find what is blocking conversions and rankings, then fix it in order. Usually a handful of things account for most of what you are losing.", points: ["Written up in plain language", "Prioritized by payoff against effort"], href: "../services/consulting.html" },
 ];
 
 const builds = [
-  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for B2B audiences." },
-  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
-  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
-  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
-  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
-  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+  { ico: "◧", title: "Custom Design", body: "B2B buying takes months and involves people who never contact you. The site has to sell you to the ones doing quiet research at 11pm.",
+    points: ["Built for a long buying cycle", "Case studies where buyers will find them"] },
+  { ico: "◎", title: "SEO Strategy", body: "Rank for the problem, not your product name. Buyers search what is wrong long before they know what to call the fix.",
+    points: ["Targets the problem being researched", "Pages for each thing you solve"] },
+  { ico: "✦", title: "Lead Generation", body: "Forms sized to the stage someone is at. A twelve-field form in front of a first-time visitor is just a way to keep good prospects out.",
+    points: ["Asks less early, more later", "Routes to the right person"] },
+  { ico: "▤", title: "Content Strategy", body: "Case studies with real numbers, and pages that answer procurement questions. Someone has to justify choosing you to a boss, so give them the ammunition.",
+    points: ["Results stated with actual figures", "Written to be forwarded internally"] },
+  { ico: "◉", title: "Mobile-First", body: "Your buyer reads you on a phone between meetings and comes back on a laptop to decide. Both have to work.",
+    points: ["Readable on a phone between meetings", "Nothing gated behind a desktop layout"] },
+  { ico: "⛭", title: "Ongoing Support", body: "Hosting, maintenance, and monthly reporting. New case studies and capabilities should go up while they still count as news.",
+    points: ["Case study additions included", "Reporting tied to leads, not just traffic"] },
 ];
 ---
 
@@ -88,6 +94,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
@@ -111,6 +122,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

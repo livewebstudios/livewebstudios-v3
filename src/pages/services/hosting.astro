@@ -14,12 +14,18 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const features = [
-  { ico: "⬡", title: "Managed VPS", body: "Your own environment." },
-  { ico: "✦", title: "LiteSpeed", body: "Fast. Period." },
-  { ico: "⛭", title: "Free SSL", body: "Encrypted by default." },
-  { ico: "◎", title: "Daily Backups", body: "Offsite on Backblaze." },
-  { ico: "❖", title: "Security", body: "Hidden logins, brute force protection." },
-  { ico: "▦", title: "Monthly Reports", body: "Uptime + SEO performance." },
+  { ico: "⬡", title: "Managed VPS", body: "Your own environment. Not a shared box with four hundred strangers on it, where somebody else getting hacked becomes your problem.",
+    points: ["Resources are yours, not split with neighbors", "I handle the server patching"] },
+  { ico: "✦", title: "LiteSpeed", body: "Fast. Period. It is the web server itself doing the work, so pages are quick before a single caching plugin gets involved.",
+    points: ["Faster than stock Apache on the same hardware", "Nothing for you to configure"] },
+  { ico: "⛭", title: "Free SSL", body: "Encrypted by default, and it renews on its own. Expired certificates are one of the most common ways a good site suddenly starts scaring visitors away.",
+    points: ["Included, not an add-on line item", "Renews without anyone remembering to"] },
+  { ico: "◎", title: "Daily Backups", body: "Offsite on Backblaze, so a backup is never sitting on the same machine as the thing it is meant to save. Restores are a phone call.",
+    points: ["Kept off the server on purpose", "30 days of history to roll back to"] },
+  { ico: "❖", title: "Security", body: "Hidden logins and brute force protection. Most attacks are bots hammering the same handful of URLs, so those URLs are not where anyone expects them.",
+    points: ["Login moved off the default address", "Repeat offenders blocked at the server"] },
+  { ico: "▦", title: "Monthly Reports", body: "Uptime and SEO performance, in plain language. You get told what moved and whether it needs anything from you.",
+    points: ["Sent to your inbox, no dashboard to log into", "Written so it reads like a person wrote it"] },
 ];
 ---
 
@@ -74,6 +80,11 @@ const features = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>

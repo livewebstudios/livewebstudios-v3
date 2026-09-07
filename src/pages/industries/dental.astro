@@ -16,18 +16,24 @@ import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
-  { ico: "◧", title: "Website Design", body: "Mobile-first patient experience with clear service navigation.", href: "../services/website-design.html" },
-  { ico: "◎", title: "SEO", body: "Local rankings for high-intent searches like implants, Invisalign, and emergency.", href: "../services/seo.html" },
-  { ico: "⛭", title: "Hosting", body: "Fast, reliable hosting that supports SEO and keeps your site up.", href: "../services/hosting.html" },
+  { ico: "◧", title: "Website Design", body: "Mobile-first patient experience with clear service navigation. Built so a new patient can find hours, insurance, and the phone number without hunting.", points: ["Insurance answered before they call", "Booking reachable from any page"], href: "../services/website-design.html" },
+  { ico: "◎", title: "SEO", body: "Local rankings for high-intent searches like implants, Invisalign, and emergency. Those patients are worth more and they search differently.", points: ["A page per high-value procedure", "Emergency searches targeted separately"], href: "../services/seo.html" },
+  { ico: "⛭", title: "Hosting", body: "Fast, reliable hosting that supports SEO and keeps your site up. A practice site that is down during office hours is a phone that stops ringing.", points: ["Monitored so I know before you do", "Daily offsite backups"], href: "../services/hosting.html" },
 ];
 
 const builds = [
-  { ico: "◧", title: "Custom Design", body: "Tailored layouts and UX for dental audiences." },
-  { ico: "◎", title: "SEO Strategy", body: "Local and service-specific keyword targeting." },
-  { ico: "✦", title: "Lead Generation", body: "Contact forms, booking integrations, and conversion optimization." },
-  { ico: "▤", title: "Content Strategy", body: "Industry-relevant blog posts and service pages." },
-  { ico: "◉", title: "Mobile-First", body: "Responsive design across all devices." },
-  { ico: "⛭", title: "Ongoing Support", body: "Maintenance, hosting, and monthly reporting." },
+  { ico: "◧", title: "Custom Design", body: "New patients and existing ones want completely different things from your site. One is deciding whether to trust you, the other just wants the phone number.",
+    points: ["Insurance and payment answered up front", "Team photos, because people pick a person"] },
+  { ico: "◎", title: "SEO Strategy", body: "Implants, Invisalign, and emergency each get their own page. Somebody searching for an emergency dentist at 9pm is not going to scroll a general services list.",
+    points: ["A page per procedure you want more of", "Built around what patients actually type"] },
+  { ico: "✦", title: "Lead Generation", body: "Booking that connects to the software your front desk already runs. A form that creates work for staff instead of saving it does not last a month.",
+    points: ["Connects to your scheduling system", "New patient forms fillable before arrival"] },
+  { ico: "▤", title: "Content Strategy", body: "Procedure pages that answer what it costs, whether it hurts, and how long it takes. Those are the questions people search, and most practice sites skip all three.",
+    points: ["Written for patients, not other dentists", "Answers the cost question honestly"] },
+  { ico: "◉", title: "Mobile-First", body: "Toothache searches happen on a phone, usually at night. Tap-to-call has to be the easiest thing on the screen.",
+    points: ["Phone number tappable on every page", "Directions one tap from anywhere"] },
+  { ico: "⛭", title: "Ongoing Support", body: "Hosting, maintenance, and monthly reporting. Practices add hygienists and change hours constantly, and none of that should require finding a web guy.",
+    points: ["Hours and staff edits included", "One call when something needs changing"] },
 ];
 ---
 
@@ -61,7 +67,7 @@ const builds = [
           <!-- em-dash: "search \"dentist\" — they search" → "search \"dentist.\" They search"; ellipsis normalized -->
           <p>Dental is one of the most competitive local searches there is. People don't search "dentist." They search "dentist near me," "emergency dentist," "invisalign," "implant dentist," and they do it on a phone... usually in a hurry. If your site is slow, hard to navigate, or doesn't build trust fast, that patient is booking with someone else.</p>
           <!-- em-dash: "load fast—because page speed" → "load fast, because page speed" -->
-          <p>We build dental websites that make the next step obvious: clear service pages, prominent calls, streamlined forms, and a design that feels modern and reassuring. We structure your content so Google understands what you offer (and where), and we make sure your pages load fast, because page speed is not just UX, it's rankings.</p>
+          <p>We build dental websites that make the next step obvious: clear service pages, prominent calls, short forms, and a design that feels modern and reassuring. We structure your content so Google understands what you offer (and where), and we make sure your pages load fast, because page speed is not just UX, it's rankings.</p>
           <p>Practices typically see increased new-patient inquiries, better visibility in the map pack, and more bookings tied to high-intent searches like implants, cosmetic dentistry, and emergency services. The goal is simple: more of the right patients, more consistently.</p>
         </div>
         <Glass class="reveal" innerClass="portrait">
@@ -86,6 +92,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
                 <a class="more" href={c.href}>SEE DETAILS →</a>
               </Glass>
@@ -109,6 +120,11 @@ const builds = [
               <Glass variant="inner" innerClass="card-pad">
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.points && (
+                  <ul class="card-points">
+                    {c.points.map((pt) => <li>{pt}</li>)}
+                  </ul>
+                )}
                 <CardIcon title={c.title} />
               </Glass>
             </div>
