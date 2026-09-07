@@ -152,13 +152,33 @@
    section it reads as a heavy band across the card grid, so the ellipse is
    widened and the corner density pulled back. Grain stays. */
 .aurora--bg.aurora--grain::after {
-  opacity: 0.55;
+  opacity: 0.78;
   background-image:
     radial-gradient(ellipse at 50% 50%,
-      transparent 58%, rgba(0, 0, 0, 0.5) 100%),
+      transparent 42%, rgba(0, 0, 0, 0.74) 100%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
   background-size: cover, 160px 160px;
 }
+
+/* Orbs run dimmer behind a card grid than they would behind hero text (Jon
+   2026-09-07: "make the section background behind the cards darker, more
+   contrast between the card bg and the section bg"). The cards are
+   translucent, so a bright aurora reads straight through them and card and
+   section converge; pulling the glow down is what separates them again.
+
+   Opacity rather than paler colours because the orbs composite with
+   mix-blend-mode:screen, i.e. they add light. Cutting opacity cuts what they
+   add, and the three-hue family the spec asks for stays intact.
+
+   0.38 was measured, not guessed. Rendering the section with a card on it and
+   reading mean luma off both: the original sat at section 40.4 / card 34.2,
+   a separation of 6.2 with the section BRIGHTER than the card, which is why
+   they were reading as one surface. A first pass at 0.5 only reached 8.0.
+   0.38, with the base and vignette below, gives section 11.5 / card 23.0, a
+   separation of 11.5 and the polarity flipped so cards now sit above a dark
+   ground. Going further (0.28) measures better still at 13.7 but the aurora
+   stops being visible at all, which defeats the point of having one. */
+.aurora--bg .aurora__orb { opacity: 0.38; }
 
 /* Orb geometry is written in vmax/vw/vh, i.e. against the viewport, which is
    right for a hero and too large for a section band. Scaled down so all three

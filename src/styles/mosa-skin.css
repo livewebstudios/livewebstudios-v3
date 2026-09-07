@@ -246,9 +246,14 @@ h1.hero-h1{
 /* ---- Nav: bordered segments ----------------------------------
    MOSA boxes each nav item and lets the boxes share edges, so the
    nav reads as one segmented control rather than floating links. */
-.nav-links{gap:0;border:1px solid var(--line)}
+/* Nav segments run brighter than --line (Jon 2026-09-07: "make the border
+   around the nav buttons slightly brighter"). Scoped to a nav-only token
+   rather than lifting --line, which draws every card, glass surface and rule
+   on the site. .10 -> .18 alpha. */
+:root{--line-nav:rgb(var(--mosa-fg-rgb)/.18)}
+.nav-links{gap:0;border:1px solid var(--line-nav)}
 .nav-links > a,.studios-trigger{
-  padding:.85rem 1.15rem;border-right:1px solid var(--line);
+  padding:.85rem 1.15rem;border-right:1px solid var(--line-nav);
 }
 .nav-links > a:last-child{border-right:0}
 .nav-links > a:hover,.studios-trigger:hover{
@@ -322,12 +327,12 @@ h1.hero-h1{max-width:22ch}
    ============================================================ */
 
 /* ---- Nav buttons: MOSA segmented control ---------------------- */
-header.nav .nav-links{gap:0;border:1px solid var(--line)}
+header.nav .nav-links{gap:0;border:1px solid var(--line-nav)}
 header.nav .nav-links > a,header.nav .studios-trigger{
   font-family:var(--mono);font-size:var(--mosa-text-sm,14px);
   text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
   color:var(--ink);padding:.95rem 1.35rem;
-  border-right:1px solid var(--line);border-radius:0;
+  border-right:1px solid var(--line-nav);border-radius:0;
 }
 header.nav .nav-links > a:last-child{border-right:0}
 header.nav .nav-links > a:hover,header.nav .studios-trigger:hover{
