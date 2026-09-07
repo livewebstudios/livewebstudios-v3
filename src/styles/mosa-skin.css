@@ -516,3 +516,60 @@ h1.hero-h1 em,h1.page-h1 em,.page-head h1 em{
 
 /* Nav "Let's Talk" matches the hero bar's corner radius (Jon 2026-08-27). */
 header.nav .nav-cta .btn{border-radius:6px}
+
+/* ---- Detail-page cards: plum gradient ------------------------
+   Jon 2026-09-07, from a reference card: near-black at the top-left ramping
+   to purple then magenta in the bottom-right corner, "maybe a slightly darker
+   purple". These stops sit roughly 15% darker than the reference so the white
+   body copy keeps its contrast against the hot end.
+
+   Applies to the 23 individual /services/<x> and /industries/<x> pages via the
+   .page-detail body class Base.astro derives from the path. The band, namesake
+   and ecosystem sub-brands share this card markup but are deliberately left
+   out: they carry their own amber and brass accents and purple fights them.
+
+   The ramp is held in a custom property because it has to be declared twice.
+   `.card:hover .glass-inner` earlier in this file sets the `background`
+   SHORTHAND, which resets background-image, so the hover rule has to reassert
+   the gradient or it flashes to flat the moment the pointer lands. That is
+   also why the hover selector leads with `body`: it needs to outrank that
+   earlier rule. Neither is redundant, do not simplify them away.
+
+   Hover sweeps background-position across an oversized gradient, so the purple
+   floods up out of the corner instead of the card just changing colour. */
+.page-detail{
+  /* Stops reach purple by 40% rather than 55%. With the ramp arriving late the
+     oversized tile showed nothing but the dark end at rest, so the card read as
+     plain black until hovered; the reference has its purple corner sitting
+     there from the start. Rendered and compared against the reference before
+     picking these: one shade down from it, per "maybe a slightly darker". */
+  --plum-card:linear-gradient(142deg,
+    #121116 0%, #16141d 22%, #241a3a 40%,
+    #3b2359 55%, #56306f 70%, #7a4187 85%, #9d5599 100%);
+}
+.page-detail .card > .glass-inner{
+  background-image:var(--plum-card);
+  background-size:118% 118%;
+  background-position:0% 0%;
+  border-color:rgba(150,90,170,.26);
+  transition:
+    background-position .85s var(--ease),
+    border-color .4s var(--ease),
+    box-shadow .4s var(--ease),
+    transform .4s var(--ease);
+}
+body.page-detail .card:hover > .glass-inner{
+  background-image:var(--plum-card);
+  background-size:118% 118%;
+  background-position:100% 100%;
+  border-color:rgba(198,126,216,.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.1),
+    0 22px 60px rgba(0,0,0,.55),
+    0 0 44px rgba(150,72,168,.28);
+  transform:translateY(-5px);
+}
+@media (prefers-reduced-motion:reduce){
+  .page-detail .card > .glass-inner{transition:none}
+  body.page-detail .card:hover > .glass-inner{transform:none}
+}

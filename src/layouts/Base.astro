@@ -20,6 +20,14 @@ const {
   noindex = false,
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
+
+/* Detail pages under /services/<x> and /industries/<x> get the plum card
+   treatment (Jon 2026-09-07). Derived from the path rather than set per page,
+   so the 23 existing detail pages and any future one pick it up with no edit.
+   The bare /services and /industries index pages do NOT match: the pattern
+   requires a segment after the slash, and those two run the ServiceCard grids
+   over an Aurora instead. The .html suffix on built pages matches either way. */
+const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
 ---
 
 <!doctype html>
@@ -57,7 +65,7 @@ const rel = relPrefix(Astro.url.pathname);
       gtag("config", "G-XXXXXXXXXX");
     </script>
   </head>
-  <body>
+  <body class={isDetailPage ? "page-detail" : undefined}>
     <!-- Glass refraction filter (Jon 2026-08-27). Three displacement passes at
          different scales, recombined per RGB channel, so the art bends AND
          splits into prismatic fringes the way light does through thick glass.
