@@ -8,6 +8,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import VideoBg from "../components/VideoBg.astro";
+import Glass from "../components/Glass.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 
@@ -161,14 +162,14 @@ const jsonLd = JSON.stringify({
     <section class="sec-pad is-alt has-videobg">
       <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="default" />
       <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">STILL HAVE A QUESTION?</span>
+        <Glass class="reveal" innerClass="cta glass-refract">
+          <span class="eyebrow is-center mb-md">STILL HAVE A QUESTION?</span>
           <h2>Call Jon directly. He picks up.</h2>
-        </div>
-        <div class="hero-btns reveal">
-          <a href="contact.html" class="btn btn-primary">Send a message →</a>
-          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
-        </div>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">Send a message →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
       </div>
     </section>
   </main>

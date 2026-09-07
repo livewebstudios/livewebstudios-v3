@@ -55,16 +55,29 @@ const rel = relPrefix(Astro.url.pathname);
     margin-top: 0;
   }
 
+  /* Boxed (Jon 2026-09-02). The hero scrim was lightened to stop the video
+     banding, which left this row sitting on bright water and hard to read.
+     It carries its own panel now rather than putting the darkness back over
+     the whole hero: near-opaque, so only a little of the video reads
+     through, with the blur keeping it legible over the busiest frames. */
   .hero-links {
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
     gap: 0.7rem;
     margin-left: auto;
+    width: fit-content;
+    max-width: 100%;
     text-align: right;
     /* Three points under the hero body copy, which is clamp(1.05rem,1.6vw,1.3rem). */
     font-size: calc(clamp(1.05rem, 1.6vw, 1.3rem) - 3px);
     line-height: 1.2;
+    padding: 0.62rem 1rem;
+    background: rgba(5, 7, 11, 0.82);
+    backdrop-filter: blur(12px) saturate(130%);
+    -webkit-backdrop-filter: blur(12px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
   }
   .hero-links a {
     color: #fff;

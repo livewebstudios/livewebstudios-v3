@@ -132,8 +132,12 @@ header.nav{background:rgb(var(--mosa-bg-rgb)/.6)}
 .chip::after{display:none}
 .chip .dot{box-shadow:none}
 
-/* ---- Hero: no vignette bloom, flat field ---------------------- */
-.hero::before{background:linear-gradient(180deg,transparent 55%,rgb(var(--mosa-bg-rgb)) 100%)}
+/* ---- Hero: no vignette bloom, flat field ----------------------
+   Fade start pushed 55% -> 72% (2026-09-02). This gradient still has
+   to land on the body colour at 100% so the hero meets the next
+   section with no seam, but starting it later shrinks the crushed
+   zone that was banding the video. See the scrim note below. */
+.hero::before{background:linear-gradient(180deg,transparent 72%,rgb(var(--mosa-bg-rgb)) 100%)}
 .hero-fallback{background:rgb(var(--mosa-bg-rgb))}
 h1.hero-h1,h1.page-h1{letter-spacing:var(--mosa-track-tight,-.02em);font-weight:500}
 h1.hero-h1 em,h1.page-h1 em{color:inherit}
@@ -179,9 +183,17 @@ footer{background:rgb(var(--mosa-fg-rgb)/.02)}
 /* ---- Video scrims: bright videos, minimal overcast ------------
    (Was .5/.88, .85, .93 — Jon 2026-08-15: "make those background
    videos bright... no overcast darkness". Glass cards now carry
-   text readability, so the scrim only eases section transitions.) */
+   text readability, so the scrim only eases section transitions.)
+
+   Hero ramp cut again 2026-09-02. Diagnosed cause of the hero video
+   looking worse in-browser than in a native player: the scrim and
+   .hero::before stacked to 73% black by 80% down the frame. The clip
+   is 1080p H.264 at 0.042 bits/px/frame, so its dark gradients carry
+   quantization noise right under the visible threshold; compressing
+   that into a narrower code range is what lifted it into visible
+   banding. Less black over the video = less banding. */
 .videobg--hero .videobg__scrim{
-  background:linear-gradient(180deg,rgb(var(--mosa-bg-rgb)/.12) 0%,rgb(var(--mosa-bg-rgb)/.45) 100%);
+  background:linear-gradient(180deg,rgb(var(--mosa-bg-rgb)/.04) 0%,rgb(var(--mosa-bg-rgb)/.26) 100%);
 }
 .videobg--default .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.28)}
 .videobg--strong .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.55)}
