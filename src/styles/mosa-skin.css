@@ -522,6 +522,21 @@ h1.hero-h1 em,h1.page-h1 em,.page-head h1 em{
    live-band, ecosystem, newsletter, thank-you, 404) are deliberately left
    plain, since those were not in Jon's list. */
 .page-head--glass > .wrap{
+  /* Jon 2026-09-08: "make those border just go around the words and not the
+     whole width of the sections." Shrink to the content instead of spanning
+     the section.
+
+     Only the RIGHT edge moves. The left is pinned to where a full-width .wrap
+     would start - max(0,(100% - var(--wrap))/2) is exactly what `margin:0 auto`
+     resolves to at any viewport - so the h1 keeps landing on the same gutter as
+     the body copy in the sections below. Centering the shrunk panel instead
+     would push the headline off that column.
+
+     .wrap's padding-inline stays the panel's inner padding, which is why the
+     border used to sit at the section edge with the text inset. */
+  width:fit-content;
+  max-width:var(--wrap);
+  margin-inline:max(0px,calc((100% - var(--wrap)) / 2)) auto;
   background:rgb(var(--mosa-fg-rgb)/.05);
   backdrop-filter:blur(30px) saturate(210%) brightness(1.2) contrast(1.12);
   -webkit-backdrop-filter:blur(30px) saturate(210%) brightness(1.2) contrast(1.12);
