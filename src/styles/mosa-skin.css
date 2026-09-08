@@ -311,6 +311,32 @@ header.nav .wrap{max-width:none;padding-inline:clamp(1.5rem,3vw,2.5rem)}
 .hero-in{max-width:none;padding-inline:clamp(1.5rem,5vw,6.5rem)}
 h1.hero-h1{max-width:22ch}
 
+/* Home hero panel (Jon 2026-09-08, "all hero sections with text like that").
+   Same glass surface as .page-head--glass, tuned for this hero rather than
+   reusing that rule: the home hero is the one that runs edge-to-edge with
+   max-width:none, and its 14rem top padding is what pushes the copy down the
+   frame. Left as-is that padding would sit INSIDE the border as a tall band
+   of empty space, so the offset moves to margin and .hero's align-items
+   centring places the panel instead.
+
+   Left edge stays at the viewport edge and only the right edge shrinks, which
+   keeps the headline on the same line it starts on today. */
+.hero > .hero-in{
+  width:fit-content;
+  padding-block:clamp(2.25rem,4vw,3.5rem);
+  margin-block:0;
+  /* .hero-in carries margin-inline:auto, which would centre the shrunk panel
+     and pull the headline off the left edge this hero is built around. */
+  margin-inline:0 auto;
+  background:rgb(var(--mosa-fg-rgb)/.05);
+  backdrop-filter:blur(30px) saturate(210%) brightness(1.2) contrast(1.12);
+  -webkit-backdrop-filter:blur(30px) saturate(210%) brightness(1.2) contrast(1.12);
+  border:1px solid rgb(var(--mosa-fg-rgb)/.2);
+  border-radius:var(--r-lg);
+  box-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.14);
+  overflow:hidden;
+}
+
 /* ---- Eyebrow: dot, not dash ----------------------------------- */
 .eyebrow{color:var(--muted);letter-spacing:var(--mosa-track-label,.06em);text-transform:none}
 .eyebrow::before{
@@ -516,11 +542,13 @@ h1.hero-h1 em,h1.page-h1 em,.page-head h1 em{
 /* Heavier glass on the home "Every site we launch" card (Jon 2026-08-27):
    the video behind it is pushed further through the surface. */
 /* Hero glass panel (Jon 2026-09-02): the same refracted surface as the
-   "Every site we launch" card, wrapped around the hero copy. Applied via
-   .page-head--glass on work, about, contact, and every services and
-   industries page. The other page-head heroes (blog, faq, namesake,
-   live-band, ecosystem, newsletter, thank-you, 404) are deliberately left
-   plain, since those were not in Jon's list. */
+   "Every site we launch" card, wrapped around the hero copy.
+
+   Jon 2026-09-08: "put that border around all hero sections with text like
+   that." It now rides EVERY page-head, the sub-brands included. The earlier
+   carve-out for blog, faq, namesake, live-band, ecosystem, newsletter,
+   thank-you and 404 is gone, so adding a new page-head is enough to get the
+   treatment and no page-level opt-in is needed. */
 .page-head--glass > .wrap{
   /* Jon 2026-09-08: "make those border just go around the words and not the
      whole width of the sections." Shrink to the content instead of spanning
@@ -588,6 +616,17 @@ header.nav .nav-cta .btn{border-radius:6px}
     #121116 0%, #16141d 22%, #241a3a 40%,
     #3b2359 55%, #56306f 70%, #7a4187 85%, #9d5599 100%);
 }
+/* The carbon weave has to be switched OFF here or none of this is visible.
+   global.css paints var(--card-art) on .card > .glass-inner::before at
+   inset:0 / cover / opacity 1, and that pseudo-element stacks ABOVE the
+   element's own background - which is where the plum ramp lives. On the 23
+   detail pages the weave was covering the gradient completely.
+
+   It cannot be turned off by overriding --card-art: Base.astro publishes that
+   on <body> as an inline style, so an inline declaration wins over any rule
+   here. The layer itself is what gets cleared. */
+.page-detail .card > .glass-inner::before{background-image:none}
+
 .page-detail .card > .glass-inner{
   background-image:var(--plum-card);
   background-size:118% 118%;
