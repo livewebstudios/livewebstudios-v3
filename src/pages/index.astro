@@ -68,7 +68,7 @@ const homeServices = [
   </section>
 
   <!-- ABOUT -->
-  <section id="about" class="sec-pad is-alt">
+  <section id="about" class="sec-pad is-alt sec-photobg" style="--sec-photo:url('images/jon-desk.jpg')">
     <div class="wrap split">
       <div class="copy reveal">
         <span class="eyebrow">WHO YOU'RE WORKING WITH</span>
@@ -79,32 +79,24 @@ const homeServices = [
         <p class="kick">My number's on the website. I pick up.</p>
         <div class="mt-lg"><a href="about.html" class="btn btn-ghost">More About Me →</a></div>
       </div>
-      <Glass class="reveal" innerClass="portrait">
-        <div class="frame-lines"></div>
-        <div class="big">JW</div>
-        <div class="mark">Jon Wolf · Founder · Est. 2004</div>
-      </Glass>
     </div>
   </section>
 
-  <!-- FEATURE -->
-  <section class="sec-pad has-videobg">
+  {/* FEATURE + CTA
+      The standalone "Ready to talk about your site?" section was dropped
+      (Jon 2026-09-02) and its button pair moved in here, so the page ends
+      on one panel instead of two stacked glass boxes. id="contact" comes
+      along with the buttons: nothing currently links to it, but it was the
+      page's contact anchor and moving it keeps any external or bookmarked
+      #contact link landing on the buttons rather than on nothing.
+      Astro comment, not HTML, so the removed copy does not ship. */}
+  <section id="contact" class="sec-pad has-videobg">
     <VideoBg src="bg-color-tv.mp4" scrim="default" />
     <div class="wrap">
       <Glass class="reveal" innerClass="feature glass-refract">
         <span class="eyebrow is-center mb-md">THE LWS WAY</span>
         <h2>Every site we launch is opening night.</h2>
         <p>We don't deliver half-finished work. When a site goes live, it's ready. Tested, reviewed, approved, and yours. No soft launches. No "we'll fix it after." The curtain goes up when the show is ready.</p>
-      </Glass>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section id="contact" class="sec-pad">
-    <div class="wrap">
-      <Glass class="reveal" innerClass="cta">
-        <h2>Ready to talk about your site?</h2>
-        <p>Reach out anytime. I'm around.</p>
         <div class="hero-btns">
           <a href="contact.html" class="btn btn-primary">Let's Talk →</a>
           <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>

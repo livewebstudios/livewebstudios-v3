@@ -65,7 +65,18 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
       gtag("config", "G-XXXXXXXXXX");
     </script>
   </head>
-  <body class={isDetailPage ? "page-detail" : undefined}>
+  <!-- Card art. The home page's carbon weave is the card background site-wide
+       (Jon 2026-09-03), so every .card needs the URL. It is published from
+       here, not from global.css: stylesheets are inlined into every page at
+       every depth, so a url() written in the stylesheet would resolve against
+       whichever page it landed in and 404 on /services/* and /industries/*.
+       rel carries this page's own "../" prefix, which keeps the reference
+       relative per the LWS path rule.
+       page-detail scopes the plum gradient to the 23 detail pages. -->
+  <body
+    class={isDetailPage ? "page-detail" : undefined}
+    style={`--card-art:url('${rel}images/bg/metal-bg.jpg')`}
+  >
     <!-- Glass refraction filter (Jon 2026-08-27). Three displacement passes at
          different scales, recombined per RGB channel, so the art bends AND
          splits into prismatic fringes the way light does through thick glass.
