@@ -80,14 +80,18 @@ but choosing which to feature publicly is your decision.
   screenshots) go in the portfolio? Once you pick, the grid in
   `src/pages/work.astro` swaps in directly (the `projects` array).
 
-### 2D-2 · /contact — Formspree endpoint is a placeholder
-The form posts to `https://formspree.io/f/YOUR_FORM_ID`. Swap for the
-real LWS Formspree form ID before launch. Pattern is per
-`specs/boilerplate-design.md`: `_next` absolute redirect
-(`https://livewebstudios.com/contact?sent=1`, which triggers the on-page
-"Message sent" banner) + `_gotcha` honeypot. `_subject` is set.
-- **Question for Jon:** Provide the Formspree form ID (or confirm you
-  want a dedicated `/thanks` page instead of the `?sent=1` banner).
+- **Update 2026-09-11:** a grep for placeholder entries in
+  `src/pages/work.astro` found none left, so the placeholder copy is gone.
+  Which real clients are featured is still Jon's call; confirm the current
+  grid visually before launch.
+
+
+### 2D-2 · /contact, Formspree endpoint ✅ RESOLVED 2026-09-11
+Live endpoint `mbdqyrwg` is wired in `src/pages/contact.astro`, with the
+`_gotcha` honeypot and `_subject` intact. `_next` now points at
+`https://livewebstudios.com/thank-you` (the live site's behaviour); the
+`?sent=1` banner and its script were removed with it.
+
 
 ### 2D-3 · /about — placeholder facts to confirm
 Marked in-source with `<!-- PLACEHOLDER: confirm with Jon -->`:
@@ -98,19 +102,12 @@ Marked in-source with `<!-- PLACEHOLDER: confirm with Jon -->`:
   or replace with real hours.
 All about copy is structure-first and will go through a `/jonvoice` pass.
 
-### 2D-4 · Dangling nav link: /services is not built
-The top nav (`Nav.astro`) links `services.html`, but no services page
-exists (it's outside the 2C/2D/2E scope). Same for the footer's town /
-industry SEO landing pages (`web-design-*.html`, `*-websites.html`) and
-the other sub-brand doorways (`live-web-photos.html`,
-`live-ai-studios.html`). These 404 until built.
-- **Question for Jon:** Schedule a session for `/services` + the footer
-  SEO landing pages, or remove `SERVICES` from the top nav until it's
-  ready? (Flagging, not touching the shared Nav without your call.)
+### 2D-4 · Dangling nav links ✅ RESOLVED 2026-09-11
+`/services` is built, along with the 13 service detail pages, the 10
+industry pages, and the ecosystem doorways. The full-site link check
+(6,524 local refs across 83 pages) returns zero broken targets, so no nav
+or footer link 404s.
 
----
-
-## SESSION 2E — Decap CMS blog
 
 ### 2E-1 · Master login template ships a forbidden caret version (upstream bug)
 The branded login master
@@ -157,7 +154,7 @@ individual posts aren't crawlable as separate URLs and there are no
 per-post pages or JSON-LD yet. That's per the brief (SEO/schema held for
 Session 2F). Confirm you want post detail pages + Article schema in 2F.
 
-### 2E-6 · GA4 still a placeholder
-Every page (via `Base.astro`) ships the GA4 snippet with
-`G-XXXXXXXXXX`. Swap in the real Measurement ID before launch. (Same
-placeholder noted for all Phase 2 pages.)
+### 2E-6 · GA4 ✅ RESOLVED 2026-09-11
+`G-SW3VF5PBDT` is live in `Base.astro`. Verified: the ID appears on all 80
+built content pages and the `G-XXXXXXXXXX` placeholder appears on none.
+

@@ -185,3 +185,80 @@ featured-client selection), not a cap overflow.
   `blog.js` static assets.
 - `.claude/launch.json` unchanged from baseline (a temporary preview config
   was used during verification and reverted each time).
+
+---
+
+# 2026-09-11 · Finish and launch prep (Sessions 0-4)
+
+Ran from the handoff `26_09_11_lws_v3_finish_claude_code_handoff.md`. Every
+judgment call is logged one line each in `DECISIONS.md`.
+
+## Session 0 · Git
+Merged `merge/lens-refraction-to-main` into `main` with **zero conflicts**
+(commit `649be22`). Build passed at 72 pages.
+
+## Session 1 · Sticky sub-menus
+- Measured `header.nav` at **85px** at both 1280 and 375 (`.nav-in` 84px from
+  `mosa-skin.css:262` overriding global.css's 72px, plus the 1px border).
+  Published as `--nav-h` on `:root`; `.subnav` sticks to it.
+- Live Band items now match the live site exactly: Home, Pricing, Forms (with
+  a four-item dropdown), Personal Sites, Portfolio. Namesake gained Overview.
+- Forms dropdown opens on hover (desktop) and tap (touch) through the existing
+  `[data-dd]` handler, widened from header scope to document scope.
+- Active state via `.is-active` + `aria-current`; a dropdown child also marks
+  its parent. Accent comes from a `.subnav--{ctx}` modifier (amber / brass).
+- **Verified:** subnav top minus header height = **0** on both sections at
+  1280 and 375. No horizontal scroll. Bar is 117px at 375 (two wrapped rows).
+
+## Session 2 · Missing pages and content
+- Built `/live-band-web-studios/forms/how-to-photograph-yourself-for-ai`, and
+  added its card to the Forms hub.
+- Converted the four HTML posts to markdown. **The three "undated" posts do
+  carry real dates** in their markup (Mar 12, Feb 18, Apr 7 2026), and
+  `lets-talk-about-styles` is dated 2026-08-10 by its own JSON-LD, not the
+  2026-09-12 the handoff assumed. Real dates used.
+- Rewrote **34** `post.html?post=` links across **18** files (the audit
+  predicted 5). All 34 resolve.
+- Ported `/forms/dumpster-diaper` (132 fields, mechanics verbatim), its
+  thank-you page, and `/forms/manual-therapy` with its 7 step images. Both
+  noindex. Copied `public/hlink/` for the Decap login logo.
+- Contact form `_next` now goes to `/thank-you`.
+
+## Session 3 · IDs, robots, sitemap, redirects
+- GA4 `G-SW3VF5PBDT` live; placeholder gone everywhere.
+- GSC verification file, `robots.txt`, `netlify.toml` in place.
+- `_redirects` rebuilt: **134 rules**. Dropped 26 query-string rewrites and
+  3 self-redirect loops; retargeted `/portfolio` rules straight to `/work` to
+  avoid 301 chains; rewrote all `/blog/` targets to `/blog`.
+- `/sitemap.xml` 200-rewrites to `/sitemap-index.xml`. Sitemap carries **69**
+  URLs, with no thank-you / decap / forms / hlink / admin / 404 entries.
+- JSON-LD on every page via an optional `jsonld` prop with a WebPage default:
+  LocalBusiness on home, WebPage + Service on the 13 service pages, and
+  suppressed where blog/faq emit their own.
+- **Parity gate: 65 of 66 live sitemap URLs resolve, 1 expected exemption
+  (`/portfolio`, which 301s to `/work`), ZERO misses.**
+
+## Session 4 · QA
+| Check | Result |
+|---|---|
+| Em dash / banned phrases, pages touched this run | clean |
+| Single H1 | 80/80 content pages exactly 1 (fixed a duplicate `<h1>` in a Decap post) |
+| Link check | **0 broken** of 6,524 local refs across 83 pages |
+| GA4 coverage | 80/80 content pages; placeholder on none |
+| Contrast (new accent usage) | 13.98:1 active, 20.16:1 idle, both well past AA |
+| Layout at 375 | no horizontal scroll on any new page |
+| Images on new pages | all have alt + width/height |
+
+## Flagged for Jon, not changed (out of the handoff's scope lock)
+1. **Nav case.** Global rules say nav text is ALL CAPS; the handoff says Title
+   Case (Jon 2026-08-15). Left as Title Case, matching the existing build.
+2. **Footer `<h4>`** creates an h2 → h4 skip on all 80 pages. One-line fix in
+   `Footer.astro`, but it restyles every page.
+3. **Pre-existing em dashes:** 11 across 4 pages (2 ecosystem `<title>`s,
+   7 in band-member-bio-form select options, 2 on work.html).
+4. **"Submit"** appears once on `ecosystem/live-web-photos.html` (step label).
+5. **30 pre-existing pages** exceed the 60-char title / 155-char description
+   guidance, nearly all blog posts.
+6. **Root-relative links in markdown bodies** (`/blog/slug`, `/services/...`,
+   `/images/...`) as the handoff specified. These break on a subfolder host,
+   unlike the rest of the site, which is fully relative.
