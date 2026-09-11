@@ -39,4 +39,4 @@ A fast, version-controlled site. It costs less to host, loads faster for visitor
 
 ---
 
-*Related: [What Is an AI-Built Website?](https://livewebstudios.com/post.html?post=2026-05-15-what-is-an-ai-built-website) and [The Migration Process Explained](https://livewebstudios.com/post.html?post=2026-07-03-migration-process-explained).*
+*Related: [What Is an AI-Built Website?](/blog/what-is-an-ai-built-website) and [The Migration Process Explained](/blog/migration-process-explained).*

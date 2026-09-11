@@ -1,0 +1,143 @@
+---
+/**
+ * /forms/manual-therapy — client quick-reference guide for Manual Therapy
+ * Consultants (adding and updating WooCommerce events). NOINDEX: private client
+ * document (robots meta here, X-Robots-Tag header on /forms/* in netlify.toml).
+ *
+ * Ported word for word from the live page. Step screenshots live at
+ * public/forms/manual-therapy/images/step-1..7.png, referenced relative per the
+ * LWS path rule. Em dashes converted to commas per the writing rules.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Glass from "../../../components/Glass.astro";
+import { relPrefix } from "../../../lib/relPrefix";
+
+const rel = relPrefix(Astro.url.pathname);
+
+const steps = [
+  {
+    n: 1,
+    title: "Start with a copy",
+    img: "step-1.png",
+    alt: "Products list showing In stock status and the Duplicate link",
+    w: 1158,
+    h: 812,
+  },
+  { n: 2, title: "Rename it", img: "step-2.png", alt: "Editing the product title field for the new event", w: 1188, h: 846 },
+  { n: 3, title: "Update the date and location", img: "step-3.png", alt: "Product description code editor showing the date and location", w: 1213, h: 852 },
+  { n: 4, title: "Set the sort order", img: "step-4.png", alt: "The Advanced tab and Menu order field in the Product data box", w: 1186, h: 837 },
+  { n: 5, title: "Open the product image", img: "step-5.png", alt: "The Product image box in the sidebar", w: 1482, h: 836 },
+  { n: 6, title: "Choose a new photo", img: "step-6.png", alt: "Media library with an image selected and the Set product image button", w: 1460, h: 817 },
+  { n: 7, title: "Publish", img: "step-7.png", alt: "The Publish button in the sidebar", w: 1475, h: 842 },
+];
+---
+
+<Base
+  title="Updating Events, Manual Therapy | Live Web Studios"
+  description="A quick reference guide for Manual Therapy Consultants: how to add, update, or remove an event on your website. Prepared by Live Web Studios."
+  canonical="https://livewebstudios.com/forms/manual-therapy"
+  noindex={true}
+>
+  <Nav />
+
+  <main>
+    <section class="page-head page-head--glass">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">QUICK REFERENCE GUIDE · PREPARED BY LIVE WEB STUDIOS</span>
+        <h1 class="page-h1">Adding &amp; Updating Events <em>on Your Website</em>.</h1>
+        <!-- em-dash: "Manual Therapy Consultants — how to add" -> comma -->
+        <p class="page-lede">A short walkthrough for Manual Therapy Consultants, how to add a new event, edit an existing one, or take one down. About five minutes once you've done it a couple of times.</p>
+      </div>
+    </section>
+
+    <section class="sec-pad">
+      <div class="wrap guide-wrap">
+        <div class="reveal">
+          <p>Hi Alex,</p>
+          <p>Here's the walkthrough we talked about. It's the same method I use when I add a new seminar to your site: duplicate an existing event, then swap in the new details.</p>
+        </div>
+
+        <div class="reveal mt-lg">
+          <Glass variant="inner" innerClass="card-pad">
+            <span class="label">BEFORE YOU START</span>
+            <p>Two things to keep in mind before you start:</p>
+            <ul class="guide-list">
+              <li>Always duplicate an item marked <strong>"In stock."</strong> Never a Draft.</li>
+              <li>You're working on a copy, so the original event stays untouched. If anything looks off partway through, just delete the new draft and start over.</li>
+            </ul>
+          </Glass>
+        </div>
+
+        {steps.map((s) => (
+          <div class="step-card reveal">
+            <Glass innerClass="card-pad">
+              <div class="step-head">
+                <span class="step-num">{s.n}</span>
+                <h2 class="step-title">{s.title}</h2>
+              </div>
+
+              {s.n === 1 && <p>Go to <strong>Products → All Products</strong>. Find an event similar to the one you're adding. Hover over it, then click <strong>Duplicate</strong>. Make sure the item you copy says <strong>"In stock,"</strong> not "Draft."</p>}
+              {s.n === 2 && <p>Your new copy opens in the editor with "(Copy)" added to the name. Click into the title field and rename it for the new event.</p>}
+              {/* em-dash: "looks like code — it's actually the safer" -> comma */}
+              {s.n === 3 && <p>Scroll down to <strong>Product short description</strong> and <strong>Product long description</strong>. Click <strong>"Code"</strong> instead of "Visual" for both boxes. I know it looks like code, it's actually the safer, easier way to change just the date and location without messing up the formatting. Update the text in both boxes to match the new event.</p>}
+              {s.n === 4 && <p>Click <strong>Advanced</strong> on the left side of the Product data box. In <strong>Menu order</strong>, type the event date as <strong>YYMMDD</strong>. September 26, 2026 becomes <strong>260926</strong>. This is what keeps your events sorted by date automatically.</p>}
+              {s.n === 5 && <p>On the right side of the screen, find <strong>Product image</strong> and click the picture.</p>}
+              {s.n === 6 && <p>A media library window opens. Look for an image with a name that matches the event's city or theme. Click it, then click <strong>"Set product image"</strong> in the bottom right.</p>}
+              {/* em-dash: "That's it — the event is live" -> period */}
+              {s.n === 7 && <p>Once everything looks right, click <strong>Publish</strong> in the top right. That's it. The event is live.</p>}
+
+              <img
+                class="step-img"
+                src={`${rel}forms/manual-therapy/images/${s.img}`}
+                alt={s.alt}
+                width={s.w}
+                height={s.h}
+                loading="lazy"
+                decoding="async"
+              />
+            </Glass>
+          </div>
+        ))}
+
+        <div class="reveal mt-lg">
+          <Glass variant="inner" innerClass="card-pad">
+            <h2>Editing or removing an event</h2>
+            <p><strong>Fixing something on an event that's already posted?</strong> Skip the duplicate step. From the Products page, click <strong>Edit</strong> next to that event, make your changes, and click <strong>Update</strong>.</p>
+            {/* em-dash: "right away — and it's not gone for good" -> comma */}
+            <p><strong>Taking an old event down?</strong> From the same Products page, click <strong>Trash</strong> next to it. It comes off the site right away, and it's not gone for good, you can restore it from the Trash tab if you ever need it back.</p>
+          </Glass>
+        </div>
+
+        <div class="signoff reveal">
+          <p>Call or text anytime if you get stuck partway through. Happy to walk through it live.</p>
+          <p class="sign">Jon</p>
+          <p class="contact">Jon Wolf | Live Web Studios | <a href="tel:7328019611">732.801.9611</a> | <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .guide-wrap { max-width: 880px; }
+  .guide-wrap > * + * { margin-top: 1.4rem; }
+  .guide-list { padding-left: 1.2rem; display: grid; gap: 0.5rem; margin-top: 0.6rem; color: var(--muted); }
+  .step-head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.9rem; }
+  .step-num {
+    flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-items: center;
+    border-radius: 999px; border: 1px solid var(--line);
+    font-family: var(--mono); font-size: 0.8rem; color: var(--cyan);
+  }
+  .step-title { font-size: 1.15rem; }
+  .step-img {
+    display: block; width: 100%; height: auto; margin-top: 1rem;
+    border-radius: var(--r-md); border: 1px solid var(--line-2);
+  }
+  .signoff { color: var(--muted); }
+  .signoff .sign { font-family: var(--mono); letter-spacing: 0.1em; color: var(--ink); margin-top: 0.8rem; }
+  .signoff .contact { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--muted-2); margin-top: 0.4rem; }
+</style>

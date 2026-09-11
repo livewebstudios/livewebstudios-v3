@@ -33,4 +33,4 @@ If you or someone on your team is touching the site every week to run updates, c
 
 ---
 
-*Also: [Why WordPress Might Be Slowing You Down](https://livewebstudios.com/post.html?post=2026-05-08-wordpress-slowing-you-down).*
+*Also: [Why WordPress Might Be Slowing You Down](/blog/wordpress-slowing-you-down).*

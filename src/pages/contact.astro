@@ -2,9 +2,9 @@
 /**
  * /contact — ported from the live site (livewebstudios.com/contact).
  * Real Formspree endpoint (mbdqyrwg) and live field set + copy brought over,
- * rebuilt on v3 layouts/components. Keeps the v3 honeypot (_gotcha) and the
- * ?sent=1 success-banner pattern rather than the live thank-you.html redirect
- * (that page doesn't exist in v3). EM DASH BAN applied to ported copy.
+ * rebuilt on v3 layouts/components. Keeps the v3 honeypot (_gotcha). Formspree
+ * redirects to /thank-you on success, matching the live site; the old ?sent=1
+ * in-page banner went with it. EM DASH BAN applied to ported copy.
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
@@ -42,21 +42,14 @@ import HeroActions from "../components/HeroActions.astro";
       <div class="wrap contact-grid">
         <!-- FORM -->
         <Glass class="reveal" innerClass="form-pad">
-          <!-- Success banner shown after Formspree redirects back with ?sent=1 -->
-          <div id="form-ok" class="feature" hidden>
-            <span class="eyebrow is-center mb-md">MESSAGE SENT</span>
-            <h2>Got it. Talk soon.</h2>
-            <p>Thanks for reaching out. I'll get back to you shortly, usually the same day.</p>
-          </div>
-
           <!-- Real live Formspree endpoint, ported from the live contact page -->
           <form
             id="contact-form"
             action="https://formspree.io/f/mbdqyrwg"
             method="POST"
           >
-            <!-- Absolute redirect back to this page (Formspree posts from its own domain) -->
-            <input type="hidden" name="_next" value="https://livewebstudios.com/contact?sent=1" />
+            <!-- Absolute success redirect (Formspree posts from its own domain) -->
+            <input type="hidden" name="_next" value="https://livewebstudios.com/thank-you" />
             <input type="hidden" name="_subject" value="New LWS Inquiry" />
             <!-- Honeypot: real users never see or fill this -->
             <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
@@ -139,19 +132,4 @@ import HeroActions from "../components/HeroActions.astro";
   </main>
 
   <Footer />
-
-  <script is:inline>
-    // Reveal the success banner when Formspree redirects back with ?sent=1,
-    // and hide the form so the confirmation reads clean. Progressive: with JS
-    // off, the visitor still lands on a working contact page.
-    (function () {
-      if (new URLSearchParams(window.location.search).get("sent") === "1") {
-        var ok = document.getElementById("form-ok");
-        var form = document.getElementById("contact-form");
-        if (ok) ok.hidden = false;
-        if (form) form.hidden = true;
-        if (ok && ok.scrollIntoView) ok.scrollIntoView({ block: "center" });
-      }
-    })();
-  </script>
 </Base>

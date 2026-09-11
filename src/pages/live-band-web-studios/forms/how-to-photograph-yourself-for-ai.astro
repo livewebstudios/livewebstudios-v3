@@ -1,0 +1,190 @@
+---
+/**
+ * /live-band-web-studios/forms/how-to-photograph-yourself-for-ai — ported from
+ * the live site. Companion guide to the Music Photo Form; the sub-nav Forms
+ * dropdown links to it as "Music Photo Instructions".
+ *
+ * Every word of the live body copy is carried over. Structure follows
+ * music-photo-form.astro (Base, Nav, Footer, Glass, VideoBg, .theme-live-band).
+ * The live page's light .mpf-scope card treatment and its page-internal footer
+ * are dropped in favour of the v3 glass system and the shared Footer.
+ * Decorative inline SVG icons dropped. En dash range "20-40" spelled out.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Glass from "../../../components/Glass.astro";
+import VideoBg from "../../../components/VideoBg.astro";
+
+const steps = [
+  {
+    n: "1",
+    title: "Good lighting is everything",
+    body: "Natural light near a window is your best friend. Overcast daylight is ideal. No harsh shadows, no blown-out highlights. Shade outdoors also works great. Avoid shooting in the dark or under fluorescent overhead light.",
+  },
+  {
+    n: "2",
+    title: "Shoot from multiple angles",
+    body: "Front-facing, left profile, right profile, slightly above, slightly below. I need to understand how you look from different perspectives so I can place you convincingly in any scene. Five to ten shots from varied angles goes a long way.",
+  },
+  {
+    n: "3",
+    title: "Vary your expressions",
+    body: "Serious, smiling, mid-performance intensity, relaxed, eyes closed. The more expressions I have to work from, the more authentic your AI images will look, whether it's a press shot, a live moment, or a candid.",
+  },
+  {
+    n: "4",
+    title: "Include full-body and close-up shots",
+    body: "Close-ups of your face are essential. But also send full-body shots so I can see your posture, your instrument, your stage presence, and your outfit. Both are needed for different types of scenes.",
+  },
+  {
+    n: "5",
+    title: "Plain or simple backgrounds preferred",
+    body: "A white wall, a plain door, open sky outdoors. Anything clean and uncluttered. I'm extracting you from the background, so complex backgrounds just make that harder.",
+  },
+  {
+    n: "6",
+    title: "Wear what you perform in",
+    body: "Send a few shots in your stage outfit or signature look. Also send a few in everyday clothes. I can place you in different wardrobe via AI, but having your real look as reference makes the results more accurate.",
+  },
+  {
+    n: "7",
+    title: "Use Portrait Mode for headshots, landscape for everything else",
+    body: "For individual close-ups: switch to iPhone Portrait Mode. It blurs the background and sharpens your face, which is exactly what I need. For full-body and band shots: rotate your phone horizontal (landscape).",
+  },
+  {
+    n: "8",
+    title: "Include your instrument",
+    body: "Shots of you holding or playing your instrument, guitar in hand, sticks in the air, keys at your fingertips. Also useful: close-ups of hands on strings, the drum kit, your pedal board. These details make the final images feel real, not generated.",
+  },
+];
+
+const send = [
+  {
+    name: "Google Drive",
+    body: "Upload to a folder, click Share, and send me the link. Great for large batches.",
+    cta: "Open Google Drive →",
+    href: "https://drive.google.com",
+  },
+  {
+    name: "Dropbox",
+    body: 'Use "Request files." No Dropbox account needed on your end. We can set up a link for you.',
+    cta: "Open Dropbox →",
+    href: "https://www.dropbox.com",
+  },
+  {
+    name: "WeTransfer",
+    body: "Free, no account needed. Drag photos in, enter our email, hit Send.",
+    cta: "Open WeTransfer →",
+    href: "https://wetransfer.com",
+  },
+  {
+    name: "iCloud Link",
+    body: "In iPhone Photos, select shots → Share → Copy iCloud Link → paste into an email to us.",
+    cta: "Open iCloud Photos →",
+    href: "https://www.icloud.com/photos/",
+  },
+];
+---
+
+<Base
+  title="How to Photograph Yourself for AI | Live Band Web Studios"
+  description="How to photograph yourself for AI band photos: lighting, angles, expressions, wardrobe, and how to send your reference shots at full resolution."
+  canonical="https://livewebstudios.com/live-band-web-studios/forms/how-to-photograph-yourself-for-ai"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <!-- HERO -->
+    <section class="page-head page-head--glass has-videobg">
+      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">PHOTO GUIDE</span>
+        <h1 class="page-h1">How to Photograph Yourself <em>for AI</em>.</h1>
+        <p class="page-lede">The reference shots you send are the raw material behind every AI image we build for you. Here is how to shoot them so the results look real.</p>
+        <p class="page-lede optnote">Companion guide to the Music Photo Form.</p>
+      </div>
+    </section>
+
+    <!-- GUIDE -->
+    <section class="sec-pad has-videobg">
+      <VideoBg src="bg-corner.mp4" scrim="strong" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">LIVE WEB STUDIOS · LIVE BAND WEB PHOTOS</span>
+          <h2>Musician photo reference guide</h2>
+        </div>
+        <p class="page-lede is-center reveal">Shoot it right once and we can put you on any stage, in any light, in any scene.</p>
+        <p class="page-lede is-center reveal">The photos you send me are the raw material I use to place you into different scenes, stages, environments, and creative scenarios using AI. The better your reference shots, the more realistic and varied the final results. These aren't finished photos. They're reference material. You're giving me enough to work with.</p>
+        <p class="page-lede is-center mb-lg reveal">The more variety you give me in angles, expressions, and lighting conditions, the more situations I can put you in. Shoot as many as you can.</p>
+
+        <div class="grid-svc">
+          {steps.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <div class="ico">{s.n}</div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+
+        <div class="reveal mt-lg">
+          <Glass innerClass="card-pad">
+            <span class="label">HOW MANY</span>
+            <p>Aim for 20 to 40 photos minimum across different angles, expressions, and lighting. The more reference you give me, the more scenes I can create for you. More is always better here.</p>
+          </Glass>
+        </div>
+      </div>
+    </section>
+
+    <!-- SENDING -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">FULL RESOLUTION ONLY</span>
+          <h2>How to send your photos</h2>
+        </div>
+        <p class="page-lede is-center mb-lg reveal">Send at full resolution. Never via text message or screenshot. Use any of these options:</p>
+
+        <div class="grid-svc">
+          {send.map((o) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <h3>{o.name}</h3>
+                <p>{o.body}</p>
+                <a class="btn btn-ghost" href={o.href} target="_blank" rel="noopener">{o.cta}</a>
+              </Glass>
+            </div>
+          ))}
+        </div>
+
+        <div class="reveal mt-lg">
+          <Glass innerClass="card-pad">
+            <span class="label">WHERE IT GOES</span>
+            <p>Send everything to <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a> with your band name in the subject line. Never send via iMessage or standard text. Compression kills the quality permanently.</p>
+            <a class="btn btn-primary" href="music-photo-form.html">Fill Out the Music Photo Form →</a>
+          </Glass>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Amber sub-brand theming — token override reproduced from forms.astro. */
+  .theme-live-band {
+    --cyan: #fcd34d;
+    --cyan-soft: #fde68a;
+    --cyan-2: #f59e0b;
+    --cyan-deep: #4a3a08;
+    --on-accent: #1a1400;
+    --line: rgba(252, 211, 77, 0.16);
+    --line-2: rgba(252, 211, 77, 0.08);
+  }
+
+  .optnote { color: var(--cyan-soft); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em; }
+</style>

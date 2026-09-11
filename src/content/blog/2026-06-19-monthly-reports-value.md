@@ -41,4 +41,4 @@ When clients see steady evidence that their site is being maintained and improve
 
 ---
 
-*Related: [Understanding Your Website Analytics](https://livewebstudios.com/post.html?post=2026-08-21-understanding-website-analytics) and [What Is Google Search Console?](https://livewebstudios.com/post.html?post=2026-07-10-google-search-console-explained).*
+*Related: [Understanding Your Website Analytics](/blog/understanding-website-analytics) and [What Is Google Search Console?](/blog/google-search-console-explained).*

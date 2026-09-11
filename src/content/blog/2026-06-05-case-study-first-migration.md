@@ -37,4 +37,4 @@ This site is now the template. The workflow we built here becomes the repeatable
 
 ---
 
-*See also: [From WordPress to AI-Built: The Migration Process](https://livewebstudios.com/post.html?post=2026-07-03-migration-process-explained) and [our website design services](https://livewebstudios.com/services/website-design.html).*
+*See also: [From WordPress to AI-Built: The Migration Process](/blog/migration-process-explained) and [our website design services](https://livewebstudios.com/services/website-design.html).*

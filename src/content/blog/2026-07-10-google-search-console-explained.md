@@ -35,4 +35,4 @@ If your site is an LWS site and you don't have Search Console set up yet, tell u
 
 ---
 
-*Related: [Small Business SEO in 2026](https://livewebstudios.com/post.html?post=2026-06-12-small-business-seo-2026), [Understanding Your Analytics](https://livewebstudios.com/post.html?post=2026-08-21-understanding-website-analytics), and [Why Monthly Reports Matter](https://livewebstudios.com/post.html?post=2026-06-19-monthly-reports-value).*
+*Related: [Small Business SEO in 2026](/blog/small-business-seo-2026), [Understanding Your Analytics](/blog/understanding-website-analytics), and [Why Monthly Reports Matter](/blog/monthly-reports-value).*

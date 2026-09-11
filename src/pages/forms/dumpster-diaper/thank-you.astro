@@ -1,0 +1,94 @@
+---
+/**
+ * /forms/dumpster-diaper/thank-you — Formspree _next target for the discovery
+ * questionnaire. NOINDEX, like the form it follows.
+ *
+ * Ported from the live page. The live auto-redirect countdown back to
+ * livewebstudios.com is kept. Em dashes converted; the "1-2 business days"
+ * en dash range is spelled out, matching music-photo-form.astro.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Glass from "../../../components/Glass.astro";
+
+const steps = [
+  "Jon reviews your answers, usually same day.",
+  "You'll get a call or email within 1 to 2 business days to go over the details and confirm the direction.",
+  "We put together a platform recommendation and scope, then we get building.",
+];
+---
+
+<Base
+  title="Got It, Thank You | Live Web Studios"
+  description="Discovery questionnaire received. Live Web Studios will be in touch."
+  canonical="https://livewebstudios.com/forms/dumpster-diaper/thank-you"
+  noindex={true}
+>
+  <Nav />
+
+  <main>
+    <section class="page-head page-head--glass">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">DISCOVERY RECEIVED</span>
+        <h1 class="page-h1">Got it. <em>We're on it</em>.</h1>
+        <p class="page-lede">Your answers are on their way to <strong>Jon Wolf</strong> right now. He'll review everything and reach out within 1 to 2 business days to set up a call.</p>
+      </div>
+    </section>
+
+    <section class="sec-pad">
+      <div class="wrap ty-wrap">
+        <div class="reveal">
+          <Glass innerClass="card-pad">
+            <h2>What happens next</h2>
+            <ol class="next-steps">
+              {steps.map((s) => <li>{s}</li>)}
+            </ol>
+          </Glass>
+        </div>
+
+        <div class="reveal mt-lg">
+          <Glass variant="inner" innerClass="card-pad">
+            <span class="label">NEED JON SOONER?</span>
+            <p>Call <a href="tel:7328019611">732.801.9611</a> anytime, or email <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>.</p>
+            <a class="btn btn-ghost" href="../../index.html">Back to Live Web Studios</a>
+          </Glass>
+        </div>
+
+        <p class="redirect-notice reveal">Returning you to the Live Web Studios home page in <span id="countdown">12</span> seconds.</p>
+        <div class="redirect-bar-wrap reveal"><div class="redirect-bar-fill" id="redirectBar"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<script is:inline>
+  // Live behaviour preserved: 12-second countdown, then home. Progressive
+  // enhancement only; every link on the page works without it.
+  (function () {
+    var total = 12;
+    var left = total;
+    var out = document.getElementById("countdown");
+    var bar = document.getElementById("redirectBar");
+    if (!out || !bar) return;
+    var t = setInterval(function () {
+      left--;
+      out.textContent = left;
+      bar.style.width = ((total - left) / total) * 100 + "%";
+      if (left <= 0) {
+        clearInterval(t);
+        window.location.href = "../../index.html";
+      }
+    }, 1000);
+  })();
+</script>
+
+<style>
+  .ty-wrap { max-width: 780px; }
+  .next-steps { margin: 0.8rem 0 0; padding-left: 1.2rem; display: grid; gap: 0.6rem; color: var(--muted); }
+  .redirect-notice { margin-top: 2rem; text-align: center; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--muted-2); }
+  .redirect-bar-wrap { margin: 0.6rem auto 0; max-width: 260px; height: 3px; border-radius: 999px; background: var(--line-2); overflow: hidden; }
+  .redirect-bar-fill { height: 100%; width: 0; background: var(--cyan); transition: width 1s linear; }
+</style>

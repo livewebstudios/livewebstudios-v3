@@ -35,4 +35,4 @@ We didn't move away from WordPress because it failed. We moved forward because s
 
 ---
 
-*Related: [The Hidden Cost of Outdated Hosting](https://livewebstudios.com/post.html?post=2026-05-22-hidden-cost-of-outdated-hosting) and [How We Build a Site in 2026](https://livewebstudios.com/post.html?post=2026-05-29-how-we-build-sites-2026).*
+*Related: [The Hidden Cost of Outdated Hosting](/blog/hidden-cost-of-outdated-hosting) and [How We Build a Site in 2026](/blog/how-we-build-sites-2026).*

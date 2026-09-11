@@ -2,7 +2,7 @@
 /**
  * /live-band-web-studios/forms — ported from the live site
  * (livewebstudios.com/live-band-web-studios/forms). A hub/index that links to
- * the three form pages (built by another agent) at forms/*.html. One folder
+ * the three form pages plus the photo instructions guide at forms/*.html. One folder
  * deep (two dots up on imports). Wrapped in .theme-live-band for the amber
  * accent (token override reproduced in scoped <style>). No <img>: live hero
  * photo dropped for page-head + VideoBg. Tabler icon font dropped for glyphs.
@@ -44,6 +44,15 @@ const forms = [
     href: "forms/music-photo-form.html",
     cta: "Fill Out the Music Photo Form →",
     primary: true,
+  },
+  {
+    ico: "◈",
+    badge: "Before You Shoot",
+    title: "Music Photo Instructions",
+    body: "The companion guide to the Music Photo Form. Lighting, angles, expressions, wardrobe, and how to send your reference shots at full resolution. Read it before you pick up the phone and start shooting.",
+    href: "forms/how-to-photograph-yourself-for-ai.html",
+    cta: "Read the Photo Instructions →",
+    primary: false,
   },
 ];
 
@@ -90,7 +99,7 @@ const seo = [
             </div>
           ))}
         </div>
-        <p class="page-lede is-center mt-lg reveal">All three forms go directly to Jon Wolf at <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>. No auto-responder. No chatbot. A real person gets this.</p>
+        <p class="page-lede is-center mt-lg reveal">Every form here goes directly to Jon Wolf at <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>. No auto-responder. No chatbot. A real person gets this.</p>
       </div>
     </section>
 

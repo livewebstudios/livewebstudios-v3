@@ -39,4 +39,4 @@ AI consulting is a live part of what Live Web Studios does. If you've looked at 
 
 ---
 
-*Related: [What AI Can (and Can't) Do for Your Website](https://livewebstudios.com/post.html?post=2026-07-31-what-ai-can-and-cant-do) and [our full AI services](https://livewebstudios.com/services/ai-business-services.html).*
+*Related: [What AI Can (and Can't) Do for Your Website](/blog/what-ai-can-and-cant-do) and [our full AI services](https://livewebstudios.com/services/ai-business-services.html).*

@@ -49,4 +49,4 @@ Building something simple takes more discipline than building something complex.
 
 ---
 
-*Related: [How We Build a Site in 2026](https://livewebstudios.com/post.html?post=2026-05-29-how-we-build-sites-2026) and [5 Website Mistakes That Kill Rankings](https://livewebstudios.com/post.html?post=2026-07-17-5-website-mistakes).*
+*Related: [How We Build a Site in 2026](/blog/how-we-build-sites-2026) and [5 Website Mistakes That Kill Rankings](/blog/5-website-mistakes).*

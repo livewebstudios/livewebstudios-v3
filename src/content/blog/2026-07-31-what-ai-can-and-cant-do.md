@@ -33,4 +33,4 @@ AI is not a magic button that spits out a finished, professional website in 30 s
 
 ---
 
-*Also read: [What Is an AI-Built Website?](https://livewebstudios.com/post.html?post=2026-05-15-what-is-an-ai-built-website) and [AI Consulting for Small Business](https://livewebstudios.com/post.html?post=2026-09-04-ai-consulting-small-business).*
+*Also read: [What Is an AI-Built Website?](/blog/what-is-an-ai-built-website) and [AI Consulting for Small Business](/blog/ai-consulting-small-business).*

@@ -37,4 +37,4 @@ Over 12 months, even a modest posting habit builds real authority on your topics
 
 ---
 
-*Related: [Small Business SEO in 2026](https://livewebstudios.com/post.html?post=2026-06-12-small-business-seo-2026) and [Why Monthly Reports Are Valuable](https://livewebstudios.com/post.html?post=2026-06-19-monthly-reports-value).*
+*Related: [Small Business SEO in 2026](/blog/small-business-seo-2026) and [Why Monthly Reports Are Valuable](/blog/monthly-reports-value).*

@@ -33,4 +33,4 @@ We've been watching this play out in real numbers across our migration work this
 
 ---
 
-*Also read: [Why WordPress Might Be Slowing You Down](https://livewebstudios.com/post.html?post=2026-05-08-wordpress-slowing-you-down) and [5 Website Mistakes That Kill Rankings](https://livewebstudios.com/post.html?post=2026-07-17-5-website-mistakes).*
+*Also read: [Why WordPress Might Be Slowing You Down](/blog/wordpress-slowing-you-down) and [5 Website Mistakes That Kill Rankings](/blog/5-website-mistakes).*

@@ -45,4 +45,4 @@ For a typical 5-10 page small business site: about a week of build time, a day o
 
 ---
 
-*Also: [How We Build a Site in 2026](https://livewebstudios.com/post.html?post=2026-05-29-how-we-build-sites-2026) and [Case Study: First Migration](https://livewebstudios.com/post.html?post=2026-06-05-case-study-first-migration).*
+*Also: [How We Build a Site in 2026](/blog/how-we-build-sites-2026) and [Case Study: First Migration](/blog/case-study-first-migration).*

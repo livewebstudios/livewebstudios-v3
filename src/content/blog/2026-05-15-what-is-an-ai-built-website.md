@@ -36,4 +36,4 @@ It's not magic. It's just a better process producing a better product.
 
 ---
 
-*Related: [How We Build a Site in 2026](https://livewebstudios.com/post.html?post=2026-05-29-how-we-build-sites-2026) and [What AI Can (and Can't) Do](https://livewebstudios.com/post.html?post=2026-07-31-what-ai-can-and-cant-do).*
+*Related: [How We Build a Site in 2026](/blog/how-we-build-sites-2026) and [What AI Can (and Can't) Do](/blog/what-ai-can-and-cant-do).*

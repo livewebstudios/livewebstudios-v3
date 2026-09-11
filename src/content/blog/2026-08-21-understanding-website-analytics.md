@@ -41,4 +41,4 @@ Sessions, engagement, top pages, traffic sources. Four numbers. The rest of GA4 
 
 ---
 
-*Related: [What Is Google Search Console?](https://livewebstudios.com/post.html?post=2026-07-10-google-search-console-explained) and [Why Monthly Reports Are Valuable](https://livewebstudios.com/post.html?post=2026-06-19-monthly-reports-value).*
+*Related: [What Is Google Search Console?](/blog/google-search-console-explained) and [Why Monthly Reports Are Valuable](/blog/monthly-reports-value).*
