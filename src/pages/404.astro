@@ -37,7 +37,7 @@ import HeroActions from "../components/HeroActions.astro";
     <section class="sec-pad">
       <div class="wrap">
         <div class="copy reveal notfound-copy">
-          <span class="eyebrow">WHAT YOU CAN DO NEXT</span>
+          <h2 class="eyebrow">WHAT YOU CAN DO NEXT</h2>
           <p>If you followed an old bookmark or an external link, one of these usually gets you unstuck.</p>
           <ul>
             <li><a href="contact.html">Contact us</a>... tell us what you were looking for and we'll point you to the right place.</li>
@@ -60,6 +60,8 @@ import HeroActions from "../components/HeroActions.astro";
   .notfound-copy .eyebrow {
     display: block;
     margin-bottom: 1rem;
+    font-size: inherit;
+    font-weight: inherit;
   }
   .notfound-copy p,
   .notfound-copy li {

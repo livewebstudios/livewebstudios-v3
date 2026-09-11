@@ -12,12 +12,42 @@ import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Logo Design & Graphics | Live Web Studios",
+    description: "Logo design and graphic services, all formats, all media. Social, print, presentations, signage. Live Web Studios, Saddle Brook, NJ. Est. 2004.",
+    url: "https://livewebstudios.com/services/logo-design",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Logo Design & Graphics | Live Web Studios",
+    description: "Logo design and graphic services, all formats, all media. Social, print, presentations, signage. Live Web Studios, Saddle Brook, NJ. Est. 2004.",
+    url: "https://livewebstudios.com/services/logo-design",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="Logo Design & Graphics | Live Web Studios"
   description="Logo design and graphic services, all formats, all media. Social, print, presentations, signage. Live Web Studios, Saddle Brook, NJ. Est. 2004."
   canonical="https://livewebstudios.com/services/logo-design"
+  jsonld={pageSchema}
 >
   <Nav />
 

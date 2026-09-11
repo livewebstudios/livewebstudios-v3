@@ -11,6 +11,14 @@ interface Props {
   description?: string;
   canonical?: string;
   noindex?: boolean;
+  /* Structured data. Omit and the page gets a WebPage node built from the
+     props above; every page carries schema that way (project rule, and the
+     live site has it on 61 pages). Pass an object or an array of objects to
+     replace that default: index.astro passes LocalBusiness, the 13 service
+     pages pass WebPage + Service, and pages whose template already emits
+     their own schema (blog posts: BlogPosting, faq: FAQPage) pass null so
+     nothing is duplicated. */
+  jsonld?: object | object[] | null;
 }
 const {
   title = "Live Web Studios | Web Design, Hosting & AI Builds in North Jersey",
@@ -18,8 +26,26 @@ const {
     "Live Web Studios builds and maintains custom, AI-platformed websites for North Jersey businesses. Web design, hosting, and SEO since 2004. Real work. Real results. One call.",
   canonical = "https://livewebstudios.com/",
   noindex = false,
+  jsonld,
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
+
+/* undefined -> the WebPage default; null -> nothing (template emits its own). */
+const schema =
+  jsonld === null
+    ? null
+    : (jsonld ?? {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        description,
+        url: canonical,
+        isPartOf: {
+          "@type": "WebSite",
+          name: "Live Web Studios",
+          url: "https://livewebstudios.com",
+        },
+      });
 
 /* Detail pages under /services/<x> and /industries/<x> get the plum card
    treatment (Jon 2026-09-07). Derived from the path rather than set per page,
@@ -41,6 +67,10 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
 
+    {schema && (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    )}
+
     {/* favicxon.png is the favicon (Jon 2026-09-02). The old favicon.svg
         link is removed, not just reordered: browsers prefer an SVG icon over
         a PNG regardless of order, so leaving it declared would have kept the
@@ -54,15 +84,15 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
     <meta property="og:image" content="https://livewebstudios.com/images/logoRGB.png" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- GA4 placeholder: replace G-XXXXXXXXXX with the real Measurement ID before launch -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <!-- GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW3VF5PBDT"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-XXXXXXXXXX");
+      gtag("config", "G-SW3VF5PBDT");
     </script>
   </head>
   <!-- Card art. The home page's carbon weave is the card background site-wide

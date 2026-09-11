@@ -78,12 +78,42 @@ const tiers = [
     ],
   },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "SEO & Digital Marketing | Live Web Studios",
+    description: "Expert SEO services for small business, Saddle Brook, NJ. Local SEO, keyword research, content, technical audits. 23 years experience.",
+    url: "https://livewebstudios.com/services/seo",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "SEO & Digital Marketing | Live Web Studios",
+    description: "Expert SEO services for small business, Saddle Brook, NJ. Local SEO, keyword research, content, technical audits. 23 years experience.",
+    url: "https://livewebstudios.com/services/seo",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="SEO & Digital Marketing | Live Web Studios"
   description="Expert SEO services for small business, Saddle Brook, NJ. Local SEO, keyword research, content, technical audits. 23 years experience."
   canonical="https://livewebstudios.com/services/seo"
+  jsonld={pageSchema}
 >
   <Nav />
 

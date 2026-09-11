@@ -27,12 +27,42 @@ const cards = [
   { ico: "◎", title: "SEO Product Pages", body: "Product schema and category structure, so listings can show price and stock right in the search result. That is free real estate most stores never claim.",
     points: ["Price and availability in search results", "Categories built to rank, not just to sort"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "E-Commerce Solutions | Live Web Studios",
+    description: "WooCommerce, Shopify, and custom static storefronts, speed-optimized and built to sell. E-commerce development from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ecommerce",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "E-Commerce Solutions | Live Web Studios",
+    description: "WooCommerce, Shopify, and custom static storefronts, speed-optimized and built to sell. E-commerce development from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ecommerce",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="E-Commerce Solutions | Live Web Studios"
   description="WooCommerce, Shopify, and custom static storefronts, speed-optimized and built to sell. E-commerce development from Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/ecommerce"
+  jsonld={pageSchema}
 >
   <Nav />
 

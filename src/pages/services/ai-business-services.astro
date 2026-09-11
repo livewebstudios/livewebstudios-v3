@@ -27,12 +27,42 @@ const cards = [
   { ico: "❖", title: "Ongoing Consulting", body: "Monthly retainer. This field moves fast enough that a plan from last spring is already stale, so I keep watching it and tell you what changed.",
     points: ["One person who knows your setup", "Call me when something breaks or something new lands"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "AI Business Services | Live Web Studios",
+    description: "AI strategy, team training, tool selection, and custom workflow automation for businesses. AI consulting from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ai-business-services",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "AI Business Services | Live Web Studios",
+    description: "AI strategy, team training, tool selection, and custom workflow automation for businesses. AI consulting from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ai-business-services",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="AI Business Services | Live Web Studios"
   description="AI strategy, team training, tool selection, and custom workflow automation for businesses. AI consulting from Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/ai-business-services"
+  jsonld={pageSchema}
 >
   <Nav />
 

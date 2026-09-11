@@ -27,12 +27,42 @@ const cards = [
   { ico: "⬡", title: "Source Files", body: "AI, EPS, SVG, PDF, PNG, WebP. You own all of it. If we stop working together tomorrow, nothing about your brand is locked in my drawer.",
     points: ["Editable originals, not just flat exports", "Yours to keep, no strings"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Branding & Corporate Identity | Live Web Studios",
+    description: "Logo systems, color palettes, typography, and brand guidelines for businesses nationwide. Corporate identity packages from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/branding",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Branding & Corporate Identity | Live Web Studios",
+    description: "Logo systems, color palettes, typography, and brand guidelines for businesses nationwide. Corporate identity packages from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/branding",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="Branding & Corporate Identity | Live Web Studios"
   description="Logo systems, color palettes, typography, and brand guidelines for businesses nationwide. Corporate identity packages from Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/branding"
+  jsonld={pageSchema}
 >
   <Nav />
 

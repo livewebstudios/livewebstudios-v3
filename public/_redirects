@@ -1,12 +1,211 @@
-# Live Web Studios v3 — Netlify redirects
-# Every moved URL gets a 301. Audited against the page manifest at pre-launch QA.
+# ============================================================
+# Netlify Redirects — Live Web Studios v3
+# Rebuilt 2026-09-11: v3 rules + the full live rule set merged in.
+# Source of the legacy rules: the April 2026 Wayback CDX crawl on
+# the live site. Netlify applies the FIRST matching rule, so the
+# specific v3 rules sit above the legacy wildcards below.
+# ============================================================
+# 301 = permanent redirect (old URL → new clean URL)
+# 200 = rewrite (clean URL served silently, browser stays put)
+# ============================================================
 
+
+# ===== V3 CANONICAL SLUGS =====
 # Reversed 2026-07-04: /live-band-web-studios is now canonical per Jon's
 # decision, overriding the Phase 2 §3 lock (which had made /live-band canonical).
 # Nav + footer + mega-panel now link straight to the long slug; the short
 # /live-band folds into it for old links/bookmarks.
-# (Prior locked rule, kept for audit trail: /live-band-web-studios -> /live-band 301.)
-/live-band                 /live-band-web-studios     301
+/live-band                                                             /live-band-web-studios       301
 
 # Locked (Phase 2 §3)
-/portfolio                 /work          301
+/portfolio                                                             /work                        301
+/portfolio.html                                                        /work                        301
+
+
+# ===== SITEMAP =====
+# Astro's sitemap integration emits sitemap-index.xml. Google Search Console
+# and the live robots.txt both point at /sitemap.xml, so serve it from there
+# silently (200) rather than moving the URL.
+/sitemap.xml                                                           /sitemap-index.xml           200
+
+
+# ===== DROPPED PRICING PAGES (commit c37ecfc) =====
+# The four main-site pricing pages were removed. Each folds into the service
+# page that now carries the pricing conversation.
+/pricing/design-pricing                                                /services/website-design     301
+/pricing/design-pricing/                                               /services/website-design     301
+/pricing/design-pricing.html                                           /services/website-design     301
+/pricing/hosting-pricing                                               /services/hosting            301
+/pricing/hosting-pricing/                                              /services/hosting            301
+/pricing/hosting-pricing.html                                          /services/hosting            301
+/pricing/seo-pricing                                                   /services/seo                301
+/pricing/seo-pricing/                                                  /services/seo                301
+/pricing/seo-pricing.html                                              /services/seo                301
+/pricing/seo-marketing-pricing                                         /services/seo                301
+/pricing/seo-marketing-pricing/                                        /services/seo                301
+/pricing/seo-marketing-pricing.html                                    /services/seo                301
+
+
+# ===== CLIENT FORM PAGES =====
+# build.format 'file' flattens a folder index to <folder>.html, so these serve
+# from /forms/dumpster-diaper and /forms/manual-therapy. No rule is needed for
+# the trailing-slash form clients were given: Netlify normalises that away
+# before matching, and an explicit "/x/ -> /x" rule would be a redirect loop.
+
+
+# ===== BLOG INDEX =====
+# v3 builds the index to blog.html (served at /blog); the live site served it
+# at /blog/. Netlify normalises the trailing slash, so only the .html duplicate
+# needs a rule ("/blog/ -> /blog" would loop).
+/blog.html                                                             /blog                        301
+
+
+# ============================================================
+# Netlify Redirects — Live Web Studios
+# Built from full Wayback CDX crawl — April 2026
+# ============================================================
+# 301 = permanent redirect (old URL → new clean URL)
+# 200 = rewrite (clean URL served silently, browser stays put)
+# ============================================================
+
+
+# ===== CANONICAL DOMAIN =====
+# Force non-www on apex. Trailing ! forces the redirect even when a
+# browser has a cached www response. Subdomains (staging.*) are NOT
+# affected — only www.* matches.
+https://www.livewebstudios.com/*                                       https://livewebstudios.com/:splat 301!
+
+# Kill the /index.html duplicate of the root URL
+/index.html                                                            /                            301!
+
+
+# ===== CORE PAGES =====
+/about-us/                                                             /about                       301
+/about-us                                                              /about                       301
+/contact-us/                                                           /contact                     301
+/contact-us                                                            /contact                     301
+/our-work/                                                             /work                        301
+/our-work                                                              /work                        301
+/single-blog/                                                          /blog                        301
+/survey/                                                               /                            301
+
+
+# ===== OLD SERVICE SLUGS =====
+/web-design                                                            /services/website-design     301
+/seo-services                                                          /services/seo                301
+/hosting                                                               /services/hosting            301
+/branding                                                              /services/branding           301
+/graphic-design/                                                       /services/branding           301
+/graphic-design                                                        /services/branding           301
+/printing-service/                                                     /services/branding           301
+/boost-your-brand-drive-results/                                       /services/seo                301
+/boost-your-brand-drive-results                                        /services/seo                301
+
+/services/reliable-hosting-solutions/                                  /services/hosting            301
+/services/reliable-hosting-solutions                                   /services/hosting            301
+/services/e-commerce-sites/                                            /services/ecommerce          301
+/services/e-commerce-sites                                             /services/ecommerce          301
+/services/branding-corporate-image/                                    /services/branding           301
+/services/branding-corporate-image                                     /services/branding           301
+/services/logo-design-graphics/                                        /services/logo-design        301
+/services/logo-design-graphics                                         /services/logo-design        301
+/services/custom-web-app-development/                                  /services/consulting         301
+/services/custom-web-app-development                                   /services/consulting         301
+/services/ai-consulting-automation/                                    /services/ai-business-services 301
+/services/ai-consulting-automation                                     /services/ai-business-services 301
+/services/boost-your-brand-drive-results/                              /services/seo                301
+/services/comprehensive-digital-marketing/                             /services/seo                301
+/services/monthly-marketing-reports/                                   /services/seo                301
+/services/monthly-marketing-reports                                    /services/seo                301
+
+
+# ===== OLD BLOG POSTS — DATE-BASED URLS (→ blog index) =====
+/2021/06/20/new-animated-logo-for-our-company-how-we-can-help-you/     /blog                        301
+/2021/07/20/website-hosting-basics-for-non-techies/                    /blog                        301
+/2021/08/20/is-search-engine-optimization-seo-dead-in-2023-short-answer-no/ /blog                        301
+/2021/09/20/how-can-chatgpt-help-my-business-any-type-of-business/     /blog                        301
+/2021/10/20/i-asked-chatgpt-if-a-bowl-of-chili-can-help-my-business/   /blog                        301
+/2021/11/20/websites-101-using-an-all-in-one-company-for-website-services/ /blog                        301
+/2021/12/20/you-really-dont-have-a-google-business-account-yet/        /blog                        301
+/2022/01/20/nobody-likes-a-slow-website/                               /blog                        301
+/2022/02/20/how-chatgpt-is-changing-web-design/                        /blog                        301
+/2022/03/20/web-design-basics-2/                                       /blog                        301
+/2022/04/20/is-color-important-2/                                      /blog                        301
+/2022/05/20/5-crucial-things-your-website-might-be-missing/            /blog                        301
+/2022/06/20/5-reasons-your-business-needs-a-professional-website/      /blog                        301
+/2022/07/20/the-importance-of-mobile-friendly-website-design/          /blog                        301
+/2022/08/20/how-to-choose-the-right-web-hosting-provider-for-your-business/ /blog                        301
+/2022/09/20/the-benefits-of-responsive-web-design/                     /blog                        301
+/2022/10/20/chatgpt-interviews-jon-wolf/                               /blog                        301
+/2022/11/20/getting-the-most-value-out-of-your-website/                /blog                        301
+/2022/12/20/the-role-of-social-media-in-web-design-and-marketing/      /blog                        301
+/2023/01/20/the-importance-of-website-security-and-how-to-protect-your-site/ /blog                        301
+/2023/02/20/the-benefits-of-having-a-blog-on-your-website/             /blog                        301
+/2023/03/20/web-design-best-practices-for-e-commerce-websites/         /blog                        301
+/2023/04/20/the-importance-of-a-strong-web-presence-for-your-business/ /blog                        301
+/2023/05/20/why-your-small-business-needs-a-website/                   /blog                        301
+/2023/06/20/the-benefits-of-a-content-management-system-cms-for-your-website/ /blog                        301
+/2023/07/20/the-advantages-of-using-a-website-builder/                 /blog                        301
+/2023/08/20/how-to-create-a-professional-website-on-a-budget/          /blog                        301
+/2023/09/20/the-benefits-of-custom-web-design-for-your-business/       /blog                        301
+/2023/10/20/5-common-web-design-mistakes-to-avoid/                     /blog                        301
+/2023/11/20/the-role-of-search-engine-optimization-seo-in-web-design/  /blog                        301
+/2023/12/20/web-design-tips-for-a-better-user-experience/              /blog                        301
+/2024/01/20/the-essential-elements-of-a-successful-website/            /blog                        301
+/2024/02/20/how-to-choose-the-best-domain-name-for-your-website/       /blog                        301
+/2024/02/22/celebrating-20-years-of-innovation-unveiling-our-new-website-and-a-special-gift-for-you/ /blog                        301
+/2024/03/05/elevate-your-brand-unleash-the-power-of-modern-design-and-digital-innovation/ /blog                        301
+/2024/03/26/elevate-your-brand-with-a-second-website/                  /blog                        301
+/2024/12/07/how-seo-services-can-help-your-business-grow/              /blog                        301
+/2025/01/17/how-business-owners-can-profit-from-seo-driven-traffic/    /blog                        301
+/2025/02/28/the-2025-state-of-the-website-report/                      /blog                        301
+/2025/04/04/what-we-do-for-our-hosting-customers/                      /blog                        301
+/2026/01/24/new-for-2025-custom-web-apps-smart-business-tools-built-just-for-you/ /blog                        301
+/2026/01/27/how-americans-are-integrating-ai-into-the-workplace/       /blog                        301
+
+
+# ===== OLD BLOG POSTS — FLAT SLUG VERSIONS =====
+/new-animated-logo-for-our-company-how-we-can-help-you/                /blog                        301
+/website-hosting-basics-for-non-techies/                               /blog                        301
+/is-search-engine-optimization-seo-dead-in-2023-short-answer-no/       /blog                        301
+/how-can-chatgpt-help-my-business-any-type-of-business/                /blog                        301
+/i-asked-chatgpt-if-a-bowl-of-chili-can-help-my-business/              /blog                        301
+/websites-101-using-an-all-in-one-company-for-website-services/        /blog                        301
+/you-really-dont-have-a-google-business-account-yet/                   /blog                        301
+/nobody-likes-a-slow-website/                                          /blog                        301
+/how-chatgpt-is-changing-web-design/                                   /blog                        301
+/web-design-basics-2/                                                  /blog                        301
+/is-color-important-2/                                                 /blog                        301
+/5-crucial-things-your-website-might-be-missing/                       /blog                        301
+/5-reasons-your-business-needs-a-professional-website/                 /blog                        301
+/the-importance-of-mobile-friendly-website-design/                     /blog                        301
+/how-to-choose-the-right-web-hosting-provider-for-your-business/       /blog                        301
+/the-benefits-of-responsive-web-design/                                /blog                        301
+/chatgpt-interviews-jon-wolf/                                          /blog                        301
+/getting-the-most-value-out-of-your-website/                           /blog                        301
+/the-role-of-social-media-in-web-design-and-marketing/                 /blog                        301
+/the-importance-of-website-security-and-how-to-protect-your-site/      /blog                        301
+/the-benefits-of-having-a-blog-on-your-website/                        /blog                        301
+/web-design-best-practices-for-e-commerce-websites/                    /blog                        301
+/the-importance-of-a-strong-web-presence-for-your-business/            /blog                        301
+/why-your-small-business-needs-a-website/                              /blog                        301
+/the-benefits-of-a-content-management-system-cms-for-your-website/     /blog                        301
+/the-advantages-of-using-a-website-builder/                            /blog                        301
+/how-to-create-a-professional-website-on-a-budget/                     /blog                        301
+/the-benefits-of-custom-web-design-for-your-business/                  /blog                        301
+/5-common-web-design-mistakes-to-avoid/                                /blog                        301
+/the-role-of-search-engine-optimization-seo-in-web-design/             /blog                        301
+/web-design-tips-for-a-better-user-experience/                         /blog                        301
+/the-essential-elements-of-a-successful-website/                       /blog                        301
+/how-to-choose-the-best-domain-name-for-your-website/                  /blog                        301
+/what-is-seo/                                                          /blog                        301
+/quick-search-engine-tips-for-your-website-2/                          /blog                        301
+/keyword-planner-2/                                                    /blog                        301
+/speed-test-2/                                                         /blog                        301
+/web-design-basics-2/                                                  /blog                        301
+/whats-a-website-2/                                                    /blog                        301
+
+
+# ===== DECAP CLIENT GUIDE =====
+# Draft filename was published before the page was finished → clean /decap/ URL
+/decap/decap-tour-guide.html                                           /decap/                      301

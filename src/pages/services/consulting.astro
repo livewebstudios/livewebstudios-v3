@@ -27,12 +27,42 @@ const cards = [
   { ico: "⬡", title: "Competition", body: "How you stack up against the shops you actually lose work to. Not a national list, the ones bidding the same jobs.",
     points: ["What they rank for that you do not", "Where you are already ahead"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Website Audits & Consulting | Live Web Studios",
+    description: "Technical SEO and UX website audits with written report and 1-hour walkthrough. Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/consulting",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Website Audits & Consulting | Live Web Studios",
+    description: "Technical SEO and UX website audits with written report and 1-hour walkthrough. Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/consulting",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="Website Audits & Consulting | Live Web Studios"
   description="Technical SEO and UX website audits with written report and 1-hour walkthrough. Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/consulting"
+  jsonld={pageSchema}
 >
   <Nav />
 

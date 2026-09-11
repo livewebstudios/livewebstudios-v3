@@ -1,0 +1,37 @@
+# ================================================
+# robots.txt — Live Web Studios
+# livewebstudios.com
+# Static HTML site — Netlify hosted
+# Last updated: 2026-09-11
+# ================================================
+
+User-agent: *
+Allow: /
+
+# ===== DECAP CMS ADMIN =====
+Disallow: /admin/
+
+# ===== BLOCK OLD WORDPRESS PATHS =====
+# Site is no longer WordPress — these paths return 404.
+# Blocking them prevents bots from hammering dead URLs
+# and wasting crawl budget on 301 chains.
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+Disallow: /wp-includes/
+Disallow: /wp-content/
+Disallow: /wp-json/
+Disallow: /xmlrpc.php
+Disallow: /feed/
+Disallow: /comments/feed/
+
+# ===== BLOCK NETLIFY INTERNALS =====
+Disallow: /.netlify/
+
+# ===== PRIVATE CLIENT DOCUMENTS =====
+# Per-client questionnaires and guides. Also carry a noindex
+# meta tag and an X-Robots-Tag header (netlify.toml).
+Disallow: /forms/
+Disallow: /hlink/
+
+# ===== SITEMAP =====
+Sitemap: https://livewebstudios.com/sitemap.xml

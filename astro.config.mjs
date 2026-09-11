@@ -20,6 +20,9 @@ export default defineConfig({
     filter: (page) =>
       !page.includes('/thank-you') &&
       !page.includes('/decap') &&
+      !page.includes('/admin') &&
+      !page.includes('/forms/') &&
+      !page.includes('/hlink') &&
       !page.includes('/404'),
   })]
 });

@@ -35,12 +35,42 @@ const styles = [
   { ico: "⬡", name: "Mid-Century American", photos: 8, note: "Clean retro type and muted palettes." },
   { ico: "◎", name: "Owsley", photos: 8, note: "Psychedelic, liquid-light concert graphics." },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Custom Styles & Carousel Cards | Live Web Studios",
+    description: "Five hand-crafted graphic style sets, Archie, Mid-Century, Pop-Art, Golden Gate & Owsley, for website heroes, carousels, and feature cards.",
+    url: "https://livewebstudios.com/services/custom-styles-and-carousel-cards",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Custom Styles & Carousel Cards | Live Web Studios",
+    description: "Five hand-crafted graphic style sets, Archie, Mid-Century, Pop-Art, Golden Gate & Owsley, for website heroes, carousels, and feature cards.",
+    url: "https://livewebstudios.com/services/custom-styles-and-carousel-cards",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="Custom Styles & Carousel Cards | Live Web Studios"
   description="Five hand-crafted graphic style sets, Archie, Mid-Century, Pop-Art, Golden Gate & Owsley, for website heroes, carousels, and feature cards."
   canonical="https://livewebstudios.com/services/custom-styles-and-carousel-cards"
+  jsonld={pageSchema}
 >
   <Nav />
 

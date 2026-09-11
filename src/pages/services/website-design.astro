@@ -30,12 +30,42 @@ const included = [
   { ico: "⛭", title: "SSL + Security", body: "Certificate and hardening included. It renews itself, so there is nothing on your calendar and no browser warning waiting to scare people off.",
     points: ["Auto-renewing certificate", "HTTPS forced on every page"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Website Design & Development | Live Web Studios",
+    description: "Custom hand-coded websites built for speed, SEO, and longevity. No templates, no page builders. Based in Saddle Brook, NJ, serving businesses nationwide.",
+    url: "https://livewebstudios.com/services/website-design",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Website Design & Development | Live Web Studios",
+    description: "Custom hand-coded websites built for speed, SEO, and longevity. No templates, no page builders. Based in Saddle Brook, NJ, serving businesses nationwide.",
+    url: "https://livewebstudios.com/services/website-design",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="Website Design & Development | Live Web Studios"
   description="Custom hand-coded websites built for speed, SEO, and longevity. No templates, no page builders. Based in Saddle Brook, NJ, serving businesses nationwide."
   canonical="https://livewebstudios.com/services/website-design"
+  jsonld={pageSchema}
 >
   <Nav />
 

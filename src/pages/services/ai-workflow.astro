@@ -27,12 +27,42 @@ const cards = [
   { ico: "◎", title: "SEO Monitoring", body: "Position tracking with alerts that fire when something moves. A ranking drop found in week one is a fix. Found in month six it is a rebuild.",
     points: ["Watched daily, not when someone remembers", "You hear about drops early"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "AI Workflow Automation | Live Web Studios",
+    description: "Automate content, communications, reporting, and lead qualification with AI workflows built for SMBs. AI automation from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ai-workflow",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "AI Workflow Automation | Live Web Studios",
+    description: "Automate content, communications, reporting, and lead qualification with AI workflows built for SMBs. AI automation from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ai-workflow",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="AI Workflow Automation | Live Web Studios"
   description="Automate content, communications, reporting, and lead qualification with AI workflows built for SMBs. AI automation from Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/ai-workflow"
+  jsonld={pageSchema}
 >
   <Nav />
 

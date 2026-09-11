@@ -25,12 +25,42 @@ const cards = [
   { ico: "✎", title: "For Designers", body: "Scene composition, mood adjustment, palette matching. For when the shot is nearly right and the schedule has no room for another shoot.",
     points: ["Match a photo to an existing palette", "Composite elements that were never in one frame"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "AI Image Manipulation | Live Web Studios",
+    description: "Bulk product photos, virtual staging, and AI headshots, studio-quality at scale. AI image services from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ai-image",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "AI Image Manipulation | Live Web Studios",
+    description: "Bulk product photos, virtual staging, and AI headshots, studio-quality at scale. AI image services from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ai-image",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="AI Image Manipulation | Live Web Studios"
   description="Bulk product photos, virtual staging, and AI headshots, studio-quality at scale. AI image services from Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/ai-image"
+  jsonld={pageSchema}
 >
   <Nav />
 

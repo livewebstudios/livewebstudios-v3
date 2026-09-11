@@ -27,12 +27,42 @@ const features = [
   { ico: "▦", title: "Monthly Reports", body: "Uptime and SEO performance, in plain language. You get told what moved and whether it needs anything from you.",
     points: ["Sent to your inbox, no dashboard to log into", "Written so it reads like a person wrote it"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Hosting & Maintenance | Live Web Studios",
+    description: "Managed VPS hosting with LiteSpeed, daily backups, SSL, and security hardening. Expert website maintenance from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/hosting",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Hosting & Maintenance | Live Web Studios",
+    description: "Managed VPS hosting with LiteSpeed, daily backups, SSL, and security hardening. Expert website maintenance from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/hosting",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="Hosting & Maintenance | Live Web Studios"
   description="Managed VPS hosting with LiteSpeed, daily backups, SSL, and security hardening. Expert website maintenance from Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/hosting"
+  jsonld={pageSchema}
 >
   <Nav />
 

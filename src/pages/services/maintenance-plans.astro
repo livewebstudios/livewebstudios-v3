@@ -51,12 +51,42 @@ const included = [
     body: "Maintenance clients go to the front of the line. If something breaks, you hear from us first. Most issues are resolved within the same business day, often within hours.",
   },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Monthly Maintenance Plans | Live Web Studios",
+    description: "Website hosting, security, backups, and monthly reporting. Custom maintenance plans for small business from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/maintenance-plans",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Monthly Maintenance Plans | Live Web Studios",
+    description: "Website hosting, security, backups, and monthly reporting. Custom maintenance plans for small business from Live Web Studios, Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/maintenance-plans",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="Monthly Maintenance Plans | Live Web Studios"
   description="Website hosting, security, backups, and monthly reporting. Custom maintenance plans for small business from Live Web Studios, Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/maintenance-plans"
+  jsonld={pageSchema}
 >
   <Nav />
 

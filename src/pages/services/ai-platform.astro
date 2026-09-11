@@ -24,12 +24,42 @@ const pillars = [
   { num: "04", ico: "◎", title: "Continuous Improvement", body: "Monitoring surfaces performance drops and competitive gaps on its own. You hear about a problem from me, not from a customer who could not load your site.",
     points: ["Speed and uptime watched continuously", "Flagged before it costs you traffic"] },
 ];
+
+/* Schema: the WebPage node Base would emit by default, plus a Service node
+   for the offering this page describes (project rule: every page carries
+   schema; the live site has it on 61 pages). */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "AI-Powered Website Platform | Live Web Studios",
+    description: "AI-powered website builds: faster delivery, smarter content, better imagery. The LWS AI platform serves businesses nationwide from Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ai-platform",
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "AI-Powered Website Platform | Live Web Studios",
+    description: "AI-powered website builds: faster delivery, smarter content, better imagery. The LWS AI platform serves businesses nationwide from Saddle Brook, NJ.",
+    url: "https://livewebstudios.com/services/ai-platform",
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
 ---
 
 <Base
   title="AI-Powered Website Platform | Live Web Studios"
   description="AI-powered website builds: faster delivery, smarter content, better imagery. The LWS AI platform serves businesses nationwide from Saddle Brook, NJ."
   canonical="https://livewebstudios.com/services/ai-platform"
+  jsonld={pageSchema}
 >
   <Nav />
 

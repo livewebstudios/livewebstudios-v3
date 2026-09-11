@@ -1,0 +1,39 @@
+# ============================================================
+# Netlify configuration — Live Web Studios v3
+# Ported from the live site 2026-09-11, plus the v3 build block.
+# URL-level redirects live in public/_redirects, which Netlify
+# copies to the publish root. Only the protocol forces and the
+# response headers belong here.
+# ============================================================
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# ===== FORCE HTTPS =====
+[[redirects]]
+  from = "http://livewebstudios.com/*"
+  to = "https://livewebstudios.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.livewebstudios.com/*"
+  to = "https://livewebstudios.com/:splat"
+  status = 301
+  force = true
+
+# ===== PRIVATE CLIENT DOCUMENTS =====
+# Per-client questionnaires and guides. Belt and braces with the
+# noindex meta on the pages themselves and the Disallow in robots.txt.
+[[headers]]
+  for = "/forms/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# Hotlink assets: the Decap admin login pulls its logo from
+# livewebstudios.com/hlink/. Serve it, but keep it out of the index.
+[[headers]]
+  for = "/hlink/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
