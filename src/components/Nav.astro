@@ -74,17 +74,42 @@ const indLinks = [
   ["Insurance", "industries/insurance.html"],
 ];
 
+/* Sub-brand bars. Order and labels match the live site
+   (build/live-band-web-studios/index.html lines 37-56). "Forms" stays a real
+   link and also opens a dropdown of the four form pages. */
 const bandLinks = [
-  ["Portfolio", "live-band-web-studios/portfolio.html"],
-  ["Pricing", "live-band-web-studios/pricing.html"],
-  ["Personal Sites", "live-band-web-studios/personal-sites.html"],
-  ["Forms", "live-band-web-studios/forms.html"],
+  { label: "Home", href: "live-band-web-studios.html" },
+  { label: "Pricing", href: "live-band-web-studios/pricing.html" },
+  {
+    label: "Forms",
+    href: "live-band-web-studios/forms.html",
+    children: [
+      ["Band Bio Form", "live-band-web-studios/forms/band-bio-form.html"],
+      ["Band Member Bio Form", "live-band-web-studios/forms/band-member-bio-form.html"],
+      ["Music Photo Form", "live-band-web-studios/forms/music-photo-form.html"],
+      ["Music Photo Instructions", "live-band-web-studios/forms/how-to-photograph-yourself-for-ai.html"],
+    ],
+  },
+  { label: "Personal Sites", href: "live-band-web-studios/personal-sites.html" },
+  { label: "Portfolio", href: "live-band-web-studios/portfolio.html" },
 ];
 
 const namesakeLinks = [
-  ["How It Works", "namesake/how-it-works.html"],
-  ["Start", "namesake/start.html"],
+  { label: "Overview", href: "namesake.html" },
+  { label: "How It Works", href: "namesake/how-it-works.html" },
+  { label: "Start", href: "namesake/start.html" },
 ];
+
+/* Active state. Normalise both sides to a bare site-root key so the match
+   survives build.format 'file' (/x.html), Netlify's clean URL (/x) and a
+   trailing slash (/x/). The section index normalises to its own key, so
+   Home/Overview lights up only on that page. */
+const navKey = (href: string) => {
+  const s = href.replace(/^\/+/, "").replace(/\/+$/, "").replace(/\.html$/, "");
+  return s === "" ? "index" : s;
+};
+const here = navKey(path);
+const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
 ---
 
 <header class="nav" data-nav>
@@ -218,7 +243,7 @@ const namesakeLinks = [
 </header>
 
 {ctx !== "main" && (
-  <div class="subnav" data-subnav>
+  <div class={`subnav subnav--${ctx}`} data-subnav>
     <div class="wrap subnav-in">
       {ctx === "band" ? (
         <a class="subnav-brand" href={`${rel}live-band-web-studios.html`} aria-label="Live Band Web Studios">
@@ -228,9 +253,51 @@ const namesakeLinks = [
         <a class="subnav-brand subnav-brand--ns" href={`${rel}namesake.html`}>Namesake</a>
       )}
       <nav class="subnav-links" aria-label={ctx === "band" ? "Live Band Web Studios" : "Namesake"}>
-        {(ctx === "band" ? bandLinks : namesakeLinks).map(([label, href]) => (
-          <a href={`${rel}${href}`}>{label}</a>
-        ))}
+        {subLinks.map((item) => {
+          const kids = item.children ?? [];
+          const selfActive = navKey(item.href) === here;
+          const kidActive = kids.some(([, kh]) => navKey(kh) === here);
+          const active = selfActive || kidActive;
+          const panelId = `subnav-${navKey(item.href).split("/").pop()}-panel`;
+
+          return kids.length === 0 ? (
+            <a
+              href={`${rel}${item.href}`}
+              class={active ? "is-active" : undefined}
+              aria-current={selfActive ? "page" : undefined}
+            >{item.label}</a>
+          ) : (
+            <span class="subnav-item studios" data-dd>
+              <span class="dd-pair">
+                <a
+                  href={`${rel}${item.href}`}
+                  class={active ? "is-active" : undefined}
+                  aria-current={selfActive ? "page" : undefined}
+                >{item.label}</a>
+                <button
+                  type="button"
+                  class="dd-toggle"
+                  aria-label={`Open ${item.label} menu`}
+                  aria-expanded="false"
+                  aria-controls={panelId}
+                  aria-haspopup="true"
+                ><span class="studios-caret" aria-hidden="true">↓</span></button>
+              </span>
+
+              <div class="mega subnav-drop" id={panelId} role="region" aria-label={item.label}>
+                <div class="mega-inner">
+                  {kids.map(([klabel, khref]) => (
+                    <a
+                      class="svc-link"
+                      href={`${rel}${khref}`}
+                      aria-current={navKey(khref) === here ? "page" : undefined}
+                    >{klabel}</a>
+                  ))}
+                </div>
+              </div>
+            </span>
+          );
+        })}
       </nav>
       {ctx === "namesake" && (
         <a href={`${rel}namesake/start.html`} class="btn btn-ghost subnav-cta">Start Yours</a>
@@ -246,7 +313,9 @@ const namesakeLinks = [
     var header = document.querySelector("[data-nav]");
     if (!header) return;
 
-    var dds = header.querySelectorAll("[data-dd]");
+    // The sub-brand bar sits outside <header>, so scope the toggles to the
+    // document and reuse this one system rather than adding a second.
+    var dds = document.querySelectorAll("[data-dd]");
     var closeAll = function () {
       dds.forEach(function (dd) {
         dd.classList.remove("is-open");
@@ -363,10 +432,10 @@ const namesakeLinks = [
     background: rgba(56, 189, 248, 0.08);
   }
 
-  /* ---- Sub-brand bar: sticks directly under the 72px main nav ---- */
+  /* ---- Sub-brand bar: sticks flush under the main nav ---- */
   .subnav {
     position: sticky;
-    top: 72px;
+    top: var(--nav-h);
     z-index: 49;
     background: rgba(5, 7, 11, 0.66);
     backdrop-filter: blur(14px) saturate(140%);
@@ -410,6 +479,45 @@ const namesakeLinks = [
     padding: 0.4rem 0.9rem;
     font-size: 0.68rem;
   }
+
+  /* Current page, in the section accent. No new colors: amber for Live Band,
+     brass for Namesake, both already in the palette. */
+  .subnav {
+    --sub-accent: var(--amber);
+  }
+  .subnav--namesake {
+    --sub-accent: var(--brass);
+  }
+  .subnav-links a.is-active {
+    color: var(--sub-accent);
+    border-bottom: 2px solid var(--sub-accent);
+    padding-bottom: 0.2rem;
+  }
+  .subnav-drop .svc-link[aria-current="page"] {
+    color: var(--sub-accent);
+  }
+
+  /* Forms dropdown. Reuses .studios/.mega positioning and the glass tokens
+     from global.css; only the width and the single-column list differ. */
+  .subnav-item {
+    display: inline-flex;
+    align-items: center;
+  }
+  .subnav-drop {
+    width: min(260px, 92vw);
+    padding-top: 12px;
+  }
+  .subnav-drop .mega-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.6rem;
+  }
+  .subnav-item .dd-toggle {
+    font-size: 0.62rem;
+    padding: 0.25rem 0.15rem;
+  }
+
   @media (max-width: 900px) {
     .svc-cols,
     .ind-cols {
@@ -420,6 +528,38 @@ const namesakeLinks = [
       padding-block: 0.6rem;
       flex-wrap: wrap;
       gap: 0.8rem 1.2rem;
+    }
+    /* Links wrap onto one or two rows; nothing pushes the page sideways. */
+    .subnav-links {
+      flex-wrap: wrap;
+      gap: 0.6rem 1.1rem;
+      max-width: 100%;
+    }
+    /* Tap-to-open. global.css drops every .mega to static/visible inside the
+       burger menu, which would pin the Forms panel open and triple the bar's
+       height. The sub-nav has no burger, so keep this one panel absolute and
+       closed until the caret sets .is-open. Selectors stay one step more
+       specific than the global .mega rules they override. */
+    .subnav .subnav-item {
+      position: relative;
+    }
+    .subnav .subnav-drop {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      margin: 0;
+      width: min(260px, calc(100vw - 2.5rem));
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .subnav .subnav-item.is-open .subnav-drop,
+    .subnav .subnav-item:focus-within .subnav-drop {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
     }
   }
 </style>

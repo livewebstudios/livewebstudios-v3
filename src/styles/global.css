@@ -27,6 +27,10 @@
   --scan-amber:#E8C88A;
   --on-accent:#04121C;   /* near-black ink on cyan surfaces */
   /* Sub-brand accents (Phase 2 sub-brands + STUDIOS mega-panel doorways) */
+  /* Rendered height of header.nav: .nav-in 84px (mosa-skin.css) + 1px
+     border-bottom. Measured at 1280 and 375; it does not change by
+     breakpoint. .subnav sticks to this, so keep the two in step. */
+  --nav-h:85px;
   --amber:#FCD34D;      /* Live Band Web Studios */
   --brass:#C9A55A;      /* Namesake (ink + brass) */
   --line:rgba(125,211,252,0.14);
