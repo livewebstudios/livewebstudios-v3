@@ -15,28 +15,37 @@
  * accent cyan -> amber (#FCD34D, the sanctioned Live Band token already in
  * global.css) by overriding the accent custom properties on the
  * .theme-live-band wrapper. Same scoping pattern 2C used for .theme-namesake,
- * so no component is forked. The hero uses the orange-beam looping video.
+ * so no component is forked. The hero uses the live site's drum-start clip
+ * and leads with the LBWS logo (Jon 2026-09-12).
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
+import { relPrefix } from "../lib/relPrefix";
+
+const rel = relPrefix(Astro.url.pathname);
 
 // What We Build — ported from live (3 cards).
 const build = [
   {
     ico: "▦",
+    art: "build-full-band-sites.jpg",
     title: "Full Band Sites",
     body: "Gig pages. Photo galleries. Video embeds. EPK. Set list management. Everything a touring band needs, and nothing they don't. Updated by the band via CMS, maintained by Jon.",
+    href: "live-band-web-studios/portfolio.html",
+    cta: "See full band sites we've built →",
   },
   {
     ico: "✦",
+    art: "build-epk-pages.jpg",
     title: "EPK Pages",
     body: "The document that gets you the gig. Bio, tech rider, stage plot, input list, booking contact, all in one page, formatted for talent buyers and FOH engineers who've seen a hundred of these.",
   },
   {
     ico: "◉",
+    art: "build-personal-sites.jpg",
     title: "Personal Sites",
     body: "Your name. Your domain. Your story. Individual musician sites with bio, touring history, media, photos, and merch. Built for the working musician who's more than just a band member.",
   },
@@ -44,10 +53,10 @@ const build = [
 
 // How It Works — ported from live (4 steps).
 const steps = [
-  { ico: "☎", title: "The Call", body: "We talk. Jon listens. No intake forms, no auto-replies. You get Jon." },
-  { ico: "✎", title: "The Build", body: "Custom design starts after the call. No guessing. No mockups from a template library." },
-  { ico: "▲", title: "The Launch", body: "Staging review, your approval, then live. You get a walk-through. Not a PDF." },
-  { ico: "◫", title: "The Ongoing", body: "Monthly SEO reports. Blog posts. Gig calendar updates. Jon doesn't disappear after launch." },
+  { ico: "☎", art: "step-the-call.jpg", title: "The Call", body: "We talk. Jon listens. No intake forms, no auto-replies. You get Jon." },
+  { ico: "✎", art: "step-the-build.jpg", title: "The Build", body: "Custom design starts after the call. No guessing. No mockups from a template library." },
+  { ico: "▲", art: "step-the-launch.jpg", title: "The Launch", body: "Staging review, your approval, then live. You get a walk-through. Not a PDF." },
+  { ico: "◫", art: "step-the-ongoing.jpg", title: "The Ongoing", body: "Monthly SEO reports. Blog posts. Gig calendar updates. Jon doesn't disappear after launch." },
 ];
 
 // SEO section — ported from live (3 cards).
@@ -66,19 +75,35 @@ const seo = [
   <Nav />
 
   <main class="theme-live-band">
-    <!-- HERO -->
-    <section class="hero">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
-      <div class="wrap hero-in">
-        <div class="chip"><span class="dot"></span> A SERVICE OF LIVE WEB STUDIOS</div>
-        <p class="eyebrow is-center mb-lg">TOURING BANDS · ARTISTS · LIVE ACTS</p>
-        <h1 class="hero-h1">Your band deserves a website as serious as your <em>rider</em>.</h1>
-        <p class="hero-sub">Hand-built. Custom. No templates. No page builders. Built by a musician who's been on every side of that stage.</p>
-        <div class="hero-btns">
+    <!-- HERO — matches the live Live Band hero (Jon 2026-09-12): the drum-start
+         clip behind a centred lockup with the LBWS logo as the focus, not a
+         headline. This is a brand inside the brand, so the LWS header and main
+         menu above it are untouched.
+
+         The h1 carries the page's real heading for search and screen readers
+         while the logo does the visual work, the way the live page does it.
+         Centred with no glass panel, matching that reference. -->
+    <section class="hero hero--bare lbs-hero">
+      <VideoBg src="bg-drumstart-1080.mp4" scrim="hero" once />
+      <div class="wrap hero-in lbs-hero-in">
+        <h1 class="visually-hidden">Live Band Web Studios, custom websites for bands and musicians</h1>
+        <span class="eyebrow lbs-eyebrow">A SERVICE OF LIVE WEB STUDIOS</span>
+        <img
+          class="lbs-hero-logo"
+          src={`${rel}images/logo-live-band.png`}
+          alt="Live Band Web Studios"
+          width="681"
+          height="300"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <p class="lbs-hero-tagline">Your band deserves a website as serious as your rider.</p>
+        <p class="lbs-hero-sub">Hand-built. Custom. No templates. No page builders. Built by a musician who's been on every side of that stage.</p>
+        <div class="hero-btns lbs-hero-btns">
           <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
-          <a href="#kit" class="btn btn-ghost">See what we build ↓</a>
+          <a href="live-band-web-studios/portfolio.html" class="btn btn-ghost">See the work →</a>
         </div>
-        <div class="telemetry">
+        <div class="telemetry lbs-telemetry">
           <span>HAND-BUILT <b>MADE TO LAST</b></span>
           <span>BUILT BY A <b>MUSICIAN</b></span>
           <span>YOUR BAND <b>YOUR SITE</b></span>
@@ -86,13 +111,27 @@ const seo = [
       </div>
     </section>
 
-    <!-- POSITIONING -->
+    <!-- POSITIONING — copy left, subject photo right (Jon 2026-09-12). The
+         image is a real element rather than a background so it keeps its alt
+         text and its own aspect ratio; it stacks under the copy on phones. -->
     <section class="sec-pad">
       <div class="wrap">
-        <Glass class="reveal" innerClass="feature">
-          <span class="eyebrow is-center mb-md">WHY NOT A TEMPLATE</span>
-          <h2>They give you a template. We build you a website.</h2>
-          <p>The drag-and-drop site builders all start from the same place: a template someone else designed for someone else's band. Every site we build starts from scratch. Your colors. Your vibe. Your music. Fast load times. Nothing breaks, nothing needs babysitting, and there's never a surprise bill to keep it running.</p>
+        <Glass class="reveal" innerClass="feature lbs-split">
+          <div class="lbs-split-copy">
+            <span class="eyebrow mb-md">WHY NOT A TEMPLATE</span>
+            <h2>They give you a template. We build you a website.</h2>
+            <p>The drag-and-drop site builders all start from the same place: a template someone else designed for someone else's band. Every site we build starts from scratch. Your colors. Your vibe. Your music. Fast load times. Nothing breaks, nothing needs babysitting, and there's never a surprise bill to keep it running.</p>
+          </div>
+          <figure class="lbs-split-art">
+            <img
+              src={`${rel}images/band/why-not-a-template.jpg`}
+              alt="A custom band website open on a laptop sitting on a road case backstage, lit by amber stage light"
+              width="900"
+              height="900"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
         </Glass>
       </div>
     </section>
@@ -106,15 +145,17 @@ const seo = [
         </div>
         <div class="grid-svc">
           {build.map((b) => (
-            <div class="card reveal">
+            <div class="card card--art reveal" style={`--lbs-art:url('${rel}images/band/${b.art}')`}>
               <Glass variant="inner" innerClass="card-pad">
                 <div class="ico">{b.ico}</div>
                 <h3>{b.title}</h3>
                 <p>{b.body}</p>
+                {b.href && <a class="btn btn-ghost card-cta" href={b.href}>{b.cta}</a>}
               </Glass>
             </div>
           ))}
         </div>
+        <p class="page-lede is-center mt-lg reveal">Want to see the full band sites we've built? <a href="live-band-web-studios/portfolio.html">Take a look at the work</a>.</p>
       </div>
     </section>
 
@@ -127,7 +168,7 @@ const seo = [
         </div>
         <div class="grid-svc">
           {steps.map((s) => (
-            <div class="card reveal">
+            <div class="card card--art reveal" style={`--lbs-art:url('${rel}images/band/${s.art}')`}>
               <Glass variant="inner" innerClass="card-pad">
                 <div class="ico">{s.ico}</div>
                 <h3>{s.title}</h3>
@@ -167,9 +208,9 @@ const seo = [
     </section>
 
     <!-- CTA -->
-    <section class="sec-pad is-alt">
+    <section class="sec-pad is-alt" style={`--lbs-art:url('${rel}images/band/cta-social-web.jpg')`}>
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta">
+        <Glass class="reveal" innerClass="cta lbs-cta-art">
           <h2>Ready to Stop Sending People to Your Facebook Page?</h2>
           <p>Let's build the site your live show actually deserves.</p>
           <div class="hero-btns">
@@ -206,6 +247,302 @@ const seo = [
       radial-gradient(46% 38% at 50% 46%, rgba(252, 211, 77, 0.14), transparent 62%),
       radial-gradient(78% 58% at 50% 48%, rgba(252, 211, 77, 0.06), transparent 72%),
       var(--bg);
+  }
+
+  .card-cta {
+    margin-top: 1rem;
+    align-self: flex-start;
+    font-size: 0.68rem;
+  }
+
+  /* ---- Card art (Jon 2026-09-12) -------------------------------------
+     global.css turns the shared --card-art layer OFF for .theme-live-band
+     (the cyan-lit carbon weave fights amber), so this is a deliberate
+     opt-in: only .card--art paints, and it paints its own per-card photo
+     published inline as --lbs-art.
+
+     Two stacked layers under the copy:
+       ::before  the photo, cover, slow zoom on hover
+       ::after   a scrim, dark at the bottom where the body copy sits
+
+     The scrim stops were solved against the real composite rather than
+     eyeballed: art -> brightness -> scrim, sampled under every h3 and <p>
+     on all seven cards. These values put the worst case (the band
+     silhouette, whose amber haze sits mid-frame) at ~5.8:1, clear of the
+     4.5:1 AA floor, while the scrim is still only 0.38 at a third of the
+     way down so the art reads. Lowering them fails AA on that card.
+     The copy is lifted to z-index 1 so it always clears both. The art is
+     already near-black amber stage light, so the scrim only has to protect
+     the lower two thirds rather than flatten the whole frame. */
+  .card--art > :global(.glass-inner) {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-md);
+  }
+  .card--art > :global(.glass-inner)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    display: block;
+    background-image: var(--lbs-art);
+    background-size: cover;
+    background-position: center;
+    /* The source frames are deliberately near-black amber stage light, so
+       they need lifting to read at card size at all. Brightness, not
+       saturation: there is almost no colour in the shadows to boost. */
+    filter: brightness(1.85) contrast(104%);
+    opacity: 1;
+    transform: scale(1.06);
+    transition: transform 2.4s var(--ease), filter 0.4s var(--ease);
+  }
+  .card--art > :global(.glass-inner)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    display: block;
+    background:
+      linear-gradient(180deg,
+        rgba(5, 7, 11, 0.08) 0%,
+        rgba(5, 7, 11, 0.38) 32%,
+        rgba(5, 7, 11, 0.78) 46%,
+        rgba(5, 7, 11, 0.91) 66%,
+        rgba(5, 7, 11, 0.96) 100%);
+  }
+  .card--art:hover > :global(.glass-inner)::before {
+    transform: scale(1.16);
+    filter: brightness(2.1) contrast(106%);
+  }
+  /* Everything the reader actually reads sits above both layers. */
+  .card--art :global(.ico),
+  .card--art :global(h3),
+  .card--art :global(p),
+  .card--art :global(.card-cta) {
+    position: relative;
+    z-index: 1;
+  }
+  /* Belt and braces on top of the scrim: the art is photographic, so the
+     brightness under any given line varies. A tight dark shadow keeps the
+     copy legible over the amber hot spots without dimming the photo. */
+  .card--art :global(h3),
+  .card--art :global(p) {
+    text-shadow: 0 1px 14px rgba(5, 7, 11, 0.95), 0 1px 3px rgba(5, 7, 11, 0.8);
+  }
+  /* Amber edge so an art card still reads as a card against the art. */
+  .card--art > :global(.glass-inner) {
+    border-color: rgba(252, 211, 77, 0.2);
+  }
+  .card--art:hover > :global(.glass-inner) {
+    border-color: rgba(252, 211, 77, 0.45);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 24px 60px rgba(0, 0, 0, 0.55),
+      0 0 44px rgba(252, 211, 77, 0.14);
+  }
+  /* One column: the card goes wide and short, so `cover` crops a square
+     frame down to its brightest middle band and that band lands directly
+     under the body copy. The stops have to arrive much earlier here. */
+  @media (max-width: 700px) {
+    .card--art > :global(.glass-inner)::after {
+      background:
+        linear-gradient(180deg,
+          rgba(5, 7, 11, 0.3) 0%,
+          rgba(5, 7, 11, 0.66) 24%,
+          rgba(5, 7, 11, 0.88) 52%,
+          rgba(5, 7, 11, 0.95) 100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card--art > :global(.glass-inner)::before,
+    .card--art:hover > :global(.glass-inner)::before {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ---- Positioning split: copy left, photo right --------------------- */
+  :global(.lbs-split) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: center;
+    gap: clamp(1.8rem, 4vw, 3.4rem);
+  }
+  :global(.lbs-split) .lbs-split-copy h2 {
+    max-width: 18ch;
+  }
+  :global(.lbs-split) .lbs-split-copy p {
+    margin-bottom: 0;
+  }
+  .lbs-split-art {
+    margin: 0;
+    justify-self: end;
+    width: 100%;
+    max-width: 460px;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    border: 1px solid rgba(252, 211, 77, 0.2);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  }
+  .lbs-split-art img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 860px) {
+    :global(.lbs-split) {
+      grid-template-columns: 1fr;
+    }
+    .lbs-split-art {
+      justify-self: stretch;
+      max-width: none;
+      order: -1;
+    }
+  }
+
+  /* ---- CTA: the browser + social illustration, held to the right ----
+     Decoration behind the headline, not content, so it is a background layer
+     rather than an <img>.
+
+     The art is drawn on the right half of a 16:9 frame and the panel is much
+     wider than 16:9, so sizing it to the panel height leaves its left edge
+     sitting mid-panel as a visible seam. A mask fades that edge out instead:
+     the layer is fully transparent through the left third, fully opaque by
+     the point the illustration actually starts. ::after then holds a gentle
+     left-to-right scrim so the headline keeps its black field. */
+  :global(.lbs-cta-art) {
+    position: relative;
+    overflow: hidden;
+  }
+  /* mosa-skin.css carries `.cta::before{display:none}` at equal specificity,
+     so this layer has to out-rank it: hence the doubled class and the
+     explicit display. */
+  :global(.cta.lbs-cta-art)::before {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: var(--lbs-art);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 124%;
+    -webkit-mask-image: linear-gradient(90deg,
+      transparent 0%, transparent 30%, #000 58%, #000 100%);
+    mask-image: linear-gradient(90deg,
+      transparent 0%, transparent 30%, #000 58%, #000 100%);
+  }
+  :global(.lbs-cta-art)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+      rgba(5, 7, 11, 0.92) 0%,
+      rgba(5, 7, 11, 0.78) 40%,
+      rgba(5, 7, 11, 0.3) 62%,
+      rgba(5, 7, 11, 0) 100%);
+  }
+  :global(.lbs-cta-art) > * {
+    position: relative;
+    z-index: 1;
+  }
+  /* Keep the headline and lede clear of the illustration on wide screens.
+     The shared .cta h2 is 22ch, which runs straight into the browser mock. */
+  :global(.lbs-cta-art) h2 {
+    max-width: 16ch;
+  }
+  :global(.lbs-cta-art) p {
+    max-width: 34ch;
+  }
+  @media (max-width: 980px) {
+    /* Narrow: the art would sit straight under the buttons, so pull it back
+       to a faint texture and let the copy own the panel. */
+    :global(.cta.lbs-cta-art)::before {
+      background-size: cover;
+      background-position: center;
+      -webkit-mask-image: none;
+      mask-image: none;
+      opacity: 0.16;
+    }
+    :global(.lbs-cta-art)::after {
+      background: rgba(5, 7, 11, 0.8);
+    }
+    :global(.lbs-cta-art) h2,
+    :global(.lbs-cta-art) p {
+      max-width: none;
+    }
+  }
+
+  /* ---- Hero: logo-led, centred, matching the live Live Band page ----
+     The shared .hero-in is a left-aligned flex column (mosa-skin), so this
+     recentres it for this one hero. No glass panel: the live reference puts
+     the lockup straight on the video.
+
+     GEOMETRY (Jon 2026-09-12, "the mp4 should be centered vertically a bit
+     more... the menu is pushing it down"): the section sits BELOW both
+     sticky bars in flow, so the space it actually occupies on first paint
+     is one viewport minus their combined height. It was instead sized
+     92vh and carrying .hero-in's inherited 14rem top padding, which made
+     it ~830px tall inside a ~450px visible band — the video covers the
+     section, so its centre fell way below the fold and the frame read as
+     shoved down behind the menus. Sizing the section to the band it really
+     occupies puts the clip's centre back on the screen's centre. */
+  .lbs-hero {
+    min-height: calc(100svh - var(--nav-h) - var(--subnav-h));
+  }
+  .lbs-hero-in {
+    align-items: center;
+    text-align: center;
+    max-width: 900px;
+    margin-inline: auto;
+    /* Replaces the 14rem/5rem bottom-anchored padding. vh-aware so a short
+       laptop window gets a hero that still fits one screen. */
+    padding-block: clamp(1.25rem, 4vh, 3.5rem) clamp(1.25rem, 4vh, 3.5rem);
+  }
+  .lbs-eyebrow {
+    justify-content: center;
+    color: var(--cyan-soft);
+  }
+  /* The logo IS the headline here, so it gets headline scale. Capped against
+     BOTH axes: 78vw so it never outgrows a phone, and a vh cap so it cannot
+     push the lockup past one screen on a short window. */
+  .lbs-hero-logo {
+    display: block;
+    width: min(560px, 78vw, 64vh);
+    height: auto;
+    margin: clamp(0.6rem, 2vh, 1.4rem) auto clamp(0.7rem, 2.2vh, 1.6rem);
+    filter: drop-shadow(0 14px 40px rgba(0, 0, 0, 0.55));
+  }
+  .lbs-hero-tagline {
+    font-size: clamp(1.15rem, 2.4vw, 2rem);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--ink-soft);
+    max-width: 24ch;
+    margin-inline: auto;
+    text-wrap: balance;
+  }
+  .lbs-hero-sub {
+    color: var(--muted);
+    max-width: 56ch;
+    margin: clamp(0.5rem, 1.6vh, 1rem) auto 0;
+  }
+  .lbs-hero-btns {
+    justify-content: center;
+    margin-top: clamp(1rem, 2.6vh, 1.8rem);
+  }
+  .lbs-telemetry {
+    justify-content: center;
+    margin-top: clamp(1rem, 2.8vh, 2rem);
+  }
+  @media (max-width: 640px) {
+    .lbs-telemetry { gap: 0.5rem 1.2rem; }
   }
 
   /* Two-up card grid (system default grid-svc is 3-up). Mirrors the

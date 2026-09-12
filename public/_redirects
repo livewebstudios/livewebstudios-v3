@@ -22,6 +22,14 @@
 /portfolio.html                                                        /work                        301
 
 
+# ===== SISTER COMPANIES ON THEIR OWN DOMAIN =====
+# Jon 2026-09-12: Live Web Photos is livewebphotos.com, there is no local
+# page any more. The old URL is in the live sitemap and indexed, so it 301s
+# out rather than 404ing.
+/ecosystem/live-web-photos                                             https://livewebphotos.com/   301!
+/ecosystem/live-web-photos.html                                        https://livewebphotos.com/   301!
+
+
 # ===== SITEMAP =====
 # Astro's sitemap integration emits sitemap-index.xml. Google Search Console
 # and the live robots.txt both point at /sitemap.xml, so serve it from there

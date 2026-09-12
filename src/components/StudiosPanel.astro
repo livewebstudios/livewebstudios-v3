@@ -5,7 +5,8 @@
  * every visitor and every crawler. JS (in Nav.astro) enhances open/close and
  * animation ONLY — CSS :hover / :focus-within keep it usable without JS.
  * Two weights: headliner cards (Live Band amber, Namesake ink+brass) +
- * support rows (Live Web Photos, Live AI Studios).
+ * support rows (Live Web Photos, which links out to its own domain,
+ * and Live AI Studios).
  */
 import Glass from "./Glass.astro";
 import { relPrefix } from "../lib/relPrefix";
@@ -35,8 +36,8 @@ const rel = relPrefix(Astro.url.pathname);
     </div>
 
     <div class="mega-support">
-      <a class="mega-row" href={`${rel}ecosystem/live-web-photos.html`}>
-        <span class="mega-row-title">Live Web Photos</span>
+      <a class="mega-row" href="https://livewebphotos.com" target="_blank" rel="noopener noreferrer">
+        <span class="mega-row-title">Live Web Photos ↗</span>
         <span class="mega-row-sub">AI Image Enhancement</span>
       </a>
       <a class="mega-row" href={`${rel}ecosystem/live-ai-studios.html`}>

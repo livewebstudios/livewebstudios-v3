@@ -54,7 +54,9 @@ const localBusiness = {
   <main>
 
   <!-- HERO -->
-  <section class="hero">
+  <!-- hero--bare: no glass panel on the home hero (Jon 2026-09-12). Every
+       other hero, Live Band included, keeps it. -->
+  <section class="hero hero--bare">
     <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
     <div class="wrap hero-in">
       <div class="chip"><span class="dot"></span> LIVE · TAKING NEW PROJECTS</div>
@@ -74,7 +76,7 @@ const localBusiness = {
   <Marquee />
 
   <!-- SERVICES -->
-  <section id="services" class="sec-pad has-aurora">
+  <section id="services" class="sec-pad has-aurora sec-grid">
     <Aurora className="aurora--bg" base="#04060c" />
     <div class="wrap">
       <div class="sec-head center reveal">

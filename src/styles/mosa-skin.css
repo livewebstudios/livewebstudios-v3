@@ -20,6 +20,32 @@
 :root{
   --mosa-bg-rgb:0 0 0;
   --mosa-fg-rgb:255 255 255;
+
+  /* ---- Hero glass panel (Jon 2026-09-12) --------------------------------
+     Two asks: tighten the panel around the words, and let the background
+     animation read through the surface instead of being blurred into mush.
+
+     Padding came down from clamp(2.25rem,4vw,3.5rem) block / up-to-2.5rem
+     inline, which was leaving 102px of the panel's 368px height as empty
+     space at 1280. Blur came down from 30px, which flattened the moving
+     art behind it; at 14px the motion is visible as refraction, which is
+     what reads as glass.
+
+     Jon 2026-09-12: "some of the blue pages are too bright blue." The first
+     pass brightened and over-saturated the backdrop, which turned the blue
+     heroes electric. The surface now DARKENS what is behind it (a black tint
+     plus brightness below 1) instead of lifting it, so hot areas calm down
+     and white copy gains contrast. Saturation stays above 100% so the art
+     still reads as colour through glass rather than grey.
+
+     Declared here so .page-head--glass and the home hero stay in step, and
+     so this is the one place to tune the look. */
+  --hero-glass-pad-block:clamp(1.35rem,2.1vw,1.9rem);
+  --hero-glass-pad-inline:clamp(1.25rem,2.2vw,1.75rem);
+  --hero-glass-bg:rgb(0 0 0/.2);
+  --hero-glass-filter:blur(14px) saturate(155%) brightness(.84) contrast(1.06);
+  --hero-glass-border:1px solid rgb(var(--mosa-fg-rgb)/.26);
+  --hero-glass-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.22),0 18px 50px rgb(0 0 0/.34);
   /* Accent: LWS cyan retained. For pure MOSA monochrome, set this to
      255 255 255 and the entire site goes hueless. */
   --mosa-accent-rgb:56 189 248;
@@ -320,20 +346,29 @@ h1.hero-h1{max-width:22ch}
    centring places the panel instead.
 
    Left edge stays at the viewport edge and only the right edge shrinks, which
-   keeps the headline on the same line it starts on today. */
-.hero > .hero-in{
+   keeps the headline on the same line it starts on today.
+
+   Jon 2026-09-12: "remove the border square around the hero text on the home
+   page, just the home page." .hero is used by the home hero AND the Live Band
+   hero, so the opt-out is a class on the section rather than a change here.
+   .hero--bare falls back to the plain .hero-in rules above: full-width copy,
+   its own 14rem top padding, no surface. */
+.hero:not(.hero--bare) > .hero-in{
   width:fit-content;
-  padding-block:clamp(2.25rem,4vw,3.5rem);
+  padding-block:var(--hero-glass-pad-block);
+  /* .hero-in's own padding-inline runs to 6.5rem, which put ~104px of empty
+     space either side of the headline inside the border. */
+  padding-inline:var(--hero-glass-pad-inline);
   margin-block:0;
   /* .hero-in carries margin-inline:auto, which would centre the shrunk panel
      and pull the headline off the left edge this hero is built around. */
   margin-inline:0 auto;
-  background:rgb(var(--mosa-fg-rgb)/.05);
-  backdrop-filter:blur(30px) saturate(210%) brightness(1.2) contrast(1.12);
-  -webkit-backdrop-filter:blur(30px) saturate(210%) brightness(1.2) contrast(1.12);
-  border:1px solid rgb(var(--mosa-fg-rgb)/.2);
+  background:var(--hero-glass-bg);
+  backdrop-filter:var(--hero-glass-filter);
+  -webkit-backdrop-filter:var(--hero-glass-filter);
+  border:var(--hero-glass-border);
   border-radius:var(--r-lg);
-  box-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.14);
+  box-shadow:var(--hero-glass-shadow);
   overflow:hidden;
 }
 
@@ -565,13 +600,15 @@ h1.hero-h1 em,h1.page-h1 em,.page-head h1 em{
   width:fit-content;
   max-width:var(--wrap);
   margin-inline:max(0px,calc((100% - var(--wrap)) / 2)) auto;
-  background:rgb(var(--mosa-fg-rgb)/.05);
-  backdrop-filter:blur(30px) saturate(210%) brightness(1.2) contrast(1.12);
-  -webkit-backdrop-filter:blur(30px) saturate(210%) brightness(1.2) contrast(1.12);
-  border:1px solid rgb(var(--mosa-fg-rgb)/.2);
+  background:var(--hero-glass-bg);
+  backdrop-filter:var(--hero-glass-filter);
+  -webkit-backdrop-filter:var(--hero-glass-filter);
+  border:var(--hero-glass-border);
   border-radius:var(--r-lg);
-  box-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.14);
-  padding-block:clamp(2.25rem,4vw,3.5rem);
+  box-shadow:var(--hero-glass-shadow);
+  /* Overrides .wrap's own padding-inline: the panel hugs the copy now. */
+  padding-block:var(--hero-glass-pad-block);
+  padding-inline:var(--hero-glass-pad-inline);
   overflow:hidden;
 }
 
@@ -675,3 +712,27 @@ body.page-detail .card:hover > .glass-inner{
   width:5px;height:5px;border-radius:50%;
   background:var(--cyan-soft);opacity:.75;
 }
+
+/* ---- Hero glass panel: interior rhythm (Jon 2026-09-12) -------
+   "less white space inside the cards". Scoped to the two hero panels, so
+   the same eyebrow/lede/CTA utilities keep their normal spacing in every
+   body section below. */
+.page-head--glass > .wrap > .eyebrow.mb-lg,
+.hero > .hero-in > .eyebrow.mb-lg{margin-bottom:.6rem}
+
+.page-head--glass > .wrap > h1,
+.hero > .hero-in > h1{margin-top:0}
+
+.page-head--glass > .wrap > .page-lede,
+.hero > .hero-in > .hero-sub{margin-top:.85rem}
+
+.page-head--glass > .wrap > .hero-foot,
+.hero > .hero-in > .hero-foot{margin-top:1.5rem}
+
+.page-head--glass > .wrap > :last-child,
+.hero > .hero-in > :last-child{margin-bottom:0}
+
+/* Home hero only: the status chip and the telemetry strip carried the two
+   biggest remaining gaps (26px below the chip, 56px above telemetry). */
+.hero > .hero-in > .chip{margin-bottom:1rem}
+.hero > .hero-in > .telemetry{margin-top:1.75rem}

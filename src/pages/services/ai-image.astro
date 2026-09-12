@@ -3,7 +3,8 @@
  * /services/ai-image — ported from the live site
  * (livewebstudios.com/services/ai-image). Rebuilt on v3 layouts/components.
  * Hero illustration dropped per no-image rule. No em dashes in body copy.
- * The closing CTA links to an /ecosystem page (Live Web Photos) not yet
+ * The closing CTA links straight out to livewebphotos.com (Jon 2026-09-12);
+ * the former local /ecosystem page is gone. Previously noted as not yet
  * ported to v3 (flagged in the port report).
  */
 import Base from "../../layouts/Base.astro";
@@ -108,7 +109,7 @@ const pageSchema = [
           <h2>Need Photos at Scale?</h2>
           <p>Visit our sister company Live Web Photos.</p>
           <div class="hero-btns">
-            <a href="../ecosystem/live-web-photos.html" class="btn btn-primary">Visit livewebphotos.com →</a>
+            <a href="https://livewebphotos.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit livewebphotos.com →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
           </div>
         </Glass>

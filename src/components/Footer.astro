@@ -59,7 +59,7 @@ const cols = [
     links: [
       ["Live Band Web Studios", "live-band-web-studios.html"],
       ["Namesake", "namesake.html"],
-      ["Live Web Photos", "ecosystem/live-web-photos.html"],
+      ["Live Web Photos", "https://livewebphotos.com"],
       ["Live AI Studios", "ecosystem/live-ai-studios.html"],
     ],
   },
@@ -96,9 +96,22 @@ const cols = [
         <div class="foot-col">
           <h4>{c.h}</h4>
           <ul>
-            {c.links.map(([label, href]) => (
-              <li><a href={`${rel}${href}`}>{label}</a></li>
-            ))}
+            {c.links.map(([label, href]) => {
+              /* Sister companies with their own domain link out in a new tab
+                 (Jon 2026-09-12: Live Web Photos is livewebphotos.com, there
+                 is no local page). Internal links stay relative per the path
+                 rule. */
+              const ext = href.startsWith("http");
+              return (
+                <li>
+                  <a
+                    href={ext ? href : `${rel}${href}`}
+                    target={ext ? "_blank" : undefined}
+                    rel={ext ? "noopener noreferrer" : undefined}
+                  >{label}</a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       ))}
