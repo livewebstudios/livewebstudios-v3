@@ -117,7 +117,7 @@ const examples = [
         <span class="eyebrow">PERSONAL BRAND · SOLO PROFESSIONALS · BY NAME</span>
         <h1>The website your name <em>deserves</em>.</h1>
         <!-- em-dash: "the people behind the work — executives..." → comma -->
-        <p class="fh-lead">Custom personal sites for the people behind the work, executives, founders, attorneys, performers. Not a template. Not a profile page. A site built entirely around you.</p>
+        <p class="fh-lead">Custom personal sites for the people behind the work, <em class="fh-who">executives</em>, <em class="fh-who">founders</em>, <em class="fh-who">attorneys</em>, <em class="fh-who">performers</em>. Not a template. Not a profile page. A site built entirely around you.</p>
         <div class="fh-btn-row">
           <a href="contact.html" class="btn btn-primary">Start with your name →</a>
           <a href="#work" class="btn btn-ghost">See how it works ↓</a>
@@ -441,6 +441,27 @@ const examples = [
     line-height: 1.6;
     max-width: 52ch;
     margin-top: 1.5rem;
+  }
+
+  /* The four people Namesake is for (Jon 2026-09-14: "these words should be
+     more pronounced, underlined, bolder, different size/font, your choice").
+
+     Deliberately NOT a different family. The two other faces in the system
+     are a mono and the body sans, and dropping mono into the middle of a
+     sentence reads technical, which is the opposite of what this sub-brand
+     is selling. Brass, a heavier weight, a nudge up in size and a low
+     underline separate them from the sentence without breaking its voice.
+     <em> rather than <span> so the emphasis is in the markup too, with the
+     italic cancelled since the weight and colour already carry it. */
+  .fh-who {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.09em;
+    color: var(--cyan-soft);
+    text-decoration: underline;
+    text-decoration-color: rgba(201, 165, 90, 0.55);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
   }
   .fh-btn-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-top: 2.4rem; }
 
