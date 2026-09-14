@@ -226,8 +226,16 @@
 /* ---------- Modal ---------- */
 
 .nsp-modal {
-  width: min(92vw, calc(92vh * 1.6));
+  /* The 16:10 frame is not the whole dialog: the button row and the note sit
+     under it, so the width that makes the FRAME fit 92vh makes the DIALOG
+     overflow. Budget those ~96px out of the height before converting to a
+     width, or the Save button lands under the fold on a short window. */
+  width: min(92vw, calc((92vh - 96px) * 1.6));
   max-width: none;
+  /* A dialog centres itself with the UA's margin:auto. global.css resets
+     every element to margin:0, which takes that with it and pins the modal
+     to the top left corner, so it is restated here. */
+  margin: auto;
   padding: 0;
   border: none;
   background: transparent;
@@ -282,6 +290,13 @@
   color: var(--brass);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* Body scroll lock while the modal is open. A class rather than an inline
+   style on body, so the island still ships no style attribute other than
+   the one runtime scale value. */
+.nsp-scroll-lock {
+  overflow: hidden;
 }
 
 /* The off-screen unscaled instance the PNG is rendered from. Kept in flow

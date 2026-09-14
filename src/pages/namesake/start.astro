@@ -84,8 +84,13 @@ const examples = [
 
         <Glass class="reveal" innerClass="form-pad">
           <!-- Live Formspree endpoint + hidden fields kept EXACT -->
-          <form action="https://formspree.io/f/mlgkoqjl" method="POST">
+          <form id="start-form" action="https://formspree.io/f/mlgkoqjl" method="POST">
             <input type="hidden" name="_subject" value="New Namesake inquiry" />
+            {/* Carried from the preview generator above: which style the
+                visitor landed on and the name they typed into it. The island
+                keeps both current; it no-ops if they are ever removed. */}
+            <input type="hidden" name="preview_style" value="" />
+            <input type="hidden" name="preview_name" value="" />
             <input type="hidden" name="_next" value="https://livewebstudios.com/namesake/thank-you" />
             <!-- v3 honeypot: real users never see or fill this -->
             <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
