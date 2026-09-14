@@ -242,6 +242,12 @@ const examples = [
     --on-accent: #1a1206;
     --line: rgba(201, 165, 90, 0.16);
     --line-2: rgba(201, 165, 90, 0.08);
+    /* global.css ships --line-field as the 3:1 token for anything you type
+       into, but leaves it blue. The sub-brand overrides --line without it,
+       so the form was inheriting a cyan-tinted field border into a brass
+       page. Restated in brass at the same weight, so the contrast rule and
+       the accent agree instead of one undoing the other. */
+    --line-field: rgba(216, 184, 114, 0.46);
   }
 
   /* ---- Two-column preview hero -------------------------------------
@@ -292,22 +298,54 @@ const examples = [
     }
   }
 
-  /* Form width. */
+  /* ---- Intake form ----------------------------------------------------
+     Jon 2026-09-14: "give the form a bit more contrast, some color,
+     professional."
+
+     The fields were reading as empty space. This rule used to set
+     `border: 1px solid var(--line)`, and --line is the DECORATIVE hairline
+     (brass at .16 alpha, about 1.2:1). global.css is explicit that form
+     controls take --line-field instead, at 3:1, for exactly this reason,
+     and the page was overriding that back down. The well was also lighter
+     than the page, which flattened it; a recessed dark well with a lit edge
+     reads as something you type into. */
   .ns-form-wrap { max-width: 820px; margin-inline: auto; }
+
+  /* A brass rule across the head of the panel: the color Jon asked for, in
+     the one place it does not compete with the fields. */
+  .ns-form-wrap :global(.form-pad) {
+    border-top: 2px solid var(--cyan);
+  }
+
   .ns-input,
   .ns-textarea {
     width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--line);
+    background: rgba(4, 6, 10, 0.66);
+    border: 1px solid var(--line-field);
     border-radius: var(--r-md, 12px);
-    color: var(--ink);
+    color: var(--ink-soft);
     font-family: var(--sans);
     font-size: 0.98rem;
     padding: 0.8rem 0.95rem;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease),
+      background 0.2s var(--ease);
   }
   .ns-textarea { resize: vertical; min-height: 130px; }
+  .ns-input::placeholder,
+  .ns-textarea::placeholder { color: var(--muted-2); opacity: 1; }
+  .ns-input:hover,
+  .ns-textarea:hover { border-color: rgba(216, 184, 114, 0.68); }
   .ns-input:focus,
-  .ns-textarea:focus { outline: none; border-color: var(--cyan); }
+  .ns-textarea:focus {
+    outline: none;
+    border-color: var(--cyan);
+    background: rgba(4, 6, 10, 0.85);
+    box-shadow: 0 0 0 3px rgba(201, 165, 90, 0.2);
+  }
+
+  /* Labels carried --muted, which is tuned for body copy, not for the one
+     word telling you what a field wants. */
+  .ns-form-wrap :global(.field label) { color: var(--ink); }
 
   /* Radio choice groups (live used fieldset/legend). */
   .ns-legend {
@@ -316,7 +354,7 @@ const examples = [
     font-size: 0.66rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--ink);
     margin-bottom: 0.7rem;
   }
   .ns-choices { display: flex; flex-wrap: wrap; gap: 0.7rem; }
@@ -325,11 +363,29 @@ const examples = [
     align-items: center;
     gap: 0.5rem;
     padding: 0.55rem 0.9rem;
-    border: 1px solid var(--line);
+    border: 1px solid var(--line-field);
     border-radius: 999px;
-    color: var(--muted);
+    background: rgba(4, 6, 10, 0.5);
+    color: var(--ink);
     font-size: 0.9rem;
     cursor: pointer;
+    transition: border-color 0.2s var(--ease), background 0.2s var(--ease),
+      color 0.2s var(--ease);
+  }
+  .ns-choice:hover {
+    border-color: var(--cyan);
+    background: rgba(201, 165, 90, 0.08);
+  }
+  /* The chosen one should be obvious at a glance, not a filled dot you have
+     to hunt for. Brass fill, same accent as the rest of the sub-brand. */
+  .ns-choice:has(input:checked) {
+    border-color: var(--cyan);
+    background: rgba(201, 165, 90, 0.16);
+    color: var(--ink-soft);
+  }
+  .ns-choice:focus-within {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
   }
   .ns-choice input { accent-color: var(--cyan); }
   .ns-domain-label { display: block; margin-top: 0.9rem; margin-bottom: 0.4rem; }
