@@ -94,7 +94,10 @@ const cols = [
 
       {cols.map((c) => (
         <div class="foot-col">
-          <h4>{c.h}</h4>
+          {/* h3, not h4: most pages' last body heading is an h2, and an h4
+              directly after it skips a level on every one of them (72 pages
+              in the launch audit, 2026-09-14). h3 follows h2 or h3 cleanly. */}
+          <h3>{c.h}</h3>
           <ul>
             {c.links.map(([label, href]) => {
               /* Sister companies with their own domain link out in a new tab
@@ -202,7 +205,7 @@ const cols = [
     letter-spacing: 0.04em;
     color: var(--muted);
   }
-  .foot-col h4 {
+  .foot-col h3 {
     font-family: var(--mono);
     font-size: 0.78rem;
     letter-spacing: 0.2em;

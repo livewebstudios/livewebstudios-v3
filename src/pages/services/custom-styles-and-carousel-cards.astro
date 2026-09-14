@@ -125,8 +125,11 @@ const pageSchema = [
           <span class="eyebrow">PICK A STYLE</span>
           <h2>Pick a Style. We Build the Cards Around It.</h2>
         </div>
-        <!-- em-dash: "hand-tuned look — not a stock filter" -> comma;
-             "mix categories — request a custom palette" -> comma -->
+        {/* em-dash: "hand-tuned look, not a stock filter" -> comma;
+            "mix categories, request a custom palette" -> comma.
+            Astro comment, not an HTML one: the HTML version was leaking
+            its second line into the rendered page as visible text
+            (launch audit 2026-09-14). */}
         <p class="page-lede is-center reveal">Every set below is a real, hand-tuned look, not a stock filter. Pick a style to see its original photos, then the branded cards where the band name, tour dates, and taglines are painted right into the artwork. We'll produce a matched run of hero images, carousel slides, and feature-card art. Mix categories, request a custom palette, or hand us a moodboard and we'll build something entirely yours. Sample content is from our build for <a href="https://www.britishinvasionyears.com/" target="_blank" rel="noopener">The British Invasion Years</a>. Tap any image to open it full-size.</p>
 
         <!-- FILTER -->
@@ -208,7 +211,7 @@ const pageSchema = [
           <span class="eyebrow">YOUR BRAND, YOUR SET</span>
           <h2>Want a Set Built for Your Brand?</h2>
         </div>
-        <!-- em-dash: "Tell me the vibe — I'll mock up cards" -> period -->
+        {/* em-dash: "Tell me the vibe. I'll mock up cards" -> period */}
         <p class="page-lede is-center reveal">Tell me the vibe. I'll mock up cards in the style that fits. Mix any of these, or invent something new.</p>
         <p class="is-center reveal"><a class="btn btn-primary" href={`${rel}contact.html`}>Let's talk. →</a></p>
       </div>
