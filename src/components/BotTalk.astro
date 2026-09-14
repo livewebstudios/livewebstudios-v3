@@ -1,0 +1,403 @@
+---
+/**
+ * BotTalk — two humanoid units in conversation, binary streaming from their
+ * mouths (Jon 2026-09-14, for the /services/ai-platform CTA "This Is Not
+ * Chatbots.").
+ *
+ * Authored as inline SVG rather than a generated bitmap or a video: the ask
+ * was for an ANIMATED illustration, a raster cannot move, and an mp4 for a
+ * decorative 480x400 panel would outweigh the rest of the page. Inline SVG
+ * also inherits the cyan token, so it re-skins with the site.
+ *
+ * The two units take turns. One 9s cycle: unit A talks, then unit B answers.
+ * Visor brightness, the head lean and the binary emission all run off that
+ * same cycle with B offset half a period, so it reads as an exchange rather
+ * than two things idling next to each other.
+ *
+ * Decorative only: aria-hidden, no text content the reader needs.
+ */
+interface Props {
+  class?: string;
+}
+const { class: cls = "" } = Astro.props;
+
+/* Glyph streams. Each entry is [character, start-y, delay-seconds]. Six per
+   side, irregular y and delay so the stream never reads as a marching row. */
+const streamA: [string, number, number][] = [
+  ["1", 156, 0],
+  ["0", 164, 0.45],
+  ["1", 149, 0.9],
+  ["1", 168, 1.3],
+  ["0", 158, 1.75],
+  ["0", 162, 2.2],
+];
+const streamB: [string, number, number][] = [
+  ["0", 160, 0.15],
+  ["1", 152, 0.6],
+  ["0", 167, 1.05],
+  ["1", 157, 1.5],
+  ["1", 164, 1.9],
+  ["0", 150, 2.35],
+];
+---
+
+<div class:list={["bottalk", cls]} aria-hidden="true">
+  <svg viewBox="56 82 368 286" role="presentation" focusable="false">
+    <defs>
+      <linearGradient id="bt-floor" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--cyan)" stop-opacity=".22" />
+        <stop offset="100%" stop-color="var(--cyan)" stop-opacity="0" />
+      </linearGradient>
+      <radialGradient id="bt-pool" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--cyan)" stop-opacity=".16" />
+        <stop offset="100%" stop-color="var(--cyan)" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+
+    <!-- Floor: the same lit plinth the rest of the site's technical art sits on -->
+    <ellipse cx="240" cy="344" rx="176" ry="20" fill="url(#bt-pool)" />
+    <line x1="64" y1="344" x2="416" y2="344" stroke="url(#bt-floor)" stroke-width="1" />
+
+    <!-- Data link between the two heads. Dash travel gives it direction. -->
+    <path class="bt-link" d="M176 128 Q240 96 304 128" fill="none" />
+
+    <!-- ============ UNIT A (left, facing right) ============ -->
+    <g class="bt-unit bt-unit--a">
+      <!-- torso -->
+      <path
+        class="bt-line"
+        d="M116 214 q0-14 14-14 h40 q14 0 14 14 v82 q0 10-10 10 h-48 q-10 0-10-10 z"
+        fill="none"
+      />
+      <line class="bt-line bt-line--dim" x1="128" y1="232" x2="172" y2="232" />
+      <line class="bt-line bt-line--dim" x1="128" y1="244" x2="160" y2="244" />
+      <rect class="bt-core" x="134" y="260" width="32" height="18" rx="3" />
+      <!-- legs -->
+      <line class="bt-line" x1="134" y1="306" x2="132" y2="342" />
+      <line class="bt-line" x1="166" y1="306" x2="168" y2="342" />
+      <!-- gesturing arm, hinged at the shoulder -->
+      <g class="bt-arm bt-arm--a">
+        <circle class="bt-joint" cx="184" cy="224" r="3.2" />
+        <line class="bt-line" x1="184" y1="224" x2="208" y2="242" />
+        <line class="bt-line" x1="208" y1="242" x2="216" y2="220" />
+        <circle class="bt-joint" cx="216" cy="218" r="3.8" />
+      </g>
+      <!-- neck -->
+      <line class="bt-line" x1="150" y1="200" x2="150" y2="190" />
+      <!-- head -->
+      <g class="bt-head bt-head--a">
+        <rect class="bt-line" x="114" y="132" width="72" height="58" rx="12" fill="none" />
+        <!-- visor, lit on this unit's turn -->
+        <rect class="bt-visor bt-visor--a" x="126" y="146" width="48" height="13" rx="3" />
+        <!-- speaker grille: the mouth, on the facing edge -->
+        <line class="bt-line" x1="150" y1="172" x2="178" y2="172" />
+        <line class="bt-line" x1="154" y1="178" x2="178" y2="178" />
+        <!-- antenna -->
+        <line class="bt-line" x1="150" y1="132" x2="150" y2="114" />
+        <circle class="bt-blip bt-blip--a" cx="150" cy="111" r="3.5" />
+      </g>
+    </g>
+
+    <!-- ============ UNIT B (right, facing left) ============ -->
+    <g class="bt-unit bt-unit--b">
+      <path
+        class="bt-line"
+        d="M364 214 q0-14-14-14 h-40 q-14 0-14 14 v82 q0 10 10 10 h48 q10 0 10-10 z"
+        fill="none"
+      />
+      <line class="bt-line bt-line--dim" x1="352" y1="232" x2="308" y2="232" />
+      <line class="bt-line bt-line--dim" x1="352" y1="244" x2="320" y2="244" />
+      <rect class="bt-core" x="314" y="260" width="32" height="18" rx="3" />
+      <line class="bt-line" x1="346" y1="306" x2="348" y2="342" />
+      <line class="bt-line" x1="314" y1="306" x2="312" y2="342" />
+      <g class="bt-arm bt-arm--b">
+        <circle class="bt-joint" cx="296" cy="224" r="3.2" />
+        <line class="bt-line" x1="296" y1="224" x2="272" y2="242" />
+        <line class="bt-line" x1="272" y1="242" x2="264" y2="220" />
+        <circle class="bt-joint" cx="264" cy="218" r="3.8" />
+      </g>
+      <line class="bt-line" x1="330" y1="200" x2="330" y2="190" />
+      <g class="bt-head bt-head--b">
+        <rect class="bt-line" x="294" y="132" width="72" height="58" rx="12" fill="none" />
+        <rect class="bt-visor bt-visor--b" x="306" y="146" width="48" height="13" rx="3" />
+        <line class="bt-line" x1="330" y1="172" x2="302" y2="172" />
+        <line class="bt-line" x1="326" y1="178" x2="302" y2="178" />
+        <line class="bt-line" x1="330" y1="132" x2="330" y2="114" />
+        <circle class="bt-blip bt-blip--b" cx="330" cy="111" r="3.5" />
+      </g>
+    </g>
+
+    <!-- ============ BINARY: A speaking, then B answering ============ -->
+    <g class="bt-stream bt-stream--a">
+      {streamA.map(([ch, y, d]) => (
+        <g class="bt-glyph" style={`--d:${d}s`}>
+          <text x="186" y={y}>{ch}</text>
+        </g>
+      ))}
+    </g>
+    <g class="bt-stream bt-stream--b">
+      {streamB.map(([ch, y, d]) => (
+        <g class="bt-glyph" style={`--d:${d}s`}>
+          <text x="294" y={y}>{ch}</text>
+        </g>
+      ))}
+    </g>
+  </svg>
+</div>
+
+<style>
+  /* One shared conversation period. Unit B runs at -4.5s so it answers rather
+     than talks over A. Change this one value to retime the whole exchange. */
+  .bottalk {
+    --bt-cycle: 9s;
+    width: 100%;
+  }
+  .bottalk svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* ---- Static line language: the same cyan wireframe as the site's art ---- */
+  .bt-line {
+    stroke: var(--cyan);
+    stroke-opacity: 0.78;
+    stroke-width: 2;
+    stroke-linecap: round;
+    fill: none;
+  }
+  .bt-line--dim {
+    stroke-opacity: 0.34;
+  }
+  .bt-joint {
+    fill: var(--cyan);
+    fill-opacity: 0.75;
+  }
+  .bt-core {
+    fill: var(--cyan);
+    fill-opacity: 0.1;
+    stroke: var(--cyan);
+    stroke-opacity: 0.55;
+    stroke-width: 1.4;
+  }
+
+  /* ---- Data link arc ---- */
+  .bt-link {
+    stroke: var(--cyan);
+    stroke-opacity: 0.38;
+    stroke-width: 1.4;
+    stroke-dasharray: 3 9;
+    animation: bt-link-travel 2.4s linear infinite;
+  }
+  @keyframes bt-link-travel {
+    to {
+      stroke-dashoffset: -24;
+    }
+  }
+
+  /* ---- Heads lean in on their turn: the physical tell of who is talking ---- */
+  .bt-head {
+    transform-origin: 150px 190px;
+    animation: bt-lean var(--bt-cycle) ease-in-out infinite;
+  }
+  .bt-head--b {
+    transform-origin: 330px 190px;
+    animation-delay: calc(var(--bt-cycle) / -2);
+  }
+  @keyframes bt-lean {
+    0%,
+    46%,
+    100% {
+      transform: rotate(0deg) translateY(0);
+    }
+    10%,
+    36% {
+      transform: rotate(2.2deg) translateY(-2px);
+    }
+  }
+  .bt-head--b {
+    /* mirrored lean, so both tip toward each other, not the same way */
+    animation-name: bt-lean-mirror;
+  }
+  @keyframes bt-lean-mirror {
+    0%,
+    46%,
+    100% {
+      transform: rotate(0deg) translateY(0);
+    }
+    10%,
+    36% {
+      transform: rotate(-2.2deg) translateY(-2px);
+    }
+  }
+
+  /* ---- Visor: bright while speaking, low while listening ---- */
+  .bt-visor {
+    fill: var(--cyan);
+    animation: bt-visor var(--bt-cycle) ease-in-out infinite;
+  }
+  .bt-visor--b {
+    animation-delay: calc(var(--bt-cycle) / -2);
+  }
+  @keyframes bt-visor {
+    0%,
+    46%,
+    100% {
+      fill-opacity: 0.26;
+    }
+    8%,
+    38% {
+      fill-opacity: 0.95;
+    }
+  }
+
+  /* ---- Antenna blip ---- */
+  .bt-blip {
+    fill: var(--cyan);
+    animation: bt-blip var(--bt-cycle) ease-in-out infinite;
+  }
+  .bt-blip--b {
+    animation-delay: calc(var(--bt-cycle) / -2);
+  }
+  @keyframes bt-blip {
+    0%,
+    46%,
+    100% {
+      fill-opacity: 0.22;
+    }
+    6%,
+    18%,
+    30% {
+      fill-opacity: 1;
+    }
+    12%,
+    24%,
+    38% {
+      fill-opacity: 0.35;
+    }
+  }
+
+  /* ---- Gesturing arm: a small beat on the speaker's turn ---- */
+  .bt-arm--a {
+    transform-origin: 184px 224px;
+    animation: bt-gesture var(--bt-cycle) ease-in-out infinite;
+  }
+  .bt-arm--b {
+    transform-origin: 296px 224px;
+    animation: bt-gesture-mirror var(--bt-cycle) ease-in-out infinite;
+    animation-delay: calc(var(--bt-cycle) / -2);
+  }
+  @keyframes bt-gesture {
+    0%,
+    46%,
+    100% {
+      transform: rotate(0deg);
+    }
+    12% {
+      transform: rotate(-9deg);
+    }
+    26% {
+      transform: rotate(3deg);
+    }
+    38% {
+      transform: rotate(-5deg);
+    }
+  }
+  @keyframes bt-gesture-mirror {
+    0%,
+    46%,
+    100% {
+      transform: rotate(0deg);
+    }
+    12% {
+      transform: rotate(9deg);
+    }
+    26% {
+      transform: rotate(-3deg);
+    }
+    38% {
+      transform: rotate(5deg);
+    }
+  }
+
+  /* ---- Binary leaving the mouth ---- */
+  .bt-glyph text {
+    font-family: var(--mono);
+    font-size: 17px;
+    font-weight: 500;
+    fill: var(--cyan);
+  }
+  .bt-glyph {
+    opacity: 0;
+    animation: bt-emit var(--bt-cycle) linear infinite;
+    animation-delay: var(--d);
+  }
+  .bt-stream--b .bt-glyph {
+    animation-name: bt-emit-left;
+    animation-delay: calc(var(--d) + var(--bt-cycle) / -2);
+  }
+  /* Travels toward the other unit, drifting up and fading. Everything after
+     42% is dead time: that is the other unit's half of the conversation. */
+  @keyframes bt-emit {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+    6% {
+      opacity: 0.95;
+    }
+    30% {
+      opacity: 0.7;
+    }
+    42%,
+    100% {
+      opacity: 0;
+      transform: translate(86px, -30px);
+    }
+  }
+  @keyframes bt-emit-left {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+    6% {
+      opacity: 0.95;
+    }
+    30% {
+      opacity: 0.7;
+    }
+    42%,
+    100% {
+      opacity: 0;
+      transform: translate(-86px, -30px);
+    }
+  }
+
+  /* Reduced motion: the scene holds still, mid-exchange, with both units lit
+     and a few glyphs parked in the gap. Nothing moves, nothing is missing. */
+  @media (prefers-reduced-motion: reduce) {
+    .bt-link,
+    .bt-head,
+    .bt-visor,
+    .bt-blip,
+    .bt-arm--a,
+    .bt-arm--b,
+    .bt-glyph {
+      animation: none !important;
+    }
+    .bt-visor {
+      fill-opacity: 0.7;
+    }
+    .bt-blip {
+      fill-opacity: 0.7;
+    }
+    .bt-glyph {
+      opacity: 0.55;
+      transform: translate(40px, -14px);
+    }
+    .bt-stream--b .bt-glyph {
+      transform: translate(-40px, -14px);
+    }
+  }
+</style>

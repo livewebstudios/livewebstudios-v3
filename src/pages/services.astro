@@ -107,15 +107,26 @@ const groups = [
 
     <!-- CTA -->
     <section class="sec-pad">
-      <div class="wrap">
-        <Glass class="reveal" innerClass="cta">
+      <div class="wrap split split--art-first">
+        <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
+          <img
+            src="images/puzzle-fit.jpg"
+            alt="Dark jigsaw puzzle pieces with one glowing cyan piece locking into the final slot"
+            width="880"
+            height="1168"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="frame-lines"></div>
+        </Glass>
+        <div class="cta cta--bare reveal">
           <h2>Not Sure Which Service Fits?</h2>
           <p>Let's figure it out together. No pressure, no pitch.</p>
           <div class="hero-btns">
             <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
           </div>
-        </Glass>
+        </div>
       </div>
     </section>
   </main>
@@ -131,10 +142,14 @@ const groups = [
   .svc-group { margin-top: clamp(2.5rem, 5vw, 4rem); }
   .svc-group:first-of-type { margin-top: 0; }
   .svc-group .sec-head { margin-bottom: 1.5rem; }
-  /* Category labels: a step up in size, light blue a shade under the logo
-     cyan so they read as headings without competing with the cards. */
+  /* Category labels: sized up to read as true section titles rather than
+     eyebrows (Jon 2026-09-14). Light blue a shade under the logo cyan so they
+     carry weight without competing with the cards. The global .eyebrow
+     tracking is 0.22em, which gets unwieldy at this size, so it tightens as
+     the type grows. */
   .svc-group .sec-head .eyebrow {
-    font-size: 0.86rem;
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    letter-spacing: 0.12em;
     color: #2BA6E0;
   }
 

@@ -22,8 +22,13 @@ interface Props {
       The observer in Base.astro honors data-once so scrolling back to the
       section does not restart a clip that already finished. */
   once?: boolean;
+  /** Still frame to hold before the clip loads, as a filename in
+      public/images/. Sections do not need it (their own flat background shows
+      through), but a video filling a CARD does: without it the card reads as
+      a black hole until the clip arrives. Relative path per the LWS rule. */
+  poster?: string;
 }
-const { src, scrim = "default", once = false } = Astro.props;
+const { src, scrim = "default", once = false, poster } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 ---
 
@@ -35,6 +40,7 @@ const rel = relPrefix(Astro.url.pathname);
     data-once={once ? "" : undefined}
     playsinline
     preload="none"
+    poster={poster ? `${rel}images/${poster}` : undefined}
     data-src={`${rel}video-bg/${src}`}
   ></video>
   <div class="videobg__scrim"></div>

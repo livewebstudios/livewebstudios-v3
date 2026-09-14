@@ -16,6 +16,7 @@
  * the burger.
  */
 import StudiosPanel from "./StudiosPanel.astro";
+import NavIcon from "./NavIcon.astro";
 import { relPrefix } from "../lib/relPrefix";
 
 const path = Astro.url.pathname;
@@ -28,50 +29,58 @@ const ctx: Ctx = path.includes("/namesake")
     ? "band"
     : "main";
 
-/* Services mega columns — every live service page, grouped. */
+/* Services mega columns — every live service page, grouped.
+   Each group carries one hue rather than giving all fourteen links their own:
+   at this count per-item colour reads as confetti, where a colour per column
+   reads as the structure it actually is. */
 const svcCols = [
   {
     label: "BUILD",
+    color: "#38BDF8",
     links: [
-      ["Website Design", "services/website-design.html"],
-      ["E-Commerce", "services/ecommerce.html"],
-      ["Hosting", "services/hosting.html"],
-      ["Maintenance Plans", "services/maintenance-plans.html"],
-      ["SEO & Marketing", "services/seo.html"],
+      ["Website Design", "services/website-design.html", "monitor"],
+      ["E-Commerce", "services/ecommerce.html", "cart"],
+      ["Hosting", "services/hosting.html", "server"],
+      ["Maintenance Plans", "services/maintenance-plans.html", "gear"],
+      ["SEO & Marketing", "services/seo.html", "search"],
     ],
   },
   {
     label: "AI",
+    color: "#A78BFA",
     links: [
-      ["AI Platform", "services/ai-platform.html"],
-      ["AI Business Services", "services/ai-business-services.html"],
-      ["AI Workflow", "services/ai-workflow.html"],
-      ["AI Image", "services/ai-image.html"],
+      ["AI Platform", "services/ai-platform.html", "chip"],
+      ["AI Business Services", "services/ai-business-services.html", "bot"],
+      ["AI Workflow", "services/ai-workflow.html", "route"],
+      ["AI Image", "services/ai-image.html", "image"],
     ],
   },
   {
     label: "BRAND",
+    color: "#FCD34D",
     links: [
-      ["Branding", "services/branding.html"],
-      ["Logo Design", "services/logo-design.html"],
-      ["Custom Styles & Cards", "services/custom-styles-and-carousel-cards.html"],
-      ["Consulting", "services/consulting.html"],
+      ["Branding", "services/branding.html", "compass"],
+      ["Logo Design", "services/logo-design.html", "pen"],
+      ["Custom Styles & Cards", "services/custom-styles-and-carousel-cards.html", "cards"],
+      ["Consulting", "services/consulting.html", "chat"],
     ],
   },
 ];
 
-/* Industries dropdown — all 10 verticals (Jon 2026-08-15). */
+/* Industries dropdown — all 10 verticals (Jon 2026-08-15). One hue across the
+   set: these are peers, so colouring them apart would imply a grouping that
+   does not exist. */
 const indLinks = [
-  ["Healthcare", "industries/healthcare.html"],
-  ["Law Firm", "industries/law-firm.html"],
-  ["Financial Services", "industries/financial-services.html"],
-  ["Construction", "industries/construction.html"],
-  ["Real Estate", "industries/real-estate.html"],
-  ["Manufacturing", "industries/manufacturing.html"],
-  ["Dental", "industries/dental.html"],
-  ["Nonprofit", "industries/nonprofit.html"],
-  ["B2B", "industries/b2b.html"],
-  ["Insurance", "industries/insurance.html"],
+  ["Healthcare", "industries/healthcare.html", "cross"],
+  ["Law Firm", "industries/law-firm.html", "scales"],
+  ["Financial Services", "industries/financial-services.html", "bank"],
+  ["Construction", "industries/construction.html", "hardhat"],
+  ["Real Estate", "industries/real-estate.html", "towers"],
+  ["Manufacturing", "industries/manufacturing.html", "factory"],
+  ["Dental", "industries/dental.html", "tooth"],
+  ["Nonprofit", "industries/nonprofit.html", "heart"],
+  ["B2B", "industries/b2b.html", "briefcase"],
+  ["Insurance", "industries/insurance.html", "shield"],
 ];
 
 /* Sub-brand bars. Order and labels match the live site
@@ -110,6 +119,7 @@ const navKey = (href: string) => {
 };
 const here = navKey(path);
 const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
+
 ---
 
 <header class="nav" data-nav>
@@ -140,17 +150,14 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
               {svcCols.map((col) => (
                 <div class="svc-col">
                   <span class="svc-col-label">{col.label}</span>
-                  {col.links.map(([label, href]) => (
-                    <a class="svc-link" href={`${rel}${href}`}>{label}</a>
+                  {col.links.map(([label, href, icon]) => (
+                    <a class="svc-link" href={`${rel}${href}`}>
+                      <NavIcon name={icon} color={col.color} />
+                      <span class="svc-link__txt">{label}</span>
+                    </a>
                   ))}
                 </div>
               ))}
-            </div>
-            <div class="mega-support svc-bottom">
-              <a class="mega-row" href={`${rel}services.html`}>
-                <span class="mega-row-title">All Services →</span>
-                <span class="mega-row-sub">The full lineup</span>
-              </a>
             </div>
           </div>
         </div>
@@ -172,15 +179,12 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
         <div class="mega mega--industries" id="industries-panel" role="region" aria-label="Industries">
           <div class="mega-inner">
             <div class="ind-cols">
-              {indLinks.map(([label, href]) => (
-                <a class="svc-link" href={`${rel}${href}`}>{label}</a>
+              {indLinks.map(([label, href, icon]) => (
+                <a class="svc-link" href={`${rel}${href}`}>
+                  <NavIcon name={icon} color="#7DD3FC" />
+                  <span class="svc-link__txt">{label}</span>
+                </a>
               ))}
-            </div>
-            <div class="mega-support">
-              <a class="mega-row" href={`${rel}industries.html`}>
-                <span class="mega-row-title">All Industries →</span>
-                <span class="mega-row-sub">Ten verticals, one standard</span>
-              </a>
             </div>
           </div>
         </div>
@@ -203,19 +207,29 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
           <div class="mega-inner">
             <div class="mega-support">
               <a class="mega-row" href={`${rel}about.html`}>
-                <span class="mega-row-title">Our Story →</span>
-                <span class="mega-row-sub">23 years in, just getting started</span>
+                <NavIcon name="book" color="#38BDF8" />
+                <span class="mega-row__txt">
+                  <span class="mega-row-title">Our Story →</span>
+                  <span class="mega-row-sub">23 years in, just getting started</span>
+                </span>
               </a>
               <a class="mega-row" href={`${rel}faq.html`}>
-                <span class="mega-row-title">FAQ →</span>
-                <span class="mega-row-sub">Straight answers, no sales pitch</span>
+                <NavIcon name="help" color="#38BDF8" />
+                <span class="mega-row__txt">
+                  <span class="mega-row-title">FAQ →</span>
+                  <span class="mega-row-sub">Straight answers, no sales pitch</span>
+                </span>
               </a>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="studios" data-dd>
+      {/* studios--dir carries the wide directory panel. The modifier exists
+          so the panel can position against the header rather than this
+          trigger: at 1080px wide, anchored to a trigger sitting near the end
+          of the nav, it hung 116px off the left edge of the viewport. */}
+      <div class="studios studios--dir" data-dd>
         <button
           type="button"
           class="studios-trigger"
@@ -223,7 +237,7 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
           aria-controls="studios-panel"
           aria-haspopup="true"
         >Studios <span class="studios-caret" aria-hidden="true">↓</span></button>
-        <StudiosPanel />
+        <StudiosPanel here={here} />
       </div>
 
       <a href={`${rel}contact.html`}>Contact</a>
@@ -349,6 +363,13 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
 
     // --- Mobile burger menu ---
     var burger = header.querySelector(".burger");
+    var closeBurger = function () {
+      header.classList.remove("nav-open");
+      if (burger) {
+        burger.setAttribute("aria-expanded", "false");
+        burger.textContent = "☰";
+      }
+    };
     if (burger) {
       burger.addEventListener("click", function () {
         var open = header.classList.toggle("nav-open");
@@ -356,6 +377,17 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
         burger.textContent = open ? "✕" : "☰";
       });
     }
+
+    // Crossing the 900px breakpoint with the drawer open left nav-open and any
+    // .is-open panel set while the CSS switched back to the desktop bar, which
+    // pinned a mega open with no pointer on it. Reset both on every crossing.
+    var mq = window.matchMedia("(max-width: 900px)");
+    var onBreakpoint = function () {
+      closeBurger();
+      closeAll();
+    };
+    if (mq.addEventListener) mq.addEventListener("change", onBreakpoint);
+    else if (mq.addListener) mq.addListener(onBreakpoint);
   })();
 </script>
 
@@ -419,6 +451,9 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     padding: 0.35rem 0.6rem 0.5rem;
   }
   .svc-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     font-family: var(--mono);
     font-size: 0.72rem;
     letter-spacing: 0.06em;
@@ -427,9 +462,26 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     border-radius: var(--r-sm);
     transition: color 0.2s var(--ease), background 0.2s var(--ease);
   }
+  .svc-link__txt {
+    min-width: 0;
+  }
+  /* The glyph sits a shade under the label at rest so the column still reads
+     as a list of words, then comes up to full strength with the row. */
+  .svc-link .nav-ico {
+    opacity: 0.72;
+    transition: opacity 0.2s var(--ease);
+  }
+  .svc-link:hover .nav-ico {
+    opacity: 1;
+  }
   .svc-link:hover {
     color: var(--ink-soft);
     background: rgba(56, 189, 248, 0.08);
+  }
+  /* The Forms dropdown reuses .svc-link but has no icons, so it keeps the
+     original single-column text rhythm. */
+  .subnav-drop .svc-link {
+    display: block;
   }
 
   /* ---- Sub-brand bar: sticks flush under the main nav ---- */
@@ -464,8 +516,12 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     top: 2px;
     line-height: 0;
   }
+  /* 68px -> 96px (Jon 2026-09-14: "make the live band logo larger"). The bar
+     height is unchanged: the lockup is out of flow, so it just overhangs
+     further into the hero below, which is the point of taking it out of flow
+     in the first place. */
   .subnav-brand img {
-    height: 68px;
+    height: 96px;
     width: auto;
     display: block;
     filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
@@ -594,7 +650,7 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
       transform: none;
     }
     .subnav-brand img {
-      height: 46px;
+      height: 60px;
       filter: none;
     }
     /* Links wrap onto one or two rows; nothing pushes the page sideways. */

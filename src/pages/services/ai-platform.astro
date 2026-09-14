@@ -9,6 +9,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
+import BotTalk from "../../components/BotTalk.astro";
 import CardIcon from "../../components/CardIcon.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
@@ -79,20 +80,41 @@ const pageSchema = [
 
     <!-- INTRO + WHAT THIS MEANS -->
     <section class="sec-pad">
-      <div class="wrap">
-        <div class="copy reveal">
+      <div class="wrap split split--copy-first">
+        <div class="copy copy--points reveal">
           <!-- em-dash: "not an add-on — it's the foundation" → "not an add-on. It's the foundation" -->
           <p class="kick">In 2023, we started integrating AI into every part of our workflow. By 2026, it's not an add-on. It's the foundation.</p>
           <span class="eyebrow">WHAT THIS MEANS FOR YOU</span>
           <div class="sec-head is-flush"><h2>This Isn't a Chatbot. It's a Different Way of Working.</h2></div>
+          <!-- Restructured from four prose blocks to lede + points
+               (Jon 2026-09-14: "too wall of text"). Every claim and number
+               from the original survives; the middle paragraph was a single
+               sentence carrying four separate benefits, which is what made it
+               unreadable, so each one is now its own line. -->
           <!-- em-dash: "digital presence — from the first line" → "digital presence, from the first line" -->
-          <p>When people hear "AI," they think of a chatbot answering questions on a website. That's not what we're talking about. Our AI platform is the infrastructure behind how we build and maintain your digital presence, from the first line of content to the final performance report.</p>
+          <p>Say "AI" and most people picture a chatbot answering questions on a website. That is not this. Our platform is the infrastructure behind how we build and maintain your site, from the first line of content to the final performance report.</p>
+          <p>In practice:</p>
           <!-- numeric range 60–70% → 60-70% -->
-          <p>In practice, this means: your website gets built faster (60-70% faster than traditional workflows), your content is keyword-optimized from the first draft, your images are studio-quality without hiring a photographer, and your site is continuously monitored for performance and competitive gaps.</p>
-          <!-- em-dash: "better product — faster, smarter" → "better product: faster, smarter" -->
-          <p>Clients on the LWS AI platform get a measurably better product: faster, smarter, and at a lower cost than the old way of doing things. That's the whole point.</p>
+          <ul class="copy-points">
+            <li><strong>Builds land 60 to 70% faster</strong> than a traditional workflow.</li>
+            <li><strong>Content is keyword-optimized from the first draft,</strong> not bolted on after launch.</li>
+            <li><strong>Images are studio-quality</strong> without hiring a photographer.</li>
+            <li><strong>Monitoring runs continuously</strong> for performance and competitive gaps.</li>
+          </ul>
+          <p class="copy-kicker">Faster, smarter, and cheaper than the old way. That is the whole point.</p>
           <p>See how AI is changing website builds with our <a href="website-design.html">Website Design process →</a>.</p>
         </div>
+        <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
+          <img
+            src="../images/ai-platform-pipeline.jpg"
+            alt="Glowing blue diagram of content, image and data sources flowing through an AI pipeline into a finished website layout"
+            width="880"
+            height="1168"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="frame-lines"></div>
+        </Glass>
       </div>
     </section>
 
@@ -123,12 +145,15 @@ const pageSchema = [
     <!-- CTA -->
     <section class="sec-pad">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta">
-          <h2>This Is Not Chatbots.</h2>
-          <p>A fundamentally different approach to how your digital presence is built and maintained.</p>
-          <div class="hero-btns">
-            <a href="../contact.html" class="btn btn-primary">Talk to Jon →</a>
-            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        <Glass class="reveal" innerClass="cta cta--art">
+          <div class="cta-art"><BotTalk /></div>
+          <div class="cta-copy">
+            <h2>This Is Not Chatbots.</h2>
+            <p>A fundamentally different approach to how your digital presence is built and maintained.</p>
+            <div class="hero-btns">
+              <a href="../contact.html" class="btn btn-primary">Talk to Jon →</a>
+              <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+            </div>
           </div>
         </Glass>
       </div>

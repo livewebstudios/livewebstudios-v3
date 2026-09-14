@@ -1,0 +1,47 @@
+---
+/**
+ * NavIcon — one glyph from the shared nav icon set.
+ *
+ * Kept as a component so every dropdown renders the same SVG attributes:
+ * getting stroke-width or the viewBox wrong in one place is exactly how the
+ * Studios panel's icons and the Services icons would start to look unrelated.
+ */
+import { ICONS } from "../lib/navIcons";
+
+interface Props {
+  /** Key from ICONS. An unknown key renders nothing rather than a broken box. */
+  name: string;
+  /** Accent hue for this item. Falls back to the link's own colour. */
+  color?: string;
+  size?: number;
+}
+const { name, color, size = 18 } = Astro.props;
+const glyph = ICONS[name];
+---
+
+{glyph && (
+  <span class="nav-ico" style={color ? `color:${color}` : undefined} aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      set:html={glyph}
+    />
+  </span>
+)}
+
+<style is:global>
+  .nav-ico {
+    display: block;
+    line-height: 0;
+    flex: 0 0 auto;
+  }
+  .nav-ico svg {
+    display: block;
+  }
+</style>

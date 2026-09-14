@@ -6,10 +6,13 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
-        "dev"
+        "dev",
+        "--",
+        "--port",
+        "4323"
       ],
-      "port": 4321,
-      "autoPort": true
+      "port": 4323,
+      "autoPort": false
     },
     {
       "name": "biy-static",

@@ -4,8 +4,7 @@
  * Exact copy from the live About page, rebuilt on v3 layouts/components.
  * EM DASH BAN: live copy used em dashes throughout; converted to commas /
  * periods per the global client-facing rule. Spots marked <!-- em-dash -->.
- * Live used real photos (1about.jpg, 2about.jpg) not present in v3 yet, so
- * Glass placeholders stand in until the images are added to public/images.
+ * Founder portrait is images/jon-kangol.jpg (comic-panel art, 880x1178).
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
@@ -18,19 +17,27 @@ import HeroActions from "../components/HeroActions.astro";
 const reasons = [
   {
     title: "23 Years of Pattern Recognition",
+    art: "images/reason-pattern.jpg",
+    alt: "A long receding stack of glass web-layout panels with one cyan thread tracing the same pattern through every one",
     body: "We've seen every trend, every algorithm update, every \"next big thing.\" That experience means we spend your budget on what works, not what's fashionable.",
   },
   {
     title: "AI-Native Workflow",
+    art: "images/reason-ai-workflow.jpg",
+    alt: "Cyan light beams from a glowing neural node snapping glass blocks into a finished structure",
     // em-dash: "better imagery — without" → "better imagery, without"
     body: "We rebuilt our entire pipeline around AI tools in 2023. Faster builds, smarter SEO, better imagery, without inflating what we charge you.",
   },
   {
     title: "No Account Managers. Just Jon.",
+    art: "images/reason-direct-line.jpg",
+    alt: "Two glowing cyan nodes joined by one unbroken beam, with a row of dark switched-off middlemen bypassed beside it",
     body: "You work directly with the person who built the business. No handoffs. No phone trees.",
   },
   {
     title: "Built to Last",
+    art: "images/reason-built-to-last.jpg",
+    alt: "A granite monolith anchored in bedrock with a sharp cyan wireframe structure locked into its face",
     body: "We don't build sites you'll need to replace in 18 months. Static-HTML architecture: fast, secure, and infinitely portable.",
   },
 ];
@@ -84,9 +91,13 @@ const reasons = [
         </div>
         <div class="grid-svc">
           {reasons.map((r) => (
-            <div class="glass-inner card-pad reveal">
-              <h3>{r.title}</h3>
-              <p>{r.body}</p>
+            <div class="glass-inner reason-card reveal">
+              <img class="reason-card__art" src={r.art} alt={r.alt} width="1200" height="671" loading="lazy" decoding="async" />
+              <div class="reason-card__scrim" aria-hidden="true"></div>
+              <div class="card-pad reason-card__body">
+                <h3>{r.title}</h3>
+                <p>{r.body}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -105,10 +116,16 @@ const reasons = [
           <p>When he's not working, Jon gigs nationally as a keyboardist and guitarist. He also runs Live Web Photos (AI image services) and Live AI Studios (AI consulting for larger businesses).</p>
           <div class="mt-lg"><a href="contact.html" class="btn btn-primary">Get in Touch →</a></div>
         </div>
-        <Glass class="reveal" innerClass="portrait">
+        <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
+          <img
+            src="images/jon-kangol.jpg"
+            alt="Comic-book panel illustration of Jon Wolf in a Kangol cap and patchwork jacket, hands on hips"
+            width="880"
+            height="1178"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="frame-lines"></div>
-          <div class="big">◧</div>
-          <div class="mark">Jon Wolf · Keyboardist · Builder</div>
         </Glass>
       </div>
     </section>
@@ -116,25 +133,61 @@ const reasons = [
     <!-- MISSION / VISION / VALUES -->
     <section class="sec-pad is-alt">
       <div class="wrap">
-        <div class="trio">
-          <div class="glass-inner card-pad reveal">
-            <span class="label">MISSION</span>
-            <!-- em-dash: "real business results — not just" → "real business results, not just" -->
-            <p>To build web presences that generate real business results, not just pretty pictures on a screen.</p>
+        <div class="trio trio--art">
+          <div class="glass-inner reveal">
+            <div class="trio-art">
+              <img
+                src="images/about-mission.jpg"
+                alt="Cyan wireframe browser window with a graphite bar chart growing up through and breaking past its top frame"
+                width="960"
+                height="537"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="card-pad">
+              <span class="label">MISSION</span>
+              <!-- em-dash: "real business results — not just" → "real business results, not just" -->
+              <p>To build web presences that generate real business results, not just pretty pictures on a screen.</p>
+            </div>
           </div>
-          <div class="glass-inner card-pad reveal">
-            <span class="label">VISION</span>
-            <!-- em-dash: "the big guys — without" → "the big guys, without" -->
-            <p>A future where any small business has a site as fast, smart, and polished as the big guys, without the big-agency price tag.</p>
+          <div class="glass-inner reveal">
+            <div class="trio-art">
+              <img
+                src="images/about-vision.jpg"
+                alt="A small corner shop drawn as a glowing cyan wireframe, lit as brightly as the skyscrapers beside it"
+                width="960"
+                height="537"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="card-pad">
+              <span class="label">VISION</span>
+              <!-- em-dash: "the big guys — without" → "the big guys, without" -->
+              <p>A future where any small business has a site as fast, smart, and polished as the big guys, without the big-agency price tag.</p>
+            </div>
           </div>
-          <div class="glass-inner card-pad reveal">
-            <span class="label">VALUES</span>
-            <ul>
-              <li>Transparency over hype</li>
-              <li>Performance over aesthetics (though we'll take both)</li>
-              <li>Long-term relationships over project churn</li>
-              <li>Real skills over buzzwords</li>
-            </ul>
+          <div class="glass-inner reveal">
+            <div class="trio-art">
+              <img
+                src="images/about-values.jpg"
+                alt="A clear glass toolbox edged in cyan light, every precision hand tool inside plainly visible"
+                width="960"
+                height="537"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="card-pad">
+              <span class="label">VALUES</span>
+              <ul>
+                <li>Transparency over hype</li>
+                <li>Performance over aesthetics (though we'll take both)</li>
+                <li>Long-term relationships over project churn</li>
+                <li>Real skills over buzzwords</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -142,8 +195,8 @@ const reasons = [
 
     <!-- CTA -->
     <section class="sec-pad">
-      <div class="wrap">
-        <Glass class="reveal" innerClass="cta">
+      <div class="wrap split split--copy-first">
+        <div class="cta cta--bare reveal">
           <h2>Let's Build Something That Lasts.</h2>
           <!-- em-dash: "full rebuilds — talk to" → "full rebuilds. Talk to" -->
           <p>From quick consults to full rebuilds. Talk to the person who'll actually do the work.</p>
@@ -151,6 +204,17 @@ const reasons = [
             <a href="contact.html" class="btn btn-primary">Start a Project →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
           </div>
+        </div>
+        <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
+          <img
+            src="images/industry-construction.jpg"
+            alt="Cyan wireframe tower crane lifting a steel beam onto a building frame under construction"
+            width="880"
+            height="1168"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="frame-lines"></div>
         </Glass>
       </div>
     </section>

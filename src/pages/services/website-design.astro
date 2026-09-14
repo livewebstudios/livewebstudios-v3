@@ -86,9 +86,16 @@ const pageSchema = [
     <!-- OUR APPROACH -->
     <section class="sec-pad">
       <div class="wrap split">
-        <Glass class="reveal" innerClass="portrait">
+        <Glass class="reveal" innerClass="portrait portrait--img portrait--sq portrait--anchor-right">
+          <img
+            src="../images/lbws_neon-website-icons-hero-16x9.jpg"
+            alt="Neon line illustration of a website layout ringed by media, messaging, and sharing icons"
+            width="1072"
+            height="600"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="frame-lines"></div>
-          <div class="big">◧</div>
           <div class="mark">Custom Web Design</div>
         </Glass>
         <div class="copy reveal">
@@ -102,19 +109,41 @@ const pageSchema = [
 
     <!-- WHY IT MATTERS -->
     <section class="sec-pad is-alt">
-      <div class="wrap">
-        <div class="copy reveal">
+      <div class="wrap split split--copy-first">
+        <div class="copy copy--points reveal">
           <span class="eyebrow">WHY IT MATTERS</span>
           <div class="sec-head is-flush"><h2>Most Websites Fail Before Anyone Reads Them</h2></div>
-          <!-- em-dash: "should care — they're gone" → "should care, they're gone" -->
-          <p>The average visitor decides whether to stay or leave within 3 seconds. If your site loads slowly, looks like it was built in 2015, or doesn't immediately tell visitors what you do and why they should care, they're gone. And they probably went to a competitor.</p>
-          <!-- em-dash: "static HTML websites — not WordPress" → "static HTML websites, not WordPress" -->
-          <p>We build static HTML websites, not WordPress, not Wix, not Squarespace. Why? Because static sites load 3-5x faster, have no plugins to break, no databases to hack, and no monthly platform fees. They're built to last, built to rank, and built to represent your business at the highest level.</p>
-          <!-- em-dash: "from day one — title tags" → "from day one: title tags" -->
-          <p>Every site we build is mobile-first, fully responsive, and includes on-page SEO from day one: title tags, meta descriptions, schema markup, and proper heading structure. Because a beautiful website that nobody can find is just expensive art.</p>
-          <p>Pair your new site with our <a href="seo.html">SEO services →</a> to start ranking from day one.</p>
-          <p>Looking for a complete brand? See our <a href="branding.html">Branding &amp; Identity services →</a>.</p>
+          <!-- Restructured from four prose blocks to lede + bullets
+               (Jon 2026-09-14: "too wall of text"). Same claims, same numbers,
+               broken to the points a skimming visitor actually stops on. -->
+          <p>A visitor decides whether to stay inside about 3 seconds. Slow load, a design that looks like 2015, or no straight answer to what you do, and they are already at a competitor.</p>
+          <p>So we build static HTML. Not WordPress, not Wix, not Squarespace:</p>
+          <ul class="copy-points">
+            <li><strong>3 to 5 times faster</strong> than a database-driven site, because there is no database to wait on.</li>
+            <li><strong>No plugins to break.</strong> Nothing to auto-update at 2am and take the site down with it.</li>
+            <li><strong>Nothing to hack.</strong> No database, no login, almost no attack surface.</li>
+            <li><strong>No monthly platform fees.</strong> You own the files.</li>
+          </ul>
+          <p>Every build ships with the fundamentals in place:</p>
+          <ul class="copy-points">
+            <li>Mobile-first and fully responsive, tested on real screens.</li>
+            <li>On-page SEO from day one: title tags, meta descriptions, schema markup, proper heading structure.</li>
+            <li>Semantic HTML that Google can actually read.</li>
+          </ul>
+          <p class="copy-kicker">A beautiful website nobody can find is just expensive art.</p>
+          <p>Pair your new site with our <a href="seo.html">SEO services →</a> to start ranking from day one. Looking for a complete brand? See our <a href="branding.html">Branding &amp; Identity services →</a>.</p>
         </div>
+        <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
+          <img
+            src="../images/jon-thinking.jpg"
+            alt="Pop-art comic panel of Jon Wolf in a black beret, hand on chin, thinking"
+            width="1045"
+            height="1400"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="frame-lines"></div>
+        </Glass>
       </div>
     </section>
 
@@ -146,9 +175,13 @@ const pageSchema = [
     </section>
 
     <!-- CTA -->
-    <section class="sec-pad">
+    <!-- Photo URL is set inline, not in the stylesheet: styles are inlined into
+         every page at every depth, so a url() written in global.css would
+         resolve against whichever page it landed in and break on nested ones.
+         Keeping it here keeps this page's own relative path correct. -->
+    <section class="sec-pad sec-photobg sec-photobg--light" style="--sec-photo:url('../images/pen-squares.jpg')">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta">
+        <div class="cta cta--bare reveal">
           <h2>Let's Talk About Your Site.</h2>
           <!-- forbidden: dropped leading "Free consultation." -->
           <p>We'll review what you have and recommend what fits.</p>
@@ -156,7 +189,7 @@ const pageSchema = [
             <a href="../contact.html" class="btn btn-primary">Get a Quote →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
           </div>
-        </Glass>
+        </div>
       </div>
     </section>
   </main>

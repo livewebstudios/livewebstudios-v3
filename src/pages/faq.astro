@@ -161,10 +161,17 @@ const jsonLd = JSON.stringify({
     </section>
 
     <!-- CTA -->
-    <section class="sec-pad is-alt has-videobg">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="default" />
+    <!-- The animation now fills the CARD rather than the section (Jon
+         2026-09-14). It is the quote-card clip from jonwolfstudios.com/web-ai,
+         and its composition is the reason: Jon sits on the right of frame, so
+         it only works with the copy held to the left, which is what a card
+         gives you and a full-bleed section does not. The section's own
+         orange-beam background came out with it: two clips animating in one
+         band fought each other. -->
+    <section class="sec-pad is-alt">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta glass-refract">
+        <Glass class="reveal" innerClass="cta cta--video">
+          <VideoBg src="jon-webdesk.mp4" scrim="default" poster="jon-webdesk-poster.jpg" />
           <span class="eyebrow is-center mb-md">STILL HAVE A QUESTION?</span>
           <h2>Call Jon directly. He picks up.</h2>
           <div class="hero-btns">

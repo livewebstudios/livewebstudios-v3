@@ -1,7 +1,9 @@
 ---
 /**
  * /industries — the Industries hub, ported from live industries/index.html.
- * Intro + a grid of all 10 industry verticals + FAQ + CTA, rebuilt on v3
+ * Intro + a grid of all 10 industry verticals + CTA, rebuilt on v3
+ * layouts/components. The FAQ block was removed 2026-09-14 (Jon: FAQ
+ * belongs only on /faq), along with its data and accordion styles.
  * layouts/components. Root-level page, so imports go ONE dot up and in-page
  * links to an industry are "industries/<name>.html".
  * COPY RULES APPLIED: em dashes converted per the ban (marked <!-- em-dash -->);
@@ -35,34 +37,6 @@ const industries = [
   { ico: "◉", title: "Insurance", body: "Quote-ready websites for insurance agencies and brokers.", slug: "insurance" },
 ];
 
-// FAQ — ported verbatim (em dashes converted to colons/commas/periods).
-const faqs = [
-  {
-    q: "Do you specialize in specific industries?",
-    // em-dash: "wide range — law firms" → "wide range: law firms"
-    a: "We work across a wide range: law firms, healthcare, construction, real estate, financial services, nonprofits, and more. Each industry has its own compliance concerns, audience expectations, and conversion patterns. We know the difference and build accordingly.",
-  },
-  {
-    q: "Can you match the professional standards my industry requires?",
-    // em-dash: "for contractors — we tailor" → "for contractors, we tailor"
-    a: "Yes. Whether that means HIPAA-conscious design for healthcare, trust-forward layouts for law firms, or lead-generation focus for contractors, we tailor every build to what actually works in your space.",
-  },
-  {
-    q: "My industry is competitive online. Can you help me stand out?",
-    // em-dash: "from day one — not bolted" → "from day one, not bolted"
-    a: "That's exactly what we do. We combine clean, premium design with SEO built into every page from day one, not bolted on after. The goal is a site that looks better and ranks higher than your competitors.",
-  },
-  {
-    q: "I have a very specific audience. Will you understand my business?",
-    // em-dash: "template shop — we ask" → "template shop, we ask"
-    a: "We start every project with a deep dive into your business, your customers, and your market. We're not a template shop, we ask the right questions before we write a single line of code.",
-  },
-  {
-    q: "What if my industry isn't listed on your site?",
-    // em-dash: "Reach out — if it's" → "Reach out. If it's"
-    a: "If you serve real customers and need a serious web presence, we can help. Reach out. If it's outside our wheelhouse we'll tell you straight, but chances are we've worked in something close.",
-  },
-];
 ---
 
 <Base
@@ -106,25 +80,6 @@ const faqs = [
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="sec-pad is-alt">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">FAQ</span>
-          <h2>Frequently asked questions</h2>
-        </div>
-        <p class="page-lede is-center mb-lg">How we approach regulated, competitive, and niche verticals.</p>
-        <div class="faq reveal">
-          {faqs.map((f) => (
-            <details class="faq-item">
-              <summary>{f.q}</summary>
-              <p>{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-
     <!-- CTA -->
     <section class="sec-pad">
       <div class="wrap">
@@ -142,42 +97,3 @@ const faqs = [
 
   <Footer />
 </Base>
-
-<style>
-  /* FAQ accordion — native <details>, styled with system tokens.
-     Mirrors the treatment on /services (global.css has no .faq rules). */
-  .faq { max-width: 760px; margin-inline: auto; }
-  .faq-item {
-    border: 1px solid var(--line);
-    border-radius: var(--r-md, 12px);
-    background: rgba(255, 255, 255, 0.015);
-    margin-top: 0.9rem;
-    overflow: hidden;
-  }
-  .faq-item > summary {
-    cursor: pointer;
-    list-style: none;
-    padding: 1.1rem 1.3rem;
-    font-weight: 600;
-    color: var(--ink-soft);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-  .faq-item > summary::-webkit-details-marker { display: none; }
-  .faq-item > summary::after {
-    content: "+";
-    font-family: var(--mono);
-    color: var(--cyan-soft);
-    font-size: 1.2rem;
-    line-height: 1;
-    transition: transform 0.25s var(--ease, ease);
-  }
-  .faq-item[open] > summary::after { transform: rotate(45deg); }
-  .faq-item > p {
-    padding: 0 1.3rem 1.2rem;
-    color: var(--muted);
-    max-width: 68ch;
-  }
-</style>

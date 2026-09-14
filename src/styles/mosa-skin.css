@@ -75,6 +75,7 @@
   --brass:#C9A55A;
 
   --line:rgb(var(--mosa-fg-rgb)/.1);
+  --line-field:rgb(var(--mosa-fg-rgb)/.38);
   --line-2:rgb(var(--mosa-fg-rgb)/.06);
 
   /* MOSA radius scale — mostly sharp. Rounding is an emphasis decision. */
@@ -121,7 +122,7 @@
 
 /* ---- Buttons: solid inverse, no gradient, no lift ------------- */
 .btn{
-  font-family:var(--mono);letter-spacing:var(--mosa-track-button,.12em);
+  font-family:var(--sans);letter-spacing:var(--mosa-track-button,.12em);
   border-radius:var(--r-sm);
 }
 .btn-primary{
@@ -170,16 +171,20 @@ h1.hero-h1 em,h1.page-h1 em{color:inherit}
 .page-head::before{display:none}
 .sec-head h2,.feature h2,.cta h2{font-weight:500;letter-spacing:-.01em}
 
-/* ---- Cards / grids / stats: glass so video reads through ------ */
+/* ---- Cards / grids / stats: glass so video reads through ------
+   Opacity raised from .32 (Jon 2026-09-14): these cards sit over the colour
+   video beds, and at a third opaque the magenta and orange washed straight
+   through the body copy. The blur and saturate stay, so the panels still read
+   as glass rather than flat black, but the type now has a stable ground. */
 .work-card,.blog-card,.stat{
-  background:rgb(var(--mosa-bg-rgb)/.32);border-radius:var(--r-lg);
+  background:rgb(var(--mosa-bg-rgb)/.82);border-radius:var(--r-lg);
   backdrop-filter:blur(14px) saturate(140%);
   -webkit-backdrop-filter:blur(14px) saturate(140%);
   border-color:rgb(var(--mosa-fg-rgb)/.12);
 }
 .work-card:hover,.blog-card:hover{
   transform:none;box-shadow:none;
-  border-color:rgb(var(--mosa-fg-rgb)/.24);background:rgb(var(--mosa-bg-rgb)/.44);
+  border-color:rgb(var(--mosa-fg-rgb)/.24);background:rgb(var(--mosa-bg-rgb)/.9);
 }
 .work-thumb,.blog-thumb--empty{
   background:rgb(var(--mosa-fg-rgb)/.04);
@@ -194,12 +199,20 @@ h1.hero-h1 em,h1.page-h1 em{color:inherit}
 }
 .stat b{color:var(--ink-soft);font-weight:500}
 
-/* ---- Forms ---------------------------------------------------- */
+/* ---- Forms ----------------------------------------------------
+   Jon 2026-09-14: "little more contrast on the form fields." The resting
+   border measured 1.20:1 against the card and the fill 1.03:1, so a field had
+   no visible edge at all - you could not see where to type. --line-field is
+   the 3:1 boundary WCAG 1.4.11 asks of a control; the fill comes up with it so
+   the input reads as a surface rather than a hole. */
 .field input,.field select,.field textarea{
-  background:rgb(var(--mosa-fg-rgb)/.02);border-radius:var(--r-sm);
+  background:rgb(var(--mosa-fg-rgb)/.06);border-radius:var(--r-sm);
 }
+/* Focus has to clear the new resting border, not sit 2% above it. Outline
+   rather than a glow, to stay inside the skin's flat-elevation rule. */
 .field input:focus,.field select:focus,.field textarea:focus{
-  border-color:rgb(var(--mosa-fg-rgb)/.4);box-shadow:none;
+  border-color:rgb(var(--mosa-fg-rgb)/.85);box-shadow:none;
+  outline:2px solid rgb(var(--mosa-fg-rgb)/.55);outline-offset:1px;
 }
 
 /* ---- CTA / footer --------------------------------------------- */
@@ -223,6 +236,25 @@ footer{background:rgb(var(--mosa-fg-rgb)/.02)}
 }
 .videobg--default .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.28)}
 .videobg--strong .videobg__scrim{background:rgb(var(--mosa-bg-rgb)/.55)}
+
+/* Clip filling a CTA card rather than a section (Jon 2026-09-14, /faq).
+   Declared here because the flat .videobg--default scrim above is what this
+   has to beat, and both are two-class selectors, so source order decides it.
+   Directional on purpose: heavy over the copy on the left, light on the right
+   where Jon is, so the animation actually reads instead of being flattened to
+   a dark texture the way a full-section scrim would flatten it. */
+.cta--video .videobg__scrim{
+  background:
+    linear-gradient(100deg,rgba(5,7,11,.86) 0%,rgba(5,7,11,.62) 42%,rgba(5,7,11,.1) 100%),
+    linear-gradient(180deg,rgba(5,7,11,.05) 0%,rgba(5,7,11,.2) 100%);
+}
+@media (max-width:860px){
+  /* Stacked and narrow the copy spans the full width, so the left-weighted
+     scrim no longer protects it. Even it out and hold the crop on Jon. */
+  .cta--video .videobg__scrim{
+    background:linear-gradient(180deg,rgba(5,7,11,.7) 0%,rgba(5,7,11,.84) 100%);
+  }
+}
 
 /* ============================================================
    LAYOUT — MOSA placement rules
@@ -303,6 +335,17 @@ h1.page-h1{margin:1.1rem 0 0;max-width:18ch}
    rather than inheriting the global flex-start. */
 .feature .hero-btns{justify-content:center}
 
+/* Centred feature panel (Jon 2026-09-14, home page "opening night" section).
+   Declared here rather than in global.css because the .feature left-align
+   above is the thing it has to beat, and both are single-class selectors, so
+   source order is what decides it. The modifier keeps the change scoped to
+   the one section: /namesake and the three Live Band pages use .feature too
+   and stay left-aligned. */
+.feature--center{text-align:center}
+.feature--center h2{margin-inline:auto;max-width:20ch}
+.feature--center p{margin-inline:auto;max-width:56ch}
+.feature--center .eyebrow{justify-content:center}
+
 /* ---- Section rhythm: MOSA's 120px band ------------------------ */
 .sec-pad{padding-block:120px}
 
@@ -323,7 +366,7 @@ h1.page-h1{margin:1.1rem 0 0;max-width:18ch}
 }
 .contact-line{
   margin-bottom:0;padding:1.4rem 1.5rem;
-  border:1px solid var(--line);background:rgb(var(--mosa-fg-rgb)/.02);
+  border:1px solid var(--line-field);background:rgb(var(--mosa-fg-rgb)/.06);
 }
 
 /* ---- Footer: MOSA spacing ------------------------------------- */
@@ -394,7 +437,7 @@ h1.hero-h1{max-width:22ch}
 /* ---- Nav buttons: MOSA segmented control ---------------------- */
 header.nav .nav-links{gap:0;border:1px solid var(--line-nav)}
 header.nav .nav-links > a,header.nav .studios-trigger{
-  font-family:var(--mono);font-size:var(--mosa-text-sm,14px);
+  font-family:var(--sans);font-size:var(--mosa-text-sm,14px);
   text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
   color:var(--ink);padding:.95rem 1.35rem;
   border-right:1px solid var(--line-nav);border-radius:0;
@@ -404,7 +447,7 @@ header.nav .nav-links > a:hover,header.nav .studios-trigger:hover{
   background:rgb(var(--mosa-fg-rgb)/.07);color:var(--ink-soft);
 }
 header.nav .nav-cta .btn{
-  font-family:var(--mono);font-size:var(--mosa-text-sm,14px);
+  font-family:var(--sans);font-size:var(--mosa-text-sm,14px);
   text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
   padding:.95rem 1.5rem;
 }
@@ -425,9 +468,9 @@ header.nav .nav-cta .btn{
   color:var(--ink-soft);margin-bottom:2.6rem;
 }
 .card h3,.trio h3,.work-title,.blog-title,.contact-aside h3{
-  font-family:var(--mono);font-weight:var(--mosa-weight-medium,500);
+  font-family:var(--sans);font-weight:var(--mosa-weight-medium,500);
   font-size:var(--mosa-text-h3,22px);
-  letter-spacing:var(--mosa-track-mono,.02em);
+  letter-spacing:var(--mosa-track-tight,-.02em);
   color:var(--ink-soft);margin-bottom:.9rem;
 }
 .card p,.trio p,.work-card p,.blog-sum{
@@ -436,7 +479,7 @@ header.nav .nav-cta .btn{
   color:var(--muted);
 }
 .card .more,.trio .more{
-  font-family:var(--mono);text-transform:none;
+  font-family:var(--sans);text-transform:none;
   letter-spacing:var(--mosa-track-mono,.02em);color:var(--muted);
   text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.28em;
 }
@@ -498,7 +541,7 @@ footer h4{
 }
 footer ul li a{
   text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
-  font-family:var(--mono);font-size:var(--mosa-text-sm,14px);
+  font-family:var(--sans);font-size:var(--mosa-text-sm,14px);
 }
 footer ul li a:hover{color:var(--ink-soft)}
 .foot-grid{gap:3rem}
@@ -529,7 +572,7 @@ main a:not(.btn):not(.card):not(.work-card):not(.blog-card):not(.glass-inner):ho
   font-weight:var(--mosa-weight-regular,400)!important;
 }
 .theme-namesake .ns-step h3{
-  font-family:var(--mono)!important;
+  font-family:var(--sans)!important;
   font-size:var(--mosa-text-h3,22px)!important;
 }
 .theme-namesake .ns-step-k{font-weight:var(--mosa-weight-regular,400)!important}
@@ -547,6 +590,11 @@ header.nav .nav-links > a,header.nav .studios-trigger{
 }
 
 @media (max-width:900px){
+  /* global.css already collapses .contact-grid to one column here, but the
+     MOSA split above re-declares the two-column track with no breakpoint of
+     its own and this file loads last, so the form and the contact aside stayed
+     side by side down to phone width and the aside ran off the right edge. */
+  .contact-grid{grid-template-columns:1fr;gap:2rem}
   .hero-in{padding-block:9rem 4rem;padding-inline:clamp(1.25rem,4vw,2.5rem)}
   header.nav .nav-links{border:0}
   header.nav .nav-links > a,header.nav .studios-trigger{border-right:0}

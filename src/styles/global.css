@@ -38,6 +38,10 @@
   --amber:#FCD34D;      /* Live Band Web Studios */
   --brass:#C9A55A;      /* Namesake (ink + brass) */
   --line:rgba(125,211,252,0.14);
+  /* Form controls and contact rows only. --line is tuned for decorative
+     hairlines (1.2:1); WCAG 1.4.11 wants 3:1 on the boundary of anything you
+     are meant to type into or read as a discrete row. Do NOT merge the two. */
+  --line-field:rgba(168,214,245,0.38);
   --line-2:rgba(125,211,252,0.08);
 
   --r-sm:8px; --r-md:10px; --r-lg:14px; --r-xl:18px;
@@ -73,7 +77,7 @@ img{max-width:100%;display:block}
 
 /* ---- Mono label chrome ---- */
 .label{
-  font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
   text-transform:uppercase;color:var(--muted);
 }
 .eyebrow{
@@ -105,7 +109,7 @@ img{max-width:100%;display:block}
 /* ---- Buttons ---- */
 .btn{
   display:inline-flex;align-items:center;gap:.55rem;
-  font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+  font-family:var(--sans);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
   padding:.9rem 1.5rem;border-radius:var(--r-md);cursor:pointer;
   transition:all .28s var(--ease);border:1px solid transparent;white-space:nowrap;
 }
@@ -132,7 +136,7 @@ header.nav{
 .nav-logo img{height:46px;width:auto}
 .nav-links{display:flex;align-items:center;gap:2rem}
 .nav-links a,.studios-trigger{
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  font-family:var(--sans);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--muted);transition:color .2s var(--ease);position:relative;padding:.4rem 0;
 }
 .nav-links a:hover,.studios-trigger:hover{color:var(--cyan-soft)}
@@ -143,9 +147,14 @@ header.nav{
 
 /* ---- STUDIOS mega-panel ---- */
 .studios{position:relative}
+/* padding-top is the hover bridge: the pointer has to cross from the trigger
+   down into the panel, and any pixel in between that is not inside .studios
+   drops :hover and closes the panel mid-travel. The panel's top sat 8px below
+   the trigger's bottom edge, so margin-top pulls the box up to meet it and the
+   same 8px goes back into padding-top. .mega-inner does not move. */
 .mega{
   position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);
-  width:min(640px,90vw);padding-top:16px;opacity:0;visibility:hidden;pointer-events:none;
+  width:min(640px,90vw);margin-top:-8px;padding-top:24px;opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .26s var(--ease),transform .26s var(--ease),visibility .26s var(--ease);z-index:60;
 }
 .studios:hover .mega,.studios:focus-within .mega,.studios.is-open .mega{
@@ -154,7 +163,6 @@ header.nav{
 .studios:hover .studios-caret,.studios.is-open .studios-caret{transform:rotate(180deg)}
 .mega-inner{padding:1.1rem;background:rgba(7,11,20,.99);backdrop-filter:blur(30px) saturate(150%);-webkit-backdrop-filter:blur(30px) saturate(150%)} /* frosted, near-opaque: nav backdrop-filter ancestor neutralizes the child blur, so alpha carries the readability over a bright hero */
 .mega-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
-.mega-sub{color:var(--muted);font-size:.82rem}
 .mega-headliners{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
 .mega-card{
   display:flex;flex-direction:column;gap:.35rem;padding:1.1rem;border-radius:var(--r-md);
@@ -171,14 +179,14 @@ header.nav{
 .mega-card--band:hover{border-color:rgba(252,211,77,.45);box-shadow:0 18px 40px rgba(0,0,0,.4),0 0 34px rgba(252,211,77,.14)}
 .mega-card--namesake:hover{border-color:rgba(201,165,90,.45);box-shadow:0 18px 40px rgba(0,0,0,.4),0 0 34px rgba(201,165,90,.14)}
 .mega-kicker{
-  font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;position:relative;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;position:relative;
 }
 .mega-card--band .mega-kicker{color:var(--amber)}
 .mega-card--namesake .mega-kicker{color:var(--brass)}
 .mega-name{font-weight:600;font-size:1.02rem;color:var(--ink-soft);letter-spacing:.02em;position:relative}
 .mega-hook{color:var(--muted);font-size:.86rem;position:relative}
 .mega-go{
-  margin-top:.3rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  margin-top:.3rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
   display:inline-flex;gap:.4rem;transition:gap .2s var(--ease);position:relative;
 }
 .mega-card--band .mega-go{color:var(--amber)}
@@ -187,12 +195,15 @@ header.nav{
 .mega-card:hover .mega-go{gap:.75rem}
 .mega-support{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 .mega-row{
-  display:flex;flex-direction:column;gap:.15rem;padding:.75rem .9rem;border-radius:var(--r-sm);
+  display:flex;align-items:flex-start;gap:.7rem;padding:.75rem .9rem;border-radius:var(--r-sm);
   border:1px solid var(--line-2);transition:background .2s var(--ease),border-color .2s var(--ease);
 }
+.mega-row__txt{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.mega-row .nav-ico{opacity:.72;padding-top:1px;transition:opacity .2s var(--ease)}
+.mega-row:hover .nav-ico{opacity:1}
 .mega-row:hover{background:rgba(56,189,248,.08);border-color:var(--line)}
 .mega-row-title{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--ink)}
-.mega-row-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--muted-2)}
+.mega-row-sub{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted-2)}
 
 .nav-cta{display:flex;align-items:center;gap:1rem}
 .nav-cta .btn{padding:.62rem 1.1rem}
@@ -216,7 +227,7 @@ header.nav{
 .chip{
   display:inline-flex;align-items:center;gap:.6rem;padding:.5rem 1rem;margin-bottom:2rem;
   border-radius:999px;background:rgba(11,18,32,.6);border:1px solid var(--line);
-  backdrop-filter:blur(10px);font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;
+  backdrop-filter:blur(10px);font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--ink);position:relative;overflow:hidden;
 }
 .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2.4s var(--ease) infinite}
@@ -235,7 +246,7 @@ h1.hero-h1 em{font-style:normal;color:var(--cyan-soft)}
   display:inline-flex;gap:2rem;margin-top:3.5rem;padding:.8rem 1.5rem;flex-wrap:wrap;justify-content:center;
   border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);
 }
-.telemetry span{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+.telemetry span{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
 .telemetry b{color:var(--cyan-soft);font-weight:500}
 
 /* ---- Marquee ---- */
@@ -271,13 +282,32 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
     linear-gradient(to right,rgba(125,211,252,.10) 1px,transparent 1px),
     linear-gradient(to bottom,rgba(125,211,252,.10) 1px,transparent 1px);
   background-size:64px 64px;
+  background-position:0 0,0 0;
   -webkit-mask-image:radial-gradient(ellipse 78% 68% at 50% 50%,#000 35%,transparent 100%);
   mask-image:radial-gradient(ellipse 78% 68% at 50% 50%,#000 35%,transparent 100%);
+  /* Slow drift down and to the right, still travelling further across than
+     down but on a steeper line than a flat 2:1 (Jon 2026-09-14). The loop
+     covers exactly three tiles right and two tiles down, so it repeats
+     seamlessly. Position is animated rather than transform: a transform would
+     drag the radial mask along with it and the vignette would visibly slide. */
+  animation:sec-grid-drift 28s linear infinite;
+}
+@keyframes sec-grid-drift{
+  from{background-position:0 0,0 0}
+  to{background-position:192px 128px,192px 128px}
 }
 /* Keep content above the grid on sections that are not also .has-aurora. */
 .sec-grid > .wrap{position:relative;z-index:2}
 @media (max-width:640px){
-  .sec-grid::before{background-size:44px 44px}
+  /* Smaller tile needs its own loop distance to stay seamless. */
+  .sec-grid::before{background-size:44px 44px;animation-name:sec-grid-drift-sm}
+}
+@keyframes sec-grid-drift-sm{
+  from{background-position:0 0,0 0}
+  to{background-position:132px 88px,132px 88px}
+}
+@media (prefers-reduced-motion:reduce){
+  .sec-grid::before{animation:none}
 }
 .sec-head{max-width:640px;margin-bottom:3.5rem}
 .sec-head.is-flush{margin-bottom:0}
@@ -287,6 +317,39 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 
 /* ---- Services grid ---- */
 .grid-svc{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+
+/* Reason cards with full-bleed art (Jon 2026-09-14: "create 4 images that go
+   in these cards. make sure the words are readable"). The art is authored with
+   its subject on the RIGHT and a near-empty dark left half, so the copy lands
+   on the quiet side of the render. The scrim is still heavy enough on its own
+   that the type would pass contrast even if a future image ignored that. */
+.reason-card{position:relative;overflow:hidden;isolation:isolate;min-height:236px}
+.reason-card__art{
+  position:absolute;inset:0;z-index:0;
+  width:100%;height:100%;max-width:none;object-fit:cover;object-position:right center;
+  transition:transform .6s var(--ease);
+}
+.reason-card__scrim{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(100deg,rgba(5,7,11,.94) 0%,rgba(5,7,11,.8) 38%,rgba(5,7,11,.3) 100%),
+    linear-gradient(180deg,rgba(5,7,11,.18) 0%,rgba(5,7,11,.34) 100%);
+}
+.reason-card__body{position:relative;z-index:2}
+.reason-card__body h3{font-size:1.14rem;font-weight:600;margin-bottom:.5rem}
+.reason-card__body p{color:var(--muted);max-width:34ch}
+.reason-card:hover{border-color:rgba(56,189,248,.35)}
+.reason-card:hover .reason-card__art{transform:scale(1.05)}
+@media (prefers-reduced-motion:reduce){
+  .reason-card__art{transition:none}
+  .reason-card:hover .reason-card__art{transform:none}
+}
+/* One column: the card gets wide and short, so pull the art anchor back toward
+   centre or the subject slides off the right edge entirely. */
+@media (max-width:900px){
+  .reason-card__art{object-position:center}
+  .reason-card__body p{max-width:46ch}
+}
 .card{height:100%;transition:transform .3s var(--ease),border-color .3s var(--ease)}
 .card:hover{transform:translateY(-4px)}
 .card:hover .glass-inner{border-color:rgba(56,189,248,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 24px 60px rgba(0,0,0,.5), 0 0 50px rgba(56,189,248,.12)}
@@ -295,9 +358,9 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
   background:rgba(56,189,248,.1);border:1px solid var(--line);color:var(--cyan-soft);
 }
 .card h3{font-size:1.18rem;font-weight:600;margin-bottom:.55rem;color:var(--ink-soft);display:flex;align-items:center;gap:.6rem}
-.tag-new{font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;padding:.2rem .5rem;border-radius:999px;background:var(--cyan);color:var(--on-accent);font-weight:600}
+.tag-new{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;padding:.2rem .5rem;border-radius:999px;background:var(--cyan);color:var(--on-accent);font-weight:600}
 .card p{color:var(--muted);font-size:.95rem;margin-bottom:1.3rem}
-.card .more{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan-soft);transition:gap .2s var(--ease);display:inline-flex;gap:.4rem}
+.card .more{font-family:var(--sans);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan-soft);transition:gap .2s var(--ease);display:inline-flex;gap:.4rem}
 .card:hover .more{gap:.8rem}
 /* glass-inner variant so gradient shell wraps each card */
 .glass-inner{
@@ -381,12 +444,88 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 
 /* ---- About split ---- */
 .split{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
+/* Copy-led split (Jon 2026-09-14). The near-even base columns assume a short
+   copy block beside a panel; this variant is for sections carrying point
+   lists, where the text needs the larger share and the art sits alongside it.
+   Declared here, above the responsive block that collapses .split to one
+   column, so that stacking still wins on narrow screens. */
+.split--copy-first{grid-template-columns:1.22fr .78fr;gap:clamp(1.75rem,3vw,2.5rem)}
+/* Let the prose fill its column here. The 46ch cap is tuned for the base
+   split's narrower text column; in this wider one it stops the text well
+   short of the art and opens a dead band down the middle of the section
+   (Jon 2026-09-14). The art stays flush right and is capped so it does not
+   balloon as the column grows. */
+.split--copy-first .copy--points > p,
+.split--copy-first .copy-points{max-width:none}
+.split--copy-first .portrait{max-width:380px;margin-inline-start:auto}
+/* Mirror of the above: art in the left column, copy in the right. Same column
+   weighting, flipped, and the art hugs the inner edge rather than the outer
+   one so the pair reads as a unit instead of two things pinned to the margins. */
+.split--art-first{grid-template-columns:.78fr 1.22fr;gap:clamp(1.75rem,3vw,2.5rem)}
+.split--art-first .portrait{max-width:380px;margin-inline-end:0;margin-inline-start:auto}
 .split .copy p{color:var(--muted);margin-top:1.1rem;max-width:46ch}
 .split .copy .kick{color:var(--ink);font-size:1.15rem;font-weight:500;margin-top:1.2rem}
 .portrait{aspect-ratio:4/5;position:relative;display:grid;place-items:center;padding:2rem;text-align:center}
 .portrait .frame-lines{position:absolute;inset:1.2rem;border:1px solid var(--line);border-radius:var(--r-md)}
 .portrait .mark{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;color:var(--muted-2);text-transform:uppercase;position:relative;z-index:2}
 .portrait .big{font-size:clamp(3rem,7vw,5rem);font-weight:800;letter-spacing:-.03em;color:rgba(125,211,252,.14);line-height:1;position:relative;z-index:2;margin-bottom:.5rem}
+
+/* Image variant of the portrait panel (Jon 2026-09-14). The hairline frame
+   stays, now reading as a mat over the art. Ratio and crop anchor are separate
+   modifiers because the art does not share a shape: source images arrive as
+   16:9 heroes, 3:4 panels and squares, and forcing them all through the base
+   4:5 frame crops the subject out of most of them. */
+.portrait--img{padding:0;overflow:hidden}
+.portrait--img img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+.portrait--img .frame-lines{z-index:3}
+.portrait--img .mark{position:absolute;left:0;right:0;bottom:1.9rem;z-index:4}
+/* Bottom scrim only where there is a caption to hold up. */
+.portrait--img:has(.mark)::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:42%;z-index:2;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.8));
+  pointer-events:none;
+}
+/* Frame ratios. */
+.portrait--sq{aspect-ratio:1/1}
+.portrait--tall{aspect-ratio:3/4}
+/* Crop anchor, for art whose subject sits off-centre in the source. */
+.portrait--anchor-right img{object-position:right center}
+
+/* Body-copy bullet list. Same marker language as .card-points, stepped up to
+   body scale for prose sections (Jon 2026-09-14: sections that were running as
+   walls of text). */
+.copy-points{
+  list-style:none;margin:1rem 0 0;padding:0;
+  display:flex;flex-direction:column;gap:.6rem;max-width:46ch;
+}
+.copy-points li{
+  position:relative;padding-left:1.25rem;
+  color:var(--muted);line-height:1.6;
+}
+.copy-points li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan-soft);opacity:.8;
+}
+.copy-points strong{color:var(--ink-soft);font-weight:600}
+/* Closing line under a points list. Same weight as .split .copy .kick, which
+   is scoped to the split blocks and so does not reach body sections. */
+.copy-kicker{color:var(--ink);font-size:1.15rem;font-weight:500}
+
+/* Prose rhythm for body sections that mix paragraphs with point lists.
+   Scoped to the modifier on purpose: .copy blocks get their paragraph spacing
+   from .split .copy p, which only reaches the split layouts, so a plain .copy
+   in a full-width section renders with no gaps at all. Rather than change the
+   global and disturb every page, sections that opt into points opt into the
+   rhythm with them. */
+.copy--points > p{margin-top:1.1rem;max-width:46ch}
+.copy--points > p:first-of-type{margin-top:1.4rem}
+.copy--points > .copy-points{margin-top:.85rem}
+.copy--points > .copy-points + p{margin-top:1.7rem}
+.copy--points > .copy-kicker{margin-top:2rem}
 /* ---- Section photo background (Jon 2026-09-02) ----------------------
    The photo fills the whole section rather than sitting framed beside the
    copy. The image URL comes in per page as --sec-photo inline on the
@@ -432,6 +571,44 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
   .sec-photobg--left::after{background:rgba(5,7,11,.86)}
 }
 
+/* Light-art variant (Jon 2026-09-14). Every other photo bed on the site is a
+   dark frame with pale ink laid over it; this one inverts the whole thing. The
+   art is a bright flat-lay, so the scrim ramps LIGHT rather than dark and the
+   ink goes dark to match. The base ::before already anchors the art right,
+   which is where this photograph's pen and rule sit, so the ramp is heaviest
+   on the left under the copy and opens up across the right to let them read.
+   Buttons flip with it: the standard pair is a white fill beside a pale wash,
+   and both vanish on a light ground. */
+.sec-photobg--light::after{
+  background:
+    linear-gradient(90deg, rgba(231,236,242,.96) 0%, rgba(231,236,242,.90) 40%, rgba(231,236,242,.58) 72%, rgba(231,236,242,.26) 100%);
+}
+@media (max-width:900px){
+  .sec-photobg--light::after{background:rgba(231,236,242,.92)}
+}
+/* Ink and buttons for this variant are declared below, after the .cta block:
+   .cta h2 / .cta p set their colours at equal specificity later in this file,
+   so overriding them here would lose on source order. */
+
+/* Copy pushed into the right column (Jon 2026-09-14). Pairs with --left: that
+   art holds its subject hard against the left edge, and centred copy landed on
+   top of it. Both blocks in the wrap move together so the button row stays
+   tucked under the heading rather than spanning the full width beneath it.
+   Below 900px the section stacks and the copy goes back to full width. */
+.sec-photobg--copy-right > .wrap > .sec-head,
+.sec-photobg--copy-right > .wrap > .hero-btns{
+  width:min(100%,52%);
+  margin-inline-start:auto;
+  margin-inline-end:0;
+}
+.sec-photobg--copy-right > .wrap > .sec-head{max-width:none}
+@media (max-width:900px){
+  .sec-photobg--copy-right > .wrap > .sec-head,
+  .sec-photobg--copy-right > .wrap > .hero-btns{
+    width:100%;margin-inline-start:0;
+  }
+}
+
 /* ---- Feature band ---- */
 .feature{padding:clamp(2.5rem,5vw,4.5rem);text-align:center}
 .feature h2{font-size:clamp(1.9rem,4vw,3.2rem);font-weight:700;letter-spacing:-.02em;color:var(--ink-soft);max-width:20ch;margin-inline:auto;line-height:1.1}
@@ -444,12 +621,24 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 .cta p{color:var(--muted);margin:1rem auto 2rem;position:relative}
 .cta .hero-btns{position:relative}
 
+/* Bare CTA block: no glass shell around it, so the section's own padding does
+   the work and .cta's interior padding would only double it. */
+.cta.cta--bare{padding:0}
+/* Dark ink for the light photo bed. Declared after .cta above, whose colours
+   would otherwise win on source order at equal specificity. */
+.sec-photobg--light .cta h2{color:#0A0F1A}
+.sec-photobg--light .cta p{color:#3B4759}
+.sec-photobg--light .hero-btns .btn-primary{background:#0A0F1A;color:#fff;border-color:transparent}
+.sec-photobg--light .hero-btns .btn-primary:hover{background:#1D2637}
+.sec-photobg--light .hero-btns .btn-ghost{background:rgba(10,15,26,.10);color:#0A0F1A;border-color:transparent}
+.sec-photobg--light .hero-btns .btn-ghost:hover{background:rgba(10,15,26,.18);color:#0A0F1A}
+
 /* ---- Footer ---- */
 footer{border-top:1px solid var(--line-2);background:var(--bg-2);padding-block:4rem 2rem}
 .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:2.5rem;margin-bottom:3rem}
 .foot-logo img{height:34px;width:auto;margin-bottom:1.1rem}
 .foot-brand p{color:var(--muted-2);font-size:.85rem;max-width:26ch}
-footer h4{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan-soft);margin-bottom:1.1rem}
+footer h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan-soft);margin-bottom:1.1rem}
 footer ul{list-style:none}
 footer ul li{margin-bottom:.6rem}
 /* LWS nav-text rule: all navigation link text uppercase, footer columns included */
@@ -525,15 +714,32 @@ footer ul li a:hover{color:var(--cyan-soft)}
   .studios-trigger{width:100%;justify-content:space-between;padding:1rem 0;border-bottom:1px solid var(--line-2)}
   /* mega-panel static + always visible inside the open mobile menu */
   .mega{
-    position:static;width:auto;opacity:1;visibility:visible;pointer-events:auto;transform:none;margin:.6rem 0;
+    position:static;width:auto;opacity:1;visibility:visible;pointer-events:auto;transform:none;
+    margin:.6rem 0;padding-top:0;
   }
+  /* The open-state rules carry transform:translateX(-50%) so the panel centres
+     under its trigger on the desktop bar. In the drawer the panel is static and
+     full width, so that transform slides it half its own width off the left
+     edge the moment the row is hovered, focused or tapped open. Same
+     specificity as those rules, declared later, so it wins on source order. */
+  .studios:hover .mega,
+  .studios:focus-within .mega,
+  .studios.is-open .mega{transform:none}
   .mega-headliners,.mega-support{grid-template-columns:1fr}
+  /* STUDIOS panel mobile reset lives at the foot of this file, after the
+     .mega--studios block it has to override. */
 
   .grid-svc{grid-template-columns:1fr;gap:1rem}
   .split{grid-template-columns:1fr;gap:2rem}
   .foot-grid{grid-template-columns:1fr 1fr;gap:2rem}
   .foot-dir-list{grid-template-columns:repeat(2,1fr)}
   .burger{display:grid;place-items:center;width:42px;height:42px;border-radius:var(--r-sm);border:1px solid var(--line)}
+  /* The sub-brand bar is a sibling of <header>, so the burger drawer does not
+     contain it and its own sticky layer shows straight through the drawer's
+     97%-opaque panel: on a Live Band or Namesake page you read that bar's
+     links ghosted behind Work / Services. Two nav layers at once is wrong on
+     a phone regardless, so drop it for as long as the drawer is open. */
+  .nav-open + .subnav{display:none}
 }
 @media (max-width:560px){.foot-grid{grid-template-columns:1fr}.foot-directory{grid-template-columns:1fr;gap:2rem}}
 
@@ -577,7 +783,7 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
   background:rgba(11,18,32,.4);text-align:center;
 }
 .stat b{display:block;font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:800;color:var(--cyan-soft);letter-spacing:-.02em;line-height:1}
-.stat span{display:block;margin-top:.55rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+.stat span{display:block;margin-top:.55rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
 
 /* ---- About: studios trio ---- */
 .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
@@ -585,8 +791,44 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 .trio h3{font-size:1.14rem;font-weight:600;color:var(--ink-soft);margin-bottom:.5rem}
 .trio .label{display:block;margin-bottom:1rem}
 .trio p{color:var(--muted);font-size:.92rem;margin-bottom:1.2rem}
-.trio .more{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan-soft);display:inline-flex;gap:.4rem;transition:gap .2s var(--ease)}
+.trio .more{font-family:var(--sans);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan-soft);display:inline-flex;gap:.4rem;transition:gap .2s var(--ease)}
 .trio a.glass-inner:hover .more{gap:.8rem}
+
+/* Art-led trio (Jon 2026-09-14: "put an image inside each of these 3 cards").
+   The art sits as a banner ABOVE the copy rather than behind it. These cards
+   carry a bullet list and a full paragraph, so a full-bleed bed plus scrim
+   would have put type over the busiest part of the render. A banner keeps
+   every word on flat panel colour and still gives the card its picture. */
+.trio--art .glass-inner{display:flex;flex-direction:column;overflow:hidden}
+/* The banner is a ratio BOX with the image absolutely filling it, not an
+   <img> carrying its own aspect-ratio (Jon 2026-09-14: cards were running
+   ~750px tall). As a flex child, the replaced element ignored the 16/9 and
+   sized to its height attribute, 537px, which is where the dead space came
+   from. flex:none plus a positioned fill is deterministic, and it is the same
+   pattern .portrait--img and .blog-thumb already use on this site. */
+.trio--art .trio-art{
+  position:relative;flex:none;width:100%;aspect-ratio:16/9;overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.trio--art .trio-art img{
+  position:absolute;inset:0;width:100%;height:100%;max-width:none;
+  object-fit:cover;object-position:center;
+}
+/* Pad comes down a touch: the banner already supplies the top breathing room.
+   height:auto is the important one (Jon 2026-09-14: "too much space at the
+   bottom of the cards"). The base .card-pad carries height:100%, written for
+   a pad that IS the whole card; here it sits under a banner inside an
+   auto-height flex column, so that 100% resolved against a card height that
+   was itself the banner plus the pad, and every card inflated to ~756px for
+   ~230px of copy. Let flex size it from its content instead. */
+.trio--art .card-pad{padding:1.5rem 1.8rem 1.8rem;height:auto}
+.trio--art .glass-inner:hover{border-color:rgba(56,189,248,.35)}
+.trio--art .glass-inner:hover .trio-art img{transform:scale(1.03)}
+.trio--art .trio-art img{transition:transform .5s var(--ease)}
+@media (prefers-reduced-motion:reduce){
+  .trio--art .trio-art img{transition:none}
+  .trio--art .glass-inner:hover .trio-art img{transform:none}
+}
 
 /* ---- Work: portfolio grid ---- */
 .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
@@ -604,9 +846,9 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
     var(--panel);
   border-bottom:1px solid var(--line-2);
 }
-.work-thumb span{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+.work-thumb span{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
 .work-meta{padding:1.3rem 1.4rem}
-.work-cat{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-soft)}
+.work-cat{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-soft)}
 .work-title{font-size:1.12rem;font-weight:600;color:var(--ink-soft);margin:.5rem 0 .4rem}
 .work-card p{color:var(--muted);font-size:.9rem}
 .work-note{margin-top:2.5rem;text-align:center;color:var(--muted-2);font-size:.86rem}
@@ -617,14 +859,15 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 .form-row{display:grid;gap:1.1rem;grid-template-columns:1fr 1fr}
 .field{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.1rem}
 .field.full{grid-column:1 / -1}
-.field label{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.field label{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .field label .opt{color:var(--muted-2);text-transform:none;letter-spacing:.04em}
 .field input,.field select,.field textarea{
   font-family:var(--sans);font-size:.95rem;color:var(--ink);
-  background:rgba(5,7,11,.6);border:1px solid var(--line);border-radius:var(--r-sm);
+  background:rgba(5,7,11,.6);border:1px solid var(--line-field);border-radius:var(--r-sm);
   padding:.8rem .9rem;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
 }
 .field textarea{resize:vertical;min-height:130px}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted-2);opacity:1}
 .field input:focus,.field select:focus,.field textarea:focus{
   outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(56,189,248,.14);
 }
@@ -634,7 +877,7 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 .contact-aside h3{font-size:1.06rem;font-weight:600;color:var(--ink-soft);margin-bottom:.3rem}
 .contact-aside .label{display:block;margin-bottom:1.4rem}
 .contact-line{display:flex;flex-direction:column;gap:.2rem;margin-bottom:1.3rem}
-.contact-line .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+.contact-line .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .contact-line a,.contact-line span{color:var(--ink);font-size:1.02rem}
 .contact-line a:hover{color:var(--cyan-soft)}
 
@@ -674,11 +917,248 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
     repeating-linear-gradient(45deg,rgba(125,211,252,.05) 0 2px,transparent 2px 14px),
     var(--panel);
 }
-.blog-thumb--empty span{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+.blog-thumb--empty span{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
 .blog-meta{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
-.blog-date{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-soft)}
+.blog-date{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-soft)}
 .blog-title{font-size:1.18rem;font-weight:600;color:var(--ink-soft);line-height:1.25;margin:0}
 .blog-sum{color:var(--muted);font-size:.92rem;margin:0}
 
 @media (max-width:900px){.blog-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.blog-grid{grid-template-columns:1fr}}
+
+/* ============================================================
+   CURTAIN REVEAL  (home /  "Every site we launch is opening night.")
+   Jon 2026-09-14: "id like curtains that open when user scrolls to that
+   section. make techie curtain... this implies my entertainment career.
+   they shouldnt look cheezy. professional."
+
+   So: no velvet, no swag, no gold fringe. The panels are graphite with a
+   machined pleat (a repeating gradient, not a fabric texture), a single lit
+   cyan leading edge, and a rigging track that retracts with them. The read
+   is a stage, but built by the same shop that builds the sites.
+
+   Driven entirely by the .reveal -> .in observer already in Base.astro.
+   ============================================================ */
+.curtain-stage{position:relative;isolation:isolate}
+/* The stage itself must not fade or rise: the curtain IS the entrance, and a
+   simultaneous fade would mush the two together. Cancels the base .reveal
+   treatment while keeping the .in class it supplies. */
+.curtain-stage.reveal{opacity:1;transform:none;transition:none}
+
+.curtain{
+  position:absolute;inset:0;z-index:3;
+  overflow:hidden;pointer-events:none;
+  border-radius:var(--r-lg);
+}
+
+/* Rigging track: a hairline with regular carrier ticks across the head of the
+   opening. Retracts with the panels so nothing is left dangling. */
+.curtain__track{
+  position:absolute;top:0;left:0;right:0;height:10px;z-index:2;
+  background:
+    linear-gradient(90deg,rgba(56,189,248,.5),rgba(56,189,248,.16) 50%,rgba(56,189,248,.5)),
+    repeating-linear-gradient(90deg,rgba(125,211,252,.55) 0 1px,transparent 1px 22px);
+  background-size:100% 1px,100% 6px;
+  background-position:0 0,0 0;
+  background-repeat:no-repeat,repeat-x;
+  opacity:1;transition:opacity .5s var(--ease) .1s;
+}
+
+.curtain__panel{
+  position:absolute;top:0;bottom:0;width:50.4%;z-index:1;
+  background:
+    /* lit leading edge */
+    linear-gradient(var(--edge-dir,90deg),rgba(56,189,248,0) calc(100% - 2px),rgba(56,189,248,.85) 100%),
+    /* machined pleat: fine hard-edged folds, no fabric sheen */
+    repeating-linear-gradient(90deg,
+      rgba(255,255,255,.055) 0 1px,
+      rgba(255,255,255,.015) 1px 6px,
+      rgba(0,0,0,.34) 6px 7px,
+      rgba(255,255,255,0) 7px 19px),
+    /* body: graphite, deeper at the outer edge so it has weight */
+    linear-gradient(var(--body-dir,90deg),#04070C 0%,#0A1018 62%,#0D141E 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  transition:transform 1.5s cubic-bezier(.66,0,.2,1);
+  will-change:transform;
+}
+.curtain__panel--l{left:0;--edge-dir:90deg;--body-dir:90deg;transform:translateX(0)}
+.curtain__panel--r{right:0;--edge-dir:270deg;--body-dir:270deg;transform:translateX(0)}
+
+/* Open. The right panel trails the left by a beat: two motors, never perfectly
+   matched, and the slight offset is what stops it reading as a CSS wipe. */
+.curtain-stage.in .curtain__panel--l{transform:translateX(-101%)}
+.curtain-stage.in .curtain__panel--r{transform:translateX(101%);transition-delay:.09s}
+.curtain-stage.in .curtain__track{opacity:0}
+
+/* Reduced motion: the panel is simply open. No travel, no delay. */
+@media (prefers-reduced-motion:reduce){
+  .curtain{display:none}
+}
+
+
+/* CTA with art in the left column (Jon 2026-09-14, /services/ai-platform).
+   The panel was one wide column with the copy stranded on the left and a lot
+   of dead glass to its right; the illustration takes the left column and the
+   copy moves over. Scoped to .cta--art so every other .cta panel is untouched. */
+.cta--art{
+  display:grid;grid-template-columns:.82fr 1.18fr;
+  gap:clamp(1.75rem,4vw,3.25rem);align-items:center;text-align:left;
+}
+.cta--art .cta-art{min-width:0}
+.cta--art .cta-copy{min-width:0;position:relative}
+.cta--art h2,.cta--art p{margin-inline:0}
+.cta--art p{margin-block:1rem 2rem}
+.cta--art .hero-btns{justify-content:flex-start}
+@media (max-width:860px){
+  /* Art above the copy rather than beside it. It keeps its meaning stacked,
+     and at this width a .82fr column would have squeezed it to a sliver. */
+  .cta--art{grid-template-columns:1fr;gap:2rem}
+  .cta--art .cta-art{max-width:340px;margin-inline:auto}
+}
+
+/* CTA card with the clip filling the card itself (Jon 2026-09-14, /faq).
+   .cta is already position:relative + overflow:hidden, so VideoBg's absolute
+   .videobg drops straight in and clips to the card's radius. The content has
+   to be lifted above it, and .cta::before (the cyan radial bloom) has to go:
+   the clip supplies the atmosphere, and the bloom sat over it as a haze. */
+.cta--video{isolation:isolate;min-height:380px;display:flex;flex-direction:column;justify-content:center}
+.cta--video::before{display:none}
+.cta--video > :not(.videobg){position:relative;z-index:1}
+/* Scrim lives in mosa-skin.css: the skin's .videobg--default rule is the
+   same specificity and loads later, so it has to be overridden there. */
+@media (max-width:860px){
+  /* Stacked and narrow, the copy covers the whole width, so the left-weighted
+     scrim no longer protects it. Even it out and anchor the crop on Jon. */
+  .cta--video{min-height:0}
+  .cta--video .videobg__v{object-position:70% center}
+}
+
+/* ============================================================
+   STUDIOS PANEL — the sub-brand directory
+   Jon 2026-09-14: every Live Band and Namesake page reachable from the main
+   nav on EVERY page, laid out as headed columns of icon + title + one-line
+   explainer, and styled apart from the Services / Industries / About megas
+   ("that needs to pop").
+
+   The device is a lighting truss: a lit rule across the head, and contents
+   that rise in on a stagger rather than the panel simply fading. All of it
+   runs on :hover / :focus-within / .is-open so it works with JS off, and it
+   goes flat and static inside the mobile burger menu.
+   ============================================================ */
+/* The directory panel positions against header.nav (sticky, so it is a
+   containing block) rather than against its trigger. Dropping the wrapper to
+   static is what hands it up: anchored to the trigger, a 1080px panel ran
+   116px off the left edge of a 1440 viewport. right: matches .wrap's own
+   padding so the panel's edge lines up with the nav above it. */
+.studios--dir{position:static}
+.mega--studios{
+  width:min(860px,96vw);
+  left:auto;right:clamp(1.25rem,4vw,2.5rem);transform:translateY(8px);
+  /* This panel anchors to header.nav, not to its trigger, so the header's
+     bottom padding widens the hover bridge gap to 26px: far enough that the
+     pointer reliably lands in dead space and the panel shuts on the way down.
+     Same trick as .mega, sized for the larger offset. */
+  margin-top:-26px;padding-top:42px;
+}
+.studios:hover .mega--studios,
+.studios:focus-within .mega--studios,
+.studios.is-open .mega--studios{transform:translateY(0)}
+
+.mega--studios .mega-inner{
+  position:relative;overflow:hidden;padding:1.35rem 1.4rem 1.25rem;
+  background:
+    radial-gradient(120% 100% at 50% -10%,rgba(56,189,248,.07),transparent 58%),
+    rgba(6,9,16,.99);
+  border-color:rgba(255,255,255,.14);
+  box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* ---- The truss: a lit bar across the head of the panel ---- */
+.mega--studios .mega-truss{
+  position:absolute;top:0;left:0;right:0;height:2px;pointer-events:none;
+  background:linear-gradient(90deg,
+    transparent 0%,var(--amber) 18%,var(--cyan) 50%,var(--brass) 82%,transparent 100%);
+  opacity:0;transform:scaleX(.4);transform-origin:50% 50%;
+  transition:opacity .45s var(--ease),transform .6s var(--ease);
+}
+.studios:hover .mega--studios .mega-truss,
+.studios:focus-within .mega--studios .mega-truss,
+.studios.is-open .mega--studios .mega-truss{opacity:1;transform:scaleX(1)}
+
+/* ---- Staggered entrance: the house lights come up column by column ---- */
+.mega--studios .mega-head,
+.mega--studios .dir-col{
+  opacity:0;transform:translateY(10px);
+  transition:opacity .34s var(--ease),transform .34s var(--ease);
+}
+.studios:hover .mega--studios .mega-head,
+.studios:focus-within .mega--studios .mega-head,
+.studios.is-open .mega--studios .mega-head,
+.studios:hover .mega--studios .dir-col,
+.studios:focus-within .mega--studios .dir-col,
+.studios.is-open .mega--studios .dir-col{opacity:1;transform:translateY(0)}
+.mega--studios .mega-head{transition-delay:.04s}
+.mega--studios .dir-col:nth-child(1){transition-delay:.09s}
+.mega--studios .dir-col:nth-child(2){transition-delay:.14s}
+.mega--studios .dir-col:nth-child(3){transition-delay:.19s}
+.mega--studios .dir-col:nth-child(4){transition-delay:.24s}
+
+/* ---- Directory ---- */
+.dir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem 1.6rem}
+.dir-col__label{
+  display:block;padding-bottom:.6rem;margin-bottom:.85rem;
+  border-bottom:1px solid rgba(255,255,255,.14);
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
+  color:var(--ink-soft);font-weight:500;
+}
+.dir-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.15rem}
+.dir-item{
+  display:grid;grid-template-columns:22px minmax(0,1fr);gap:.7rem;align-items:start;
+  padding:.5rem .55rem;margin-inline:-.55rem;border-radius:var(--r-sm);
+  border:1px solid transparent;
+  transition:background .2s var(--ease),border-color .2s var(--ease);
+}
+.dir-item:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
+.dir-item__ico{display:block;line-height:0;padding-top:1px}
+.dir-item__ico svg{width:20px;height:20px;display:block}
+.dir-item__txt{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.dir-item__title{
+  font-size:.82rem;font-weight:600;color:var(--ink-soft);letter-spacing:.01em;line-height:1.25;
+}
+.dir-item__desc{color:var(--muted-2);font-size:.72rem;line-height:1.4}
+.dir-item:hover .dir-item__desc{color:var(--muted)}
+.dir-item[aria-current="page"]{
+  background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);
+}
+.dir-item[aria-current="page"] .dir-item__title{color:#fff}
+
+/* Reduced motion: the panel still opens, it just does not perform. */
+@media (prefers-reduced-motion:reduce){
+  .mega--studios .mega-head,
+  .mega--studios .dir-col{opacity:1;transform:none;transition:none}
+  .mega--studios .mega-truss{opacity:1;transform:none;transition:none}
+}
+
+/* Narrower desktops: four columns stop fitting well before the burger menu
+   takes over, so fold to two. */
+@media (max-width:1180px){
+  .mega--studios{width:min(720px,94vw)}
+  .dir{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Burger menu: the panel renders inline and is always open, so undo the
+   desktop positioning and the staggered entrance. Declared here, at the foot
+   of the file, because the .mega--studios rules above would otherwise win on
+   source order and leave every column stuck at opacity:0. */
+@media (max-width:900px){
+  .studios--dir{position:static}
+  .mega--studios{width:auto;left:auto;right:auto;transform:none;margin-top:.6rem;padding-top:0}
+  .studios:hover .mega--studios,
+  .studios:focus-within .mega--studios,
+  .studios.is-open .mega--studios{transform:none}
+  .mega--studios .mega-inner{padding:1rem}
+  .mega--studios .mega-head,
+  .mega--studios .dir-col{opacity:1;transform:none;transition:none}
+  .mega--studios .mega-truss{display:none}
+  .dir{grid-template-columns:1fr;gap:1.25rem}
+}

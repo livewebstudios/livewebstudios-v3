@@ -1,49 +1,117 @@
 ---
 /**
- * StudiosPanel — the curated STUDIOS mega-panel.
- * Renders as static HTML/CSS: all four brand links exist in page source for
- * every visitor and every crawler. JS (in Nav.astro) enhances open/close and
- * animation ONLY — CSS :hover / :focus-within keep it usable without JS.
- * Two weights: headliner cards (Live Band amber, Namesake ink+brass) +
- * support rows (Live Web Photos, which links out to its own domain,
- * and Live AI Studios).
+ * StudiosPanel — the STUDIOS mega-panel, built as a directory.
+ *
+ * Jon 2026-09-14: "I want that Live Band and Namesake drop down menu on all
+ * pages, not just the Live Band and Namesake pages. Make the mega menu look
+ * kind of like [a four-column icon directory]. Sentence under each page
+ * explaining the page. Color icon can work there."
+ *
+ * So every sub-brand page is reachable from the main nav on EVERY page, laid
+ * out as four headed columns of icon + title + one-line explainer. The whole
+ * thing is static HTML: every link is in page source for each visitor and
+ * each crawler, and CSS :hover / :focus-within keeps it usable with JS off.
+ * The JS in Nav.astro only enhances the toggle.
+ *
+ * Icons are inline SVG rather than the PNG set in public/images/icons: these
+ * render at 20px against a dark panel, where a bitmap goes to mush, and each
+ * one carries its own hue the way Jon's reference does.
  */
 import Glass from "./Glass.astro";
+import { ICONS } from "../lib/navIcons";
 import { relPrefix } from "../lib/relPrefix";
+
+interface Props {
+  /** Normalised key for the current page, for aria-current. */
+  here?: string;
+}
+const { here = "" } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
+
+const navKey = (href: string) => {
+  const s = href.replace(/^\/+/, "").replace(/\/+$/, "").replace(/\.html$/, "");
+  return s === "" ? "index" : s;
+};
+
+type Item = {
+  icon: string;
+  color: string;
+  title: string;
+  desc: string;
+  href: string;
+  external?: boolean;
+};
+
+/* Three columns: Live Band, Namesake, and the outboard studios.
+   The band intake forms are deliberately NOT here (Jon 2026-09-14) - they are
+   client paperwork, not a shopfront, and the Live Band sub-nav bar already
+   carries them. Personal Sites is gone for the same reason Namesake exists:
+   it is the same offer, so the Namesake column is the one entry point.
+   Links are relative per the LWS path rule; `rel` supplies the depth. */
+const columns: { label: string; items: Item[] }[] = [
+  {
+    label: "LIVE BAND WEB STUDIOS",
+    items: [
+      { icon: "home", color: "#FCD34D", title: "Live Band Home", desc: "What a band site includes and how it gets built.", href: "live-band-web-studios.html" },
+      { icon: "tag", color: "#F59E0B", title: "Pricing", desc: "Two tiers, what each covers, what it costs.", href: "live-band-web-studios/pricing.html" },
+      { icon: "grid", color: "#38BDF8", title: "Portfolio", desc: "Band sites we have built, live and in the wild.", href: "live-band-web-studios/portfolio.html" },
+    ],
+  },
+  {
+    label: "NAMESAKE",
+    items: [
+      { icon: "star", color: "#C9A55A", title: "Namesake Overview", desc: "A sharp personal site for solo professionals.", href: "namesake.html" },
+      { icon: "route", color: "#E4C77B", title: "How It Works", desc: "What you send, what you get, how long it takes.", href: "namesake/how-it-works.html" },
+      { icon: "play", color: "#FDE68A", title: "Start Yours", desc: "Kick off your Namesake site today.", href: "namesake/start.html" },
+    ],
+  },
+  {
+    label: "MORE STUDIOS",
+    items: [
+      { icon: "photos", color: "#4ADE80", title: "Live Web Photos ↗", desc: "AI image enhancement, on its own domain.", href: "https://livewebphotos.com", external: true },
+      { icon: "chip", color: "#818CF8", title: "Live AI Studios", desc: "AI builds and automation for larger businesses.", href: "ecosystem/live-ai-studios.html" },
+    ],
+  },
+];
 ---
 
-<div class="mega" id="studios-panel" role="region" aria-label="Studios">
+<div class="mega mega--studios" id="studios-panel" role="region" aria-label="Studios">
   <Glass variant="plain" innerClass="mega-inner">
+    <div class="mega-truss" aria-hidden="true"></div>
+
     <div class="mega-head">
       <span class="eyebrow">THE STUDIOS</span>
-      <p class="mega-sub">Four doors. Pick the room that fits your work.</p>
     </div>
 
-    <div class="mega-headliners">
-      <a class="mega-card mega-card--band" href={`${rel}live-band-web-studios.html`}>
-        <span class="mega-kicker">HEADLINER</span>
-        <span class="mega-name">Live Band Web Studios</span>
-        <span class="mega-hook">Sites for bands and artists who play live.</span>
-        <span class="mega-go">See the stage</span>
-      </a>
-      <a class="mega-card mega-card--namesake" href={`${rel}namesake.html`}>
-        <span class="mega-kicker">HEADLINER</span>
-        <span class="mega-name">Namesake</span>
-        <span class="mega-hook">A sharp personal site for solo pros.</span>
-        <span class="mega-go">Make your name</span>
-      </a>
-    </div>
-
-    <div class="mega-support">
-      <a class="mega-row" href="https://livewebphotos.com" target="_blank" rel="noopener noreferrer">
-        <span class="mega-row-title">Live Web Photos ↗</span>
-        <span class="mega-row-sub">AI Image Enhancement</span>
-      </a>
-      <a class="mega-row" href={`${rel}ecosystem/live-ai-studios.html`}>
-        <span class="mega-row-title">Live AI Studios</span>
-        <span class="mega-row-sub">AI Builds &amp; Automation</span>
-      </a>
+    <div class="dir">
+      {columns.map((col) => (
+        <div class="dir-col">
+          <span class="dir-col__label">{col.label}</span>
+          <ul class="dir-list">
+            {col.items.map((it) => (
+              <li>
+                <a
+                  class="dir-item"
+                  href={it.external ? it.href : `${rel}${it.href}`}
+                  target={it.external ? "_blank" : undefined}
+                  rel={it.external ? "noopener noreferrer" : undefined}
+                  aria-current={!it.external && navKey(it.href) === here ? "page" : undefined}
+                >
+                  <span class="dir-item__ico" style={`color:${it.color}`} aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <Fragment set:html={ICONS[it.icon]} />
+                    </svg>
+                  </span>
+                  <span class="dir-item__txt">
+                    <span class="dir-item__title">{it.title}</span>
+                    <span class="dir-item__desc">{it.desc}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   </Glass>
 </div>

@@ -117,15 +117,29 @@ const localBusiness = {
   <section id="contact" class="sec-pad has-videobg">
     <VideoBg src="bg-color-tv.mp4" scrim="default" />
     <div class="wrap">
-      <Glass class="reveal" innerClass="feature glass-refract">
-        <span class="eyebrow is-center mb-md">THE LWS WAY</span>
-        <h2>Every site we launch is opening night.</h2>
-        <p>We don't deliver half-finished work. When a site goes live, it's ready. Tested, reviewed, approved, and yours. No soft launches. No "we'll fix it after." The curtain goes up when the show is ready.</p>
-        <div class="hero-btns">
-          <a href="contact.html" class="btn btn-primary">Let's Talk →</a>
-          <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+      {/* Curtain reveal (Jon 2026-09-14). The copy already says "the curtain
+          goes up when the show is ready", and Jon's other career is on a
+          stage, so the panel literally opens. Deliberately NOT velvet: the
+          panels are graphite with a fine machined pleat and one lit leading
+          edge, which reads as stage rigging rather than a theme-party drape.
+          It rides the existing .reveal -> .in observer in Base.astro, so no
+          new JS and the scroll fallback still applies. */}
+      <div class="curtain-stage reveal">
+        <div class="curtain" aria-hidden="true">
+          <div class="curtain__track"></div>
+          <div class="curtain__panel curtain__panel--l"></div>
+          <div class="curtain__panel curtain__panel--r"></div>
         </div>
-      </Glass>
+        <Glass innerClass="feature feature--center glass-refract">
+          <span class="eyebrow is-center mb-md">THE LWS WAY</span>
+          <h2>Every site we launch is opening night.</h2>
+          <p>We don't deliver half-finished work. When a site goes live, it's ready. Tested, reviewed, approved, and yours. No soft launches. No "we'll fix it after." The curtain goes up when the show is ready.</p>
+          <div class="hero-btns">
+            <a href="contact.html" class="btn btn-primary">Let's Talk →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
     </div>
   </section>
 

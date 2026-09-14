@@ -135,15 +135,42 @@ const pageSchema = [
 
     <!-- PLANS -->
     <section class="sec-pad is-alt">
-      <div class="wrap">
-        <div class="copy reveal">
+      <div class="wrap split split--copy-first">
+        <div class="copy copy--points reveal">
           <span class="eyebrow">PLANS</span>
           <div class="sec-head is-flush"><h2>Custom Plans for Every Size Business</h2></div>
-          <!-- em-dash: "site actually needs — not a menu" → "site actually needs, not a menu" -->
-          <p>We don't believe in one-size-fits-all maintenance plans. A 5-page brochure site has different needs than a 50-page e-commerce store with weekly inventory updates. We build maintenance plans around what your site actually needs, not a menu of tiers designed to upsell you on things you don't use.</p>
-          <p>Every plan includes hosting, daily backups, security monitoring, monthly reporting, and content edits. Larger plans add faster response times, additional edit hours, quarterly strategy calls, and enhanced SEO reporting.</p>
-          <div class="mt-lg"><a href="../contact.html" class="btn btn-primary">Contact Us for a Custom Quote →</a></div>
+          <!-- Restructured from prose blocks to lede + points
+               (Jon 2026-09-14: less wall of text, readable by a
+               non-technical visitor). Claims and search terms kept. -->
+          <p>We do not believe in one-size-fits-all maintenance. A 5-page brochure site has different needs than a 50-page e-commerce store with weekly inventory updates. We build the plan around what your site actually needs, not a menu of tiers designed to upsell you on things you never use.</p>
+          <p>Every plan includes:</p>
+          <ul class="copy-points">
+            <li><strong>Hosting.</strong></li>
+            <li><strong>Daily backups.</strong></li>
+            <li><strong>Security monitoring.</strong></li>
+            <li><strong>Monthly reporting.</strong></li>
+            <li><strong>Content edits.</strong></li>
+          </ul>
+          <p>Larger plans add:</p>
+          <ul class="copy-points">
+            <li><strong>Faster response times.</strong></li>
+            <li><strong>Additional edit hours.</strong></li>
+            <li><strong>Quarterly strategy calls.</strong></li>
+            <li><strong>Enhanced SEO reporting.</strong></li>
+          </ul>
+          <p class="copy-kicker">You pay for what your site needs. Nothing else.</p>
         </div>
+        <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
+          <img
+            src="../images/svc-maintenance-plans.jpg"
+            alt="Glowing cyan shield containing a gear, encircled by recurring cycle arrows with a calendar and backup disc"
+            width="880"
+            height="1168"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="frame-lines"></div>
+        </Glass>
       </div>
     </section>
   </main>
