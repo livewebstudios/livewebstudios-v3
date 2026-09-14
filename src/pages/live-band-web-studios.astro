@@ -245,9 +245,9 @@ const seo = [
                 <div class="card-pad">
                   <h3>{b.title}</h3>
                   <p>{b.body}</p>
-                  {b.href && <a class="btn btn-ghost card-cta" href={b.href}>{b.cta}</a>}
+                  {b.href && <a class="btn btn-primary card-cta" href={b.href}>{b.cta}</a>}
                   {modals[b.title] && (
-                    <button type="button" class="btn btn-ghost card-cta" data-modal-open={modals[b.title].id}>
+                    <button type="button" class="btn btn-primary card-cta" data-modal-open={modals[b.title].id}>
                       More Info →
                     </button>
                   )}
@@ -278,7 +278,7 @@ const seo = [
                   <h3>{s.title}</h3>
                   <p>{s.body}</p>
                   {modals[s.title] && (
-                    <button type="button" class="btn btn-ghost card-cta" data-modal-open={modals[s.title].id}>
+                    <button type="button" class="btn btn-primary card-cta" data-modal-open={modals[s.title].id}>
                       More Info →
                     </button>
                   )}
@@ -422,6 +422,44 @@ const seo = [
     margin-top: 1rem;
     align-self: flex-start;
     font-size: 0.68rem;
+    /* .btn is white-space:nowrap, which pushed the longest label ("See full
+       band sites we've built") 9px past its card at 1280. Harmless while
+       these were ghost buttons; obvious the moment they carry a solid amber
+       fill, so let the long one wrap instead of clipping. */
+    white-space: normal;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  /* Jon 2026-09-14: "make these buttons yellow branded color background with
+     dark text (reverse)". Solid amber, dark ink, the inverse of the ghost
+     treatment they carried before.
+
+     Both colors have to be restated rather than inherited. mosa-skin.css
+     re-skins .btn-primary site-wide to flat white on near-black
+     (rgb(var(--mosa-fg-rgb))), which lands AFTER global.css and ignores
+     --cyan, so the .theme-live-band amber above never reaches the button on
+     its own. The values still come from the theme's own tokens, so this
+     stays one accent, not a fourth yellow.
+
+     The shadow is restated for the same reason it is on .hero-fallback:
+     .btn-primary's glow is a hardcoded cyan rgba, not a custom property. */
+  .card-cta.btn-primary {
+    background: var(--cyan);
+    color: var(--on-accent);
+    border-color: transparent;
+    font-weight: 600;
+    box-shadow:
+      0 8px 24px rgba(252, 211, 77, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+  .card-cta.btn-primary:hover {
+    background: var(--cyan-soft);
+    color: var(--on-accent);
+    transform: translateY(-2px);
+    box-shadow:
+      0 14px 34px rgba(252, 211, 77, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
   /* ---- Card art (Jon 2026-09-12; reworked 2026-09-14) -----------------

@@ -1,0 +1,16 @@
+Namesake preview generator, self-hosted webfonts
+Downloaded 2026-09-14T09:15:54Z via google-webfonts-helper (https://gwfh.mranftl.com)
+Subset: latin only. Format: woff2.
+All families below are licensed under the SIL Open Font License 1.1 (OFL).
+https://openfontlicense.org/
+
+cormorant-garamond-600.woff2       https://fonts.gstatic.com/s/cormorantgaramond/v21/co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_iE9KnTOig.woff2
+instrument-sans-400.woff2          https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npSTF-Tfykyw.woff2
+instrument-sans-500.woff2          https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npST3-Tfykyw.woff2
+anton-400.woff2                    https://fonts.gstatic.com/s/anton/v27/1Ptgg87LROyAm3Kz-C8.woff2
+libre-caslon-display-400.woff2     https://fonts.gstatic.com/s/librecaslondisplay/v18/TuGOUUFxWphYQ6YI6q9Xp61FQzxDRKmzr1lWfxk.woff2
+lora-400.woff2                     https://fonts.gstatic.com/s/lora/v37/0QI6MX1D_JOuGQbT0gvTJPa787weuxJBkq0.woff2
+lora-400-italic.woff2              https://fonts.gstatic.com/s/lora/v37/0QI8MX1D_JOuMw_hLdO6T2wV9KnW-MoFoq92nA.woff2
+dm-serif-display-400.woff2         https://fonts.gstatic.com/s/dmserifdisplay/v17/-nFnOHM81r4j6k0gjAW3mujVU2B2G_Bx0g.woff2
+manrope-400.woff2                  https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk79FN_C-bk.woff2
+manrope-600.woff2                  https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk4jE9_C-bk.woff2

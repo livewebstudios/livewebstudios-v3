@@ -1,0 +1,780 @@
+/* ============================================================
+   Namesake live preview generator.
+   Imported by src/components/NamesakePreview.tsx only.
+
+   Two halves, kept apart on purpose:
+
+   1. ISLAND CHROME (.nsp-controls, .nsp-chip, .nsp-stage, .nsp-frame,
+      .nsp-modal). Lives on the dark LWS page, so it reads the site tokens
+      (--brass, --line, --ink, --muted, --r-md). No new colors.
+
+   2. THE GENERATED PAGES (.nsp-page and everything under it). These are a
+      light, self-contained document that has nothing to do with the LWS
+      palette. Every color, font and radius comes from --nsp-* properties
+      declared on [data-nsp-style="..."], so the four styles are four token
+      blocks and the markup underneath them never changes.
+
+   Every selector is prefixed .nsp- so nothing leaks either way. Font families
+   are registered at runtime through the FontFace API with URLs built from the
+   page's own relPrefix, which is why no url() appears in this file: a url()
+   here would resolve against whichever page inlined the stylesheet and break
+   the LWS path rule.
+   ============================================================ */
+
+/* ---------- 1. ISLAND CHROME ---------- */
+
+/* display:contents so the island's two regions become grid items of the
+   hero grid in start.astro: controls under the headline on the left, the
+   preview stage spanning both rows on the right, from one mount point. */
+.nsp-root {
+  display: contents;
+}
+
+.nsp-controls {
+  text-align: left;
+  min-width: 0;
+}
+
+.nsp-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.55rem;
+}
+
+.nsp-input {
+  display: block;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line-field);
+  border-radius: var(--r-md);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.05rem;
+}
+.nsp-input::placeholder {
+  color: var(--muted-2);
+}
+.nsp-input:focus {
+  outline: none;
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(201, 165, 90, 0.16);
+}
+
+/* Chips. Selected state is the sub-nav's own is-active treatment:
+   inset 0 -2px 0 var(--brass). Nothing new. */
+.nsp-chips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+}
+
+.nsp-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.3rem;
+  min-height: 44px;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  color: var(--muted);
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
+    background 0.2s var(--ease);
+}
+.nsp-chip:hover {
+  color: var(--ink);
+  border-color: rgba(201, 165, 90, 0.4);
+  background: rgba(201, 165, 90, 0.06);
+}
+.nsp-chip:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+.nsp-chip[aria-checked="true"] {
+  color: var(--ink-soft);
+  box-shadow: inset 0 -2px 0 var(--brass);
+}
+
+.nsp-chip-name {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.nsp-chip-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.nsp-dots {
+  display: flex;
+  gap: 3px;
+  flex: none;
+}
+.nsp-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* Palette swatches, three per chip. Held as rules keyed off the chip's
+   data-style rather than passed in as inline custom properties, so the island
+   ships no style attributes. */
+.nsp-chip[data-style="quiet"] .nsp-dot:nth-child(1) { background: #f4f1ea; }
+.nsp-chip[data-style="quiet"] .nsp-dot:nth-child(2) { background: #5e6b4a; }
+.nsp-chip[data-style="quiet"] .nsp-dot:nth-child(3) { background: #1b1a17; }
+.nsp-chip[data-style="bold"] .nsp-dot:nth-child(1) { background: #0b0b0b; }
+.nsp-chip[data-style="bold"] .nsp-dot:nth-child(2) { background: #e8ff47; }
+.nsp-chip[data-style="bold"] .nsp-dot:nth-child(3) { background: #ffffff; }
+.nsp-chip[data-style="classical"] .nsp-dot:nth-child(1) { background: #0f1b2d; }
+.nsp-chip[data-style="classical"] .nsp-dot:nth-child(2) { background: #c9a45c; }
+.nsp-chip[data-style="classical"] .nsp-dot:nth-child(3) { background: #f1eadb; }
+.nsp-chip[data-style="warm"] .nsp-dot:nth-child(1) { background: #b5573a; }
+.nsp-chip[data-style="warm"] .nsp-dot:nth-child(2) { background: #f3e3da; }
+.nsp-chip[data-style="warm"] .nsp-dot:nth-child(3) { background: #3e2a22; }
+
+/* The chip's own name, set in that style's display face: the sample. */
+.nsp-chip[data-style="quiet"] .nsp-chip-sample { font-family: "NSP Cormorant", Georgia, serif; }
+.nsp-chip[data-style="bold"] .nsp-chip-sample { font-family: "NSP Anton", Impact, sans-serif; }
+.nsp-chip[data-style="classical"] .nsp-chip-sample { font-family: "NSP Caslon", Georgia, serif; }
+.nsp-chip[data-style="warm"] .nsp-chip-sample { font-family: "NSP DM Serif", Georgia, serif; }
+
+.nsp-chip-sample {
+  font-size: 13px;
+  line-height: 1.1;
+  color: currentColor;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Stage: the frame, caption, button ---------- */
+
+.nsp-stage {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+/* aspect-ratio reserves the frame's height before the fonts resolve, so the
+   preview never lands as a layout shift. The runtime only sets the scale. */
+.nsp-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-field);
+  border-radius: 12px;
+  background: var(--panel);
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+.nsp-frame:hover {
+  border-color: var(--brass);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+}
+.nsp-frame:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+/* Held at 0 until document.fonts.ready so the first paint is never a
+   fallback serif that then snaps to Cormorant. */
+.nsp-scaler {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+.nsp-scaler.is-ready {
+  opacity: 1;
+}
+
+.nsp-caption {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin: 0;
+}
+
+.nsp-open {
+  align-self: flex-start;
+}
+
+/* ---------- Modal ---------- */
+
+.nsp-modal {
+  width: min(92vw, calc(92vh * 1.6));
+  max-width: none;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+.nsp-modal::backdrop {
+  background: rgba(5, 7, 11, 0.85);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.nsp-modal-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--line-field);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.nsp-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.nsp-save {
+  background: var(--brass);
+  color: #1a1206;
+  font-weight: 600;
+  border: 1px solid var(--brass);
+}
+.nsp-save:hover:not(:disabled) {
+  background: #d8b872;
+  border-color: #d8b872;
+  transform: translateY(-2px);
+}
+.nsp-save:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.nsp-modal-note {
+  margin: 0.85rem 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.nsp-modal-note a {
+  color: var(--brass);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* The off-screen unscaled instance the PNG is rendered from. Kept in flow
+   and visible (not display:none, not visibility:hidden) so fonts and layout
+   actually resolve before html-to-image walks it. */
+.nsp-export-host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1440px;
+  height: 900px;
+  transform: translateX(-20000px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ---------- 2. THE GENERATED PAGES ---------- */
+
+.nsp-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1440px;
+  height: 900px;
+  transform: scale(var(--nsp-scale, 1));
+  transform-origin: top left;
+  background: var(--nsp-bg);
+  color: var(--nsp-fg);
+  font-family: var(--nsp-body);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  /* The generated page owns its own alignment. It has to: the live frame is
+     a <button>, which the UA stylesheet centres, and the same component also
+     renders into the modal and the off-screen export host. Without this the
+     three renders would not agree, and the PNG has to match the screen.
+     .nsp-c re-centres itself on purpose. */
+  text-align: left;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+/* The export instance is unscaled and in normal flow inside its host. */
+.nsp-export-host .nsp-page {
+  position: static;
+  transform: none;
+}
+
+.nsp-page * {
+  box-sizing: border-box;
+}
+
+/* ---- Style tokens: quiet ---- */
+[data-nsp-style="quiet"] {
+  --nsp-bg: #f4f1ea;
+  --nsp-fg: #1b1a17;
+  --nsp-accent: #5e6b4a;
+  --nsp-rule: #d9d4c7;
+  --nsp-display: "NSP Cormorant", Georgia, serif;
+  --nsp-body: "NSP Instrument", system-ui, sans-serif;
+  --nsp-radius: 0px;
+}
+
+/* ---- Style tokens: bold ---- */
+[data-nsp-style="bold"] {
+  --nsp-bg: #0b0b0b;
+  --nsp-fg: #ffffff;
+  --nsp-accent: #e8ff47;
+  --nsp-rule: rgba(255, 255, 255, 0.18);
+  --nsp-display: "NSP Anton", Impact, sans-serif;
+  --nsp-body: "NSP Instrument", system-ui, sans-serif;
+  --nsp-radius: 0px;
+}
+
+/* ---- Style tokens: classical ---- */
+[data-nsp-style="classical"] {
+  --nsp-bg: #0f1b2d;
+  --nsp-fg: #f1eadb;
+  --nsp-accent: #c9a45c;
+  --nsp-rule: rgba(201, 164, 92, 0.45);
+  --nsp-display: "NSP Caslon", Georgia, serif;
+  --nsp-body: "NSP Lora", Georgia, serif;
+  --nsp-radius: 0px;
+}
+
+/* ---- Style tokens: warm ---- */
+[data-nsp-style="warm"] {
+  --nsp-bg: #fbf6f1;
+  --nsp-fg: #3e2a22;
+  --nsp-accent: #b5573a;
+  --nsp-soft: #f3e3da;
+  --nsp-rule: rgba(62, 42, 34, 0.14);
+  --nsp-display: "NSP DM Serif", Georgia, serif;
+  --nsp-body: "NSP Manrope", system-ui, sans-serif;
+  --nsp-radius: 24px;
+}
+
+/* ============================================================
+   quiet: Quiet Editorial. Left aligned, a lot of air.
+   ============================================================ */
+.nsp-q {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 72px 112px 64px;
+}
+.nsp-q-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--nsp-rule);
+}
+.nsp-q-mark {
+  font-family: var(--nsp-display);
+  font-size: 24px;
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  color: var(--nsp-fg);
+}
+.nsp-q-nav {
+  display: flex;
+  gap: 34px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nsp-accent);
+}
+.nsp-q-mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 40px;
+}
+.nsp-q-name {
+  display: block;
+  font-family: var(--nsp-display);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  font-size: var(--nsp-name-size);
+  margin: 0;
+  overflow-wrap: break-word;
+}
+.nsp-q-tag {
+  display: block;
+  margin: 30px 0 0;
+  font-size: 22px;
+  line-height: 1.5;
+  color: rgba(27, 26, 23, 0.72);
+  max-width: 34ch;
+}
+.nsp-q-rule {
+  display: block;
+  width: 132px;
+  height: 1px;
+  margin: 38px 0 0;
+  background: var(--nsp-accent);
+}
+.nsp-q-btn {
+  display: inline-block;
+  margin-top: 38px;
+  align-self: flex-start;
+  padding: 15px 34px;
+  border: 1px solid var(--nsp-accent);
+  color: var(--nsp-accent);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.nsp-q-foot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 56px;
+  padding-top: 30px;
+  border-top: 1px solid var(--nsp-rule);
+}
+.nsp-q-ch {
+  display: block;
+  margin: 0 0 12px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--nsp-accent);
+}
+.nsp-q-cp {
+  display: block;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(27, 26, 23, 0.66);
+}
+
+/* ============================================================
+   bold: Bold Display. Poster. Loud.
+   ============================================================ */
+.nsp-b {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 64px 72px 0;
+}
+.nsp-b-eyebrow {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--nsp-accent);
+}
+.nsp-b-mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.nsp-b-name {
+  display: block;
+  font-family: var(--nsp-display);
+  font-size: var(--nsp-name-size);
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+.nsp-b-line {
+  display: block;
+}
+.nsp-b-btn {
+  display: inline-block;
+  margin-top: 52px;
+  align-self: flex-start;
+  padding: 18px 42px;
+  background: var(--nsp-accent);
+  color: #0b0b0b;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.nsp-b-marquee {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  padding-block: 34px;
+  margin-top: 40px;
+  border-top: 1px solid var(--nsp-rule);
+  font-family: var(--nsp-display);
+  font-size: 58px;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.42);
+}
+.nsp-b-marquee span {
+  flex: none;
+}
+.nsp-b-sep {
+  -webkit-text-stroke: 1px var(--nsp-accent);
+}
+
+/* ============================================================
+   classical: Classical. Centered, brass, old money.
+   ============================================================ */
+.nsp-c {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 62px 120px 58px;
+}
+.nsp-c-monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  flex: none;
+  border: 1px solid var(--nsp-accent);
+  border-radius: 50%;
+  font-family: var(--nsp-display);
+  font-size: 30px;
+  letter-spacing: 0.06em;
+  color: var(--nsp-accent);
+}
+.nsp-c-mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.nsp-c-name {
+  display: block;
+  font-family: var(--nsp-display);
+  font-size: var(--nsp-name-size);
+  line-height: 1.08;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0;
+  overflow-wrap: break-word;
+  /* Tracking adds a trailing gap on the last letter; pull it back so the
+     optical centre matches the geometric one. */
+  text-indent: 0.14em;
+}
+.nsp-c-tagwrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  width: 100%;
+  margin-top: 34px;
+}
+.nsp-c-hair {
+  display: block;
+  height: 1px;
+  flex: 1;
+  max-width: 220px;
+  background: var(--nsp-rule);
+}
+.nsp-c-tag {
+  font-style: italic;
+  font-size: 21px;
+  letter-spacing: 0.02em;
+  color: var(--nsp-accent);
+  white-space: nowrap;
+}
+.nsp-c-foot {
+  width: 100%;
+  padding-top: 32px;
+  border-top: 1px solid var(--nsp-rule);
+}
+.nsp-c-quote {
+  display: block;
+  margin: 0;
+  font-style: italic;
+  font-size: 26px;
+  line-height: 1.45;
+  color: var(--nsp-fg);
+}
+.nsp-c-domain {
+  display: block;
+  margin: 14px 0 0;
+  font-family: var(--nsp-display);
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--nsp-accent);
+}
+
+/* ============================================================
+   warm: Warm Boutique. Two columns, soft corners everywhere.
+   ============================================================ */
+.nsp-w {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
+  column-gap: 72px;
+  padding: 76px 88px 60px;
+}
+.nsp-w-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.nsp-w-name {
+  display: block;
+  font-family: var(--nsp-display);
+  font-size: var(--nsp-name-size);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--nsp-accent);
+  margin: 0;
+  overflow-wrap: break-word;
+}
+.nsp-w-line {
+  display: block;
+}
+.nsp-w-tag {
+  display: block;
+  margin: 26px 0 0;
+  font-size: 21px;
+  line-height: 1.55;
+  color: rgba(62, 42, 34, 0.78);
+  max-width: 26ch;
+}
+.nsp-w-btn {
+  display: inline-block;
+  margin-top: 36px;
+  align-self: flex-start;
+  padding: 16px 36px;
+  border-radius: var(--nsp-radius);
+  background: var(--nsp-accent);
+  color: var(--nsp-bg);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.nsp-w-art {
+  border-radius: var(--nsp-radius);
+  background: linear-gradient(150deg, var(--nsp-accent) 0%, #d98b6e 38%, var(--nsp-soft) 100%);
+}
+.nsp-w-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  padding-top: 44px;
+}
+.nsp-w-pill {
+  padding: 11px 24px;
+  border-radius: 999px;
+  border: 1px solid var(--nsp-rule);
+  background: var(--nsp-soft);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--nsp-fg);
+}
+
+/* ---------- Responsive: stack at 900 ---------- */
+@media (max-width: 900px) {
+  .nsp-chips {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nsp-open {
+    align-self: stretch;
+    justify-content: center;
+  }
+  .nsp-modal {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 16px;
+  }
+  .nsp-modal-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nsp-modal-actions .btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nsp-frame,
+  .nsp-chip,
+  .nsp-scaler {
+    transition: none;
+  }
+  .nsp-frame:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   NAME SIZING
+   The name is the one thing that must never overflow, and it is the one
+   thing the visitor controls. Four length bands per style, chosen from the
+   LONGEST RENDERED LINE rather than the whole string: bold and warm break a
+   two-word name across two lines, so "Maximilian Featherstonehaugh III"
+   sizes off "Featherstonehaugh III" (21) and not 32.
+
+   Bands: 0 = 1-8 chars, 1 = 9-14, 2 = 15-22, 3 = 23-40.
+   Held as rules on data-nsp-len so the island sets an attribute, not a style.
+   ============================================================ */
+
+/* quiet: Cormorant, one line, left column runs the full 1216px. */
+[data-nsp-style="quiet"][data-nsp-len="0"] { --nsp-name-size: 200px; }
+[data-nsp-style="quiet"][data-nsp-len="1"] { --nsp-name-size: 148px; }
+[data-nsp-style="quiet"][data-nsp-len="2"] { --nsp-name-size: 102px; }
+[data-nsp-style="quiet"][data-nsp-len="3"] { --nsp-name-size: 60px; }
+
+/* bold: Anton is heavily condensed, so it takes the largest sizes here. */
+[data-nsp-style="bold"][data-nsp-len="0"] { --nsp-name-size: 252px; }
+[data-nsp-style="bold"][data-nsp-len="1"] { --nsp-name-size: 182px; }
+[data-nsp-style="bold"][data-nsp-len="2"] { --nsp-name-size: 118px; }
+[data-nsp-style="bold"][data-nsp-len="3"] { --nsp-name-size: 70px; }
+
+/* classical: caps plus .14em tracking, so each character costs far more
+   width than its glyph. Smallest bands of the four. */
+[data-nsp-style="classical"][data-nsp-len="0"] { --nsp-name-size: 94px; }
+[data-nsp-style="classical"][data-nsp-len="1"] { --nsp-name-size: 68px; }
+[data-nsp-style="classical"][data-nsp-len="2"] { --nsp-name-size: 46px; }
+[data-nsp-style="classical"][data-nsp-len="3"] { --nsp-name-size: 26px; }
+
+/* warm: two columns, so the name only ever has ~560px to live in. */
+[data-nsp-style="warm"][data-nsp-len="0"] { --nsp-name-size: 102px; }
+[data-nsp-style="warm"][data-nsp-len="1"] { --nsp-name-size: 74px; }
+[data-nsp-style="warm"][data-nsp-len="2"] { --nsp-name-size: 48px; }
+[data-nsp-style="warm"][data-nsp-len="3"] { --nsp-name-size: 27px; }

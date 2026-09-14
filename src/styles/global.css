@@ -939,7 +939,18 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 
    Driven entirely by the .reveal -> .in observer already in Base.astro.
    ============================================================ */
-.curtain-stage{position:relative;isolation:isolate}
+.curtain-stage{
+  position:relative;isolation:isolate;
+  /* Hold before the panels travel (Jon 2026-09-14: "its open before i scroll
+     down, just a few seconds"). The .reveal observer fires as soon as the
+     stage's TOP edge crosses 92% of the viewport, so .in lands while the
+     section is still mostly below the fold and the 1.5s open finishes before
+     it is ever looked at. Rather than retune the shared observer, which every
+     other .reveal on the site depends on, the curtain just sits closed for
+     this long after .in and opens once the reader has arrived.
+     One token, one place to tune it. */
+  --curtain-hold:1s;
+}
 /* The stage itself must not fade or rise: the curtain IS the entrance, and a
    simultaneous fade would mush the two together. Cancels the base .reveal
    treatment while keeping the .in class it supplies. */
@@ -986,9 +997,11 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 
 /* Open. The right panel trails the left by a beat: two motors, never perfectly
    matched, and the slight offset is what stops it reading as a CSS wipe. */
-.curtain-stage.in .curtain__panel--l{transform:translateX(-101%)}
-.curtain-stage.in .curtain__panel--r{transform:translateX(101%);transition-delay:.09s}
-.curtain-stage.in .curtain__track{opacity:0}
+.curtain-stage.in .curtain__panel--l{transform:translateX(-101%);transition-delay:var(--curtain-hold)}
+.curtain-stage.in .curtain__panel--r{transform:translateX(101%);transition-delay:calc(var(--curtain-hold) + .09s)}
+/* The track's own shorthand carries a .1s delay; restate it on top of the
+   hold so the rigging still retracts a beat after the panels start moving. */
+.curtain-stage.in .curtain__track{opacity:0;transition-delay:calc(var(--curtain-hold) + .1s)}
 
 /* Reduced motion: the panel is simply open. No travel, no delay. */
 @media (prefers-reduced-motion:reduce){
