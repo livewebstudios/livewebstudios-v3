@@ -285,8 +285,7 @@ styles by four names. No horizontal scroll at 375. CLS 0.0000. Four PNG exports 
 exactly 2880x1800, with font embedding A/B tested against the fallback (854px ink
 with the @font-face tag, 940px without, 868px on screen).
 
-**Open.** The four QA skill passes are not run. The four reference PNGs are not on
-disk. See DECISIONS.md.
+**Open.** The four QA skill passes are not run. See DECISIONS.md.
 
 **Also this session, from Jon mid-run.** Home curtain reveal now holds 1s before
 opening (`--curtain-hold`), because the shared `.reveal` observer fires on the
