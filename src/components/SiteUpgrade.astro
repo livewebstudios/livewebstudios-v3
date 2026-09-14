@@ -1,0 +1,230 @@
+---
+/**
+ * SiteUpgrade — a dated site frame giving way to a rebuilt one (Jon
+ * 2026-09-14, for the "Ready to Upgrade Your [Industry] Website?" CTA that
+ * closes all ten industry pages).
+ *
+ * ONE illustration for every industry, which is what Jon asked for, so it
+ * carries no trade signals at all: no hard hats, no stethoscopes, no gavels.
+ * The subject is the upgrade itself. A cramped, misaligned old layout sits
+ * behind; a clean one rises in front of it and its content settles into a
+ * real grid. That reads the same whether the reader is a dentist or a
+ * general contractor, and it never has to be redrawn per page.
+ *
+ * Inline SVG for the same reasons as BotTalk: the ask is an ANIMATED
+ * illustration, a raster cannot move, and it inherits --cyan so it re-skins
+ * with whatever accent the page is themed to.
+ *
+ * One 8s cycle: the old frame dims and drops back, the new frame lifts and
+ * brightens, its rows land in sequence, and a progress arc sweeps once.
+ *
+ * Decorative only: aria-hidden, no content the reader needs.
+ */
+interface Props {
+  class?: string;
+}
+const { class: cls = "" } = Astro.props;
+
+/* Rows inside the rebuilt frame. [x, y, width, height, delay-seconds].
+   Staggered so the layout assembles rather than appearing all at once. */
+const rows: [number, number, number, number, number][] = [
+  [214, 150, 128, 9, 0.3],
+  [214, 168, 176, 9, 0.5],
+  [214, 186, 96, 9, 0.7],
+];
+
+/* The three cards along the bottom of the rebuilt frame. */
+const cards: [number, number][] = [
+  [214, 1.05],
+  [274, 1.2],
+  [334, 1.35],
+];
+---
+
+<div class:list={["siteup", cls]} aria-hidden="true">
+  <svg viewBox="0 0 480 400" role="presentation" focusable="false">
+    <!-- ============ OLD FRAME: cramped, misaligned, falling back ============ -->
+    <g class="su-old">
+      <rect class="su-line su-line--dim" x="70" y="96" width="196" height="150" rx="6" />
+      <!-- title bar -->
+      <line class="su-line su-line--dim" x1="70" y1="118" x2="266" y2="118" />
+      <circle class="su-dot su-dot--dim" cx="84" cy="107" r="3" />
+      <circle class="su-dot su-dot--dim" cx="96" cy="107" r="3" />
+      <!-- deliberately ragged content: uneven lengths, no shared left edge -->
+      <line class="su-line su-line--dim" x1="86" y1="140" x2="214" y2="140" />
+      <line class="su-line su-line--dim" x1="94" y1="158" x2="178" y2="158" />
+      <line class="su-line su-line--dim" x1="82" y1="176" x2="232" y2="176" />
+      <line class="su-line su-line--dim" x1="100" y1="194" x2="160" y2="194" />
+      <line class="su-line su-line--dim" x1="88" y1="212" x2="206" y2="212" />
+      <line class="su-line su-line--dim" x1="96" y1="230" x2="184" y2="230" />
+    </g>
+
+    <!-- ============ NEW FRAME: aligned, spacious, rising ============ -->
+    <g class="su-new">
+      <rect class="su-panel" x="196" y="112" width="216" height="172" rx="8" />
+      <rect class="su-line" x="196" y="112" width="216" height="172" rx="8" />
+
+      <!-- chrome bar -->
+      <line class="su-line" x1="196" y1="134" x2="412" y2="134" />
+      <circle class="su-dot" cx="210" cy="123" r="3" />
+      <circle class="su-dot" cx="222" cy="123" r="3" />
+      <circle class="su-dot" cx="234" cy="123" r="3" />
+
+      <!-- content rows, landing in sequence on a shared left edge -->
+      {rows.map(([x, y, w, h, d]) => (
+        <rect
+          class="su-row"
+          x={x} y={y} width={w} height={h} rx={h / 2}
+          style={`--su-delay:${d}s`}
+        />
+      ))}
+
+      <!-- three even cards -->
+      {cards.map(([x, d]) => (
+        <rect
+          class="su-card"
+          x={x} y={212} width={44} height={40} rx={5}
+          style={`--su-delay:${d}s`}
+        />
+      ))}
+    </g>
+
+    <!-- ============ THE UPGRADE ITSELF ============ -->
+    <!-- A single arc sweeping up across the gap, drawn once per cycle. -->
+    <path class="su-arc" d="M96 268 C 180 262, 268 236, 344 168" />
+    <g class="su-chev">
+      <polyline class="su-line" points="330,176 346,160 362,176" />
+      <polyline class="su-line su-line--dim" points="330,196 346,180 362,196" />
+    </g>
+
+    <!-- Baseline, so the two frames sit on something. -->
+    <line class="su-line su-line--dim" x1="64" y1="300" x2="416" y2="300" />
+  </svg>
+</div>
+
+<style>
+  /* One shared cycle. Change this single value to retime the whole thing. */
+  .siteup {
+    --su-cycle: 8s;
+    width: 100%;
+  }
+  .siteup svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* ---- Line language: same cyan wireframe as BotTalk and the card art ---- */
+  .su-line {
+    stroke: var(--cyan);
+    stroke-opacity: 0.78;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+  .su-line--dim {
+    stroke-opacity: 0.3;
+  }
+  .su-dot {
+    fill: var(--cyan);
+    fill-opacity: 0.75;
+  }
+  .su-dot--dim {
+    fill-opacity: 0.3;
+  }
+  .su-panel {
+    fill: var(--cyan);
+    fill-opacity: 0.07;
+    stroke: none;
+  }
+
+  /* ---- The old frame drops back and dims ---- */
+  .su-old {
+    animation: su-recede var(--su-cycle) var(--ease) infinite;
+    transform-origin: 168px 171px;
+  }
+  @keyframes su-recede {
+    0%, 8% { opacity: 0.85; transform: translate(0, 0) scale(1); }
+    38%, 88% { opacity: 0.4; transform: translate(-10px, 8px) scale(0.965); }
+    100% { opacity: 0.85; transform: translate(0, 0) scale(1); }
+  }
+
+  /* ---- The rebuilt frame lifts ---- */
+  .su-new {
+    animation: su-lift var(--su-cycle) var(--ease) infinite;
+    transform-origin: 304px 198px;
+  }
+  @keyframes su-lift {
+    0%, 8% { opacity: 0.55; transform: translate(0, 10px) scale(0.985); }
+    40%, 88% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0.55; transform: translate(0, 10px) scale(0.985); }
+  }
+
+  /* ---- Content settling into the grid ----
+     Each row and card carries its own --su-delay, so the layout assembles
+     left edge first, then the cards, instead of snapping in together. */
+  .su-row,
+  .su-card {
+    fill: var(--cyan);
+    fill-opacity: 0.5;
+    transform-origin: 214px 0;
+    animation: su-land var(--su-cycle) var(--ease) infinite;
+    animation-delay: var(--su-delay, 0s);
+  }
+  .su-card {
+    fill-opacity: 0.28;
+    transform-origin: center;
+  }
+  @keyframes su-land {
+    0%, 6% { opacity: 0; transform: translateX(-12px); }
+    26%, 86% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(-12px); }
+  }
+
+  /* ---- The sweep across the gap, drawn once ---- */
+  .su-arc {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-opacity: 0.5;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 320;
+    animation: su-draw var(--su-cycle) var(--ease) infinite;
+  }
+  @keyframes su-draw {
+    0%, 6% { stroke-dashoffset: 320; opacity: 0; }
+    14% { opacity: 0.9; }
+    46%, 84% { stroke-dashoffset: 0; opacity: 0.5; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+  }
+
+  .su-chev {
+    animation: su-rise var(--su-cycle) var(--ease) infinite;
+  }
+  @keyframes su-rise {
+    0%, 24% { opacity: 0; transform: translateY(8px); }
+    46%, 84% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(8px); }
+  }
+
+  /* Reduced motion: show the finished state. The illustration's job is to
+     say "rebuilt", and it still says it standing still. */
+  @media (prefers-reduced-motion: reduce) {
+    .su-old,
+    .su-new,
+    .su-row,
+    .su-card,
+    .su-arc,
+    .su-chev {
+      animation: none;
+    }
+    .su-old { opacity: 0.4; }
+    .su-new { opacity: 1; }
+    .su-row,
+    .su-card { opacity: 1; }
+    .su-arc { stroke-dashoffset: 0; opacity: 0.5; }
+    .su-chev { opacity: 1; }
+  }
+</style>
