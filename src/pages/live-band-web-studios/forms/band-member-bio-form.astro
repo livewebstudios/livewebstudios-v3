@@ -18,6 +18,7 @@ import Nav from "../../../components/Nav.astro";
 import Footer from "../../../components/Footer.astro";
 import Glass from "../../../components/Glass.astro";
 import VideoBg from "../../../components/VideoBg.astro";
+import PhotoBg from "../../../components/PhotoBg.astro";
 ---
 
 <Base
@@ -30,7 +31,7 @@ import VideoBg from "../../../components/VideoBg.astro";
   <main class="theme-live-band">
     <!-- HERO -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">MEMBER INTAKE</span>
         <h1 class="page-h1">Tell Us Your <em>Story</em>.</h1>
@@ -151,8 +152,8 @@ import VideoBg from "../../../components/VideoBg.astro";
                   <select id="songwriting" name="songwriting">
                     <option value="">Select...</option>
                     <!-- option text = submitted value; em dash kept verbatim for payload fidelity -->
-                    <option>Yes — primary writer</option>
-                    <option>Yes — co-writer</option>
+                    <option>Yes, primary writer</option>
+                    <option>Yes, co-writer</option>
                     <option>Sometimes / collaboratively</option>
                     <option>Not in this project</option>
                   </select>
@@ -203,9 +204,9 @@ import VideoBg from "../../../components/VideoBg.astro";
                   <select id="monitor_pref" name="monitor_pref">
                     <option value="">Select...</option>
                     <!-- option text = submitted value; em dash kept verbatim for payload fidelity -->
-                    <option>In-ears (IEM) — always</option>
-                    <option>Wedges — always</option>
-                    <option>Either — depends on the gig</option>
+                    <option>In-ears (IEM), always</option>
+                    <option>Wedges, always</option>
+                    <option>Either, depends on the gig</option>
                     <option>I don't care, just make it loud</option>
                   </select>
                 </div>
@@ -214,8 +215,8 @@ import VideoBg from "../../../components/VideoBg.astro";
                   <select id="travel_rig" name="travel_rig">
                     <option value="">Select...</option>
                     <!-- option text = submitted value; em dash kept verbatim for payload fidelity -->
-                    <option>Full rig — I drive it everywhere</option>
-                    <option>Partial — some backline substitution on fly dates</option>
+                    <option>Full rig, I drive it everywhere</option>
+                    <option>Partial, some backline substitution on fly dates</option>
                     <option>Total backline needed for fly dates</option>
                     <option>N/A</option>
                   </select>
@@ -451,8 +452,8 @@ import VideoBg from "../../../components/VideoBg.astro";
               <div class="consent-group">
                 <button type="button" class="consent-btn" id="consentYes" data-val="Yes, go for it">Yes, go for it</button>
                 <!-- data-val strings are the submitted posting_consent value; kept verbatim -->
-                <button type="button" class="consent-btn" id="consentMaybe" data-val="Maybe — run it by me first">Maybe, run it by me first</button>
-                <button type="button" class="consent-btn" id="consentNo" data-val="No — keep it internal only">No, keep it internal only</button>
+                <button type="button" class="consent-btn" id="consentMaybe" data-val="Maybe, run it by me first">Maybe, run it by me first</button>
+                <button type="button" class="consent-btn" id="consentNo" data-val="No, keep it internal only">No, keep it internal only</button>
               </div>
               <input type="hidden" name="posting_consent" id="posting_consent_field" value="" />
               <div class="field full">

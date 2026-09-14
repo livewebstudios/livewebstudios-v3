@@ -15,6 +15,7 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import PhotoBg from "../../components/PhotoBg.astro";
 import { relPrefix } from "../../lib/relPrefix";
 
 const rel = relPrefix(Astro.url.pathname);
@@ -72,7 +73,7 @@ const seo = [
   <main class="theme-live-band">
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">THE WORK</span>
         <h1 class="page-h1"><em>The Work</em>.</h1>

@@ -1,0 +1,73 @@
+---
+/**
+ * PhotoBg — one systemized still-photo section background, the counterpart to
+ * VideoBg (Jon 2026-09-14, for the bluestage shot across the Live Band sub
+ * pages).
+ *
+ * Same contract as VideoBg on purpose: drop it inside a section carrying
+ * `has-videobg` (that class sets position/overflow so the art clips to the
+ * section and content sits above it), pass a filename from public/images/,
+ * pick a scrim strength. Swapping a section between video and photo is then a
+ * one-line change either way.
+ *
+ * Why a component rather than a url() in a stylesheet: build.inlineStylesheets
+ * is 'always', so CSS is inlined into every page and a relative url() would
+ * resolve against whichever page it landed in. These sub pages sit at two
+ * different depths (/live-band-web-studios/forms and
+ * /live-band-web-studios/forms/band-bio-form), so one hardcoded path is wrong
+ * for at least one of them. Building the URL from relPrefix here keeps the LWS
+ * path rule intact at any depth.
+ *
+ * Eager by nature: a still frame is one request and it IS the hero, so unlike
+ * VideoBg there is nothing to lazy-load and nothing to pause.
+ */
+import { relPrefix } from "../lib/relPrefix";
+
+interface Props {
+  /** Filename in public/images/. */
+  src: string;
+  /** Readability overlay strength. Matches VideoBg's three levels. */
+  scrim?: "hero" | "default" | "strong";
+  /** Focal point, as a CSS object-position. The bluestage shot carries its
+      subject low-centre, so heroes that crop tall want something below 50%. */
+  position?: string;
+  /** Decorative by default. Pass alt text only if the photo carries meaning
+      the copy does not already state. */
+  alt?: string;
+}
+const { src, scrim = "hero", position = "50% 60%", alt } = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<div class:list={["photobg", `videobg--${scrim}`]} aria-hidden={alt ? undefined : "true"}>
+  <img
+    class="photobg__img"
+    src={`${rel}images/${src}`}
+    alt={alt ?? ""}
+    loading="eager"
+    decoding="async"
+    style={`object-position:${position}`}
+  />
+  <div class="videobg__scrim"></div>
+</div>
+
+<style>
+  /* Mirrors .videobg so the two are interchangeable inside .has-videobg.
+     The scrim classes themselves are shared from global.css rather than
+     duplicated: one place to retune readability for both. */
+  .photobg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .photobg__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>
