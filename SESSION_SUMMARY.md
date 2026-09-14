@@ -262,3 +262,34 @@ Merged `merge/lens-refraction-to-main` into `main` with **zero conflicts**
 6. **Root-relative links in markdown bodies** (`/blog/slug`, `/services/...`,
    `/images/...`) as the handoff specified. These break on a subfolder host,
    unlike the rest of the site, which is fully relative.
+
+## 2026-09-14 — Namesake live preview generator
+
+Built from `26_09_14_namesake_preview_claude_code_handoff.md`. Sessions 1 and 2
+complete, Session 3 partially.
+
+**What shipped.** `/namesake/start` now opens on a two-column hero: the headline,
+name field and four style chips on the left, a live 16:10 preview of a generated
+home page on the right. It renders before anyone types. Every keystroke updates it,
+every chip re-skins it, and the frame opens a full-size modal with Save PNG at
+2880x1800.
+
+**Files.** `src/components/NamesakePreview.tsx`,
+`src/components/namesake-styles/index.tsx`, `src/styles/namesake-preview.css`,
+ten woff2 faces in `public/fonts/namesake/`. One new dependency,
+`html-to-image` pinned at 1.11.13.
+
+**Verified.** One H1. Zero absolute internal paths. No banned phrases or em dashes
+in the built page. All eight font families resolve. Zero name overflow across four
+styles by four names. No horizontal scroll at 375. CLS 0.0000. Four PNG exports at
+exactly 2880x1800, with font embedding A/B tested against the fallback (854px ink
+with the @font-face tag, 940px without, 868px on screen).
+
+**Open.** The four QA skill passes are not run. The four reference PNGs are not on
+disk. See DECISIONS.md.
+
+**Also this session, from Jon mid-run.** Home curtain reveal now holds 1s before
+opening (`--curtain-hold`), because the shared `.reveal` observer fires on the
+section's top edge and the curtain finished opening below the fold. Live Band card
+CTAs reversed to amber on dark ink, which needed both colors restated because
+mosa-skin.css re-skins `.btn-primary` to white after global.css.
