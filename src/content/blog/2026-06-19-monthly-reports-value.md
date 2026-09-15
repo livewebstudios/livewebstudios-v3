@@ -2,9 +2,10 @@
 title: "Why Monthly Reports Are the Most Valuable Thing Your Web Agency Should Be Sending You"
 date: 2026-06-19
 description: "Most web agencies go quiet after launch. A monthly report flips that. It's the single best tool for a productive long-term relationship."
-tags: ["website reporting", "SEO reports", "web agency", "small business", "analytics"]
+tags: ["website analytics", "LWS news", "small business"]
 image: "/images/blog/monthly-reports-value.jpg"
 draft: false
+categories: ["Running a Business Online", "SEO & Local Search"]
 ---
 
 ## The Problem With "Set It and Forget It"
@@ -37,8 +38,5 @@ Every report we send covers:
 
 When clients see steady evidence that their site is being maintained and improved, they don't leave. It's that simple. The monthly report isn't just a document. It's proof of ongoing value.
 
-**Every LWS client gets monthly reports as part of their care plan.** Questions about what yours includes? [Reach out anytime.](https://livewebstudios.com/contact)
+**Every LWS client gets monthly reports as part of their care plan.** Questions about what yours includes? [Reach out anytime.](../contact.html)
 
----
-
-*Related: [Understanding Your Website Analytics](/blog/understanding-website-analytics) and [What Is Google Search Console?](/blog/google-search-console-explained).*

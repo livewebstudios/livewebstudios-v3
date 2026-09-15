@@ -2,9 +2,10 @@
 title: "How We Build a Site in 2026: The New LWS Stack Explained"
 date: 2026-05-29
 description: "For 20 years, the answer was WordPress. In 2026, we build differently. The results are measurably better. Here's exactly how it works."
-tags: ["web development", "modern web stack", "Netlify", "GitHub", "AI web design"]
+tags: ["how we work", "AI websites"]
 image: "/images/blog/how-we-build-sites-2026.jpg"
 draft: false
+categories: ["LWS News", "Web Design"]
 ---
 
 ## The Stack We Used to Build With
@@ -35,8 +36,5 @@ You don't have a database that can get corrupted. You don't have 40 plugins that
 
 A fast, version-controlled site. It costs less to host, loads faster for visitors, and needs far less maintenance to keep running right.
 
-**Thinking about the move? Let's talk.** [See our web design services →](https://livewebstudios.com/services/website-design.html)
+**Thinking about the move? Let's talk.** [See our web design services →](../services/website-design.html)
 
----
-
-*Related: [What Is an AI-Built Website?](/blog/what-is-an-ai-built-website) and [The Migration Process Explained](/blog/migration-process-explained).*

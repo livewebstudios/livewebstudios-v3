@@ -2,9 +2,10 @@
 title: "Case Study: How One Long-Term Client Got a Faster, Cheaper, Better Website"
 date: 2026-06-05
 description: "Our first AI-stack migration is done. Here's what we did and what the numbers look like on the other side."
-tags: ["case study", "website migration", "AI website", "website speed", "small business"]
+tags: ["case study", "website migration", "AI websites", "page speed", "small business"]
 image: "/images/blog/case-study-first-migration.jpg"
 draft: false
+categories: ["WordPress & Migration", "Hosting & Performance"]
 ---
 
 ## The Client
@@ -33,8 +34,8 @@ Monthly rate. Same price, better product. That's the conversation we're having w
 
 This site is now the template. The workflow we built here becomes the repeatable process for everyone else. That's how you scale this kind of thing as a solo operator. You nail it once, then you replicate it.
 
-**Want to know what a migration like this looks like for your site?** [Let's talk →](https://livewebstudios.com/services/website-design.html)
+**Want to know what a migration like this looks like for your site?** [Let's talk →](../services/website-design.html)
 
 ---
 
-*See also: [From WordPress to AI-Built: The Migration Process](/blog/migration-process-explained) and [our website design services](https://livewebstudios.com/services/website-design.html).*
+*See also: [From WordPress to AI-Built: The Migration Process](../blog/migration-process-explained.html) and [our website design services](../services/website-design.html).*

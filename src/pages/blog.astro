@@ -11,13 +11,19 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import VideoBg from "../components/VideoBg.astro";
+import BlogHero from "../components/BlogHero.astro";
+import CategoryNav from "../components/CategoryNav.astro";
 import Glass from "../components/Glass.astro";
-import Marquee from "../components/Marquee.astro";
-import HeroActions from "../components/HeroActions.astro";
+import { CATEGORIES, resolve, has } from "../lib/categories";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
+
+// Only offer a chip for a category that actually has a page built behind it.
+const available = CATEGORIES.filter((c) =>
+  posts.some((p) => has(p.data.categories, c.name)),
+).map((c) => c.slug);
 
 const cards = posts.map((post) => {
   const slug = post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "");
@@ -26,6 +32,7 @@ const cards = posts.map((post) => {
     slug,
     title: post.data.title,
     summary: post.data.description ?? post.data.excerpt ?? "",
+    cats: resolve(post.data.categories),
     image: rawImage.replace(/^\//, ""),
     dateLabel: post.data.date.toLocaleDateString("en-US", {
       year: "numeric",
@@ -46,21 +53,15 @@ const cards = posts.map((post) => {
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="hero" />
-      <div class="wrap">
-        <span class="eyebrow is-center mb-lg">THE LWS BLOG</span>
-        <h1 class="page-h1">Ideas, Insights, and Occasionally <em>Opinions</em>.</h1>
-        <p class="page-lede">Web design, AI, SEO, and the business of the web.</p>
-        <HeroActions links />
-      </div>
-    </section>
+    <BlogHero title="Ideas, Insights, and Occasionally Opinions." standing />
 
-    <Marquee />
+
+    <CategoryNav available={available} isIndex />
 
     <!-- POSTS -->
     <section class="sec-pad">
       <div class="wrap">
+
         <div class="blog-grid">
           {cards.map((c) => (
             <a class="blog-card" href={`blog/${c.slug}.html`}>
@@ -75,6 +76,9 @@ const cards = posts.map((post) => {
                 <span class="blog-date">{c.dateLabel}</span>
                 <h2 class="blog-title">{c.title}</h2>
                 <p class="blog-sum">{c.summary}</p>
+                <span class="blog-cats">
+                  {c.cats.map((k) => <span class="blog-cat">{k.name}</span>)}
+                </span>
               </div>
             </a>
           ))}

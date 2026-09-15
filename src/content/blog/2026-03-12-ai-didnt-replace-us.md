@@ -2,9 +2,9 @@
 title: "AI Didn't Replace Our Agency"
 date: 2026-03-12
 description: "AI didn't replace our agency. We put it to work and doubled our output. Here's exactly how."
-tags: ["AI", "agency", "workflow", "productivity"]
+tags: ["AI", "LWS news", "how we work", "productivity"]
 image: "/images/servicesindustries/blog5.webp"
-category: "AI & Technology"
+categories: ["AI & Automation", "LWS News"]
 draft: false
 ---
 
@@ -32,4 +32,4 @@ Throughput doubled. Headcount stayed flat. And the work? It got more distinctive
 
 Want to see what that looks like on a real project? Let's talk.
 
-**[See how the LWS AI Platform works →](/services/ai-platform)**
+**[See how the LWS AI Platform works →](../services/ai-platform.html)**

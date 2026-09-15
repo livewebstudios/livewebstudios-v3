@@ -5,6 +5,8 @@ thumbnail: /images/uploads/ainow.jpg
 excerpt: AI isn't coming. It's here. And most small business owners are either
   ignoring it, panicking about it, or clicking around on ChatGPT wondering what
   the big deal is.
+tags: []
+categories: ["AI & Automation"]
 ---
 Let me be straight with you.
 
@@ -39,4 +41,4 @@ Twenty minutes. You'll know by the end whether it's worth pursuing.
 
 You've been watching the AI wave and thinking "I should probably figure this out before my competition does." Yeah. You should. And we can help.
 
-**[Book Your Free Zoom Call](https://livewebstudios.com/contact.html)**
+**[Book Your Free Zoom Call](../contact.html)**

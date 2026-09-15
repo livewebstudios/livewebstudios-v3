@@ -2,9 +2,10 @@
 title: "AI Consulting for Small Business: What It Is and Whether You Need It"
 date: 2026-09-04
 description: "Everyone's talking about AI. Most small business owners have no idea where to start. The advice out there ranges from useful to genuinely confusing. Here's a ground-level view."
-tags: ["AI consulting", "small business AI", "AI tools", "business technology", "LWS consulting"]
+tags: ["AI consulting", "AI"]
 image: "/images/blog/ai-consulting-small-business.jpg"
 draft: false
+categories: ["AI & Automation", "Running a Business Online"]
 ---
 
 ## The Honest Problem With AI Advice Right Now
@@ -35,8 +36,5 @@ For small businesses, AI consulting isn't about installing enterprise software. 
 
 AI consulting is a live part of what Live Web Studios does. If you've looked at AI and thought *I should be doing something with this and I have no idea where to start*, that's exactly the conversation we have. No waitlist. Just a call, a look at how you actually work, and a plan for the two or three spots where AI earns its keep.
 
-**Want to talk it through?** [Let's talk about AI consulting →](https://livewebstudios.com/services/consulting.html)
+**Want to talk it through?** [Let's talk about AI consulting →](../services/consulting.html)
 
----
-
-*Related: [What AI Can (and Can't) Do for Your Website](/blog/what-ai-can-and-cant-do) and [our full AI services](https://livewebstudios.com/services/ai-business-services.html).*

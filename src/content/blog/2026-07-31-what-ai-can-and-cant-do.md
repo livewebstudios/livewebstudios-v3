@@ -2,9 +2,10 @@
 title: "What AI Can (and Can't) Do for Your Small Business Website"
 date: 2026-07-31
 description: "AI is everywhere right now. So are the claims. Let's cut through the noise and talk about what AI actually does, and doesn't do, when it comes to building and maintaining your website."
-tags: ["AI for business", "AI web design", "small business AI", "honest AI advice"]
+tags: ["AI", "AI websites"]
 image: "/images/blog/what-ai-can-and-cant-do.jpg"
 draft: false
+categories: ["AI & Automation"]
 ---
 
 ## Let's Start With What AI Isn't
@@ -29,8 +30,8 @@ AI is not a magic button that spits out a finished, professional website in 30 s
 
 **Replace an experienced eye.** Good web work isn't just code and content. It's knowing what order things go in, what to leave out, what actually turns a visitor into a customer. AI helps with that judgment. It doesn't replace it.
 
-**Questions about AI and your website?** Reach out anytime. [Explore our AI services →](https://livewebstudios.com/services/ai-business-services.html)
+**Questions about AI and your website?** Reach out anytime. [Explore our AI services →](../services/ai-business-services.html)
 
 ---
 
-*Also read: [What Is an AI-Built Website?](/blog/what-is-an-ai-built-website) and [AI Consulting for Small Business](/blog/ai-consulting-small-business).*
+*Also read: [What Is an AI-Built Website?](../blog/what-is-an-ai-built-website.html) and [AI Consulting for Small Business](../blog/ai-consulting-small-business.html).*

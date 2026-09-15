@@ -2,9 +2,10 @@
 title: "Small Business SEO in 2026: What Actually Moves the Needle"
 date: 2026-06-12
 description: "SEO in 2026 isn't about tricks. It's a handful of things done well, over and over. Here's the straight version of what actually matters."
-tags: ["SEO", "small business SEO", "Google rankings", "local SEO", "content marketing"]
+tags: ["SEO", "Google rankings", "local SEO", "content strategy"]
 image: "/images/blog/small-business-seo-2026.jpg"
 draft: false
+categories: ["SEO & Local Search"]
 ---
 
 ## The SEO Landscape Has Simplified (Sort Of)
@@ -31,8 +32,5 @@ If you serve a geographic area, local SEO is where the game is won. Contractors,
 
 Every client report we send tracks impressions, clicks, and keyword position from Google Search Console. We're watching for trends, not single data points. And when the data shows an opening, we flag it.
 
-**Want to understand what your site's data is actually telling you?** [Let's talk →](https://livewebstudios.com/services/seo.html)
+**Want to understand what your site's data is actually telling you?** [Let's talk →](../services/seo.html)
 
----
-
-*Related: [Local SEO in 2026](/blog/local-seo-2026) and [5 Website Mistakes That Kill Rankings](/blog/5-website-mistakes).*

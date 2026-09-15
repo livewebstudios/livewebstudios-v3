@@ -1,0 +1,55 @@
+---
+/**
+ * BlogHero — the one hero used by every page in the blog section: /blog, each
+ * /blog/category/* archive, and each individual post.
+ *
+ * Jon 2026-09-15: the blog runs the jon-webdesk animation rather than the
+ * generic corner clip, and it does NOT carry the "Live Band Web Studios /
+ * Namesake Personal Sites / FAQ" link row that the rest of the site uses. The
+ * blog is its own room; those links live everywhere else.
+ *
+ * Jon 2026-09-15: "remove the card". page-head--bare is the existing opt-out
+ * (added for the Live Band photo heroes) and does exactly this: drops the
+ * glass panel and border, and swaps in a black halo on the type so the copy
+ * still reads over the animation. Kept alongside page-head--glass because the
+ * interior spacing rules key off that class.
+ *
+ * The eyebrow and the standing blog line are identical on all three page
+ * types, which is what makes the section feel like one place. The `title` is
+ * the page's own H1 and must stay unique per page: on /blog it is the blog
+ * tagline, on an archive it is the category, on a post it is the post title.
+ * Giving 67 posts the same H1 would flatten every one of them in search.
+ */
+import VideoBg from "./VideoBg.astro";
+import HeroActions from "./HeroActions.astro";
+
+export interface Props {
+  /** This page's H1. Unique per page. */
+  title: string;
+  /** Optional line under the H1 (a category blurb, a post date). */
+  lede?: string;
+  /** Render the standing blog line under the H1. Off on single posts, where
+      the date and category sit there instead. */
+  standing?: boolean;
+}
+const { title, lede, standing = false } = Astro.props;
+---
+
+<section class="page-head page-head--glass page-head--bare page-head--blog has-videobg">
+  <VideoBg src="jon-webdesk.mp4" scrim="default" />
+  <div class="wrap">
+    <span class="eyebrow is-center mb-lg">THE LWS BLOG</span>
+    <h1 class="page-h1">{title}</h1>
+    {standing && (
+      <p class="page-lede">
+        Web design, AI, SEO, and the business of the web. Plus music,
+        photography, and the odd idea that has no business working but does
+        anyway. Twenty-some years in, we stopped pretending those were
+        separate jobs.
+      </p>
+    )}
+    {lede && <p class="page-lede">{lede}</p>}
+    <slot />
+    <HeroActions />
+  </div>
+</section>

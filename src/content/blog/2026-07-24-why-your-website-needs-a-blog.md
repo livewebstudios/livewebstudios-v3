@@ -2,9 +2,10 @@
 title: "Why Your Website Needs a Blog (Even If You Think You Have Nothing to Say)"
 date: 2026-07-24
 description: "\"I'm a plumber, not a writer.\" Fair. But your customers are Googling plumbing questions before they call anyone. A blog is how you show up for those searches."
-tags: ["business blogging", "content marketing", "SEO", "small business", "website content"]
+tags: ["content strategy", "SEO", "small business"]
 image: "/images/blog/why-your-website-needs-a-blog.jpg"
 draft: false
+categories: ["Running a Business Online", "SEO & Local Search"]
 ---
 
 ## The Most Common Objection I Hear
@@ -33,8 +34,5 @@ Consistency beats frequency. One solid post a month, every month, beats five pos
 
 Over 12 months, even a modest posting habit builds real authority on your topics. Your site starts showing up for more searches. More searches, more visitors. More visitors, more leads.
 
-**Every monthly report we send includes blog content recommendations.** Want to see how it works? Let's talk. [See our content & care plans →](https://livewebstudios.com/services/maintenance-plans.html)
+**Every monthly report we send includes blog content recommendations.** Want to see how it works? Let's talk. [See our content & care plans →](../services/maintenance-plans.html)
 
----
-
-*Related: [Small Business SEO in 2026](/blog/small-business-seo-2026) and [Why Monthly Reports Are Valuable](/blog/monthly-reports-value).*

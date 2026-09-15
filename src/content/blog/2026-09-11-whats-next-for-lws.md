@@ -2,9 +2,10 @@
 title: "What's Next for Live Web Studios: A Look at the Year Ahead"
 date: 2026-09-11
 description: "2026 has been a year of change at LWS. Here's where we've been, what we learned, and what we're building toward."
-tags: ["LWS news", "AI consulting", "web design 2026", "small business", "future of web"]
+tags: ["LWS news", "AI consulting", "web design", "small business", "how we work"]
 image: "/images/blog/whats-next-for-lws.jpg"
 draft: false
+categories: ["LWS News"]
 ---
 
 ## It's Been a Year
@@ -33,8 +34,8 @@ This is the next chapter, and it's open now. We help small businesses figure out
 
 Twenty-plus years of running this business taught me that the relationships are what compound. The clients I've worked with for 10 years are better clients than they were a year in, because we understand each other now. That's what the monthly reports and the calls and content like this are really about. Staying in relationship, not just in contact.
 
-**More to come.** [See what LWS offers →](https://livewebstudios.com/services/consulting.html)
+**More to come.** [See what LWS offers →](../services/consulting.html)
 
 ---
 
-*Browse all our services: [Website Design](https://livewebstudios.com/services/website-design.html) · [SEO](https://livewebstudios.com/services/seo.html) · [Hosting](https://livewebstudios.com/services/hosting.html) · [AI Services](https://livewebstudios.com/services/ai-business-services.html) · [Consulting](https://livewebstudios.com/services/consulting.html).*
+*Browse all our services: [Website Design](../services/website-design.html) · [SEO](../services/seo.html) · [Hosting](../services/hosting.html) · [AI Services](../services/ai-business-services.html) · [Consulting](../services/consulting.html).*

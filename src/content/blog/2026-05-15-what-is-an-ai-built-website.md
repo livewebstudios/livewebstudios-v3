@@ -2,9 +2,10 @@
 title: "What Is an AI-Built Website? A Plain-English Guide for Small Business Owners"
 date: 2026-05-15
 description: "Everyone's talking about AI websites. Most explanations are too technical or too vague. Here's what it actually means, and what it means for you."
-tags: ["AI websites", "web design", "small business", "technology explained"]
+tags: ["AI websites", "web design", "small business", "how we work"]
 image: "/images/blog/what-is-an-ai-built-website.jpg"
 draft: false
+categories: ["AI & Automation", "Web Design"]
 ---
 
 ## Let's Skip the Buzzwords
@@ -32,8 +33,5 @@ The end result is a site that:
 
 It's not magic. It's just a better process producing a better product.
 
-**Wondering whether this makes sense for your site?** [See our AI web services →](https://livewebstudios.com/services/ai-business-services.html) No pressure. Let's talk.
+**Wondering whether this makes sense for your site?** [See our AI web services →](../services/ai-business-services.html) No pressure. Let's talk.
 
----
-
-*Related: [How We Build a Site in 2026](/blog/how-we-build-sites-2026) and [What AI Can (and Can't) Do](/blog/what-ai-can-and-cant-do).*

@@ -2,9 +2,10 @@
 title: "From WordPress to AI-Built: What the Migration Process Actually Looks Like"
 date: 2026-07-03
 description: "Migrating a site sounds intimidating. It doesn't have to be. Here's a plain walkthrough of what the process looks like start to finish, and what you have to do. Spoiler: not much."
-tags: ["website migration", "WordPress migration", "AI website", "web design process"]
+tags: ["website migration", "AI websites", "how we work"]
 image: "/images/blog/migration-process-explained.jpg"
 draft: false
+categories: ["WordPress & Migration", "Hosting & Performance"]
 ---
 
 ## The Word "Migration" Makes People Nervous
@@ -41,8 +42,8 @@ Review the staging version. Give feedback. That's it. We handle the rest.
 
 For a typical 5-10 page small business site: about a week of build time, a day or two of review, then a clean launch.
 
-**Want to know what your specific site's migration would look like?** [Let's talk →](https://livewebstudios.com/services/website-design.html)
+**Want to know what your specific site's migration would look like?** [Let's talk →](../services/website-design.html)
 
 ---
 
-*Also: [How We Build a Site in 2026](/blog/how-we-build-sites-2026) and [Case Study: First Migration](/blog/case-study-first-migration).*
+*Also: [How We Build a Site in 2026](../blog/how-we-build-sites-2026.html) and [Case Study: First Migration](../blog/case-study-first-migration.html).*

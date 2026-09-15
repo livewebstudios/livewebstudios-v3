@@ -11,8 +11,10 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import VideoBg from "../../components/VideoBg.astro";
-import HeroActions from "../../components/HeroActions.astro";
 import Glass from "../../components/Glass.astro";
+import { CATEGORIES, resolve, has } from "../../lib/categories";
+import BlogHero from "../../components/BlogHero.astro";
+import CategoryNav from "../../components/CategoryNav.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -38,37 +40,99 @@ const dateLabel = post.data.date.toLocaleDateString("en-US", {
 });
 const isoDate = post.data.date.toISOString().split("T")[0];
 
+const postUrl = `https://livewebstudios.com/blog/${slug}`;
+const cats = resolve(post.data.categories);
+const all = await getCollection("blog", ({ data }) => !data.draft);
+const available = CATEGORIES.filter((c) =>
+  all.some((p) => has(p.data.categories, c.name)),
+).map((c) => c.slug);
+
+/* See also: other posts sharing a category, most overlap first, then newest.
+   Sourced from the categories rather than hand-picked, so it keeps working as
+   the archive fills up and never points at a draft. */
+const related = all
+  .filter((p) => p.id !== post.id)
+  .map((p) => ({
+    post: p,
+    shared: (p.data.categories ?? []).filter((c) =>
+      (post.data.categories ?? []).includes(c),
+    ).length,
+  }))
+  .filter((r) => r.shared > 0)
+  .sort(
+    (a, b) =>
+      b.shared - a.shared || b.post.data.date.valueOf() - a.post.data.date.valueOf(),
+  )
+  .slice(0, 3)
+  .map(({ post: p }) => ({
+    slug: p.id.replace(/^\d{4}-\d{2}-\d{2}-/, ""),
+    title: p.data.title,
+    dateLabel: p.data.date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }),
+  }));
+
+/* Share card. The 20 posts with a hero under images/blog/ are all 1376x768,
+   comfortably past the 1200px floor scrapers need for a large card. The five
+   older posts point at uploads/ and servicesindustries/ art that is 768-1100px
+   wide, which gets demoted to a thumbnail, so those fall back to the sitewide
+   1200x630 card instead. */
+const ogImage = rawImage.startsWith("/images/blog/")
+  ? rawImage
+  : "images/og-default.jpg";
+
+/* Google wants image, dateModified and mainEntityOfPage before it will
+   consider a post for the enhanced article treatment in search. */
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: post.data.title,
   description,
+  image: `https://livewebstudios.com/${(rawImage || "images/og-default.jpg").replace(/^\//, "")}`,
+  articleSection: cats.map((c) => c.name),
   datePublished: isoDate,
-  url: `https://livewebstudios.com/blog/${slug}`,
+  dateModified: isoDate,
+  url: postUrl,
+  mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
   author: { "@type": "Person", name: "Jon Wolf" },
-  publisher: { "@type": "Organization", name: "Live Web Studios" },
+  publisher: {
+    "@type": "Organization",
+    name: "Live Web Studios",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://livewebstudios.com/images/logoRGB.png",
+      width: 800,
+      height: 245,
+    },
+  },
 });
 ---
 
 <Base
   title={`${post.data.title} | Live Web Studios`}
   description={description}
-  canonical={`https://livewebstudios.com/blog/${slug}`}
+  canonical={postUrl}
+  ogImage={ogImage}
   jsonld={null}
 >
   <Nav />
 
   <main>
     <!-- POST HEAD -->
-    <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="hero" />
-      <div class="wrap">
-        <span class="eyebrow is-center mb-lg">THE LWS BLOG</span>
-        <h1 class="page-h1 post-h1">{post.data.title}</h1>
-        <p class="post-date">{dateLabel}</p>
-        <HeroActions links />
-      </div>
-    </section>
+    <BlogHero title={post.data.title}>
+      <p class="post-date">
+        {dateLabel}
+        {cats.map((c, i) => (
+          <>
+            {i === 0 ? " · " : ", "}
+            <a class="post-cat" href={`category/${c.slug}.html`}>{c.name}</a>
+          </>
+        ))}
+      </p>
+    </BlogHero>
 
     <!-- POST BODY -->
     <section class="sec-pad">
@@ -81,8 +145,28 @@ const jsonLd = JSON.stringify({
           )}
           <Content />
         </article>
+
+        {related.length > 0 && (
+          <footer class="post-foot">
+            <div class="post-seealso">
+              <span class="post-foot__label">See also</span>
+              <ul class="post-seealso__list">
+                {related.map((r) => (
+                  <li>
+                    <a href={`${r.slug}.html`}>
+                      <span class="post-seealso__title">{r.title}</span>
+                      <span class="post-seealso__date">{r.dateLabel}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </footer>
+        )}
       </div>
     </section>
+
+    <CategoryNav available={available} current={cats[0]?.slug} />
 
     <!-- CTA -->
     <section class="sec-pad is-alt has-videobg">

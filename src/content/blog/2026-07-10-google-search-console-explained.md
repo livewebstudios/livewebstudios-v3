@@ -2,9 +2,10 @@
 title: "What Is Google Search Console and Why Should You Care?"
 date: 2026-07-10
 description: "Google Search Console is the closest thing to seeing your website through Google's eyes. Here's what it tells you and why every business owner should understand the basics."
-tags: ["Google Search Console", "SEO tools", "website analytics", "small business", "Google rankings"]
+tags: ["Google Search Console", "SEO", "website analytics", "small business", "Google rankings"]
 image: "/images/blog/google-search-console-explained.jpg"
 draft: false
+categories: ["SEO & Local Search", "Running a Business Online"]
 ---
 
 ## The Tool Most Business Owners Have Never Opened
@@ -31,8 +32,5 @@ Every monthly report we send pulls from Search Console. We look for keywords whe
 
 If your site is an LWS site and you don't have Search Console set up yet, tell us. We'll handle it.
 
-**Not sure if yours is wired up?** [Let's talk →](https://livewebstudios.com/services/seo.html)
+**Not sure if yours is wired up?** [Let's talk →](../services/seo.html)
 
----
-
-*Related: [Small Business SEO in 2026](/blog/small-business-seo-2026), [Understanding Your Analytics](/blog/understanding-website-analytics), and [Why Monthly Reports Matter](/blog/monthly-reports-value).*

@@ -2,7 +2,7 @@
 title: Google Changed the Rules This Summer. Here's What That Means for Your
   Website.
 date: 2026-06-03T21:10:29.984Z
-category: SEO
+categories: ["SEO & Local Search"]
 tags: []
 thumbnail: /images/uploads/image_bfa65704.jpg
 excerpt: "If your website hasn't been touched in a year or two, this summer's

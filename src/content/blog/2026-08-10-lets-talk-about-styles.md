@@ -2,9 +2,10 @@
 title: "Let's Talk About Styles"
 date: 2026-08-10
 description: "Two clients, two different businesses, the exact same photo on both Facebook pages. Nine real web design styles, and why AI can't pick the right one for you."
-tags: ["web design", "AI", "design styles", "branding", "small business"]
+tags: ["web design", "AI", "branding", "small business"]
 image: "/images/blog/jon-comic-wide.jpg"
 draft: false
+categories: ["Web Design"]
 ---
 
 I ran into two clients the same week. One's a financial advisor. The other one does estate planning. Different towns, different businesses, no connection to each other whatsoever.
@@ -35,55 +36,55 @@ Every image below was generated with AI. All nine. I want to be upfront about th
 
 ### Minimalism
 
-![Minimalist website design for an architecture firm, white space and thin type](/images/blog/styles/style-minimalism.jpg)
+<img src="../images/blog/styles/style-minimalism.jpg" alt="Minimalist website design for an architecture firm, white space and thin type" loading="lazy">
 
 Space does the work. Strip out everything that isn't load-bearing and whatever survives has to be good, because there's nothing left to hide behind. Architects and photographers. Anybody whose portfolio is the pitch.
 
 ### Brutalism & Neobrutalism
 
-![Brutalist website design for a construction company, heavy black type on raw concrete](/images/blog/styles/style-brutalism-neobrutalism.jpg)
+<img src="../images/blog/styles/style-brutalism-neobrutalism.jpg" alt="Brutalist website design for a construction company, heavy black type on raw concrete" loading="lazy">
 
 Raw, loud, unpolished on purpose. Heavy type, hard edges, zero decoration. It's a confidence play. Great for a construction company or a creative studio that wants to look like it doesn't care what you think. Terrible for a wealth manager.
 
 ### Constructivism
 
-![Constructivist website design for an industrial software company, red and black geometry with gears](/images/blog/styles/style-constructivism.jpg)
+<img src="../images/blog/styles/style-constructivism.jpg" alt="Constructivist website design for an industrial software company, red and black geometry with gears" loading="lazy">
 
 Bold geometry, diagonals, a tight palette usually anchored in red and black. Borrowed straight from 1920s Soviet poster design. It reads industrial and deliberate. Manufacturing, engineering, anything with machinery in it.
 
 ### Swiss Style
 
-![Swiss style website design for a financial firm, strict grid and asymmetric layout](/images/blog/styles/style-swiss.jpg)
+<img src="../images/blog/styles/style-swiss.jpg" alt="Swiss style website design for a financial firm, strict grid and asymmetric layout" loading="lazy">
 
 Grid, grid, grid. Asymmetric layout, ruthless alignment, type doing the heavy lifting. This is what "clean" actually means when a designer says it out loud. Financial services and data-heavy sites live here comfortably.
 
 ### Editorial Style
 
-![Editorial style website design for a lifestyle magazine, serif headlines and full-bleed photography](/images/blog/styles/style-editorial.jpg)
+<img src="../images/blog/styles/style-editorial.jpg" alt="Editorial style website design for a lifestyle magazine, serif headlines and full-bleed photography" loading="lazy">
 
 Magazine layout. Serif headlines, generous margins, photography treated like it cost something. Feels expensive without shouting about it. Interiors, fashion, hospitality, anybody selling taste.
 
 ### Hand-Drawn Style
 
-![Hand-drawn website design on notebook paper with sketched icons and arrows](/images/blog/styles/style-hand-drawn.jpg)
+<img src="../images/blog/styles/style-hand-drawn.jpg" alt="Hand-drawn website design on notebook paper with sketched icons and arrows" loading="lazy">
 
 Sketched icons, notebook paper, wobbly lines no computer would draw on its own. Disarming. It works for education, kids' services, and any business fighting a "these people are stiff" perception.
 
 ### Retro
 
-![Retro pixel-art website design for an arcade, neon grid and 8-bit type](/images/blog/styles/style-retro.jpg)
+<img src="../images/blog/styles/style-retro.jpg" alt="Retro pixel-art website design for an arcade, neon grid and 8-bit type" loading="lazy">
 
 Pixel type, neon grids, deliberate nostalgia for one specific decade. It has to be fully committed or it just looks like a mistake. Arcades, breweries, bands, event promoters.
 
 ### Flat
 
-![Flat design website for a software company, bright blue with simple icon illustrations](/images/blog/styles/style-flat.jpg)
+<img src="../images/blog/styles/style-flat.jpg" alt="Flat design website for a software company, bright blue with simple icon illustrations" loading="lazy">
 
 Simple shapes, bright fills, friendly illustration, no fake shadows anywhere. The workhorse of software and service businesses. Approachable, easy to read, and it will never get you accused of being pretentious.
 
 ### Bento Style
 
-![Bento grid website design for a tech product, rounded feature cards in a modular layout](/images/blog/styles/style-bento.jpg)
+<img src="../images/blog/styles/style-bento.jpg" alt="Bento grid website design for a tech product, rounded feature cards in a modular layout" loading="lazy">
 
 Content in a grid of rounded cards, each one holding a single idea. Named after the lunch box. It's how you show eight features without building eight pages. Tech products, dashboards, anything with a real feature list.
 
@@ -101,8 +102,8 @@ An AI will give you an answer to any question you ask it. It will not tell you t
 
 Before anybody generates anything, decide what your business is supposed to feel like to a stranger who has never heard of you. Then name the style. Then build it.
 
-If you don't know which one fits, that's a completely normal thing not to know. It's [the part I do](/services/website-design).
+If you don't know which one fits, that's a completely normal thing not to know. It's [the part I do](../services/website-design.html).
 
-**[Call me.](/contact)** I'll tell you which two are wrong for you before we even get to which one is right.
+**[Call me.](../contact.html)** I'll tell you which two are wrong for you before we even get to which one is right.
 
 [732.801.9611](tel:7328019611)

@@ -256,6 +256,50 @@ footer{background:rgb(var(--mosa-fg-rgb)/.02)}
   }
 }
 
+/* Jon 2026-09-15: "I'd like to see the top of my head and the bottom of the
+   laptop." The shared .videobg__v is object-fit:cover on a full-bleed box,
+   which fills by cropping the long axis. The clip is 1470x630 (2.33:1) and
+   Jon spans hat to laptop base over about 73% of its height, while a blog
+   hero band is roughly 4.7:1. Cover can only show half the source height
+   there, so the hat and the laptop base were always the first things cut.
+
+   Rather than crop, give the element the clip's own aspect ratio and anchor
+   it right, into the half of the band the copy does not use. The box now
+   matches the video exactly, which means the mask percentages below are
+   measured against the video itself and the left edge fades into the
+   background at every viewport width instead of ending on a hard seam.
+
+   Desktop only. On a phone the hero is taller than it is wide, so the
+   original cover already scales to height and keeps the whole figure. */
+@media (min-width:861px){
+  .page-head--blog .videobg__v{
+    inset:0 0 0 auto;
+    width:auto;
+    height:100%;
+    aspect-ratio:1470 / 630;
+    object-fit:cover;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 34%);
+            mask-image:linear-gradient(90deg,transparent 0%,#000 34%);
+  }
+}
+
+/* Blog hero (Jon 2026-09-15). Same problem as the FAQ CTA above and the same
+   answer: the jon-webdesk clip puts a lit desk lamp and a bright monitor on
+   the right, and the blog copy sits on the left, so a flat scrim would either
+   wash out the copy or flatten the animation. Weight it left, let Jon read. */
+.page-head--blog .videobg__scrim{
+  background:
+    linear-gradient(100deg,rgba(5,7,11,.88) 0%,rgba(5,7,11,.66) 45%,rgba(5,7,11,.12) 100%),
+    linear-gradient(180deg,rgba(5,7,11,.06) 0%,rgba(5,7,11,.22) 100%);
+}
+@media (max-width:860px){
+  /* Narrow, the copy spans the full width and the crop sits right on the
+     lamp, so the left-weighted gradient stops protecting anything. */
+  .page-head--blog .videobg__scrim{
+    background:linear-gradient(180deg,rgba(5,7,11,.72) 0%,rgba(5,7,11,.86) 100%);
+  }
+}
+
 /* ============================================================
    LAYOUT — MOSA placement rules
    Everything below is position/alignment only. No content, images,
@@ -322,6 +366,28 @@ h1.hero-h1{
 
 /* ---- Interior page heads: left-aligned ------------------------ */
 .page-head{text-align:left;padding-block:9rem 4rem}
+/* Blog hero height (Jon 2026-09-15): "header should be less height for the
+   blog post title to be visible before fold." The sitewide page-head runs
+   9rem/4rem, which on a 1440x900 laptop put the category bar and the first
+   post titles under the fold. Scoped to the blog so every other page head
+   keeps the taller proportion. */
+.page-head--blog{padding-block:6rem 3rem}
+.page-head--blog h1.page-h1{max-width:24ch}
+.page-head--blog .page-lede{margin-top:1rem;max-width:58ch}
+.page-head--blog .hero-foot{margin-top:1.5rem}
+@media (max-width:860px){
+  .page-head--blog{padding-block:4.5rem 2.25rem}
+}
+/* Short laptop viewports (a 1280x800 panel leaves ~700px after browser chrome)
+   are the case that decides whether the category bar clears the fold. Measured
+   at 1280x700 the bar's bottom landed 4px under it, so trim the hero there
+   rather than shrinking it on every large monitor. */
+@media (min-width:861px) and (max-height:820px){
+  .page-head--blog{padding-block:4.25rem 2rem}
+  .page-head--blog .page-lede{margin-top:.85rem}
+  .page-head--blog .hero-foot{margin-top:1.25rem}
+}
+
 h1.page-h1{margin:1.1rem 0 0;max-width:18ch}
 .page-lede{margin:1.4rem 0 0;max-width:52ch}
 .sec-head.center{text-align:left;margin-inline:0}
@@ -422,6 +488,61 @@ h1.hero-h1{max-width:22ch}
   background:rgb(var(--mosa-fg-rgb));
 }
 
+/* ---- Eyebrow tag (Jon 2026-09-15) ------------------------------
+   The "CASE STUDY" badge Jon found on another site: a pill with a gradient
+   border, a tinted translucent fill, and bold all-caps type with wide
+   tracking. Rebuilt in the LWS cyan. Opt-in per eyebrow (.eyebrow--tag);
+   the plain dot eyebrow stays everywhere else for now (home page + the
+   services page headers only, to start).
+
+   The gradient border is the ::before that the dot eyebrow already uses,
+   repurposed: it fills the pill, a mask cuts out everything but a 1.5px
+   ring, and the gradient runs bright cyan at top-left to a soft white at
+   bottom-right the way the reference fades purple to pink. */
+.eyebrow--tag{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:.8rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgb(var(--mosa-fg-rgb));
+  gap:0;
+  position:relative;
+  isolation:isolate;
+  padding:.6em 1.15em .55em;
+  border-radius:.6em;
+  background:
+    linear-gradient(180deg,rgb(var(--mosa-accent-rgb)/.30),rgb(var(--mosa-accent-rgb)/.08)),
+    rgb(var(--mosa-bg-rgb)/.72);
+  box-shadow:
+    0 0 24px rgb(var(--mosa-accent-rgb)/.28),
+    0 8px 24px rgb(0 0 0/.35),
+    inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.16);
+  text-shadow:0 1px 2px rgb(0 0 0/.45);
+}
+.eyebrow--tag::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  width:auto;
+  height:auto;
+  border-radius:inherit;
+  padding:1.5px;
+  background:linear-gradient(135deg,
+    rgb(var(--mosa-accent-rgb)) 0%,
+    rgb(var(--mosa-accent-rgb)/.55) 55%,
+    rgb(var(--mosa-fg-rgb)/.85) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+}
+/* The hero eyebrow carries mb-lg, which the glass-hero rule trims to .6rem;
+   a pill wants a touch more air under it than a text line did. */
+.hero > .hero-in > .eyebrow--tag.mb-lg,
+.page-head--glass > .wrap > .eyebrow--tag.mb-lg{margin-bottom:1.1rem}
+
 /* ---- Nav type: mono, sentence case, tight --------------------- */
 .nav-links > a,.studios-trigger{
   text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
@@ -462,6 +583,18 @@ header.nav .nav-cta .btn{
 /* ---- Cards: MOSA format ---------------------------------------
    Circular outlined icon, generous gap, mono title, muted body. */
 .card .glass-inner,.card-pad{padding:2.4rem}
+/* Card photo (Jon 2026-09-15, first on the Live Band personal-sites page,
+   then the Namesake pages): a 3:2 image across the top of a card, bled to
+   the card edge through the .glass-inner padding above (1.8rem under 900px,
+   restated in that block). Corners follow .glass-inner (var(--r-lg)) minus
+   its 1px border. Drop it in as the first child of the card surface. */
+.card-img{
+  margin:-2.4rem -2.4rem 1.6rem;
+  aspect-ratio:3/2;
+  overflow:hidden;
+  border-radius:calc(var(--r-lg) - 1px) calc(var(--r-lg) - 1px) 0 0;
+}
+.card-img img{display:block;width:100%;height:100%;object-fit:cover}
 .card .ico,.trio .ico{
   width:52px;height:52px;border-radius:var(--mosa-radius-full,9999px);
   background:transparent;border:1px solid var(--line);
@@ -601,6 +734,7 @@ header.nav .nav-links > a,header.nav .studios-trigger{
   .sec-pad{padding-block:72px}
   footer{padding-block:72px 2rem}
   .card .glass-inner,.card-pad{padding:1.8rem}
+  .card-img{margin:-1.8rem -1.8rem 1.4rem}
   .card .ico,.trio .ico{margin-bottom:1.6rem}
   .split{gap:2.5rem}
   .foot-grid{gap:2rem}
@@ -658,6 +792,48 @@ h1.hero-h1 em,h1.page-h1 em,.page-head h1 em{
   padding-block:var(--hero-glass-pad-block);
   padding-inline:var(--hero-glass-pad-inline);
   overflow:hidden;
+}
+
+/* Bare page head (Jon 2026-09-15): the Live Band sub pages carry the
+   bluestage photo as their hero and the glass panel hid most of it. "Remove
+   that cards with the glass transparency. I want to see the whole background
+   photo. Remove that border. Just put a dark outer glow around those hero
+   words." Opt-out class on the section so the other inner pages keep the
+   panel. .wrap goes back to its plain global.css shape (full column, normal
+   gutter) and the copy gets a soft black halo instead of a surface. */
+.page-head--glass.page-head--bare > .wrap{
+  width:auto;
+  margin-inline:auto;
+  padding-block:0;
+  padding-inline:clamp(1.25rem,4vw,2.5rem);
+  background:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  overflow:visible;
+}
+.page-head--bare > .wrap > .eyebrow,
+.page-head--bare > .wrap > h1,
+.page-head--bare > .wrap > p{
+  /* Jon 2026-09-15: "make the white text look clearer over the photos, darker,
+     thicker." Layered halo: two tight solid-black rings hug the letterforms so
+     the edge stays crisp over the bright smoke, then three wider, softer
+     falloffs push the photo back behind the whole block of copy. */
+  text-shadow:
+    0 0 2px rgb(0 0 0),
+    0 0 5px rgb(0 0 0),
+    0 1px 4px rgb(0 0 0/.95),
+    0 2px 18px rgb(0 0 0/.95),
+    0 0 40px rgb(0 0 0/.9),
+    0 0 80px rgb(0 0 0/.8);
+}
+/* The lede reads in --muted grey elsewhere; over a photo that grey is half
+   the legibility problem, so it goes near-white here. .optnote keeps its own
+   colour (the gold "everything is optional" line on the form pages). */
+.page-head--bare > .wrap > .page-lede:not(.optnote){
+  color:rgb(var(--mosa-fg-rgb)/.96);
 }
 
 .glass.glass-refract,.glass-inner.glass-refract{

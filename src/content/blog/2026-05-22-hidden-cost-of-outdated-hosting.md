@@ -2,9 +2,10 @@
 title: "The Hidden Cost of Outdated Hosting (It's Not Just the Bill)"
 date: 2026-05-22
 description: "Your hosting bill is the visible cost. But what about the rankings you're losing, the customers who bounce, and the time you're spending on maintenance that should be automatic?"
-tags: ["web hosting", "website performance", "small business", "SEO"]
+tags: ["hosting", "page speed", "small business", "SEO"]
 image: "/images/blog/hidden-cost-of-outdated-hosting.jpg"
 draft: false
+categories: ["Hosting & Performance", "Running a Business Online"]
 ---
 
 ## The Monthly Invoice Is the Smallest Part
@@ -29,8 +30,8 @@ Outdated hosting and unpatched WordPress installs are the main way small busines
 
 If you or someone on your team is touching the site every week to run updates, check backups, and chase down plugin conflicts, that time has a cost. Multiply it by 12 months.
 
-**The good news?** All of this is solvable. [Let's talk about what a modern setup looks like for your site.](https://livewebstudios.com/contact)
+**The good news?** All of this is solvable. [Let's talk about what a modern setup looks like for your site.](../contact.html)
 
 ---
 
-*Also: [Why WordPress Might Be Slowing You Down](/blog/wordpress-slowing-you-down).*
+*Also: [Why WordPress Might Be Slowing You Down](../blog/wordpress-slowing-you-down.html).*

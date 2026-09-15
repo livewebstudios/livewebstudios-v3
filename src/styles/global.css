@@ -36,6 +36,13 @@
      BELOW both sticky bars, so their height is 100svh minus both. */
   --subnav-h:52px;
   --amber:#FCD34D;      /* Live Band Web Studios */
+  /* Blog categories (Jon 2026-09-15: "maybe that gold color? or gold/red?").
+     Deliberately NOT --amber: that one means Live Band Web Studios across the
+     site, and reusing it would make a blog label read as sub-brand chrome.
+     This sits warmer and redder, distinct at a glance, and clears 8:1 on the
+     page background so small mono caps stay legible. */
+  --cat-gold:#E8B478;
+  --cat-gold-dim:rgba(232,180,120,.42);
   --brass:#C9A55A;      /* Namesake (ink + brass) */
   --line:rgba(125,211,252,0.14);
   /* Form controls and contact rows only. --line is tuned for decorative
@@ -203,7 +210,10 @@ header.nav{
 .mega-row:hover .nav-ico{opacity:1}
 .mega-row:hover{background:rgba(56,189,248,.08);border-color:var(--line)}
 .mega-row-title{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--ink)}
-.mega-row-sub{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted-2)}
+/* Jon 2026-09-15: "keep the dropdown sub text only one line in About."
+   Enforced here rather than left to character count, so a longer subtitle
+   added later truncates instead of quietly reflowing the whole panel. */
+.mega-row-sub{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 .nav-cta{display:flex;align-items:center;gap:1rem}
 .nav-cta .btn{padding:.62rem 1.1rem}
@@ -1034,7 +1044,9 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
    .videobg drops straight in and clips to the card's radius. The content has
    to be lifted above it, and .cta::before (the cyan radial bloom) has to go:
    the clip supplies the atmosphere, and the bloom sat over it as a haze. */
-.cta--video{isolation:isolate;min-height:380px;display:flex;flex-direction:column;justify-content:center}
+/* position/overflow restated so the modifier also works on a .feature card,
+   which has neither (Jon 2026-09-15, Live Band pricing payment note). */
+.cta--video{position:relative;overflow:hidden;isolation:isolate;min-height:380px;display:flex;flex-direction:column;justify-content:center}
 .cta--video::before{display:none}
 .cta--video > :not(.videobg){position:relative;z-index:1}
 /* Scrim lives in mosa-skin.css: the skin's .videobg--default rule is the
@@ -1175,3 +1187,114 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
   .mega--studios .mega-truss{display:none}
   .dir{grid-template-columns:1fr;gap:1.25rem}
 }
+
+/* ---- Blog category bar (Jon 2026-09-15) -----------------------
+   "I'd like the category list above the scroll... I want this page to be more
+   obvious." Its own band right under the hero rather than sitting inside the
+   120px .sec-pad below, which is what was pushing it under the fold.
+
+   Sentence case, not caps. Jon asked whether caps were hard to read: at this
+   size, in mono, with wide tracking, yes. Caps flatten every word to the same
+   rectangle and remove the ascender/descender shapes people scan by, which is
+   fine for a two-word label and costly for an eight-item chooser. The main nav
+   already runs mono sentence case under the MOSA skin, so this matches it. */
+.cat-bar{
+  border-block:1px solid var(--line);
+  background:rgba(5,7,11,.55);
+  padding-block:1.15rem;
+}
+.cat-nav{display:flex;align-items:baseline;gap:1.1rem;flex-wrap:wrap}
+.cat-bar__label{
+  flex:none;
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted-2);
+}
+.cat-chips{
+  display:flex;flex-wrap:wrap;gap:.5rem;
+  list-style:none;margin:0;padding:0;
+}
+.cat-chip{
+  display:inline-flex;align-items:center;
+  /* 38px tall, comfortably over the 24px minimum for a pointer target and
+     close to the 44px touch guidance once the 8px gap is counted. */
+  padding:.6rem 1.05rem;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+  font-family:var(--mono);font-size:.82rem;letter-spacing:.01em;
+  color:var(--ink-soft);background:rgba(255,255,255,.03);
+  text-decoration:none;white-space:nowrap;
+  transition:border-color .18s,color .18s,background .18s,transform .18s;
+}
+.cat-chip:hover{
+  border-color:rgba(56,189,248,.65);
+  background:rgba(56,189,248,.10);
+  transform:translateY(-1px);
+}
+.cat-chip:focus-visible{outline:2px solid var(--cyan-soft);outline-offset:2px}
+.cat-chip.is-current{
+  border-color:rgba(56,189,248,.85);
+  background:rgba(56,189,248,.16);
+  color:#fff;
+}
+/* Category labels on a blog card. Small mono caps so they read as metadata
+   next to the date rather than competing with the post title. */
+/* Jon 2026-09-15: "on the preview, put the categories under the body text."
+   .blog-meta is a flex column, so margin-top:auto pushes this to the bottom of
+   the card. Summaries run to different lengths, and without that the labels
+   would sit at a different height in every card in the row. */
+.blog-cats{
+  display:flex;flex-wrap:wrap;gap:.35rem .5rem;
+  margin-top:auto;padding-top:.9rem;
+}
+.blog-cat{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--cat-gold);white-space:nowrap;
+}
+/* Separator trails the label it follows rather than leading the next one, so
+   a wrap breaks after the slash instead of starting a line with it. */
+.blog-cat:not(:last-child)::after{
+  content:" /";color:var(--cat-gold-dim);
+}
+/* ---- Post footer: filed under + see also (Jon 2026-09-15) ---- */
+.post-foot{
+  max-width:72ch;margin:3.5rem auto 0;padding-top:2rem;
+  border-top:1px solid var(--line);
+}
+.post-foot__label{
+  display:block;margin-bottom:.85rem;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted-2);
+}
+.post-seealso__list{display:flex;flex-direction:column;gap:0;list-style:none;margin:0;padding:0}
+.post-seealso__list a{
+  display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;
+  padding:.85rem 0;border-bottom:1px solid var(--line-2);
+  text-decoration:none;transition:color .18s;
+}
+.post-seealso__list li:last-child a{border-bottom:0}
+.post-seealso__title{color:var(--ink-soft);font-weight:500;line-height:1.35}
+.post-seealso__list a:hover .post-seealso__title{color:var(--cat-gold)}
+.post-seealso__date{
+  flex:none;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted-2);
+}
+@media (max-width:560px){
+  .post-seealso__list a{flex-direction:column;gap:.3rem}
+}
+@media (max-width:700px){
+  /* One line that scrolls sideways beats four rows of wrapped pills pushing
+     the posts down the page. */
+  .cat-nav{display:block}
+  .cat-bar__label{display:block;margin-bottom:.6rem}
+  .cat-chips{
+    flex-wrap:nowrap;overflow-x:auto;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    padding-bottom:.15rem;
+  }
+  .cat-chips::-webkit-scrollbar{display:none}
+}
+
+/* Same gold as the card labels: a category should look like a category
+   wherever it shows up. */
+.post-cat{color:var(--cat-gold);text-decoration:none;border-bottom:1px solid transparent}
+.post-cat:hover{border-bottom-color:currentColor}

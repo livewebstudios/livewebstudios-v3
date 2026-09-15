@@ -2,9 +2,9 @@
 title: "Why We Walked Away from WordPress"
 date: 2026-04-07
 description: "After 20 years on WordPress, we moved forward to static HTML and AI. Here's why, and who it's right for."
-tags: ["WordPress", "static HTML", "hosting", "web design"]
+tags: ["WordPress", "how we work", "hosting", "web design"]
 image: "/images/servicesindustries/blog4.webp"
-category: "Web Design"
+categories: ["WordPress & Migration", "LWS News"]
 draft: false
 ---
 
@@ -36,4 +36,4 @@ This is a great fit for brochure sites, law firms, contractors, medical practice
 
 Not sure which side of that line you're on? Let's talk. I'll tell you straight.
 
-**[Book a free 30-minute audit →](/contact)**
+**[Book a free 30-minute audit →](../contact.html)**

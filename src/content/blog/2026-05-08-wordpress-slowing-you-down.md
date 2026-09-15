@@ -2,9 +2,10 @@
 title: "Why Your WordPress Site Might Be Slowing You Down (And What We're Doing About It)"
 date: 2026-05-08
 description: "WordPress has been the workhorse of the web for 20 years. But for most small business sites, it's carrying weight it doesn't need. Here's what that actually costs you."
-tags: ["WordPress", "website speed", "web hosting", "small business SEO"]
+tags: ["WordPress", "page speed", "hosting", "SEO"]
 image: "/images/blog/wordpress-slowing-you-down.jpg"
 draft: false
+categories: ["WordPress & Migration", "Hosting & Performance"]
 ---
 
 ## WordPress Is Great, Until It Isn't
@@ -31,8 +32,5 @@ For clients who don't have e-commerce or complex backend needs, we're moving to 
 
 We didn't move away from WordPress because it failed. We moved forward because something better came along for the right clients.
 
-**Curious where your site stands?** Happy to run a quick audit. [Let's talk.](https://livewebstudios.com/contact)
+**Curious where your site stands?** Happy to run a quick audit. [Let's talk.](../contact.html)
 
----
-
-*Related: [The Hidden Cost of Outdated Hosting](/blog/hidden-cost-of-outdated-hosting) and [How We Build a Site in 2026](/blog/how-we-build-sites-2026).*

@@ -2,9 +2,10 @@
 title: "The Case for Decluttering Your Website: Less Really Is More in 2026"
 date: 2026-08-07
 description: "More pages, more content, more features. It sounds like more value. It's usually the opposite. Here's why the best sites in 2026 are doing less, and doing it better."
-tags: ["website design", "UX", "website optimization", "content strategy", "small business"]
+tags: ["web design", "page speed", "content strategy", "small business"]
 image: "/images/blog/decluttering-your-website.jpg"
 draft: false
+categories: ["Web Design", "Running a Business Online"]
 ---
 
 ## The "More Is More" Trap
@@ -45,8 +46,5 @@ Less also loads faster. Fewer elements, lighter media, cleaner code. That's less
 
 Building something simple takes more discipline than building something complex. Every site we rebuild during a migration, we treat as a chance to make a deliberate call about what belongs and what doesn't.
 
-**Thinking about a site refresh or a cleanup?** [Let's talk about your web design →](https://livewebstudios.com/services/website-design.html)
+**Thinking about a site refresh or a cleanup?** [Let's talk about your web design →](../services/website-design.html)
 
----
-
-*Related: [How We Build a Site in 2026](/blog/how-we-build-sites-2026) and [5 Website Mistakes That Kill Rankings](/blog/5-website-mistakes).*

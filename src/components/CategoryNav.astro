@@ -1,0 +1,62 @@
+---
+/**
+ * CategoryNav — the blog category bar. Its own band directly under the hero on
+ * every blog page, deliberately OUTSIDE the 120px .sec-pad below it so the row
+ * is reachable without scrolling.
+ *
+ * Jon 2026-09-15: no post counts, and "I want this page to be more obvious."
+ * Three things do that work: a label saying what the row is, sentence case
+ * rather than all caps (an all-caps mono row reads as decoration, and strips
+ * the word shapes people scan by), and a border solid enough that the chips
+ * read as controls instead of faint outlines. Type matches the main nav, mono
+ * and sentence case, because this row IS navigation.
+ *
+ * Every href is built from relPrefix so one component works at all three
+ * depths: /blog, /blog/<post>, and /blog/category/<cat>.
+ */
+import { relPrefix } from "../lib/relPrefix";
+import { CATEGORIES } from "../lib/categories";
+
+export interface Props {
+  /** Slug of the archive being viewed, if any. Marks that chip current. */
+  current?: string;
+  /** Slugs that have at least one published post. Anything else is skipped so
+      the row never links to an archive page that was not built. */
+  available: string[];
+  /** True on /blog itself, where "All posts" is the current page. */
+  isIndex?: boolean;
+}
+const { current, available, isIndex = false } = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+const shown = CATEGORIES.filter((c) => available.includes(c.slug));
+---
+
+<section class="cat-bar">
+  <div class="wrap">
+    <nav class="cat-nav" aria-label="Blog categories">
+      <span class="cat-bar__label" id="cat-bar-label">Browse by topic</span>
+      <ul class="cat-chips" aria-labelledby="cat-bar-label">
+        <li>
+          <a
+            class:list={["cat-chip", { "is-current": isIndex }]}
+            href={`${rel}blog.html`}
+            aria-current={isIndex ? "page" : undefined}
+          >
+            All posts
+          </a>
+        </li>
+        {shown.map((c) => (
+          <li>
+            <a
+              class:list={["cat-chip", { "is-current": c.slug === current }]}
+              href={`${rel}blog/category/${c.slug}.html`}
+              aria-current={c.slug === current ? "page" : undefined}
+            >
+              {c.short}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</section>

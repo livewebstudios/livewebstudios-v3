@@ -2,9 +2,9 @@
 title: "What Should SEO Actually Cost?"
 date: 2026-02-18
 description: "The $49/mo service vs the $10K retainer. Real numbers, and how to pick the right one."
-tags: ["SEO", "pricing", "small business", "marketing"]
+tags: ["SEO", "pricing", "small business", "content strategy"]
 image: "/images/servicesindustries/blog3.webp"
-category: "SEO & Marketing"
+categories: ["SEO & Local Search", "Running a Business Online"]
 draft: false
 ---
 
@@ -28,6 +28,6 @@ Start with one question. What's a new customer actually worth to you? Then figur
 
 Not sure where you land on that scale? Reach out anytime. I'll walk you through it.
 
-**[Get a free SEO audit →](/services/consulting)**
+**[Get a free SEO audit →](../services/consulting.html)**
 
-**[See our full SEO packages →](/services/seo)**
+**[See our full SEO packages →](../services/seo.html)**

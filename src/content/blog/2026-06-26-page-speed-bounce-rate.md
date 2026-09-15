@@ -2,9 +2,10 @@
 title: "Speed Kills Your Bounce Rate: What Page Load Time Really Does to Your Business"
 date: 2026-06-26
 description: "Slow pages cost you visitors before they read a word. Here's what the load-time research actually shows, and what you can do about it."
-tags: ["page speed", "bounce rate", "website performance", "conversions", "Core Web Vitals"]
+tags: ["page speed", "conversions"]
 image: "/images/blog/page-speed-bounce-rate.jpg"
 draft: false
+categories: ["Hosting & Performance", "Web Design"]
 ---
 
 ## The Number Nobody Likes to Look At
@@ -29,8 +30,8 @@ For most small business sites, faster load times run through the same place. A l
 
 We've been watching this play out in real numbers across our migration work this year. The improvement isn't marginal. It's often dramatic.
 
-**Want to know where your site stands?** [Let's talk →](https://livewebstudios.com/services/website-design.html)
+**Want to know where your site stands?** [Let's talk →](../services/website-design.html)
 
 ---
 
-*Also read: [Why WordPress Might Be Slowing You Down](/blog/wordpress-slowing-you-down) and [5 Website Mistakes That Kill Rankings](/blog/5-website-mistakes).*
+*Also read: [Why WordPress Might Be Slowing You Down](../blog/wordpress-slowing-you-down.html) and [5 Website Mistakes That Kill Rankings](../blog/5-website-mistakes.html).*
