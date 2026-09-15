@@ -76,7 +76,7 @@ const groups = [
     <section class="page-head page-head--glass has-videobg">
       <VideoBg src="bg-color-tv.mp4" scrim="hero" />
       <div class="wrap">
-        <span class="eyebrow is-center mb-lg">SERVICES</span>
+        <span class="eyebrow eyebrow--tag is-center mb-lg">SERVICES</span>
         <h1 class="page-h1">Everything Your Business Needs <em>Online</em>.</h1>
         <p class="page-lede">And some things you didn't know you needed yet.</p>
         <HeroActions links />
@@ -94,7 +94,7 @@ const groups = [
 
         {groups.map((g) => (
           <div class="svc-group">
-            <div class="sec-head reveal"><span class="eyebrow">{g.label}</span></div>
+            <div class="sec-head reveal"><span class="eyebrow eyebrow--tag">{g.label}</span></div>
             <div class="grid-svc grid-svc--4">
               {g.cards.map((c) => (
                 <ServiceCard title={c.title} body={c.body} href={c.href} bg={cardArt} art="metal" tag={c.tag} />
@@ -140,18 +140,14 @@ const groups = [
 
   /* Category-group spacing for the services hub. */
   .svc-group { margin-top: clamp(2.5rem, 5vw, 4rem); }
-  .svc-group:first-of-type { margin-top: 0; }
+  /* The intro lede's mb-lg is overridden by the skin's .page-lede margin,
+     so the first group carries its own gap (Jon 2026-09-15: "spacing needed
+     above Websites & Hosting"). */
+  .svc-group:first-of-type { margin-top: clamp(2rem, 3.5vw, 3rem); }
   .svc-group .sec-head { margin-bottom: 1.5rem; }
-  /* Category labels: sized up to read as true section titles rather than
-     eyebrows (Jon 2026-09-14). Light blue a shade under the logo cyan so they
-     carry weight without competing with the cards. The global .eyebrow
-     tracking is 0.22em, which gets unwieldy at this size, so it tightens as
-     the type grows. */
-  .svc-group .sec-head .eyebrow {
-    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-    letter-spacing: 0.12em;
-    color: #2BA6E0;
-  }
+  /* Category labels are the eyebrow tag pill at its stock size (Jon
+     2026-09-15: "too big here"), the same size as the SERVICES tag in the
+     hero. The old size-up from when these were plain text titles is gone. */
 
   /* 4 columns on large screens (Jon 2026-08-15) */
   @media (min-width: 1100px) {

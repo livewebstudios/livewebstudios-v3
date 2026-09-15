@@ -12,6 +12,7 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import PhotoBg from "../../components/PhotoBg.astro";
 
 // Five steps — ported from live (em dashes converted to commas/periods).
 const steps = [
@@ -43,12 +44,12 @@ const steps = [
 
 // What's included — ported from live (6 items; bold lead + detail).
 const included = [
-  { ico: "◆", title: "Fully custom design.", body: "Built from scratch, around your name, no templates, no page builders." },
-  { ico: "❖", title: "Custom imagery, illustration & photo work.", body: "Original visuals and art direction. Never stock." },
-  { ico: "▶", title: "Animated & video backgrounds.", body: "Ambient motion and parallax that make the site feel alive." },
-  { ico: "◫", title: "Responsive on every device.", body: "Phone, tablet, laptop, the big monitor, it holds up everywhere." },
-  { ico: "◎", title: "SEO + schema, AI Platformed.", body: "Built to be found by Google, and by the AI tools doing the searching now." },
-  { ico: "✎", title: "Editor access.", body: "Update your own content anytime, no developer required, no surprise bill." },
+  { img: "ns_card-design.jpg", alt: "Designer sketching a website layout beside a laptop", title: "Fully custom design.", body: "Built from scratch, around your name, no templates, no page builders." },
+  { img: "ns_card-imagery.jpg", alt: "Portrait session in a photo studio", title: "Custom imagery, illustration & photo work.", body: "Original visuals and art direction. Never stock." },
+  { img: "ns_card-motion.jpg", alt: "Golden light spilling from a laptop screen", title: "Animated & video backgrounds.", body: "Ambient motion and parallax that make the site feel alive." },
+  { img: "ns_card-responsive.jpg", alt: "Laptop, tablet and phone showing the same site", title: "Responsive on every device.", body: "Phone, tablet, laptop, the big monitor, it holds up everywhere." },
+  { img: "ns_card-search.jpg", alt: "Phone on a table showing a name search", title: "SEO + schema, AI Platformed.", body: "Built to be found by Google, and by the AI tools doing the searching now." },
+  { img: "ns_card-editor.jpg", alt: "Consultant updating his own site from the sofa", title: "Editor access.", body: "Update your own content anytime, no developer required, no surprise bill." },
 ];
 
 // Live examples — ported from live "See it live" block (em dashes converted).
@@ -78,13 +79,16 @@ const examples = [
   title="How It Works | Namesake by Live Web Studios"
   description="How Namesake builds your personal website, a simple, fully custom process from intake to launch. No templates, ever."
   canonical="https://livewebstudios.com/namesake/how-it-works"
+  ogImage="images/og-namesake.jpg"
 >
   <Nav />
 
   <main class="theme-namesake">
     <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+    <!-- Jon 2026-09-15: photo hero, bare, the Live Band sub-page treatment
+         in the Namesake brand. -->
+    <section class="page-head page-head--glass page-head--bare has-videobg">
+      <PhotoBg src="ns_hero-office.jpg" scrim="hero" position="50% 0%" />
       <div class="wrap">
         <div class="chip is-center"><span class="dot"></span> NAMESAKE · BY LIVE WEB STUDIOS</div>
         <span class="eyebrow is-center mb-lg">THE PROCESS</span>
@@ -105,6 +109,9 @@ const examples = [
         <div class="ns-steps">
           {steps.map((s, i) => (
             <div class="ns-step reveal">
+              {/* Jon 2026-09-15: a brass line-art illustration on the left of
+                  each step. Decorative: the number and title carry the meaning. */}
+              <img class="ns-step-art" src={`../images/ns_step-${String(i + 1).padStart(2, "0")}.jpg`} alt="" width="1024" height="1024" loading="lazy" decoding="async" />
               <span class="ns-step-k">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <h3>{s.title}</h3>
@@ -128,7 +135,7 @@ const examples = [
           {included.map((c) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{c.ico}</div>
+                <div class="card-img"><img src={`../images/${c.img}`} alt={c.alt} width="1024" height="688" loading="lazy" decoding="async" /></div>
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
               </Glass>
@@ -207,13 +214,21 @@ const examples = [
   }
   .ns-step {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto auto 1fr;
     gap: 1.6rem;
     align-items: start;
     padding: 1.6rem 1.8rem;
     border-left: 1px solid var(--line);
     background: rgba(201, 165, 90, 0.03);
     border-radius: 0 var(--r-md) var(--r-md) 0;
+  }
+  .ns-step-art {
+    display: block;
+    width: 112px;
+    height: 112px;
+    border-radius: var(--r-md);
+    border: 1px solid var(--line);
+    background: #0a0a0a;
   }
   .ns-step-k {
     font-family: var(--mono);
@@ -237,5 +252,11 @@ const examples = [
 
   @media (max-width: 900px) {
     .ns-step { padding: 1.3rem 1.4rem; gap: 1.1rem; }
+    .ns-step-art { width: 84px; height: 84px; }
+  }
+  @media (max-width: 560px) {
+    /* Phone: the art rides above the number and copy instead of beside them. */
+    .ns-step { grid-template-columns: auto 1fr; }
+    .ns-step-art { grid-column: 1 / -1; width: 72px; height: 72px; }
   }
 </style>

@@ -1,68 +1,98 @@
 ---
 /**
- * /ecosystem/live-ai-studios — sister-company page, ported verbatim.
+ * /ecosystem/live-ai-studios: Live AI Studios, coming soon.
+ *
+ * Jon 2026-09-15: this page is reached only from the Studios mega-panel, the
+ * footer Studios column, and one "Visit" link on services/ai-business-services.
+ * Live AI Studios will be its own website, so the ported service grid came out
+ * and this is now a single brand-launch teaser: one big frame, the new mark,
+ * a line about what it is, and one way to reach Jon in the meantime.
+ *
+ * The hero image (lais_hero.jpg) is a Higgsfield render made for this page:
+ * a monumental lattice of light, cyan core to violet edge, no text. It sits
+ * behind the copy through PhotoBg with the bare page-head treatment so the
+ * whole picture shows and the type carries its own halo.
  */
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
-import Glass from "../../components/Glass.astro";
-import VideoBg from "../../components/VideoBg.astro";
-import Marquee from "../../components/Marquee.astro";
-import HeroActions from "../../components/HeroActions.astro";
-
-const services = [
-  { ico: "◎", title: "AI Readiness", body: "Where you are. Where you can go." },
-  { ico: "✦", title: "Leadership Briefings", body: "Board-level education." },
-  { ico: "▤", title: "Department Training", body: "Hands-on programs by team." },
-  { ico: "◈", title: "Workflow Automation", body: "Custom design + implementation." },
-  { ico: "▦", title: "Ongoing Strategy", body: "Dedicated AI partner retainer." },
-  { ico: "◧", title: "Industry Programs", body: "Professional services, medical, logistics, finance." },
-];
+import PhotoBg from "../../components/PhotoBg.astro";
 ---
 
 <Base
-  title="Live AI Studios | Enterprise AI Consulting, Live Web Studios Ecosystem"
-  description="Live AI Studios: enterprise AI consulting, leadership training, and workflow design. A Live Web Studios sister company."
+  title="Live AI Studios | Coming Soon, A New Live Web Studios Brand"
+  description="Live AI Studios is the next Live Web Studios brand: enterprise AI consulting, leadership training, and workflow design. Its own site is on the way."
   canonical="https://livewebstudios.com/ecosystem/live-ai-studios"
 >
   <Nav />
 
-  <main>
-    <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+  <main class="lais">
+    <section class="page-head page-head--glass page-head--bare has-videobg lais-hero">
+      <PhotoBg src="lais_hero.jpg" scrim="hero" position="62% 45%" />
       <div class="wrap">
-        <span class="eyebrow is-center mb-lg">SISTER COMPANY</span>
-        <h1 class="page-h1">AI for Your Business. For <em>Real</em>.</h1>
-        <p class="page-lede">Enterprise AI consulting, leadership training, workflow design.</p>
-        <HeroActions links />
-      </div>
-    </section>
-
-    <Marquee />
-
-    <!-- SERVICES -->
-    <section class="sec-pad has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="default" />
-      <div class="wrap">
-        <div class="grid-svc">
-          {services.map((s) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{s.ico}</div>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
-              </Glass>
-            </div>
-          ))}
+        <span class="eyebrow eyebrow--tag mb-lg">COMING SOON · A NEW STUDIO</span>
+        <h1 class="page-h1 lais-h1">Live <em>AI</em> Studios.</h1>
+        <p class="page-lede lais-lede">Enterprise AI consulting, leadership training, workflow design. The next Live Web Studios brand, and the biggest one yet. Its own site is on the way.</p>
+        <p class="lais-line">Building something with AI right now? Jon is already doing this work under the Live Web Studios name.</p>
+        <div class="hero-btns lais-btns">
+          <a href="../contact.html" class="btn btn-primary">Let's talk. →</a>
+          <a href="../services/ai-business-services.html" class="btn btn-ghost">AI services today →</a>
         </div>
-        <div class="hero-btns reveal">
-          <a href="https://liveaistudios.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Live AI Studios →</a>
-          <a href="../contact.html" class="btn btn-ghost">Reach out.</a>
-        </div>
+        <p class="lais-foot"><span class="k">LIVE AI STUDIOS</span>A Live Web Studios company · North Jersey · Est. 2004</p>
       </div>
     </section>
   </main>
 
   <Footer />
 </Base>
+
+<style>
+  /* One tall frame: the teaser is the whole page, so the hero takes most of
+     the viewport instead of the standard page-head band. */
+  .lais-hero {
+    min-height: min(86vh, 900px);
+    display: flex;
+    align-items: center;
+  }
+  .lais-hero > .wrap {
+    width: 100%;
+  }
+  /* The new mark, set big. The em takes the accent so the two letters that
+     name the brand read first. */
+  .lais-h1 {
+    font-size: clamp(3.4rem, 9vw, 8.5rem);
+    line-height: 0.95;
+    max-width: none;
+    letter-spacing: -0.035em;
+  }
+  .lais-h1 em {
+    color: var(--cyan-soft);
+    font-style: normal;
+  }
+  .lais-lede {
+    max-width: 44ch;
+    font-size: clamp(1.1rem, 1.7vw, 1.4rem);
+  }
+  .lais-line {
+    margin-top: 1.4rem;
+    max-width: 52ch;
+    color: var(--muted);
+    text-shadow: 0 0 2px rgb(0 0 0), 0 2px 14px rgb(0 0 0 / 0.9), 0 0 40px rgb(0 0 0 / 0.8);
+  }
+  .lais-btns {
+    margin-top: 1.9rem;
+  }
+  .lais-foot {
+    margin-top: 3rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-shadow: 0 0 2px rgb(0 0 0), 0 2px 12px rgb(0 0 0 / 0.9);
+  }
+  .lais-foot .k {
+    display: block;
+    color: var(--cyan-soft);
+    margin-bottom: 0.35rem;
+  }
+</style>

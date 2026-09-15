@@ -15,12 +15,14 @@ import VideoBg from "../../components/VideoBg.astro";
 import PhotoBg from "../../components/PhotoBg.astro";
 
 // What every personal site includes — ported from live (5 cards).
+// Jon 2026-09-15: a photo fills the top of every card (Higgsfield, real-life
+// live-musician shots) in place of the glyph. Files are lbws_ps-*.jpg.
 const includes = [
-  { ico: "◉", title: "Bio Page", body: "Your story. Where you've been. What you play. Who you've played with. Written in plain English by someone who understands what a session player's résumé actually looks like." },
-  { ico: "◎", title: "Touring Page", body: "Past markets. Notable venues. Tour history. Booking contact. The page that tells a promoter or talent buyer exactly where you've worked and who to call." },
-  { ico: "▶", title: "Media Page", body: "YouTube embeds. Audio clips. Press photos. Your best live footage front and center, not buried three clicks deep." },
-  { ico: "❖", title: "Photos Page", body: "High-res gallery. Press shots. Live shots. The photos a venue, promoter, or publication would actually need." },
-  { ico: "☎", title: "Contact Page", body: "One clean contact form. Your booking email. Your management contact if applicable. No noise." },
+  { img: "lbws_ps-bio.jpg", alt: "Session guitarist backstage in a theater dressing room", title: "Bio Page", body: "Your story. Where you've been. What you play. Who you've played with. Written in plain English by someone who understands what a session player's résumé actually looks like." },
+  { img: "lbws_ps-touring.jpg", alt: "Musician loading gear into a van outside a theater at dusk", title: "Touring Page", body: "Past markets. Notable venues. Tour history. Booking contact. The page that tells a promoter or talent buyer exactly where you've worked and who to call." },
+  { img: "lbws_ps-media.jpg", alt: "Keyboard player and drummer under stage lights", title: "Media Page", body: "YouTube embeds. Audio clips. Press photos. Your best live footage front and center, not buried three clicks deep." },
+  { img: "lbws_ps-photos.jpg", alt: "Bassist and singer on stage, shot from the photo pit", title: "Photos Page", body: "High-res gallery. Press shots. Live shots. The photos a venue, promoter, or publication would actually need." },
+  { img: "lbws_ps-contact.jpg", alt: "Musician backstage on a road case checking his phone", title: "Contact Page", body: "One clean contact form. Your booking email. Your management contact if applicable. No noise." },
 ];
 
 // Who this is for — role pills.
@@ -45,19 +47,20 @@ const seo = [
   title="Personal Musician Sites | Live Band Web Studios"
   description="Your name. Your domain. Custom websites for individual musicians, built by someone who's been on the road. Bio, touring, media, merch, and more."
   canonical="https://livewebstudios.com/live-band-web-studios/personal-sites"
+  ogImage="images/og-live-band.jpg"
 >
   <Nav />
 
   <main class="theme-live-band">
     <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
+    <section class="page-head page-head--glass page-head--bare has-videobg">
       <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">A SERVICE OF LIVE BAND WEB STUDIOS</span>
         <h1 class="page-h1">Your Name. <em>Your Site</em>.</h1>
         <p class="page-lede">Custom websites for the working musician. You're more than a band member. You've been in the circuit long enough to know that your name is a brand. A Facebook page isn't a website. A Linktree isn't a presence. We build you something that actually represents what you do, and where you've been.</p>
         <div class="hero-btns is-center mt-lg">
-          <a class="btn btn-primary" href="mailto:jonwolf@livewebstudios.com?subject=Personal Musician Site Inquiry">Talk to Jon →</a>
+          <a class="btn btn-primary" href="../contact.html">Talk to Jon →</a>
         </div>
       </div>
     </section>
@@ -72,7 +75,7 @@ const seo = [
           {includes.map((c) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{c.ico}</div>
+                <div class="card-img"><img src={`../images/${c.img}`} alt={c.alt} width="1024" height="688" loading="lazy" decoding="async" /></div>
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
               </Glass>
@@ -92,7 +95,7 @@ const seo = [
         <div class="grid-svc grid-svc--2">
           <div class="card reveal">
             <Glass variant="inner" innerClass="card-pad">
-              <div class="ico">✎</div>
+              <div class="card-img"><img src="../images/lbws_ps-blog.jpg" alt="Touring musician writing in a notebook at a diner booth" width="1024" height="688" loading="lazy" decoding="async" /></div>
               <h3>Blog Articles</h3>
               <!-- em-dash: "written by Jon in your voice — tour updates" → comma -->
               <p>Monthly posts written by Jon in your voice, tour updates, gear talk, behind-the-scenes. Local SEO that gets your name in front of people searching for players in your markets. The kind of content that makes you look like you're everywhere.</p>
@@ -101,7 +104,7 @@ const seo = [
           </div>
           <div class="card reveal">
             <Glass variant="inner" innerClass="card-pad">
-              <div class="ico">▦</div>
+              <div class="card-img"><img src="../images/lbws_ps-merch.jpg" alt="Band merch table in a concert venue lobby" width="1024" height="688" loading="lazy" decoding="async" /></div>
               <h3>Merch Store</h3>
               <!-- em-dash: "Whatever you're selling — we build" → comma -->
               <p>T-shirts. Hats. Posters. CDs. Vinyl. Whatever you're selling, we build a clean, functional store into your personal site. No WooCommerce sprawl. No plugin roulette. A real storefront that works on every device.</p>
@@ -115,49 +118,31 @@ const seo = [
       </div>
     </section>
 
-    <!-- HOW PRICING WORKS -->
+    <!-- PRICING + DOMAIN + WHO THIS IS FOR (one section, Jon 2026-09-15:
+         "too wordy"). The three sections that used to run here are folded into
+         one split: copy on the left, a solo-act home page demo on the right. -->
     <section class="sec-pad">
       <div class="wrap split">
         <div class="copy reveal">
           <span class="eyebrow">HOW PRICING WORKS</span>
           <div class="sec-head is-flush"><h2>Priced on a real call.</h2></div>
-          <!-- em-dash: "Every musician is different — the build scope" → comma -->
-          <p>Personal sites are priced on consultation. Every musician is different, the build scope, the add-ons, the hosting term, the ongoing content needs. Jon doesn't believe in pricing you from a dropdown. He believes in a 20-minute call.</p>
-          <p>What always stays the same: hand-built HTML, KnownHost hosting on the same server that's been running LWS since 2004, and Jon on the phone when something needs to happen.</p>
-          <div class="mt-lg"><a class="btn btn-primary" href="mailto:jonwolf@livewebstudios.com?subject=Personal Musician Site Inquiry">Start the Conversation →</a></div>
+          <p>Every musician is different, so personal sites are priced on a 20-minute call, not from a dropdown. What never changes: hand-built HTML, KnownHost hosting on the same server that's run LWS since 2004, a custom domain like YourNameMusic.com that Jon registers and sets up for you, and Jon on the phone when something needs to happen.</p>
+          <span class="label ps-who">WHO THIS IS FOR</span>
+          <div class="pills">
+            {roles.map((r) => <span class="pill">{r}</span>)}
+          </div>
+          <p class="ps-line">If you've ever had a gig you can't explain on Facebook, you need a real website.</p>
+          <div class="hero-btns mt-lg">
+            <a class="btn btn-primary" href="../contact.html">Start the Conversation →</a>
+            <a class="btn btn-ghost" href="tel:7328019611">732.801.9611</a>
+          </div>
         </div>
-        <Glass class="reveal" innerClass="card-pad">
-          <span class="label">READY TO TALK?</span>
-          <h3>Jon Wolf</h3>
-          <p><a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a></p>
-          <p><a href="tel:7328019611">732.801.9611</a></p>
-          <p class="addon-note">Call anytime.</p>
+        <Glass class="reveal">
+          <div class="ps-demo">
+            <img class="ps-demo-img" src="../images/lbws_ps-demo-home.jpg" alt="Home page of a solo musician's website: nav menu, hero photo, headline, and one call to action" width="1296" height="768" loading="lazy" decoding="async" />
+            <p class="ps-demo-cap"><span class="k">A SOLO ACT HOME PAGE</span>Photo, headline, nav, one call to action. The way we build them.</p>
+          </div>
         </Glass>
-      </div>
-    </section>
-
-    <!-- YOUR NAME, YOUR DOMAIN -->
-    <section class="sec-pad is-alt">
-      <div class="wrap">
-        <Glass class="reveal" innerClass="feature">
-          <div class="ico is-center">◉</div>
-          <h2>Your Name, Your Domain</h2>
-          <!-- em-dash: "custom domain — YourNameMusic.com..." → commas -->
-          <p>Every personal site includes a custom domain, YourNameMusic.com, JohnSmithGuitar.com, whatever makes sense for your brand. Jon handles registration, DNS, and setup. You don't touch a terminal.</p>
-        </Glass>
-      </div>
-    </section>
-
-    <!-- WHO THIS IS FOR -->
-    <section class="sec-pad">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <h2>Who This Is For</h2>
-        </div>
-        <div class="pills pills--center reveal">
-          {roles.map((r) => <span class="pill">{r}</span>)}
-        </div>
-        <p class="page-lede is-center mt-lg reveal">If you've ever had a gig you can't explain on Facebook, you need a real website.</p>
       </div>
     </section>
 
@@ -221,5 +206,37 @@ const seo = [
 
   @media (max-width: 900px) {
     .grid-svc--2 { grid-template-columns: 1fr; }
+  }
+
+  /* Merged pricing section. */
+  .ps-who {
+    display: block;
+    margin: 1.8rem 0 0.8rem;
+  }
+  .ps-line {
+    margin-top: 1.1rem;
+    color: var(--muted);
+  }
+  .ps-demo {
+    padding: 0.75rem;
+  }
+  .ps-demo-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--r-lg) - 6px);
+  }
+  .ps-demo-cap {
+    margin: 0.9rem 0.5rem 0.4rem;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .ps-demo-cap .k {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    color: var(--cyan-soft);
+    margin-bottom: 0.3rem;
   }
 </style>

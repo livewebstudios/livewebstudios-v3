@@ -42,7 +42,23 @@ const localBusiness = {
     postalCode: "07663",
     addressCountry: "US",
   },
-  areaServed: "US",
+  /* Named towns, not "US". A nationwide areaServed on a LocalBusiness node
+     contradicts the North Jersey positioning in the copy and dilutes the
+     local signal instead of widening it (launch audit 2026-09-15). */
+  areaServed: [
+    { "@type": "City", name: "Saddle Brook", address: { "@type": "PostalAddress", addressRegion: "NJ" } },
+    { "@type": "City", name: "Paramus", address: { "@type": "PostalAddress", addressRegion: "NJ" } },
+    { "@type": "City", name: "Hackensack", address: { "@type": "PostalAddress", addressRegion: "NJ" } },
+    { "@type": "City", name: "Rochelle Park", address: { "@type": "PostalAddress", addressRegion: "NJ" } },
+    { "@type": "City", name: "Fair Lawn", address: { "@type": "PostalAddress", addressRegion: "NJ" } },
+    { "@type": "City", name: "Lodi", address: { "@type": "PostalAddress", addressRegion: "NJ" } },
+    { "@type": "AdministrativeArea", name: "Bergen County, New Jersey" },
+  ],
+  /* Google wants an image on a LocalBusiness node before it will consider
+     the rich result. logo is separate and both are expected. */
+  image: "https://livewebstudios.com/images/og-default.jpg",
+  logo: "https://livewebstudios.com/images/logoRGB.png",
+  priceRange: "$$",
   foundingDate: "2004",
   founder: { "@type": "Person", name: "Jon Wolf" },
   /* Required by specs/seo-standards.md; was missing (launch audit
@@ -64,6 +80,9 @@ const localBusiness = {
     <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
     <div class="wrap hero-in">
       <div class="chip"><span class="dot"></span> LIVE · TAKING NEW PROJECTS</div>
+      {/* Plain eyebrow on purpose (Jon 2026-09-15): the tag pill works on the
+          short section labels below but not on this long caption line, which
+          also sits directly under the "LIVE" chip pill. */}
       <p class="eyebrow is-center mb-lg">NORTH JERSEY · WEB DESIGN · AI BUILDS · SINCE 2004</p>
       <h1 class="hero-h1">Web design. Hosting. <em>AI-powered</em> builds.</h1>
       <p class="hero-sub">Real work. Real results. One call.</p>
@@ -84,7 +103,7 @@ const localBusiness = {
     <Aurora className="aurora--bg" base="#04060c" />
     <div class="wrap">
       <div class="sec-head center reveal">
-        <span class="eyebrow">WHAT WE BUILD</span>
+        <span class="eyebrow eyebrow--tag">WHAT WE BUILD</span>
         <h2>Everything your business needs online.</h2>
       </div>
       <div class="grid-svc">
@@ -99,7 +118,7 @@ const localBusiness = {
   <section id="about" class="sec-pad is-alt sec-photobg" style="--sec-photo:url('images/jon-desk.jpg')">
     <div class="wrap split">
       <div class="copy reveal">
-        <span class="eyebrow">WHO YOU'RE WORKING WITH</span>
+        <span class="eyebrow eyebrow--tag">WHO YOU'RE WORKING WITH</span>
         <div class="sec-head is-flush"><h2>I'm a web guy.</h2></div>
         <p>Not an agency of 40. Not a platform. Just me, Jon Wolf, building and maintaining websites for North Jersey businesses since 2004.</p>
         <p>I started in IT. Wore a tie. Hated it. A plumber friend needed a website, I built it, and things kind of snowballed from there.</p>
@@ -135,7 +154,7 @@ const localBusiness = {
           <div class="curtain__panel curtain__panel--r"></div>
         </div>
         <Glass innerClass="feature feature--center glass-refract">
-          <span class="eyebrow is-center mb-md">THE LWS WAY</span>
+          <span class="eyebrow eyebrow--tag is-center mb-md">THE LWS WAY</span>
           <h2>Every site we launch is opening night.</h2>
           <p>We don't deliver half-finished work. When a site goes live, it's ready. Tested, reviewed, approved, and yours. No soft launches. No "we'll fix it after." The curtain goes up when the show is ready.</p>
           <div class="hero-btns">

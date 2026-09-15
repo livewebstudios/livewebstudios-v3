@@ -32,27 +32,32 @@ const portraits = [
 // Value stack — ported from live Namesake overview (em dashes converted).
 const values = [
   {
-    ico: "◆",
+    img: "ns_card-design.jpg",
+    alt: "Designer sketching a website layout beside a laptop",
     title: "Fully custom design",
     body: "No templates. No drag-and-drop. Every pixel is drawn for you, your look, your story, your name front and center.",
   },
   {
-    ico: "❖",
+    img: "ns_card-imagery.jpg",
+    alt: "Portrait session in a photo studio",
     title: "Custom imagery & illustration",
     body: "Original visuals, photo work, art direction. Not stock. The images carry your name as carefully as the words do.",
   },
   {
-    ico: "▶",
+    img: "ns_card-motion.jpg",
+    alt: "Golden light spilling from a laptop screen",
     title: "Motion that moves",
     body: "Ambient video, parallax, fluid interaction. A Namesake site feels alive the moment someone lands, that's the whole point.",
   },
   {
-    ico: "◎",
+    img: "ns_card-search.jpg",
+    alt: "Phone on a table showing a name search",
     title: "Built for how people find you now",
     body: "Clean structure, schema, and SEO from day one, AI Platformed, so the search tools doing the looking actually find you. Including the AI ones.",
   },
   {
-    ico: "✎",
+    img: "ns_card-editor.jpg",
+    alt: "Consultant updating his own site from the sofa",
     title: "Yours to run",
     body: "When it's done, it's yours. Update it through a simple editor anytime, no developer required, no surprise bill to keep it online. And Jon's number is on the site if you ever want a hand.",
   },
@@ -85,6 +90,7 @@ const examples = [
   title="Namesake by Live Web Studios | Personal Brand Sites for Solo Professionals"
   description="Namesake builds premium personal websites for solo professionals: attorneys going solo, performers, consultants, and founders whose name is the brand. A studio of Live Web Studios."
   canonical="https://livewebstudios.com/namesake"
+  ogImage="images/og-namesake.jpg"
 >
   <Nav />
 
@@ -150,7 +156,7 @@ const examples = [
           {values.map((v) => (
             <div class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{v.ico}</div>
+                <div class="card-img"><img src={`images/${v.img}`} alt={v.alt} width="1024" height="688" loading="lazy" decoding="async" /></div>
                 <h3>{v.title}</h3>
                 <p>{v.body}</p>
               </Glass>
@@ -163,9 +169,10 @@ const examples = [
     <!-- HOW IT WORKS (teaser, ported from live) -->
     <section id="work" class="sec-pad">
       <div class="wrap split">
-        <Glass class="reveal" innerClass="portrait">
+        <Glass class="reveal" innerClass="portrait portrait--img">
+          <!-- Jon 2026-09-15: a photo in the frame instead of the "Aa" mark. -->
+          <img src="images/ns_process-desk.jpg" alt="Wireframe sketches, a brass ruler and a laptop on a designer's desk" width="896" height="1120" loading="lazy" decoding="async" />
           <div class="frame-lines"></div>
-          <div class="big ns-mark">Aa</div>
           <div class="mark">The process · Start to launch</div>
         </Glass>
         <div class="copy reveal">
@@ -208,7 +215,11 @@ const examples = [
     <!-- CTA -->
     <section class="sec-pad">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta">
+        <Glass class="reveal" innerClass="cta cta--video">
+          {/* Jon 2026-09-15: the desk clip behind this card, same as the FAQ
+              and Live Band pricing cards. Copy stays left where the scrim is
+              heavy, Jon on the right where it is light. */}
+          <VideoBg src="jon-webdesk.mp4" scrim="default" poster="jon-webdesk-poster.jpg" />
           <span class="eyebrow is-center mb-md">READY WHEN YOU ARE</span>
           <h2>Let's build yours.</h2>
           <!-- em-dash: "the rest is a real conversation — no pressure, no pitch" → comma -->

@@ -90,6 +90,9 @@ const cols = [
           <span>732.801.9611</span>
           <span>jonwolf@livewebstudios.com</span>
         </div>
+        {/* Jon 2026-09-15: the Jon avatar closes the brand column, under the
+            email address. Decorative: the name is already in the line above. */}
+        <img class="foot-face" src={`${rel}images/lwsface.png`} alt="" width="300" height="304" loading="lazy" decoding="async" />
       </div>
 
       {cols.map((c) => (
@@ -194,6 +197,19 @@ const cols = [
   .foot-honeypot {
     position: absolute;
     left: -5000px;
+  }
+  .foot-face {
+    display: block;
+    /* Half the brand column, whatever that column resolves to (Jon
+       2026-09-15). Square source, so height follows the width. */
+    width: 50%;
+    height: auto;
+    /* Under 900 the footer grid stacks to one column, so "half the column"
+       becomes half the page. The cap holds the avatar at the size it lands
+       on at desktop instead. */
+    max-width: 170px;
+    margin-top: 1.25rem;
+    border-radius: 50%;
   }
   .foot-contactline {
     display: flex;

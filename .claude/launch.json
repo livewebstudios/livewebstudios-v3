@@ -26,6 +26,19 @@
       ],
       "port": 8899,
       "autoPort": false
+    },
+    {
+      "name": "dist-preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8901",
+        "-d",
+        "/Users/jonwolf/Desktop/local_files/website-clients/livewebstudios-v3/dist"
+      ],
+      "port": 8901,
+      "autoPort": false
     }
   ]
 }

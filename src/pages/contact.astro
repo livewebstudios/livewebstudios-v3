@@ -106,8 +106,15 @@ import HeroActions from "../components/HeroActions.astro";
 
         <!-- DETAILS -->
         <aside class="contact-aside reveal">
-          <span class="label">DIRECT LINE</span>
-          <h3>Talk to Jon.</h3>
+          <!-- Jon 2026-09-15: the Jon avatar heads the column, beside the
+               label and heading, so the "direct line" has a face on it. -->
+          <div class="contact-who">
+            <img class="contact-face" src="images/lwsface.png" alt="" width="300" height="304" loading="lazy" decoding="async" />
+            <div>
+              <span class="label">DIRECT LINE</span>
+              <h3>Talk to Jon.</h3>
+            </div>
+          </div>
           <p>You work directly with the founder. No account managers. No phone trees.</p>
           <div class="contact-line">
             <span class="k">Name</span>
@@ -115,7 +122,7 @@ import HeroActions from "../components/HeroActions.astro";
           </div>
           <div class="contact-line">
             <span class="k">Email</span>
-            <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>
+            jonwolf@livewebstudios.com
           </div>
           <div class="contact-line">
             <span class="k">Phone</span>
@@ -133,3 +140,24 @@ import HeroActions from "../components/HeroActions.astro";
 
   <Footer />
 </Base>
+
+<style>
+  /* Avatar + label/heading row at the top of the details column. */
+  .contact-who {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+  }
+  .contact-face {
+    flex: none;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+  }
+  .contact-who .label {
+    margin-bottom: 0.45rem;
+  }
+  .contact-who h3 {
+    margin-bottom: 0;
+  }
+</style>

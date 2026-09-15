@@ -23,6 +23,39 @@
   status = 301
   force = true
 
+# ===== STATIC ASSET CACHING =====
+# Netlify's default for non-fingerprinted assets is
+# "public,max-age=0,must-revalidate", so every image revalidates on every
+# page view. The site ships ~98MB of images and ~57MB of video, so that
+# default is the single largest performance cost on the site.
+# These paths are content-addressed by filename, not by hash: to change an
+# image, change its filename. That is already the LWS working habit.
+# HTML is deliberately NOT cached here, so a deploy goes live immediately.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/video/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/video-bg/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # ===== PRIVATE CLIENT DOCUMENTS =====
 # Per-client questionnaires and guides. Belt and braces with the
 # noindex meta on the pages themselves and the Disallow in robots.txt.

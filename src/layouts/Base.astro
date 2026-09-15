@@ -11,6 +11,13 @@ interface Props {
   description?: string;
   canonical?: string;
   noindex?: boolean;
+  /* Open Graph share card. Pass a path relative to the site root
+     ("images/og-namesake.jpg") or a root-relative one from blog frontmatter
+     ("/images/blog/foo.jpg"); both get normalized to the absolute URL that
+     og:image requires. Social scrapers do not resolve relative URLs, so this
+     is the second sanctioned place for an absolute internal URL alongside
+     canonical. Defaults to the 1200x630 sitewide card. */
+  ogImage?: string;
   /* Structured data. Omit and the page gets a WebPage node built from the
      props above; every page carries schema that way (project rule, and the
      live site has it on 61 pages). Pass an object or an array of objects to
@@ -26,9 +33,21 @@ const {
     "Live Web Studios builds and maintains custom, AI-platformed websites for North Jersey businesses. Web design, hosting, and SEO since 2004. Real work. Real results. One call.",
   canonical = "https://livewebstudios.com/",
   noindex = false,
+  ogImage = "images/og-default.jpg",
   jsonld,
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
+
+/* og:image must be absolute: Facebook, LinkedIn, Slack and iMessage fetch it
+   out of band and never resolve a relative path. 1200x630 minimum, or the
+   large card is dropped for a thumbnail. */
+const ogImageUrl = /^https?:\/\//.test(ogImage)
+  ? ogImage
+  : `https://livewebstudios.com/${ogImage.replace(/^\//, "")}`;
+/* Only the og-*.jpg cards are known to be exactly 1200x630. Blog posts pass
+   their own hero (1376x768), so declaring dimensions there would be a lie and
+   scrapers trust the tag over the file. Emit them only when they are true. */
+const ogIsCard = /\/images\/og-[a-z-]+\.jpg$/.test(ogImageUrl);
 
 /* undefined -> the WebPage default; null -> nothing (template emits its own). */
 const schema =
@@ -77,12 +96,22 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
         old mark showing. Filename keeps Jon's original spelling. */}
     <link rel="icon" type="image/png" sizes="240x240" href={`${rel}images/favicxon.png`} />
 
+    {/* iOS requests /apple-touch-icon.png implicitly when this link is absent,
+        which 404s on every page load and leaves a home-screen bookmark showing
+        a screenshot instead of the mark. 180x180 on the brand ground, since
+        iOS fills transparency with black anyway. */}
+    <link rel="apple-touch-icon" sizes="180x180" href={`${rel}apple-touch-icon.png`} />
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content="https://livewebstudios.com/images/logoRGB.png" />
+    <meta property="og:image" content={ogImageUrl} />
+    {ogIsCard && <meta property="og:image:width" content="1200" />}
+    {ogIsCard && <meta property="og:image:height" content="630" />}
+    <meta property="og:site_name" content="Live Web Studios" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW3VF5PBDT"></script>

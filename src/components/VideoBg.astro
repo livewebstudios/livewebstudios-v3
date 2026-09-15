@@ -22,14 +22,23 @@ interface Props {
       The observer in Base.astro honors data-once so scrolling back to the
       section does not restart a clip that already finished. */
   once?: boolean;
-  /** Still frame to hold before the clip loads, as a filename in
-      public/images/. Sections do not need it (their own flat background shows
-      through), but a video filling a CARD does: without it the card reads as
-      a black hole until the clip arrives. Relative path per the LWS rule. */
+  /** Override the still frame, as a filename in public/images/. Rarely needed:
+      every clip in public/video-bg/ ships a matching <name>-poster.jpg that is
+      picked up automatically below. Relative path per the LWS rule. */
   poster?: string;
 }
 const { src, scrim = "default", once = false, poster } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
+
+/* Every clip in public/video-bg/ has a first-frame JPG beside it, generated
+   with ffmpeg at a 1600px cap (the whole set is 444KB). Without a poster the
+   browser picks the <video> as the LCP element and has nothing to paint until
+   video data arrives, so on a phone the hero sits blank while a 3-4MB clip
+   downloads. With one, the ~30KB still is the LCP element and the clip fades
+   in over it. Derived from src so a new background video is covered by
+   dropping its poster in beside it, with no call-site edit. */
+const autoPoster = `${rel}video-bg/${src.replace(/\.[a-z0-9]+$/i, "")}-poster.jpg`;
+const posterSrc = poster ? `${rel}images/${poster}` : autoPoster;
 ---
 
 <div class:list={["videobg", `videobg--${scrim}`]} aria-hidden="true">
@@ -40,7 +49,7 @@ const rel = relPrefix(Astro.url.pathname);
     data-once={once ? "" : undefined}
     playsinline
     preload="none"
-    poster={poster ? `${rel}images/${poster}` : undefined}
+    poster={posterSrc}
     data-src={`${rel}video-bg/${src}`}
   ></video>
   <div class="videobg__scrim"></div>

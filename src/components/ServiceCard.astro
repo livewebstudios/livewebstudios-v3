@@ -147,6 +147,23 @@ const isMetal = art === "metal";
   }
   .card-bg-content > h3 { margin-bottom: 0.7rem; }
 
+  /* Card titles in the mono face (Jon 2026-09-15: "wasn't this a techie font
+     before? I liked that"). The v3 skin set every card heading in Geist sans;
+     these go back to the mono the rest of the system uses for labels and nav.
+     Mono glyphs are wider, so the size steps down to keep the same wrap count
+     and the same block of type inside the bubble.
+
+     Scoped to this component, so it reaches the card grids on the home,
+     services and industries pages and nothing else. Specificity beats the
+     skin's `.card h3` sans rule without !important. */
+  .card-bg-content > h3 {
+    font-family: var(--mono);
+    font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.42;
+  }
+
   /* ---- Metal variant (home page, 2026-09-02) --------------------
      The carbon weave is near-black and greyscale, so:
      1. Lift it. saturate() does nothing on a greyscale texture, so it is

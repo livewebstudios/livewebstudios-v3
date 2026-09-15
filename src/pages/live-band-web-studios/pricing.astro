@@ -27,12 +27,13 @@ const seo = [
   title="Pricing | Live Band Web Studios"
   description="Two tiers. No templates. Custom band websites starting at $600/year. Built by a musician."
   canonical="https://livewebstudios.com/live-band-web-studios/pricing"
+  ogImage="images/og-live-band.jpg"
 >
   <Nav />
 
   <main class="theme-live-band">
     <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
+    <section class="page-head page-head--glass page-head--bare has-videobg">
       <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">No Contracts. No Surprises. No WordPress.</span>
@@ -124,12 +125,16 @@ const seo = [
     </section>
 
     <!-- PAYMENT NOTE -->
+    <!-- Jon 2026-09-15: the FAQ "Call Jon directly" card clip, behind this
+         card too. Same recipe as /faq: the clip fills the card, copy held to
+         the left where the scrim is heavy, Jon on the right where it is light. -->
     <section class="sec-pad is-alt">
       <div class="wrap">
-        <Glass class="reveal" innerClass="feature">
+        <Glass class="reveal" innerClass="feature cta--video">
+          <VideoBg src="jon-webdesk.mp4" scrim="default" poster="jon-webdesk-poster.jpg" />
           <!-- em-dash: "a payment plan can be arranged — talk to Jon" → comma -->
           <p>Yearly prepaid is standard. Half up front + a payment plan can be arranged, talk to Jon. Every site is a real conversation, not a checkout flow.</p>
-          <p class="mt-lg"><a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a> · <a href="tel:7328019611">732.801.9611</a></p>
+          <p class="mt-lg"><a href="../contact.html">jonwolf@livewebstudios.com</a> · <a href="tel:7328019611">732.801.9611</a></p>
         </Glass>
       </div>
     </section>
