@@ -31,3 +31,10 @@ _reference/
 _notes/
 DESIGN.md
 .env
+
+# Blog restoration working files.
+# NEVER commit the WordPress dump: it carries 2 password hashes, 543 email
+# addresses, Gravity Forms entries and sent-mail records. It stays on the
+# Desktop and is read in place. The extracted post JSON is safe (post content
+# only) and is committed so the restore is reproducible.
+_restore/*.sql
