@@ -1,22 +1,46 @@
 ---
 title: "Website hosting basics (for non-techies)"
 date: 2023-04-22
-description: "There are a lot of choices when it comes to storing your website. However, not every server service is the same."
-draft: true
+image: /images/blog/website-hosting-basics-for-non-techies.jpg
+imageAlt: "A small navy server box on a kitchen counter beside a coffee mug, one cyan status light glowing."
+description: "Cheap hosting isn't cheap. What you're actually buying, explained without the jargon."
 tags: []
 categories: ["Hosting & Performance"]
 ---
+Hosting is where your website lives. That's the whole concept.
 
-There are a lot of choices when it comes to storing your website. However, not every server service is the same. Many people choose cheap hosting services like GoDaddy, but there are a few reasons why this might not be the best choice for your website.
+But not all of it is the same, and the cheap stuff costs you in ways that never show up on the bill. Let me explain it the way I'd explain it on the phone.
 
-First, companies that offer cheap hosting tend to put as many websites as they can on a single computer. This can make your site load slowly or even crash if other sites on the server are getting a lot of traffic. This could make it hard for your visitors to use your site and hurt your search engine results.
+## What You're Actually Renting
 
-VPS hosting, on the other hand, gives your website its own tools. This means that you won't be affected by how busy other sites on the same computer are or how well they work. With VPS hosting, your website will have a certain amount of RAM, CPU, and disk space that is just for it.
+A computer that never gets turned off, connected to the internet, handing your pages to whoever asks.
 
-Also, cheap hosting companies often have few support choices, leaving you to figure out how to fix any problems on your own. If you don't know much about technology, this can be annoying and take a lot of time. On the other hand, VPS hosting companies like Live Web Studios offer expert technical help to make sure that your website always runs smoothly.
+The cheap plans put as many websites on that one machine as they can fit. Hundreds, sometimes. You're all sharing the same memory and the same processor.
 
-Lastly, cheap hosting companies don't always have a lot of security measures in place, which leaves your website open to hacking attempts and malware attacks. With VPS hosting, you can keep your website safe and secure with extra security features like firewalls, regular backups, and tracking that runs 24/7.
+## Why That Matters on a Tuesday Afternoon
 
-At Live Web Studios, we offer VPS hosting services that give your website dedicated resources and expert technical support to make sure it runs easily and safely. Don't settle for cheap hosting that could hurt your online profile. Instead, switch to VPS hosting today and see for yourself how much better it is.
+Somebody else's site on your machine gets busy. Or gets hacked. Or runs something badly written that eats everything.
 
-If you want to know more about our VPS hosting services or want to talk to one of our experts about your hosting needs, don't be afraid to get in touch. We're always here to help you make the best decision for your business.
+Your site slows down, or goes out entirely, and you did nothing wrong. You can't fix it from your end either, because it isn't your end. That's the trade you made for the low price.
+
+## The Support Question
+
+This is the real difference, and it's not technical.
+
+When the cheap host has a problem, you get a help article and a ticket queue. When it's three in the afternoon and your site is down and you're losing calls, that is not support. That's a form.
+
+What you want is somebody who picks up. That's most of what better hosting actually buys you.
+
+## Security
+
+Cheaper plans tend to be thinner here too. Fewer backups, slower patching, less watching.
+
+You find out about all of it at the worst possible moment, which is the day you need a backup and there isn't one.
+
+## What I Tell Clients
+
+Don't shop on price alone. Look at what renewal costs after the intro year, whether backups are included and how far back they go, whether an SSL certificate is free, and whether a human answers.
+
+We host our own clients precisely so that last one is true. When something's wrong you call me, not a queue.
+
+Want me to look at what you're on now and tell you whether it's costing you anything? Call me. No charge for the opinion.

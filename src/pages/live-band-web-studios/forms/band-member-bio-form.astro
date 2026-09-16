@@ -23,16 +23,16 @@ import PhotoBg from "../../../components/PhotoBg.astro";
 
 <Base
   title="Band Member Bio Form | Live Band Web Studios"
-  description="Individual band member intake form for Live Band Web Studios. Gear, history, influences, and your story. Fill in what you've got, goes directly to Jon Wolf."
+  description="Band member intake form for Live Band Web Studios. History, influences and your story. Fill in what you've got, it goes straight to Jon Wolf."
   canonical="https://livewebstudios.com/live-band-web-studios/forms/band-member-bio-form"
-  ogImage="images/og-live-band.jpg"
+  ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
 >
   <Nav />
 
   <main class="theme-live-band">
     <!-- HERO -->
     <section class="page-head page-head--glass page-head--bare has-videobg">
-      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
+      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">MEMBER INTAKE</span>
         <h1 class="page-h1">Tell Us Your <em>Story</em>.</h1>
@@ -55,6 +55,9 @@ import PhotoBg from "../../../components/PhotoBg.astro";
         <Glass class="reveal" innerClass="form-pad">
           <!-- Real live Formspree endpoint + method preserved verbatim -->
           <form id="bioForm" action="https://formspree.io/f/mojbzzak" method="POST">
+            <input type="hidden" name="_subject" value="New Band Member Bio Form Submission" />
+            <!-- v3 honeypot: real users never see or fill this -->
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
             <!-- 1 — THE BASICS -->
             <div class="fgroup">

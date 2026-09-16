@@ -24,14 +24,14 @@ import PhotoBg from "../../../components/PhotoBg.astro";
   title="Music Photo Form | Live Band Web Studios"
   description="Musician intake and photo guide. Send us your band info and get the AI photo guide, Live Band Web Photos by Live Web Studios."
   canonical="https://livewebstudios.com/live-band-web-studios/forms/music-photo-form"
-  ogImage="images/og-live-band.jpg"
+  ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
 >
   <Nav />
 
   <main class="theme-live-band">
     <!-- HERO -->
     <section class="page-head page-head--glass page-head--bare has-videobg">
-      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
+      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">PHOTO GUIDE</span>
         <h1 class="page-h1">Music Photo <em>Form</em>.</h1>
@@ -70,6 +70,8 @@ import PhotoBg from "../../../components/PhotoBg.astro";
             <!-- Real live Formspree endpoint + hidden _subject preserved verbatim -->
             <form id="mpf-form" action="https://formspree.io/f/mvznpvnq" method="POST">
               <input type="hidden" name="_subject" value="New Music Photo Form Submission" />
+              <!-- v3 honeypot: real users never see or fill this -->
+              <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
               <!-- SECTION 1 -->
               <div class="fgroup">

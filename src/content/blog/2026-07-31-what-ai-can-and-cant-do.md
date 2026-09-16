@@ -1,7 +1,7 @@
 ---
 title: "What AI Can (and Can't) Do for Your Small Business Website"
 date: 2026-07-31
-description: "AI is everywhere right now. So are the claims. Let's cut through the noise and talk about what AI actually does, and doesn't do, when it comes to building and maintaining your website."
+description: "AI is everywhere right now. So are the claims. What AI actually does, and doesn't do, when it comes to building and maintaining your website."
 tags: ["AI", "AI websites"]
 image: "/images/blog/what-ai-can-and-cant-do.jpg"
 draft: false

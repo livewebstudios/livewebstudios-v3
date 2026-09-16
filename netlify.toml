@@ -23,6 +23,36 @@
   status = 301
   force = true
 
+# ===== SECURITY HEADERS =====
+# Applies to every response. Netlify merges all matching [[headers]] rules,
+# so this sits alongside the per-path caching blocks below without clobbering
+# their Cache-Control.
+#
+# HSTS deliberately omits includeSubDomains. The apex and www are on Netlify
+# and always HTTPS, but a subdomain on another host (webmail, cPanel, a staging
+# box) would become unreachable in every browser that had once seen the header,
+# and the only cure is waiting out the max-age. Add `; includeSubDomains` once
+# every subdomain is confirmed HTTPS. `preload` stays off for the same reason:
+# it is a one-way door that needs a removal request to undo.
+#
+# No Content-Security-Policy here. The site loads Google Analytics, Mailchimp,
+# Formspree and Netlify Identity, so a CSP written blind would break a form or
+# the CMS login silently. That one wants its own pass with the network tab open.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Clickjacking: nothing on this site is meant to be framed elsewhere.
+    X-Frame-Options = "SAMEORIGIN"
+    # Stop browsers guessing a MIME type different from the one served.
+    X-Content-Type-Options = "nosniff"
+    # Send the full URL to our own pages, origin only to other sites, and
+    # nothing at all on an HTTPS -> HTTP downgrade.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # One year of HTTPS-only, apex and www.
+    Strict-Transport-Security = "max-age=31536000"
+    # Nothing here needs hardware. Deny it by default.
+    Permissions-Policy = "geolocation=(), camera=(), microphone=(), interest-cohort=()"
+
 # ===== STATIC ASSET CACHING =====
 # Netlify's default for non-fingerprinted assets is
 # "public,max-age=0,must-revalidate", so every image revalidates on every

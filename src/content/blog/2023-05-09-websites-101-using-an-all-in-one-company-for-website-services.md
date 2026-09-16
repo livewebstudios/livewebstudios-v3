@@ -1,32 +1,47 @@
 ---
-title: "Websites Services101: Using an \"All-in-One\" company for website services."
+title: "Website Services 101: Using an All-in-One Company"
+seoTitle: "Websites 101: Using an All-in-One Company"
 date: 2023-05-09
-description: "For businesses, organizations, and people to have an online footprint, they need to have a website."
-draft: true
+image: /images/blog/websites-101-using-an-all-in-one-company-for-website-services.jpg
+imageAlt: "A multi-tool fanned open on marble with several implements out, one finished in matte cyan."
+description: "One company for design, hosting and upkeep, or three specialists? Here's the honest tradeoff."
 tags: []
 categories: ["Running a Business Online"]
 ---
+You can hire a designer, a separate host, and somebody else for upkeep. Or you can have one outfit do all three.
 
-For businesses, organizations, and people to have an online footprint, they need to have a website. But making and keeping up a website can be difficult and take a lot of time. This is where a company that can host, design, and maintain your site comes in. In this blog post, we'll talk about why you might want to use a company like this for your website needs.
+I obviously do it the second way, so take that into account. But here's the honest version of the tradeoff.
 
-Convenience
+## One Phone Number
 
-One of the best things about a company that can manage, design, and maintain your website all in one place is that it is convenient. Instead of working with different companies for different parts of your website, you can work with one company that does everything you need. This saves you time and makes it easy for you to run your website.
+When something breaks with three vendors, the first thing that happens is they blame each other.
 
-Consistency
+The host says it's the site. The developer says it's the host. You're standing in the middle relaying messages about a problem you didn't cause and can't diagnose. I've watched clients lose a week to this.
 
-When you work with a single company for all of your website's needs, you can make sure that everything is the same. This includes making your website, storing it, and keeping it up to date. This can help your guests have a consistent experience with your brand and with using your site.
+One number means somebody owns the problem. That's most of the value right there.
 
-Quality
+## It All Matches
 
-A business that can host, design, and maintain your website all in one place can give you high-quality services in every area. They will have a team of experts in their areas who can give you top-notch hosting, design, and maintenance services. This can help make sure your website looks good and works well.
+When the same people build it, host it and maintain it, the pieces are made to fit.
 
-Cost-effective
+The site is built for the server it's going on. Updates get tested somewhere that looks like the live site. Nobody's guessing about anybody else's setup.
 
-Working with a company that can manage, design, and maintain your website can also save you money. When you buy all of these services from the same company, you can often get a better deal than if you bought them from different places. You can also save money on the time and effort it takes to run more than one business.
+## Somebody Knows Your Business
 
-Don't worry
+This is the part that compounds.
 
-Lastly, working with a company that can manage, design, and maintain your site all in one place can give you peace of mind. You can be sure that professionals are taking care of everything on your website, so you can focus on other parts of your business or group.
+After a couple of years I know which page matters to you, which season you get busy, that you hate the stock photo on the about page. You don't re-explain your business every time you need something changed.
 
-In conclusion, using a company that handles website hosting, graphics, and site care all in one place can be easy, reliable, high-quality, cost-effective, and stress-free. If you want a reliable partner to help you set up and keep your online presence, you might want to work with a company that can host, design, and maintain your website all in one place.
+## It's Usually Cheaper
+
+Bundled is generally less than three separate bills, and it's a lot less of your time. Time is the cost people forget to count.
+
+## Now the Fair Warning
+
+The obvious risk: everything sits with one company. If they're bad, or they vanish, you're stuck.
+
+So ask before you sign. Do you own your domain, in your own name? Can you get a copy of your site if you leave? Will they hand over access without a fight?
+
+A good answer is immediate and casual. A vague one tells you everything you need to know.
+
+That's the real test, not the package price. Happy to walk you through what to ask, even if you end up hiring somebody else.

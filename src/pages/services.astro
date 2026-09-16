@@ -94,7 +94,15 @@ const groups = [
 
         {groups.map((g) => (
           <div class="svc-group">
-            <div class="sec-head reveal"><span class="eyebrow eyebrow--tag">{g.label}</span></div>
+            {/* The group label is the visible pill, but it cannot BE the h2: the
+                global `.sec-head h2` rule is more specific than `.eyebrow--tag`
+                and would blow it up to a 3rem section title. So the heading is
+                carried alongside it, hidden, and the pill is marked decorative
+                so the label is not announced twice. */}
+            <div class="sec-head reveal">
+              <h2 class="visually-hidden">{g.label}</h2>
+              <span class="eyebrow eyebrow--tag" aria-hidden="true">{g.label}</span>
+            </div>
             <div class="grid-svc grid-svc--4">
               {g.cards.map((c) => (
                 <ServiceCard title={c.title} body={c.body} href={c.href} bg={cardArt} art="metal" tag={c.tag} />

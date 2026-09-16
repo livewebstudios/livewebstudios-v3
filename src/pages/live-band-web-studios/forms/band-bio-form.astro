@@ -24,14 +24,14 @@ import PhotoBg from "../../../components/PhotoBg.astro";
   title="Band Bio Form | Live Band Web Studios"
   description="New band intake form for Live Band Web Studios. Fill in what you've got, skip what you don't. Goes directly to Jon Wolf."
   canonical="https://livewebstudios.com/live-band-web-studios/forms/band-bio-form"
-  ogImage="images/og-live-band.jpg"
+  ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
 >
   <Nav />
 
   <main class="theme-live-band">
     <!-- HERO -->
     <section class="page-head page-head--glass page-head--bare has-videobg">
-      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
+      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">BAND INTAKE</span>
         <h1 class="page-h1">Band Bio <em>Form</em>.</h1>
@@ -54,7 +54,16 @@ import PhotoBg from "../../../components/PhotoBg.astro";
         <Glass class="reveal" innerClass="form-pad">
           <!-- Real live Formspree endpoint, method + hidden field preserved verbatim -->
           <form id="bioForm" action="https://formspree.io/f/mbdbvoar" method="POST">
+            <input type="hidden" name="_subject" value="New Band Bio Form Submission" />
+            {/* Jon 2026-09-15: this form has no field literally named "email",
+                so Formspree had nothing to set reply-to from and hitting Reply
+                on the notification went nowhere. The submit handler copies the
+                primary contact email in here (booking email as the fallback)
+                before it builds the FormData. */}
+            <input type="hidden" name="_replyto" id="replyto_field" value="" />
             <input type="hidden" name="has_website" id="has_website" value="" />
+            <!-- v3 honeypot: real users never see or fill this -->
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
             <!-- 1 — THE BASICS -->
             <div class="fgroup">
@@ -266,9 +275,9 @@ import PhotoBg from "../../../components/PhotoBg.astro";
                   <legend class="field-legend">Do you have professional photos?</legend>
                   <div class="opt-chips">
                     <!-- em dash kept inside VALUE for payload fidelity -->
-                    <label class="opt-chip"><input type="radio" name="has_professional_photos" value="Yes — professional press shots available" /> Yes, professional press shots available</label>
+                    <label class="opt-chip"><input type="radio" name="has_professional_photos" value="Yes, professional press shots available" /> Yes, professional press shots available</label>
                     <label class="opt-chip"><input type="radio" name="has_professional_photos" value="Live shots only" /> Live shots only</label>
-                    <label class="opt-chip"><input type="radio" name="has_professional_photos" value="Not yet — we'll sort it out" /> Not yet, we'll sort it out</label>
+                    <label class="opt-chip"><input type="radio" name="has_professional_photos" value="Not yet, we'll sort it out" /> Not yet, we'll sort it out</label>
                   </div>
                 </fieldset>
               </div>
@@ -385,7 +394,7 @@ import PhotoBg from "../../../components/PhotoBg.astro";
                   <legend class="field-legend">Stage plot</legend>
                   <div class="opt-chips">
                     <!-- em dash kept inside VALUE for payload fidelity -->
-                    <label class="opt-chip"><input type="radio" name="stage_plot_available" value="Yes — I have a stage plot PDF" /> Yes, I have a stage plot PDF</label>
+                    <label class="opt-chip"><input type="radio" name="stage_plot_available" value="Yes, I have a stage plot PDF" /> Yes, I have a stage plot PDF</label>
                     <label class="opt-chip"><input type="radio" name="stage_plot_available" value="Not yet" /> Not yet</label>
                     <label class="opt-chip"><input type="radio" name="stage_plot_available" value="I'll need help creating one" /> I'll need help creating one</label>
                   </div>
@@ -471,6 +480,13 @@ import PhotoBg from "../../../components/PhotoBg.astro";
         e.preventDefault();
         var btn = form.querySelector("button[type=submit]");
         if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+        /* Give Formspree a reply-to. Primary contact first, booking second. */
+        var reply = form.querySelector("#replyto_field");
+        if (reply) {
+          var primary = form.querySelector("#primary_contact_email");
+          var booking = form.querySelector("#booking_contact_email");
+          reply.value = (primary && primary.value) || (booking && booking.value) || "";
+        }
         try {
           var res = await fetch("https://formspree.io/f/mbdbvoar", {
             method: "POST", body: new FormData(form), headers: { Accept: "application/json" }

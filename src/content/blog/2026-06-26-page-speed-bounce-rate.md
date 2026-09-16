@@ -1,5 +1,6 @@
 ---
 title: "Speed Kills Your Bounce Rate: What Page Load Time Really Does to Your Business"
+seoTitle: "Speed Kills Your Bounce Rate: What Load Time Costs You"
 date: 2026-06-26
 description: "Slow pages cost you visitors before they read a word. Here's what the load-time research actually shows, and what you can do about it."
 tags: ["page speed", "conversions"]

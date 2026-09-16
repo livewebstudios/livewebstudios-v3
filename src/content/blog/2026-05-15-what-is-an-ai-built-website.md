@@ -1,5 +1,6 @@
 ---
 title: "What Is an AI-Built Website? A Plain-English Guide for Small Business Owners"
+seoTitle: "What Is an AI-Built Website? A Plain-English Guide"
 date: 2026-05-15
 description: "Everyone's talking about AI websites. Most explanations are too technical or too vague. Here's what it actually means, and what it means for you."
 tags: ["AI websites", "web design", "small business", "how we work"]

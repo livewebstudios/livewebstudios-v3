@@ -1,7 +1,8 @@
 ---
 title: "Why Your WordPress Site Might Be Slowing You Down (And What We're Doing About It)"
+seoTitle: "Why Your WordPress Site Might Be Slowing You Down"
 date: 2026-05-08
-description: "WordPress has been the workhorse of the web for 20 years. But for most small business sites, it's carrying weight it doesn't need. Here's what that actually costs you."
+description: "WordPress has been the web's workhorse for 20 years. But most small business sites carry weight they don't need. Here's what that costs you."
 tags: ["WordPress", "page speed", "hosting", "SEO"]
 image: "/images/blog/wordpress-slowing-you-down.jpg"
 draft: false

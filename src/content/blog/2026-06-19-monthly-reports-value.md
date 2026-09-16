@@ -1,5 +1,6 @@
 ---
 title: "Why Monthly Reports Are the Most Valuable Thing Your Web Agency Should Be Sending You"
+seoTitle: "Why Monthly Reports Are the Most Valuable Thing You Get"
 date: 2026-06-19
 description: "Most web agencies go quiet after launch. A monthly report flips that. It's the single best tool for a productive long-term relationship."
 tags: ["website analytics", "LWS news", "small business"]

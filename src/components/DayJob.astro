@@ -1,0 +1,365 @@
+---
+/**
+ * DayJob — the mirror of StageDoor, living on the LBWS blog.
+ *
+ * Musicians click this because they want to know whether the person writing
+ * about band marketing actually knows the web. So the component is a slice of
+ * the LWS interface dropped into the amber room: black panel, hairline cell
+ * borders like the main nav, the mono uppercase dot eyebrow that heads the LWS
+ * blog, and the white rectangular LWS button. It should look like the day job.
+ *
+ * Two variants off one file:
+ *   full     the strip after the post grid on the LBWS blog index
+ *   compact  the author box at the foot of every LBWS post
+ *
+ * The cursor after the title blinks three times when it scrolls into view, then
+ * holds solid. Under prefers-reduced-motion it is solid from the start, and the
+ * compact variant never gets one: an author box is not the place for a gag.
+ */
+import Arrow from "./Arrow.astro";
+import { relPrefix } from "../lib/relPrefix";
+
+export interface Props {
+  variant?: "full" | "compact";
+}
+const { variant = "full" } = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+const compact = variant === "compact";
+const titleId = compact ? "author-title" : "day-job-title";
+---
+
+<aside
+  class:list={["day-job", { "day-job--compact": compact }]}
+  aria-labelledby={titleId}
+>
+  {compact ? (
+    <img
+      class="day-job__img"
+      src={`${rel}images/lwsface.png`}
+      alt="Jon Wolf"
+      width="300"
+      height="304"
+      loading="lazy"
+      decoding="async"
+    />
+  ) : (
+    <img
+      class="day-job__art"
+      src={`${rel}images/band/day-job.webp`}
+      alt="Jon Wolf backstage on a road case with a laptop open on a band website"
+      width="800"
+      height="600"
+      loading="lazy"
+      decoding="async"
+    />
+  )}
+
+  <div class="day-job__col">
+    <p class="day-job__eyebrow">
+      <span class="day-job__dot" aria-hidden="true"></span>
+      {compact ? "About the Writer" : "The Day Job"}
+    </p>
+
+    {compact ? (
+      <h2 id={titleId} class="day-job__title">Jon Wolf</h2>
+    ) : (
+      <h2 id={titleId} class="day-job__title">
+        The Computer Nerd Part<span class="day-job__cursor" aria-hidden="true"></span>
+      </h2>
+    )}
+
+    {compact ? (
+      <p class="day-job__text">
+        Jon plays keyboards, guitar and sings in <a
+          class="day-job__link"
+          href="https://britishinvasionyears.com"
+          target="_blank"
+          rel="noopener">The British Invasion Years</a> and has run Live Web
+        Studios since 2004. He builds websites for bands and working musicians,
+        and he's grateful the day job taught him how to market the night job.
+      </p>
+    ) : (
+      <p class="day-job__text">
+        When he's not onstage, Jon runs Live Web Studios. It's a North Jersey
+        web design and AI company he started in 2004. Most of what's on this
+        blog, he learned building websites for other people's businesses. Turns
+        out a band is a business too.
+      </p>
+    )}
+
+    {compact && (
+      <div class="day-job__actions">
+        <a class="day-job__plain" href={`${rel}about.html`}>
+          More About the Day Job
+          <Arrow dir="out" />
+        </a>
+      </div>
+    )}
+  </div>
+
+  {/* Sibling of the text column, not a child of it: at desktop width this is
+      the strip's second grid cell, and a nested element could not be. */}
+  {!compact && (
+    <div class="day-job__actions">
+      <a class="day-job__btn day-job__btn--primary" href={`${rel}work.html`}>
+        See the Work
+        <Arrow dir="out" />
+      </a>
+      <a class="day-job__btn day-job__btn--secondary" href={`${rel}blog.html`}>
+        Read the LWS Blog
+        <Arrow dir="out" />
+      </a>
+    </div>
+  )}
+</aside>
+
+<style>
+  .day-job {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    padding: clamp(2rem, 3.4vw, 2.8rem) clamp(1.4rem, 3vw, 2.4rem);
+    /* Pure black, not the page's --bg: the point is that this panel is a
+       different surface from the amber room it sits in. */
+    background: #000;
+    border: 1px solid var(--line-field);
+    border-radius: var(--r-lg);
+  }
+
+  .day-job--compact {
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 1.4rem;
+    padding: clamp(1.4rem, 2.6vw, 1.9rem);
+  }
+  .day-job__img {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 50%;
+    border: 1px solid var(--line-field);
+    background: var(--panel);
+  }
+
+  .day-job__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan-soft);
+  }
+  .day-job__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+  }
+
+  .day-job__title {
+    margin-top: 0.8rem;
+    font-family: var(--sans);
+    font-size: clamp(1.45rem, 2.8vw, 2.05rem);
+    line-height: 1.15;
+    color: var(--ink-soft);
+  }
+  .day-job--compact .day-job__title {
+    font-size: 1.25rem;
+    margin-top: 0.55rem;
+  }
+
+  /* The cursor holds solid by default. The blink is added by script only when
+     the panel scrolls into view, and only when motion is allowed. */
+  .day-job__cursor {
+    display: inline-block;
+    width: 0.08em;
+    height: 0.82em;
+    margin-left: 0.14em;
+    vertical-align: -0.04em;
+    background: #fff;
+  }
+  .day-job__cursor.is-blinking {
+    animation: dayjob-blink 0.62s steps(1, end) 3;
+  }
+  @keyframes dayjob-blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .day-job__cursor.is-blinking {
+      animation: none;
+    }
+  }
+
+  .day-job__text {
+    margin-top: 0.9rem;
+    max-width: 58ch;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* The band name links out to the band's own site, underlined on purpose:
+     inside a paragraph of muted copy an underline is the only thing that
+     reads as a link at a glance. Jon 2026-09-15. */
+  .day-job__link {
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 1px;
+  }
+  .day-job__link:hover,
+  .day-job__link:focus-visible {
+    color: var(--cyan-soft);
+    text-decoration-thickness: 2px;
+  }
+  .day-job--compact .day-job__text {
+    font-size: 0.9rem;
+  }
+
+  .day-job__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-top: 1.4rem;
+  }
+  .day-job--compact .day-job__actions {
+    margin-top: 1rem;
+  }
+
+  .day-job__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.9rem 1.5rem;
+    white-space: nowrap;
+    font-family: var(--sans);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 2px; /* square-ish: the LWS hero button, not a pill */
+    border: 1px solid transparent;
+    transition: transform 0.28s var(--ease), background 0.28s var(--ease);
+  }
+  .day-job__btn--primary {
+    background: #fff;
+    color: #05070b;
+  }
+  .day-job__btn--secondary {
+    background: #1b2028;
+    color: var(--ink-soft);
+    border-color: var(--line-field);
+  }
+  .day-job__btn:hover {
+    transform: translateY(-2px);
+  }
+  .day-job__btn--secondary:hover {
+    background: #232932;
+  }
+
+  .day-job__plain {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan-soft);
+  }
+  .day-job__plain:hover {
+    color: #fff;
+  }
+
+  /* The strip's own art: the caricature from the blog hero, cropped to the
+     half of it that is about the day job, so the panel says "web guy" before
+     anyone reads a word. Jon 2026-09-15. */
+  .day-job__art {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--r-md);
+    border: 1px solid var(--line-field);
+  }
+
+  /* The full strip stacks by default and splits into art / text / buttons once
+     there is room for all three. Below that the buttons go full width, which is
+     what the handoff asks for at 768 and under. */
+  .day-job:not(.day-job--compact) {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .day-job:not(.day-job--compact) {
+      grid-template-columns: minmax(200px, 0.5fr) minmax(0, 1.2fr) minmax(220px, 0.6fr);
+      align-items: center;
+    }
+    .day-job:not(.day-job--compact) .day-job__actions {
+      margin-top: 0;
+    }
+  }
+  @media (max-width: 899px) {
+    /* Stacked, a full-width 4:3 photo would push the copy off the screen, so
+       it becomes a shallow band across the top. */
+    .day-job__art {
+      aspect-ratio: 21 / 9;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .day-job__btn {
+      width: 100%;
+    }
+  }
+  @media (max-width: 560px) {
+    .day-job--compact {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .day-job__btn:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  /* Blink the cursor three times the first time the panel is seen, then leave
+     it solid. Anyone who has asked their system for less motion never gets the
+     class at all, so the bar simply sits there. */
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cursors = document.querySelectorAll<HTMLElement>(".day-job__cursor");
+
+  if (cursors.length && !reduce && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target as HTMLElement;
+          io.unobserve(el);
+          el.classList.add("is-blinking");
+          el.addEventListener(
+            "animationend",
+            () => el.classList.remove("is-blinking"),
+            { once: true },
+          );
+        }
+      },
+      { threshold: 0.4 },
+    );
+    cursors.forEach((c) => io.observe(c));
+  }
+</script>

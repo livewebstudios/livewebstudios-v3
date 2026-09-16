@@ -1,0 +1,132 @@
+---
+/**
+ * NamesakeLive — the Namesake "See it live." proof section.
+ *
+ * Jon 2026-09-15: "this page should match the other namesakes portfolio
+ * section with thumbnails." /namesake carried the screenshot version while
+ * /namesake/how-it-works still had the original text-only trio, because the
+ * block was pasted into both pages and only one of them got the art. Pulling
+ * it into one component is what stops that drifting apart again: the examples,
+ * the markup and the brass styling now live here, and both pages render the
+ * same thing.
+ *
+ * The section wrapper stays with the caller. /namesake runs it as `is-alt` and
+ * how-it-works runs it plain, and that alternation is a property of each
+ * page's section rhythm, not of this block.
+ *
+ * Screenshots: real captures of the live home pages at 1440x810, taken
+ * headless with reduced motion forced so the entrance animations resolve to
+ * their finished state instead of being caught mid-reveal. Re-shoot the same
+ * way if either site is redesigned.
+ */
+import { relPrefix } from "../lib/relPrefix";
+
+/* Image paths are built from the page's own depth rather than written as
+   "images/..." literals: this block renders at the site root (/namesake) and
+   one level down (/namesake/how-it-works), and a single literal would 404 on
+   one of them. Relative either way, per the LWS path rule. */
+const rel = relPrefix(Astro.url.pathname);
+
+const examples = [
+  {
+    name: "jonwolfstudios.com",
+    body: "Jon Wolf, developer, musician, and the builder behind Namesake. A spare, architectural personal site that carries his creative and technical worlds in one place.",
+    href: "https://jonwolfstudios.com",
+    go: "Visit the site →",
+    art: "images/ns_live-jonwolfstudios.jpg",
+    alt: "The jonwolfstudios.com home page: a lit stage with a vintage organ, headline reading By day, websites. By night, setlists.",
+  },
+  {
+    name: "drrozcohen.com",
+    body: "Dr. Roz Cohen of Socius Strategies, a warm, credible home for a speaker and consultant. Built to carry her voice on culture, belonging, and inclusion.",
+    href: "https://drrozcohen.com",
+    go: "Visit the site →",
+    art: "images/ns_live-drrozcohen.jpg",
+    alt: "The drrozcohen.com home page: Dr. Roz Cohen on a city rooftop under the line Creating Cultures of Belonging, Connection, and Inclusion.",
+  },
+  {
+    name: "Your site here",
+    body: "Another name, another one-of-a-kind build. Watch this space.",
+    href: null,
+    go: "More coming soon",
+    art: null,
+    alt: null,
+  },
+];
+---
+
+<div class="wrap">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">THE PROOF</span>
+    <h2>See it live.</h2>
+  </div>
+  <div class="trio trio--art ns-live">
+    {examples.map((e) => {
+      /* Card body is identical whether or not the row links out, so it
+         is built once and dropped into either shell. The third card has
+         no site yet, so it gets a keyline panel in the same 16:9 box
+         rather than stock art: it holds the row's rhythm and stays
+         honest about there being nothing to show. */
+      const inner = (
+        <>
+          {e.art ? (
+            <div class="trio-art">
+              <img src={`${rel}${e.art}`} alt={e.alt} width="1440" height="810" loading="lazy" decoding="async" />
+            </div>
+          ) : (
+            <div class="trio-art trio-art--soon" aria-hidden="true">
+              <span>YOUR SITE HERE</span>
+            </div>
+          )}
+          <div class="card-pad">
+            <h3>{e.name}</h3>
+            <p>{e.body}</p>
+            <span class="more">{e.go}</span>
+          </div>
+        </>
+      );
+      return e.href ? (
+        <a class="glass-inner reveal" href={e.href} target="_blank" rel="noopener">{inner}</a>
+      ) : (
+        <div class="glass-inner reveal">{inner}</div>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  /* "See it live" screenshots. .trio--art in global.css supplies the 16:9
+     banner box, the cover fit and the hover push-in; these only hold the cards
+     together as flex columns so the banner sits flush at the top and the pad
+     sizes from its own content, and re-point the hover keyline from the system
+     cyan to Namesake brass. */
+  .ns-live :global(.glass-inner) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+  .ns-live :global(.glass-inner:hover) {
+    border-color: rgba(201, 165, 90, 0.38);
+  }
+  /* The placeholder box for the slot with no site yet. Keyline and label only,
+     no imagery, the same approach .work-thumb takes elsewhere. */
+  .ns-live :global(.trio-art--soon) {
+    display: grid;
+    place-items: center;
+    border-bottom: 1px solid var(--line);
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgba(201, 165, 90, 0.05) 0 10px,
+        transparent 10px 20px
+      ),
+      rgba(10, 8, 5, 0.6);
+  }
+  .ns-live :global(.trio-art--soon span) {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: rgba(201, 165, 90, 0.5);
+  }
+</style>

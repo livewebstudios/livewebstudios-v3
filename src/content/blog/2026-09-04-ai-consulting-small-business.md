@@ -1,7 +1,8 @@
 ---
 title: "AI Consulting for Small Business: What It Is and Whether You Need It"
+seoTitle: "AI Consulting for Small Business: Do You Need It?"
 date: 2026-09-04
-description: "Everyone's talking about AI. Most small business owners have no idea where to start. The advice out there ranges from useful to genuinely confusing. Here's a ground-level view."
+description: "Everyone's talking about AI. Most owners have no idea where to start, and the advice ranges from useful to confusing. Here's a ground-level view."
 tags: ["AI consulting", "AI"]
 image: "/images/blog/ai-consulting-small-business.jpg"
 draft: false

@@ -92,7 +92,20 @@ const examples = [
                 keeps both current; it no-ops if they are ever removed. */}
             <input type="hidden" name="preview_style" value="" />
             <input type="hidden" name="preview_name" value="" />
-            <input type="hidden" name="_next" value="https://livewebstudios.com/namesake/thank-you" />
+            {/* Jon 2026-09-15: "the namesake Start form sends the thankyou
+                page to the domain. make the path relative."
+
+                Formspree redirects from ITS server, so _next cannot be a bare
+                relative path: "thank-you.html" would resolve against
+                formspree.io and 404. The script below rewrites it to an
+                absolute URL built from whatever host the page is actually
+                being served from, which is the relative behaviour Jon wants:
+                on localhost it returns to localhost, on a Netlify preview to
+                that preview, on the live domain to the live domain.
+
+                The literal value here is only the no-JS fallback, and it now
+                carries .html to match astro.config's build format: 'file'. */}
+            <input type="hidden" name="_next" value="https://livewebstudios.com/namesake/thank-you.html" />
             <!-- v3 honeypot: real users never see or fill this -->
             <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
@@ -231,6 +244,21 @@ const examples = [
   {/* The old big-type echo and its inline script are gone: NamesakePreview
       owns that region of the hero now and renders a whole page instead of a
       line of type. */}
+  {/* Point the Formspree return at this host, not a hardcoded domain. See the
+      note on the _next input above for why it stays an absolute URL. */}
+  <script is:inline>
+    (function () {
+      var f = document.getElementById("start-form");
+      if (!f) return;
+      var n = f.querySelector('input[name="_next"]');
+      if (!n) return;
+      try {
+        n.value = new URL("thank-you.html", window.location.href).href;
+      } catch (e) {
+        /* Leave the built-in fallback in place. */
+      }
+    })();
+  </script>
 </Base>
 
 <style>

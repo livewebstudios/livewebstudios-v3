@@ -1,7 +1,8 @@
 ---
 title: "The Case for Decluttering Your Website: Less Really Is More in 2026"
+seoTitle: "Decluttering Your Website: Less Really Is More"
 date: 2026-08-07
-description: "More pages, more content, more features. It sounds like more value. It's usually the opposite. Here's why the best sites in 2026 are doing less, and doing it better."
+description: "More pages, more content, more features. It sounds like more value. It's usually the opposite. Why the best sites in 2026 do less, and do it better."
 tags: ["web design", "page speed", "content strategy", "small business"]
 image: "/images/blog/decluttering-your-website.jpg"
 draft: false

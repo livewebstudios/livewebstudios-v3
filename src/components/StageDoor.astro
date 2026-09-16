@@ -1,0 +1,192 @@
+---
+/**
+ * StageDoor — the crossover strip on the LWS /blog index, and only there.
+ *
+ * The idea: the musician link should not read as one more grey filter pill. It
+ * should look like a piece of the Live Band world leaking into a clean agency
+ * page, so a visitor sees "different room" before they read a word. A road-case
+ * panel: brushed metal, corner hardware, a strip of gaff tape across the top.
+ *
+ * Jon 2026-09-15: no new webfonts. The original spec loaded Bebas Neue and DM
+ * Sans here; that is dropped. The whole effect is carried by the amber
+ * .theme-live-band accent (--amber) and CSS texture over the site's own faces,
+ * which is also why this file adds zero network requests to /blog.
+ *
+ * Not on LWS category pages, and never inside an LWS post. Agency articles
+ * carry no music links.
+ */
+import Arrow from "./Arrow.astro";
+import { relPrefix } from "../lib/relPrefix";
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<aside class="stage-door theme-live-band" aria-labelledby="stage-door-title">
+  <span class="stage-door__hw" aria-hidden="true"></span>
+  <span class="stage-door__tape" aria-hidden="true">For Musicians</span>
+
+  <div class="stage-door__body">
+    <h2 id="stage-door-title" class="stage-door__title">
+      Play in a Band? This Room's for You.
+    </h2>
+    <p class="stage-door__text">
+      Jon has played in working bands for as long as he's been building
+      websites. Everything he's learned about getting booked and filling rooms
+      has its own blog now.
+    </p>
+  </div>
+
+  <a class="stage-door__link" href={`${rel}live-band-web-studios/blog.html`}>
+    Musicians, This Way
+    <Arrow dir="out" />
+  </a>
+</aside>
+
+<style>
+  .stage-door {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    margin: 0 0 3.5rem;
+    padding: clamp(2rem, 3.4vw, 2.6rem) clamp(1.4rem, 3vw, 2.4rem);
+    border-radius: var(--r-lg);
+    /* Brushed metal: a fine vertical grain over the panel tone, with a soft
+       amber wash down from the top-left so the case reads as lit from the
+       same direction as everything else on the page. */
+    background:
+      radial-gradient(120% 140% at 12% -10%, rgba(252, 211, 77, 0.13), transparent 58%),
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.028) 0px,
+        rgba(255, 255, 255, 0.028) 1px,
+        transparent 1px,
+        transparent 3px
+      ),
+      linear-gradient(180deg, #14161b, #0a0c10);
+    border: 1px solid rgba(214, 200, 168, 0.22);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      var(--shadow-low);
+  }
+
+  /* ---- Case hardware. Four corner brackets, no images. ---- */
+  .stage-door::before,
+  .stage-door::after,
+  .stage-door__hw::before,
+  .stage-door__hw::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(252, 211, 77, 0.5);
+    pointer-events: none;
+  }
+  .stage-door::before {
+    top: 8px;
+    left: 8px;
+    border-right: 0;
+    border-bottom: 0;
+    border-top-left-radius: 4px;
+  }
+  .stage-door::after {
+    top: 8px;
+    right: 8px;
+    border-left: 0;
+    border-bottom: 0;
+    border-top-right-radius: 4px;
+  }
+  .stage-door__hw {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .stage-door__hw::before {
+    bottom: 8px;
+    left: 8px;
+    border-right: 0;
+    border-top: 0;
+    border-bottom-left-radius: 4px;
+  }
+  .stage-door__hw::after {
+    bottom: 8px;
+    right: 8px;
+    border-left: 0;
+    border-top: 0;
+    border-bottom-right-radius: 4px;
+  }
+
+  /* ---- Gaff tape ---- */
+  .stage-door__tape {
+    position: absolute;
+    top: -0.85rem;
+    left: clamp(1.4rem, 3vw, 2.4rem);
+    transform: rotate(-2deg);
+    padding: 0.32rem 0.9rem;
+    background: #ebe6da;
+    color: #16181d;
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  }
+
+  .stage-door__body {
+    position: relative;
+  }
+  .stage-door__title {
+    font-size: clamp(1.5rem, 3vw, 2.15rem);
+    line-height: 1.15;
+    color: var(--ink-soft);
+    letter-spacing: 0.01em;
+  }
+  .stage-door__text {
+    margin-top: 0.85rem;
+    max-width: 54ch;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .stage-door__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    white-space: nowrap;
+    padding: 0.95rem 1.6rem;
+    border-radius: var(--r-md);
+    background: linear-gradient(180deg, var(--amber), #e8b833);
+    color: var(--on-accent);
+    font-family: var(--sans);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid rgba(252, 211, 77, 0.6);
+    box-shadow: 0 8px 24px rgba(252, 211, 77, 0.2);
+    transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease);
+  }
+  .stage-door__link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(252, 211, 77, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .stage-door {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+    }
+    .stage-door__link {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage-door__link:hover {
+      transform: none;
+    }
+  }
+</style>

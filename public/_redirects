@@ -67,6 +67,12 @@
 # needs a rule ("/blog/ -> /blog" would loop).
 /blog.html                                                             /blog                        301
 
+# ===== LIVE BAND BLOG INDEX (Jon 2026-09-15) =====
+# Same shape as the rule above, for the musician blog. Post and category pages
+# need no rules: nothing ever linked to their .html form, and canonical +
+# sitemap both use the clean URL. Kept here so all three agree.
+/live-band-web-studios/blog.html                                       /live-band-web-studios/blog  301
+
 
 # ============================================================
 # Netlify Redirects — Live Web Studios

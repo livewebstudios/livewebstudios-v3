@@ -1,26 +1,40 @@
 ---
 title: "Getting the Most Value Out of Your Website"
 date: 2023-04-09
-description: "In today's digital age, having a website is no longer optional for businesses."
-draft: true
+image: /images/blog/getting-the-most-value-out-of-your-website.jpg
+imageAlt: "A brass balance scale, one pan holding coins and the other a small glowing cyan cube."
+description: "You already paid for the site. Here's how to get more out of the one you've got."
 tags: []
 categories: ["Running a Business Online"]
 ---
+You already paid for the website. The question is whether it's earning anything.
 
-In today's digital age, having a website is no longer optional for businesses. A website can serve as a powerful tool for building your brand, attracting new customers, and engaging with your existing ones. However, simply having a website is not enough. To truly get the most value out of your website, you need to make sure it's optimized for performance, usability, and conversions.
+Most of the ones I look at are sitting at maybe half of what they could do, and the fixes are not dramatic. Three things.
 
-First and foremost, your website needs to be fast and responsive. Slow load times and clunky design can drive visitors away and hurt your search engine rankings. Make sure your website is optimized for speed by compressing images, minimizing the use of heavy scripts and plugins, and leveraging a content delivery network (CDN) to serve content from multiple locations. You can use tools like Google's PageSpeed Insights to measure your website's performance and identify areas for improvement.
+## Make It Fast
 
-In addition to speed, your website should also be user-friendly and easy to navigate. Make sure your website is organized in a logical and intuitive way, with clear calls-to-action (CTAs) that guide visitors towards your desired goal. Use white space and visual hierarchy to create a clean and appealing design, and make sure your content is easy to read and scannable.
+Speed is the one that quietly costs you the most, because you never see who left.
 
-Finally, your website should be optimized for conversions. Whether you're looking to capture leads, sell products, or simply encourage visitors to engage with your content, you need to have a clear strategy in place for achieving your goals. Use persuasive copy, eye-catching visuals, and compelling CTAs to drive visitors towards your desired action. You can also use tools like A/B testing and heat maps to optimize your website for conversions over time.
+The usual culprits are the same every time. Enormous photos uploaded straight off a camera. A pile of plugins each dragging in its own code. Something loading a font from four places.
 
-By focusing on these three key areas – speed, usability, and conversions – you can get the most value out of your website and achieve your business goals. Whether you're just starting out or looking to take your website to the next level, there's always room for improvement. Keep testing, optimizing, and refining your website, and you'll be sure to see the results in the form of increased traffic, engagement, and revenue.
+Run your site through Google's PageSpeed Insights. It's free and it'll tell you exactly what's slow. Half the time it's images, and half of that is one image somebody dropped in at full size two years ago.
 
-References:
+## Make It Easy
 
-[https://moz.com/community/q/topic/4026/how-do-you-value-a-site-that-generates-no-income-before-it-s-sold](https://moz.com/community/q/topic/4026/how-do-you-value-a-site-that-generates-no-income-before-it-s-sold)
+Watch somebody who's never seen your site try to find your phone number. It's uncomfortable and it's the most useful ten minutes you'll spend.
 
-[https://flippa.com/blog/8-ways-to-increase-your-website-value/](https://flippa.com/blog/8-ways-to-increase-your-website-value/)
+Menus should be boring and obvious. Every page should have one clear next step. White space is not wasted space… it's what makes the important thing findable.
 
-[https://www.inc.com/frank-wazeter/how-to-build-irresistible-value-through-your-website.html](https://www.inc.com/frank-wazeter/how-to-build-irresistible-value-through-your-website.html)
+## Make It Ask
+
+A lot of sites explain beautifully and then never ask for anything.
+
+Every page needs an obvious action. Call. Email. Get a quote. Pick one per page and make it the loudest thing there. Two competing buttons get fewer clicks than one, every time.
+
+## The Part Nobody Does
+
+Then check it again in six months.
+
+A website is not a thing you finish. Your prices change, your services change, the photo on the homepage is four years old and everybody in it has left. Twenty minutes a quarter keeps it honest.
+
+Want me to take a look at yours and tell you where the easy wins are? Reach out anytime.

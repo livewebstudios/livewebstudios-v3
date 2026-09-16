@@ -6,20 +6,27 @@
  * Frontmatter shapes normalized here: description ?? excerpt, image ?? thumbnail.
  * Post-body typography is scoped below using the existing design tokens only.
  */
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Glass from "../../components/Glass.astro";
-import { CATEGORIES, resolve, has } from "../../lib/categories";
+import { byAudience, resolve, has } from "../../lib/categories";
+import { getPosts, slugOf, safeTime } from "../../lib/posts";
 import BlogHero from "../../components/BlogHero.astro";
 import CategoryNav from "../../components/CategoryNav.astro";
+import { imageSize } from "../../lib/imageSize";
+import { withBrand } from "../../lib/seoTitle";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  /* Business posts only: a musician post must not also build a page here, or
+     the same article would exist at two URLs. getPosts also excludes anything
+     dated after this build, which is what keeps a scheduled post from
+     generating HTML (and therefore from reaching the sitemap) early. */
+  const posts = await getPosts("business");
   return posts.map((post) => ({
-    params: { slug: post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "") },
+    params: { slug: slugOf(post) },
     props: { post },
   }));
 }
@@ -31,7 +38,7 @@ const description = post.data.description ?? post.data.excerpt ?? "";
 const rawImage = post.data.image ?? post.data.thumbnail ?? "";
 // frontmatter stores root-relative paths (Decap convention); serve relative per path rule
 const image = rawImage.replace(/^\//, "../");
-const slug = post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+const slug = slugOf(post);
 const dateLabel = post.data.date.toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
@@ -42,10 +49,10 @@ const isoDate = post.data.date.toISOString().split("T")[0];
 
 const postUrl = `https://livewebstudios.com/blog/${slug}`;
 const cats = resolve(post.data.categories);
-const all = await getCollection("blog", ({ data }) => !data.draft);
-const available = CATEGORIES.filter((c) =>
-  all.some((p) => has(p.data.categories, c.name)),
-).map((c) => c.slug);
+const all = await getPosts("business");
+const available = byAudience("business")
+  .filter((c) => all.some((p) => has(p.data.categories, c.name)))
+  .map((c) => c.slug);
 
 /* See also: other posts sharing a category, most overlap first, then newest.
    Sourced from the categories rather than hand-picked, so it keeps working as
@@ -61,11 +68,12 @@ const related = all
   .filter((r) => r.shared > 0)
   .sort(
     (a, b) =>
-      b.shared - a.shared || b.post.data.date.valueOf() - a.post.data.date.valueOf(),
+      b.shared - a.shared ||
+      safeTime(b.post.data.date, b.post.id) - safeTime(a.post.data.date, a.post.id),
   )
   .slice(0, 3)
   .map(({ post: p }) => ({
-    slug: p.id.replace(/^\d{4}-\d{2}-\d{2}-/, ""),
+    slug: slugOf(p),
     title: p.data.title,
     dateLabel: p.data.date.toLocaleDateString("en-US", {
       year: "numeric",
@@ -112,7 +120,7 @@ const jsonLd = JSON.stringify({
 ---
 
 <Base
-  title={`${post.data.title} | Live Web Studios`}
+  title={withBrand(post.data.seoTitle ?? post.data.title, "Live Web Studios")}
   description={description}
   canonical={postUrl}
   ogImage={ogImage}
@@ -140,7 +148,7 @@ const jsonLd = JSON.stringify({
         <article class="post-body">
           {image && (
             <div class="post-hero-img">
-              <img src={image} alt={post.data.title} loading="lazy" />
+              <img src={image} alt={post.data.imageAlt ?? post.data.title} {...imageSize(image)} loading="lazy" decoding="async" />
             </div>
           )}
           <Content />
@@ -166,7 +174,7 @@ const jsonLd = JSON.stringify({
       </div>
     </section>
 
-    <CategoryNav available={available} current={cats[0]?.slug} />
+    <CategoryNav available={available} current={cats[0]?.slug} audience="business" />
 
     <!-- CTA -->
     <section class="sec-pad is-alt has-videobg">

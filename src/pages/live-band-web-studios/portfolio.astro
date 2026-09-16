@@ -14,6 +14,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
+import BandSeoCards from "../../components/BandSeoCards.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import PhotoBg from "../../components/PhotoBg.astro";
 import { relPrefix } from "../../lib/relPrefix";
@@ -31,7 +32,7 @@ const work = [
     img: "images/portfolio/britishinvasionyears.jpg",
     w: 640,
     h: 320,
-    href: "https://britishinvasionyears.netlify.app/",
+    href: "https://britishinvasionyears.com",
   },
   {
     cat: "TOURING / PRO",
@@ -55,26 +56,20 @@ const work = [
   },
 ];
 
-// SEO cards — shared Live Band SEO block (em dashes converted).
-const seo = [
-  { ico: "⟨⟩", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
-  { ico: "◎", title: "The Words People Type", body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page." },
-  { ico: "▤", title: "Blog Articles Engines Love", body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings." },
-];
 ---
 
 <Base
   title="Portfolio | Live Band Web Studios"
   description="Real band websites. Real results. See the work."
   canonical="https://livewebstudios.com/live-band-web-studios/portfolio"
-  ogImage="images/og-live-band.jpg"
+  ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
 >
   <Nav />
 
   <main class="theme-live-band">
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass page-head--bare has-videobg">
-      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
+      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">THE WORK</span>
         <h1 class="page-h1"><em>The Work</em>.</h1>
@@ -127,17 +122,7 @@ const seo = [
           <h2>SEO Is Baked Into Every Build</h2>
         </div>
         <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
-        <div class="grid-svc">
-          {seo.map((s) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{s.ico}</div>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <BandSeoCards />
         <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
       </div>
     </section>

@@ -1,0 +1,287 @@
+---
+/**
+ * /live-band-web-studios/blog/[slug] — one page per musician post.
+ *
+ * Same collection and same body typography as an LWS post; the difference is
+ * the audience filter, the .theme-live-band wrapper, and what closes the page.
+ * Order at the foot of every post, per the handoff:
+ *   article body -> Post CTA -> Author box -> Related posts
+ *
+ * Two levels deep, so links need "../../" to reach the site root. The shared
+ * chrome works that out itself through relPrefix.
+ */
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import { withBrand } from "../../../lib/seoTitle";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import BandBlogHero from "../../../components/BandBlogHero.astro";
+import CategoryNav from "../../../components/CategoryNav.astro";
+import PostCta from "../../../components/PostCta.astro";
+import DayJob from "../../../components/DayJob.astro";
+import { byAudience, resolve, has } from "../../../lib/categories";
+import { getPosts, slugOf, safeTime, bandImage } from "../../../lib/posts";
+
+export async function getStaticPaths() {
+  /* Musician posts only, and only ones whose date has arrived. A future-dated
+     post generates no page here, which is also what keeps it out of the
+     sitemap: the sitemap integration can only list pages that were built. */
+  const posts = await getPosts("musicians");
+  return posts.map((post) => ({ params: { slug: slugOf(post) }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const cats = resolve(post.data.categories);
+const slug = slugOf(post);
+const description = post.data.description ?? post.data.excerpt ?? "";
+const raw = bandImage(post, cats.map((c) => c.slug));
+const image = raw ? raw.replace(/^\//, "../../") : "";
+const imageAlt = post.data.imageAlt ?? post.data.title;
+
+const dateLabel = post.data.date.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  timeZone: "UTC",
+});
+const isoDate = post.data.date.toISOString();
+
+const base = "https://livewebstudios.com";
+const postUrl = `${base}/live-band-web-studios/blog/${slug}`;
+const absImage = raw ? `${base}/${raw.replace(/^\//, "")}` : `${base}/images/og-live-band.jpg`;
+
+const all = await getPosts("musicians");
+const available = byAudience("musicians")
+  .filter((c) => all.some((p) => has(p.data.categories, c.name)))
+  .map((c) => c.slug);
+
+/* Related: same category first, newest first, then fill from the rest, newest
+   first. Never the current post, and never a future-dated one, because `all`
+   has already dropped those. */
+const others = all.filter((p) => p.id !== post.id);
+const sameCat = others.filter((p) =>
+  (p.data.categories ?? []).some((c) => (post.data.categories ?? []).includes(c)),
+);
+const rest = others.filter((p) => !sameCat.includes(p));
+const byNewest = (a: typeof others[number], b: typeof others[number]) =>
+  safeTime(b.data.date, b.id) - safeTime(a.data.date, a.id);
+
+const related = [...sameCat.sort(byNewest), ...rest.sort(byNewest)]
+  .slice(0, 3)
+  .map((p) => ({
+    slug: slugOf(p),
+    title: p.data.title,
+    dateLabel: p.data.date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }),
+  }));
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.data.title,
+    description,
+    image: absImage,
+    articleSection: cats.map((c) => c.name),
+    datePublished: isoDate,
+    dateModified: isoDate,
+    url: postUrl,
+    mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
+    author: {
+      "@type": "Person",
+      name: "Jon Wolf",
+      sameAs: ["https://livewebstudios.com", "https://britishinvasionyears.com"],
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Live Web Studios",
+      logo: {
+        "@type": "ImageObject",
+        url: `${base}/images/logoRGB.png`,
+        width: 800,
+        height: 245,
+      },
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${base}/` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Live Band Web Studios",
+        item: `${base}/live-band-web-studios`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Blog",
+        item: `${base}/live-band-web-studios/blog`,
+      },
+      ...(cats[0]
+        ? [
+            {
+              "@type": "ListItem",
+              position: 4,
+              name: cats[0].name,
+              item: `${base}/live-band-web-studios/blog/category/${cats[0].slug}`,
+            },
+          ]
+        : []),
+      {
+        "@type": "ListItem",
+        position: cats[0] ? 5 : 4,
+        name: post.data.title,
+        item: postUrl,
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title={withBrand(post.data.seoTitle ?? post.data.title, "Live Band Web Studios")}
+  description={description}
+  canonical={postUrl}
+  ogImage={raw || "images/og-live-band.jpg"}
+  jsonld={null}  preloadHero="band/blog/lbws-blog-hero.webp"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <BandBlogHero title={post.data.title}>
+      <p class="post-date">
+        {dateLabel}
+        {cats.map((c, i) => (
+          <>
+            {i === 0 ? " · " : ", "}
+            <a class="post-cat" href={`category/${c.slug}.html`}>{c.name}</a>
+          </>
+        ))}
+      </p>
+    </BandBlogHero>
+
+    <section class="sec-pad">
+      <div class="wrap">
+        <article class="post-body">
+          {image && (
+            <div class="post-hero-img">
+              <img src={image} alt={imageAlt} width="1200" height="630" loading="eager" decoding="async" />
+            </div>
+          )}
+          <Content />
+        </article>
+
+        {/* Sells the service. Stays in the amber room. */}
+        <PostCta />
+
+        {/* Sells the credential. Borrows the LWS interface on purpose. */}
+        <div class="post-author">
+          <DayJob variant="compact" />
+        </div>
+
+        {related.length > 0 && (
+          <footer class="post-foot">
+            <div class="post-seealso">
+              <span class="post-foot__label">See also</span>
+              <ul class="post-seealso__list">
+                {related.map((r) => (
+                  <li>
+                    <a href={`${r.slug}.html`}>
+                      <span class="post-seealso__title">{r.title}</span>
+                      <span class="post-seealso__date">{r.dateLabel}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </footer>
+        )}
+      </div>
+    </section>
+
+    <CategoryNav available={available} current={cats[0]?.slug} audience="musicians" />
+  </main>
+
+  <Footer />
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+</Base>
+
+<style>
+  /* Matches the LWS post body exactly: same tokens, same measure. The room is
+     different, the reading experience is not. */
+  .post-date {
+    margin-top: 1.2rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .post-body {
+    max-width: 72ch;
+    margin-inline: auto;
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+  .post-hero-img {
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .post-hero-img img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .post-body :global(h2) {
+    font-size: 1.5rem;
+    color: var(--ink-soft);
+    margin: 2.6rem 0 1rem;
+    line-height: 1.3;
+  }
+  .post-body :global(h3) {
+    font-size: 1.18rem;
+    color: var(--ink-soft);
+    margin: 2rem 0 0.8rem;
+  }
+  .post-body :global(p) {
+    margin: 0 0 1.4rem;
+  }
+  .post-body :global(strong) {
+    color: var(--ink-soft);
+  }
+  .post-body :global(a) {
+    color: var(--amber);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 0 0 1.4rem 1.4rem;
+  }
+  .post-body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .post-body :global(blockquote) {
+    margin: 2rem 0;
+    padding: 1rem 1.4rem;
+    border-left: 2px solid var(--amber);
+    color: var(--ink-soft);
+  }
+  .post-author {
+    max-width: 72ch;
+    margin: 2.5rem auto 0;
+  }
+</style>

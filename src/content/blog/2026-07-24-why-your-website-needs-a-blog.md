@@ -1,7 +1,8 @@
 ---
 title: "Why Your Website Needs a Blog (Even If You Think You Have Nothing to Say)"
+seoTitle: "Why Your Website Needs a Blog"
 date: 2026-07-24
-description: "\"I'm a plumber, not a writer.\" Fair. But your customers are Googling plumbing questions before they call anyone. A blog is how you show up for those searches."
+description: "\"I'm a plumber, not a writer.\" Fair. But your customers Google plumbing questions before they call anyone. A blog is how you show up for those."
 tags: ["content strategy", "SEO", "small business"]
 image: "/images/blog/why-your-website-needs-a-blog.jpg"
 draft: false

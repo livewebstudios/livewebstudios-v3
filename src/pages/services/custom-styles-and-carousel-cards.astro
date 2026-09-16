@@ -130,7 +130,7 @@ const pageSchema = [
             Astro comment, not an HTML one: the HTML version was leaking
             its second line into the rendered page as visible text
             (launch audit 2026-09-14). */}
-        <p class="page-lede is-center reveal">Every set below is a real, hand-tuned look, not a stock filter. Pick a style to see its original photos, then the branded cards where the band name, tour dates, and taglines are painted right into the artwork. We'll produce a matched run of hero images, carousel slides, and feature-card art. Mix categories, request a custom palette, or hand us a moodboard and we'll build something entirely yours. Sample content is from our build for <a href="https://www.britishinvasionyears.com/" target="_blank" rel="noopener">The British Invasion Years</a>. Tap any image to open it full-size.</p>
+        <p class="page-lede is-center reveal">Every set below is a real, hand-tuned look, not a stock filter. Pick a style to see its original photos, then the branded cards where the band name, tour dates, and taglines are painted right into the artwork. We'll produce a matched run of hero images, carousel slides, and feature-card art. Mix categories, request a custom palette, or hand us a moodboard and we'll build something entirely yours. Sample content is from our build for <a class="biy-link" href="https://britishinvasionyears.com" target="_blank" rel="noopener">The British Invasion Years</a>. Tap any image to open it full-size.</p>
 
         <!-- FILTER -->
         <div class="style-tabs reveal" role="tablist" aria-label="Style collections" data-style-tabs>
@@ -348,6 +348,20 @@ const pageSchema = [
 </script>
 
 <style>
+  /* The band name links out to the band's own site, underlined so it reads as
+     a link inside a paragraph of lede copy. Jon 2026-09-15. */
+  .biy-link {
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 1px;
+  }
+  .biy-link:hover,
+  .biy-link:focus-visible {
+    color: var(--cyan-soft);
+    text-decoration-thickness: 2px;
+  }
+
   /* ---- Filter chips ---- */
   .style-tabs {
     display: flex;

@@ -1,0 +1,23 @@
+---
+/**
+ * Arrow — the one arrow used across both blogs, so the glyph teaches people
+ * where a link goes before they click it:
+ *
+ *   →  in    stays inside the section you are already in
+ *   ↗  out   crosses to the other blog / the other brand
+ *   ↓  down  jumps down the same page
+ *
+ * Jon 2026-09-15: text glyphs, not SVG. The site has used literal → and ↓
+ * inside link text since v3 shipped, and a sprite would be a second arrow
+ * system sitting next to the first one. The wrapper span is what buys the
+ * hover motion and the reduced-motion opt-out; it is aria-hidden because the
+ * link text already carries the meaning.
+ */
+export interface Props {
+  dir?: "in" | "out" | "down";
+}
+const { dir = "in" } = Astro.props;
+const glyph = dir === "out" ? "↗" : dir === "down" ? "↓" : "→";
+---
+
+<span class={`arrow arrow--${dir}`} aria-hidden="true">{glyph}</span>

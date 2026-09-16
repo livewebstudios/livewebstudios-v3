@@ -12,29 +12,24 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
+import BandSeoCards from "../../components/BandSeoCards.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import PhotoBg from "../../components/PhotoBg.astro";
 
-// SEO cards — the shared Live Band SEO block (em dashes converted).
-const seo = [
-  { ico: "⟨⟩", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
-  { ico: "◎", title: "The Words People Type", body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page." },
-  { ico: "▤", title: "Blog Articles Engines Love", body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings." },
-];
 ---
 
 <Base
   title="Pricing | Live Band Web Studios"
   description="Two tiers. No templates. Custom band websites starting at $600/year. Built by a musician."
   canonical="https://livewebstudios.com/live-band-web-studios/pricing"
-  ogImage="images/og-live-band.jpg"
+  ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
 >
   <Nav />
 
   <main class="theme-live-band">
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass page-head--bare has-videobg">
-      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" />
+      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">No Contracts. No Surprises. No WordPress.</span>
         <h1 class="page-h1"><em>Pricing</em></h1>
@@ -163,17 +158,7 @@ const seo = [
         </div>
         <!-- em-dash: "core part of what we do — every site is engineered" → comma -->
         <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
-        <div class="grid-svc">
-          {seo.map((s) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{s.ico}</div>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <BandSeoCards />
         <!-- em-dash: "Google didn't tweak the rules — it rewrote them" → comma -->
         <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
       </div>

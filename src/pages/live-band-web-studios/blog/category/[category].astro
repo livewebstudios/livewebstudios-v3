@@ -1,0 +1,129 @@
+---
+/**
+ * /live-band-web-studios/blog/category/[category] — one archive page per
+ * musician category. Same shape as the LWS archives, five categories instead
+ * of seven, amber instead of cyan.
+ *
+ * Three levels deep, so links need "../../../" to reach the site root. The
+ * shared chrome works that out itself through relPrefix.
+ */
+import Base from "../../../../layouts/Base.astro";
+import Nav from "../../../../components/Nav.astro";
+import Footer from "../../../../components/Footer.astro";
+import BandBlogHero from "../../../../components/BandBlogHero.astro";
+import CategoryNav from "../../../../components/CategoryNav.astro";
+import DayJob from "../../../../components/DayJob.astro";
+import { byAudience, bySlug, resolve, has } from "../../../../lib/categories";
+import { getPosts, slugOf, bandImage } from "../../../../lib/posts";
+import { relPrefix } from "../../../../lib/relPrefix";
+
+export async function getStaticPaths() {
+  const posts = await getPosts("musicians");
+  // Only build a category that actually has published posts behind it. An
+  // empty archive page is a thin page, and thin pages are worse than absent.
+  return byAudience("musicians")
+    .filter((c) => posts.some((p) => has(p.data.categories, c.name)))
+    .map((c) => ({ params: { category: c.slug }, props: { slug: c.slug } }));
+}
+
+const { slug } = Astro.props;
+const cat = bySlug(slug)!;
+const rel = relPrefix(Astro.url.pathname);
+
+const all = await getPosts("musicians");
+const posts = all.filter((p) => has(p.data.categories, cat.name));
+const available = byAudience("musicians")
+  .filter((c) => all.some((p) => has(p.data.categories, c.name)))
+  .map((c) => c.slug);
+
+const cards = posts.map((post) => {
+  const cats = resolve(post.data.categories);
+  const raw = bandImage(post, cats.map((c) => c.slug));
+  return {
+    slug: slugOf(post),
+    title: post.data.title,
+    summary: post.data.description ?? post.data.excerpt ?? "",
+    cats,
+    image: raw ? `${rel}${raw.replace(/^\//, "")}` : "",
+    imageAlt: post.data.imageAlt ?? "",
+    dateLabel: post.data.date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }),
+  };
+});
+
+const base = "https://livewebstudios.com";
+const catUrl = `${base}/live-band-web-studios/blog/category/${cat.slug}`;
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: cat.name,
+  description: cat.metaDescription,
+  url: catUrl,
+  isPartOf: {
+    "@type": "Blog",
+    name: "The Live Band Web Studios Blog",
+    url: `${base}/live-band-web-studios/blog`,
+  },
+  hasPart: posts.map((p) => ({
+    "@type": "BlogPosting",
+    headline: p.data.title,
+    datePublished: p.data.date.toISOString(),
+    url: `${base}/live-band-web-studios/blog/${slugOf(p)}`,
+  })),
+});
+---
+
+<Base
+  title={cat.metaTitle}
+  description={cat.metaDescription}
+  canonical={catUrl}
+  ogImage="images/og-live-band.jpg"  preloadHero="band/blog/lbws-blog-hero.webp"
+>
+  <script type="application/ld+json" set:html={jsonLd} is:inline />
+  <Nav />
+
+  <main class="theme-live-band">
+    <BandBlogHero title={cat.name} lede={cat.blurb} />
+
+    <CategoryNav available={available} current={cat.slug} audience="musicians" />
+
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="blog-grid">
+          {cards.map((c) => (
+            <a class="blog-card" href={`../${c.slug}.html`}>
+              {c.image ? (
+                <div class="blog-thumb">
+                  <img src={c.image} alt={c.imageAlt || c.title} width="1200" height="630" loading="lazy" decoding="async" />
+                </div>
+              ) : (
+                <div class="blog-thumb--empty"><span>LBWS</span></div>
+              )}
+              <div class="blog-meta">
+                <span class="blog-date">{c.dateLabel}</span>
+                <h2 class="blog-title">{c.title}</h2>
+                <p class="blog-sum">{c.summary}</p>
+                <span class="blog-cats">
+                  {c.cats.map((k) => <span class="blog-cat">{k.name}</span>)}
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <DayJob />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

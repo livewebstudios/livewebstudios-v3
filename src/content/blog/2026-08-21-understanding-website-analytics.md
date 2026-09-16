@@ -1,5 +1,6 @@
 ---
 title: "Understanding Your Website Analytics: A 5-Minute Guide for Business Owners"
+seoTitle: "Understanding Your Website Analytics: A 5-Minute Guide"
 date: 2026-08-21
 description: "Analytics dashboards look intimidating. But you only need a handful of numbers to know whether your website is actually working. Here's the short version."
 tags: ["website analytics", "small business", "page speed"]

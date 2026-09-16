@@ -14,8 +14,29 @@
  * The JS in Nav.astro only enhances the toggle.
  *
  * Icons are inline SVG rather than the PNG set in public/images/icons: these
- * render at 20px against a dark panel, where a bitmap goes to mush, and each
- * one carries its own hue the way Jon's reference does.
+ * render at 20px against a dark panel, where a bitmap goes to mush.
+ *
+ * Jon 2026-09-15: "make the colored icons more uniform. one color family for
+ * live band... one color for namesake (3 gold shades)." So each column is now
+ * a single hue walked from light to deep down the rows, and the column reads
+ * as one family at a glance instead of a bag of loose colors:
+ *
+ * Jon 2026-09-15, second pass: "go from dark (top) to light (bottom)", so each
+ * ramp runs deepest on the first row and lightest on the last:
+ *
+ *   Live Band    sky      #0EA5E9 -> #38BDF8 -> #7DD3FC -> #BAE6FD
+ *   Namesake     brass    #C9A55A -> #D9B872 -> #EBD4A0  (--brass is the ceiling)
+ *   More Studios violet   #A78BFA -> #C4B5FD  (the hue Services already gives AI)
+ *
+ * Shades stay in the light half of each ramp on purpose: below roughly #0EA5E9
+ * a 1.6px stroke at 20px stops holding up against this near-black panel, which
+ * is why the dark end starts there rather than going properly deep.
+ *
+ * Heads up if these get revisited: --amber (#FCD34D) is still tokenised in
+ * global.css as the Live Band Web Studios colour, and it is what .mega-card--band
+ * and the band subnav use. This column is deliberately blue per the note above,
+ * so the two no longer agree. Flip the four sky values back to the amber ramp
+ * if the brand token should win.
  */
 import Glass from "./Glass.astro";
 import { ICONS } from "../lib/navIcons";
@@ -52,24 +73,29 @@ const columns: { label: string; items: Item[] }[] = [
   {
     label: "LIVE BAND WEB STUDIOS",
     items: [
-      { icon: "home", color: "#FCD34D", title: "Live Band Home", desc: "What a band site includes and how it gets built.", href: "live-band-web-studios.html" },
-      { icon: "tag", color: "#F59E0B", title: "Pricing", desc: "Two tiers, what each covers, what it costs.", href: "live-band-web-studios/pricing.html" },
-      { icon: "grid", color: "#38BDF8", title: "Portfolio", desc: "Band sites we have built, live and in the wild.", href: "live-band-web-studios/portfolio.html" },
+      { icon: "home", color: "#0EA5E9", title: "Live Band Home", desc: "What a band site includes and how it gets built.", href: "live-band-web-studios.html" },
+      { icon: "tag", color: "#38BDF8", title: "Pricing", desc: "Two tiers, what each covers, what it costs.", href: "live-band-web-studios/pricing.html" },
+      { icon: "grid", color: "#7DD3FC", title: "Portfolio", desc: "Band sites we have built, live and in the wild.", href: "live-band-web-studios/portfolio.html" },
+      /* Jon 2026-09-15: the musician blog nests here cleanly, as its own row
+         under Live Band. The ↗ sits in the title the same way Live Web Photos
+         carries one below: it marks a door to somewhere else, and this panel
+         already speaks that language. */
+      { icon: "pen", color: "#BAE6FD", title: "Live Band Blog ↗", desc: "Booking, EPKs, social, email, and AI for working musicians.", href: "live-band-web-studios/blog.html" },
     ],
   },
   {
     label: "NAMESAKE",
     items: [
       { icon: "star", color: "#C9A55A", title: "Namesake Overview", desc: "A sharp personal site for solo professionals.", href: "namesake.html" },
-      { icon: "route", color: "#E4C77B", title: "How It Works", desc: "What you send, what you get, how long it takes.", href: "namesake/how-it-works.html" },
-      { icon: "play", color: "#FDE68A", title: "Start Yours", desc: "Kick off your Namesake site today.", href: "namesake/start.html" },
+      { icon: "route", color: "#D9B872", title: "How It Works", desc: "What you send, what you get, how long it takes.", href: "namesake/how-it-works.html" },
+      { icon: "play", color: "#EBD4A0", title: "Start Yours", desc: "Kick off your Namesake site today.", href: "namesake/start.html" },
     ],
   },
   {
     label: "MORE STUDIOS",
     items: [
-      { icon: "photos", color: "#4ADE80", title: "Live Web Photos ↗", desc: "AI image enhancement, on its own domain.", href: "https://livewebphotos.com", external: true },
-      { icon: "chip", color: "#818CF8", title: "Live AI Studios", desc: "AI builds and automation for larger businesses.", href: "ecosystem/live-ai-studios.html" },
+      { icon: "photos", color: "#A78BFA", title: "Live Web Photos ↗", desc: "AI image enhancement, on its own domain.", href: "https://livewebphotos.com", external: true },
+      { icon: "chip", color: "#C4B5FD", title: "Live AI Studios", desc: "AI builds and automation for larger businesses.", href: "ecosystem/live-ai-studios.html" },
     ],
   },
 ];

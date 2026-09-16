@@ -13,6 +13,7 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import PhotoBg from "../../components/PhotoBg.astro";
+import NamesakeLive from "../../components/NamesakeLive.astro";
 
 // Five steps — ported from live (em dashes converted to commas/periods).
 const steps = [
@@ -52,34 +53,13 @@ const included = [
   { img: "ns_card-editor.jpg", alt: "Consultant updating his own site from the sofa", title: "Editor access.", body: "Update your own content anytime, no developer required, no surprise bill." },
 ];
 
-// Live examples — ported from live "See it live" block (em dashes converted).
-const examples = [
-  {
-    name: "jonwolfstudios.com",
-    body: "Jon Wolf, developer, musician, and the builder behind Namesake. A spare, architectural personal site that carries his creative and technical worlds in one place.",
-    href: "https://jonwolfstudios.com",
-    go: "Visit the site →",
-  },
-  {
-    name: "drrozcohen.com",
-    body: "Dr. Roz Cohen of Socius Strategies, a warm, credible home for a speaker and consultant. Built to carry her voice on culture, belonging, and inclusion.",
-    href: "https://drrozcohen.com",
-    go: "Visit the site →",
-  },
-  {
-    name: "Your site here",
-    body: "Another name, another one-of-a-kind build. Watch this space.",
-    href: null,
-    go: "More coming soon",
-  },
-];
 ---
 
 <Base
   title="How It Works | Namesake by Live Web Studios"
   description="How Namesake builds your personal website, a simple, fully custom process from intake to launch. No templates, ever."
   canonical="https://livewebstudios.com/namesake/how-it-works"
-  ogImage="images/og-namesake.jpg"
+  ogImage="images/og-namesake.jpg"  preloadHero="ns_hero-office.jpg"
 >
   <Nav />
 
@@ -88,7 +68,7 @@ const examples = [
     <!-- Jon 2026-09-15: photo hero, bare, the Live Band sub-page treatment
          in the Namesake brand. -->
     <section class="page-head page-head--glass page-head--bare has-videobg">
-      <PhotoBg src="ns_hero-office.jpg" scrim="hero" position="50% 0%" />
+      <PhotoBg src="ns_hero-office.jpg" scrim="hero" position="50% 0%" alt="A woman in a black suit standing beside a marble desk in a high-rise corner office, city windows behind her at sunset." />
       <div class="wrap">
         <div class="chip is-center"><span class="dot"></span> NAMESAKE · BY LIVE WEB STUDIOS</div>
         <span class="eyebrow is-center mb-lg">THE PROCESS</span>
@@ -146,30 +126,11 @@ const examples = [
     </section>
 
     <!-- EXAMPLES -->
+    {/* Jon 2026-09-15: this page had the original text-only trio while
+        /namesake had the screenshot version. Both now render the same
+        component, thumbnails included. */}
     <section class="sec-pad">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">THE PROOF</span>
-          <h2>See it live.</h2>
-        </div>
-        <div class="trio">
-          {examples.map((e) => (
-            e.href ? (
-              <a class="glass-inner card-pad reveal" href={e.href} target="_blank" rel="noopener noreferrer">
-                <h3>{e.name}</h3>
-                <p>{e.body}</p>
-                <span class="more">{e.go}</span>
-              </a>
-            ) : (
-              <div class="glass-inner card-pad reveal">
-                <h3>{e.name}</h3>
-                <p>{e.body}</p>
-                <span class="more">{e.go}</span>
-              </div>
-            )
-          ))}
-        </div>
-      </div>
+      <NamesakeLive />
     </section>
 
     <!-- CTA -->

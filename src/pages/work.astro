@@ -14,6 +14,7 @@ import Footer from "../components/Footer.astro";
 import VideoBg from "../components/VideoBg.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
+import { imageSize } from "../lib/imageSize";
 
 const projects = [
   { cat: "AI Image Services", title: "Live Web Photos", img: "images/portfolio/livewebphotos.jpg", href: "https://livewebphotos.com/",
@@ -24,7 +25,7 @@ const projects = [
     body: "A veteran-owned, licensed electrical contractor in Clifton, NJ with 30+ years of residential, commercial, and industrial work, panel upgrades, generators, and 24/7 emergency service." },
   { cat: "Industrial Maintenance", title: "Energy Services NA", img: "images/portfolio/energyservicesna.jpg", href: "https://energyservicesna.netlify.app/about",
     body: "An ISO 9001-certified industrial maintenance firm in Hillsborough, NJ, gas turbine, control valve, pump repair, and specialized welding for power-generation plants across North America." },
-  { cat: "Tribute Band", title: "The British Invasion Years", img: "images/portfolio/britishinvasionyears.jpg", href: "https://britishinvasionyears.netlify.app/",
+  { cat: "Tribute Band", title: "The British Invasion Years", img: "images/portfolio/britishinvasionyears.jpg", href: "https://britishinvasionyears.com",
     body: "A live '60s British Invasion concert show touring theaters coast to coast, tour dates, video, and booking for the band fronted by LWS's own Jon Wolf." },
   { cat: "Construction", title: "Catcord Construction", img: "images/portfolio/catcord.jpg", href: "https://catcord.com",
     body: "A construction management firm serving New York and New Jersey, specializing in commercial, healthcare, office, retail, and multi-family builds." },
@@ -45,7 +46,7 @@ const projects = [
 
 <Base
   title="Portfolio | Live Web Studios, Web Design & Development NJ"
-  description="Explore websites designed and built by Live Web Studios. From construction firms to logistics companies, we build fast, beautiful, and SEO-optimized websites for small businesses."
+  description="Websites designed and built by Live Web Studios. From construction firms to logistics companies, we build fast, good-looking sites that rank."
   canonical="https://livewebstudios.com/work"
 >
   <Nav />
@@ -76,7 +77,7 @@ const projects = [
           {projects.map((p) => (
             <article class="work-card reveal">
               <a class="work-thumb work-thumb--img" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${p.title}`}>
-                <img src={p.img} alt={`${p.title} website`} loading="lazy" />
+                <img src={p.img} alt={`${p.title} website`} {...imageSize(p.img)} loading="lazy" decoding="async" />
               </a>
               <div class="work-meta">
                 <span class="work-cat">{p.cat}</span>

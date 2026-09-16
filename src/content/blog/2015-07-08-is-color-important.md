@@ -1,42 +1,43 @@
 ---
 title: "Is Color Important?"
 date: 2015-07-08
-description: "Many people are terrified when it comes to choosing colors for their website."
-draft: true
+image: /images/blog/is-color-important.jpg
+imageAlt: "A fan of matte paint chip cards on pale marble, graduating from slate grey to one saturated cyan card."
+description: "Color is the first thing anyone notices, and most people freeze when it's time to pick. Here's how I think about it."
 tags: []
 categories: ["Web Design"]
 ---
+Most people freeze when it's time to pick colors for their site. There are millions of them. Where do you even start?
 
-## IS COLOR IMPORTANT?
+Here's the thing. You already do this every day. You picked what you're wearing. You picked the paint in your living room. You have taste… you just don't trust it yet when there's a website involved.
 
-### COLOR SCHEMES
+## Color Does the Talking Before You Do
 
-Many people are terrified when it comes to choosing colors for their website. The vast selection of colors can be overwhelming – but it doesn’t need to be. You make color selections every day – from what you wear to the color of rooms in your home.
+People react to color before they read a word. That reaction is fast and it's emotional, and you can use it.
 
-People have an emotional response to color so you want to pick ones that will complement your website’s content. For example you should use bright, saturated colors for a children’s page.
+Red reads as energy. Passion. Sometimes danger.
+Blue reads as calm, steady, trustworthy. There's a reason every bank on earth uses it.
+Green reads as growth and fresh.
+Yellow reads as happy and playful.
+Brown reads as earthy and solid.
+Black reads as serious. Powerful. A little mysterious.
 
-RED – Energy / Passion / Danger
+A kids' tutoring site wants bright and saturated. A law firm does not. That's really the whole lesson.
 
-Blue – Calmness / Tranquility / Stability
+## Three Schemes That Always Work
 
-GREEN – Growth / Nature / Freshness
+You don't need a color theory degree. You need one of these three.
 
-YELLOW – Happiness / Playfulness / Sunshine
+**Monochromatic.** One color, then lighter and darker versions of it. Easy to balance, easy on the eyes, very hard to screw up. Add black, white or grey and you're done.
 
-BROWN – Stability / Earthy
+**Analogous.** Colors that sit next to each other on the wheel. One dominates, the others support. Same calm feel as monochromatic with more life in it.
 
-BLACK – Solomness / Mystery / Power
+**Complementary.** Colors from opposite sides of the wheel. High contrast. Use one as your main color and the other as an accent only. That accent is what makes a button impossible to miss.
 
-### BASIC COLOR SCHEMES
+## The Mistake I See Most
 
-MONOCHROMATIC COLOR SCHEME
+People use their accent color everywhere. Then nothing stands out, because when everything is loud, nothing is.
 
-The monochromatic color scheme uses a primary color to create an overall mood. Tints and shades of the primary color are used to enhance the scheme. This scheme is easy to balance and is soothing to look at. It can be used with neutral colors like black, white or grey.
+Pick one color for the thing you want clicked. Then be disciplined about it.
 
-ANALOGOUS COLOR SCHEME
-
-The analogous color scheme uses adjacent colors on the color wheel. The primary color is dominant while the others are used as highlights. The analogous color scheme is similar to the monochromatic scheme but offers a more vibrant look.
-
-COMPLEMENTARY COLOR SCHEME
-
-The complementary color scheme uses colors that are directly opposite each other on the color wheel. This color scheme creates a high-contrast effect. It is best to use one color as the dominant color and the second color as an accent in your design. This technique will allow you to highlight important information and make it jump out at your readers.
+Not sure what fits your business? Call me. This is a ten minute conversation, not a project.

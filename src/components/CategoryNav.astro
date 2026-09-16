@@ -11,11 +11,20 @@
  * read as controls instead of faint outlines. Type matches the main nav, mono
  * and sentence case, because this row IS navigation.
  *
- * Every href is built from relPrefix so one component works at all three
- * depths: /blog, /blog/<post>, and /blog/category/<cat>.
+ * Jon 2026-09-15: one component now renders BOTH chip bars. `audience` picks
+ * the category set and the base path; the markup is identical, and the LBWS
+ * pages re-skin it through the .theme-live-band wrapper they already sit in.
+ *
+ * The last chip is the bridge to the other blog. It is a link, not a filter,
+ * so it is styled apart from the topic chips (accent border, ↗ arrow) and sits
+ * after them with a divider. A visitor should never mistake it for a filter.
+ *
+ * Every href is built from relPrefix so one component works at all depths:
+ * /blog, /blog/<post>, /blog/category/<cat>, and the three LBWS equivalents.
  */
 import { relPrefix } from "../lib/relPrefix";
-import { CATEGORIES } from "../lib/categories";
+import { byAudience, type Audience } from "../lib/categories";
+import Arrow from "./Arrow.astro";
 
 export interface Props {
   /** Slug of the archive being viewed, if any. Marks that chip current. */
@@ -23,12 +32,31 @@ export interface Props {
   /** Slugs that have at least one published post. Anything else is skipped so
       the row never links to an archive page that was not built. */
   available: string[];
-  /** True on /blog itself, where "All posts" is the current page. */
+  /** True on the blog index itself, where "All posts" is the current page. */
   isIndex?: boolean;
+  /** Which blog this bar belongs to. */
+  audience?: Audience;
 }
-const { current, available, isIndex = false } = Astro.props;
+const {
+  current,
+  available,
+  isIndex = false,
+  audience = "business",
+} = Astro.props;
+
 const rel = relPrefix(Astro.url.pathname);
-const shown = CATEGORIES.filter((c) => available.includes(c.slug));
+const shown = byAudience(audience).filter((c) => available.includes(c.slug));
+
+/* Base path for this blog, and the bridge pointing at the other one. */
+const base = audience === "musicians" ? "live-band-web-studios/blog" : "blog";
+const bridge =
+  audience === "musicians"
+    ? { href: `${rel}blog.html`, label: "Live Web Studios", cls: "chip--to-lws" }
+    : {
+        href: `${rel}live-band-web-studios/blog.html`,
+        label: "For Musicians",
+        cls: "chip--to-lbws",
+      };
 ---
 
 <section class="cat-bar">
@@ -39,7 +67,7 @@ const shown = CATEGORIES.filter((c) => available.includes(c.slug));
         <li>
           <a
             class:list={["cat-chip", { "is-current": isIndex }]}
-            href={`${rel}blog.html`}
+            href={`${rel}${base}.html`}
             aria-current={isIndex ? "page" : undefined}
           >
             All posts
@@ -49,13 +77,19 @@ const shown = CATEGORIES.filter((c) => available.includes(c.slug));
           <li>
             <a
               class:list={["cat-chip", { "is-current": c.slug === current }]}
-              href={`${rel}blog/category/${c.slug}.html`}
+              href={`${rel}${base}/category/${c.slug}.html`}
               aria-current={c.slug === current ? "page" : undefined}
             >
               {c.short}
             </a>
           </li>
         ))}
+        <li class="cat-chips__bridge">
+          <a class:list={["cat-chip", "chip--bridge", bridge.cls]} href={bridge.href}>
+            {bridge.label}
+            <Arrow dir="out" />
+          </a>
+        </li>
       </ul>
     </nav>
   </div>

@@ -151,6 +151,9 @@ header.nav{
   background:none;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;
 }
 .studios-caret{display:inline-block;transition:transform .25s var(--ease)}
+/* .dd-pair / .dd-toggle base styles live in Nav.astro's scoped block, and the
+   MOSA segmented-cell fix for them is in mosa-skin.css. */
+.dd-toggle:focus-visible{outline:2px solid var(--cyan-soft);outline-offset:3px;border-radius:2px}
 
 /* ---- STUDIOS mega-panel ---- */
 .studios{position:relative}
@@ -168,7 +171,7 @@ header.nav{
   opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);
 }
 .studios:hover .studios-caret,.studios.is-open .studios-caret{transform:rotate(180deg)}
-.mega-inner{padding:1.1rem;background:rgba(7,11,20,.99);backdrop-filter:blur(30px) saturate(150%);-webkit-backdrop-filter:blur(30px) saturate(150%)} /* frosted, near-opaque: nav backdrop-filter ancestor neutralizes the child blur, so alpha carries the readability over a bright hero */
+.mega-inner{padding:.55rem;background:rgba(7,11,20,.99);backdrop-filter:blur(30px) saturate(150%);-webkit-backdrop-filter:blur(30px) saturate(150%)} /* frosted, near-opaque: nav backdrop-filter ancestor neutralizes the child blur, so alpha carries the readability over a bright hero */
 .mega-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
 .mega-headliners{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
 .mega-card{
@@ -200,20 +203,29 @@ header.nav{
 .mega-card--namesake .mega-go{color:var(--brass)}
 .mega-go::after{content:"→"}
 .mega-card:hover .mega-go{gap:.75rem}
-.mega-support{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.mega-support{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
 .mega-row{
-  display:flex;align-items:flex-start;gap:.7rem;padding:.75rem .9rem;border-radius:var(--r-sm);
+  display:flex;align-items:flex-start;gap:.7rem;padding:.38rem .45rem;border-radius:var(--r-sm);
   border:1px solid var(--line-2);transition:background .2s var(--ease),border-color .2s var(--ease);
 }
-.mega-row__txt{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.mega-row__txt{display:flex;flex-direction:column;gap:.08rem;min-width:0}
 .mega-row .nav-ico{opacity:.72;padding-top:1px;transition:opacity .2s var(--ease)}
 .mega-row:hover .nav-ico{opacity:1}
 .mega-row:hover{background:rgba(56,189,248,.08);border-color:var(--line)}
-.mega-row-title{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--ink)}
+/* Jon 2026-09-15: "make the sub button text the same as the studios sub text
+   font/size." So the About rows drop the mono terminal readout and take the
+   family, sizes and weights of .dir-item__title / .dir-item__desc in the
+   Studios directory. Both dropdowns now read as one system. Sizes are kept in
+   step with those two rules - change them together or the panels drift. */
+.mega-row-title{font-size:.82rem;font-weight:600;letter-spacing:.01em;line-height:1.25;color:var(--ink)}
 /* Jon 2026-09-15: "keep the dropdown sub text only one line in About."
    Enforced here rather than left to character count, so a longer subtitle
    added later truncates instead of quietly reflowing the whole panel. */
-.mega-row-sub{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mega-row-sub{
+  color:var(--muted-2);font-size:.78rem;line-height:1.45;font-weight:400;
+  text-transform:none;letter-spacing:.005em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
 
 .nav-cta{display:flex;align-items:center;gap:1rem}
 .nav-cta .btn{padding:.62rem 1.1rem}
@@ -661,8 +673,7 @@ footer ul li a:hover{color:var(--cyan-soft)}
 .foot-credit{margin-top:1.4rem;text-align:center;color:var(--muted-2);font-size:.72rem;font-family:var(--mono);letter-spacing:.1em}
 .foot-credit a{color:var(--cyan-soft)}
 .foot-credit a:hover{color:var(--cyan)}
-.badge img{width:168px;height:56px;opacity:.85;transition:opacity .2s var(--ease)}
-.badge:hover img{opacity:1}
+.badge img{width:168px;height:56px;opacity:1}
 
 /* ---- Footer directory (location + industry search-entry pages) ---- */
 .foot-directory{
@@ -722,11 +733,20 @@ footer ul li a:hover{color:var(--cyan-soft)}
   .nav-links > a{padding:1rem 0;border-bottom:1px solid var(--line-2)}
   .studios{position:static}
   .studios-trigger{width:100%;justify-content:space-between;padding:1rem 0;border-bottom:1px solid var(--line-2)}
-  /* mega-panel static + always visible inside the open mobile menu */
+  /* mega-panel static + always visible inside the open mobile menu.
+     Jon 2026-09-16: the visible/clickable half has to be gated on .nav-open.
+     The drawer closes with opacity:0 + visibility:hidden + pointer-events:none
+     on .nav-links, but a child CAN override an inherited visibility:hidden and
+     pointer-events:none - it cannot override the parent's opacity:0. Ungated,
+     every .mega stayed hit-testable while invisible, so the closed drawer left
+     a ~345x450 dead zone over the top-left of every page at phone width that
+     swallowed taps on whatever sat under it. Layout reset stays unconditional;
+     only the visibility switch moves inside .nav-open. */
   .mega{
-    position:static;width:auto;opacity:1;visibility:visible;pointer-events:auto;transform:none;
+    position:static;width:auto;transform:none;
     margin:.6rem 0;padding-top:0;
   }
+  .nav-open .mega{opacity:1;visibility:visible;pointer-events:auto}
   /* The open-state rules carry transform:translateX(-50%) so the panel centres
      under its trigger on the desktop bar. In the drawer the panel is static and
      full width, so that transform slides it half its own width off the left
@@ -884,7 +904,7 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 .field select{appearance:none;cursor:pointer}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden} /* Formspree honeypot */
 .form-actions{margin-top:.4rem}
-.contact-aside h3{font-size:1.06rem;font-weight:600;color:var(--ink-soft);margin-bottom:.3rem}
+.contact-aside :is(h2,h3){font-size:1.06rem;font-weight:600;color:var(--ink-soft);margin-bottom:.3rem}
 .contact-aside .label{display:block;margin-bottom:1.4rem}
 .contact-line{display:flex;flex-direction:column;gap:.2rem;margin-bottom:1.3rem}
 .contact-line .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
@@ -921,13 +941,22 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 .blog-thumb{aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--line-2);background:var(--panel)}
 .blog-thumb img{width:100%;height:100%;object-fit:cover}
 .blog-thumb--empty{ /* CSS placeholder when a post has no thumbnail */
+  /* Same 16/9 box and bottom rule as .blog-thumb. Without the aspect-ratio this
+     collapsed to the height of its own text (39px), so a card with no hero art
+     read as a broken strip rather than a tile. Only 2 posts hit this before the
+     archive was published; 31 do now. Jon 2026-09-16. */
+  aspect-ratio:16/9;border-bottom:1px solid var(--line-2);
   display:grid;place-items:center;
   background:
     linear-gradient(135deg,rgba(56,189,248,.10),transparent 60%),
     repeating-linear-gradient(45deg,rgba(125,211,252,.05) 0 2px,transparent 2px 14px),
     var(--panel);
 }
-.blog-thumb--empty span{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+.blog-thumb--empty span{font-family:var(--mono);font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--cyan-soft);text-align:center;max-width:16ch;line-height:1.5;padding:0 1rem;
+  /* 27 archive posts carry no hero art. A tile naming the post's category
+     reads as a deliberate card and tells the reader something; a bare 'LWS'
+     monogram read as a missing image. Jon 2026-09-16. */}
 .blog-meta{padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
 .blog-date{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan-soft)}
 .blog-title{font-size:1.18rem;font-weight:600;color:var(--ink-soft);line-height:1.25;margin:0}
@@ -1048,6 +1077,14 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
    which has neither (Jon 2026-09-15, Live Band pricing payment note). */
 .cta--video{position:relative;overflow:hidden;isolation:isolate;min-height:380px;display:flex;flex-direction:column;justify-content:center}
 .cta--video::before{display:none}
+/* Jon 2026-09-15: "i dont like that this sentence goes through to the right
+   column (and over the face)." .cta h2 was already capped at 22ch but .cta p
+   had no cap, so the lede ran the full width of the card and crossed onto the
+   lit half of the clip where the scrim gives it nothing to sit against. 52ch
+   is the .page-lede measure, and it keeps the sentence inside the scrimmed
+   left column. Scoped to .cta--video: the flat CTA panels centre their copy
+   on purpose and a cap there would look lopsided. */
+.cta--video p{max-width:52ch}
 .cta--video > :not(.videobg){position:relative;z-index:1}
 /* Scrim lives in mosa-skin.css: the skin's .videobg--default rule is the
    same specificity and loads later, so it has to be overridden there. */
@@ -1090,7 +1127,7 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 .studios.is-open .mega--studios{transform:translateY(0)}
 
 .mega--studios .mega-inner{
-  position:relative;overflow:hidden;padding:1.35rem 1.4rem 1.25rem;
+  position:relative;overflow:hidden;padding:.68rem .7rem .62rem;
   background:
     radial-gradient(120% 100% at 50% -10%,rgba(56,189,248,.07),transparent 58%),
     rgba(6,9,16,.99);
@@ -1129,28 +1166,37 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 .mega--studios .dir-col:nth-child(4){transition-delay:.24s}
 
 /* ---- Directory ---- */
-.dir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem 1.6rem}
+.dir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem .8rem}
 .dir-col__label{
-  display:block;padding-bottom:.6rem;margin-bottom:.85rem;
+  display:block;padding-bottom:.3rem;margin-bottom:.42rem;
   border-bottom:1px solid rgba(255,255,255,.14);
   font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
   color:var(--ink-soft);font-weight:500;
 }
-.dir-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.15rem}
+.dir-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.08rem}
 .dir-item{
   display:grid;grid-template-columns:22px minmax(0,1fr);gap:.7rem;align-items:start;
-  padding:.5rem .55rem;margin-inline:-.55rem;border-radius:var(--r-sm);
+  padding:.25rem .28rem;margin-inline:-.28rem;border-radius:var(--r-sm);
   border:1px solid transparent;
   transition:background .2s var(--ease),border-color .2s var(--ease);
 }
 .dir-item:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
 .dir-item__ico{display:block;line-height:0;padding-top:1px}
 .dir-item__ico svg{width:20px;height:20px;display:block}
-.dir-item__txt{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.dir-item__txt{display:flex;flex-direction:column;gap:.08rem;min-width:0}
 .dir-item__title{
   font-size:.82rem;font-weight:600;color:var(--ink-soft);letter-spacing:.01em;line-height:1.25;
 }
-.dir-item__desc{color:var(--muted-2);font-size:.72rem;line-height:1.4}
+/* The supporting line under a directory item is description, not link text, so
+   it opts out of the uppercase and the wide tracking that `.nav-links a` puts
+   on every nav link. Jon 2026-09-15: set in caps and tracked out it read as a
+   terminal readout, and at two or three lines deep that is hard work. The item
+   title above it stays in caps, which is where the nav caps rule applies. */
+.dir-item__desc{
+  color:var(--muted-2);font-size:.78rem;line-height:1.45;
+  text-transform:none;letter-spacing:.005em;font-weight:400;
+  text-wrap:pretty;
+}
 .dir-item:hover .dir-item__desc{color:var(--muted)}
 .dir-item[aria-current="page"]{
   background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);
@@ -1181,11 +1227,11 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
   .studios:hover .mega--studios,
   .studios:focus-within .mega--studios,
   .studios.is-open .mega--studios{transform:none}
-  .mega--studios .mega-inner{padding:1rem}
+  .mega--studios .mega-inner{padding:.5rem}
   .mega--studios .mega-head,
   .mega--studios .dir-col{opacity:1;transform:none;transition:none}
   .mega--studios .mega-truss{display:none}
-  .dir{grid-template-columns:1fr;gap:1.25rem}
+  .dir{grid-template-columns:1fr;gap:.62rem}
 }
 
 /* ---- Blog category bar (Jon 2026-09-15) -----------------------
@@ -1298,3 +1344,85 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
    wherever it shows up. */
 .post-cat{color:var(--cat-gold);text-decoration:none;border-bottom:1px solid transparent}
 .post-cat:hover{border-bottom-color:currentColor}
+
+/* ============================================================
+   ARROW SYSTEM (Jon 2026-09-15)
+   One rule across both blogs, so the glyph tells you where the link goes
+   before you click it:
+     →  stays inside the section you are already in
+     ↗  crosses to the other blog / the other brand
+     ↓  jumps down the same page
+   Rendered by src/components/Arrow.astro as a text glyph in an aria-hidden
+   span. The link text carries the meaning; this is motion and nothing else.
+   ============================================================ */
+.arrow{
+  display:inline-block;
+  transition:transform .18s ease-out;
+  will-change:transform;
+}
+a:hover > .arrow--in,a:hover .arrow--in{transform:translateX(3px)}
+a:hover > .arrow--out,a:hover .arrow--out{transform:translate(3px,-3px)}
+a:hover > .arrow--down,a:hover .arrow--down{transform:translateY(3px)}
+@media (prefers-reduced-motion:reduce){
+  /* Colour instead of movement. The arrow still answers on hover, it just
+     does not travel. */
+  .arrow{transition:color .18s ease-out}
+  a:hover .arrow{transform:none;color:var(--ink-soft)}
+}
+
+/* ---- Bridge chips ----
+   The last chip on each blog's filter bar is a door to the OTHER blog, not a
+   filter. It has to be obviously different from the topic chips or people will
+   tap it expecting the row to filter. Two things carry that: the other brand's
+   colour, and a divider pushing it off the end of the run. */
+.cat-chips__bridge{
+  margin-left:auto;
+  padding-left:.9rem;
+  border-left:1px solid var(--line);
+}
+.chip--bridge{gap:.45rem}
+/* LWS page -> Live Band. Amber, the sub-brand's own accent. */
+.chip--to-lbws{
+  border-color:rgba(252,211,77,.55);
+  background:rgba(252,211,77,.08);
+  color:var(--amber);
+}
+.chip--to-lbws:hover{
+  border-color:var(--amber);
+  background:rgba(252,211,77,.16);
+  color:#fff;
+}
+.chip--to-lbws:focus-visible{outline-color:var(--amber)}
+/* Live Band page -> LWS. Black and hairline, the main site's own language. */
+.chip--to-lws{
+  border-color:var(--line-field);
+  background:#000;
+  color:var(--cyan-soft);
+}
+.chip--to-lws:hover{
+  border-color:var(--cyan);
+  background:#05070B;
+  color:#fff;
+}
+@media (max-width:768px){
+  /* The row scrolls horizontally at this width, so an auto margin would shove
+     the bridge chip off the end of the track instead of to the right of it. */
+  .cat-chips__bridge{margin-left:0;padding-left:.5rem}
+}
+
+/* ---- Footer bridge line ----
+   One shared <Footer>, so the line points wherever the reader is not: on an
+   LBWS page it points home to the LWS blog, everywhere else it points at the
+   musician blog. */
+.footer-bridge{
+  margin-top:1.4rem;
+  text-align:center;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;
+  color:var(--muted-2);
+}
+.footer-bridge a{
+  display:inline-flex;align-items:center;gap:.4rem;
+  color:var(--cyan-soft);
+}
+.footer-bridge a:hover{color:#fff}
+.footer-bridge--lbws a{color:var(--amber)}

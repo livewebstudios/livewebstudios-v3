@@ -1,7 +1,7 @@
 ---
 title: "The Hidden Cost of Outdated Hosting (It's Not Just the Bill)"
 date: 2026-05-22
-description: "Your hosting bill is the visible cost. But what about the rankings you're losing, the customers who bounce, and the time you're spending on maintenance that should be automatic?"
+description: "Your hosting bill is the visible cost. What about the rankings you lose, the customers who bounce, and the maintenance that should be automatic?"
 tags: ["hosting", "page speed", "small business", "SEO"]
 image: "/images/blog/hidden-cost-of-outdated-hosting.jpg"
 draft: false

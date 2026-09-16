@@ -22,6 +22,7 @@
  * VideoBg there is nothing to lazy-load and nothing to pause.
  */
 import { relPrefix } from "../lib/relPrefix";
+import { imageSize } from "../lib/imageSize";
 
 interface Props {
   /** Filename in public/images/. */
@@ -34,9 +35,24 @@ interface Props {
   /** Decorative by default. Pass alt text only if the photo carries meaning
       the copy does not already state. */
   alt?: string;
+  /** The file's intrinsic pixel size. CSS sizes this image either way, so the
+      attributes are only there to give the browser the aspect ratio before the
+      bytes arrive. Optional: left off, the size is read from the file itself,
+      which is what every caller should do. Pass them only to override. */
+  width?: number;
+  height?: number;
 }
-const { src, scrim = "hero", position = "50% 60%", alt } = Astro.props;
+const { src, scrim = "hero", position = "50% 60%", alt, width, height } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
+
+/* Read the real size off the file when the caller did not state one. Hand-typed
+   dimensions were the old contract and nine of the ten callers simply omitted
+   them, which is how eight bluestage heroes shipped with no aspect ratio at
+   all (launch audit, 2026-09-15). Reading the header cannot be forgotten and
+   cannot disagree with the file. */
+const dim = imageSize(`images/${src}`);
+const w = width ?? dim?.width;
+const h = height ?? dim?.height;
 ---
 
 <div class:list={["photobg", `videobg--${scrim}`]} aria-hidden={alt ? undefined : "true"}>
@@ -44,6 +60,8 @@ const rel = relPrefix(Astro.url.pathname);
     class="photobg__img"
     src={`${rel}images/${src}`}
     alt={alt ?? ""}
+    width={w}
+    height={h}
     loading="eager"
     decoding="async"
     style={`object-position:${position}`}

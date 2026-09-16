@@ -1,68 +1,48 @@
 ---
 title: "What We Do for Our Hosting Customers"
 date: 2025-04-04
-description: "When you choose Live Web Studios as your hosting provider, you’re not just getting server space, you’re getting a reliable, fully supported experience..."
-draft: true
+image: /images/blog/what-we-do-for-our-hosting-customers.jpg
+imageAlt: "A technician's toolkit laid out flat on navy felt: screwdrivers, a coiled cable, a spanner and a torch."
+description: "What hosting with us actually includes, and why an hour a month of changes is part of it."
 tags: []
 categories: ["Hosting & Performance"]
 ---
+Hosting with most companies means renting space on a machine. You get a login and a help article, and the rest is your problem.
 
-When you choose **Live Web Studios** as your hosting provider, you’re not just getting server space, you’re getting a **reliable, fully supported experience** tailored to the needs of modern businesses. Hosting with us means peace of mind, personal support, and the kind of attention you won’t find with a generic hosting company.
+That's not what this is. Here's what you actually get, plainly.
 
-Whether you’re a longtime client or thinking about switching to our hosting services, here’s a look at what we do for our hosting customers, and what you can expect when you come on board.
+## The Technical Side, Handled
 
-## 🔧 We Handle the Technical Stuff, So You Don’t Have To
+You don't touch a control panel. I do.
 
-You won’t have to worry about confusing control panels, updates, or server errors. We take care of:
-- Domain setup and connection
-- NO COST one hour a month of site updates
-- DNS records and domain forwarding
-- WordPress core and plugin updates
-- Server maintenance and monitoring
+Domain setup and pointing. DNS records and forwarding. Software and plugin updates. Server monitoring. Whatever breaks, gets fixed, usually before you notice.
 
-From setup to launch and beyond, we keep your site running smoothly so you can focus on your business.
+If you've ever spent a Saturday inside a hosting dashboard trying to work out what a CNAME record is, you know exactly what this is worth.
 
-## 🔒 We Keep Your Website Safe and Secure
+## An Hour a Month of Changes, No Charge
 
-Security is one of the most overlooked, but most important, parts of website hosting. We make sure your website is protected with:
-- SSL certificate (HTTPS) included
-- Firewall protection and malware scanning
-- Daily backups with quick restoration options
-- Ongoing WordPress and plugin updates to patch vulnerabilities
-- 24/7 monitoring for unusual activity or downtime
+This is the part people use most and expect least.
 
-We treat your site like it’s our own, because when you’re hosting with us, **we’ve got your back.**
+New hours. Swap a photo. Update prices. Add a staff member. Fix a typo you spotted two months ago and kept forgetting to mention.
 
-## ⚙️ We Keep Your Site Fast and Up to Date
+Email it over, it gets done. No ticket, no minimum, no invoice for ten minutes of work. Most months nobody uses the full hour. It's there anyway.
 
-Slow websites lose visitors and rankings. That’s why our hosting comes with:
-- Optimized servers for WordPress
-- Performance tuning and speed optimization
-- Image compression and caching support
-- PHP upgrades (we’ll handle it for you!)
-- Uptime monitoring and quick troubleshooting
+## Security, Included
 
-We don’t just host your site, we work to make it **faster, leaner, and better.**
+SSL certificate. Firewall. Malware scanning. Daily backups I can restore from quickly.
 
-## 🧑‍💼 We Offer Real, Personalized Support
+Backups are the one people only think about once. I'd rather you never have that day at all.
 
-Forget the endless support tickets and chatbots. When you host with Live Web Studios, you get:
-- Direct access to a real person who knows your site
-- Fast response times for updates, fixes, or questions
-- Helpful advice on how to improve or grow your site
-- No tech speak, just clear answers and helpful service
+## The Actual Difference
 
-We’re not just a hosting provider, we’re your **digital partner**.
+You call me.
 
-## 💡 Thinking of Hosting with Us? Here’s What to Expect as a New Customer:
-1. We’ll migrate your existing site (or help you build a new one)
-2. We set up everything for you: domain, email, SSL, and CMS
-3. You’ll receive full access and documentation if you want it
-4. We’ll monitor and maintain it behind the scenes
-5. And we’re just a phone call or email away when you need anything
+Not a queue, not a chatbot, not a ticket that gets a first response in two business days. Me, or somebody here who knows your site and your business.
 
-## 🏁 Ready to Make the Switch?
+That's the whole product, honestly. Everything else on this page is table stakes. The thing you're really buying is that somebody picks up.
 
-If you’re tired of being just another number with a big-box hosting company, let **Live Web Studios** take care of your website the right way, **with hands-on service, real support, and complete peace of mind.**
+## Who This Suits
 
-📩 **Contact us today to become a hosting customer, your website will thank you!**
+Businesses that want the website to just work and would rather not think about it. That's most of my clients, and most of them have been here years.
+
+If you're on cheap hosting and something's been nagging at you, call me. I'll tell you whether it's worth moving, even if the answer is no.

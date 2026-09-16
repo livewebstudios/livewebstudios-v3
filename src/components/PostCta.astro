@@ -1,0 +1,82 @@
+---
+/**
+ * PostCta — the end-of-post call to action on LBWS posts. This one stays in the
+ * amber room on purpose: DayJob sells the credential, this sells the service.
+ *
+ * The contact link carries ?source=live-band so the Formspree submission
+ * arrives already tagged as a band enquiry (see the reader script at the foot
+ * of src/pages/contact.astro).
+ */
+import Arrow from "./Arrow.astro";
+import { relPrefix } from "../lib/relPrefix";
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<aside class="post-cta" aria-labelledby="post-cta-title">
+  <h2 id="post-cta-title" class="post-cta__title">
+    Is Your Band's Website Pulling Its Weight?
+  </h2>
+  <p class="post-cta__text">
+    Jon builds websites for bands and working musicians. If yours isn't getting
+    you booked, he's happy to take a look.
+  </p>
+  <a class="post-cta__btn" href={`${rel}contact.html?source=live-band`}>
+    Let's Talk
+    <Arrow dir="in" />
+  </a>
+</aside>
+
+<style>
+  .post-cta {
+    margin: 3.5rem auto 0;
+    max-width: 72ch;
+    padding: clamp(1.8rem, 3vw, 2.4rem);
+    border-radius: var(--r-lg);
+    background:
+      radial-gradient(110% 130% at 8% -10%, rgba(252, 211, 77, 0.14), transparent 60%),
+      linear-gradient(180deg, rgba(20, 22, 27, 0.9), rgba(10, 12, 16, 0.9));
+    border: 1px solid rgba(252, 211, 77, 0.3);
+  }
+  .post-cta__title {
+    font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+    line-height: 1.2;
+    color: var(--ink-soft);
+  }
+  .post-cta__text {
+    margin-top: 0.8rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .post-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-top: 1.5rem;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--r-md);
+    background: linear-gradient(180deg, var(--amber), #e8b833);
+    color: var(--on-accent);
+    font-family: var(--sans);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid rgba(252, 211, 77, 0.6);
+    transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease);
+  }
+  .post-cta__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(252, 211, 77, 0.28);
+  }
+  @media (max-width: 560px) {
+    .post-cta__btn {
+      width: 100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta__btn:hover {
+      transform: none;
+    }
+  }
+</style>

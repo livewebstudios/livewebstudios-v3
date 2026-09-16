@@ -101,6 +101,11 @@ const bandLinks = [
   },
   { label: "Personal Sites", href: "live-band-web-studios/personal-sites.html" },
   { label: "Portfolio", href: "live-band-web-studios/portfolio.html" },
+  /* Jon 2026-09-15: the musician blog belongs in the sub-brand bar too. The
+     Studios dropdown gets a door to it from the rest of the site, but someone
+     already inside Live Band needs it here, and needs the active state on it
+     while they are reading. */
+  { label: "Blog", href: "live-band-web-studios/blog.html" },
 ];
 
 const namesakeLinks = [
@@ -439,26 +444,26 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
   .ind-cols {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0 1rem;
-    margin-bottom: 0.8rem;
+    gap: 0 0.5rem;
+    margin-bottom: 0.4rem;
   }
   .svc-cols {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 0.8rem;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
   }
   .svc-col {
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
+    gap: 0.08rem;
   }
   .svc-col-label {
     font-family: var(--mono);
     font-size: 0.56rem;
     letter-spacing: 0.2em;
     color: var(--cyan-soft);
-    padding: 0.35rem 0.6rem 0.5rem;
+    padding: 0.18rem 0.3rem 0.25rem;
   }
   .svc-link {
     display: flex;
@@ -468,7 +473,7 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     font-size: 0.72rem;
     letter-spacing: 0.06em;
     color: var(--muted);
-    padding: 0.42rem 0.6rem;
+    padding: 0.21rem 0.3rem;
     border-radius: var(--r-sm);
     transition: color 0.2s var(--ease), background 0.2s var(--ease);
   }
@@ -631,7 +636,7 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
-    padding: 0.6rem;
+    padding: 0.3rem;
   }
   .subnav-item .dd-toggle {
     font-size: 0.62rem;

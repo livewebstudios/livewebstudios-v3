@@ -9,7 +9,6 @@
  * Two levels deep, so every link here needs "../../" to reach the site root
  * per the LWS path rule. The shared chrome works this out itself via relPrefix.
  */
-import { getCollection } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import Nav from "../../../components/Nav.astro";
 import Footer from "../../../components/Footer.astro";
@@ -17,31 +16,30 @@ import VideoBg from "../../../components/VideoBg.astro";
 import BlogHero from "../../../components/BlogHero.astro";
 import CategoryNav from "../../../components/CategoryNav.astro";
 import Glass from "../../../components/Glass.astro";
-import { CATEGORIES, bySlug, resolve, has } from "../../../lib/categories";
+import { byAudience, bySlug, resolve, has } from "../../../lib/categories";
+import { getPosts, slugOf } from "../../../lib/posts";
+import { imageSize } from "../../../lib/imageSize";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const posts = await getPosts("business");
   // Only build a category that actually has published posts behind it. An
   // empty archive page is a thin page, and thin pages are worse than absent.
-  return CATEGORIES.filter((c) =>
-    posts.some((p) => has(p.data.categories, c.name)),
-  ).map((c) => ({ params: { category: c.slug }, props: { slug: c.slug } }));
+  return byAudience("business")
+    .filter((c) => posts.some((p) => has(p.data.categories, c.name)))
+    .map((c) => ({ params: { category: c.slug }, props: { slug: c.slug } }));
 }
 
 const { slug } = Astro.props;
 const cat = bySlug(slug)!;
 
-const posts = (
-  await getCollection("blog", ({ data }) => !data.draft && has(data.categories, cat.name))
-).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const all = await getCollection("blog", ({ data }) => !data.draft);
-const available = CATEGORIES.filter((c) =>
-  all.some((p) => has(p.data.categories, c.name)),
-).map((c) => c.slug);
+const all = await getPosts("business");
+const posts = all.filter((p) => has(p.data.categories, cat.name));
+const available = byAudience("business")
+  .filter((c) => all.some((p) => has(p.data.categories, c.name)))
+  .map((c) => c.slug);
 
 const cards = posts.map((post) => {
-  const postSlug = post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+  const postSlug = slugOf(post);
   const rawImage = post.data.image ?? post.data.thumbnail ?? "";
   return {
     slug: postSlug,
@@ -74,7 +72,7 @@ const jsonLd = JSON.stringify({
     "@type": "BlogPosting",
     headline: p.data.title,
     datePublished: p.data.date.toISOString().split("T")[0],
-    url: `https://livewebstudios.com/blog/${p.id.replace(/^\d{4}-\d{2}-\d{2}-/, "")}`,
+    url: `https://livewebstudios.com/blog/${slugOf(p)}`,
   })),
 });
 ---
@@ -90,7 +88,7 @@ const jsonLd = JSON.stringify({
   <main>
     <BlogHero title={cat.name} lede={cat.blurb} />
 
-    <CategoryNav available={available} current={cat.slug} />
+    <CategoryNav available={available} current={cat.slug} audience="business" />
 
     <section class="sec-pad">
       <div class="wrap">
@@ -100,10 +98,12 @@ const jsonLd = JSON.stringify({
             <a class="blog-card" href={`../${c.slug}.html`}>
               {c.image ? (
                 <div class="blog-thumb">
-                  <img src={c.image} alt={c.title} loading="lazy" />
+                  <img src={c.image} alt={c.title} {...imageSize(c.image)} loading="lazy" decoding="async" />
                 </div>
               ) : (
-                <div class="blog-thumb--empty"><span>LWS</span></div>
+                <div class="blog-thumb--empty">
+                  <span>{c.cats[0]?.name ?? "Live Web Studios"}</span>
+                </div>
               )}
               <div class="blog-meta">
                 <span class="blog-date">{c.dateLabel}</span>

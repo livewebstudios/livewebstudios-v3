@@ -1,7 +1,8 @@
 ---
 title: "From WordPress to AI-Built: What the Migration Process Actually Looks Like"
+seoTitle: "From WordPress to AI-Built: The Migration Process"
 date: 2026-07-03
-description: "Migrating a site sounds intimidating. It doesn't have to be. Here's a plain walkthrough of what the process looks like start to finish, and what you have to do. Spoiler: not much."
+description: "Migrating a site sounds intimidating. It isn't. A plain walkthrough of the process start to finish, and what you have to do. Spoiler: not much."
 tags: ["website migration", "AI websites", "how we work"]
 image: "/images/blog/migration-process-explained.jpg"
 draft: false

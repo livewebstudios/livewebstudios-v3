@@ -495,11 +495,40 @@ h1.hero-h1{max-width:22ch}
    the plain dot eyebrow stays everywhere else for now (home page + the
    services page headers only, to start).
 
+   Jon 2026-09-15: "i like these eyebrows.. change all of the eyebrows on all
+   of the single service and industry pages. use purple themed border if the
+   cards in that section are purple themed." Every .page-detail page is exactly
+   that set, and every one of them runs the plum card gradient below, so the
+   whole body class opts in here rather than 61 spans across 23 files picking
+   up a class by hand. Any eyebrow added to one of those pages later inherits
+   it for free. The accent is re-pointed to the plum cards' own hover border
+   (198 126 216) just above, so the pill's ring, glow and fill are drawn from
+   the same purple the cards under it use.
+
    The gradient border is the ::before that the dot eyebrow already uses,
    repurposed: it fills the pill, a mask cuts out everything but a 1.5px
    ring, and the gradient runs bright cyan at top-left to a soft white at
    bottom-right the way the reference fades purple to pink. */
-.eyebrow--tag{
+/* The 23 detail pages carry plum cards, so their pills take a plum accent.
+   Scoped to the eyebrow rather than to .page-detail itself: --mosa-accent-rgb
+   drives buttons, rules and links across the whole skin, and re-pointing it at
+   body level would turn every one of them purple too.
+
+   Jon 2026-09-15: "only use purple border for those eyebrows that have purple
+   border for the cards in that section." This started as a blanket
+   .page-detail .eyebrow, which painted the hero and the copy sections purple
+   on pages where nothing under them was plum (the HOSTING pill over a hero
+   with no cards in it). The plum ramp below only ever lands on .card, so the
+   accent now follows the cards section by section: a section holding cards
+   gets the plum pill, every other eyebrow on the page keeps the skin's cyan.
+   Across the 23 pages that is 14 pills plum and 44 cyan.
+
+   The pill treatment itself is NOT conditional. Every eyebrow on these pages
+   still gets the tag styling below, per the earlier instruction, so only the
+   accent colour changes here. */
+.page-detail section:has(.card) .eyebrow{--mosa-accent-rgb:198 126 216}
+.eyebrow--tag,
+.page-detail .eyebrow{
   font-family:var(--sans);
   font-weight:700;
   font-size:.8rem;
@@ -520,7 +549,8 @@ h1.hero-h1{max-width:22ch}
     inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.16);
   text-shadow:0 1px 2px rgb(0 0 0/.45);
 }
-.eyebrow--tag::before{
+.eyebrow--tag::before,
+.page-detail .eyebrow::before{
   content:"";
   position:absolute;
   inset:0;
@@ -541,7 +571,9 @@ h1.hero-h1{max-width:22ch}
 /* The hero eyebrow carries mb-lg, which the glass-hero rule trims to .6rem;
    a pill wants a touch more air under it than a text line did. */
 .hero > .hero-in > .eyebrow--tag.mb-lg,
-.page-head--glass > .wrap > .eyebrow--tag.mb-lg{margin-bottom:1.1rem}
+.page-head--glass > .wrap > .eyebrow--tag.mb-lg,
+.page-detail .hero > .hero-in > .eyebrow.mb-lg,
+.page-detail .page-head--glass > .wrap > .eyebrow.mb-lg{margin-bottom:1.1rem}
 
 /* ---- Nav type: mono, sentence case, tight --------------------- */
 .nav-links > a,.studios-trigger{
@@ -567,6 +599,31 @@ header.nav .nav-links > a:last-child{border-right:0}
 header.nav .nav-links > a:hover,header.nav .studios-trigger:hover{
   background:rgb(var(--mosa-fg-rgb)/.07);color:var(--ink-soft);
 }
+
+/* ---- Dropdown trigger pairs: the caret belongs to its own label -----
+   Jon 2026-09-15: the carets were rendering at the START of the next cell
+   ("↓ Industries", "↓ About") instead of after their own label.
+
+   Cause is the rule directly above. Services, Industries and About are each a
+   real <a> PLUS a separate caret <button>, wrapped in .dd-pair. The MOSA cell
+   treatment (1.35rem side padding + the divider border) was landing on the
+   <a> alone, so the cell boundary fell BETWEEN the label and its caret and the
+   caret was pushed outside, hard against the next label. "Studios ↓" looked
+   right only because that one is a single button carrying both, so the cell
+   wrapped the pair by accident.
+
+   The fix is to make .dd-pair the cell and strip the cell treatment off the
+   link inside it. Every trigger then matches "Studios ↓". */
+header.nav .nav-links .dd-pair{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.95rem 1.35rem;
+  border-right:1px solid var(--line-nav);
+}
+header.nav .dd-pair > .studios-trigger{padding:0;border-right:0}
+/* Hover now lights the whole cell, label and caret together, the way the
+   plain links already do. */
+header.nav .nav-links .dd-pair:hover{background:rgb(var(--mosa-fg-rgb)/.07)}
+header.nav .nav-links .dd-pair:hover > .studios-trigger{color:var(--ink-soft)}
 header.nav .nav-cta .btn{
   font-family:var(--sans);font-size:var(--mosa-text-sm,14px);
   text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
@@ -595,12 +652,41 @@ header.nav .nav-cta .btn{
   border-radius:calc(var(--r-lg) - 1px) calc(var(--r-lg) - 1px) 0 0;
 }
 .card-img img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ---- Photo cards: an even photo / copy split (Jon 2026-09-16) ------
+   Two constructions put a photo above the copy: .card-img (photo bled
+   out through .card-pad's own padding) and .lbs-card__art (photo as a
+   sibling above .card-pad). Both ran a 3:2 photo, which at the capped
+   1280px wrap left the photo at 56-60% of the card and the card taller
+   than its copy needed. Fixing the photo height instead lets the grid
+   settle each row from its copy, and the two halves land even.
+   A grid whose cards carry a CTA button gets a taller photo: the button
+   adds to the copy half, and that copy runs shorter. Set on the grid
+   rather than the card, so photo heights never mismatch inside a row.
+   Below 900px the grid is one column and the stock ratios stay. */
+@media (min-width:901px){
+  .card-img,.lbs-card__art{
+    height:var(--card-photo-h,12.5rem);
+    aspect-ratio:auto;
+    flex:none;
+  }
+  .grid-svc:has(.card-cta){--card-photo-h:14rem}
+  /* A 2-up grid runs its cards half again as wide, so the same fixed height
+     reads as a letterbox strip and crops away half of every frame. Taller
+     photo, which also carries more of the copy-heavy cards these grids hold. */
+  .grid-svc--2{--card-photo-h:18rem}
+  /* .card p carries a 1.3rem bottom margin written for cards that end in
+     a "more" link. Where the copy itself is last, it is dead space at the
+     foot of the card. */
+  .card-img ~ p:last-child,
+  .lbs-card__art + .card-pad > p:last-child{margin-bottom:0}
+}
 .card .ico,.trio .ico{
   width:52px;height:52px;border-radius:var(--mosa-radius-full,9999px);
   background:transparent;border:1px solid var(--line);
   color:var(--ink-soft);margin-bottom:2.6rem;
 }
-.card h3,.trio h3,.work-title,.blog-title,.contact-aside h3{
+.card h3,.trio h3,.work-title,.blog-title,.contact-aside :is(h2,h3){
   font-family:var(--sans);font-weight:var(--mosa-weight-medium,500);
   font-size:var(--mosa-text-h3,22px);
   letter-spacing:var(--mosa-track-tight,-.02em);
@@ -658,8 +744,15 @@ header.nav .nav-cta .btn{
 .portrait .mark{letter-spacing:var(--mosa-track-caps,.14em)}
 
 /* ---- Work / blog detail --------------------------------------- */
-.work-thumb span,.blog-thumb--empty span{
+.work-thumb span{
   font-family:var(--mono);color:var(--muted-2);text-transform:none;
+}
+/* The blog placeholder names the post's category, so it takes the site's
+   eyebrow treatment (cyan, uppercase, tracked) rather than the work-thumb's
+   muted lowercase note. This rule lands after global.css and so is the one
+   that decides. Jon 2026-09-16. */
+.blog-thumb--empty span{
+  font-family:var(--mono);color:var(--cyan-soft);text-transform:uppercase;
 }
 .work-note{
   color:var(--muted);font-size:var(--mosa-text-body,15px);text-align:left;
@@ -679,8 +772,11 @@ footer ul li a{
 footer ul li a:hover{color:var(--ink-soft)}
 .foot-grid{gap:3rem}
 .foot-directory{border-top-color:var(--line-2)}
-.badge img{opacity:.6}
-.badge:hover img{opacity:1}
+/* Badge renders at full strength (Jon 2026-09-15: "it's dark, make it normal
+   color"). The mark is a 150x37 PNG with no alpha, so any opacity under 1
+   blends the dark footer through the white plate and greys the whole badge
+   out. This rule lands after global.css, so it is the one that decides. */
+.badge img{opacity:1}
 
 /* ---- Links ----------------------------------------------------- */
 a{color:inherit}
@@ -731,6 +827,7 @@ header.nav .nav-links > a,header.nav .studios-trigger{
   .hero-in{padding-block:9rem 4rem;padding-inline:clamp(1.25rem,4vw,2.5rem)}
   header.nav .nav-links{border:0}
   header.nav .nav-links > a,header.nav .studios-trigger{border-right:0}
+  header.nav .nav-links .dd-pair{border-right:0}
   .sec-pad{padding-block:72px}
   footer{padding-block:72px 2rem}
   .card .glass-inner,.card-pad{padding:1.8rem}
@@ -960,3 +1057,27 @@ body.page-detail .card:hover > .glass-inner{
    biggest remaining gaps (26px below the chip, 56px above telemetry). */
 .hero > .hero-in > .chip{margin-bottom:1rem}
 .hero > .hero-in > .telemetry{margin-top:1.75rem}
+
+/* ---- Margin utilities, restated last (Jon 2026-09-15) ----------
+   Jon: "check the padding under the word 'Messaging....'" The section lede on
+   /industries/b2b sat flat on the cards under it despite carrying .mb-lg.
+
+   global.css declares .mb-md / .mb-lg / .mt-lg up in its utilities block, and
+   this file loads AFTER it. Component rules here that set the `margin`
+   SHORTHAND therefore reset the utility's edge at equal specificity, and later
+   source order wins: `.page-lede{margin:1.4rem 0 0}` above was zeroing
+   margin-bottom on all 19 .page-lede.mb-lg in the site, and capping the 7
+   .page-lede.mt-lg at 1.4rem instead of 2rem.
+
+   Restating the three utilities at the end of the skin makes them outrank any
+   component shorthand in this file, which is how a utility is supposed to
+   behave, and stops the next margin shorthand added here from reintroducing
+   the same bug.
+
+   Deliberately NOT a blanket !important: the hero rules that intentionally
+   retune these edges (.page-head--glass > .wrap > .eyebrow.mb-lg at .6rem, and
+   the > :last-child{margin-bottom:0} above) are all more specific than a bare
+   class, so they still win. Only the equal-specificity collisions change. */
+.mb-md{margin-bottom:1rem}
+.mb-lg{margin-bottom:1.5rem}
+.mt-lg{margin-top:2rem}

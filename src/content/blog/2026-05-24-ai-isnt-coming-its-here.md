@@ -1,13 +1,12 @@
 ---
+title: "AI Isn't Coming. It's Here."
 date: 2026-05-24
-title: "AI isn't coming. It's here. "
-thumbnail: /images/uploads/ainow.jpg
-excerpt: AI isn't coming. It's here. And most small business owners are either
-  ignoring it, panicking about it, or clicking around on ChatGPT wondering what
-  the big deal is.
-tags: []
 categories: ["AI & Automation"]
+image: /images/uploads/ainow.jpg
+imageAlt: "The letters A and I glowing above a city skyline at night."
+description: "AI isn't coming. It's here. And most small business owners are ignoring it, panicking about it, or clicking around on ChatGPT wondering why."
 ---
+
 Let me be straight with you.
 
 **AI isn't coming. It's here.** And most small business owners are either ignoring it, panicking about it, or clicking around on ChatGPT wondering what the big deal is.

@@ -26,15 +26,27 @@ interface Props {
      their own schema (blog posts: BlogPosting, faq: FAQPage) pass null so
      nothing is duplicated. */
   jsonld?: object | object[] | null;
+  /* The hero photo to preload, as a filename under public/images/ — the SAME
+     value passed to PhotoBg's `src`. Pages whose hero is a still photo pass it;
+     pages whose hero is a VideoBg or the shader canvas do not, because there is
+     no single image to prioritise there and preloading video bytes would
+     compete with the text for bandwidth.
+     The value is deliberately the bare filename rather than a finished URL:
+     both this and PhotoBg build the path with relPrefix() off the same
+     pathname, so the two strings cannot drift. A preload href that differs
+     from the img src by even a "../" is the classic way to download the hero
+     twice and make LCP worse than it was. */
+  preloadHero?: string;
 }
 const {
-  title = "Live Web Studios | Web Design, Hosting & AI Builds in North Jersey",
+  title = "Live Web Studios | Web Design & AI Builds, North Jersey",
   description =
-    "Live Web Studios builds and maintains custom, AI-platformed websites for North Jersey businesses. Web design, hosting, and SEO since 2004. Real work. Real results. One call.",
+    "Custom, AI-platformed websites for North Jersey businesses. Web design, hosting and SEO since 2004. Real work. Real results. One call.",
   canonical = "https://livewebstudios.com/",
   noindex = false,
   ogImage = "images/og-default.jpg",
   jsonld,
+  preloadHero,
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 
@@ -85,6 +97,21 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
+
+    {/* LCP hint. An eager <img> in the body is already found by the preload
+        scanner, but not until the inlined stylesheet ahead of it has been
+        parsed; this starts the fetch in the first round trip instead, and
+        fetchpriority tells the browser it outranks the other images on the
+        page. Only emitted for photo heroes (project QA checklist: "Hero image
+        has <link rel=\"preload\"> in <head>"). */}
+    {preloadHero && (
+      <link
+        rel="preload"
+        as="image"
+        href={`${rel}images/${preloadHero}`}
+        fetchpriority="high"
+      />
+    )}
 
     {schema && (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -18,7 +18,9 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
+import NamesakeLive from "../components/NamesakeLive.astro";
 import VideoBg from "../components/VideoBg.astro";
+import { imageSize } from "../lib/imageSize";
 
 // Portrait slot -> file map (14 slots, 13 unique photos; slot 14 reuses 06,
 // matching the kit's original demo arrangement).
@@ -63,32 +65,11 @@ const values = [
   },
 ];
 
-// Live example sites — ported from live Namesake "See it live" block.
-const examples = [
-  {
-    name: "jonwolfstudios.com",
-    body: "Jon Wolf, developer, musician, and the builder behind Namesake. A spare, architectural personal site that carries his creative and technical worlds in one place.",
-    href: "https://jonwolfstudios.com",
-    go: "Visit the site →",
-  },
-  {
-    name: "drrozcohen.com",
-    body: "Dr. Roz Cohen of Socius Strategies, a warm, credible home for a speaker and consultant. Built to carry her voice on culture, belonging, and inclusion.",
-    href: "https://drrozcohen.com",
-    go: "Visit the site →",
-  },
-  {
-    name: "Your site here",
-    body: "Another name, another one-of-a-kind build. Watch this space.",
-    href: null,
-    go: "More coming soon",
-  },
-];
 ---
 
 <Base
-  title="Namesake by Live Web Studios | Personal Brand Sites for Solo Professionals"
-  description="Namesake builds premium personal websites for solo professionals: attorneys going solo, performers, consultants, and founders whose name is the brand. A studio of Live Web Studios."
+  title="Namesake | Personal Brand Sites for Solo Professionals"
+  description="Namesake builds premium personal websites for solo professionals: attorneys, performers, consultants, and founders whose name is the brand."
   canonical="https://livewebstudios.com/namesake"
   ogImage="images/og-namesake.jpg"
 >
@@ -104,7 +85,7 @@ const examples = [
       <div class="fh-portraits" aria-hidden="true">
         {portraits.map((p) => (
           <span class={`fh-portraits__p fh-portraits__p--${p.slot}`}>
-            <img src={p.src} alt="" decoding="async" />
+            <img src={p.src} alt="" {...imageSize(p.src)} decoding="async" />
           </span>
         ))}
       </div>
@@ -187,29 +168,7 @@ const examples = [
 
     <!-- EXAMPLES (ported from live "See it live") -->
     <section class="sec-pad is-alt">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">THE PROOF</span>
-          <h2>See it live.</h2>
-        </div>
-        <div class="trio">
-          {examples.map((e) => (
-            e.href ? (
-              <a class="glass-inner card-pad reveal" href={e.href} target="_blank" rel="noopener">
-                <h3>{e.name}</h3>
-                <p>{e.body}</p>
-                <span class="more">{e.go}</span>
-              </a>
-            ) : (
-              <div class="glass-inner card-pad reveal">
-                <h3>{e.name}</h3>
-                <p>{e.body}</p>
-                <span class="more">{e.go}</span>
-              </div>
-            )
-          ))}
-        </div>
-      </div>
+      <NamesakeLive />
     </section>
 
     <!-- CTA -->
@@ -284,6 +243,16 @@ const examples = [
   /* Two-up audience grid (system default grid-svc is 3-up). */
   .grid-svc--2 {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Jon 2026-09-15: "make less bottom padding in those cards." The shared
+     .card-pad runs 2.4rem on all four sides, which left ~38px of empty panel
+     under the last line of copy with nothing to balance it - the art is bled
+     to the top edge, so there is no matching gap up there. Foot only; the
+     sides and the gap under the art are untouched, and this is scoped to the
+     page so every other .card on the site keeps the system padding. */
+  .grid-svc .card :global(.card-pad) {
+    padding-bottom: 1.5rem;
   }
 
   /* Editorial numbered steps — brass keyline down the left. */

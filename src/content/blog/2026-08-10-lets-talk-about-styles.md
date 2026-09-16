@@ -1,7 +1,7 @@
 ---
 title: "Let's Talk About Styles"
 date: 2026-08-10
-description: "Two clients, two different businesses, the exact same photo on both Facebook pages. Nine real web design styles, and why AI can't pick the right one for you."
+description: "Two clients, two businesses, the same photo on both Facebook pages. Nine real web design styles, and why AI can't pick the right one for you."
 tags: ["web design", "AI", "branding", "small business"]
 image: "/images/blog/jon-comic-wide.jpg"
 draft: false
@@ -36,55 +36,55 @@ Every image below was generated with AI. All nine. I want to be upfront about th
 
 ### Minimalism
 
-<img src="../images/blog/styles/style-minimalism.jpg" alt="Minimalist website design for an architecture firm, white space and thin type" loading="lazy">
+<img src="../images/blog/styles/style-minimalism.jpg" width="1080" height="1350" alt="Minimalist website design for an architecture firm, white space and thin type" loading="lazy">
 
 Space does the work. Strip out everything that isn't load-bearing and whatever survives has to be good, because there's nothing left to hide behind. Architects and photographers. Anybody whose portfolio is the pitch.
 
 ### Brutalism & Neobrutalism
 
-<img src="../images/blog/styles/style-brutalism-neobrutalism.jpg" alt="Brutalist website design for a construction company, heavy black type on raw concrete" loading="lazy">
+<img src="../images/blog/styles/style-brutalism-neobrutalism.jpg" width="1080" height="1350" alt="Brutalist website design for a construction company, heavy black type on raw concrete" loading="lazy">
 
 Raw, loud, unpolished on purpose. Heavy type, hard edges, zero decoration. It's a confidence play. Great for a construction company or a creative studio that wants to look like it doesn't care what you think. Terrible for a wealth manager.
 
 ### Constructivism
 
-<img src="../images/blog/styles/style-constructivism.jpg" alt="Constructivist website design for an industrial software company, red and black geometry with gears" loading="lazy">
+<img src="../images/blog/styles/style-constructivism.jpg" width="1080" height="1350" alt="Constructivist website design for an industrial software company, red and black geometry with gears" loading="lazy">
 
 Bold geometry, diagonals, a tight palette usually anchored in red and black. Borrowed straight from 1920s Soviet poster design. It reads industrial and deliberate. Manufacturing, engineering, anything with machinery in it.
 
 ### Swiss Style
 
-<img src="../images/blog/styles/style-swiss.jpg" alt="Swiss style website design for a financial firm, strict grid and asymmetric layout" loading="lazy">
+<img src="../images/blog/styles/style-swiss.jpg" width="1080" height="1350" alt="Swiss style website design for a financial firm, strict grid and asymmetric layout" loading="lazy">
 
 Grid, grid, grid. Asymmetric layout, ruthless alignment, type doing the heavy lifting. This is what "clean" actually means when a designer says it out loud. Financial services and data-heavy sites live here comfortably.
 
 ### Editorial Style
 
-<img src="../images/blog/styles/style-editorial.jpg" alt="Editorial style website design for a lifestyle magazine, serif headlines and full-bleed photography" loading="lazy">
+<img src="../images/blog/styles/style-editorial.jpg" width="1080" height="1350" alt="Editorial style website design for a lifestyle magazine, serif headlines and full-bleed photography" loading="lazy">
 
 Magazine layout. Serif headlines, generous margins, photography treated like it cost something. Feels expensive without shouting about it. Interiors, fashion, hospitality, anybody selling taste.
 
 ### Hand-Drawn Style
 
-<img src="../images/blog/styles/style-hand-drawn.jpg" alt="Hand-drawn website design on notebook paper with sketched icons and arrows" loading="lazy">
+<img src="../images/blog/styles/style-hand-drawn.jpg" width="1080" height="1350" alt="Hand-drawn website design on notebook paper with sketched icons and arrows" loading="lazy">
 
 Sketched icons, notebook paper, wobbly lines no computer would draw on its own. Disarming. It works for education, kids' services, and any business fighting a "these people are stiff" perception.
 
 ### Retro
 
-<img src="../images/blog/styles/style-retro.jpg" alt="Retro pixel-art website design for an arcade, neon grid and 8-bit type" loading="lazy">
+<img src="../images/blog/styles/style-retro.jpg" width="1080" height="1350" alt="Retro pixel-art website design for an arcade, neon grid and 8-bit type" loading="lazy">
 
 Pixel type, neon grids, deliberate nostalgia for one specific decade. It has to be fully committed or it just looks like a mistake. Arcades, breweries, bands, event promoters.
 
 ### Flat
 
-<img src="../images/blog/styles/style-flat.jpg" alt="Flat design website for a software company, bright blue with simple icon illustrations" loading="lazy">
+<img src="../images/blog/styles/style-flat.jpg" width="1080" height="1350" alt="Flat design website for a software company, bright blue with simple icon illustrations" loading="lazy">
 
 Simple shapes, bright fills, friendly illustration, no fake shadows anywhere. The workhorse of software and service businesses. Approachable, easy to read, and it will never get you accused of being pretentious.
 
 ### Bento Style
 
-<img src="../images/blog/styles/style-bento.jpg" alt="Bento grid website design for a tech product, rounded feature cards in a modular layout" loading="lazy">
+<img src="../images/blog/styles/style-bento.jpg" width="1080" height="1350" alt="Bento grid website design for a tech product, rounded feature cards in a modular layout" loading="lazy">
 
 Content in a grid of rounded cards, each one holding a single idea. Named after the lunch box. It's how you show eight features without building eight pages. Tech products, dashboards, anything with a real feature list.
 

@@ -23,6 +23,17 @@ import VideoBg from "../../components/VideoBg.astro";
     <section class="page-head page-head--glass has-videobg">
       <VideoBg src="bg-corner.mp4" scrim="hero" />
       <div class="wrap">
+        {/* Jon 2026-09-15: "i like the design of that thankyou page. logo
+            good." The lockup was on the live page but had never been carried
+            across; the SVG is pulled from there into public/images. */}
+        <div class="ns-logo-frame" aria-hidden="true">
+          <img
+            src="../images/namesake-header-horiz.svg"
+            alt=""
+            width="440"
+            height="120"
+          />
+        </div>
         <span class="eyebrow is-center mb-lg">NAMESAKE</span>
         <h1 class="page-h1">Got <em>it</em>.</h1>
         <p class="page-lede">Namesake has your details... thanks for sending them over. Jon will be in touch soon, usually within a day or two. Talk then.</p>
@@ -35,3 +46,26 @@ import VideoBg from "../../components/VideoBg.astro";
 
   <Footer />
 </Base>
+
+<style>
+  /* The lockup sits in a hairline frame, centred over the page head, the way
+     the live page presents it. Width is capped in rem rather than set on the
+     <img> so the frame holds its proportions down to phone width. */
+  .ns-logo-frame {
+    display: grid;
+    place-items: center;
+    width: min(28rem, 100%);
+    margin: 0 auto 2rem;
+    padding: clamp(1rem, 3vw, 1.75rem) clamp(1.25rem, 4vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: rgba(8, 11, 18, 0.42);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .ns-logo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

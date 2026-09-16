@@ -6,7 +6,6 @@
  * shell. Now every card is real HTML at build time, and Decap writes new
  * posts straight into the collection folder.
  */
-import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
@@ -14,19 +13,23 @@ import VideoBg from "../components/VideoBg.astro";
 import BlogHero from "../components/BlogHero.astro";
 import CategoryNav from "../components/CategoryNav.astro";
 import Glass from "../components/Glass.astro";
-import { CATEGORIES, resolve, has } from "../lib/categories";
+import StageDoor from "../components/StageDoor.astro";
+import { byAudience, resolve, has } from "../lib/categories";
+import { getPosts, slugOf } from "../lib/posts";
+import { imageSize } from "../lib/imageSize";
 
-const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+/* Business posts only. Musician posts live at /live-band-web-studios/blog and
+   must never surface here, on an LWS archive, or in an LWS related list.
+   getPosts also drops drafts and anything dated after this build. */
+const posts = await getPosts("business");
 
 // Only offer a chip for a category that actually has a page built behind it.
-const available = CATEGORIES.filter((c) =>
-  posts.some((p) => has(p.data.categories, c.name)),
-).map((c) => c.slug);
+const available = byAudience("business")
+  .filter((c) => posts.some((p) => has(p.data.categories, c.name)))
+  .map((c) => c.slug);
 
 const cards = posts.map((post) => {
-  const slug = post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+  const slug = slugOf(post);
   const rawImage = post.data.image ?? post.data.thumbnail ?? "";
   return {
     slug,
@@ -56,21 +59,26 @@ const cards = posts.map((post) => {
     <BlogHero title="Ideas, Insights, and Occasionally Opinions." standing />
 
 
-    <CategoryNav available={available} isIndex />
+    <CategoryNav available={available} isIndex audience="business" />
 
     <!-- POSTS -->
     <section class="sec-pad">
       <div class="wrap">
+        {/* The crossover strip. Index only: not on LWS category pages, and
+            never inside an LWS post. Agency articles carry no music links. */}
+        <StageDoor />
 
         <div class="blog-grid">
           {cards.map((c) => (
             <a class="blog-card" href={`blog/${c.slug}.html`}>
               {c.image ? (
                 <div class="blog-thumb">
-                  <img src={c.image} alt={c.title} loading="lazy" />
+                  <img src={c.image} alt={c.title} {...imageSize(c.image)} loading="lazy" decoding="async" />
                 </div>
               ) : (
-                <div class="blog-thumb--empty"><span>LWS</span></div>
+                <div class="blog-thumb--empty">
+                  <span>{c.cats[0]?.name ?? "Live Web Studios"}</span>
+                </div>
               )}
               <div class="blog-meta">
                 <span class="blog-date">{c.dateLabel}</span>

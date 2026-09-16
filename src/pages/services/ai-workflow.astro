@@ -37,7 +37,7 @@ const pageSchema = [
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "AI Workflow Automation | Live Web Studios",
-    description: "Automate content, communications, reporting, and lead qualification with AI workflows built for SMBs. AI automation from Live Web Studios, Saddle Brook, NJ.",
+    description: "Automate content, communications, reporting and lead qualification with AI workflows built for small business. Live Web Studios, Saddle Brook NJ.",
     url: "https://livewebstudios.com/services/ai-workflow",
     isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
   },
@@ -45,7 +45,7 @@ const pageSchema = [
     "@context": "https://schema.org",
     "@type": "Service",
     name: "AI Workflow Automation | Live Web Studios",
-    description: "Automate content, communications, reporting, and lead qualification with AI workflows built for SMBs. AI automation from Live Web Studios, Saddle Brook, NJ.",
+    description: "Automate content, communications, reporting and lead qualification with AI workflows built for small business. Live Web Studios, Saddle Brook NJ.",
     url: "https://livewebstudios.com/services/ai-workflow",
     areaServed: "US",
     provider: {
@@ -61,7 +61,7 @@ const pageSchema = [
 
 <Base
   title="AI Workflow Automation | Live Web Studios"
-  description="Automate content, communications, reporting, and lead qualification with AI workflows built for SMBs. AI automation from Live Web Studios, Saddle Brook, NJ."
+  description="Automate content, communications, reporting and lead qualification with AI workflows built for small business. Live Web Studios, Saddle Brook NJ."
   canonical="https://livewebstudios.com/services/ai-workflow"
   jsonld={pageSchema}
 >
@@ -85,6 +85,12 @@ const pageSchema = [
     <section class="sec-pad has-videobg has-scan">
       <VideoBg src="bg-corner.mp4" scrim="default" />
       <div class="wrap">
+        {/* Structural only. These cards are h3s and this page has no other
+            heading between them and the h1, which skipped a level on every
+            service detail page (launch audit 2026-09-15). Hidden rather than
+            visible so no new copy lands on seven pages without Jon seeing it;
+            swap the class off to show it. */}
+        <h2 class="visually-hidden">What AI workflow automation includes</h2>
         <div class="grid-svc">
           {cards.map((c) => (
             <div class="card reveal">

@@ -9,6 +9,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import Social from "../components/Social.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
 import Marquee from "../components/Marquee.astro";
@@ -48,9 +49,21 @@ import HeroActions from "../components/HeroActions.astro";
             action="https://formspree.io/f/mbdqyrwg"
             method="POST"
           >
-            <!-- Absolute success redirect (Formspree posts from its own domain) -->
-            <input type="hidden" name="_next" value="https://livewebstudios.com/thank-you" />
+            {/* Formspree redirects from ITS server, so _next has to be an
+                absolute URL: a bare relative path would resolve against
+                formspree.io and 404. The script at the foot of this page
+                rewrites it to whatever host the page is actually served from,
+                so a test submit on localhost or a Netlify preview returns
+                there instead of bouncing to production. The literal below is
+                only the no-JS fallback, and it carries .html to match
+                astro.config's build format: 'file'. Same pattern as
+                /namesake/start. */}
+            <input type="hidden" name="_next" value="https://livewebstudios.com/thank-you.html" />
             <input type="hidden" name="_subject" value="New LWS Inquiry" />
+            {/* Filled by the reader script below when the visitor arrives from
+                a Live Band page (/contact?source=live-band), so a band enquiry
+                lands in Formspree already tagged. Empty otherwise. */}
+            <input type="hidden" name="source" id="contact-source" value="" />
             <!-- Honeypot: real users never see or fill this -->
             <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
@@ -81,6 +94,7 @@ import HeroActions from "../components/HeroActions.astro";
               <select id="service" name="service">
                 <option value="" selected>Service Interested In…</option>
                 <option>Website Design</option>
+                <option>Band / Musician Website</option>
                 <option>AI Platform</option>
                 <option>Hosting</option>
                 <option>SEO</option>
@@ -112,7 +126,10 @@ import HeroActions from "../components/HeroActions.astro";
             <img class="contact-face" src="images/lwsface.png" alt="" width="300" height="304" loading="lazy" decoding="async" />
             <div>
               <span class="label">DIRECT LINE</span>
-              <h3>Talk to Jon.</h3>
+              {/* h2, not h3: this is the only heading between the page h1
+                  and the footer, so an h3 here skipped a level (launch
+                  audit 2026-09-15). Its three style rules now match either. */}
+              <h2>Talk to Jon.</h2>
             </div>
           </div>
           <p>You work directly with the founder. No account managers. No phone trees.</p>
@@ -133,12 +150,60 @@ import HeroActions from "../components/HeroActions.astro";
             <span class="k">Area</span>
             <span>Saddle Brook, NJ. Serving North Jersey and Nationwide.</span>
           </div>
+          {/* Jon 2026-09-15: the two accounts, same as the footer. Last in
+              the aside so it closes the direct-line column. */}
+          <div class="contact-line contact-line--social">
+            <span class="k">Social</span>
+            <Social />
+          </div>
         </aside>
       </div>
     </section>
   </main>
 
   <Footer />
+
+  <script>
+    /* Tag the enquiry when the visitor came in from a Live Band page.
+       ?source=live-band preselects the band option and writes the value into
+       the hidden field, so the tag survives even if someone changes the
+       dropdown afterwards. Anything else in the param is ignored: only values
+       this map knows about are ever written. */
+    const SOURCES: Record<string, string> = {
+      "live-band": "Band / Musician Website",
+    };
+    const source = new URLSearchParams(window.location.search).get("source");
+    const service = source ? SOURCES[source] : undefined;
+
+    if (source && service) {
+      const hidden = document.getElementById("contact-source");
+      if (hidden instanceof HTMLInputElement) hidden.value = source;
+
+      const select = document.getElementById("service");
+      if (select instanceof HTMLSelectElement) {
+        const match = Array.from(select.options).find((o) => o.text === service);
+        if (match) select.value = match.value || match.text;
+      }
+    }
+  </script>
+
+  {/* Point the Formspree return at this host, not a hardcoded domain. See the
+      note on the _next input above. thank-you.html is a sibling of this page,
+      so any trailing slash is stripped before resolving against it. */}
+  <script is:inline>
+    (function () {
+      var f = document.getElementById("contact-form");
+      if (!f) return;
+      var n = f.querySelector('input[name="_next"]');
+      if (!n) return;
+      try {
+        var base = window.location.href.split("#")[0].split("?")[0].replace(/\/+$/, "");
+        n.value = new URL("thank-you.html", base).href;
+      } catch (e) {
+        /* Leave the built-in fallback in place. */
+      }
+    })();
+  </script>
 </Base>
 
 <style>
@@ -157,7 +222,7 @@ import HeroActions from "../components/HeroActions.astro";
   .contact-who .label {
     margin-bottom: 0.45rem;
   }
-  .contact-who h3 {
+  .contact-who :is(h2, h3) {
     margin-bottom: 0;
   }
 </style>

@@ -1,7 +1,7 @@
 ---
 title: "What Is Google Search Console and Why Should You Care?"
 date: 2026-07-10
-description: "Google Search Console is the closest thing to seeing your website through Google's eyes. Here's what it tells you and why every business owner should understand the basics."
+description: "Search Console is the closest thing to seeing your site through Google's eyes. What it tells you, and why every owner should know the basics."
 tags: ["Google Search Console", "SEO", "website analytics", "small business", "Google rankings"]
 image: "/images/blog/google-search-console-explained.jpg"
 draft: false

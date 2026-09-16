@@ -1,13 +1,22 @@
 /**
- * Blog categories. One category per post, seven in total, each with its own
- * archive page at /blog/category/<slug>. Tags stay as metadata only: with 67
- * posts most tags carry one or two, and thin archive pages hurt more than they
- * help, so they get no pages of their own.
+ * Blog categories. Each gets its own archive page, and tags stay as metadata
+ * only: with 67 posts most tags carry one or two, and thin archive pages hurt
+ * more than they help, so they get no pages of their own.
+ *
+ * Jon 2026-09-15: twelve now, split by `audience`. The seven business ones
+ * build at /blog/category/<slug>; the five musician ones at
+ * /live-band-web-studios/blog/category/<slug>. Slugs are unique across both
+ * sets, so bySlug stays a flat lookup.
  *
  * The order here is the order chips render in. Keep `name` matching the
- * `category:` string in frontmatter exactly.
+ * `categories:` string in frontmatter exactly.
  */
+export type Audience = "business" | "musicians";
+
 export type Category = {
+  /** Which blog this category belongs to. "business" = /blog (Live Web
+      Studios), "musicians" = /live-band-web-studios/blog. */
+  audience: Audience;
   /** Full name. The archive page's H1 and its <title>, so it stays descriptive. */
   name: string;
   /** Chip label. Short on purpose: the eight full names measured 1365px against
@@ -22,15 +31,17 @@ export type Category = {
 
 export const CATEGORIES: Category[] = [
   {
+    audience: "business",
     name: "Web Design",
     short: "Web Design",
     slug: "web-design",
     blurb: "What makes a site work, and what makes one quietly fail.",
     metaTitle: "Web Design Articles | Live Web Studios",
     metaDescription:
-      "Web design writing from Jon Wolf at Live Web Studios: layout, colour, responsive design, UX, and the details that separate a site that works from one that just exists.",
+      "Web design writing from Jon Wolf: layout, colour, responsive design, UX, and the details that separate a site that works from one that just exists.",
   },
   {
+    audience: "business",
     name: "SEO & Local Search",
     short: "SEO",
     slug: "seo-local-search",
@@ -40,6 +51,7 @@ export const CATEGORIES: Category[] = [
       "Plain-English SEO and local search writing for small business owners: Google Business Profile, Search Console, rankings, and what SEO should actually cost.",
   },
   {
+    audience: "business",
     name: "AI & Automation",
     short: "AI",
     slug: "ai-automation",
@@ -49,6 +61,7 @@ export const CATEGORIES: Category[] = [
       "Honest writing on AI for small business: AI-built websites, custom web apps, what the tools can and cannot do, and where a real person still beats a model.",
   },
   {
+    audience: "business",
     name: "Hosting & Performance",
     short: "Hosting",
     slug: "hosting-performance",
@@ -58,6 +71,7 @@ export const CATEGORIES: Category[] = [
       "Web hosting and site performance explained without the jargon: page speed, bounce rate, security, uptime, and the real cost of hosting that has gone stale.",
   },
   {
+    audience: "business",
     name: "WordPress & Migration",
     short: "WordPress",
     slug: "wordpress-migration",
@@ -67,15 +81,17 @@ export const CATEGORIES: Category[] = [
       "Why Live Web Studios moved off WordPress, what a site migration actually involves, and how to tell whether your current platform is holding you back.",
   },
   {
+    audience: "business",
     name: "Running a Business Online",
     short: "Business",
     slug: "business-online",
     blurb: "The website as a business asset, not a brochure.",
     metaTitle: "Running a Business Online | Live Web Studios",
     metaDescription:
-      "Practical writing for owners: why your business needs a site, choosing a domain, blogging, analytics, reporting, and getting real value out of what you already have.",
+      "Practical writing for owners: why you need a site, choosing a domain, blogging, analytics, and getting real value out of what you already have.",
   },
   {
+    audience: "business",
     name: "LWS News",
     short: "News",
     slug: "lws-news",
@@ -83,6 +99,66 @@ export const CATEGORIES: Category[] = [
     metaTitle: "Live Web Studios News",
     metaDescription:
       "Announcements and behind-the-scenes notes from Live Web Studios: new work, how we build, and where the studio is heading.",
+  },
+  /* ---- Live Band Web Studios (Jon 2026-09-15) ----------------------------
+     Five categories for the musician-marketing blog at
+     /live-band-web-studios/blog. Same shape as the LWS seven so one component
+     renders both chip bars; `audience` is the only thing that separates them.
+     Chip labels are short for the same reason they are short above: the row
+     has to fit on one line at 1440 and stay scannable at 375. */
+  {
+    audience: "musicians",
+    name: "Getting the Gig",
+    short: "Getting the Gig",
+    slug: "getting-the-gig",
+    blurb:
+      "Booking live work, pitching venues, and building the relationships that keep a calendar full.",
+    metaTitle: "Getting the Gig | Live Band Web Studios Blog",
+    metaDescription:
+      "Booking live work, pitching venues, and building the relationships that keep a calendar full.",
+  },
+  {
+    audience: "musicians",
+    name: "Your Digital Footprint",
+    short: "Digital Footprint",
+    slug: "digital-footprint",
+    blurb: "Websites and EPKs that help people find you and hire you.",
+    metaTitle: "Your Digital Footprint | Live Band Web Studios Blog",
+    metaDescription:
+      "Websites and EPKs that help people find you and hire you.",
+  },
+  {
+    audience: "musicians",
+    name: "Social That Fills Rooms",
+    short: "Social",
+    slug: "social-that-fills-rooms",
+    blurb:
+      "Facebook and Instagram patterns that get people out to the show.",
+    metaTitle: "Social That Fills Rooms | Live Band Web Studios Blog",
+    metaDescription:
+      "Facebook and Instagram patterns that get people out to the show.",
+  },
+  {
+    audience: "musicians",
+    name: "The Email List",
+    short: "Email List",
+    slug: "the-email-list",
+    blurb: "The one audience no algorithm can take away from you.",
+    metaTitle: "The Email List | Live Band Web Studios Blog",
+    metaDescription:
+      "The one audience no algorithm can take away from you.",
+  },
+  {
+    audience: "musicians",
+    name: "Working Smarter: AI and Real Numbers",
+    short: "AI & Numbers",
+    slug: "working-smarter",
+    blurb:
+      "AI research, monthly reports, and a marketing routine that fits around a gigging schedule.",
+    metaTitle:
+      "Working Smarter: AI and Real Numbers | Live Band Web Studios",
+    metaDescription:
+      "AI research, monthly reports, and a marketing routine that fits around a gigging schedule.",
   },
 ];
 
@@ -100,3 +176,7 @@ export const resolve = (names: readonly string[] | undefined): Category[] =>
 /** True when the post carries this category, primary or otherwise. */
 export const has = (names: readonly string[] | undefined, name: string) =>
   (names ?? []).includes(name);
+
+/** Categories for one blog. The chip bars and archive builders key off this. */
+export const byAudience = (audience: Audience): Category[] =>
+  CATEGORIES.filter((c) => c.audience === audience);

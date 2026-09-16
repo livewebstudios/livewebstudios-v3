@@ -1,78 +1,102 @@
 ---
 title: "ChatGPT Interviews Jon Wolf"
 date: 2023-04-12
-description: "We were SO excited here at Live Web Studios when we got the invitation DIRECTLY from the ChatGPT bot for an interview."
-draft: true
+image: /images/blog/chatgpt-interviews-jon-wolf.jpg
+imageAlt: "Two chairs facing each other across a small table with a vintage microphone between them, one lit warm and one cyan."
+description: "ChatGPT asked to interview me. It also tried to write my answers. I rewrote those myself."
 tags: []
 categories: ["LWS News"]
 ---
+So ChatGPT asked to interview me.
 
-***We were SO excited here at Live Web Studios when we got the invitation DIRECTLY from the ChatGPT bot for an interview. There is very excited video footage...which will be posted at a later date. ENJOY!!***
+It also went ahead and wrote my answers, which I did not ask it to do. They were very polished and sounded nothing like me. I've put my own back in.
 
-ChatGPT: How long has Live Web Studios been in business and what inspired you to start the company?
+Fair warning: some of these are shorter than the question.
 
-Jon Wolf: Live Web Studios has been in business for almost 17 years now. Google and search engines were kinda new in the world back then. Small business’ were figuring out that they needed websites. The world needed website designers. I had worked in the corporate IT sector for a few years *(after trampoline school)*…it was kind of an accident when someone asked to design and develop a website in (straight HTML back then).
+---
 
-ChatGPT: What sets Live Web Studios apart from its competitors in the web design and development industry?
+**ChatGPT: How long has Live Web Studios been in business, and what inspired you to start it?**
 
-Jon Wolf: At Live Web Studios, we focus on providing personalized and customized solutions for each of our clients. We also prioritize clear communication and collaboration with our clients throughout the entire process. I like to meet my clients in person, if possible. I like to shake hands…makes a big difference in the cold, dark atmosphere of the Internet. Customers like that.
+Nineteen years. And "inspired" is doing a lot of lifting there.
 
-ChatGPT: Can you tell us about a particularly challenging project you've worked on and how you overcame the challenges?
+I worked corporate IT for a few years, after trampoline school, which is a sentence I enjoy writing. I was miserable. Somebody asked me to build them a website, straight HTML back then, and I did it. Then somebody else asked. At some point it had a name.
 
-Jon Wolf: One of our most challenging projects was creating a custom e-commerce platform for a client. We overcame the challenges by breaking the project down into smaller, manageable tasks, and involving the client in the decision-making process every step of the way.
+Nobody planned this.
 
-ChatGPT: How does Live Web Studios stay up-to-date with the latest web design and development trends and technologies?
+**ChatGPT: What sets Live Web Studios apart from its competitors?**
 
-Jon Wolf: We are constantly learning and exploring new technologies and trends in the industry through attending conferences, reading industry publications, and experimenting with new tools and techniques.
+I meet people in person when I can. I shake hands.
 
-ChatGPT: Can you walk us through your web design and development process from start to finish?
+That sounds small. It isn't. The internet is a cold, dark place to hand somebody a few thousand dollars, and most of my competition is a contact form and a stock photo of a team that doesn't exist.
 
-Jon Wolf: Our process involves consultation, research and planning, design and development, testing, and launch. We work closely with our clients to understand their needs and goals, and then develop a custom solution that meets those needs.
+Also I answer my own phone. Nineteen years, same number.
 
-ChatGPT: How does Live Web Studios ensure the security and reliability of the websites it creates and hosts?
+**ChatGPT: Tell us about a particularly challenging project and how you overcame the challenges.**
 
-Jon Wolf: We use industry-standard security measures and protocols to protect our clients' websites and data. We also provide ongoing maintenance and support to ensure that the websites we create and host are always up-to-date and functioning properly.
+A custom e-commerce build that got away from us. The scope kept growing because every answer raised two new questions.
 
-ChatGPT: How does Live Web Studios work with clients to ensure that their websites are search engine optimized?
+What fixed it was cutting it into pieces small enough to actually finish, and getting the client in the room for every decision instead of disappearing for three weeks and presenting something.
 
-Jon Wolf: We use best practices in web development and design to ensure that our clients' websites are optimized for search engines. We also provide ongoing SEO services and advice to help our clients stay ahead of the competition.
+That's the lesson, honestly. Most project disasters are communication problems wearing a technical costume.
 
-ChatGPT: Can you tell us about any exciting projects that Live Web Studios is currently working on?
+**ChatGPT: How do you stay current with web design and development?**
 
-Jon Wolf: We are currently working on a project to create a custom social networking platform for a client. We're excited about the opportunity to create a unique and innovative solution that meets their specific needs.
+I build things.
 
-ChatGPT: What are some common mistakes that you see other web design and development companies make, and how does Live Web Studios avoid these mistakes?
+Not conferences. Not newsletters. I take the new tool and make something real with it and find out where it falls apart. Right now that's AI-assisted builds, and it has changed how I work more than anything since mobile.
 
-Jon Wolf: One common mistake is failing to prioritize communication and collaboration with clients. At Live Web Studios, we make sure to involve our clients in the process every step of the way to avoid misunderstandings and ensure a successful outcome.
+I'm still learning it. I'll say that plainly.
 
-ChatGPT: How does Live Web Studios approach website maintenance and support for its clients?
+**ChatGPT: Walk us through your process from start to finish.**
 
-Jon Wolf: We provide ongoing maintenance and support to ensure that our clients' websites are always up-to-date and functioning properly. We also offer customized support plans to meet each client's specific needs.
+Talk. Plan. Build. Test. Launch. Then keep it running.
 
-ChatGPT: How does Live Web Studios help clients to develop and implement an effective content strategy?
+The talking part is the one people undervalue and it's where projects are actually won or lost. If I understand what you need the website to DO, the rest is just work.
 
-Jon Wolf: We work closely with our clients to understand their target audience and develop a content strategy that meets their needs. We also provide ongoing support and advice to help clients create and publish high-quality content.
+**ChatGPT: How do you handle security?**
 
-ChatGPT: How does Live Web Studios ensure that its websites are responsive and mobile-friendly?
+Mostly by removing things.
 
-Jon Wolf: We use responsive web design techniques to ensure that our websites are optimized for viewing on all devices, including mobile phones and tablets. We also rigorously test our websites across different devices and platforms to ensure that they are fully functional and user-friendly.
+Every plugin is code from a stranger running on your website. The fewer moving parts, the less there is to break into. That's why so much of what I build now is static HTML with no database sitting behind it.
 
-ChatGPT: How does Live Web Studios measure the success of its web design and development projects?
+Plus the ordinary stuff. Updates, SSL, backups I've actually tested.
 
-Jon Wolf: We measure the success of our projects based on a variety of factors, including website traffic, user engagement, and conversion rates. We also gather feedback from our clients to ensure that they are satisfied with the end result.
+**ChatGPT: What common mistakes do you see other web companies make?**
 
-ChatGPT: How does Live Web Studios ensure that its team members have the necessary skills and expertise to provide top-quality web design and development services?
+Going quiet.
 
-Jon Wolf: We invest in ongoing training and development for our team members to ensure that they are up-to-date with the latest technologies and techniques in the industry. We also encourage collaboration and knowledge-sharing among team members to promote continuous learning and growth.
+They take the deposit, vanish for a month, and turn up with something the client never asked for. Then everyone's angry and it's expensive to fix.
 
-ChatGPT: How does Live Web Studios handle feedback and requests for revisions from clients?
+The other one is building for the owner instead of the customer. A site that impresses you and confuses your customers has failed, no matter how good it looks.
 
-Jon Wolf: We welcome feedback and requests for revisions from our clients, and work closely with them to ensure that their needs and goals are met. We prioritize clear communication and collaboration throughout the revision process to ensure a successful outcome.
+**ChatGPT: How do you approach maintenance and support?**
 
-ChatGPT: How does Live Web Studios approach pricing for its web design and development services?
+Hosting clients get an hour a month of changes, no charge, no ticket. Email it over and it's done.
 
-Jon Wolf: We offer customized pricing for each of our clients based on their specific needs and goals. We prioritize transparency and clear communication throughout the pricing process to ensure that our clients understand the value of our services.
+Most months nobody uses the whole hour. It's there anyway, because the alternative is a client not fixing a typo for two years because they don't want an invoice for it.
 
-ChatGPT: Finally, what is the vision for Live Web Studios in the next 5-10 years?
+**ChatGPT: How do you handle feedback and revision requests?**
 
-Jon Wolf: Our vision is to continue to provide top-quality web design and development services to our clients, while also expanding our offerings to include emerging technologies and platforms. We also hope to continue to grow our team and maintain a positive and supportive work environment.
+Honestly? I ask people to save them up.
+
+One at a time over three weeks is how a project stalls. Make a list, send the list, I'll do all of it at once and then we go live. Everybody's happier.
+
+**ChatGPT: How do you price?**
+
+Per project, and you see the number before anything starts.
+
+No hourly mystery. No invoice at the end that's bigger than the conversation. If something changes mid-build we talk about it first.
+
+**ChatGPT: What's the vision for the next five to ten years?**
+
+Keep answering the phone.
+
+The tools will change again, probably more than once. That part I'm not worried about, it's the part I enjoy. What I'd like is for a client who called me in 2009 to still be able to call me in 2033 and get me.
+
+That's it. That's the vision. Not very disruptive.
+
+---
+
+Thanks to ChatGPT for the questions, and for the answers I threw out.
+
+If you want to talk to the actual person rather than the language model, call me. 732.801.9611.

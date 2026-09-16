@@ -84,6 +84,12 @@ const pageSchema = [
     <section class="sec-pad has-videobg has-scan">
       <VideoBg src="bg-corner.mp4" scrim="default" />
       <div class="wrap">
+        {/* Structural only. These cards are h3s and this page has no other
+            heading between them and the h1, which skipped a level on every
+            service detail page (launch audit 2026-09-15). Hidden rather than
+            visible so no new copy lands on seven pages without Jon seeing it;
+            swap the class off to show it. */}
+        <h2 class="visually-hidden">What AI image creation includes</h2>
         <div class="grid-svc">
           {cards.map((c) => (
             <div class="card reveal">

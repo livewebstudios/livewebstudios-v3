@@ -10,8 +10,16 @@
  * legibility). Link text Title Case per Jon's nav-case decision.
  */
 import VideoBg from "./VideoBg.astro";
+import Arrow from "./Arrow.astro";
+import Social from "./Social.astro";
 import { relPrefix } from "../lib/relPrefix";
-const rel = relPrefix(Astro.url.pathname);
+const path = Astro.url.pathname;
+const rel = relPrefix(path);
+
+/* One footer sitewide, so the bridge line points wherever the reader is not.
+   On a Live Band page it points home to the LWS blog; everywhere else it
+   points musicians at theirs. Jon 2026-09-15. */
+const onBand = path.includes("/live-band-web-studios");
 
 // Exact Mailchimp endpoint from the live newsletter page.
 const MAILCHIMP_ACTION =
@@ -90,16 +98,29 @@ const cols = [
           <span>732.801.9611</span>
           <span>jonwolf@livewebstudios.com</span>
         </div>
+
+        {/* Jon 2026-09-15: Facebook and Instagram, here and on the contact
+            page. Closing the contact block, so the phone, the email and the
+            two accounts read as one "how to reach us" group. */}
+        <Social class="foot-social" />
         {/* Jon 2026-09-15: the Jon avatar closes the brand column, under the
             email address. Decorative: the name is already in the line above. */}
         <img class="foot-face" src={`${rel}images/lwsface.png`} alt="" width="300" height="304" loading="lazy" decoding="async" />
       </div>
 
+      {/* The footer's own h2, so its column h3s always follow an h2 and never
+          sit directly under the page h1. The 2026-09-14 pass moved the columns
+          from h4 to h3, which fixed the 72 pages whose last body heading is an
+          h2 but left every THIN page broken: a thank-you, the newsletter page
+          or a form has no body h2 at all, so h1 -> h3 skipped a level there
+          (11 pages, launch audit 2026-09-15). Anchoring the level inside the
+          footer fixes it for any page, including ones not written yet.
+          Hidden visually because the columns are self-evident on screen; a
+          screen reader gets the landmark name it was missing. */}
+      <h2 class="visually-hidden">Site navigation</h2>
+
       {cols.map((c) => (
         <div class="foot-col">
-          {/* h3, not h4: most pages' last body heading is an h2, and an h4
-              directly after it skips a level on every one of them (72 pages
-              in the launch audit, 2026-09-14). h3 follows h2 or h3 cleanly. */}
           <h3>{c.h}</h3>
           <ul>
             {c.links.map(([label, href]) => {
@@ -133,6 +154,23 @@ const cols = [
         <img src={`${rel}images/verifiedsecured.png`} alt="Verified &amp; Secured by Live Web Studios" width="150" height="37" loading="lazy" decoding="async" />
       </a>
     </div>
+
+    {onBand ? (
+      <p class="footer-bridge footer-bridge--lbws">
+        Run a business offstage?{" "}
+        <a href={`${rel}blog.html`}>
+          The Live Web Studios blog covers websites and AI for small businesses
+          <Arrow dir="out" />
+        </a>
+      </p>
+    ) : (
+      <p class="footer-bridge">
+        <a href={`${rel}live-band-web-studios/blog.html`}>
+          Musicians: the Live Band Web Studios blog
+          <Arrow dir="out" />
+        </a>
+      </p>
+    )}
   </div>
 </footer>
 
@@ -197,6 +235,9 @@ const cols = [
   .foot-honeypot {
     position: absolute;
     left: -5000px;
+  }
+  .foot-social {
+    margin-top: 1rem;
   }
   .foot-face {
     display: block;

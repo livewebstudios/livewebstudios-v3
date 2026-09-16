@@ -22,6 +22,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
+import BandSeoCards from "../components/BandSeoCards.astro";
 import VideoBg from "../components/VideoBg.astro";
 import { relPrefix } from "../lib/relPrefix";
 
@@ -151,17 +152,11 @@ const steps = [
   { art: "step-the-ongoing.jpg", alt: "A tour calendar open on a desk beside a laptop", title: "The Ongoing", body: "Monthly SEO reports. Blog posts. Gig calendar updates. Jon doesn't disappear after launch." },
 ];
 
-// SEO section — ported from live (3 cards).
-const seo = [
-  { art: "seo-schema-meta.jpg", alt: "A hand-drawn stage diagram on a road case lid with a pencil across it", title: "Schema & Meta, Done Right", body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play." },
-  { art: "seo-the-words.jpg", alt: "A phone face up on a road case, an empty search field glowing on its screen", title: "The Words People Type", body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page." },
-  { art: "seo-blog-articles.jpg", alt: "A stack of printed pages and a notebook on a road case under a work lamp", title: "Blog Articles Engines Love", body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings." },
-];
 ---
 
 <Base
   title="Live Band Web Studios | Websites for Touring Bands & Artists"
-  description="Live Band Web Studios builds websites for professional touring bands and artists: tour dates, press kits and EPKs, setlists, music, and booking. A studio of Live Web Studios."
+  description="Websites for working bands and artists: tour dates, press kits and EPKs, setlists, music, and booking. A studio of Live Web Studios."
   canonical="https://livewebstudios.com/live-band-web-studios"
   ogImage="images/og-live-band.jpg"
 >
@@ -302,21 +297,7 @@ const seo = [
         </div>
         <!-- em-dash: "core part of what we do — every site is engineered" → comma -->
         <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
-        <div class="grid-svc">
-          {seo.map((s) => (
-            <div class="card lbs-card reveal">
-              <Glass variant="inner" innerClass="lbs-card__inner">
-                <div class="lbs-card__art">
-                  <img src={`${rel}images/band/${s.art}`} alt={s.alt} width="900" height="900" loading="lazy" decoding="async" />
-                </div>
-                <div class="card-pad">
-                  <h3>{s.title}</h3>
-                  <p>{s.body}</p>
-                </div>
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <BandSeoCards />
         <!-- em-dash: "Google didn't tweak the rules — it rewrote them" → comma -->
         <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
       </div>
@@ -485,6 +466,13 @@ const seo = [
     overflow: hidden;
     border-radius: var(--r-md);
     border-color: rgba(252, 211, 77, 0.2);
+    /* Jon 2026-09-15: "the cards on this page are ALL too large... just make
+       the cards less height." The inherited 2.4rem from .card .glass-inner was
+       framing the art AND sitting outside .card-pad, so each card carried two
+       nested frames and ~77px of pure vertical dead space. Zero here, art bled
+       to the edge, .card-pad owns the inset. Matches the Namesake value cards,
+       which is the other half of the ask. */
+    padding: 0;
   }
   /* 1:1, because the source frames are square: any wider ratio throws away
      the top and bottom of every one of them. It also lands the banner at
@@ -495,7 +483,10 @@ const seo = [
     position: relative;
     flex: none;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    /* Was 1/1. Square art alone was 305px of a 682px card at 1440. 3:2 is what
+       the How It Works cards below and the Namesake value cards both run, so
+       all three now read as one component. */
+    aspect-ratio: 3 / 2;
     overflow: hidden;
     border-bottom: 1px solid rgba(252, 211, 77, 0.18);
   }
@@ -503,13 +494,12 @@ const seo = [
     .lbs-card__art { aspect-ratio: 16 / 9; }
   }
   /* The four How It Works cards carry two lines of copy against the build
-     cards' full paragraph, so a square banner left them tall and hollow
-     (Jon 2026-09-14: "make these 4 cards less heights"). 3:2 takes ~100px off
-     each, and trimming the pad's foot takes the rest; the art still holds
-     about 40% of the card, which is as far as it can come down while the
-     banner still reads as the top of the card rather than a strip. */
+     cards' full paragraph (Jon 2026-09-14: "make these 4 cards less heights").
+     They were already 3:2 while the build cards were square; the build cards
+     have since joined them, so this now only restates the shared ratio and is
+     kept as the explicit anchor for the steps row. */
   .grid-svc--steps .lbs-card__art { aspect-ratio: 3 / 2; }
-  .grid-svc--steps .lbs-card :global(.card-pad) { padding: 1.25rem 1.4rem 1.3rem; }
+  .grid-svc--steps .lbs-card :global(.card-pad) { padding: 1.4rem 2.4rem 1.4rem; }
   .grid-svc--steps .lbs-card :global(.card-cta) { margin-top: 0.9rem; padding: 0.6rem 1rem; }
   /* Equal columns. The default 1fr is minmax(auto,1fr), so the one card
      carrying a long CTA ("See full band sites we've built") set a min-content
@@ -551,7 +541,14 @@ const seo = [
      Let flex size it from its content. */
   .lbs-card :global(.card-pad) {
     height: auto;
-    padding: 1.4rem 1.5rem 1.6rem;
+    padding: 1.6rem 2.4rem 1.5rem;
+  }
+  /* The paragraph's 1.3rem margin-bottom and the CTA's own 1rem margin-top do
+     not collapse inside a flex column, so the two stacked into a 37px trench
+     between the copy and the button. The paragraph's margin is enough on its
+     own. The steps row keeps its explicit 0.9rem below, set further up. */
+  .lbs-card :global(.card-cta) {
+    margin-top: 0;
   }
   .lbs-card:hover > :global(.glass-inner) {
     border-color: rgba(252, 211, 77, 0.45);

@@ -1,0 +1,128 @@
+---
+/**
+ * /live-band-web-studios/blog — the musician-marketing blog index.
+ *
+ * Same collection, same card markup and same chip component as /blog. The only
+ * things that differ are `audience: "musicians"` and the .theme-live-band
+ * wrapper that re-skins the shared chrome amber. Nothing is forked.
+ *
+ * One level deep, so every asset and link reference needs "../" to reach the
+ * site root per the LWS path rule. The shared chrome works that out itself
+ * through relPrefix.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import BandBlogHero from "../../components/BandBlogHero.astro";
+import CategoryNav from "../../components/CategoryNav.astro";
+import DayJob from "../../components/DayJob.astro";
+import PostCta from "../../components/PostCta.astro";
+import { byAudience, resolve, has } from "../../lib/categories";
+import { getPosts, slugOf, bandImage } from "../../lib/posts";
+import { relPrefix } from "../../lib/relPrefix";
+
+const rel = relPrefix(Astro.url.pathname);
+
+/* Musician posts only, drafts dropped, anything dated after this build
+   excluded. The drip schedule lives entirely in that last rule. */
+const posts = await getPosts("musicians");
+
+const available = byAudience("musicians")
+  .filter((c) => posts.some((p) => has(p.data.categories, c.name)))
+  .map((c) => c.slug);
+
+const cards = posts.map((post) => {
+  const cats = resolve(post.data.categories);
+  const raw = bandImage(post, cats.map((c) => c.slug));
+  return {
+    slug: slugOf(post),
+    title: post.data.title,
+    summary: post.data.description ?? post.data.excerpt ?? "",
+    cats,
+    image: raw ? `${rel}${raw.replace(/^\//, "")}` : "",
+    imageAlt: post.data.imageAlt ?? "",
+    dateLabel: post.data.date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }),
+  };
+});
+---
+
+<Base
+  title="Musician Marketing Blog | Live Band Web Studios"
+  description="Getting booked is a marketing job. Plain-English help with band websites, EPKs, social posts, email lists, and AI for working musicians."
+  canonical="https://livewebstudios.com/live-band-web-studios/blog"
+  ogImage="images/og-live-band.jpg"  preloadHero="band/blog/lbws-blog-hero.webp"
+>
+  <Nav />
+
+  <main class="theme-live-band">
+    <BandBlogHero title="Getting Booked Is a Marketing Job." standing />
+
+    <CategoryNav available={available} isIndex audience="musicians" />
+
+    <section class="sec-pad" id="posts">
+      <div class="wrap">
+        <div class="blog-grid">
+          {cards.map((c) => (
+            <a class="blog-card" href={`blog/${c.slug}.html`}>
+              {c.image ? (
+                <div class="blog-thumb">
+                  <img src={c.image} alt={c.imageAlt || c.title} width="1200" height="630" loading="lazy" decoding="async" />
+                </div>
+              ) : (
+                <div class="blog-thumb--empty"><span>LBWS</span></div>
+              )}
+              <div class="blog-meta">
+                <span class="blog-date">{c.dateLabel}</span>
+                <h2 class="blog-title">{c.title}</h2>
+                <p class="blog-sum">{c.summary}</p>
+                <span class="blog-cats">
+                  {c.cats.map((k) => <span class="blog-cat">{k.name}</span>)}
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Jon 2026-09-15: the index now closes the way a post does. Same two
+        blocks, same order, so somebody who lands on the index from search gets
+        the offer and the byline without having to open an article first. */}
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="index-foot">
+          <PostCta />
+          <div class="index-author">
+            <DayJob variant="compact" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* The crossover strip, last: the credential, in LWS language. */}
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <DayJob />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Matches the measure the same two blocks sit at on a post page, so the
+     index's closing pair and a post's closing pair read as one thing. */
+  .index-foot {
+    max-width: 72ch;
+    margin-inline: auto;
+  }
+  .index-author {
+    margin-top: 2.5rem;
+  }
+</style>

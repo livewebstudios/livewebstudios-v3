@@ -66,6 +66,10 @@ const industries = [
       <Aurora className="aurora--bg" base="#04060c" />
       <div class="wrap">
         <p class="page-lede is-center mb-lg">Pick your field. Every build is shaped around how your customers actually search, decide, and convert.</p>
+        {/* Structural only: the cards below are h3s with nothing between them
+            and the page h1 (launch audit 2026-09-15). Hidden so the page
+            gains no new visible copy. */}
+        <h2 class="visually-hidden">Industries we build for</h2>
         <div class="grid-svc">
           {industries.map((i) => (
             <ServiceCard

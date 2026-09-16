@@ -1,5 +1,6 @@
 ---
 title: "Case Study: How One Long-Term Client Got a Faster, Cheaper, Better Website"
+seoTitle: "Case Study: A Faster, Cheaper, Better Website"
 date: 2026-06-05
 description: "Our first AI-stack migration is done. Here's what we did and what the numbers look like on the other side."
 tags: ["case study", "website migration", "AI websites", "page speed", "small business"]

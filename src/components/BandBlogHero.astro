@@ -1,0 +1,133 @@
+---
+/**
+ * BandBlogHero — the one hero across the Live Band blog: the index, each
+ * category archive, and each post. Mirrors what BlogHero does for the LWS
+ * blog, and for the same reason: a single hero is what makes three page types
+ * read as one room.
+ *
+ * Jon 2026-09-15: the backstage road-case caricature landed, so this now runs
+ * on `band/blog/lbws-blog-hero.webp` instead of the bluestage photo the Live
+ * Band sub pages carry. The art holds its subject in the right third and
+ * leaves the left third close to black, so the copy moves off centre and sits
+ * in that dark area, the same trick .sec-photobg--copy-right pulls in the
+ * other direction. A left-weighted scrim on top of PhotoBg's own scrim keeps
+ * the text bed dark no matter how the photo crops.
+ *
+ * The vertical focal point sits near the top of the frame on purpose. A
+ * category archive's hero is a good deal shorter than the index's, and a
+ * centred crop took the top of his head off on those pages.
+ *
+ * Under 900px the section is narrow enough that the copy spans the full
+ * width, so the left-weighted gradient stops protecting it. There the scrim
+ * flattens to an even, near-opaque wash. Contrast holds at 1440, 768 and 375
+ * that way.
+ *
+ * `title` is the page's own H1 and is unique per page: the blog line on the
+ * index, the category name on an archive, the post title on a post.
+ */
+import PhotoBg from "./PhotoBg.astro";
+import Arrow from "./Arrow.astro";
+import { relPrefix } from "../lib/relPrefix";
+
+export interface Props {
+  /** This page's H1. Unique per page. */
+  title: string;
+  /** Optional line under the H1 (a category blurb). */
+  lede?: string;
+  /** Render the standing blog line and the hero buttons. Index only. */
+  standing?: boolean;
+}
+const { title, lede, standing = false } = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<section class="page-head page-head--glass page-head--bare has-videobg bandhero">
+  <PhotoBg
+    src="band/blog/lbws-blog-hero.webp"
+    scrim="hero"
+    position="72% 8%"
+    alt="Caricature of Jon Wolf sitting on a road case in the wings of a stage, a laptop open beside him showing a band website."
+  />
+  <div class="bandhero__scrim"></div>
+  <div class="wrap">
+    <span class="eyebrow mb-lg">The Live Band Web Studios Blog</span>
+    <h1 class="page-h1">{title}</h1>
+
+    {standing && (
+      <p class="page-lede">
+        Nobody teaches this part in music school. The website and the EPK. The
+        email list, and the post that gets people out on a Thursday night. I
+        learned it over twenty-plus years of playing in working bands, and I'm
+        grateful my day job building websites handed me the tools to figure it
+        out.
+      </p>
+    )}
+    {lede && <p class="page-lede">{lede}</p>}
+    <slot />
+
+    {standing && (
+      <div class="hero-btns mt-lg">
+        <a class="btn btn-primary" href={`${rel}contact.html?source=live-band`}>
+          Let's Talk <Arrow dir="in" />
+        </a>
+        <a class="btn btn-ghost" href="#posts">
+          Read the Posts <Arrow dir="down" />
+        </a>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  /* Copy left, art right. .page-head is centred by default, so everything
+     that centres itself with an auto margin has to be unpicked one by one. */
+  .bandhero {
+    text-align: left;
+  }
+  .bandhero .eyebrow,
+  .bandhero .hero-btns {
+    justify-content: flex-start;
+  }
+  .bandhero :global(h1.page-h1) {
+    margin-inline: 0;
+    max-width: 16ch;
+  }
+  .bandhero :global(.page-lede) {
+    margin-inline: 0;
+  }
+  /* The copy column. 52% matches .sec-photobg--copy-right, which is what
+     keeps the two photo heroes reading as one system. */
+  .bandhero .wrap > * {
+    width: min(100%, 52%);
+  }
+
+  /* Left-weighted darkening on top of PhotoBg's hero scrim. Sits at the same
+     z-index as .photobg and later in the DOM, so it paints over the art and
+     under .wrap. */
+  .bandhero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(5, 7, 11, 0.9) 0%,
+      rgba(5, 7, 11, 0.86) 34%,
+      rgba(5, 7, 11, 0.5) 62%,
+      rgba(5, 7, 11, 0.12) 100%
+    );
+  }
+
+  @media (max-width: 900px) {
+    /* Full-width copy, so an even wash instead of a left-weighted one. */
+    .bandhero .wrap > * {
+      width: 100%;
+    }
+    .bandhero :global(h1.page-h1) {
+      max-width: 20ch;
+    }
+    .bandhero__scrim {
+      background: rgba(5, 7, 11, 0.82);
+    }
+  }
+</style>

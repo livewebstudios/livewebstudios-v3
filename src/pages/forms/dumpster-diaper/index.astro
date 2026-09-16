@@ -49,10 +49,16 @@ import Footer from "../../../components/Footer.astro";
               action="https://formspree.io/f/xbdenrdb"
               method="POST"
             >
-              <!-- Formspree redirect to thank-you page -->
-              <input type="hidden" name="_next" value="https://livewebstudios.com/forms/dumpster-diaper/thank-you">
+              <!-- Formspree redirect to thank-you page. Formspree redirects
+                   from ITS server, so this has to be absolute. The script at
+                   the foot of this page rewrites it to whatever host the page
+                   is served from, so a test submit on localhost or a Netlify
+                   preview returns there instead of bouncing to production.
+                   The literal below is only the no-JS fallback, and it carries
+                   .html to match astro.config's build format: 'file'. -->
+              <input type="hidden" name="_next" value="https://livewebstudios.com/forms/dumpster-diaper/thank-you.html">
               <!-- Subject line in Formspree inbox -->
-              <input type="hidden" name="_subject" value="Dumpster Diaper — E-Commerce Discovery Submitted">
+              <input type="hidden" name="_subject" value="Dumpster Diaper: E-Commerce Discovery Submitted">
               <!-- Honeypot spam trap -->
               <input type="text" name="_gotcha" style="display:none">
               <!-- Priority ranking (populated by JS before submit) -->
@@ -108,12 +114,12 @@ import Footer from "../../../components/Footer.astro";
               <div class="form-section">
                 <div class="section-header">
                   <span class="section-num">Section 02</span>
-                  <span class="section-title">Your Product ,  Right Now</span>
+                  <span class="section-title">Your Product, Right Now</span>
                 </div>
 
                 <div class="question">
                   <label class="q-label" for="product-name">Exact product name as it should appear on the site</label>
-                  <input type="text" id="product-name" name="Product Name" placeholder="e.g. The Dumpster Diaper — Standard Model" class="trackable">
+                  <input type="text" id="product-name" name="Product Name" placeholder="e.g. The Dumpster Diaper, Standard Model" class="trackable">
                 </div>
 
                 <div class="two-col">
@@ -124,8 +130,8 @@ import Footer from "../../../components/Footer.astro";
                   <div class="question">
                     <label class="q-label">Do you offer bulk or fleet pricing?</label>
                     <div class="choice-group" style="margin-top:4px">
-                      <label class="choice-item"><input type="radio" name="Bulk Pricing" value="Yes — separate price tier for large orders" class="trackable"> Yes ,  I have a separate price tier for large orders</label>
-                      <label class="choice-item"><input type="radio" name="Bulk Pricing" value="No — same price regardless of quantity" class="trackable"> No ,  same price regardless of quantity</label>
+                      <label class="choice-item"><input type="radio" name="Bulk Pricing" value="Yes, separate price tier for large orders" class="trackable"> Yes, I have a separate price tier for large orders</label>
+                      <label class="choice-item"><input type="radio" name="Bulk Pricing" value="No, same price regardless of quantity" class="trackable"> No, same price regardless of quantity</label>
                       <label class="choice-item"><input type="radio" name="Bulk Pricing" value="Not yet but want to offer this in future" class="trackable"> Not yet, but I want to offer this in the future</label>
                     </div>
                   </div>
@@ -139,13 +145,13 @@ import Footer from "../../../components/Footer.astro";
                     <label class="choice-item"><input type="checkbox" name="Product Variations" value="Different colors or materials" class="trackable"> Different colors or materials</label>
                     <label class="choice-item"><input type="checkbox" name="Product Variations" value="Accessories or add-ons" class="trackable"> Accessories or add-ons (extra magnets, replacement parts, etc.)</label>
                     <label class="choice-item"><input type="checkbox" name="Product Variations" value="Multi-packs" class="trackable"> Bundled multi-packs (2-pack, 5-pack, etc.)</label>
-                    <label class="choice-item"><input type="checkbox" name="Product Variations" value="One product one price" class="trackable"> No ,  one product, one version, one price</label>
+                    <label class="choice-item"><input type="checkbox" name="Product Variations" value="One product one price" class="trackable"> No, one product, one version, one price</label>
                   </div>
                 </div>
 
                 <div class="question">
                   <label class="q-label" for="product-desc">Describe the product in your own words</label>
-                  <div class="q-hint">Like you're explaining it to someone at a trade show. Don't polish it ,  we want your language.</div>
+                  <div class="q-hint">Like you're explaining it to someone at a trade show. Don't polish it, we want your language.</div>
                   <textarea id="product-desc" name="Product Description" placeholder="What is it, what problem does it solve, and why should someone buy it..." class="trackable" maxlength="1000"></textarea>
                   <div class="char-count"><span id="pdCount">0</span> / 1000</div>
                 </div>
@@ -153,20 +159,20 @@ import Footer from "../../../components/Footer.astro";
                 <div class="question">
                   <label class="q-label">Do you have existing product photos?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Product Photos" value="Yes — professional photos on clean background" class="trackable"> Yes ,  professional photos on a clean background</label>
-                    <label class="choice-item"><input type="radio" name="Product Photos" value="Yes — phone photos, nothing fancy" class="trackable"> Yes ,  but they're phone photos, nothing fancy</label>
+                    <label class="choice-item"><input type="radio" name="Product Photos" value="Yes, professional photos on clean background" class="trackable"> Yes, professional photos on a clean background</label>
+                    <label class="choice-item"><input type="radio" name="Product Photos" value="Yes, phone photos, nothing fancy" class="trackable"> Yes, but they're phone photos, nothing fancy</label>
                     <label class="choice-item"><input type="radio" name="Product Photos" value="Have some but need better" class="trackable"> We have some but need better ones taken</label>
-                    <label class="choice-item"><input type="radio" name="Product Photos" value="No photos at all" class="trackable"> No photos at all ,  need to start from scratch</label>
+                    <label class="choice-item"><input type="radio" name="Product Photos" value="No photos at all" class="trackable"> No photos at all, need to start from scratch</label>
                   </div>
                 </div>
 
                 <div class="question">
                   <label class="q-label">Do you have video of the product being used or installed?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Product Video" value="Yes — ready to use" class="trackable"> Yes ,  and it's ready to use on the new site</label>
-                    <label class="choice-item"><input type="radio" name="Product Video" value="Yes — needs to be updated" class="trackable"> Yes ,  but it needs to be updated or redone</label>
-                    <label class="choice-item"><input type="radio" name="Product Video" value="No — want one created" class="trackable"> No ,  but I'd like one created</label>
-                    <label class="choice-item"><input type="radio" name="Product Video" value="No — don't need one" class="trackable"> No ,  and I don't need one right now</label>
+                    <label class="choice-item"><input type="radio" name="Product Video" value="Yes, ready to use" class="trackable"> Yes, and it's ready to use on the new site</label>
+                    <label class="choice-item"><input type="radio" name="Product Video" value="Yes, needs to be updated" class="trackable"> Yes, but it needs to be updated or redone</label>
+                    <label class="choice-item"><input type="radio" name="Product Video" value="No, want one created" class="trackable"> No, but I'd like one created</label>
+                    <label class="choice-item"><input type="radio" name="Product Video" value="No, don't need one" class="trackable"> No, and I don't need one right now</label>
                   </div>
                 </div>
               </div>
@@ -186,7 +192,7 @@ import Footer from "../../../components/Footer.astro";
                     <label class="choice-item"><input type="radio" name="Inventory Method" value="Manufacture and stock ourselves" class="trackable"> We manufacture and stock product ourselves</label>
                     <label class="choice-item"><input type="radio" name="Inventory Method" value="Third-party manufacturer ships direct (dropship)" class="trackable"> We use a third-party manufacturer who ships direct (dropship)</label>
                     <label class="choice-item"><input type="radio" name="Inventory Method" value="Fulfillment warehouse (3PL)" class="trackable"> We use a fulfillment warehouse (3PL)</label>
-                    <label class="choice-item"><input type="radio" name="Inventory Method" value="Made to order" class="trackable"> Made to order ,  no stock kept on hand</label>
+                    <label class="choice-item"><input type="radio" name="Inventory Method" value="Made to order" class="trackable"> Made to order, no stock kept on hand</label>
                     <label class="choice-item"><input type="radio" name="Inventory Method" value="Other" class="trackable"> Other</label>
                   </div>
                 </div>
@@ -218,9 +224,9 @@ import Footer from "../../../components/Footer.astro";
                   <label class="q-label">Do you need real-time inventory tracking on the site?</label>
                   <div class="q-hint">e.g. "Only 12 left in stock" or auto-disabling the buy button when stock hits zero</div>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Stock Tracking" value="Yes — important, we run low sometimes" class="trackable"> Yes ,  this is important, we run low sometimes</label>
+                    <label class="choice-item"><input type="radio" name="Stock Tracking" value="Yes, important, we run low sometimes" class="trackable"> Yes, this is important, we run low sometimes</label>
                     <label class="choice-item"><input type="radio" name="Stock Tracking" value="Nice to have but not critical" class="trackable"> Nice to have, but not critical right now</label>
-                    <label class="choice-item"><input type="radio" name="Stock Tracking" value="No — always have stock available" class="trackable"> No ,  we always have stock available</label>
+                    <label class="choice-item"><input type="radio" name="Stock Tracking" value="No, always have stock available" class="trackable"> No, we always have stock available</label>
                   </div>
                 </div>
 
@@ -231,7 +237,7 @@ import Footer from "../../../components/Footer.astro";
                     <label class="choice-item"><input type="checkbox" name="Shipping Regions" value="All 50 US states including AK and HI" class="trackable"> All 50 US states including AK and HI</label>
                     <label class="choice-item"><input type="checkbox" name="Shipping Regions" value="Canada" class="trackable"> Canada</label>
                     <label class="choice-item"><input type="checkbox" name="Shipping Regions" value="International" class="trackable"> International (worldwide or select countries)</label>
-                    <label class="choice-item"><input type="checkbox" name="Shipping Regions" value="Not sure yet" class="trackable"> Not sure yet ,  needs discussion</label>
+                    <label class="choice-item"><input type="checkbox" name="Shipping Regions" value="Not sure yet" class="trackable"> Not sure yet, needs discussion</label>
                   </div>
                 </div>
 
@@ -263,7 +269,7 @@ import Footer from "../../../components/Footer.astro";
                     <label class="choice-item"><input type="checkbox" name="Payment Processor" value="PayPal" class="trackable"> PayPal</label>
                     <label class="choice-item"><input type="checkbox" name="Payment Processor" value="Square" class="trackable"> Square</label>
                     <label class="choice-item"><input type="checkbox" name="Payment Processor" value="Shopify Payments" class="trackable"> Shopify Payments</label>
-                    <label class="choice-item"><input type="checkbox" name="Payment Processor" value="None yet" class="trackable"> None yet ,  starting fresh</label>
+                    <label class="choice-item"><input type="checkbox" name="Payment Processor" value="None yet" class="trackable"> None yet, starting fresh</label>
                     <label class="choice-item"><input type="checkbox" name="Payment Processor" value="Other" class="trackable"> Other</label>
                   </div>
                 </div>
@@ -276,26 +282,26 @@ import Footer from "../../../components/Footer.astro";
                     <label class="choice-item"><input type="checkbox" name="Payment Methods" value="Apple Pay / Google Pay" class="trackable"> Apple Pay / Google Pay</label>
                     <label class="choice-item"><input type="checkbox" name="Payment Methods" value="Buy Now Pay Later" class="trackable"> Buy Now Pay Later (Affirm, Klarna, etc.)</label>
                     <label class="choice-item"><input type="checkbox" name="Payment Methods" value="Purchase orders / invoicing for fleet accounts" class="trackable"> Purchase orders / invoicing for fleet accounts</label>
-                    <label class="choice-item"><input type="checkbox" name="Payment Methods" value="Whatever is easiest" class="trackable"> Not sure ,  whatever is easiest</label>
+                    <label class="choice-item"><input type="checkbox" name="Payment Methods" value="Whatever is easiest" class="trackable"> Not sure, whatever is easiest</label>
                   </div>
                 </div>
 
                 <div class="question">
                   <label class="q-label">Do you need to collect sales tax?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Sales Tax" value="Yes — know which states" class="trackable"> Yes ,  I know what states I need to collect in</label>
-                    <label class="choice-item"><input type="radio" name="Sales Tax" value="Yes — need help figuring out rules" class="trackable"> Yes ,  but I need help figuring out the rules</label>
-                    <label class="choice-item"><input type="radio" name="Sales Tax" value="Accountant handles it — just need system to collect" class="trackable"> My accountant handles this ,  I just need the system to collect it</label>
-                    <label class="choice-item"><input type="radio" name="Sales Tax" value="Not sure — need guidance" class="trackable"> Not sure ,  need guidance</label>
+                    <label class="choice-item"><input type="radio" name="Sales Tax" value="Yes, know which states" class="trackable"> Yes, I know what states I need to collect in</label>
+                    <label class="choice-item"><input type="radio" name="Sales Tax" value="Yes, need help figuring out rules" class="trackable"> Yes, but I need help figuring out the rules</label>
+                    <label class="choice-item"><input type="radio" name="Sales Tax" value="Accountant handles it, just need system to collect" class="trackable"> My accountant handles this, I just need the system to collect it</label>
+                    <label class="choice-item"><input type="radio" name="Sales Tax" value="Not sure, need guidance" class="trackable"> Not sure, need guidance</label>
                   </div>
                 </div>
 
                 <div class="question">
                   <label class="q-label">Do you want to offer discount codes or promo pricing?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Discount Codes" value="Yes — run promos regularly" class="trackable"> Yes ,  we run promos regularly</label>
-                    <label class="choice-item"><input type="radio" name="Discount Codes" value="Maybe occasionally — want the option" class="trackable"> Maybe occasionally ,  want the option available</label>
-                    <label class="choice-item"><input type="radio" name="Discount Codes" value="No — one price no exceptions" class="trackable"> No ,  one price, no exceptions</label>
+                    <label class="choice-item"><input type="radio" name="Discount Codes" value="Yes, run promos regularly" class="trackable"> Yes, we run promos regularly</label>
+                    <label class="choice-item"><input type="radio" name="Discount Codes" value="Maybe occasionally, want the option" class="trackable"> Maybe occasionally, want the option available</label>
+                    <label class="choice-item"><input type="radio" name="Discount Codes" value="No, one price no exceptions" class="trackable"> No, one price, no exceptions</label>
                   </div>
                 </div>
               </div>
@@ -310,22 +316,22 @@ import Footer from "../../../components/Footer.astro";
                 </div>
 
                 <div class="note-box">
-                  This section is about where you want the business to go ,  not just where it is today. Be honest, even if plans are vague. It directly affects how we architect the site so you're not rebuilding it in two years.
+                  This section is about where you want the business to go, not just where it is today. Be honest, even if plans are vague. It directly affects how we architect the site so you're not rebuilding it in two years.
                 </div>
 
                 <div class="question">
                   <label class="q-label">Do you plan to add more products in the future?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Future Products" value="Definitely — already have ideas for new SKUs" class="trackable"> Definitely ,  we already have ideas for new SKUs</label>
-                    <label class="choice-item"><input type="radio" name="Future Products" value="Possibly — nothing confirmed but door is open" class="trackable"> Possibly ,  nothing confirmed but the door is open</label>
-                    <label class="choice-item"><input type="radio" name="Future Products" value="Unlikely — focused single-product business" class="trackable"> Unlikely ,  this is a focused single-product business</label>
+                    <label class="choice-item"><input type="radio" name="Future Products" value="Definitely, already have ideas for new SKUs" class="trackable"> Definitely, we already have ideas for new SKUs</label>
+                    <label class="choice-item"><input type="radio" name="Future Products" value="Possibly, nothing confirmed but door is open" class="trackable"> Possibly, nothing confirmed but the door is open</label>
+                    <label class="choice-item"><input type="radio" name="Future Products" value="Unlikely, focused single-product business" class="trackable"> Unlikely, this is a focused single-product business</label>
                     <label class="choice-item"><input type="radio" name="Future Products" value="Want to offer replacement parts and accessories" class="trackable"> I want to offer replacement parts and accessories</label>
                   </div>
                 </div>
 
                 <div class="question">
                   <label class="q-label">If you add products, what's most likely?</label>
-                  <div class="q-hint">Check all that apply ,  even if speculative</div>
+                  <div class="q-hint">Check all that apply, even if speculative</div>
                   <div class="choice-group">
                     <label class="choice-item"><input type="checkbox" name="Future Product Types" value="Different sizes for different truck models" class="trackable"> Different sizes to fit different truck models</label>
                     <label class="choice-item"><input type="checkbox" name="Future Product Types" value="Branded accessories line" class="trackable"> A branded accessories line (magnets, mounting hardware, etc.)</label>
@@ -339,8 +345,8 @@ import Footer from "../../../components/Footer.astro";
                 <div class="question">
                   <label class="q-label">Do you plan to sell to businesses (B2B) as well as individual customers?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="B2B vs DTC" value="Yes — fleet accounts are a big target" class="trackable"> Yes ,  fleet accounts and waste management companies are a major target</label>
-                    <label class="choice-item"><input type="radio" name="B2B vs DTC" value="Mostly B2B — consumers secondary" class="trackable"> Mostly B2B ,  individual consumers are secondary</label>
+                    <label class="choice-item"><input type="radio" name="B2B vs DTC" value="Yes, fleet accounts are a big target" class="trackable"> Yes, fleet accounts and waste management companies are a major target</label>
+                    <label class="choice-item"><input type="radio" name="B2B vs DTC" value="Mostly B2B, consumers secondary" class="trackable"> Mostly B2B, individual consumers are secondary</label>
                     <label class="choice-item"><input type="radio" name="B2B vs DTC" value="Mostly DTC" class="trackable"> Mostly direct-to-consumer (DTC)</label>
                     <label class="choice-item"><input type="radio" name="B2B vs DTC" value="Both equally" class="trackable"> Both equally</label>
                   </div>
@@ -350,15 +356,15 @@ import Footer from "../../../components/Footer.astro";
                   <label class="q-label">Do you want a distributor or reseller program eventually?</label>
                   <div class="q-hint">e.g. truck supply companies or fleet distributors carrying your product</div>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Reseller Program" value="Yes — part of the growth plan" class="trackable"> Yes ,  this is part of the growth plan</label>
-                    <label class="choice-item"><input type="radio" name="Reseller Program" value="Possibly — haven't thought it through" class="trackable"> Possibly ,  haven't thought it through yet</label>
-                    <label class="choice-item"><input type="radio" name="Reseller Program" value="No — direct sales only" class="trackable"> No ,  direct sales only</label>
+                    <label class="choice-item"><input type="radio" name="Reseller Program" value="Yes, part of the growth plan" class="trackable"> Yes, this is part of the growth plan</label>
+                    <label class="choice-item"><input type="radio" name="Reseller Program" value="Possibly, haven't thought it through" class="trackable"> Possibly, haven't thought it through yet</label>
+                    <label class="choice-item"><input type="radio" name="Reseller Program" value="No, direct sales only" class="trackable"> No, direct sales only</label>
                   </div>
                 </div>
 
                 <div class="question">
                   <label class="q-label" for="vision-text">Where do you want the business to be in 3 years?</label>
-                  <div class="q-hint">Big picture ,  revenue goals, geographic reach, team size, whatever matters to you</div>
+                  <div class="q-hint">Big picture, revenue goals, geographic reach, team size, whatever matters to you</div>
                   <textarea id="vision-text" name="3-Year Vision" placeholder="Give us a sense of the vision..." class="trackable" maxlength="800"></textarea>
                   <div class="char-count"><span id="vtCount">0</span> / 800</div>
                 </div>
@@ -376,7 +382,7 @@ import Footer from "../../../components/Footer.astro";
                 <div class="question">
                   <label class="q-label">Do you have existing brand guidelines or a logo you want to keep?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Brand Status" value="Logo and colors locked — don't change them" class="trackable"> Yes ,  the logo and colors are locked, don't change them</label>
+                    <label class="choice-item"><input type="radio" name="Brand Status" value="Logo and colors locked, don't change them" class="trackable"> Yes, the logo and colors are locked, don't change them</label>
                     <label class="choice-item"><input type="radio" name="Brand Status" value="Have logo but open to refresh" class="trackable"> We have a logo but are open to a refresh</label>
                     <label class="choice-item"><input type="radio" name="Brand Status" value="Everything up for redesign" class="trackable"> Everything is up for redesign</label>
                     <label class="choice-item"><input type="radio" name="Brand Status" value="Need logo created from scratch" class="trackable"> We need a logo created from scratch</label>
@@ -386,7 +392,7 @@ import Footer from "../../../components/Footer.astro";
                 <div class="question">
                   <label class="q-label">The old site used black, red, and yellow. Keep that palette?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Color Palette" value="Yes — those colors represent us" class="trackable"> Yes ,  those colors represent us, keep them</label>
+                    <label class="choice-item"><input type="radio" name="Color Palette" value="Yes, those colors represent us" class="trackable"> Yes, those colors represent us, keep them</label>
                     <label class="choice-item"><input type="radio" name="Color Palette" value="Keep black and yellow ditch red" class="trackable"> Keep the black and yellow, ditch the red</label>
                     <label class="choice-item"><input type="radio" name="Color Palette" value="Open to completely new direction" class="trackable"> Open to a completely new direction</label>
                     <label class="choice-item"><input type="radio" name="Color Palette" value="Show me options" class="trackable"> Show me options and I'll decide</label>
@@ -407,14 +413,14 @@ import Footer from "../../../components/Footer.astro";
                 </div>
 
                 <div class="question">
-                  <label class="q-label" for="admired-sites">Any sites you admire ,  for any reason?</label>
+                  <label class="q-label" for="admired-sites">Any sites you admire, for any reason?</label>
                   <div class="q-hint">Doesn't have to be in your industry. Just sites that look or work the way you'd want yours to.</div>
                   <textarea id="admired-sites" name="Sites We Admire" placeholder="List URLs or describe what you like about them..." class="trackable"></textarea>
                 </div>
 
                 <div class="question">
                   <label class="q-label" for="avoid-things">Anything you absolutely do NOT want on the new site?</label>
-                  <div class="q-hint">Design choices, copy styles, colors, features ,  anything that felt wrong on the old site</div>
+                  <div class="q-hint">Design choices, copy styles, colors, features, anything that felt wrong on the old site</div>
                   <textarea id="avoid-things" name="Things to Avoid" placeholder="Tell us what to avoid..." class="trackable"></textarea>
                 </div>
               </div>
@@ -430,27 +436,27 @@ import Footer from "../../../components/Footer.astro";
 
                 <div class="question">
                   <label class="q-label" for="primary-customer">Who is your primary customer?</label>
-                  <div class="q-hint">Be specific ,  not just "contractors" but the person who actually makes the purchase decision</div>
+                  <div class="q-hint">Be specific, not just "contractors" but the person who actually makes the purchase decision</div>
                   <textarea id="primary-customer" name="Primary Customer" placeholder="e.g. Fleet managers at mid-size demolition and waste hauling companies, usually 35–60 years old, responsible for 5+ trucks..." class="trackable"></textarea>
                 </div>
 
                 <div class="question">
                   <label class="q-label">Do you want a blog on the new site?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Blog" value="Yes — will post regularly, need full blog" class="trackable"> Yes ,  we'll post regularly, need a full blog section</label>
-                    <label class="choice-item"><input type="radio" name="Blog" value="Yes — 1-2 posts to start for SEO" class="trackable"> Yes ,  but maybe 1–2 posts to start, for SEO</label>
-                    <label class="choice-item"><input type="radio" name="Blog" value="Maybe later — not priority now" class="trackable"> Maybe later ,  not a priority right now</label>
+                    <label class="choice-item"><input type="radio" name="Blog" value="Yes, will post regularly, need full blog" class="trackable"> Yes, we'll post regularly, need a full blog section</label>
+                    <label class="choice-item"><input type="radio" name="Blog" value="Yes, 1-2 posts to start for SEO" class="trackable"> Yes, but maybe 1–2 posts to start, for SEO</label>
+                    <label class="choice-item"><input type="radio" name="Blog" value="Maybe later, not priority now" class="trackable"> Maybe later, not a priority right now</label>
                     <label class="choice-item"><input type="radio" name="Blog" value="No" class="trackable"> No</label>
                   </div>
                 </div>
 
                 <div class="question">
                   <label class="q-label">Do you want to update site content yourself?</label>
-                  <div class="q-hint">e.g. change the product price, swap a photo, update a page ,  without calling us</div>
+                  <div class="q-hint">e.g. change the product price, swap a photo, update a page, without calling us</div>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="CMS Access" value="Yes — want to make changes myself" class="trackable"> Yes ,  I want to be able to make changes myself</label>
-                    <label class="choice-item"><input type="radio" name="CMS Access" value="Occasionally — price and basic info only" class="trackable"> Occasionally ,  price and basic info, nothing complex</label>
-                    <label class="choice-item"><input type="radio" name="CMS Access" value="No — will call for changes" class="trackable"> No ,  I'll call you whenever something needs to change</label>
+                    <label class="choice-item"><input type="radio" name="CMS Access" value="Yes, want to make changes myself" class="trackable"> Yes, I want to be able to make changes myself</label>
+                    <label class="choice-item"><input type="radio" name="CMS Access" value="Occasionally, price and basic info only" class="trackable"> Occasionally, price and basic info, nothing complex</label>
+                    <label class="choice-item"><input type="radio" name="CMS Access" value="No, will call for changes" class="trackable"> No, I'll call you whenever something needs to change</label>
                   </div>
                 </div>
 
@@ -463,7 +469,7 @@ import Footer from "../../../components/Footer.astro";
                     <label class="choice-item"><input type="checkbox" name="Current Marketing" value="SEO (organic search)" class="trackable"> SEO (organic search)</label>
                     <label class="choice-item"><input type="checkbox" name="Current Marketing" value="Trade publications / industry press" class="trackable"> Trade publications / industry press</label>
                     <label class="choice-item"><input type="checkbox" name="Current Marketing" value="Trade shows" class="trackable"> Trade shows</label>
-                    <label class="choice-item"><input type="checkbox" name="Current Marketing" value="None — website is the starting point" class="trackable"> None currently ,  the website is the starting point</label>
+                    <label class="choice-item"><input type="checkbox" name="Current Marketing" value="None, website is the starting point" class="trackable"> None currently, the website is the starting point</label>
                   </div>
                 </div>
               </div>
@@ -479,37 +485,37 @@ import Footer from "../../../components/Footer.astro";
 
                 <div class="question">
                   <label class="q-label">Rank these in order of importance to you</label>
-                  <div class="q-hint">Drag to reorder ,  1 is most important</div>
+                  <div class="q-hint">Drag to reorder, 1 is most important</div>
                   <div class="priority-list" id="priorityList">
                     <div class="priority-item" draggable="true">
                       <span class="drag-handle">⠿</span>
                       <span class="rank-badge">1</span>
-                      Looking great ,  design and first impression
+                      Looking great, design and first impression
                     </div>
                     <div class="priority-item" draggable="true">
                       <span class="drag-handle">⠿</span>
                       <span class="rank-badge">2</span>
-                      Easy to buy ,  frictionless checkout
+                      Easy to buy, frictionless checkout
                     </div>
                     <div class="priority-item" draggable="true">
                       <span class="drag-handle">⠿</span>
                       <span class="rank-badge">3</span>
-                      Showing up on Google ,  SEO and search rankings
+                      Showing up on Google, SEO and search rankings
                     </div>
                     <div class="priority-item" draggable="true">
                       <span class="drag-handle">⠿</span>
                       <span class="rank-badge">4</span>
-                      Mobile performance ,  perfect on phones
+                      Mobile performance, perfect on phones
                     </div>
                     <div class="priority-item" draggable="true">
                       <span class="drag-handle">⠿</span>
                       <span class="rank-badge">5</span>
-                      Built to grow ,  easy to add products later
+                      Built to grow, easy to add products later
                     </div>
                     <div class="priority-item" draggable="true">
                       <span class="drag-handle">⠿</span>
                       <span class="rank-badge">6</span>
-                      Managing it myself ,  easy CMS / dashboard
+                      Managing it myself, easy CMS / dashboard
                     </div>
                   </div>
                 </div>
@@ -517,10 +523,10 @@ import Footer from "../../../components/Footer.astro";
                 <div class="question" style="margin-top:28px">
                   <label class="q-label">When do you need the site live?</label>
                   <div class="choice-group">
-                    <label class="choice-item"><input type="radio" name="Timeline" value="ASAP — as fast as possible" class="trackable"> ASAP ,  as fast as possible</label>
+                    <label class="choice-item"><input type="radio" name="Timeline" value="ASAP, as fast as possible" class="trackable"> ASAP, as fast as possible</label>
                     <label class="choice-item"><input type="radio" name="Timeline" value="Within 4–6 weeks" class="trackable"> Within 4–6 weeks</label>
                     <label class="choice-item"><input type="radio" name="Timeline" value="Within 2–3 months" class="trackable"> Within 2–3 months</label>
-                    <label class="choice-item"><input type="radio" name="Timeline" value="No rush — let's do it right" class="trackable"> No rush ,  let's do it right</label>
+                    <label class="choice-item"><input type="radio" name="Timeline" value="No rush, let's do it right" class="trackable"> No rush, let's do it right</label>
                   </div>
                 </div>
 
@@ -543,7 +549,7 @@ import Footer from "../../../components/Footer.astro";
 
                 <div class="question">
                   <label class="q-label" for="keep-text">Anything from the old site you want to keep or bring forward?</label>
-                  <textarea id="keep-text" name="Keep From Old Site" placeholder="Pages, sections, copy, features — anything that worked and should survive the rebuild..." class="trackable" maxlength="600"></textarea>
+                  <textarea id="keep-text" name="Keep From Old Site" placeholder="Pages, sections, copy, features. Anything that worked and should survive the rebuild..." class="trackable" maxlength="600"></textarea>
                   <div class="char-count"><span id="ktCount">0</span> / 600</div>
                 </div>
 
@@ -663,6 +669,23 @@ import Footer from "../../../components/Footer.astro";
       });
       document.getElementById('priorityHidden').value = ranked.join(' | ');
     });
+
+    // ── POINT THE FORMSPREE RETURN AT THIS HOST ──────────
+    // thank-you.html sits INSIDE this page's folder, and the page itself is
+    // served with or without a trailing slash depending on the host, so the
+    // current URL is normalised to a directory before resolving against it.
+    (function () {
+      const f = document.getElementById('discoveryForm');
+      if (!f) return;
+      const n = f.querySelector('input[name="_next"]');
+      if (!n) return;
+      try {
+        const base = window.location.href.split('#')[0].split('?')[0].replace(/\/+$/, '') + '/';
+        n.value = new URL('thank-you.html', base).href;
+      } catch (e) {
+        /* Leave the built-in fallback in place. */
+      }
+    })();
 </script>
 
 <style is:global>
