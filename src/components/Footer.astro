@@ -236,8 +236,15 @@ const cols = [
     position: absolute;
     left: -5000px;
   }
-  .foot-social {
-    margin-top: 1rem;
+  /* :global because .foot-social is the <ul> inside the Social component, so
+     it carries Social's scope hash, not this file's. A plain `.foot-social`
+     rule here compiles to .foot-social[data-astro-cid-<footer>] and matches
+     nothing, which is why the previous margin-top never took. Scoped through
+     .foot-brand so it stays this footer's rule rather than a global one.
+     Jon 2026-09-16: air between the email address and the two social icons,
+     so the phone/email lines read as their own group. */
+  .foot-brand :global(.foot-social) {
+    margin-top: 1.5rem;
   }
   .foot-face {
     display: block;
