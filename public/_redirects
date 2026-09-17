@@ -55,10 +55,11 @@
 
 
 # ===== CLIENT FORM PAGES =====
-# build.format 'file' flattens a folder index to <folder>.html, so these serve
-# from /forms/dumpster-diaper and /forms/manual-therapy. No rule is needed for
-# the trailing-slash form clients were given: Netlify normalises that away
-# before matching, and an explicit "/x/ -> /x" rule would be a redirect loop.
+# build.format 'file' flattens a folder index to <folder>.html, so this serves
+# from /forms/manual-therapy. No rule is needed for the trailing-slash form
+# clients were given: Netlify normalises that away before matching, and an
+# explicit "/x/ -> /x" rule would be a redirect loop.
+# Jon 2026-09-17: /forms/dumpster-diaper and its thank-you page were removed.
 
 
 # ===== BLOG INDEX =====

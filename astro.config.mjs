@@ -47,6 +47,12 @@ function stripHtmlComments() {
       'astro:build:done': async ({ dir, logger }) => {
         const { readdirSync, statSync, readFileSync, writeFileSync } = await import('node:fs');
         const { join } = await import('node:path');
+        // Jon 2026-09-17: dir.pathname on Windows yields "/C:/Users/..." so
+        // join() built "C:\C:\Users\..." and the walk threw ENOENT, meaning
+        // comments were never stripped on the Windows machine (Mac and the
+        // Linux Netlify builder happened to work). fileURLToPath is correct
+        // on all three.
+        const { fileURLToPath } = await import('node:url');
         const files = [];
         (function walk(d) {
           for (const e of readdirSync(d)) {
@@ -54,7 +60,7 @@ function stripHtmlComments() {
             if (statSync(p).isDirectory()) walk(p);
             else if (e.endsWith('.html')) files.push(p);
           }
-        })(dir.pathname);
+        })(fileURLToPath(dir));
 
         let removed = 0;
         for (const f of files) {

@@ -36,7 +36,7 @@ import PhotoBg from "../../../components/PhotoBg.astro";
         <span class="eyebrow is-center mb-lg">BAND INTAKE</span>
         <h1 class="page-h1">Band Bio <em>Form</em>.</h1>
         <p class="page-lede">This is how we start. Fill in what you've got, skip what you don't. Jon gets it and goes from there.</p>
-        <p class="page-lede optnote">Every field is optional. No required fields. No asterisks. No pressure.</p>
+        <p class="page-lede optnote">Just your email is required, so Jon can write back. Everything else is optional. Skip what you don't have.</p>
       </div>
     </section>
 
@@ -82,8 +82,8 @@ import PhotoBg from "../../../components/PhotoBg.astro";
                   <input type="text" id="primary_contact_name" name="primary_contact_name" />
                 </div>
                 <div class="field">
-                  <label for="primary_contact_email">Email address</label>
-                  <input type="email" id="primary_contact_email" name="primary_contact_email" />
+                  <label for="primary_contact_email">Email address <span class="req">(required)</span></label>
+                  <input type="email" id="primary_contact_email" name="primary_contact_email" required />
                 </div>
                 <div class="field">
                   <label for="primary_contact_phone">Phone number</label>
@@ -524,6 +524,7 @@ import PhotoBg from "../../../components/PhotoBg.astro";
 
   .form-wrap { max-width: 920px; }
   .optnote { color: var(--cyan-soft); font-size: 0.95rem; margin-top: 0.8rem; }
+  .req { color: var(--cyan-soft); font-weight: 400; }
 
   .fgroup { margin-bottom: 2.6rem; }
   .fgroup:last-of-type { margin-bottom: 0; }
