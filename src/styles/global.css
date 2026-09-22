@@ -650,7 +650,12 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 /* ---- CTA ---- */
 .cta{padding:clamp(3rem,6vw,5.5rem);text-align:center;position:relative;overflow:hidden}
 .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 120% at 50% 0%,rgba(56,189,248,.14),transparent 60%);pointer-events:none}
-.cta h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:700;letter-spacing:-.02em;color:var(--ink-soft);position:relative}
+/* line-height was never declared here, so a .cta h2 inherited the BODY
+   leading (1.6) while every other display heading on the site runs 1.12.
+   Invisible for years because most CTA headings fit on one line; the
+   moment one wraps, the two lines fall apart (Jon 2026-09-22, the
+   email-writing CTA). Same value as .sec-head h2 on line 336. */
+.cta h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:700;line-height:1.12;letter-spacing:-.02em;color:var(--ink-soft);position:relative}
 .cta p{color:var(--muted);margin:1rem auto 2rem;position:relative}
 .cta .hero-btns{position:relative}
 

@@ -158,8 +158,12 @@ const faqs = [
 ];
 
 const CANONICAL = "https://livewebstudios.com/services/expert-witness";
+/* 152 chars. The original ran 190 and Google truncates around 155-160, so the
+   "plaintiff or defense" tail never showed. Trimmed only the redundant tail;
+   the "website accessibility expert witness" phrase is the one worth ranking
+   for, so it stays intact at the front. */
 const DESCRIPTION =
-  "Web development, SEO, and website accessibility expert witness services for New Jersey attorneys. Forensic site analysis, standard of care opinions, and expert reports. Plaintiff or defense.";
+  "Web development, SEO and website accessibility expert witness for New Jersey attorneys. Forensic site analysis and expert reports. Plaintiff or defense.";
 
 /* Service + FAQPage. Base emits no WebPage node of its own once jsonld is
    passed, so there is nothing duplicated here. */

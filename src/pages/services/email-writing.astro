@@ -24,89 +24,105 @@ import { relPrefix } from "../../lib/relPrefix";
 
 const rel = relPrefix(Astro.url.pathname);
 
+/* Six voice glyphs, one per card. Same drawing rules as src/lib/navIcons.ts
+   (24x24 grid, stroke only, 1.6 weight, round caps and joins, nothing finer
+   than ~2px) so they sit in the same family as the nav set, but kept page-local
+   because navIcons.ts is the nav dropdown's set and nothing else uses these.
+   Shared head in profile, per-voice emission: the differentiator is what comes
+   out of the mouth. Verified legible down to 30px. */
+const HEAD =
+  '<path d="M9 3.2c2.6 0 4.6 2 4.6 4.5 0 .9-.1 1.4-.3 1.9l1.5 1.6c.2.2.1.6-.2.7l-1.1.4v1.5c0 .7-.6 1.3-1.3 1.3h-1.9v2.3"/>' +
+  '<path d="M9 3.2C6.2 3.2 4.4 5.4 4.4 8.4c0 2.2.5 4 1.6 5.2.5.6.8 1 .8 1.8v1.9"/>';
+const VOICE_ICONS: Record<string, string> = {
+  /* two graduated waves: a nudge, not a shout */
+  nudge: '<path d="M16.8 9.4a3.6 3.6 0 0 1 0 5.2"/><path d="M19.4 7.2a7 7 0 0 1 0 9.6"/>',
+  /* one wave stopped by a bar: the line you do not cross */
+  line: '<path d="M16.8 9.6a3.4 3.4 0 0 1 0 4.8"/><path d="M20.4 7.4v9.2"/>',
+  /* no curve at all, straight out: the straight answer */
+  answer: '<path d="M16.4 12h5"/><path d="M19.2 9.6 21.6 12l-2.4 2.4"/>',
+  /* forward arrow: passed along to somebody else */
+  handoff: '<path d="M16.4 14.8h3.4a2.2 2.2 0 0 0 2.2-2.2V9.4"/><path d="M20.2 11.2 22 9.4l1.8 1.8"/>',
+  /* wave plus a +: the same ask, once more */
+  second: '<path d="M16.4 9.8a3.2 3.2 0 0 1 0 4.4"/><path d="M21.6 10v4M19.6 12h4"/>',
+  /* three waves reaching furthest: first contact */
+  opener: '<path d="M15.8 10.2a2.2 2.2 0 0 1 0 3.2"/><path d="M18 8.4a5 5 0 0 1 0 6.8"/><path d="M20.2 6.6a7.8 7.8 0 0 1 0 10.4"/>',
+};
+
 /* The six voices. `before` is what people actually send, `after` is what the
    voice produces. Rendered as a labelled pair inside each card. */
 const voices = [
   {
     title: "The Nudge",
+    icon: "nudge",
     job: "Getting paid without torching the relationship.",
     before: "Hi, just following up on invoice 1042, please let me know. Thanks!",
-    after: "Ken, invoice 1042 went out on the 3rd and it is sitting at 41 days. I am going to assume it got buried rather than ignored. Can you get it into this week's run? If something is holding it up on your end, tell me and we will work it out.",
+    after: "Ken, invoice 1042 is at 41 days. I figure it got buried. Can you get it into this week's run?",
   },
   {
     title: "The Line",
+    icon: "line",
     job: "Saying no to “can you just” without losing the client.",
     before: "Sure, I can probably squeeze that in!",
-    after: "That is a real piece of work, not a tweak, so I do not want to bolt it onto this build and have it come out half considered. Let me price it as its own thing. If the number works we do it next, and if it does not, nothing is lost.",
+    after: "That is a real piece of work, not a tweak. Let me price it separately. If the number works, we do it next.",
   },
   {
     title: "The Straight Answer",
+    icon: "answer",
     job: "Bad news, delivered before they find out on their own.",
     before: "Unfortunately there have been some unforeseen delays...",
-    after: "The site is going to miss Friday. The host moved a setting on their end and it took two days to find. New date is Wednesday the 14th, and I am not going to move it again. Here is what is already done.",
+    after: "The site is going to miss Friday. New date is Wednesday the 14th, and I am not moving it again.",
   },
   {
     title: "The Handoff",
+    icon: "handoff",
     job: "Referral intros that actually get replied to.",
     before: "Hi both, connecting you two! I will let you take it from here.",
-    after: "Dana, this is Mike. He runs the plumbing outfit I mentioned at breakfast, and he is about four months from needing exactly the thing you do. Mike, Dana is the one I send people to when the books stop making sense. You two should talk, I am stepping out of the thread.",
+    after: "Dana, this is Mike. He runs the plumbing outfit and will need your help in about four months. Mike, Dana is who I send people to. I am stepping out of the thread.",
   },
   {
     title: "The Second Ask",
+    icon: "second",
     job: "Proposal sent, then silence. Day five.",
     before: "Just wanted to bump this to the top of your inbox!",
-    after: "You have had the proposal a week, which usually means one of three things: the number is wrong, the timing is wrong, or it fell off the desk. Any of those is fine, I just want to know which one so I know whether to hold the slot.",
+    after: "You have had the proposal a week. Wrong number, wrong timing, or it fell off the desk? Any of those is fine. I just need to know whether to hold the slot.",
   },
   {
     title: "The Opener",
+    icon: "opener",
     job: "First contact that does not read like a template.",
     before: "I hope this email finds you well! I came across your website and...",
-    after: "Your contact form has been broken since at least June. I filled it out twice from two different browsers and nothing came back. I am a web guy in Saddle Brook, so I notice this stuff. Whether or not you ever hire me, get that fixed, because you are losing calls.",
+    after: "Your contact form has been broken since June. I filled it out twice and nothing came back. Get it fixed, you are losing calls.",
   },
 ];
 
 const steps = [
   {
     n: "01",
+    art: "email-step-1-sent.jpg",
+    alt: "Dark-mode email application open to the sent folder on a laptop in a dim room, a long list of sent messages down the screen",
     title: "I read your sent folder.",
     body: "Two hundred emails you actually wrote, not a questionnaire about how you think you write. The voice comes out of the evidence.",
   },
   {
     n: "02",
+    art: "email-step-2-pick.jpg",
+    alt: "Six dark email draft panels floating in a grid, each tagged with a different coloured label chip",
     title: "We pick the six.",
     body: "Every business has different emails it dreads. A contractor needs a change-order voice. A therapist needs a boundary voice. Yours will not be my six.",
   },
   {
     n: "03",
+    art: "email-step-3-build.jpg",
+    alt: "A dark-mode email compose window on a desk, the body part written with a cursor sitting mid-paragraph and two lines marked for revision",
     title: "I build and you break them.",
     body: "You get the voices loaded and ready. You run real situations through them for a week and tell me where they sound wrong. They get tuned until they do not.",
   },
   {
     n: "04",
+    art: "email-step-4-keep.jpg",
+    alt: "A laptop and a phone side by side on a desk under a warm lamp, both open to the same dark-mode inbox with six saved labels in the sidebar",
     title: "You keep them.",
     body: "They live in your tool, not mine. No subscription to me, no rewriting them next quarter, nothing to renew. If your business changes enough that the voices stop fitting, you call me.",
-  },
-];
-
-/* The bold lead-in of each deck item becomes the h3; the remainder carries on
-   as the card body. Items 1, 3 and 4 are one sentence split across the two, so
-   the body opens on the conjunction rather than restating the subject. */
-const fit = [
-  {
-    title: "You write the same email forty times a year",
-    body: "And you start from nothing every time.",
-  },
-  {
-    title: "You have an unsent folder.",
-    body: "The hard emails wait for a good day and the good day is expensive.",
-  },
-  {
-    title: "Somebody else answers your email",
-    body: "And it does not sound like you, so clients can tell which ones you wrote.",
-  },
-  {
-    title: "You already use AI for email",
-    body: "And it keeps producing something polite, padded, and not yours.",
   },
 ];
 
@@ -136,8 +152,12 @@ const faqs = [
 ];
 
 const CANONICAL = "https://livewebstudios.com/services/email-writing";
+/* 140 chars. Google truncates a description around 155-160, and the previous
+   one ran 172, so its tail was being cut. It also led on "the emails you
+   dread" and "bad news", the framing Jon pulled out of the hero, and named
+   sections the page no longer has. This mirrors the hero's three jobs. */
 const DESCRIPTION =
-  "Custom AI email voices built from your own sent mail. Six voices for the emails you dread: invoices, scope, bad news, follow-up. Built once, yours to keep. Saddle Brook NJ.";
+  "Six AI email voices built from your own sent mail: proposals, invoice follow-up, introductions. Built once, yours to keep. Saddle Brook, NJ.";
 const TITLE = "Email Writing & AI Voice Systems | Live Web Studios";
 
 /* WebPage + Service, the same pair the other thirteen service pages carry.
@@ -170,7 +190,13 @@ const pageSchema = [
 ];
 ---
 
-<Base title={TITLE} description={DESCRIPTION} canonical={CANONICAL} jsonld={pageSchema}>
+<Base
+  title={TITLE}
+  description={DESCRIPTION}
+  canonical={CANONICAL}
+  ogImage="images/og-email-writing.jpg"
+  jsonld={pageSchema}
+>
   <Nav />
 
   <main>
@@ -180,7 +206,7 @@ const pageSchema = [
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">EMAIL WRITING</span>
         <h1 class="page-h1">I Do Not Write Emails Anymore. <em>Neither Should You</em>.</h1>
-        <p class="page-lede">I built myself a set of email voices. One for chasing money, one for saying no, one for bad news. I tell the machine which voice and what happened, and the email comes out sounding like me on a good day. I will build you the same thing.</p>
+        <p class="page-lede">I built myself a set of email voices. One for proposals, one for checking in on an invoice, one for making an introduction. I tell the machine which voice and what happened, and the email comes out sounding like me on a good day. I will build you the same thing.</p>
         <div class="hero-btns">
           <a class="btn btn-primary" href={`${rel}contact.html`}>Let's talk. →</a>
           <a class="btn btn-ghost" href="#voices">The Six Voices ↓</a>
@@ -191,22 +217,44 @@ const pageSchema = [
     <Marquee />
 
     <!-- THE PROBLEM -->
-    <section class="sec-pad has-scan" id="problem">
+    {/* Jon 2026-09-22: the envelope drift was scrapped ("they look terrible,
+        different route"). This is the photo bed from the OUR STORY section of
+        /about, which is the frame Jon pointed at. Base .sec-photobg, not the
+        --left variant: jon-desk.jpg is dark on the left and carries Jon and
+        the monitor on the RIGHT, so the base ramp (near-solid left, opening up
+        across the right) is the one built for it. The url is inline because it
+        is a per-page relative path, same reason work.astro and about.astro
+        give at their own call sites. */}
+    <section
+      class="sec-pad sec-photobg"
+      id="problem"
+      style={`--sec-photo:url('${rel}images/jon-desk.jpg')`}
+    >
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">THE PROBLEM</span>
           <h2>The Email You Are Avoiding Is Costing You Money</h2>
         </div>
         <div class="em-prose reveal">
-          <p>Every small business owner has a folder of emails they have not sent. The invoice that is forty days out. The client who keeps adding one more thing. The job that slipped and somebody has to be told.</p>
-          <p>They do not go unsent because they are hard to write. They go unsent because writing them badly has a cost, so you wait until you have the energy to write them well. That energy shows up on a Tuesday afternoon roughly once a month.</p>
-          <p>A voice system removes the energy from the equation. The hard part, deciding what tone this particular email needs, gets decided once. After that you are describing a situation, not composing a letter.</p>
+          <p>Every small business owner has a folder of emails they have not sent.</p>
+          <ul class="copy-points">
+            <li><strong>The invoice</strong> that is forty days out.</li>
+            <li><strong>The client</strong> who keeps adding one more thing.</li>
+            <li><strong>The job that slipped</strong> and somebody has to be told.</li>
+          </ul>
+          <p>They do not go unsent because they are hard to write. They go unsent because writing them badly has a cost, so you wait for the energy to write them well. That energy shows up about once a month.</p>
+          <p class="copy-kicker">A voice system takes the energy out of it. The tone gets decided once. After that you are describing a situation, not composing a letter.</p>
         </div>
       </div>
     </section>
 
     <!-- THE SIX VOICES -->
-    <section class="sec-pad is-alt" id="voices">
+    <section class="sec-pad has-videobg" id="voices">
+      {/* Jon 2026-09-22: "an appropriate non-annoying animated background,
+          not too techy". bg-blue-fog is a slow gradient haze with no imagery
+          in it at all, and six opaque glass cards sit over most of it, so the
+          drift only reads in the gutters. */}
+      <VideoBg src="bg-blue-fog.mp4" scrim="default" />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">WHAT YOU GET</span>
@@ -216,7 +264,20 @@ const pageSchema = [
           {voices.map((v) => (
             <article class="card reveal">
               <Glass variant="inner" innerClass="card-pad">
-                <h3>{v.title}</h3>
+                <div class="em-head">
+                  <h3>{v.title}</h3>
+                  <svg
+                    class="em-ico"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    set:html={HEAD + VOICE_ICONS[v.icon]}
+                  />
+                </div>
                 <p class="em-job">{v.job}</p>
                 <div class="em-ba">
                   <p class="em-before">
@@ -242,13 +303,25 @@ const pageSchema = [
           <span class="eyebrow">THE BUILD</span>
           <h2>Four Steps, About Two Weeks</h2>
         </div>
-        <ol class="grid-svc steps">
+        <ol class="grid-svc steps em-steps">
           {steps.map((st) => (
-            <li class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <span class="step-num">{st.n}</span>
-                <h3>{st.title}</h3>
-                <p>{st.body}</p>
+            <li class="card em-card reveal">
+              <Glass variant="inner">
+                <span class="em-card__art">
+                  <img
+                    src={`${rel}images/${st.art}`}
+                    alt={st.alt}
+                    width="900"
+                    height="604"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="step-num">{st.n}</span>
+                </span>
+                <span class="card-pad">
+                  <h3>{st.title}</h3>
+                  <p>{st.body}</p>
+                </span>
               </Glass>
             </li>
           ))}
@@ -256,28 +329,21 @@ const pageSchema = [
       </div>
     </section>
 
-    <!-- WHO THIS IS FOR -->
-    <section class="sec-pad is-alt" id="fit">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">FIT</span>
-          <h2>Worth It If You Recognize Yourself Here</h2>
-        </div>
-        <div class="grid-svc">
-          {fit.map((c) => (
-            <article class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
-              </Glass>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
 
     <!-- FAQ -->
-    <section class="sec-pad" id="faq">
+    {/* The photo bed from the /work CTA. sec-photobg--left is purpose-built
+        for this exact image: the subject is hard against the left edge and
+        dissolves to black across the middle, so the variant mirrors the base
+        ramp and puts its heaviest veil under the CENTRED copy, which is where
+        the 780px accordion sits. No --copy-right here, unlike work.astro:
+        that modifier only shifts .sec-head and .hero-btns, so it would push
+        the heading right and leave .faq-list centred. The url is inline
+        because it is a per-page relative path, same reason work.astro gives. */}
+    <section
+      class="sec-pad is-alt sec-photobg sec-photobg--left"
+      id="faq"
+      style={`--sec-photo:url('${rel}images/jon-left-desk-pixels.jpg')`}
+    >
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">QUESTIONS</span>
@@ -313,12 +379,24 @@ const pageSchema = [
     <!-- CTA -->
     <section class="sec-pad is-alt">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta">
-          <h2>Tell me which email you are avoiding.</h2>
-          <p>That is usually the first voice we build.</p>
-          <div class="hero-btns center">
-            <a class="btn btn-primary" href={`${rel}contact.html`}>Let's talk. →</a>
-            <a class="btn btn-ghost" href="tel:+17328019611">732.801.9611</a>
+        <Glass class="reveal" innerClass="cta cta--art">
+          <div class="cta-art">
+            <img
+              src={`${rel}images/email-cta-draft.jpg`}
+              alt="A laptop on a dark desk showing an empty email draft with the cursor waiting, a cold mug of coffee beside it"
+              width="900"
+              height="604"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-copy">
+            <h2>Tell me which email you are avoiding.</h2>
+            <p>That is usually the first voice we build.</p>
+            <div class="hero-btns">
+              <a class="btn btn-primary" href={`${rel}contact.html`}>Let's talk. →</a>
+              <a class="btn btn-ghost" href="tel:+17328019611">732.801.9611</a>
+            </div>
           </div>
         </Glass>
       </div>
@@ -345,8 +423,138 @@ const pageSchema = [
   .em-prose p + p {
     margin-top: 1.2rem;
   }
+  /* .copy-points caps itself at 46ch for the narrower split column; this one
+     is a centred prose measure, so let it use the width it has. */
+  .em-prose .copy-points {
+    max-width: none;
+    margin: 1.4rem 0;
+  }
+  .em-prose .copy-kicker {
+    margin-top: 1.4rem;
+  }
+
+  /* ---------- step card art ----------
+     Same construction as .ew-card on expert-witness.astro: the banner bleeds
+     to the card edge and .card-pad owns the inset, so glass-inner's padding is
+     cleared here. Without that the art sits inside a frame AND outside the
+     pad, which gives every card two nested frames. */
+  .em-card > :global(.glass-inner) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+  .em-card__art {
+    position: relative;
+    display: block;
+    flex: none;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.18);
+  }
+  .em-card__art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--ease);
+  }
+  .em-card:hover .em-card__art img {
+    transform: scale(1.04);
+  }
+  /* .card-pad carries height:100%, written for a pad that IS the whole card.
+     Under a banner that resolves against a height already containing the pad
+     and the card inflates, so it goes back to auto here. */
+  .em-card :global(.card-pad) {
+    height: auto;
+    flex: 1 1 auto;
+  }
+  .em-card__art .step-num {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.7rem;
+    margin: 0;
+    padding: 0.18rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(5, 7, 11, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  /* Four steps, not the five expert-witness runs, so the base .grid-svc 3-up
+     would strand one card alone on a second row. Four across, then two, then
+     one. The 900px rule restates the collapse because the scoped selector
+     outranks global.css's .grid-svc and would otherwise hold 2-up on a phone. */
+  .em-steps {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 1180px) {
+    .em-steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 900px) {
+    .em-steps {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- CTA art ---------- */
+  .cta-art img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--line);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .em-card__art img,
+    .em-card:hover .em-card__art img {
+      transition: none;
+      transform: none;
+    }
+  }
 
   /* ---------- voice cards ---------- */
+  /* Title hard left, glyph hard right (Jon 2026-09-22). The h3 also moved
+     ahead of the svg in the markup rather than being pushed over with `order`,
+     so reading order matches visual order and the heading still comes first
+     for a screen reader. The glyph is aria-hidden either way. */
+  .em-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+  }
+  /* Title goes brass with the glyph, so the whole header row of the card is
+     one mark instead of a gold icon bolted onto a white heading (Jon
+     2026-09-22). mosa-skin.css sets .card h3 to --ink-soft at (0,1,1); this
+     scoped selector is (0,2,1) and wins without !important. At the 22px
+     .card h3 size brass is large text needing 3:1, and it measures 8.9:1. */
+  .em-head h3 {
+    margin: 0;
+    color: var(--brass);
+  }
+  /* Brass, the site's gold (Namesake, the Legal nav column, the expert-witness
+     step numbers). Jon's call, 2026-09-22, after an AI-violet pass he rejected.
+     It is the right one of the three golds here because THIS PAGE ALREADY RUNS
+     IT: .step-num on the four build cards is var(--brass), so gold reads as a
+     second deliberate accent down the page rather than a one-off on the voice
+     cards. --amber was out because it means Live Band Web Studios site-wide,
+     and --cat-gold because it means a blog category.
+     It also gets the icons off cyan, which was already carrying the job line,
+     the AFTER rule, the BEFORE/AFTER labels, the bullet markers and the whole
+     FAQ accordion: a ninth cyan element read as more of the same rather than
+     as the mark on the card. Measured 8.9:1 on the rendered card ground,
+     against the 3:1 WCAG 1.4.11 asks of a graphic. */
+  .em-ico {
+    --voice-ico: var(--brass);
+    flex: none;
+    width: 30px;
+    height: 30px;
+    color: var(--voice-ico);
+  }
   .em-job {
     color: var(--cyan-soft);
     font-size: 0.95rem;
@@ -392,6 +600,7 @@ const pageSchema = [
   .em-label--after {
     color: var(--cyan-soft);
   }
+
 
   /* ---------- FAQ accordion ----------
      Ported from faq.astro via expert-witness.astro. Scoped here rather than
