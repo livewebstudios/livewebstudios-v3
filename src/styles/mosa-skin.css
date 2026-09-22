@@ -42,8 +42,23 @@
      so this is the one place to tune the look. */
   --hero-glass-pad-block:clamp(1.35rem,2.1vw,1.9rem);
   --hero-glass-pad-inline:clamp(1.25rem,2.2vw,1.75rem);
-  --hero-glass-bg:rgb(0 0 0/.2);
-  --hero-glass-filter:blur(14px) saturate(155%) brightness(.84) contrast(1.06);
+  /* Jon 2026-09-22, /contact: "hero needs to be more opaque, hard to read."
+     bg-orange-beam runs a near-white hot core straight through the headline
+     band, and .2 black over brightness(.84) left it at roughly 60% luminance
+     behind white type. Tint up to .46 and brightness down to .62 puts that
+     same core near 30%, which carries the h1 and the lede. Blur 14 -> 17 so
+     the beam reads as motion behind glass rather than a legible shape
+     fighting the letterforms. Tuned on the worst case (orange beam); the
+     calmer clips just sit on a slightly heavier surface.
+
+     NOTE: fixed here on the PANEL and not on .videobg--hero's scrim on
+     purpose. The full-frame scrim was deliberately cut to .04/.26 (see the
+     note at .videobg--hero below) because heavy black over these 1080p
+     H.264 clips lifts their quantization noise into visible banding.
+     Darkening only the area behind the copy buys the contrast without
+     touching the rest of the frame. */
+  --hero-glass-bg:rgb(0 0 0/.46);
+  --hero-glass-filter:blur(17px) saturate(150%) brightness(.62) contrast(1.08);
   --hero-glass-border:1px solid rgb(var(--mosa-fg-rgb)/.26);
   --hero-glass-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.22),0 18px 50px rgb(0 0 0/.34);
   /* Accent: LWS cyan retained. For pure MOSA monochrome, set this to
