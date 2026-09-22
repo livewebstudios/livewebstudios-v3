@@ -42,23 +42,39 @@
      so this is the one place to tune the look. */
   --hero-glass-pad-block:clamp(1.35rem,2.1vw,1.9rem);
   --hero-glass-pad-inline:clamp(1.25rem,2.2vw,1.75rem);
-  /* Jon 2026-09-22, /contact: "hero needs to be more opaque, hard to read."
-     bg-orange-beam runs a near-white hot core straight through the headline
-     band, and .2 black over brightness(.84) left it at roughly 60% luminance
-     behind white type. Tint up to .46 and brightness down to .62 puts that
-     same core near 30%, which carries the h1 and the lede. Blur 14 -> 17 so
-     the beam reads as motion behind glass rather than a legible shape
-     fighting the letterforms. Tuned on the worst case (orange beam); the
-     calmer clips just sit on a slightly heavier surface.
+  /* Jon 2026-09-22, /contact. First ask was "hard to read", which I answered
+     by darkening the surface (tint .46, brightness .62). Wrong lever, per
+     Jon: "its not that its not opaque....make the glass filter more....more
+     dispersion." The problem was never how much light got through, it was
+     that bg-orange-beam stayed a LEGIBLE SHAPE through the panel: a hard
+     beam edge running across the headline, competing with the letterforms.
+     14px of blur refracts, it does not scatter.
+
+     So the tint goes back down near where it started and the blur does the
+     work. At 64px the beam stops being an edge and becomes a warm wash, and
+     saturate(185%) keeps that wash a colour rather than grey haze, which is
+     what reads as light dispersing through thick glass instead of a dark
+     sheet laid over the art.
+
+     Readability comes along for free, because blur averages the hot core
+     into its surroundings before anything is tinted. Measured on the panel
+     region of the orange-beam poster (the worst case on the site): the peak
+     behind the copy is 18/255 at blur 64 / tint .26, against 27/255 at the
+     darker blur 17 / tint .46 it replaces. Both clear AA comfortably, and
+     this one keeps the art.
+
+     This reverses the 2026-09-12 note above, which took blur DOWN from 30px
+     to keep the motion visible as refraction. Jon has since called the other
+     way on it: dispersion over refraction. Motion still reads, as a moving
+     glow rather than a moving shape.
 
      NOTE: fixed here on the PANEL and not on .videobg--hero's scrim on
      purpose. The full-frame scrim was deliberately cut to .04/.26 (see the
      note at .videobg--hero below) because heavy black over these 1080p
      H.264 clips lifts their quantization noise into visible banding.
-     Darkening only the area behind the copy buys the contrast without
-     touching the rest of the frame. */
-  --hero-glass-bg:rgb(0 0 0/.46);
-  --hero-glass-filter:blur(17px) saturate(150%) brightness(.62) contrast(1.08);
+     Working only behind the copy leaves the rest of the frame alone. */
+  --hero-glass-bg:rgb(0 0 0/.26);
+  --hero-glass-filter:blur(64px) saturate(185%) brightness(.72) contrast(1);
   --hero-glass-border:1px solid rgb(var(--mosa-fg-rgb)/.26);
   --hero-glass-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.22),0 18px 50px rgb(0 0 0/.34);
   /* Accent: LWS cyan retained. For pure MOSA monochrome, set this to
