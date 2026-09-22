@@ -340,6 +340,17 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 /* ---- Services grid ---- */
 .grid-svc{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
 
+/* Numbered engagement steps (/services/expert-witness). An <ol class="grid-svc
+   steps"> so the sequence is a real ordered list for a screen reader, while
+   the grid still lays it out as cards. The marker is switched off because the
+   visible .step-num carries the number instead, and brass separates the count
+   from the cyan the rest of that page runs on. */
+.steps{list-style:none;padding:0;margin:0}
+.step-num{
+  display:block;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.16em;color:var(--brass);margin-bottom:.6rem
+}
+
 /* Reason cards with full-bleed art (Jon 2026-09-14: "create 4 images that go
    in these cards. make sure the words are readable"). The art is authored with
    its subject on the RIGHT and a near-empty dark left half, so the copy lands
@@ -1113,6 +1124,12 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
    116px off the left edge of a 1440 viewport. right: matches .wrap's own
    padding so the panel's edge lines up with the nav above it. */
 .studios--dir{position:static}
+/* Same hand-up for the services panel (Jon 2026-09-22). The LEGAL column made
+   it a 4-up 900px grid, and centred on a trigger that sits left of the nav's
+   middle it ran 63px off the left edge at 1100. Lives here rather than in
+   Nav.astro's scoped block because .studios{position:relative} is declared in
+   this file and wins on source order over a component style. */
+.studios--svc{position:static}
 .mega--studios{
   width:min(860px,96vw);
   left:auto;right:clamp(1.25rem,4vw,2.5rem);transform:translateY(8px);

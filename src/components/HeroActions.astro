@@ -11,6 +11,7 @@
  * link row's bottom edge land exactly level with the buttons' bottom edge.
  */
 import { relPrefix } from "../lib/relPrefix";
+import CrookedSign from "./CrookedSign.astro";
 
 export interface Props {
   /** Render the bottom-right link row (home hero). */
@@ -28,7 +29,10 @@ const rel = relPrefix(Astro.url.pathname);
 
   {links && (
     <nav class="hero-links" aria-label="More from Live Web Studios">
-      <a href={`${rel}live-band-web-studios.html`}>Live Band Web Studios</a>
+      <span class="hero-links-item">
+        <a href={`${rel}live-band-web-studios.html`}>Live Band Web Studios</a>
+        <CrookedSign href={`${rel}live-band-web-studios.html`} compact />
+      </span>
       <span class="hero-links-sep" aria-hidden="true">/</span>
       <a href={`${rel}namesake.html`}>Namesake Personal Sites</a>
       <span class="hero-links-sep" aria-hidden="true">/</span>
@@ -78,6 +82,11 @@ const rel = relPrefix(Astro.url.pathname);
     -webkit-backdrop-filter: blur(12px) saturate(130%);
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 10px;
+  }
+  .hero-links-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
   .hero-links a {
     color: #fff;

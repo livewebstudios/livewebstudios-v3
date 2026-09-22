@@ -292,3 +292,67 @@ opening (`--curtain-hold`), because the shared `.reveal` observer fires on the
 section's top edge and the curtain finished opening below the fold. Live Band card
 CTAs reversed to amber on dark ink, which needed both colors restated because
 mosa-skin.css re-skins `.btn-primary` to white after global.css.
+
+---
+
+## 2026-09-22 — Expert Witness practice page + six side fixes
+
+**Built.** `/services/expert-witness`, the digital and web expert witness
+practice page. Structure copied from `services/seo.astro`, copy ported verbatim
+from `docs/expertwitness/`. Eight sections: hero, marquee, six practice-area
+cards, qualification split, five numbered engagement steps, billing split,
+background trio, FAQ accordion, CTA. Schema is a two-node `jsonld` array
+(`Service` + `FAQPage`) rendered off the same `faqs` frontmatter array, which is
+what keeps the question strings character-identical between the visible HTML and
+the JSON-LD. Do not split them; Google drops the rich result when they drift.
+
+**The standing content rule.** No social proof, ever. No testimonials, logo
+strip, stats band, case count or "trusted by". Jon has no prior testimony
+history, so the page sells method and qualification. See DECISIONS.md.
+
+**Wired into** Nav (new 4th services column, LEGAL, `#C9A55A`), Footer services
+column, `/services`, `_redirects` (3 rules above every wildcard), and one in-body
+link each from `industries/law-firm`, `services/seo` and `about`.
+
+**Art.** 15 new JPGs, Higgsfield `cinematic_studio_2_5`, matching the
+`industry-law-firm.jpg` house style (cyan wireframe hologram on a dark
+reflective floor). Hero, OG card, two split images, six area banners, five step
+banners. Card art is 608K total.
+
+**Six side fixes.** `.gitignore` now covers `docs/expertwitness/` and
+`Claude outputs/`; band pricing copy reworded with "Custom logo" added to
+"Does not include"; FAQ card opacity and the broken `.is-open` state; band SEO
+card opacity over the amber wash; the services dropdown closing mid-travel; and
+`ReceiverCta.astro`, a new McIntosh-style CTA panel with a VU needle that swings
+on hover and keyboard focus.
+
+**Then, mid-session.** The expert witness closing CTA got the `jon-webdesk.mp4`
+clip behind it (`cta cta--video`), per Jon pointing at the Live Band pricing
+payment note. Zero new CSS: the scrim, the 52ch copy cap, the mobile crop and
+the `min-height:0` collapse below 860px all came from the existing rules. The
+page's NO HERO VIDEO rule is unaffected; the hero is still a still `PhotoBg`.
+
+**Resolved.** The site now says "23 years" everywhere. The expert witness page
+had shipped as "Twenty-Two"; `about`, `seo`, `Nav`, `404` and three blog posts
+were already 23. Jon's call.
+
+**Verified.** Build clean, 148 pages. One H1. Zero absolute internal paths.
+Claim scan and kill-list both zero hits. Em dash count identical to untouched
+pages (the known `Base.astro` reveal-script comment, which the ban excludes).
+11 card images with real alt text, width/height and `loading="lazy"`. JSON-LD
+parses with both nodes and no FAQ question missing from the visible HTML. In
+`dist/sitemap-0.xml`. GA4 present. `og:image:width`/`height` emitting. 442
+internal refs across 8 pages, 0 broken. Nav panel holds at 1280 / 1100 / 960.
+No horizontal scroll at 375. The new CTA's scrim is byte-identical to the two
+shipped `cta--video` precedents.
+
+**Open.** The CV and rate sheet the page promises do not exist yet; both need
+building before this goes live, and the CV needs an honest testimony-history
+section reading "none to date". `26_09_22_lws_email_writing_service_page_handoff.md`
+sits untracked at the repo root, not started.
+
+**Not committed.** See the "Git state" section of
+[26_09_22_expert_witness_session_handoff.md](26_09_22_expert_witness_session_handoff.md):
+three files were already staged before that session started and are Jon's own
+CrookedSign work, and `Footer.astro` carries both his staged change and the
+Services-column line, so the two cannot be split by file.

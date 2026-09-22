@@ -1,0 +1,697 @@
+---
+/**
+ * /services/expert-witness — digital and web expert witness practice.
+ * Structure copied from services/seo.astro (Base, Nav, Footer, page-head,
+ * sec-pad sections, grid-svc, Glass cards, split--copy-first, portrait).
+ *
+ * TWO THINGS THAT ARE DELIBERATE HERE, AND SHOULD STAY THAT WAY:
+ *
+ * 1. NO SOCIAL PROOF. Jon has no prior testimony history, so this page sells
+ *    the practitioner qualification, never a case count. No testimonials, no
+ *    logo strip, no stats band, no "trusted by", no client results. If the
+ *    page ever looks like it needs more credibility, the answer is more
+ *    specificity about method, not more claims. Session 5 of the handoff
+ *    (docs/expertwitness/) runs a grep for exactly this.
+ *
+ * 2. NO HERO VIDEO. Every other service page runs a VideoBg; this one runs a
+ *    still PhotoBg on purpose. Legal buyers read, they do not watch. That rule
+ *    is about the HERO only. The closing CTA does carry the jon-webdesk clip
+ *    (Jon 2026-09-22), same recipe as /faq and the Live Band pricing payment
+ *    note: the clip fills the card, not the section.
+ *
+ * Copy ported verbatim from the handoff content file. Accent is the existing
+ * cyan (BUILD family); brass appears only on the numbered steps and the
+ * BILLING eyebrow. No new colour token.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import PhotoBg from "../../components/PhotoBg.astro";
+import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import { relPrefix } from "../../lib/relPrefix";
+
+const rel = relPrefix(Astro.url.pathname);
+
+const areas = [
+  {
+    title: "Failed Builds and Development Disputes",
+    art: "expert-witness-area-failed-builds.jpg",
+    alt: "Cyan wireframe hologram of a half-built website structure with one section collapsed",
+    body: "The agency walked. The site never launched. The invoice says one thing and the scope of work says another. I read the contract, the change orders, the repository history, and whatever actually shipped, then give you an opinion on whether the work met the standard of care and what it costs to finish.",
+  },
+  {
+    title: "Website Accessibility, ADA and NJ LAD",
+    art: "expert-witness-area-accessibility.jpg",
+    alt: "Cyan wireframe hologram of a browser window beside a universal accessibility symbol",
+    body: "Federal website accessibility filings reached 3,117 in 2025, up 27 percent over the prior year. On either side, I test against WCAG 2.1 AA using the same tooling the complaint was built on, separate real barriers from automated scanner noise, and document what remediation genuinely requires.",
+  },
+  {
+    title: "SEO and Digital Marketing Fraud",
+    art: "expert-witness-area-seo-fraud.jpg",
+    alt: "Cyan wireframe hologram of an analytics line crashing downward under a magnifying glass",
+    body: "Retainers billed for work never performed. Ranking reports built from phrases nobody searches. Traffic that came from bots. Manual actions earned by link schemes the client never approved. I reconstruct what was delivered and set it against what was sold.",
+  },
+  {
+    title: "Domain, Hosting and Asset Ownership",
+    art: "expert-witness-area-ownership.jpg",
+    alt: "Cyan wireframe hologram of a server rack and globe joined by network lines, with a key in front",
+    body: "Who owns the domain, the code, the content, and the analytics history. What the host was obligated to do before the breach. Whether a backup existed and whether anyone ever tested it. These cases live in registrar records, DNS history, and server logs, and most of that is still recoverable.",
+  },
+  {
+    title: "Site Forensics and Historical Reconstruction",
+    art: "expert-witness-area-forensics.jpg",
+    alt: "Cyan wireframe hologram of archived browser windows receding into the distance",
+    body: "What did the page say on the day it mattered. I rebuild prior states of a website from archive captures, commit history, CMS revisions, and cached copies, then document the chain of custody so the reconstruction itself holds up on cross.",
+  },
+  {
+    title: "Damages and Cost to Complete",
+    art: "expert-witness-area-damages.jpg",
+    alt: "Cyan wireframe hologram of a ledger and calculator against rising bar columns",
+    body: "A defensible number, built from line items rather than a percentage. Current market rates for the work remaining, the cost of the rebuild that was actually required, revenue attributable to downtime or a search penalty, and the fees paid for deliverables that carried no value.",
+  },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "Conflict Check and Scope",
+    art: "expert-witness-step-1-scope.jpg",
+    alt: "Cyan wireframe hologram of a telephone handset beside a checklist",
+    body: "A short call. The parties, the posture, and the question you need answered. I disclose prior engagements and testimony history at this stage. No charge.",
+  },
+  {
+    n: "02",
+    title: "Retainer and Document Review",
+    art: "expert-witness-step-2-review.jpg",
+    alt: "Cyan wireframe hologram of a stack of documents beside a fountain pen",
+    body: "Pleadings, the contract and change orders, invoices, and whatever discovery you already hold. Access to the repository, hosting, CMS, or analytics where it still exists.",
+  },
+  {
+    n: "03",
+    title: "Preliminary Findings",
+    art: "expert-witness-step-3-findings.jpg",
+    alt: "Cyan wireframe hologram of a single memo page under a magnifying glass",
+    body: "A verbal summary or a short memo before anyone commits to a formal report. You learn what the record supports while it is still cheap to change course.",
+  },
+  {
+    n: "04",
+    title: "Expert Report",
+    art: "expert-witness-step-4-report.jpg",
+    alt: "Cyan wireframe hologram of a bound report with tabbed exhibit dividers",
+    body: "Written to N.J. Ct. R. 4:17-4(e) or Fed. R. Civ. P. 26(a)(2)(B): qualifications, materials relied on, methodology, opinions, and exhibits that reproduce the underlying evidence.",
+  },
+  {
+    n: "05",
+    title: "Deposition and Trial",
+    art: "expert-witness-step-5-testimony.jpg",
+    alt: "Cyan wireframe hologram of a witness stand and microphone in a courtroom",
+    body: "Rebuttal of the opposing expert, technical preparation for your deposition of them, and testimony. Remote or in person.",
+  },
+];
+
+const background = [
+  {
+    title: "Practice",
+    body: "Owner of Live Web Studios, Saddle Brook, New Jersey, established 2004. Roughly 35 client websites under active management across design, development, hosting, and search.",
+  },
+  {
+    title: "Technical Range",
+    body: "WordPress and WooCommerce, static and headless architectures, VPS and edge hosting, DNS and registrar administration, GA4 and Search Console, WCAG 2.1 AA auditing and remediation.",
+  },
+  {
+    title: "Sectors Served",
+    body: "Construction, architecture, trades, logistics, healthcare, insurance, real estate, and professional services. The same small business defendants and plaintiffs these disputes tend to involve.",
+  },
+];
+
+/* The single source for both the visible accordion and the FAQPage schema.
+   Rendering the JSON-LD off the same array is what guarantees the question
+   strings are character-identical in the markup and the structured data;
+   Google drops an FAQ rich result when they drift. */
+const faqs = [
+  {
+    q: "Do you work plaintiff side or defense?",
+    a: "Both, and I take whichever side the record supports. A fair share of my calls come from the defense, where a small business is being told its website was worth a fraction of what it was billed.",
+  },
+  {
+    q: "What do you need to get started?",
+    a: "The complaint or answer, the contract and any change orders, the invoices, and whatever access still exists to the repository, the hosting account, the CMS, or the analytics property. When access is gone, archive captures and server logs usually carry the matter.",
+  },
+  {
+    q: "Can you review the other side's expert report?",
+    a: "Yes. Rebuttal reports and technical preparation for your deposition of the opposing expert are a regular part of the work, and they are frequently the least expensive way to move a case.",
+  },
+  {
+    q: "How quickly can a report be turned around?",
+    a: "Two to three weeks for a typical matter once the materials are in hand. Compressed timelines are possible at an expedited rate. Give me the discovery end date on the first call and I will tell you plainly whether it is achievable.",
+  },
+  {
+    q: "Do you accept matters outside New Jersey?",
+    a: "Yes. Document review, site testing, and report preparation are remote by nature, and I travel for deposition and trial.",
+  },
+  {
+    q: "What happens if the facts do not favor my client?",
+    a: "You hear it from me before you pay for a report. An expert who only ever agrees with the party who retained him is a liability the moment he is sworn in.",
+  },
+];
+
+const CANONICAL = "https://livewebstudios.com/services/expert-witness";
+const DESCRIPTION =
+  "Web development, SEO, and website accessibility expert witness services for New Jersey attorneys. Forensic site analysis, standard of care opinions, and expert reports. Plaintiff or defense.";
+
+/* Service + FAQPage. Base emits no WebPage node of its own once jsonld is
+   passed, so there is nothing duplicated here. */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Digital and Web Expert Witness Services",
+    serviceType: "Expert Witness",
+    description: DESCRIPTION,
+    url: CANONICAL,
+    areaServed: [{ "@type": "State", name: "New Jersey" }, "US"],
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "446 Saddle River Rd., Unit 2",
+        addressLocality: "Saddle Brook",
+        addressRegion: "NJ",
+        postalCode: "07663",
+        addressCountry: "US",
+      },
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+---
+
+<Base
+  title="Digital & Web Expert Witness | New Jersey | Live Web Studios"
+  description={DESCRIPTION}
+  canonical={CANONICAL}
+  ogImage="images/og-expert-witness.jpg"
+  preloadHero="expert-witness-hero.jpg"
+  jsonld={pageSchema}
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head page-head--glass has-videobg">
+      <PhotoBg src="expert-witness-hero.jpg" scrim="hero" position="50% 50%" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">EXPERT WITNESS</span>
+        <h1 class="page-h1">Expert Witness: When the Website Is the <em>Evidence</em>.</h1>
+        <p class="page-lede">Forensic site analysis, standard of care opinions, and written expert reports for web development, SEO, and accessibility disputes. North Jersey and nationwide. Plaintiff or defense.</p>
+        <div class="hero-foot hero-foot--split">
+          <div class="hero-btns">
+            <a class="btn btn-primary" href={`${rel}contact.html`}>Let's Talk →</a>
+            <a class="btn btn-ghost" href="#practice-areas">Practice Areas ↓</a>
+          </div>
+          <nav class="hero-links" aria-label="More from Live Web Studios">
+            <a href={`${rel}industries/law-firm.html`}>Law Firm Websites</a>
+            <span class="hero-links-sep" aria-hidden="true">/</span>
+            <a href={`${rel}about.html`}>About</a>
+            <span class="hero-links-sep" aria-hidden="true">/</span>
+            <a href="#engagement">Engagement</a>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <Marquee />
+
+    <!-- PRACTICE AREAS -->
+    <section class="sec-pad has-scan" id="practice-areas">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">PRACTICE AREAS</span>
+          <h2>Six Kinds of Cases I Am Retained For</h2>
+          <p>Every one of them turns on a question a practitioner can answer and a generalist cannot: what a competent web shop would actually have done.</p>
+        </div>
+        <div class="grid-svc">
+          {areas.map((c) => (
+            <article class="card ew-card reveal">
+              <Glass variant="inner">
+                <span class="ew-card__art">
+                  <img
+                    src={`${rel}images/${c.art}`}
+                    alt={c.alt}
+                    width="1248"
+                    height="832"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+                <span class="card-pad">
+                  <h3>{c.title}</h3>
+                  <p>{c.body}</p>
+                </span>
+              </Glass>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY A PRACTITIONER -->
+    <section class="sec-pad is-alt">
+      <div class="wrap split split--copy-first">
+        <div class="copy copy--points reveal">
+          <span class="eyebrow">QUALIFICATION</span>
+          <div class="sec-head is-flush"><h2>Most Web Experts Have Never Run a Web Shop. I Have.</h2></div>
+          <p>The expert on the other side is often an academic, a consultant, or a generalist who has read the standard but has never had to meet it on a fixed budget with a client on the phone. I have been quoting, scoping, building, hosting, and repairing small business websites since 2004, with roughly 35 sites under management at any given time. I know what a reasonable agency does, because I run one.</p>
+          <p>That distinction carries weight in New Jersey. Under N.J.R.E. 703 and the net opinion rule, a conclusion offered without its why and wherefore gets struck, and <em>In re Accutane</em> put Daubert reliability factors squarely in front of civil experts here. So every opinion I write traces back to something a court can inspect.</p>
+          <p>What that looks like in practice:</p>
+          <ul class="copy-points">
+            <li><strong>A practitioner, not a theorist.</strong> Live client work, current stack, current prices, this quarter.</li>
+            <li><strong>Every opinion anchored to an artifact.</strong> A commit, a capture, a log line, a scanner output, an invoice. Nothing rests on my say-so.</li>
+            <li><strong>Plain English for the jury, full method for the hearing.</strong> Two registers, one set of facts.</li>
+            <li><strong>Straight answers early.</strong> If the record does not support the opinion you need, you hear it before you pay for a report.</li>
+          </ul>
+          <p class="copy-kicker">Findings you can hand a judge.</p>
+          <p><a href={`${rel}industries/law-firm.html`}>Law firm website design →</a></p>
+          <p><a href={`${rel}about.html`}>About Live Web Studios →</a></p>
+        </div>
+        <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
+          <img
+            src={`${rel}images/expert-witness-evidence.jpg`}
+            alt="Unmarked archival document boxes stacked on a dark table under raking light"
+            width="1080"
+            height="1440"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="frame-lines"></div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- ENGAGEMENT -->
+    <section class="sec-pad has-scan" id="engagement">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">HOW IT RUNS</span>
+          <h2>Five Stages, In Order</h2>
+          <p>Most matters stop at stage three, which is usually the right outcome for your client.</p>
+        </div>
+        <ol class="grid-svc steps">
+          {steps.map((st) => (
+            <li class="card ew-card reveal">
+              <Glass variant="inner">
+                <span class="ew-card__art">
+                  <img
+                    src={`${rel}images/${st.art}`}
+                    alt={st.alt}
+                    width="1248"
+                    height="832"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="step-num">{st.n}</span>
+                </span>
+                <span class="card-pad">
+                  <h3>{st.title}</h3>
+                  <p>{st.body}</p>
+                </span>
+              </Glass>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- BILLING -->
+    <section class="sec-pad is-alt" id="billing">
+      <div class="wrap split split--copy-first">
+        <div class="copy copy--points reveal">
+          <span class="eyebrow eyebrow--brass">BILLING</span>
+          <div class="sec-head is-flush"><h2>How Billing Works</h2></div>
+          <p>Structure here, numbers in the engagement letter. Current rates and a full CV go out with it.</p>
+          <ul class="copy-points">
+            <li><strong>Conflict check and scope call.</strong> No charge, no retainer, no obligation.</li>
+            <li><strong>Retainer.</strong> Required before document review begins, applied against hours worked and replenished as it draws down.</li>
+            <li><strong>Hourly.</strong> Case review, research, analysis, site testing, and report preparation.</li>
+            <li><strong>Half day and full day.</strong> Deposition and trial testimony, portal to portal, committed once the date is set.</li>
+            <li><strong>Expedited.</strong> Work compressed into a short discovery window carries a premium. Tell me the end date on the first call.</li>
+            <li><strong>Travel and expenses.</strong> At cost, with receipts.</li>
+          </ul>
+          <p class="copy-kicker">Ask for the rate sheet. It goes out the same day.</p>
+        </div>
+        <Glass class="reveal" innerClass="portrait portrait--img">
+          <img
+            src={`${rel}images/expert-witness-forensics.jpg`}
+            alt="Magnifying lens over a dark screen surface catching a cyan highlight"
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="frame-lines"></div>
+        </Glass>
+      </div>
+    </section>
+
+    <!-- BACKGROUND -->
+    <section class="sec-pad has-scan" id="background">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">BACKGROUND</span>
+          <h2>Twenty-Three Years of the Work Itself</h2>
+        </div>
+        <div class="grid-svc trio">
+          {background.map((c) => (
+            <article class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec-pad" id="faq">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">QUESTIONS</span>
+          <h2>What Attorneys Ask First</h2>
+        </div>
+        {/* Same accordion as /faq (Jon 2026-09-22: "use that animation").
+            Markup, styles and the toggle script are ported from faq.astro
+            rather than imported: that page keeps its pattern page-scoped
+            instead of in a shared component, so this mirrors it. Difference
+            here is the heading level, h3 under this section's h2, where
+            faq.astro runs h2 under an eyebrow. Keep the two in sync. */}
+        <div class="faq-list reveal">
+          {faqs.map((f, i) => (
+            <div class:list={["faq-item", i === 0 && "is-open"]} data-faq-item>
+              <button
+                class="faq-q-btn"
+                type="button"
+                aria-expanded={i === 0 ? "true" : "false"}
+                aria-controls={`faq-panel-${i}`}
+              >
+                <h3 class="faq-q">{f.q}</h3>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-panel" id={`faq-panel-${i}`}>
+                <div class="faq-panel-inner">
+                  <p class="faq-a">{f.a}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta cta--video">
+          <VideoBg src="jon-webdesk.mp4" scrim="default" poster="jon-webdesk-poster.jpg" />
+          <h2>Tell me about the matter.</h2>
+          <p>A conflict check takes one call. Bring the complaint and the contract.</p>
+          <div class="hero-btns center">
+            <a class="btn btn-primary" href={`${rel}contact.html`}>Let's Talk →</a>
+            <a class="btn btn-ghost" href="tel:+17328019611">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* ---------- card art ----------
+     Same construction BandSeoCards uses: the banner bleeds to the card edge
+     and .card-pad owns the inset, so the glass-inner padding is cleared here.
+     Without that the art would sit inside a frame AND outside the pad, which
+     gives every card two nested frames. */
+  .ew-card > :global(.glass-inner) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+  .ew-card__art {
+    position: relative;
+    display: block;
+    flex: none;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.18);
+  }
+  .ew-card__art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--ease);
+  }
+  .ew-card:hover .ew-card__art img {
+    transform: scale(1.04);
+  }
+  /* .card-pad carries height:100%, written for a pad that IS the whole card.
+     Under a banner that resolves against a height already containing the pad
+     and the card inflates, so it goes back to auto here. */
+  .ew-card :global(.card-pad) {
+    height: auto;
+    flex: 1 1 auto;
+  }
+  /* On a step card the number rides on the art rather than above the heading,
+     which keeps the sequence readable at a glance down the grid. */
+  .ew-card__art .step-num {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.7rem;
+    margin: 0;
+    padding: 0.18rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(5, 7, 11, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ew-card__art img,
+    .ew-card:hover .ew-card__art img {
+      transition: none;
+      transform: none;
+    }
+  }
+
+  /* Hero foot + link row. These live in HeroActions.astro's SCOPED style
+     block, so they do not reach this page: HeroActions hardcodes the
+     "Let's Talk / See The Work" pair and the Live Band / Namesake / FAQ link
+     row, and this hero needs neither. Rather than add props to a component
+     eleven other pages depend on, the markup is hand-rolled here and these
+     rules are the part of HeroActions' styling it needs. Keep the two in
+     sync if that component's hero foot is ever retuned. */
+  .hero-foot {
+    display: flex;
+    align-items: flex-end;
+    gap: 2rem;
+    width: 100%;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-foot--split {
+    justify-content: space-between;
+  }
+  .hero-foot .hero-btns {
+    margin-top: 0;
+  }
+  .hero-links {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-left: auto;
+    width: fit-content;
+    max-width: 100%;
+    text-align: right;
+    font-size: calc(clamp(1.05rem, 1.6vw, 1.3rem) - 3px);
+    line-height: 1.2;
+    padding: 0.62rem 1rem;
+    background: rgba(5, 7, 11, 0.82);
+    backdrop-filter: blur(12px) saturate(130%);
+    -webkit-backdrop-filter: blur(12px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+  }
+  .hero-links a {
+    color: #fff;
+    transition: opacity 0.2s var(--ease);
+  }
+  .hero-links a:hover {
+    opacity: 0.7;
+  }
+  .hero-links-sep {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  @media (max-width: 900px) {
+    .hero-foot {
+      gap: 1.4rem;
+    }
+    .hero-links {
+      margin-left: 0;
+      text-align: left;
+    }
+  }
+
+  /* Brass on the BILLING eyebrow only. The rest of the page runs the cyan
+     that the BUILD service family already uses. */
+  .eyebrow--brass {
+    color: var(--brass);
+  }
+
+  /* FAQ accordion. Native <details>, styled to match the glass language the
+     rest of the page uses. Scoped here rather than added to global.css:
+     faq.astro keeps its own accordion styles page-scoped too, so this follows
+     the existing convention instead of putting one page's widget on all 86. */
+  .faq-list {
+    max-width: 780px;
+    margin-inline: auto;
+  }
+  .faq-item {
+    border: 1px solid rgb(var(--mosa-fg-rgb) / 0.18);
+    border-radius: var(--r-lg);
+    background: rgba(7, 11, 20, 0.88);
+    backdrop-filter: blur(22px) saturate(165%);
+    -webkit-backdrop-filter: blur(22px) saturate(165%);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--mosa-fg-rgb) / 0.14),
+      0 10px 30px rgba(0, 0, 0, 0.28);
+    margin-bottom: 0.7rem;
+    overflow: hidden;
+    transition: border-color 0.35s var(--ease), background 0.35s var(--ease);
+  }
+  @supports not (backdrop-filter: blur(1px)) {
+    .faq-item {
+      background: rgba(7, 11, 20, 0.95);
+    }
+  }
+  .faq-item:hover {
+    border-color: rgba(56, 189, 248, 0.42);
+  }
+  .faq-item.is-open {
+    border-color: rgba(56, 189, 248, 0.4);
+    background:
+      linear-gradient(rgba(56, 189, 248, 0.06), rgba(56, 189, 248, 0.06)),
+      rgba(7, 11, 20, 0.93);
+  }
+  .faq-q-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.1rem 1.3rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+  }
+  .faq-q-btn:focus-visible {
+    outline: 2px solid var(--cyan-soft);
+    outline-offset: -2px;
+  }
+  .faq-q {
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.35;
+  }
+  .faq-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    color: var(--cyan-soft);
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background 0.3s var(--ease), color 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+  .faq-item.is-open .faq-icon {
+    transform: rotate(135deg);
+    background: var(--cyan-soft);
+    color: var(--on-accent);
+    border-color: var(--cyan-soft);
+  }
+  /* The open/close animation itself: 0fr -> 1fr on a grid row, which is the
+     only way to transition to an auto height without measuring it in JS. */
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .faq-item.is-open .faq-panel {
+    grid-template-rows: 1fr;
+  }
+  .faq-panel-inner {
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+  .faq-item.is-open .faq-panel-inner {
+    opacity: 1;
+  }
+  .faq-a {
+    padding: 0 1.3rem 1.2rem;
+    margin: 0;
+    color: rgb(var(--mosa-fg-rgb) / 0.78);
+    line-height: 1.65;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faq-icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  // FAQ accordion, ported from faq.astro: click toggles open state and
+  // multiple items can be open at once.
+  (function () {
+    var items = document.querySelectorAll("[data-faq-item]");
+    items.forEach(function (item) {
+      var btn = item.querySelector(".faq-q-btn");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var willOpen = !item.classList.contains("is-open");
+        item.classList.toggle("is-open", willOpen);
+        btn.setAttribute("aria-expanded", String(willOpen));
+      });
+    });
+  })();
+</script>

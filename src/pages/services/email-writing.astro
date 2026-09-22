@@ -1,0 +1,521 @@
+---
+/**
+ * /services/email-writing: AI email voice systems.
+ * Structure mirrored from services/expert-witness.astro (Base, Nav, Footer,
+ * page-head with a background, sec-pad sections alternating is-alt and
+ * has-scan, Glass variant="inner" cards, sec-head with eyebrow + h2, numbered
+ * steps as an <ol class="grid-svc steps">, page-scoped FAQ accordion, CTA in
+ * a Glass innerClass="cta").
+ *
+ * NO FAQPage NODE HERE ON PURPOSE. /faq owns the only FAQPage node on the
+ * site; a second one competes with it for the same rich result. The accordion
+ * below is presentational only, so the faqs array feeds the markup and
+ * nothing else.
+ *
+ * Copy ported verbatim from Section 2 of the 2026-09-22 handoff.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import { relPrefix } from "../../lib/relPrefix";
+
+const rel = relPrefix(Astro.url.pathname);
+
+/* The six voices. `before` is what people actually send, `after` is what the
+   voice produces. Rendered as a labelled pair inside each card. */
+const voices = [
+  {
+    title: "The Nudge",
+    job: "Getting paid without torching the relationship.",
+    before: "Hi, just following up on invoice 1042, please let me know. Thanks!",
+    after: "Ken, invoice 1042 went out on the 3rd and it is sitting at 41 days. I am going to assume it got buried rather than ignored. Can you get it into this week's run? If something is holding it up on your end, tell me and we will work it out.",
+  },
+  {
+    title: "The Line",
+    job: "Saying no to “can you just” without losing the client.",
+    before: "Sure, I can probably squeeze that in!",
+    after: "That is a real piece of work, not a tweak, so I do not want to bolt it onto this build and have it come out half considered. Let me price it as its own thing. If the number works we do it next, and if it does not, nothing is lost.",
+  },
+  {
+    title: "The Straight Answer",
+    job: "Bad news, delivered before they find out on their own.",
+    before: "Unfortunately there have been some unforeseen delays...",
+    after: "The site is going to miss Friday. The host moved a setting on their end and it took two days to find. New date is Wednesday the 14th, and I am not going to move it again. Here is what is already done.",
+  },
+  {
+    title: "The Handoff",
+    job: "Referral intros that actually get replied to.",
+    before: "Hi both, connecting you two! I will let you take it from here.",
+    after: "Dana, this is Mike. He runs the plumbing outfit I mentioned at breakfast, and he is about four months from needing exactly the thing you do. Mike, Dana is the one I send people to when the books stop making sense. You two should talk, I am stepping out of the thread.",
+  },
+  {
+    title: "The Second Ask",
+    job: "Proposal sent, then silence. Day five.",
+    before: "Just wanted to bump this to the top of your inbox!",
+    after: "You have had the proposal a week, which usually means one of three things: the number is wrong, the timing is wrong, or it fell off the desk. Any of those is fine, I just want to know which one so I know whether to hold the slot.",
+  },
+  {
+    title: "The Opener",
+    job: "First contact that does not read like a template.",
+    before: "I hope this email finds you well! I came across your website and...",
+    after: "Your contact form has been broken since at least June. I filled it out twice from two different browsers and nothing came back. I am a web guy in Saddle Brook, so I notice this stuff. Whether or not you ever hire me, get that fixed, because you are losing calls.",
+  },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "I read your sent folder.",
+    body: "Two hundred emails you actually wrote, not a questionnaire about how you think you write. The voice comes out of the evidence.",
+  },
+  {
+    n: "02",
+    title: "We pick the six.",
+    body: "Every business has different emails it dreads. A contractor needs a change-order voice. A therapist needs a boundary voice. Yours will not be my six.",
+  },
+  {
+    n: "03",
+    title: "I build and you break them.",
+    body: "You get the voices loaded and ready. You run real situations through them for a week and tell me where they sound wrong. They get tuned until they do not.",
+  },
+  {
+    n: "04",
+    title: "You keep them.",
+    body: "They live in your tool, not mine. No subscription to me, no rewriting them next quarter, nothing to renew. If your business changes enough that the voices stop fitting, you call me.",
+  },
+];
+
+/* The bold lead-in of each deck item becomes the h3; the remainder carries on
+   as the card body. Items 1, 3 and 4 are one sentence split across the two, so
+   the body opens on the conjunction rather than restating the subject. */
+const fit = [
+  {
+    title: "You write the same email forty times a year",
+    body: "And you start from nothing every time.",
+  },
+  {
+    title: "You have an unsent folder.",
+    body: "The hard emails wait for a good day and the good day is expensive.",
+  },
+  {
+    title: "Somebody else answers your email",
+    body: "And it does not sound like you, so clients can tell which ones you wrote.",
+  },
+  {
+    title: "You already use AI for email",
+    body: "And it keeps producing something polite, padded, and not yours.",
+  },
+];
+
+/* Presentational only. Deliberately NOT mirrored into a FAQPage node: see the
+   header comment. */
+const faqs = [
+  {
+    q: "Does this mean AI writes my emails?",
+    a: "It means AI writes the first draft in a voice built from your own sent mail. You read it, you change what you want, you send it. Nothing goes out that you did not look at.",
+  },
+  {
+    q: "Will people know?",
+    a: "They will know it sounds like you, because it does. The voices are built from how you already write, which is the entire point of reading your sent folder instead of handing you a template.",
+  },
+  {
+    q: "What tool does this run in?",
+    a: "Whatever you already use. If you use nothing yet, I will set you up on one and show you how it works. There is nothing proprietary here that only I can service.",
+  },
+  {
+    q: "What if I hate one of the voices?",
+    a: "That is what the break-it week is for. They get tuned until they sound right or that voice gets scrapped and replaced with one you will actually use.",
+  },
+  {
+    q: "Can you just write my emails instead?",
+    a: "Sometimes, for a specific thing, yes. But it is the worse deal. Paying me per email means you are still waiting on me at 9pm when the invoice needs chasing.",
+  },
+];
+
+const CANONICAL = "https://livewebstudios.com/services/email-writing";
+const DESCRIPTION =
+  "Custom AI email voices built from your own sent mail. Six voices for the emails you dread: invoices, scope, bad news, follow-up. Built once, yours to keep. Saddle Brook NJ.";
+const TITLE = "Email Writing & AI Voice Systems | Live Web Studios";
+
+/* WebPage + Service, the same pair the other thirteen service pages carry.
+   No FAQPage node: /faq keeps the only one on the site. */
+const pageSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: TITLE,
+    description: DESCRIPTION,
+    url: CANONICAL,
+    isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: TITLE,
+    serviceType: "Email Writing and AI Voice Systems",
+    description: DESCRIPTION,
+    url: CANONICAL,
+    areaServed: "US",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Live Web Studios",
+      url: "https://livewebstudios.com",
+      telephone: "732-801-9611",
+      email: "jonwolf@livewebstudios.com",
+    },
+  },
+];
+---
+
+<Base title={TITLE} description={DESCRIPTION} canonical={CANONICAL} jsonld={pageSchema}>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head page-head--glass has-videobg">
+      <VideoBg src="jon-webdesk.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">EMAIL WRITING</span>
+        <h1 class="page-h1">I Do Not Write Emails Anymore. <em>Neither Should You</em>.</h1>
+        <p class="page-lede">I built myself a set of email voices. One for chasing money, one for saying no, one for bad news. I tell the machine which voice and what happened, and the email comes out sounding like me on a good day. I will build you the same thing.</p>
+        <div class="hero-btns">
+          <a class="btn btn-primary" href={`${rel}contact.html`}>Let's talk. →</a>
+          <a class="btn btn-ghost" href="#voices">The Six Voices ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <Marquee />
+
+    <!-- THE PROBLEM -->
+    <section class="sec-pad has-scan" id="problem">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE PROBLEM</span>
+          <h2>The Email You Are Avoiding Is Costing You Money</h2>
+        </div>
+        <div class="em-prose reveal">
+          <p>Every small business owner has a folder of emails they have not sent. The invoice that is forty days out. The client who keeps adding one more thing. The job that slipped and somebody has to be told.</p>
+          <p>They do not go unsent because they are hard to write. They go unsent because writing them badly has a cost, so you wait until you have the energy to write them well. That energy shows up on a Tuesday afternoon roughly once a month.</p>
+          <p>A voice system removes the energy from the equation. The hard part, deciding what tone this particular email needs, gets decided once. After that you are describing a situation, not composing a letter.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE SIX VOICES -->
+    <section class="sec-pad is-alt" id="voices">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">WHAT YOU GET</span>
+          <h2>Six Voices, Built Once, Used Forever</h2>
+        </div>
+        <div class="grid-svc">
+          {voices.map((v) => (
+            <article class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <h3>{v.title}</h3>
+                <p class="em-job">{v.job}</p>
+                <div class="em-ba">
+                  <p class="em-before">
+                    <span class="em-label">Before</span>
+                    {v.before}
+                  </p>
+                  <p class="em-after">
+                    <span class="em-label em-label--after">After</span>
+                    {v.after}
+                  </p>
+                </div>
+              </Glass>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT RUNS -->
+    <section class="sec-pad has-scan" id="build">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE BUILD</span>
+          <h2>Four Steps, About Two Weeks</h2>
+        </div>
+        <ol class="grid-svc steps">
+          {steps.map((st) => (
+            <li class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <span class="step-num">{st.n}</span>
+                <h3>{st.title}</h3>
+                <p>{st.body}</p>
+              </Glass>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- WHO THIS IS FOR -->
+    <section class="sec-pad is-alt" id="fit">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">FIT</span>
+          <h2>Worth It If You Recognize Yourself Here</h2>
+        </div>
+        <div class="grid-svc">
+          {fit.map((c) => (
+            <article class="card reveal">
+              <Glass variant="inner" innerClass="card-pad">
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+              </Glass>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec-pad" id="faq">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">QUESTIONS</span>
+          <h2>What People Ask</h2>
+        </div>
+        {/* Same accordion as /faq and /services/expert-witness: markup, styles
+            and the toggle script are page-scoped on all three rather than
+            extracted, which is the convention faq.astro set. h3 here, under
+            this section's h2. Keep the three in sync. */}
+        <div class="faq-list reveal">
+          {faqs.map((f, i) => (
+            <div class:list={["faq-item", i === 0 && "is-open"]} data-faq-item>
+              <button
+                class="faq-q-btn"
+                type="button"
+                aria-expanded={i === 0 ? "true" : "false"}
+                aria-controls={`faq-panel-${i}`}
+              >
+                <h3 class="faq-q">{f.q}</h3>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-panel" id={`faq-panel-${i}`}>
+                <div class="faq-panel-inner">
+                  <p class="faq-a">{f.a}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Tell me which email you are avoiding.</h2>
+          <p>That is usually the first voice we build.</p>
+          <div class="hero-btns center">
+            <a class="btn btn-primary" href={`${rel}contact.html`}>Let's talk. →</a>
+            <a class="btn btn-ghost" href="tel:+17328019611">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* ---------- prose column ----------
+     THE PROBLEM is three paragraphs with no list and no art, and there is no
+     existing standalone prose class: .copy only gets its type treatment
+     inside .split. Page-scoped measure helper, same precedent as .ew-card on
+     expert-witness.astro. */
+  .em-prose {
+    max-width: 680px;
+    margin-inline: auto;
+  }
+  .em-prose p {
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .em-prose p + p {
+    margin-top: 1.2rem;
+  }
+
+  /* ---------- voice cards ---------- */
+  .em-job {
+    color: var(--cyan-soft);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    margin-top: 0.4rem;
+  }
+  .em-ba {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .em-ba p {
+    margin: 0;
+    padding-left: 0.9rem;
+    border-left: 2px solid var(--line);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+  /* The "before" takes --muted-2, the site's secondary text token, against the
+     "after" on --ink. Measured on the rendered card ground (rgb(3,3,3) once
+     the glass composites): --muted-2 is 6.9:1 and --ink is 14.6:1, so the
+     hierarchy is visible and the de-emphasised half still clears WCAG AA for
+     body text with room. Note that mosa-skin.css redefines these four tokens
+     as white-alpha (--ink .85, --muted .74, --muted-2 .58), so the hex values
+     in global.css's :root are NOT what ships; measure against the skin. */
+  .em-before {
+    color: var(--muted-2);
+  }
+  .em-after {
+    color: var(--ink);
+    border-left-color: var(--cyan-soft);
+  }
+  .em-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 0.3rem;
+  }
+  .em-label--after {
+    color: var(--cyan-soft);
+  }
+
+  /* ---------- FAQ accordion ----------
+     Ported from faq.astro via expert-witness.astro. Scoped here rather than
+     added to global.css, which is the convention those two set. */
+  .faq-list {
+    max-width: 780px;
+    margin-inline: auto;
+  }
+  .faq-item {
+    border: 1px solid rgb(var(--mosa-fg-rgb) / 0.18);
+    border-radius: var(--r-lg);
+    background: rgba(7, 11, 20, 0.88);
+    backdrop-filter: blur(22px) saturate(165%);
+    -webkit-backdrop-filter: blur(22px) saturate(165%);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--mosa-fg-rgb) / 0.14),
+      0 10px 30px rgba(0, 0, 0, 0.28);
+    margin-bottom: 0.7rem;
+    overflow: hidden;
+    transition: border-color 0.35s var(--ease), background 0.35s var(--ease);
+  }
+  @supports not (backdrop-filter: blur(1px)) {
+    .faq-item {
+      background: rgba(7, 11, 20, 0.95);
+    }
+  }
+  .faq-item:hover {
+    border-color: rgba(56, 189, 248, 0.42);
+  }
+  .faq-item.is-open {
+    border-color: rgba(56, 189, 248, 0.4);
+    background:
+      linear-gradient(rgba(56, 189, 248, 0.06), rgba(56, 189, 248, 0.06)),
+      rgba(7, 11, 20, 0.93);
+  }
+  .faq-q-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.1rem 1.3rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+  }
+  .faq-q-btn:focus-visible {
+    outline: 2px solid var(--cyan-soft);
+    outline-offset: -2px;
+  }
+  .faq-q {
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.35;
+  }
+  .faq-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    color: var(--cyan-soft);
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background 0.3s var(--ease), color 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+  .faq-item.is-open .faq-icon {
+    transform: rotate(135deg);
+    background: var(--cyan-soft);
+    color: var(--on-accent);
+    border-color: var(--cyan-soft);
+  }
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .faq-item.is-open .faq-panel {
+    grid-template-rows: 1fr;
+  }
+  .faq-panel-inner {
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+  .faq-item.is-open .faq-panel-inner {
+    opacity: 1;
+  }
+  .faq-a {
+    padding: 0 1.3rem 1.2rem;
+    margin: 0;
+    color: rgb(var(--mosa-fg-rgb) / 0.78);
+    line-height: 1.65;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faq-icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  // FAQ accordion, ported from faq.astro: click toggles open state and
+  // multiple items can be open at once.
+  (function () {
+    var items = document.querySelectorAll("[data-faq-item]");
+    items.forEach(function (item) {
+      var btn = item.querySelector(".faq-q-btn");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var willOpen = !item.classList.contains("is-open");
+        item.classList.toggle("is-open", willOpen);
+        btn.setAttribute("aria-expanded", String(willOpen));
+      });
+    });
+  })();
+</script>

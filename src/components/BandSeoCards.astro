@@ -76,6 +76,19 @@ const seo = [
     border-radius: var(--r-md);
     border-color: rgba(252, 211, 77, 0.2);
     padding: 0;
+    /* Jon 2026-09-22: "make these cards less transparent, kinda hard to read".
+       The base .glass-inner is rgba(11,18,32,.5), which is tuned for the dark
+       main-site sections. These sit on the band pages' amber stage wash, and
+       at 50% the copy was reading through onto lit gold. Overridden here only,
+       so the other 148 pages' cards keep the lighter glass. */
+    background: rgba(9, 14, 26, 0.9);
+  }
+  /* No backdrop-filter support: lean on alpha alone rather than let the card
+     fall back to the 50% ground. */
+  @supports not (backdrop-filter: blur(1px)) {
+    .lbs-card > :global(.glass-inner) {
+      background: rgba(9, 14, 26, 0.96);
+    }
   }
   /* 3:2 is what the build cards and the How It Works row both run, so all
      three read as one component. Widened on a narrow single-column layout,

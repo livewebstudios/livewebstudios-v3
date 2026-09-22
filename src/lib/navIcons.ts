@@ -36,6 +36,7 @@ export const ICONS: Record<string, string> = {
   pen: '<path d="M12 2.5 6.2 14.2h11.6L12 2.5Z"/><path d="M9.6 14.2h4.8l-2.4 7-2.4-7Z"/><circle cx="12" cy="11.4" r="1.1"/>',
   cards: '<rect x="2.5" y="6" width="13" height="15" rx="2"/><path d="M7 3h11a3 3 0 0 1 3 3v11"/>',
   chat: '<path d="M20.6 12.6a7.6 7.6 0 0 1-8.3 7.6L6 21.8l1.4-4.3A7.6 7.6 0 1 1 20.6 12.6Z"/><path d="M9 11h6M9 14.2h4"/>',
+  mail: '<rect x="2.6" y="4.8" width="18.8" height="14.4" rx="2"/><path d="M3.4 6.6 12 13.2l8.6-6.6"/>',
 
   /* ---- Industries ---- */
   cross: '<circle cx="12" cy="12" r="9.2"/><path d="M12 7.6v8.8M7.6 12h8.8"/>',

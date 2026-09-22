@@ -226,7 +226,7 @@ const jsonLd = JSON.stringify({
   .faq-item {
     border: 1px solid rgb(var(--mosa-fg-rgb) / 0.18);
     border-radius: var(--r-lg, 14px);
-    background: rgba(7, 11, 20, 0.52);
+    background: rgba(7, 11, 20, 0.88);
     backdrop-filter: blur(22px) saturate(165%);
     -webkit-backdrop-filter: blur(22px) saturate(165%);
     box-shadow:
@@ -239,7 +239,7 @@ const jsonLd = JSON.stringify({
   }
   .faq-item:hover {
     border-color: rgba(56, 189, 248, 0.42);
-    background: rgba(7, 11, 20, 0.62);
+    background: rgba(7, 11, 20, 0.92);
     transform: translateY(-2px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   }
@@ -247,16 +247,22 @@ const jsonLd = JSON.stringify({
      the copy never sits on a near-transparent panel over the video. */
   @supports not (backdrop-filter: blur(1px)) {
     .faq-item {
-      background: rgba(7, 11, 20, 0.88);
+      background: rgba(7, 11, 20, 0.95);
     }
     .faq-item[open],
     .faq-item:hover {
-      background: rgba(7, 11, 20, 0.92);
+      background: rgba(7, 11, 20, 0.97);
     }
   }
+  /* Jon 2026-09-22: "make the cards more opaque, hard to see". The open
+     state used to REPLACE the dark panel with a 5% cyan wash, which over
+     faq-mov.mp4 left an opened answer sitting on bare video. The cyan now
+     rides on top of the dark ground instead of instead of it. */
   .faq-item.is-open {
     border-color: rgba(56, 189, 248, 0.4);
-    background: rgba(56, 189, 248, 0.05);
+    background:
+      linear-gradient(rgba(56, 189, 248, 0.06), rgba(56, 189, 248, 0.06)),
+      rgba(7, 11, 20, 0.93);
   }
   .faq-q-btn {
     display: flex;

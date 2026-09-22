@@ -12,6 +12,7 @@
 import VideoBg from "./VideoBg.astro";
 import Arrow from "./Arrow.astro";
 import Social from "./Social.astro";
+import CrookedSign from "./CrookedSign.astro";
 import { relPrefix } from "../lib/relPrefix";
 const path = Astro.url.pathname;
 const rel = relPrefix(path);
@@ -47,6 +48,8 @@ const cols = [
       ["SEO & Marketing", "services/seo.html"],
       ["E-Commerce", "services/ecommerce.html"],
       ["Branding", "services/branding.html"],
+      ["Expert Witness", "services/expert-witness.html"],
+      ["Email Writing", "services/email-writing.html"],
       ["All Services", "services.html"],
     ],
   },
@@ -129,13 +132,19 @@ const cols = [
                  is no local page). Internal links stay relative per the path
                  rule. */
               const ext = href.startsWith("http");
+              const resolvedHref = ext ? href : `${rel}${href}`;
+              /* Jon 2026-09-17: a little crooked gold "Musicians/Bands...
+                 click here" sign rides next to this one link, sitewide,
+                 wherever the Studios column renders. */
+              const isBand = label === "Live Band Web Studios";
               return (
-                <li>
+                <li class:list={["foot-link-row", isBand && "foot-link-row--band"]}>
                   <a
-                    href={ext ? href : `${rel}${href}`}
+                    href={resolvedHref}
                     target={ext ? "_blank" : undefined}
                     rel={ext ? "noopener noreferrer" : undefined}
                   >{label}</a>
+                  {isBand && <CrookedSign href={resolvedHref} compact />}
                 </li>
               );
             })}
@@ -299,6 +308,11 @@ const cols = [
     list-style: none;
     margin: 0;
     padding: 0;
+  }
+  .foot-link-row {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
   }
   .foot-col a {
     color: var(--muted);

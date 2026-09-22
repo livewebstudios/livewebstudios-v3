@@ -53,6 +53,10 @@ const svcCols = [
       ["AI Business Services", "services/ai-business-services.html", "bot"],
       ["AI Workflow", "services/ai-workflow.html", "route"],
       ["AI Image", "services/ai-image.html", "image"],
+      /* Jon 2026-09-22. Fifth AI link rather than its own column: it is an AI
+         voice-system build sold to the same small businesses the other four
+         serve, so it does not need the separation Expert Witness needed. */
+      ["Email Writing", "services/email-writing.html", "mail"],
     ],
   },
   {
@@ -63,6 +67,18 @@ const svcCols = [
       ["Logo Design", "services/logo-design.html", "pen"],
       ["Custom Styles & Cards", "services/custom-styles-and-carousel-cards.html", "cards"],
       ["Consulting", "services/consulting.html", "chat"],
+    ],
+  },
+  /* Jon 2026-09-22. Its own column rather than a fourth BRAND link: the
+     expert witness practice sells to attorneys, not to the small businesses
+     the other twelve links sell to, and burying it under BRAND would have
+     read as a design service. Brass, matching the numbered steps on the
+     page itself. The scales glyph is the one Law Firm already uses. */
+  {
+    label: "LEGAL",
+    color: "#C9A55A",
+    links: [
+      ["Expert Witness", "services/expert-witness.html", "scales"],
     ],
   },
 ];
@@ -136,7 +152,12 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     <nav class="nav-links" id="nav-links" aria-label="Primary">
       <a href={`${rel}work.html`}>Work</a>
 
-      <div class="studios" data-dd>
+      {/* studios--svc does for the services panel what studios--dir does for
+          the directory one: drops the wrapper to static so the panel anchors
+          to header.nav instead of this trigger. With four columns the panel
+          is 900px, and centred on a trigger that sits left of centre it hung
+          63px off the left edge at 1100. */}
+      <div class="studios studios--svc" data-dd>
         <span class="dd-pair">
           <a class="studios-trigger" href={`${rel}services.html`}>Services</a>
           <button
@@ -421,8 +442,24 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
   .dd-toggle:hover {
     color: var(--cyan-soft);
   }
+  /* 900 not 720 (Jon 2026-09-22): the LEGAL column made this a 4-up grid, and
+     four columns need 840px before "AI Business Services" and "Custom Styles
+     & Cards" stop wrapping. .mega is centred on its trigger (left:50% +
+     translateX(-50%) in global.css), so every extra 100px of panel hangs
+     another 50px off the LEFT of the viewport. That is why the narrow case
+     below drops the width back down instead of only changing the column
+     count: a 900px panel over a 2-up grid was 127px off-screen at 960. */
   .mega--services {
-    width: min(720px, 92vw);
+    width: min(900px, 92vw);
+    /* Hover bridge (Jon 2026-09-22: "sometimes the drop down closes before I
+       get there"). Anchoring to header.nav moved top:100% from the trigger's
+       bottom edge down to the header's, opening a 13px strip that belongs to
+       neither the trigger nor the panel: cross it and .studios:hover goes
+       false mid-travel. The negative margin pulls the panel's BOX back up to
+       overlap the trigger while the matching padding holds the VISIBLE panel
+       exactly where it was, so the pointer never leaves a hovered element. */
+    margin-top: -29px;
+    padding-top: 45px;
   }
   .mega--industries {
     width: min(480px, 92vw);
@@ -449,9 +486,20 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
   }
   .svc-cols {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
     margin-bottom: 0.4rem;
+  }
+  /* Below the panel's own max width there is no room for four, so pair them
+     up rather than letting every label wrap, and bring the panel back in so
+     its left edge clears the viewport. */
+  @media (max-width: 980px) {
+    .mega--services {
+      width: min(560px, 92vw);
+    }
+    .svc-cols {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   .svc-col {
     display: flex;
