@@ -14,6 +14,17 @@ export default defineConfig({
   // keeps CSS inside each page: no /_astro/*.css root-relative <link>s,
   // which would break the path rule on a host move.
   build: { format: 'file', inlineStylesheets: 'always' },
+  // CSS minifier targets. Without these the minifier assumes a modern-only
+  // baseline and collapses a `backdrop-filter` / `-webkit-backdrop-filter`
+  // pair down to whichever of the two came LAST in the source, because to it
+  // they are the same property declared twice. That silently shipped a
+  // webkit-only backdrop-filter for months: Chrome does not implement
+  // `-webkit-backdrop-filter` at all, so every glass surface on the site
+  // (hero panels, .glass cards, the nav and mega panels) rendered flat in
+  // Chrome while looking correct in `astro dev`, which does not minify.
+  // Naming safari15 makes the minifier emit the prefix itself and keep the
+  // standard property, so both browsers get a working declaration.
+  vite: { build: { cssTarget: ['chrome90', 'edge90', 'firefox90', 'safari15'] } },
   integrations: [stripHtmlComments(), react(), sitemap({
     // Keep noindex pages (form destinations, client guide) out of the sitemap
     // so it never contradicts their robots meta.
