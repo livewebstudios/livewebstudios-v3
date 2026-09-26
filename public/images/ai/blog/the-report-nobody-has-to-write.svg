@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+<title>A monthly report page assembling itself: bar and line chart panels snapping into a corner-cut page frame from a cluster of data nodes</title>
+<rect width="1600" height="900" fill="#0E0B1A"/>
+<g stroke="#5E6B7E" stroke-width="2" opacity="0.18">
+<line x1="100" y1="0" x2="100" y2="900"/>
+<line x1="200" y1="0" x2="200" y2="900"/>
+<line x1="300" y1="0" x2="300" y2="900"/>
+<line x1="400" y1="0" x2="400" y2="900"/>
+<line x1="500" y1="0" x2="500" y2="900"/>
+<line x1="600" y1="0" x2="600" y2="900"/>
+<line x1="700" y1="0" x2="700" y2="900"/>
+<line x1="800" y1="0" x2="800" y2="900"/>
+<line x1="900" y1="0" x2="900" y2="900"/>
+<line x1="1000" y1="0" x2="1000" y2="900"/>
+<line x1="1100" y1="0" x2="1100" y2="900"/>
+<line x1="1200" y1="0" x2="1200" y2="900"/>
+<line x1="1300" y1="0" x2="1300" y2="900"/>
+<line x1="1400" y1="0" x2="1400" y2="900"/>
+<line x1="1500" y1="0" x2="1500" y2="900"/>
+<line x1="0" y1="100" x2="1600" y2="100"/>
+<line x1="0" y1="200" x2="1600" y2="200"/>
+<line x1="0" y1="300" x2="1600" y2="300"/>
+<line x1="0" y1="400" x2="1600" y2="400"/>
+<line x1="0" y1="500" x2="1600" y2="500"/>
+<line x1="0" y1="600" x2="1600" y2="600"/>
+<line x1="0" y1="700" x2="1600" y2="700"/>
+<line x1="0" y1="800" x2="1600" y2="800"/>
+</g>
+<polygon points="700,110 1250,110 1340,200 1340,790 700,790" fill="#1C1830" stroke="#A78BFA" stroke-width="4"/>
+<line x1="1250" y1="110" x2="1250" y2="200" stroke="#A78BFA" stroke-width="2" opacity="0.5"/>
+<line x1="1250" y1="200" x2="1340" y2="200" stroke="#A78BFA" stroke-width="2" opacity="0.5"/>
+<rect x="750" y="160" width="220" height="14" fill="#A78BFA"/>
+<rect x="750" y="190" width="180" height="6" fill="#5E6B7E"/>
+<rect x="750" y="240" width="260" height="250" fill="none" stroke="#5E6B7E" stroke-width="2"/>
+<rect x="780" y="370" width="28" height="90" fill="#A78BFA"/>
+<rect x="824" y="320" width="28" height="140" fill="#7C5CE0"/>
+<rect x="868" y="345" width="28" height="115" fill="#A78BFA"/>
+<rect x="912" y="280" width="28" height="180" fill="#7C5CE0"/>
+<rect x="956" y="330" width="28" height="130" fill="none" stroke="#A78BFA" stroke-width="2" stroke-dasharray="6 6"/>
+<line x1="770" y1="460" x2="990" y2="460" stroke="#5E6B7E" stroke-width="3"/>
+<rect x="966" y="180" width="28" height="130" fill="#A78BFA" transform="rotate(10 980 245)"/>
+<rect x="1040" y="240" width="250" height="250" fill="none" stroke="#5E6B7E" stroke-width="2"/>
+<polyline points="1065,430 1115,390 1165,405 1215,335" fill="none" stroke="#A78BFA" stroke-width="5" stroke-linejoin="round"/>
+<circle cx="1065" cy="430" r="8" fill="#0E0B1A" stroke="#A78BFA" stroke-width="4"/>
+<circle cx="1115" cy="390" r="8" fill="#0E0B1A" stroke="#A78BFA" stroke-width="4"/>
+<circle cx="1165" cy="405" r="8" fill="#0E0B1A" stroke="#A78BFA" stroke-width="4"/>
+<circle cx="1215" cy="335" r="8" fill="#0E0B1A" stroke="#A78BFA" stroke-width="4"/>
+<line x1="1215" y1="335" x2="1265" y2="295" stroke="#A78BFA" stroke-width="3" stroke-dasharray="6 8"/>
+<circle cx="1265" cy="295" r="8" fill="none" stroke="#A78BFA" stroke-width="3" stroke-dasharray="4 4"/>
+<polygon points="750,520 886,520 910,544 910,620 750,620" fill="none" stroke="#5E6B7E" stroke-width="2"/>
+<rect x="770" y="548" width="90" height="16" fill="#A78BFA"/>
+<rect x="770" y="580" width="110" height="6" fill="#5E6B7E"/>
+<polygon points="932,520 1068,520 1092,544 1092,620 932,620" fill="none" stroke="#5E6B7E" stroke-width="2"/>
+<rect x="952" y="548" width="60" height="16" fill="#7C5CE0"/>
+<rect x="952" y="580" width="110" height="6" fill="#5E6B7E"/>
+<polygon points="1114,520 1250,520 1274,544 1274,620 1114,620" fill="none" stroke="#5E6B7E" stroke-width="2"/>
+<rect x="1134" y="548" width="110" height="16" fill="#A78BFA"/>
+<rect x="1134" y="580" width="110" height="6" fill="#5E6B7E"/>
+<rect x="750" y="650" width="540" height="90" fill="none" stroke="#A78BFA" stroke-width="2" stroke-dasharray="8 8" opacity="0.7"/>
+<g transform="rotate(-6 590 735)"><polygon points="420,690 736,690 760,714 760,780 420,780" fill="#1C1830" stroke="#A78BFA" stroke-width="3"/>
+<rect x="444" y="736" width="20" height="30" fill="#A78BFA" opacity="0.55"/>
+<rect x="480" y="722" width="20" height="44" fill="#A78BFA" opacity="0.55"/>
+<rect x="516" y="744" width="20" height="22" fill="#A78BFA" opacity="0.55"/>
+<rect x="552" y="714" width="20" height="52" fill="#A78BFA" opacity="0.55"/>
+<rect x="588" y="728" width="20" height="38" fill="#A78BFA" opacity="1"/>
+<rect x="624" y="706" width="20" height="60" fill="#A78BFA" opacity="1"/>
+<rect x="660" y="718" width="20" height="48" fill="#A78BFA" opacity="1"/>
+<rect x="696" y="700" width="20" height="66" fill="#A78BFA" opacity="1"/>
+</g>
+<line x1="170" y1="200" x2="360" y2="190" stroke="#5E6B7E" stroke-width="2"/>
+<line x1="250" y1="330" x2="360" y2="190" stroke="#5E6B7E" stroke-width="2"/>
+<line x1="250" y1="330" x2="380" y2="420" stroke="#5E6B7E" stroke-width="2"/>
+<line x1="150" y1="450" x2="380" y2="420" stroke="#5E6B7E" stroke-width="2"/>
+<line x1="270" y1="560" x2="380" y2="420" stroke="#5E6B7E" stroke-width="2"/>
+<line x1="190" y1="700" x2="420" y2="735" stroke="#5E6B7E" stroke-width="2"/>
+<line x1="270" y1="560" x2="420" y2="735" stroke="#5E6B7E" stroke-width="2"/>
+<path d="M384 190 L514 60 L970 60 L976 174" fill="none" stroke="#A78BFA" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/>
+<path d="M404 420 L686 420" fill="none" stroke="#A78BFA" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/>
+<circle cx="170" cy="200" r="10" fill="#5E6B7E"/>
+<circle cx="250" cy="330" r="10" fill="#5E6B7E"/>
+<circle cx="150" cy="450" r="10" fill="#5E6B7E"/>
+<circle cx="270" cy="560" r="10" fill="#5E6B7E"/>
+<circle cx="190" cy="700" r="10" fill="#5E6B7E"/>
+<rect x="344" y="174" width="32" height="32" fill="#A78BFA" transform="rotate(45 360 190)"/>
+<rect x="364" y="404" width="32" height="32" fill="#A78BFA" transform="rotate(45 380 420)"/>
+<rect x="404" y="719" width="32" height="32" fill="#A78BFA" transform="rotate(45 420 735)"/>
+<polyline points="670,404 692,420 670,436" fill="none" stroke="#A78BFA" stroke-width="4"/>
+<line x1="1460" y1="900" x2="1600" y2="760" stroke="#A78BFA" stroke-width="6"/>
+</svg>
