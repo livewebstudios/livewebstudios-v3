@@ -12,6 +12,7 @@ import Footer from "../components/Footer.astro";
 import Social from "../components/Social.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
+import PhotoBg from "../components/PhotoBg.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 ---
@@ -25,8 +26,8 @@ import HeroActions from "../components/HeroActions.astro";
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+    <section class="page-head page-head--glass page-head--bare has-videobg">
+      <PhotoBg src="roadcase-bg.jpg" scrim="hero" position="50% 55%" brightness={1.45} />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">CONTACT</span>
         <h1 class="page-h1">Let's Build <em>Something</em>.</h1>

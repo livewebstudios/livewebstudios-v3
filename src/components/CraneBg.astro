@@ -1,0 +1,30 @@
+---
+/**
+ * CraneBg: live three.js crane hologram as a hero background.
+ * Drop-in for <VideoBg> inside a .page-head: same .videobg wrapper and scrim,
+ * with a <canvas> where the <video> would be. The MP4 render's poster sits
+ * behind the canvas, so there is no blank hero before WebGL starts, and it
+ * stays as the fallback when WebGL is unavailable. Relative path per the
+ * LWS rule.
+ */
+import { relPrefix } from "../lib/relPrefix";
+interface Props { scrim?: "hero" | "default" | "strong"; }
+const { scrim = "hero" } = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<div class:list={["videobg", `videobg--${scrim}`]} aria-hidden="true"
+  style={`background:#000 url(${rel}video-bg/bg-crane-holo-poster.jpg) center/cover no-repeat`}>
+  <canvas class="videobg__v cranebg"></canvas>
+  <div class="videobg__scrim"></div>
+</div>
+
+<style>
+  .cranebg { opacity: 0; transition: opacity .6s ease; }
+  .cranebg:global(.is-live) { opacity: 1; }
+</style>
+
+<script>
+  import { mountCrane } from "../scripts/crane-scene.js";
+  document.querySelectorAll<HTMLCanvasElement>("canvas.cranebg").forEach(mountCrane);
+</script>

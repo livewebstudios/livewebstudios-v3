@@ -14,10 +14,10 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
-import VideoBg from "../components/VideoBg.astro";
 import ServiceCard from "../components/ServiceCard.astro";
 import Aurora from "../components/Aurora.jsx";
 import Marquee from "../components/Marquee.astro";
+import VideoBg from "../components/VideoBg.astro";
 import HeroActions from "../components/HeroActions.astro";
 
 /* Same tiled weave the home and services grids use. Relative path per the
@@ -48,14 +48,14 @@ const industries = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+    <section class="page-head page-head--glass page-head--bare has-videobg">
+      <VideoBg src="bg-town-holo.mp4" scrim="hero" position="66% 50%" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">INDUSTRIES</span>
         <h1 class="page-h1">Built for <em>Your Industry.</em></h1>
         <!-- em-dash: "unique requirements — compliance" → "unique requirements: compliance" -->
         <p class="page-lede">We don't do generic. Every industry has unique requirements: compliance, terminology, audience expectations. We build for yours.</p>
-        <HeroActions links />
+        <HeroActions links clear />
       </div>
     </section>
 

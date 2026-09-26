@@ -26,8 +26,12 @@ interface Props {
       every clip in public/video-bg/ ships a matching <name>-poster.jpg that is
       picked up automatically below. Relative path per the LWS rule. */
   poster?: string;
+  /** object-position for the clip, e.g. "65% 50%". Only bites where the box
+      is narrower than the clip (phones): an ultrawide clip whose subject sits
+      right of center can keep it in frame instead of cropping to the middle. */
+  position?: string;
 }
-const { src, scrim = "default", once = false, poster } = Astro.props;
+const { src, scrim = "default", once = false, poster, position } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 
 /* Every clip in public/video-bg/ has a first-frame JPG beside it, generated
@@ -50,6 +54,7 @@ const posterSrc = poster ? `${rel}images/${poster}` : autoPoster;
     playsinline
     preload="none"
     poster={posterSrc}
+    style={position ? `object-position:${position}` : undefined}
     data-src={`${rel}video-bg/${src}`}
   ></video>
   <div class="videobg__scrim"></div>

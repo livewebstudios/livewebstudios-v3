@@ -26,7 +26,7 @@ const onBand = path.includes("/live-band-web-studios");
 const MAILCHIMP_ACTION =
   "https://livewebstudios.us18.list-manage.com/subscribe/post?u=612de0c3a91b0bcc090cd2337&id=30b288c666&f_id=00d229e7f0";
 
-const cols = [
+const cols: { h: string; href?: string; links: string[][] }[] = [
   {
     h: "Pages",
     links: [
@@ -54,15 +54,22 @@ const cols = [
     ],
   },
   {
+    /* Jon 2026-09-26: Industries left the main nav, so this column carries
+       all 10 verticals and the heading itself links to the hub (which is
+       why "All Industries" is gone). */
     h: "Industries",
+    href: "industries.html",
     links: [
-      ["Construction", "industries/construction.html"],
-      ["Law Firms", "industries/law-firm.html"],
-      ["Dental", "industries/dental.html"],
       ["Healthcare", "industries/healthcare.html"],
+      ["Law Firms", "industries/law-firm.html"],
+      ["Financial Services", "industries/financial-services.html"],
+      ["Construction", "industries/construction.html"],
       ["Real Estate", "industries/real-estate.html"],
+      ["Manufacturing", "industries/manufacturing.html"],
+      ["Dental", "industries/dental.html"],
+      ["Nonprofit", "industries/nonprofit.html"],
+      ["B2B", "industries/b2b.html"],
       ["Insurance", "industries/insurance.html"],
-      ["All Industries", "industries.html"],
     ],
   },
   {
@@ -124,7 +131,7 @@ const cols = [
 
       {cols.map((c) => (
         <div class="foot-col">
-          <h3>{c.h}</h3>
+          <h3>{c.href ? <a class="foot-col__h" href={`${rel}${c.href}`}>{c.h}</a> : c.h}</h3>
           <ul>
             {c.links.map(([label, href]) => {
               /* Sister companies with their own domain link out in a new tab
@@ -285,6 +292,15 @@ const cols = [
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 1rem;
+  }
+  /* Scoped past .foot-col a (0.88rem, muted) so the linked heading keeps
+     the h3's mono size and matches the unlinked column heads. */
+  .foot-col h3 a.foot-col__h {
+    color: inherit;
+    font-size: inherit;
+  }
+  .foot-col h3 a.foot-col__h:hover {
+    color: var(--cyan-soft);
   }
   /* Badge at exact intrinsic size so it stays crisp (150x37 native, the
      canonical asset from livewebstudios.com). Jon 2026-08-27: the old local

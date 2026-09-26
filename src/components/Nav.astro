@@ -83,22 +83,6 @@ const svcCols = [
   },
 ];
 
-/* Industries dropdown — all 10 verticals (Jon 2026-08-15). One hue across the
-   set: these are peers, so colouring them apart would imply a grouping that
-   does not exist. */
-const indLinks = [
-  ["Healthcare", "industries/healthcare.html", "cross"],
-  ["Law Firm", "industries/law-firm.html", "scales"],
-  ["Financial Services", "industries/financial-services.html", "bank"],
-  ["Construction", "industries/construction.html", "hardhat"],
-  ["Real Estate", "industries/real-estate.html", "towers"],
-  ["Manufacturing", "industries/manufacturing.html", "factory"],
-  ["Dental", "industries/dental.html", "tooth"],
-  ["Nonprofit", "industries/nonprofit.html", "heart"],
-  ["B2B", "industries/b2b.html", "briefcase"],
-  ["Insurance", "industries/insurance.html", "shield"],
-];
-
 /* Sub-brand bars. Order and labels match the live site
    (build/live-band-web-studios/index.html lines 37-56). "Forms" stays a real
    link and also opens a dropdown of the four form pages. */
@@ -183,33 +167,6 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
                     </a>
                   ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="studios" data-dd>
-        <span class="dd-pair">
-          <a class="studios-trigger" href={`${rel}industries.html`}>Industries</a>
-          <button
-            type="button"
-            class="dd-toggle"
-            aria-label="Open industries menu"
-            aria-expanded="false"
-            aria-controls="industries-panel"
-            aria-haspopup="true"
-          ><span class="studios-caret" aria-hidden="true">↓</span></button>
-        </span>
-
-        <div class="mega mega--industries" id="industries-panel" role="region" aria-label="Industries">
-          <div class="mega-inner">
-            <div class="ind-cols">
-              {indLinks.map(([label, href, icon]) => (
-                <a class="svc-link" href={`${rel}${href}`}>
-                  <NavIcon name={icon} color="#7DD3FC" />
-                  <span class="svc-link__txt">{label}</span>
-                </a>
               ))}
             </div>
           </div>
@@ -461,28 +418,19 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     margin-top: -29px;
     padding-top: 45px;
   }
-  .mega--industries {
-    width: min(480px, 92vw);
-  }
   /* About holds three rows (Our Story, Blog, FAQ), so it sits narrower than
-     the industries grid. FAQ lives here and nowhere else (Jon 2026-09-07).
+     the Services grid. FAQ lives here and nowhere else (Jon 2026-09-07).
      Blog joined 2026-09-15: the main row had 34px of slack at 1024px against
      the ~65px a seventh top-level item needs, so it would have collided with
      Let's Talk. A row here still puts a blog link on all 86 pages. */
   .mega--about {
     width: min(360px, 92vw);
   }
-  /* .mega-support is a 2-col grid, which the Services/Industries panels use
+  /* .mega-support is a 2-col grid, which the Services panel uses
      for their single row. About carries two, so stack them instead of
      squeezing both subtitles into 135px columns. */
   .mega--about .mega-support {
     grid-template-columns: 1fr;
-  }
-  .ind-cols {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0 0.5rem;
-    margin-bottom: 0.4rem;
   }
   .svc-cols {
     display: grid;
@@ -692,8 +640,7 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
   }
 
   @media (max-width: 900px) {
-    .svc-cols,
-    .ind-cols {
+    .svc-cols {
       grid-template-columns: 1fr;
     }
     /* The bar stops being one fixed-height row here, so the brand goes back

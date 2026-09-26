@@ -16,8 +16,11 @@ import CrookedSign from "./CrookedSign.astro";
 export interface Props {
   /** Render the bottom-right link row (home hero). */
   links?: boolean;
+  /** Lighter link row, so a busy video behind it shows through
+      (Jon 2026-09-26: the town-hologram heroes, Industries + Construction). */
+  clear?: boolean;
 }
-const { links = false } = Astro.props;
+const { links = false, clear = false } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 ---
 
@@ -28,7 +31,7 @@ const rel = relPrefix(Astro.url.pathname);
   </div>
 
   {links && (
-    <nav class="hero-links" aria-label="More from Live Web Studios">
+    <nav class:list={["hero-links", clear && "hero-links--clear"]} aria-label="More from Live Web Studios">
       <span class="hero-links-item">
         <a href={`${rel}live-band-web-studios.html`}>Live Band Web Studios</a>
         <CrookedSign href={`${rel}live-band-web-studios.html`} compact />
@@ -82,6 +85,20 @@ const rel = relPrefix(Astro.url.pathname);
     -webkit-backdrop-filter: blur(12px) saturate(130%);
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 10px;
+  }
+  /* Light touch: a heavier blur smeared the town's lines into a flat dark
+     slab that read as opaque, and no tint at all went too far (Jon
+     2026-09-26: "meet me in the middle"). A 2px blur and 24% tint soften the
+     linework without hiding it; the text shadow carries legibility. */
+  .hero-links--clear {
+    background: rgba(5, 7, 11, 0.24);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  .hero-links--clear a,
+  .hero-links--clear .hero-links-sep {
+    text-shadow: 0 0 6px #000, 0 0 14px #000;
   }
   .hero-links-item {
     display: inline-flex;
