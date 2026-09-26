@@ -54,6 +54,8 @@ const svcCols = [
     label: "AI",
     color: "#A78BFA",
     links: [
+      /* Jon 2026-09-26: the /ai sub-brand leads the column. */
+      ["Live AI Studios", "ai.html", "liveai"],
       ["AI Platform", "services/ai-platform.html", "chip"],
       ["AI Business Services", "services/ai-business-services.html", "bot"],
       ["AI Workflow", "services/ai-workflow.html", "route"],
@@ -635,6 +637,11 @@ const isSection = (href: string) =>
      hover the way Start Yours picks up brass. */
   .subnav-brand--ai {
     color: var(--ai);
+  }
+  /* Mirror the wordmark's inset so the CTA does not sit hard against the
+     viewport edge (same offset .subnav-brand uses on the left). */
+  .subnav--ai .subnav-cta {
+    right: clamp(1.25rem, 4vw, 2.5rem);
   }
   .subnav--ai .subnav-cta:hover {
     border-color: var(--ai);

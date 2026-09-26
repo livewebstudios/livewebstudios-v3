@@ -10,7 +10,7 @@ draft: false
 <!-- imagePrompt (Higgsfield, 16:9, 1600x900 target):
 Photorealistic close-up of the open rear doors of a plumber's work van at dusk, a pipe wrench, copper fittings and a coiled drain snake on a worn wooden bench, a smartphone lying face-up casting a soft glow, no faces, no logos, no readable text, dark and cinematic. Shot on a 35mm lens at f/2, shallow depth of field, warm tungsten work light from inside the van with a thin violet (#A78BFA) accent light raking across the copper. -->
 
-The trades make up a big share of the businesses we talk to, and the question they bring has changed. It used to be "do I need a website?" Now it's "what am I supposed to do about AI?"
+Live Web Studios started with a website for a plumber friend. Twenty-some years later, the trades still make up a big share of the businesses we talk to, and the question has changed. It used to be "do I need a website?" Now it's "what am I supposed to do about AI?"
 
 Here's our honest answer. A plumber doesn't need most of what gets sold as AI. A plumber needs the phone to ring, the estimate to go out the same day, and the invoice to get paid. AI is useful exactly where it helps with those three things. Everywhere else, it's noise.
 

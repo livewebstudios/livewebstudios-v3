@@ -7,7 +7,7 @@ One line per judgment call: date, decision, why.
 - 2026-09-26: .theme-live-ai lives in global.css, not per page. Seven pages plus the article template share it; per-page copies would drift.
 - 2026-09-26: .theme-live-ai sets --cyan-2 equal to --cyan so any inherited two-stop button ramp renders flat violet. Enforces the no-purple-gradient rule by construction.
 - 2026-09-26: .theme-live-ai kills the .page-head::before accent bloom (a radial-gradient). Re-tinting it violet would break the flat-violet rule.
-- 2026-09-26: Removed an unverifiable origin claim ("started with a website for a plumber in 2004") from ai-for-the-trades. No source in the repo or specs backs it.
+- 2026-09-26: Briefly cut the "started with a website for a plumber" line from ai-for-the-trades as unverified, then restored it: index.astro says the first site was for "a plumber friend". Wording matched to that.
 - 2026-09-26: Session 1A logo skipped on Jon's instruction. Sub-bar brand slot is a plain LIVE AI STUDIOS text wordmark in violet (the Namesake wordmark treatment). No logo SVGs were built.
 - 2026-09-26: Nav link text stays Title Case in source per Nav.astro's own rule; .subnav-links already renders it uppercase, so the global ALL CAPS nav rule holds on screen too.
 - 2026-09-26: /ai context detected with a strict /^\/ai(\.html|\/|$)/ test, not includes("/ai"), which would have matched /services/ai-platform and the other ai-* service pages.
@@ -28,3 +28,8 @@ One line per judgment call: date, decision, why.
 - 2026-09-26: Collection registered in src/content.config.ts (the repo's actual config file; src/content/config.ts does not exist) as "ai-blog", with tags as an enum of the six controlled values so a typo fails the build.
 - 2026-09-26: The handoff says ten illustrations and ten photos, but its own table marks 11 Illustration and 9 Photo. Followed the table: 11 SVGs, 9 photo placeholders, 9 prompts.
 - 2026-09-26: Articles written in parallel by four subagents from one shared brief (facts list, kill list, positioning list, link map); SVGs by two. All output reviewed and scanned before commit.
+- 2026-09-26: Level Set shows no "Visit the site" link: levelsetmethod.com and thelevelsetprogram.com 301 to each other in a loop (checked 2026-09-26). Flagged for Jon; restore the href once the client's redirect is fixed.
+- 2026-09-26: Studios mega-panel line "A sharp personal site for solo professionals" (Namesake's audience, shared chrome) is exempt from the /ai positioning scan. It describes another brand, and editing Namesake copy is outside this handoff.
+- 2026-09-26: The sitewide footer crooked sign ("Musicians/Bands... click here") is exempt from the kill-list scan. Pre-existing deliberate design element, not /ai copy.
+- 2026-09-26: Repointed the three existing "Live AI Studios" links (Studios mega-panel, footer Studios column, AI Business Services card) from the ecosystem/live-ai-studios "coming soon" teaser to /ai. The teaser page itself was left in place, not deleted or redirected: Jon decides whether it 301s to /ai.
+- 2026-09-26: Internal-link sentences avoid first person so they fit the homepage's "I" voice and the About page's "we" voice alike.

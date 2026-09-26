@@ -22,6 +22,10 @@ export const ICONS: Record<string, string> = {
   route: '<circle cx="5.5" cy="5.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/><path d="M5.5 8v5a4 4 0 0 0 4 4h6.5"/>',
   play: '<circle cx="12" cy="12" r="9.2"/><path d="M10 8.4l6 3.6-6 3.6Z"/>',
   photos: '<rect x="6" y="3" width="15" height="15" rx="2"/><path d="M3 7v12a2 2 0 0 0 2 2h12"/><circle cx="11" cy="8" r="1.5"/><path d="M6.6 15l3.4-3 3 2.6L17 11l4 4"/>',
+  /* Live AI Studios: the corner-cut square from the brand language, one node
+     dot at the centre and a single diagonal. Stroke-only 24x24 stand-in for
+     the mark until the logo exists (logo work deferred, Jon 2026-09-26). */
+  liveai: '<path d="M3.5 3.5h12l5 5v12h-17Z"/><path d="M15.5 3.5v5h5"/><circle cx="12" cy="13.5" r="2.4"/><path d="M7 20.5 20.5 7"/>',
   chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
 
   /* ---- Services ---- */

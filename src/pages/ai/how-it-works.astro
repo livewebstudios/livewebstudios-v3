@@ -20,27 +20,27 @@ import "../../styles/ai.css";
 const rel = relPrefix(Astro.url.pathname);
 
 const steps = [
-  { n: "01", title: "Listen", body: "What your business actually does, how the work moves through it, and where the week goes. We ask before we build." },
+  { n: "01", title: "Listen", body: "What your business actually does, and where the week goes. We ask before we build." },
   { n: "02", title: "Map", body: "Where AI earns its keep, and where it does not. You get a short list of moves in the order they pay off." },
-  { n: "03", title: "Build", body: "The systems, the site, the content. Built on the tools you already run wherever that makes sense." },
+  { n: "03", title: "Build", body: "Whatever the map calls for. Built on the tools you already run, wherever that makes sense." },
   { n: "04", title: "Direct", body: "Human judgment on every output. Nothing reaches your customers until a person has read it and signed off." },
-  { n: "05", title: "Run", body: "It keeps working. We keep watch, read the exceptions, and tune it as the business changes." },
+  { n: "05", title: "Run", body: "It keeps working. We keep watch and tune it as the business changes." },
 ];
 
 const human = [
-  ["The brief.", "What gets built, for whom, and why. AI does not decide what your business needs."],
+  ["The brief.", "What gets built, and why. AI doesn't decide what your business needs."],
   ["The sign-off.", "Every page, email, image and report is read by a person before it goes out."],
   ["The relationship.", "You talk to a human who knows your business, not a ticket queue."],
   ["The judgment calls.", "Pricing, tone, anything legal, anything sensitive. Those stay with people."],
 ];
 
 const faq = [
-  { q: "What does it cost?", a: "It depends on scope, and we say so up front. We look at what you need, then quote it in writing before any work starts. A single automation and a full site rebuild are very different jobs, and the quote tells you which one you are buying." },
-  { q: "Do you replace my staff?", a: "No. We take the repetitive work off their desks: the copying, the chasing, the reformatting. Your people keep the judgment calls and the customer relationships, which is where they were most valuable anyway." },
-  { q: "What tools do you use?", a: "Current AI models for writing, code and design, generative video tools for media, and proven plumbing underneath: Google Apps Script, Zoho, DataForSEO, Search Console, GitHub and Netlify. Where your business already runs on a tool, we build on it instead of replacing it." },
+  { q: "What does it cost?", a: "It depends on scope, and we say so up front. We look at what you need, then quote it in writing before any work starts. A single automation and a full site rebuild are very different jobs, and the quote tells you which one you're buying." },
+  { q: "Do you replace my staff?", a: "No. We take the repetitive work off their desks. The copying, the chasing. Your people keep the judgment calls and the customer relationships, which is where they were most valuable anyway." },
+  { q: "What tools do you use?", a: "Current AI models for writing and code, generative video tools for media, and proven plumbing underneath: Google Apps Script, Zoho, DataForSEO, Search Console, GitHub and Netlify. Where your business already runs on a tool, we build on it instead of replacing it." },
   { q: "How fast is it?", a: "Small automations are usually running within days. A full site rebuild is measured in weeks, not months. The quote comes with a timeline, so you know which before anything starts." },
   { q: "What about my data?", a: "It stays in your accounts wherever possible, under your control. Before anything is connected we tell you exactly which services will touch it, and client-confidential material gets a written plan before it is handled at all." },
-  { q: "Where do we start?", a: "With a short form. Tell us what the business does and what you wish would run itself. We read it, come back with questions, and propose the first move." },
+  { q: "Where do we start?", a: "With a short form. Tell us what the business does and what you wish would run itself. We read it and come back with questions. Then we propose the first move." },
 ];
 
 const jsonld = {
@@ -57,7 +57,7 @@ const jsonld = {
 
 <Base
   title="How It Works: The AI-Staffed Model | Live AI Studios"
-  description="How an AI-staffed studio works: listen, map, build, direct, run. What AI does, what stays human, and straight answers on cost, speed, tools and your data."
+  description="How an AI-staffed studio works: listen, map, build, direct, run. What stays human, plus straight answers on cost, speed, tools and your data."
   canonical={`${SITE}/ai/how-it-works`}
   ogImage="images/og-ai.jpg"
   jsonld={jsonld}
@@ -70,7 +70,7 @@ const jsonld = {
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">HOW IT WORKS</span>
         <h1 class="page-h1">AI does the work. <em>We direct it.</em></h1>
-        <p class="page-lede">An AI-staffed studio is not a chatbot bolted onto an agency. It is a working system with a human at the wheel. Here is how it runs.</p>
+        <p class="page-lede">An AI-staffed studio is not a chatbot bolted onto an agency. It's a working system with a human at the wheel. Here's how it runs.</p>
       </div>
     </section>
 
@@ -101,13 +101,13 @@ const jsonld = {
         <div class="copy copy--points ai-human reveal">
           <span class="eyebrow">WHAT STAYS HUMAN</span>
           <div class="sec-head is-flush"><h2>The parts that should never be automated.</h2></div>
-          <p>AI is fast, tireless and wrong often enough that nothing it makes should reach a customer unread. So the model keeps four things in human hands, on purpose.</p>
+          <p>AI is fast and tireless. It's also wrong often enough that nothing it makes should reach a customer unread. So the model keeps four things in human hands, on purpose.</p>
           <ul class="copy-points">
             {human.map(([k, v]) => (
               <li><strong>{k}</strong> {v}</li>
             ))}
           </ul>
-          <p class="copy-kicker">That is not a limitation of the model. It is the model.</p>
+          <p class="copy-kicker">That's not a limitation of the model. It is the model.</p>
         </div>
       </div>
     </section>

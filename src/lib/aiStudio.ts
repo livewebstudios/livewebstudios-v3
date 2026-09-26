@@ -41,9 +41,9 @@ export const SERVICES: AiService[] = [
     name: "AI-Built Websites",
     icon: "monitor",
     blurb:
-      "We design and build custom websites with AI doing the production and human direction on every call. No templates, no page builders, no plugins to patch.",
+      "We design and build custom websites with AI doing the production and human direction on every call. No templates. No plugins to patch.",
     detail:
-      "Design comps, copy, code, images and search setup all come out of the same system, so a full rebuild moves in weeks, not seasons. Every page is static, fast and yours, and the content stays editable after launch.",
+      "Design comps, copy, code, images and search setup all come out of the same system, so a full rebuild moves in weeks, not seasons. Every page is static and fast. It's yours, and it stays editable after launch.",
     shipped: "14 full rebuilds, from an archery pro shop to a kitchen showroom to this site.",
     proof: "rebuilt",
   },
@@ -63,9 +63,9 @@ export const SERVICES: AiService[] = [
     name: "AI Content Engines",
     icon: "pen",
     blurb:
-      "We build pipelines that turn one idea into a steady run of posts, emails and articles in your voice. You approve; the engine publishes.",
+      "We build pipelines that turn one idea into a steady run of posts and emails in your voice. You approve; the engine publishes.",
     detail:
-      "The voice is written down first, from your own words, so the output sounds like the business and not like a machine. Calendars, drafts and scheduling run on rails; approval stays with you.",
+      "The voice is written down first, from your own words, so the output sounds like the business and not like a machine. Drafts and scheduling run on rails. Approval stays with you.",
     shipped: "A newsletter engine, social calendars, three blogs and a weekly comic strip, 13 strips in.",
     proof: "systems",
   },
@@ -74,9 +74,9 @@ export const SERVICES: AiService[] = [
     name: "Generative Media",
     icon: "image",
     blurb:
-      "We make hero films, animation and photo composites from a written brief. Footage and imagery that fit your brand without a shoot day.",
+      "We make hero films and photo composites from a written brief. Footage that fits your brand, no shoot day.",
     detail:
-      "Every clip is rendered, graded and compressed for the web, so it loads fast and loops clean. Every still is retouched by a human eye before it ships.",
+      "Every clip is graded and compressed for the web, so it loads fast and loops clean. Every still is retouched by a human eye before it ships.",
     shipped: "Hero films, animation, 3D character work and hundreds of photo composites.",
     proof: "media",
   },
@@ -85,9 +85,9 @@ export const SERVICES: AiService[] = [
     name: "AI Reporting & SEO Intelligence",
     icon: "search",
     blurb:
-      "We pull your search data, audit what is working and write the report in plain English. Every month, without anyone assembling spreadsheets.",
+      "We pull your search data and write the report in plain English. Every month, without anyone assembling spreadsheets.",
     detail:
-      "Rankings, Search Console data and site health land in one place, get read against last month, and come back as what moved, what it means and what happens next.",
+      "Rankings and Search Console data land in one place and get read against last month. You get what moved and what happens next.",
     shipped: "A DataForSEO pipeline, Search Console audits, schema work and client report templates.",
     proof: "systems",
   },
@@ -98,7 +98,7 @@ export const SERVICES: AiService[] = [
     blurb:
       "We look at how your business actually runs and tell you where AI earns its keep and where it does not. Straight answers, then a plan you can act on.",
     detail:
-      "Useful for firms with rules to follow and data to protect. We assess the workflow, name the risks, and hand back a short list of moves in the order they pay off.",
+      "Useful for firms with rules to follow and data to protect. We assess the workflow and name the risks. Then you get a short list of moves, in the order they pay off.",
     shipped: "A legal-sector AI engagement and workflow assessments for working businesses.",
     proof: "advice",
   },
@@ -107,26 +107,26 @@ export const SERVICES: AiService[] = [
 /* Rebuilt end to end: the 14. Industry and the one-liner come from each
    site's own published description; links only where the site is live. */
 export const REBUILDS: { name: string; industry: string; line: string; href?: string }[] = [
-  { name: "Targeteers Archery", industry: "Archery pro shop & range", line: "A family pro shop and 11-lane indoor range, rebuilt around lessons, leagues and camp.", href: "https://targeteersarchery.com/" },
+  { name: "Targeteers Archery", industry: "Archery pro shop & range", line: "A family pro shop and 11-lane indoor range, rebuilt around lessons and leagues.", href: "https://targeteersarchery.com/" },
   { name: "Küche+Cucina", industry: "Luxury kitchen showroom", line: "Custom kitchens, European cabinetry, closets and baths, with a hero film to match.", href: "https://www.kuche-cucina.com/" },
   { name: "Legacy TCP", industry: "Financial & legal services", line: "Planning, legal, insurance and tax under one roof, explained in one site.", href: "https://legacytcp.com/" },
-  { name: "Winslow", industry: "Tribute band", line: "An Eagles tribute act: tour dates, performance info and booking.", href: "https://winsloweaglestribute.com/" },
+  { name: "Winslow", industry: "Tribute band", line: "An Eagles tribute act, with tour dates and booking in one place.", href: "https://winsloweaglestribute.com/" },
   { name: "Valley Tent", industry: "Event rental", line: "Tents, glassware, linens and tableware for weddings and events.", href: "https://valleytent.com/" },
-  { name: "Community Church GR", industry: "Church", line: "A congregation's front door: services, groups and how to visit.", href: "https://communitychurchgr.com/" },
+  { name: "Community Church GR", industry: "Church", line: "A congregation's front door: service times and how to visit.", href: "https://communitychurchgr.com/" },
   { name: "Manual Therapy Consultants", industry: "Physical therapy practice", line: "A clinical practice site with intake forms that feed the office.", href: "https://manualtherapyconsultants.com/" },
   { name: "Mianne Benchwork", industry: "Hobby manufacturing", line: "A national maker's catalogue, rebuilt to sell the product line.", href: "https://miannebenchwork.com/" },
   { name: "D&J Power Washing", industry: "Exterior cleaning", line: "A local service business, built to turn searches into calls.", href: "https://djpowerwashing.net/" },
-  { name: "Level Set", industry: "Corporate training", line: "A six-module professional program, presented to the companies that buy it.", href: "https://levelsetmethod.com/" },
+  { name: "Level Set", industry: "Corporate training", line: "A six-module professional program, presented to the companies that buy it." },
   { name: "The Mosaic Collaborative", industry: "Leadership consulting", line: "Strategy and leadership consulting for companies at inflection points.", href: "https://mosaiccollaborative.com/" },
-  { name: "Live Web Photos", industry: "AI image services", line: "The studio's image division: staging, retouching and visualization.", href: "https://livewebphotos.com/" },
+  { name: "Live Web Photos", industry: "AI image services", line: "The studio's image division. Staging and retouching at scale.", href: "https://livewebphotos.com/" },
   { name: "VÖID", industry: "Concept store", line: "Astounding objects that do nothing at all, sold with a straight face." },
   { name: "Live Web Studios", industry: "Web studio", line: "The parent site you are standing on, rebuilt end to end the same way." },
 ];
 
 /* Systems that run themselves. */
 export const SYSTEMS = [
-  { name: "Hosting-renewal invoicing", body: "Renewals come due, invoices go out through Zoho, reminders follow on schedule. Fifteen Apps Script files carry the logic; a human reads the exceptions." },
-  { name: "Monthly reporting pipeline", body: "Search and site data get pulled, compared with last month and written up as a plain-English report, ready for review instead of ready to assemble." },
+  { name: "Hosting-renewal invoicing", body: "Renewals come due and invoices go out through Zoho, reminders on schedule. Fifteen Apps Script files carry the logic; a human reads the exceptions." },
+  { name: "Monthly reporting pipeline", body: "Search and site data get compared with last month and written up in plain English. Ready to review, not ready to assemble." },
   { name: "Weekly member-list automation", body: "A membership roster that updates itself every week, so nobody reconciles a spreadsheet by hand on a Friday." },
   { name: "Social posting automation", body: "Facebook and Instagram posts scheduled from an approved calendar, so the feed keeps moving on busy weeks." },
   { name: "The comic strip pipeline", body: "Script, art, publish: a weekly strip produced end to end by the system. Thirteen strips and counting." },
@@ -135,8 +135,8 @@ export const SYSTEMS = [
 
 /* Media made from prompts. */
 export const MEDIA = [
-  { name: "Hero films", body: "Looping section films rendered from a text brief, then graded, looped and compressed so they load fast on a phone. This page is running one." },
-  { name: "Photo work", body: "Hundreds of manipulations and composites: product shots, staging and scenes that would have needed a shoot, finished by a human eye." },
+  { name: "Hero films", body: "Looping section films rendered from a text brief, then looped and compressed so they load fast on a phone. This page is running one." },
+  { name: "Photo work", body: "Hundreds of manipulations and composites. Product shots and staging that would have needed a shoot, finished by a human eye." },
   { name: "Animation and 3D", body: "Character work and motion pieces for brands that want to move, built without a production crew." },
 ];
 
