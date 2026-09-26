@@ -1,0 +1,144 @@
+---
+/**
+ * /ai/proof: the showcase. Real, named work only. Industry and one-liners come
+ * from each client site's own published description; external links appear
+ * only where the site is live. Where the handoff has a number it is used,
+ * where it does not the work is described without one. No client-confidential
+ * detail, no invented metrics.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import AiVideoBg from "../../components/AiVideoBg.astro";
+import { REBUILDS, SYSTEMS, MEDIA, SITE } from "../../lib/aiStudio";
+import { relPrefix } from "../../lib/relPrefix";
+import "../../styles/ai.css";
+
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<Base
+  title="Proof: 14 AI-Built Sites and Systems | Live AI Studios"
+  description="1,258 projects in seven months. 14 sites rebuilt end to end, office systems that run themselves, and media made from prompts. Named work, no invented results."
+  canonical={`${SITE}/ai/proof`}
+  ogImage="images/og-ai.jpg"
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <section class="page-head page-head--glass has-videobg">
+      <AiVideoBg name="ai-proof" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">PROOF</span>
+        <h1 class="page-h1">Proof, <em>not promises</em>.</h1>
+        <p class="page-lede">1,258 projects and 13,317 exchanges in seven months. This is the work that came out the other end, by name.</p>
+      </div>
+    </section>
+
+    <!-- REBUILT END TO END -->
+    <section class="sec-pad" id="rebuilt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">REBUILT END TO END</span>
+          <h2>14 sites, designed, written and coded by the system.</h2>
+          <p>Every one directed by a human and signed off page by page. Different industries, one way of working.</p>
+        </div>
+        <ul class="ai-rebuilds">
+          {REBUILDS.map((r) => (
+            <li class="ai-rebuild reveal">
+              <span class="ai-card__label">{r.industry}</span>
+              <h3>{r.name}</h3>
+              <p>{r.line}</p>
+              {r.href ? (
+                <a href={r.href} target="_blank" rel="noopener">Visit the site ↗</a>
+              ) : r.name === "Live Web Studios" ? (
+                <a href={`${rel}index.html`}>You are here →</a>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- SYSTEMS -->
+    <section class="sec-pad is-alt" id="systems">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SYSTEMS THAT RUN THEMSELVES</span>
+          <h2>Built once. Running since.</h2>
+          <p>The office work nobody should be doing by hand, handed to systems that do it the same way every time and flag the exceptions.</p>
+        </div>
+        <div class="grid-svc">
+          {SYSTEMS.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad ai-card">
+                <span class="ai-dot" aria-hidden="true"></span>
+                <h3>{s.name}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- MEDIA -->
+    <section class="sec-pad" id="media">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">MEDIA MADE FROM PROMPTS</span>
+          <h2>Footage and imagery, written first.</h2>
+        </div>
+        <div class="grid-svc">
+          {MEDIA.map((m) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad ai-card">
+                <span class="ai-dot" aria-hidden="true"></span>
+                <h3>{m.name}</h3>
+                <p>{m.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ADVICE -->
+    <section class="sec-pad is-alt" id="advice">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">ADVICE, ON THE RECORD</span>
+          <h2>Consulting that ends in a plan.</h2>
+          <p>A legal-sector AI engagement and workflow assessments for working businesses. The details stay with the clients; the method is on the <a href="how-it-works.html">How It Works</a> page.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta ai-close">
+          <span class="eyebrow is-center mb-md">NEXT</span>
+          <h2>Your business could be the next line on this page.</h2>
+          <div class="hero-btns">
+            <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+            <a href={`${rel}ai/services.html`} class="btn btn-ghost">See the services →</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  section[id] {
+    scroll-margin-top: calc(var(--nav-h) + var(--subnav-h));
+  }
+  .sec-head a {
+    color: #c4b5fd;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

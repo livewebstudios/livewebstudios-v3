@@ -1,0 +1,46 @@
+---
+/**
+ * /ai/thank-you: where the /ai/start form lands. noindex, and kept out of the
+ * sitemap by the existing "/thank-you" filter in astro.config.mjs.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE } from "../../lib/aiStudio";
+import { relPrefix } from "../../lib/relPrefix";
+import "../../styles/ai.css";
+
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<Base
+  title="Thank You | Live AI Studios"
+  description="Your note reached Live AI Studios. We read every one and come back with questions before we propose anything."
+  canonical={`${SITE}/ai/thank-you`}
+  noindex={true}
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <section class="page-head page-head--glass">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">RECEIVED</span>
+        <h1 class="page-h1">Got it. <em>Thank you.</em></h1>
+        <p class="page-lede">We read every one. Expect questions first, then a proposed first move, in writing.</p>
+        <div class="hero-btns">
+          <a href={`${rel}ai/proof.html`} class="btn btn-primary">See the proof →</a>
+          <a href={`${rel}ai/blog.html`} class="btn btn-ghost">Read the Insights →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .hero-btns {
+    justify-content: center;
+    margin-top: 2rem;
+  }
+</style>

@@ -1,0 +1,251 @@
+---
+/**
+ * /ai/blog/[slug]: one Live AI Insights article. Cloned from the main
+ * /blog/[slug] pattern (BlogPosting JSON-LD, root-relative frontmatter image
+ * stripped to relative per the LWS path rule) and restyled only through the
+ * .theme-live-ai accent. Prev/next run within this collection only.
+ *
+ * Two levels deep (/ai/blog/x.html), so the site root is "../../".
+ */
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Glass from "../../../components/Glass.astro";
+import { getAiPosts, aiSlug, aiDate, SITE, ORG_ID } from "../../../lib/aiStudio";
+import { withBrand } from "../../../lib/seoTitle";
+import { relPrefix } from "../../../lib/relPrefix";
+import "../../../styles/ai.css";
+
+export async function getStaticPaths() {
+  const posts = await getAiPosts();
+  return posts.map((post, i) => ({
+    params: { slug: aiSlug(post) },
+    /* Newest first, so the NEXT (newer) article is i-1 and the PREVIOUS
+       (older) one is i+1. */
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const rel = relPrefix(Astro.url.pathname);
+
+const slug = aiSlug(post);
+const postUrl = `${SITE}/ai/blog/${slug}`;
+const rawImage = post.data.image ?? "";
+const image = rawImage ? `${rel}${rawImage.replace(/^\//, "")}` : "";
+const isoDate = post.data.date.toISOString().split("T")[0];
+
+/* og:image: social scrapers do not render SVG, so illustration posts share
+   the section card; photo posts use their own hero. */
+const ogImage = rawImage.endsWith(".jpg") ? rawImage : "images/og-ai.jpg";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  image: `${SITE}/${(rawImage || "images/og-ai.jpg").replace(/^\//, "")}`,
+  keywords: post.data.tags.join(", "),
+  datePublished: isoDate,
+  dateModified: isoDate,
+  url: postUrl,
+  mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
+  isPartOf: { "@type": "Blog", name: "Live AI Insights", url: `${SITE}/ai/blog` },
+  author: { "@type": "Organization", "@id": ORG_ID, name: "Live AI Studios" },
+  publisher: {
+    "@type": "Organization",
+    name: "Live Web Studios",
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE}/images/logoRGB.png`,
+      width: 800,
+      height: 245,
+    },
+  },
+};
+---
+
+<Base
+  title={withBrand(post.data.seoTitle ?? post.data.title, "Live AI Studios")}
+  description={post.data.description}
+  canonical={postUrl}
+  ogImage={ogImage}
+  jsonld={jsonLd}
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <section class="page-head page-head--glass page-head--bare">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">LIVE AI INSIGHTS</span>
+        <h1 class="page-h1 post-h1">{post.data.title}</h1>
+        <p class="post-date">
+          {aiDate(post.data.date, "long")}
+          {post.data.tags.length > 0 && <> · {post.data.tags.join(", ")}</>}
+        </p>
+      </div>
+    </section>
+
+    <section class="sec-pad">
+      <div class="wrap">
+        <article class="post-body">
+          {image && (
+            <div class="post-hero-img">
+              <img src={image} alt={post.data.imageAlt ?? post.data.title} width="1600" height="900" decoding="async" fetchpriority="high" />
+            </div>
+          )}
+          <Content />
+        </article>
+
+        {(newer || older) && (
+          <nav class="post-pn" aria-label="More Insights">
+            {older ? (
+              <a class="post-pn__link" href={`${aiSlug(older)}.html`}>
+                <span class="post-pn__k">← Previous</span>
+                <span class="post-pn__t">{older.data.title}</span>
+              </a>
+            ) : <span />}
+            {newer && (
+              <a class="post-pn__link post-pn__link--next" href={`${aiSlug(newer)}.html`}>
+                <span class="post-pn__k">Next →</span>
+                <span class="post-pn__t">{newer.data.title}</span>
+              </a>
+            )}
+          </nav>
+        )}
+      </div>
+    </section>
+
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta ai-close">
+          <span class="eyebrow is-center mb-md">LIVE AI STUDIOS</span>
+          <h2>Less reading. More running itself.</h2>
+          <div class="hero-btns">
+            <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+            <a href={`${rel}ai/blog.html`} class="btn btn-ghost">All Insights →</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Post typography: the main blog's measure and rhythm, violet accents. */
+  .post-h1 {
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    max-width: 26ch;
+    margin-inline: auto;
+  }
+  .post-date {
+    margin-top: 1.2rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ai);
+  }
+  .post-body {
+    max-width: 72ch;
+    margin-inline: auto;
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+  .post-hero-img {
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: var(--ai-ink);
+  }
+  .post-hero-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .post-body :global(h2) {
+    font-size: 1.5rem;
+    color: var(--ink-soft);
+    margin: 2.6rem 0 1rem;
+    line-height: 1.3;
+  }
+  .post-body :global(h3) {
+    font-size: 1.18rem;
+    color: var(--ink-soft);
+    margin: 2rem 0 0.8rem;
+  }
+  .post-body :global(p) {
+    margin: 0 0 1.4rem;
+  }
+  .post-body :global(strong) {
+    color: var(--ink-soft);
+  }
+  .post-body :global(a) {
+    color: #c4b5fd;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin: 0 0 1.4rem 1.4rem;
+  }
+  .post-body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .post-body :global(blockquote) {
+    margin: 2rem 0;
+    padding: 1rem 1.4rem;
+    border-left: 2px solid var(--ai);
+    color: var(--ink-soft);
+  }
+  .post-pn {
+    max-width: 72ch;
+    margin: 3rem auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .post-pn__link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    transition: border-color 0.2s var(--ease);
+  }
+  .post-pn__link:hover {
+    border-color: var(--ai);
+  }
+  .post-pn__link--next {
+    text-align: right;
+  }
+  .post-pn__k {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ai);
+  }
+  .post-pn__t {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+  @media (max-width: 640px) {
+    .post-pn {
+      grid-template-columns: 1fr;
+    }
+    .post-pn__link--next {
+      text-align: left;
+    }
+  }
+</style>

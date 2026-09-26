@@ -1,0 +1,134 @@
+---
+/**
+ * /ai/services: the six Live AI Studios offers. Each is a card (the offer and
+ * the shipped work behind it) plus a short detail block further down the
+ * page. Every offer traces to shipped work (handoff Section 5); the copy and
+ * the evidence live in src/lib/aiStudio.ts so this page, the home teaser and
+ * the Service schema below can never disagree.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import NavIcon from "../../components/NavIcon.astro";
+import AiVideoBg from "../../components/AiVideoBg.astro";
+import { SERVICES, ORG_ID, SITE } from "../../lib/aiStudio";
+import { relPrefix } from "../../lib/relPrefix";
+import "../../styles/ai.css";
+
+const rel = relPrefix(Astro.url.pathname);
+const url = `${SITE}/ai/services`;
+
+const jsonld = SERVICES.map((s) => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${url}#${s.id}`,
+  name: s.name,
+  description: s.blurb,
+  url: `${url}#${s.id}`,
+  areaServed: "US",
+  provider: { "@id": ORG_ID },
+}));
+---
+
+<Base
+  title="AI Services for Small Business | Live AI Studios"
+  description="Six AI services, each backed by shipped work: AI-built websites, office automation, content engines, generative media, SEO reporting and AI readiness."
+  canonical="https://livewebstudios.com/ai/services"
+  ogImage="images/og-ai.jpg"
+  jsonld={jsonld}
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <section class="page-head page-head--glass">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">SERVICES</span>
+        <h1 class="page-h1">Six things we run on AI. <em>All of them shipped.</em></h1>
+        <p class="page-lede">Nothing on this page is a capability we hope to have. Each offer is the same system that already runs our own studio, pointed at your business.</p>
+      </div>
+    </section>
+
+    <!-- THE SIX -->
+    <section class="sec-pad has-videobg">
+      <AiVideoBg name="ai-services" scrim="strong" />
+      <div class="wrap">
+        <h2 class="visually-hidden">The six services</h2>
+        <div class="grid-svc">
+          {SERVICES.map((s) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad ai-card">
+                <NavIcon name={s.icon} size={24} />
+                <h3>{s.name}</h3>
+                <p>{s.blurb}</p>
+                <p class="ai-card__shipped">
+                  <span class="ai-card__label">What we shipped</span>
+                  <a href={`proof.html#${s.proof}`}>{s.shipped}</a>
+                </p>
+                <div class="ai-card__cta">
+                  <a class="btn btn-ghost" href={`#${s.id}`}>How it works ↓</a>
+                </div>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- DETAIL -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE DETAIL</span>
+          <h2>How each one works.</h2>
+        </div>
+        <div class="ai-details">
+          {SERVICES.map((s) => (
+            <article class="ai-detail reveal" id={s.id}>
+              <div>
+                <NavIcon name={s.icon} size={24} />
+                <h3>{s.name}</h3>
+              </div>
+              <div>
+                <p>{s.detail}</p>
+                <p class="ai-card__shipped">
+                  <span class="ai-card__label">What we shipped</span>
+                  <a href={`proof.html#${s.proof}`}>{s.shipped}</a>
+                </p>
+                <p><a class="btn btn-primary" href={`${rel}ai/start.html`}>Start with AI →</a></p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta ai-close">
+          <span class="eyebrow is-center mb-md">NOT SURE WHICH?</span>
+          <h2>Tell us what eats your week. We will tell you which one fits.</h2>
+          <div class="hero-btns">
+            <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+            <a href={`${rel}ai/how-it-works.html`} class="btn btn-ghost">How it works →</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .ai-detail .nav-ico {
+    color: var(--ai);
+    margin-bottom: 0.6rem;
+  }
+  .ai-detail :global(.btn) {
+    margin-top: 1rem;
+  }
+  .ai-detail {
+    scroll-margin-top: calc(var(--nav-h) + var(--subnav-h) + 1rem);
+  }
+</style>

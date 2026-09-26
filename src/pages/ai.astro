@@ -1,0 +1,238 @@
+---
+/**
+ * /ai: Live AI Studios, the flagship page of the fourth brand in the family.
+ *
+ * The studio's own structure is the product demo, so the page leads with the
+ * locked tagline (verbatim, do not edit), then the numbers as proof of the
+ * model, then the model itself. Positioning rule: "we", always. Never a
+ * headcount, never "solo", never implied human employees.
+ *
+ * Built at the site root as ai.html (build.format 'file'), so relPrefix is ""
+ * and every link below is relative from the root.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+import NavIcon from "../components/NavIcon.astro";
+import AiVideoBg from "../components/AiVideoBg.astro";
+import { STATS, SERVICES, ORG, getAiPosts, aiSlug, aiDate } from "../lib/aiStudio";
+import { relPrefix } from "../lib/relPrefix";
+import "../styles/ai.css";
+
+const rel = relPrefix(Astro.url.pathname);
+const latest = (await getAiPosts()).slice(0, 3);
+
+const model = [
+  {
+    n: "01",
+    title: "AI-staffed functions",
+    body: "Design, development, content, automation and media each run as a working function staffed by AI, with written standards for how every one of them does the job.",
+  },
+  {
+    n: "02",
+    title: "Human direction",
+    body: "A human principal sets the brief, makes the calls and signs off on every output before it reaches you. AI does the work. Judgment stays human.",
+  },
+  {
+    n: "03",
+    title: "Your business, plugged in",
+    body: "We connect the system to the tools you already run: your site, your inbox, your books, your calendar. The work lands where you already look.",
+  },
+];
+
+const proof = [
+  { href: "ai/proof.html#rebuilt", title: "14 sites rebuilt end to end", body: "An archery range, a kitchen showroom, a church, a tribute band, a financial firm and nine more. Every one designed, written and coded by the system." },
+  { href: "ai/proof.html#systems", title: "Systems that run themselves", body: "Invoices that send on schedule, reports that write themselves, a comic strip that ships every week. Built once, running since." },
+  { href: "ai/proof.html#media", title: "Media made from prompts", body: "Hero films, animation and hundreds of photo composites, rendered from a written brief and finished by a human eye." },
+];
+---
+
+<Base
+  title="Live AI Studios | An AI-Staffed Studio, Human-Directed"
+  description="Live AI Studios runs on AI: websites, office automation, content engines and generative media, staffed by AI and directed by a human on every call."
+  canonical="https://livewebstudios.com/ai"
+  ogImage="images/og-ai.jpg"
+  jsonld={ORG}
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <!-- HERO: the tagline is locked, verbatim. -->
+    <section class="page-head page-head--glass has-videobg ai-hero">
+      <AiVideoBg name="ai-hero" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">LIVE AI STUDIOS</span>
+        <h1 class="page-h1">We run our business on AI. <em>Want proof?</em> You're looking at it.</h1>
+        <p class="page-lede">Live AI Studios is an AI-staffed studio: design, development, content, automation and media run by AI, directed by a human on every call.</p>
+        <div class="hero-btns">
+          <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+          <a href={`${rel}ai/proof.html`} class="btn btn-ghost">See the proof ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NUMBERS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE NUMBERS</span>
+          <h2>Seven months of running the studio on AI.</h2>
+          <p>Every figure below is shipped work, counted, not forecast. They are the proof that the model holds up under real clients and real deadlines.</p>
+        </div>
+        <div class="stats ai-stats" data-countup>
+          {STATS.map((s) => (
+            <div class="stat reveal">
+              <b data-n={s.n}>{s.n.toLocaleString("en-US")}</b>
+              <span>{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- THE MODEL -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE MODEL</span>
+          <h2>AI does the work. A human directs it.</h2>
+          <p>Three parts, and all three have to be there. Take away the direction and you get slop. Take away the AI and you get a waiting list.</p>
+        </div>
+        <div class="grid-svc ai-model">
+          {model.map((m) => (
+            <div class="card reveal">
+              <Glass variant="inner" innerClass="card-pad ai-card">
+                <span class="step-num">{m.n}</span>
+                <h3>{m.title}</h3>
+                <p>{m.body}</p>
+              </Glass>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES TEASER -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SERVICES</span>
+          <h2>Six things we run on AI. All of them shipped.</h2>
+        </div>
+        <div class="grid-svc">
+          {SERVICES.map((s) => (
+            <a class="card reveal" href={`${rel}ai/services.html#${s.id}`}>
+              <Glass variant="inner" innerClass="card-pad ai-card">
+                <NavIcon name={s.icon} size={24} />
+                <h3>{s.name}</h3>
+                <p>{s.blurb.split(". ")[0]}.</p>
+                <span class="more">How it works →</span>
+              </Glass>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- PROOF TEASER -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">PROOF</span>
+          <h2>Named work. No invented case studies.</h2>
+        </div>
+        <div class="grid-svc">
+          {proof.map((p) => (
+            <a class="card reveal" href={`${rel}${p.href}`}>
+              <Glass variant="inner" innerClass="card-pad ai-card">
+                <span class="ai-dot" aria-hidden="true"></span>
+                <h3>{p.title}</h3>
+                <p>{p.body}</p>
+                <span class="more">See the proof →</span>
+              </Glass>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- LATEST INSIGHTS -->
+    {latest.length > 0 && (
+      <section class="sec-pad">
+        <div class="wrap">
+          <div class="sec-head center reveal">
+            <span class="eyebrow">INSIGHTS</span>
+            <h2>Notes from a studio that runs on AI.</h2>
+          </div>
+          <div class="blog-grid">
+            {latest.map((p) => (
+              <a class="blog-card reveal" href={`${rel}ai/blog/${aiSlug(p)}.html`}>
+                {p.data.image && (
+                  <div class="blog-thumb">
+                    <img src={`${rel}${p.data.image.replace(/^\//, "")}`} alt={p.data.imageAlt ?? p.data.title} width="1600" height="900" loading="lazy" decoding="async" />
+                  </div>
+                )}
+                <div class="blog-meta">
+                  <span class="blog-date">{aiDate(p.data.date)}</span>
+                  <h3 class="blog-title">{p.data.title}</h3>
+                  <p class="blog-sum">{p.data.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+          <p class="center-link reveal"><a class="btn btn-ghost" href={`${rel}ai/blog.html`}>All Insights →</a></p>
+        </div>
+      </section>
+    )}
+
+    <!-- CLOSE -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta ai-close">
+          <span class="eyebrow is-center mb-md">YOUR TURN</span>
+          <h2>What in your business should run itself?</h2>
+          <div class="hero-btns">
+            <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    // Count-up for the numbers band. Runs once, on first view. The final
+    // values are already in the HTML, so no-JS and reduced-motion visitors
+    // simply see them; this only animates from zero when motion is allowed.
+    (function () {
+      var band = document.querySelector("[data-countup]");
+      if (!band || !("IntersectionObserver" in window)) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var nums = band.querySelectorAll("b[data-n]");
+      var fmt = function (v) { return Math.round(v).toLocaleString("en-US"); };
+      nums.forEach(function (b) { b.textContent = "0"; });
+      var io = new IntersectionObserver(function (entries) {
+        if (!entries.some(function (e) { return e.isIntersecting; })) return;
+        io.disconnect();
+        var t0 = performance.now(), dur = 1400;
+        (function tick(t) {
+          var k = Math.min(1, (t - t0) / dur);
+          var e = 1 - Math.pow(1 - k, 3);
+          nums.forEach(function (b) { b.textContent = fmt(Number(b.dataset.n) * e); });
+          if (k < 1) requestAnimationFrame(tick);
+        })(t0);
+      }, { threshold: 0.4 });
+      io.observe(band);
+    })();
+  </script>
+</Base>
+
+<style>
+  .center-link {
+    margin-top: 2rem;
+    text-align: center;
+  }
+</style>

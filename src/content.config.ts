@@ -110,4 +110,25 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { blog };
+/* Live AI Insights (Jon 2026-09-26): the third blog, for the /ai sub-brand.
+   Its own folder and its own collection rather than a third `audience` on
+   `blog`, so the /ai section stays self-contained and lifts out whole if it
+   ever moves to liveaistudios.com. Same field shape as `blog`; tags are a
+   small controlled set instead of the LWS category list. */
+const AI_TAGS = z.enum(["websites", "automation", "content", "media", "seo", "consulting"]);
+
+const aiBlog = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/ai-blog" }),
+  schema: z.object({
+    title: z.string(),
+    seoTitle: z.string().optional(),
+    date: z.coerce.date(),
+    description: z.string(),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    tags: z.array(AI_TAGS).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, "ai-blog": aiBlog };

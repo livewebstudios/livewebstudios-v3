@@ -1,0 +1,98 @@
+---
+/**
+ * /ai/start: the one conversion page in the Live AI Studios section.
+ *
+ * TODO(Jon): create the /ai/start form in Formspree and replace REPLACE_ME in
+ * the action below with its ID, then redeploy and send a test.
+ *
+ * _next has to be absolute (Formspree redirects from its own server); the
+ * script at the foot rewrites it to whatever host is serving the page, the
+ * same pattern /contact and /namesake/start use.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import { SITE } from "../../lib/aiStudio";
+import "../../styles/ai.css";
+---
+
+<Base
+  title="Start With AI | Live AI Studios"
+  description="Tell us what your business does and what should run itself. We read every one, come back with questions, and propose the first move. Start with AI here."
+  canonical={`${SITE}/ai/start`}
+  ogImage="images/og-ai.jpg"
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <section class="page-head page-head--glass">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">START</span>
+        <h1 class="page-h1">Start with <em>AI</em>.</h1>
+        <p class="page-lede">Tell us what the business does and where the week goes. We read every form and come back with questions, not a sales script. Then we propose the first move, in writing.</p>
+      </div>
+    </section>
+
+    <section class="sec-pad">
+      <div class="wrap">
+        <Glass class="reveal ai-start" innerClass="card-pad">
+          <h2 class="visually-hidden">Tell us about your business</h2>
+          <form id="ai-start-form" action="https://formspree.io/f/REPLACE_ME" method="POST">
+            <input type="hidden" name="_next" value="https://livewebstudios.com/ai/thank-you.html" />
+            <input type="hidden" name="_subject" value="New Live AI Studios inquiry" />
+            <input type="hidden" name="source" value="live-ai-studios" />
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="business">Business</label>
+                <input type="text" id="business" name="business" autocomplete="organization" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required />
+              </div>
+              <div class="field">
+                <label for="phone">Phone <span class="opt">(optional)</span></label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" />
+              </div>
+            </div>
+
+            <div class="field full">
+              <label for="run-itself">What should run itself?</label>
+              <textarea id="run-itself" name="what_should_run_itself" required placeholder="The invoices, the weekly report, the website nobody updates..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Send it →</button>
+            </div>
+          </form>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    (function () {
+      var f = document.getElementById("ai-start-form");
+      var n = f && f.querySelector('input[name="_next"]');
+      if (!n) return;
+      try {
+        var base = window.location.href.split("#")[0].split("?")[0].replace(/\/+$/, "");
+        n.value = new URL("thank-you.html", base).href;
+      } catch (e) {
+        /* Keep the built-in fallback. */
+      }
+    })();
+  </script>
+</Base>
