@@ -22,12 +22,17 @@ import { relPrefix } from "../lib/relPrefix";
 const path = Astro.url.pathname;
 const rel = relPrefix(path);
 
-type Ctx = "main" | "namesake" | "band";
+type Ctx = "main" | "namesake" | "band" | "ai";
+/* Live AI Studios matches on a strict prefix: a bare includes("/ai") would
+   also catch /services/ai-platform and every other ai-* service page. */
+const isAi = /^\/ai(\.html|\/|$)/.test(path);
 const ctx: Ctx = path.includes("/namesake")
   ? "namesake"
   : path.includes("/live-band-web-studios")
     ? "band"
-    : "main";
+    : isAi
+      ? "ai"
+      : "main";
 
 /* Services mega columns — every live service page, grouped.
    Each group carries one hue rather than giving all fourteen links their own:
@@ -114,6 +119,18 @@ const namesakeLinks = [
   { label: "Start", href: "namesake/start.html" },
 ];
 
+/* Live AI Studios (/ai), the third sub-brand bar. Same machinery as the two
+   above. Jon 2026-09-26: the logo work is deferred, so the brand slot carries
+   a plain LIVE AI STUDIOS wordmark (the Namesake treatment) until it lands. */
+const aiLinks = [
+  { label: "Home", href: "ai.html" },
+  { label: "Services", href: "ai/services.html" },
+  { label: "Proof", href: "ai/proof.html" },
+  { label: "How It Works", href: "ai/how-it-works.html" },
+  /* Also lights up on every /ai/blog/<slug> article (see isSection below). */
+  { label: "Insights", href: "ai/blog.html" },
+];
+
 /* Active state. Normalise both sides to a bare site-root key so the match
    survives build.format 'file' (/x.html), Netlify's clean URL (/x) and a
    trailing slash (/x/). The section index normalises to its own key, so
@@ -123,7 +140,12 @@ const navKey = (href: string) => {
   return s === "" ? "index" : s;
 };
 const here = navKey(path);
-const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
+const subLinks = ctx === "band" ? bandLinks : ctx === "ai" ? aiLinks : namesakeLinks;
+/* A link is active on its own page, and a section index link is also active
+   on the pages filed under it (Insights on /ai/blog/<slug>). Home is exempt
+   so it stays lit only on the section index itself. */
+const isSection = (href: string) =>
+  ctx === "ai" && navKey(href) === "ai/blog" && here.startsWith("ai/blog/");
 
 ---
 
@@ -253,15 +275,17 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
         <a class="subnav-brand" href={`${rel}live-band-web-studios.html`} aria-label="Live Band Web Studios">
           <img src={`${rel}images/logo-live-band.png`} alt="Live Band Web Studios" width="681" height="300" decoding="async" />
         </a>
+      ) : ctx === "ai" ? (
+        <a class="subnav-brand subnav-brand--ns subnav-brand--ai" href={`${rel}ai.html`}>LIVE AI STUDIOS</a>
       ) : (
         <a class="subnav-brand subnav-brand--ns" href={`${rel}namesake.html`}>Namesake</a>
       )}
-      <nav class="subnav-links" aria-label={ctx === "band" ? "Live Band Web Studios" : "Namesake"}>
+      <nav class="subnav-links" aria-label={ctx === "band" ? "Live Band Web Studios" : ctx === "ai" ? "Live AI Studios" : "Namesake"}>
         {subLinks.map((item) => {
           const kids = item.children ?? [];
           const selfActive = navKey(item.href) === here;
           const kidActive = kids.some(([, kh]) => navKey(kh) === here);
-          const active = selfActive || kidActive;
+          const active = selfActive || kidActive || isSection(item.href);
           const panelId = `subnav-${navKey(item.href).split("/").pop()}-panel`;
 
           return kids.length === 0 ? (
@@ -305,6 +329,9 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
       </nav>
       {ctx === "namesake" && (
         <a href={`${rel}namesake/start.html`} class="btn btn-ghost subnav-cta">Start Yours</a>
+      )}
+      {ctx === "ai" && (
+        <a href={`${rel}ai/start.html`} class="btn btn-ghost subnav-cta">Start with AI</a>
       )}
     </div>
   </div>
@@ -601,6 +628,18 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
   .subnav--namesake {
     --sub-accent: var(--brass);
   }
+  .subnav--ai {
+    --sub-accent: var(--ai);
+  }
+  /* The wordmark is violet like the accent; the ghost CTA picks it up on
+     hover the way Start Yours picks up brass. */
+  .subnav-brand--ai {
+    color: var(--ai);
+  }
+  .subnav--ai .subnav-cta:hover {
+    border-color: var(--ai);
+    color: var(--ai);
+  }
   .subnav-links a.is-active {
     color: var(--sub-accent);
     box-shadow: inset 0 -2px 0 var(--sub-accent);
@@ -684,6 +723,25 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
       position: static;
       transform: none;
       margin-left: auto;
+    }
+    /* Live AI Studios: two rows, not four (handoff: "wraps to max two
+       rows"). Wordmark and CTA share the first row, the five links take the
+       second, set a touch tighter so all five fit across 375px. */
+    .subnav--ai .subnav-brand {
+      order: 0;
+    }
+    .subnav--ai .subnav-cta {
+      order: 1;
+    }
+    .subnav--ai .subnav-links {
+      order: 2;
+      flex-basis: 100%;
+      justify-content: space-between;
+    }
+    .subnav--ai .subnav-links > a {
+      padding: 0.35rem 0.2rem;
+      font-size: 0.64rem;
+      letter-spacing: 0.06em;
     }
     /* Tap-to-open. global.css drops every .mega to static/visible inside the
        burger menu, which would pin the Forms panel open and triple the bar's
