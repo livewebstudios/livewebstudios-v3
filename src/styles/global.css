@@ -44,6 +44,13 @@
   --cat-gold:#E8B478;
   --cat-gold-dim:rgba(232,180,120,.42);
   --brass:#C9A55A;      /* Namesake (ink + brass) */
+  /* Live AI Studios (/ai). Violet is the AI column colour in the services
+     mega, so the sub-brand adopts it. Used FLAT only: fills, hairlines, text,
+     strokes, node dots. Never inside a gradient. */
+  --ai:#A78BFA;         /* primary accent, chips, active states, links */
+  --ai-deep:#7C5CE0;    /* hover, borders, icon strokes */
+  --ai-glow:rgba(167,139,250,0.14); /* section glows, card halos */
+  --ai-ink:#0E0B1A;     /* section-alt ground, near-black with violet cast */
   --line:rgba(125,211,252,0.14);
   /* Form controls and contact rows only. --line is tuned for decorative
      hairlines (1.2:1); WCAG 1.4.11 wants 3:1 on the boundary of anything you
@@ -464,6 +471,30 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 .card > .glass-inner > *{position:relative;z-index:1}
 .theme-namesake .card > .glass-inner::before,
 .theme-namesake .card > .glass-inner::after,
+/* Live AI Studios scope (/ai pages). Same pattern as the page-level
+   .theme-live-band / .theme-namesake overrides, held here because seven pages
+   and the article template share it. Re-points the accent tokens at the flat
+   violet set so every descendant that reads them re-themes with no fork.
+   --cyan-2 equals --cyan on purpose: anything that still paints the old
+   two-stop button ramp paints one flat colour, never a purple gradient. */
+.theme-live-ai{
+  --cyan:var(--ai);
+  --cyan-soft:#C4B5FD;
+  --cyan-2:var(--ai);
+  --cyan-deep:#2A1F4D;
+  --on-accent:var(--ai-ink);
+  --line:rgba(167,139,250,.18);
+  --line-2:rgba(167,139,250,.09);
+}
+.theme-live-ai .sec-pad.is-alt{background:var(--ai-ink)}
+.theme-live-ai .page-head::before{background:none}
+.theme-live-ai .btn-primary{
+  background:var(--ai);color:var(--ai-ink);border-color:transparent;font-weight:600;
+  box-shadow:0 10px 28px var(--ai-glow);
+}
+.theme-live-ai .btn-primary:hover{background:#C4B5FD;color:var(--ai-ink)}
+.theme-live-ai .btn-ghost:hover{border-color:var(--ai);color:#C4B5FD;background:var(--ai-glow)}
+
 .theme-live-band .card > .glass-inner::before,
 .theme-live-band .card > .glass-inner::after{display:none}
 .theme-namesake .card > .glass-inner,
