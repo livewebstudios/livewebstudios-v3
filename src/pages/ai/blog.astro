@@ -8,6 +8,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
 import { getAiPosts, aiSlug, aiDate, SITE, ORG_ID } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
 import "../../styles/ai.css";
@@ -41,7 +42,10 @@ const jsonld = {
   <Nav />
 
   <main class="theme-live-ai">
-    <section class="page-head page-head--glass">
+    {/* Jon 2026-09-26: the /blog hero animation, and no glass card
+        (page-head--bare), matching the other two blog indexes. */}
+    <section class="page-head page-head--glass page-head--bare page-head--blog has-videobg">
+      <VideoBg src="jon-webdesk.mp4" scrim="default" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">LIVE AI INSIGHTS</span>
         <h1 class="page-h1">Notes from a studio that <em>runs on AI</em>.</h1>

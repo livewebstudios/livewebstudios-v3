@@ -73,14 +73,24 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
       ["Insurance", "industries/insurance.html"],
     ],
   },
+  /* Jon 2026-09-26: the family in this order, then a BLOGS group with the
+     three blogs on the site under it in the same column. */
   {
     h: "Studios",
     links: [
-      ["Live Band Web Studios", "live-band-web-studios.html"],
-      ["Namesake", "namesake.html"],
-      ["Live Web Photos", "https://livewebphotos.com"],
+      ["Live Web Studios", "index.html"],
       ["Live AI Studios", "ai.html"],
+      ["Live Web Photos", "https://livewebphotos.com"],
+      ["Live Band Web Studios", "live-band-web-studios.html"],
     ],
+    sub: {
+      h: "Blogs",
+      links: [
+        ["Live Web Blog", "blog.html"],
+        ["Live Band Blog", "live-band-web-studios/blog.html"],
+        ["Live AI Blog", "ai/blog.html"],
+      ],
+    },
   },
 ];
 ---
@@ -157,6 +167,16 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
               );
             })}
           </ul>
+          {c.sub && (
+            <>
+              <h3 class="foot-col__sub">{c.sub.h}</h3>
+              <ul>
+                {c.sub.links.map(([label, href]) => (
+                  <li><a href={`${rel}${href}`}>{label}</a></li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       ))}
     </div>
@@ -330,6 +350,16 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
     display: flex;
     align-items: center;
     gap: 0.55rem;
+  }
+  /* Jon 2026-09-26: the crooked sign hangs UNDER the Live Band link. */
+  .foot-link-row--band {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+  /* Second heading inside the Studios column (BLOGS). */
+  .foot-col h3.foot-col__sub {
+    margin-top: 2rem;
   }
   .foot-col a {
     color: var(--muted);
