@@ -1,0 +1,105 @@
+---
+/**
+ * AiVideoBg — section background loop for the Live AI Studios (/ai) pages.
+ *
+ * Built alongside VideoBg rather than as an extension of it (decision logged
+ * in DECISIONS.md). It reuses VideoBg's markup and CSS wholesale (.videobg,
+ * .videobg__v, .videobg__scrim, the three scrim strengths), and differs only
+ * where the /ai motion rules differ from the sitewide ones:
+ *
+ *   - two sources: 1600px desktop and a 1280px mobile twin, picked at attach
+ *     time by viewport width
+ *   - never more than ONE video playing per page (the controller below plays
+ *     the most visible one and pauses the rest)
+ *   - prefers-reduced-motion attaches NO source at all, so the poster is all
+ *     that ever loads (the sitewide observer still loads a frame)
+ *
+ * The data-ai-src attributes are deliberately not VideoBg's data-src, so the
+ * sitewide observer in Base.astro never touches these elements.
+ *
+ * Zero CLS by construction: the video is absolutely positioned inside the
+ * section, so neither the poster nor the stream can move layout. The poster
+ * is the frame everyone sees first; the loop fades in over it.
+ *
+ * Files live in public/videos/ai/<name>.mp4, <name>-720.mp4 and
+ * <name>-poster.jpg (scripts/ai-video-transcode.sh makes all three).
+ */
+import { relPrefix } from "../lib/relPrefix";
+
+interface Props {
+  /** Slot name: ai-hero, ai-services, ai-proof, ai-how. */
+  name: string;
+  scrim?: "hero" | "default" | "strong";
+}
+const { name, scrim = "default" } = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+const base = `${rel}videos/ai/${name}`;
+---
+
+<div class:list={["videobg", `videobg--${scrim}`]} aria-hidden="true">
+  <video
+    class="videobg__v"
+    muted
+    loop
+    playsinline
+    preload="none"
+    poster={`${base}-poster.jpg`}
+    data-ai-video
+    data-ai-src={`${base}.mp4`}
+    data-ai-src-mobile={`${base}-720.mp4`}
+  ></video>
+  <div class="videobg__scrim"></div>
+</div>
+
+<script>
+  // One controller per page (Astro bundles this once however many
+  // AiVideoBg instances the page has). Progressive enhancement: without JS
+  // or IntersectionObserver the posters simply stay put.
+  const vids = Array.from(
+    document.querySelectorAll<HTMLVideoElement>("video[data-ai-video]"),
+  );
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (vids.length && !reduce && "IntersectionObserver" in window) {
+    const small = window.matchMedia("(max-width: 900px)");
+    const seen = new Map<HTMLVideoElement, number>();
+
+    const attach = (v: HTMLVideoElement) => {
+      if (v.getAttribute("src")) return;
+      const src = small.matches ? v.dataset.aiSrcMobile : v.dataset.aiSrc;
+      if (src) v.setAttribute("src", src);
+    };
+
+    // Play the single most visible video; pause every other one.
+    const pick = () => {
+      let best: HTMLVideoElement | null = null;
+      let bestRatio = 0;
+      seen.forEach((r, v) => {
+        if (r > bestRatio) {
+          bestRatio = r;
+          best = v;
+        }
+      });
+      vids.forEach((v) => {
+        if (v !== best && !v.paused) v.pause();
+      });
+      if (best) {
+        const v = best as HTMLVideoElement;
+        attach(v);
+        const p = v.play();
+        if (p) p.catch(() => {});
+      }
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) =>
+          seen.set(e.target as HTMLVideoElement, e.isIntersecting ? e.intersectionRatio : 0),
+        );
+        pick();
+      },
+      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
+    );
+    vids.forEach((v) => io.observe(v));
+  }
+</script>

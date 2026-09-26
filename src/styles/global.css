@@ -494,6 +494,11 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 }
 .theme-live-ai .btn-primary:hover{background:#C4B5FD;color:var(--ai-ink)}
 .theme-live-ai .btn-ghost:hover{border-color:var(--ai);color:#C4B5FD;background:var(--ai-glow)}
+/* /ai motion: a shorter, quieter reveal than the sitewide 24px/700ms one.
+   Same .reveal/.in system and observer (Base.astro), only the distance and
+   timing change. Reduced motion: everything visible immediately. */
+.theme-live-ai .reveal{transform:translateY(12px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+@media (prefers-reduced-motion:reduce){.theme-live-ai .reveal{opacity:1;transform:none;transition:none}}
 
 .theme-live-band .card > .glass-inner::before,
 .theme-live-band .card > .glass-inner::after{display:none}
