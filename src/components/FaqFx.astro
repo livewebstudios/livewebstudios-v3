@@ -1,0 +1,208 @@
+---
+/**
+ * FaqFx — site-wide FAQ motion, ported from levelsetmethod.netlify.app/contact
+ * (Jon 2026-09-28: "take the question text animation and answer animation
+ * from the faq section and add that effect to ALL FAQ areas").
+ *
+ * Three pieces, same as the reference:
+ *  1. Questions DECODE: when a FAQ list first scrolls into view, each
+ *     question resolves left to right out of scrambled glyphs, staggered.
+ *     Screen readers get the real text from a visually-hidden copy; the
+ *     scrambling span is aria-hidden.
+ *  2. Answers TYPE: opening an item reveals its answer one rendered line at
+ *     a time, each line sweeping in word by word, left to right.
+ *  3. A light SCANS across the item's top edge as it opens.
+ *
+ * Loaded once from Base.astro, so it reaches every FAQ on the site with no
+ * per-page wiring, and any FAQ added later picks it up. It recognises both
+ * markups the site uses:
+ *   - button accordions: [data-faq-item] > .faq-q / .faq-a, open = .is-open
+ *     (/faq, /services/email-writing, /services/expert-witness)
+ *   - native <details> inside .ai-faq (/ai/how-it-works)
+ *
+ * prefers-reduced-motion: nothing is wrapped or hidden; FAQs behave exactly
+ * as they did before. Without JS the words are never hidden either, because
+ * the hiding class is only added by this script.
+ */
+---
+
+<style is:global>
+  .faq-fx-q.is-decoding { color: var(--muted); }
+
+  .faq-fx-a .faq-w { opacity: 0; transition: opacity 0.14s linear; }
+  .faq-fx-a.is-typing .faq-w { opacity: 1; }
+
+  .faq-fx-item { position: relative; }
+  .faq-fx-item.is-scanning::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 1px;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent 0%, var(--faq-scan, #7dd3fc) 50%, transparent 100%);
+    background-size: 220% 100%;
+    animation: faq-scan 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  /* The /ai FAQ is violet, so its scan is too. */
+  .ai-faq .faq-fx-item { --faq-scan: var(--ai, #a78bfa); }
+  @keyframes faq-scan {
+    0% { background-position: 100% 0; opacity: 1; }
+    100% { background-position: 0 0; opacity: 0; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var GLYPHS = "01<>/_#*+=:;[]{}";
+    var DECODE_MS = 1400, STAGGER_MS = 160, LINE_MS = 420; // Jon 2026-09-30: slower scramble (was 650/90)
+
+    // One entry per FAQ item, whichever markup it uses.
+    var items = [];
+    document.querySelectorAll("[data-faq-item]").forEach(function (el) {
+      items.push({ el: el, q: el.querySelector(".faq-q"), a: el.querySelector(".faq-a"), kind: "class" });
+    });
+    document.querySelectorAll(".ai-faq details").forEach(function (el) {
+      items.push({ el: el, q: el.querySelector("summary h3") || el.querySelector("summary"), a: el.querySelector(":scope > p"), kind: "details" });
+    });
+    if (!items.length) return;
+
+    /* ---- 1. Question decode ---- */
+    function prepQuestion(it) {
+      var q = it.q;
+      if (!q || q.dataset.faqFx) return;
+      q.dataset.faqFx = "1";
+      var text = q.textContent.trim();
+      var real = document.createElement("span");
+      real.className = "visually-hidden";
+      real.textContent = text;
+      var vis = document.createElement("span");
+      vis.className = "faq-fx-q";
+      vis.setAttribute("aria-hidden", "true");
+      vis.textContent = text;
+      q.textContent = "";
+      q.appendChild(real);
+      q.appendChild(vis);
+      it.vis = vis;
+      it.text = text;
+    }
+    function decode(it, delay) {
+      if (!it.vis) return;
+      var vis = it.vis, text = it.text, t0 = performance.now() + delay;
+      vis.classList.add("is-decoding");
+      function tick(t) {
+        var k = Math.max(0, Math.min(1, (t - t0) / DECODE_MS));
+        var n = Math.floor(text.length * k);
+        var tail = "";
+        for (var i = n; i < text.length; i++) {
+          tail += text[i] === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        }
+        vis.textContent = text.slice(0, n) + tail;
+        if (k < 1) requestAnimationFrame(tick);
+        else { vis.textContent = text; vis.classList.remove("is-decoding"); }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /* ---- 2. Answer typing ---- */
+    function prepAnswer(it) {
+      var p = it.a;
+      if (!p || p.dataset.faqFx) return;
+      p.dataset.faqFx = "1";
+      [].slice.call(p.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            var w = document.createElement("span");
+            w.className = "faq-w";
+            w.textContent = part;
+            frag.appendChild(w);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === 1) {
+          child.classList.add("faq-w"); // links etc. type in as one word
+        }
+      });
+      it.words = [].slice.call(p.querySelectorAll(".faq-w"));
+      p.classList.add("faq-fx-a");
+    }
+    function type(it) {
+      var p = it.a;
+      if (!p || !it.words) return;
+      p.classList.remove("is-typing");
+      it.words.forEach(function (w) { w.style.transitionDelay = ""; });
+      // Group words by the line they render on, then sweep each line.
+      var rows = [];
+      it.words.forEach(function (w) {
+        var top = w.offsetTop, row = null;
+        for (var i = 0; i < rows.length; i++) if (Math.abs(rows[i].top - top) < 4) { row = rows[i]; break; }
+        if (!row) rows.push((row = { top: top, words: [] }));
+        row.words.push(w);
+      });
+      rows.sort(function (a, b) { return a.top - b.top; });
+      var pw = p.clientWidth || 1;
+      rows.forEach(function (r, i) {
+        r.words.forEach(function (w) {
+          w.style.transitionDelay = Math.round(i * LINE_MS + (w.offsetLeft / pw) * LINE_MS) + "ms";
+        });
+      });
+      void p.offsetWidth;
+      p.classList.add("is-typing");
+    }
+    function untype(it) { if (it.a) it.a.classList.remove("is-typing"); }
+
+    /* ---- 3. Scan line ---- */
+    function scan(it) {
+      var el = it.el;
+      el.classList.remove("is-scanning");
+      void el.offsetWidth;
+      el.classList.add("is-scanning");
+      setTimeout(function () { el.classList.remove("is-scanning"); }, 950);
+    }
+
+    function isOpen(it) { return it.kind === "details" ? it.el.open : it.el.classList.contains("is-open"); }
+
+    items.forEach(function (it) {
+      it.el.classList.add("faq-fx-item");
+      prepQuestion(it);
+      prepAnswer(it);
+      // Items that start open (first item on some pages) show their answer
+      // straight away rather than sitting blank.
+      if (isOpen(it) && it.a) it.a.classList.add("is-typing");
+      var onChange = function () {
+        if (isOpen(it)) { type(it); scan(it); } else untype(it);
+      };
+      if (it.kind === "details") it.el.addEventListener("toggle", onChange);
+      else {
+        var was = isOpen(it);
+        new MutationObserver(function () {
+          var now = isOpen(it);
+          if (now !== was) { was = now; onChange(); }
+        }).observe(it.el, { attributes: true, attributeFilter: ["class"] });
+      }
+    });
+
+    // Decode each FAQ list the first time it scrolls into view.
+    var lists = new Map();
+    items.forEach(function (it) {
+      var list = it.el.closest(".faq-group, .faq-list, .ai-faq") || it.el.parentElement;
+      if (!lists.has(list)) lists.set(list, []);
+      lists.get(list).push(it);
+    });
+    if (!("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        (lists.get(en.target) || []).forEach(function (it, k) { decode(it, k * STAGGER_MS); });
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.2 });
+    lists.forEach(function (_, list) { io.observe(list); });
+  })();
+</script>

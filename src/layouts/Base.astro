@@ -5,6 +5,7 @@ import "@fontsource/geist-mono/500.css";
 import "../styles/global.css";
 import "../styles/mosa-skin.css";
 import { relPrefix } from "../lib/relPrefix";
+import FaqFx from "../components/FaqFx.astro";
 
 interface Props {
   title?: string;
@@ -305,5 +306,8 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
         vids.forEach(function (v) { io.observe(v); });
       })();
     </script>
+    {/* Site-wide FAQ decode/type/scan motion (2026-09-28). No-op on pages
+        without a FAQ. */}
+    <FaqFx />
   </body>
 </html>
