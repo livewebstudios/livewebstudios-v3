@@ -19,15 +19,24 @@ export interface Props {
   /** Lighter link row, so a busy video behind it shows through
       (Jon 2026-09-26: the town-hologram heroes, Industries + Construction). */
   clear?: boolean;
+  /** Put the link row on its own line under the buttons, left-aligned, instead
+      of at the bottom right (Jon 2026-10-01: /work only, so the row clears the
+      caricature video on the right). */
+  stacked?: boolean;
+  /** Swap the ghost button for "Our Story" → /about (Jon 2026-10-01: /work
+      only, since "See The Work" would point at the page you're already on). */
+  story?: boolean;
 }
-const { links = false, clear = false } = Astro.props;
+const { links = false, clear = false, stacked = false, story = false } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 ---
 
-<div class:list={["hero-foot", links && "hero-foot--split"]}>
+<div class:list={["hero-foot", links && "hero-foot--split", stacked && "hero-foot--stacked"]}>
   <div class="hero-btns">
     <a href={`${rel}contact.html`} class="btn btn-primary">Let's Talk →</a>
-    <a href={`${rel}work.html`} class="btn btn-ghost">See The Work ↓</a>
+    {story
+      ? <a href={`${rel}about.html`} class="btn btn-ghost">Our Story →</a>
+      : <a href={`${rel}work.html`} class="btn btn-ghost">See The Work ↓</a>}
   </div>
 
   {links && (
@@ -114,6 +123,16 @@ const rel = relPrefix(Astro.url.pathname);
   }
   .hero-links-sep {
     color: rgba(255, 255, 255, 0.4);
+  }
+
+  .hero-foot--stacked {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.4rem;
+  }
+  .hero-foot--stacked .hero-links {
+    margin-left: 0;
+    text-align: left;
   }
 
   @media (max-width: 900px) {
