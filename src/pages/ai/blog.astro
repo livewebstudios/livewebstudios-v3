@@ -82,11 +82,24 @@ const jsonld = {
 
     <section class="sec-pad is-alt">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta ai-close">
-          <span class="eyebrow is-center mb-md">READ ENOUGH?</span>
-          <h2>See what would run itself in your business.</h2>
-          <div class="hero-btns">
-            <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+        <Glass class="reveal" innerClass="cta cta--art ai-close">
+          <div class="cta-art">
+            <img
+              class="ai-close__img"
+              src={`${rel}images/ai/ai-blog-reading.jpg`}
+              alt="A stack of printed articles on a dark desk at night, lines highlighted in orange, reading glasses folded on top"
+              width="896"
+              height="1120"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-copy">
+            <span class="eyebrow mb-md">READ ENOUGH?</span>
+            <h2>See what would run itself in your business.</h2>
+            <div class="hero-btns">
+              <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+            </div>
           </div>
         </Glass>
       </div>

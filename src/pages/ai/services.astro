@@ -12,6 +12,7 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import NavIcon from "../../components/NavIcon.astro";
 import AiVideoBg from "../../components/AiVideoBg.astro";
+import BreathingGrid from "../../components/BreathingGrid.astro";
 import { SERVICES, ORG_ID, SITE } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
 import "../../styles/ai.css";
@@ -41,7 +42,8 @@ const jsonld = SERVICES.map((s) => ({
   <Nav />
 
   <main class="theme-live-ai">
-    <section class="page-head page-head--glass">
+    <section class="page-head page-head--glass page-head--bare has-bgrid">
+      <BreathingGrid />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">SERVICES</span>
         <h1 class="page-h1">Six things we run on AI. <em>All of them shipped.</em></h1>
@@ -105,12 +107,25 @@ const jsonld = SERVICES.map((s) => ({
 
     <section class="sec-pad">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta ai-close">
-          <span class="eyebrow is-center mb-md">NOT SURE WHICH?</span>
-          <h2>Tell us what eats your week. We'll tell you which one fits.</h2>
-          <div class="hero-btns">
-            <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
-            <a href={`${rel}ai/how-it-works.html`} class="btn btn-ghost">How it works →</a>
+        <Glass class="reveal" innerClass="cta cta--art ai-close">
+          <div class="cta-art">
+            <img
+              class="ai-close__img"
+              src={`${rel}images/ai/ai-services-planner.jpg`}
+              alt="An overfull weekly planner on a dark desk at night, one crowded day circled in orange marker"
+              width="896"
+              height="1120"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-copy">
+            <span class="eyebrow mb-md">NOT SURE WHICH?</span>
+            <h2>Tell us what eats your week. We'll tell you which one fits.</h2>
+            <div class="hero-btns">
+              <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+              <a href={`${rel}ai/how-it-works.html`} class="btn btn-ghost">How it works →</a>
+            </div>
           </div>
         </Glass>
       </div>
@@ -129,6 +144,6 @@ const jsonld = SERVICES.map((s) => ({
     margin-top: 1rem;
   }
   .ai-detail {
-    scroll-margin-top: calc(var(--nav-h) + var(--subnav-h) + 1rem);
+    scroll-margin-top: calc(var(--nav-h) + var(--subnav-h) + 3rem);
   }
 </style>

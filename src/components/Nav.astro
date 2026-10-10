@@ -151,7 +151,7 @@ const isSection = (href: string) =>
 
 ---
 
-<header class="nav" data-nav>
+<header class:list={["nav", ctx !== "main" && "nav--has-sub"]} data-nav>
   <div class="wrap nav-in">
     <a class="nav-logo" href={`${rel}index.html`} aria-label="Live Web Studios">
       <img src={`${rel}images/logoRGB.png`} alt="Live Web Studios" width="800" height="245" decoding="async" />
@@ -278,7 +278,9 @@ const isSection = (href: string) =>
           <img src={`${rel}images/logo-live-band.png`} alt="Live Band Web Studios" width="681" height="300" decoding="async" />
         </a>
       ) : ctx === "ai" ? (
-        <a class="subnav-brand subnav-brand--ns subnav-brand--ai" href={`${rel}ai.html`}>LIVE AI STUDIOS</a>
+        <a class="subnav-brand subnav-brand--ns subnav-brand--ai" href={`${rel}ai.html`} aria-label="Live AI Studios">
+          <img src={`${rel}images/studios/live-ai-studios.png`} alt="Live AI Studios" width="480" height="56" decoding="async" />
+        </a>
       ) : (
         <a class="subnav-brand subnav-brand--ns" href={`${rel}namesake.html`}>Namesake</a>
       )}
@@ -336,6 +338,9 @@ const isSection = (href: string) =>
         <a href={`${rel}ai/start.html`} class="btn btn-ghost subnav-cta">Start with AI</a>
       )}
     </div>
+    {ctx === "ai" && (
+      <p class="subnav-tag">Live AI Studios is the AI side of Live Web Studios. Same Jon, same phone number.</p>
+    )}
   </div>
 )}
 
@@ -622,6 +627,22 @@ const isSection = (href: string) =>
     font-size: 0.68rem;
   }
 
+  /* Jon 2026-10-10: the brand line moved off /ai/start into the AI bar, so
+     it rides along under the links on every /ai page. Inside .subnav, so it
+     sticks with it. */
+  .subnav-tag {
+    /* Jon 2026-10-10: "little bigger, little closer to the menu, tighter".
+       No divider, and it tucks up into the bar's bottom padding. */
+    margin: 0.1rem 0 0;
+    padding: 0 clamp(1.25rem, 4vw, 2.5rem) 0.45rem;
+    font-family: var(--mono);
+    font-size: 0.86rem;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--muted-2);
+  }
+
   /* Current page, in the section accent. No new colors: amber for Live Band,
      brass for Namesake, both already in the palette. */
   .subnav {
@@ -633,19 +654,32 @@ const isSection = (href: string) =>
   .subnav--ai {
     --sub-accent: var(--ai);
   }
-  /* The wordmark is violet like the accent; the ghost CTA picks it up on
+  /* The wordmark takes the accent colour; the ghost CTA picks it up on
      hover the way Start Yours picks up brass. */
   .subnav-brand--ai {
     color: var(--ai);
+  }
+  /* Jon 2026-10-10: the logo replaces the violet wordmark. A wide, short
+     lockup, so it stays centred in the bar instead of overhanging like the
+     Live Band badge. */
+  .subnav-brand.subnav-brand--ai img {
+    height: 26px;
+    filter: none;
   }
   /* Mirror the wordmark's inset so the CTA does not sit hard against the
      viewport edge (same offset .subnav-brand uses on the left). */
   .subnav--ai .subnav-cta {
     right: clamp(1.25rem, 4vw, 2.5rem);
   }
+  /* Jon 2026-10-10: the CTA carries an orange border at rest, so it reads
+     as the one button in the bar; hover fills it with the orange glow. */
+  .subnav--ai .subnav-cta {
+    border-color: var(--ai);
+  }
   .subnav--ai .subnav-cta:hover {
     border-color: var(--ai);
     color: var(--ai);
+    background: var(--ai-glow);
   }
   .subnav-links a.is-active {
     color: var(--sub-accent);
@@ -737,6 +771,9 @@ const isSection = (href: string) =>
     .subnav--ai .subnav-brand {
       order: 0;
     }
+    .subnav-brand.subnav-brand--ai img {
+      height: 22px;
+    }
     .subnav--ai .subnav-cta {
       order: 1;
     }
@@ -744,6 +781,12 @@ const isSection = (href: string) =>
       order: 2;
       flex-basis: 100%;
       justify-content: space-between;
+    }
+    .subnav-tag {
+      margin-top: 0;
+      padding-block: 0 0.4rem;
+      font-size: 0.66rem;
+      letter-spacing: 0.02em;
     }
     .subnav--ai .subnav-links > a {
       padding: 0.35rem 0.2rem;

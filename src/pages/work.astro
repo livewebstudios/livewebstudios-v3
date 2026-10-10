@@ -2,7 +2,7 @@
 /**
  * /work — portfolio (canonical URL; /portfolio 301s here per _redirects).
  * Originally ported from the live site (livewebstudios.com/portfolio), rebuilt
- * on v3's work-card grid; the list has since been curated (9 projects).
+ * on v3's work-card grid. The list is shared with /ai/proof (12 projects).
  * Thumbnails live at images/portfolio/*.jpg (copied from the live site);
  * each card links out to the live client site.
  * EM DASH BAN applied to descriptions.
@@ -14,27 +14,18 @@ import VideoBg from "../components/VideoBg.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 import { imageSize } from "../lib/imageSize";
+import { REBUILDS } from "../lib/aiStudio";
 
-const projects = [
-  { cat: "AI Image Services", title: "Live Web Photos", img: "images/portfolio/livewebphotos.jpg", href: "https://livewebphotos.com/",
-    body: "The AI image-enhancement division of Live Web Studios, virtual staging, product retouching, and architectural visualization delivered at scale in about 48 hours." },
-  { cat: "Personal Site", title: "Jon Wolf Studios", img: "images/portfolio/jonwolfstudios.jpg", href: "https://jonwolfstudios.com/",
-    body: "The personal site of LWS founder Jon Wolf, North Jersey keyboardist, guitarist, web developer, and AI workflow consultant, built on our follow-spot animation engine." },
-  { cat: "Electrical Contractor", title: "Mike DiNinno Electric", img: "images/portfolio/mikedininnoelectric.jpg", href: "https://mikedininnoelectric.com/",
-    body: "A veteran-owned, licensed electrical contractor in Clifton, NJ with 30+ years of residential, commercial, and industrial work, panel upgrades, generators, and 24/7 emergency service." },
-  { cat: "Corporate Training", title: "Level Set", img: "images/portfolio/levelset.jpg", href: "https://levelsetmethod.netlify.app/",
-    body: "A six-module, four-hour corporate fluency program for employers and universities, built by a 25-year HR executive and an Emmy-winning style authority to help new hires succeed and stay." },
-  { cat: "Tribute Band", title: "The British Invasion Years", img: "images/portfolio/britishinvasionyears.jpg", href: "https://britishinvasionyears.com",
-    body: "A live '60s British Invasion concert show touring theaters coast to coast, tour dates, video, and booking for the band fronted by LWS's own Jon Wolf." },
-  { cat: "Business Consulting", title: "The Mosaic Collaborative", img: "images/portfolio/mosaic.jpg", href: "https://mosaic-staging.netlify.app/",
-    body: "A strategy, leadership, and organizational consulting firm helping small and mid-sized companies through critical inflection points, from stalled growth to leadership alignment." },
-  { cat: "Logistics", title: "Same Day Logistics", img: "images/portfolio/samedaylogistics.jpg", href: "https://samedaylogistics.com",
-    body: "A nationwide 24/7 courier and logistics company headquartered in NJ, offering local courier, medical delivery, airfreight, and specialized logistics services." },
-  { cat: "Event Rental", title: "Valley Tent", img: "images/portfolio/valleytent.jpg", href: "https://valleytent.com",
-    body: "A full-service event rental company offering tents, glassware, linens, and tableware for weddings and events throughout the region." },
-  { cat: "Nonprofit", title: "Bergen Area", img: "images/portfolio/bergenarea.jpg", href: "https://bergenarea.org",
-    body: "The Bergen County Narcotics Anonymous area website, providing meeting information, resources, and community support for recovery." },
-];
+/* Same list as /ai/proof (src/lib/aiStudio.ts REBUILDS). No href = this
+   site, which links home in the same tab. */
+const projects = REBUILDS.map((r) => ({
+  cat: r.industry,
+  title: r.name,
+  img: `images/portfolio/${r.img}.jpg`,
+  href: r.href ?? "index.html",
+  external: Boolean(r.href),
+  body: r.body,
+}));
 ---
 
 <Base
@@ -69,14 +60,14 @@ const projects = [
         <div class="work-grid">
           {projects.map((p) => (
             <article class="work-card reveal">
-              <a class="work-thumb work-thumb--img" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${p.title}`}>
+              <a class="work-thumb work-thumb--img" href={p.href} {...(p.external ? { target: "_blank", rel: "noopener noreferrer" } : {})} aria-label={`Visit ${p.title}`}>
                 <img src={p.img} alt={`${p.title} website`} {...imageSize(p.img)} loading="lazy" decoding="async" />
               </a>
               <div class="work-meta">
                 <span class="work-cat">{p.cat}</span>
                 <h2 class="work-title">{p.title}</h2>
                 <p>{p.body}</p>
-                <a class="more" href={p.href} target="_blank" rel="noopener noreferrer">VIEW SITE →</a>
+                <a class="more" href={p.href} {...(p.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{p.external ? "VIEW SITE →" : "YOU ARE HERE →"}</a>
               </div>
             </article>
           ))}
@@ -107,6 +98,12 @@ const projects = [
 </Base>
 
 <style>
+  /* Four across on desktop, same rhythm as the /ai/proof grid (Jon
+     2026-10-10). auto-fill steps down to 3, 2, then 1 on its own. */
+  .work-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
   /* Real thumbnails in the work grid; global .work-thumb stays the CSS
      placeholder for cards without imagery. Scoped here, not in global.css. */
   .work-thumb--img img {

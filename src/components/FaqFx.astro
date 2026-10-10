@@ -46,8 +46,8 @@
     background-size: 220% 100%;
     animation: faq-scan 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  /* The /ai FAQ is violet, so its scan is too. */
-  .ai-faq .faq-fx-item { --faq-scan: var(--ai, #a78bfa); }
+  /* The /ai FAQ is orange, so its scan is too. */
+  .ai-faq .faq-fx-item { --faq-scan: var(--ai, #e8650a); }
   @keyframes faq-scan {
     0% { background-position: 100% 0; opacity: 1; }
     100% { background-position: 0 0; opacity: 0; }
@@ -172,8 +172,8 @@
       it.el.classList.add("faq-fx-item");
       prepQuestion(it);
       prepAnswer(it);
-      // Items that start open (first item on some pages) show their answer
-      // straight away rather than sitting blank.
+      // Every FAQ loads closed (Jon 2026-10-10). Kept so an item that ever
+      // does start open shows its answer straight away rather than blank.
       if (isOpen(it) && it.a) it.a.classList.add("is-typing");
       var onChange = function () {
         if (isOpen(it)) { type(it); scan(it); } else untype(it);

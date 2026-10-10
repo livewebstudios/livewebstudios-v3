@@ -1,7 +1,7 @@
 ---
 /**
- * /ai/how-it-works: the AI-staffed model, explained. Five steps, what stays
- * human, and six straight answers.
+ * /ai/how-it-works: the AI-staffed model, explained. Five steps and six
+ * straight answers.
  *
  * The FAQ uses native <details>/<summary> rather than the button accordion on
  * /faq: same look, but it opens with no JavaScript at all. The FAQPage JSON-LD
@@ -12,6 +12,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
+import BreathingGrid from "../../components/BreathingGrid.astro";
 import AiVideoBg from "../../components/AiVideoBg.astro";
 import { SITE } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
@@ -25,13 +26,6 @@ const steps = [
   { n: "03", title: "Build", body: "Whatever the map calls for. Built on the tools you already run, wherever that makes sense." },
   { n: "04", title: "Direct", body: "Human judgment on every output. Nothing reaches your customers until a person has read it and signed off." },
   { n: "05", title: "Run", body: "It keeps working. We keep watch and tune it as the business changes." },
-];
-
-const human = [
-  ["The brief.", "What gets built, and why. AI doesn't decide what your business needs."],
-  ["The sign-off.", "Every page, email, image and report is read by a person before it goes out."],
-  ["The relationship.", "You talk to a human who knows your business, not a ticket queue."],
-  ["The judgment calls.", "Pricing, tone, anything legal, anything sensitive. Those stay with people."],
 ];
 
 const faq = [
@@ -57,7 +51,7 @@ const jsonld = {
 
 <Base
   title="How It Works: The AI-Staffed Model | Live AI Studios"
-  description="How an AI-staffed studio works: listen, map, build, direct, run. What stays human, plus straight answers on cost, speed, tools and your data."
+  description="How an AI-staffed studio works: listen, map, build, direct, run. Plus straight answers on cost, speed, tools and your data."
   canonical={`${SITE}/ai/how-it-works`}
   ogImage="images/og-ai.jpg"
   jsonld={jsonld}
@@ -65,7 +59,7 @@ const jsonld = {
   <Nav />
 
   <main class="theme-live-ai">
-    <section class="page-head page-head--glass has-videobg">
+    <section class="page-head page-head--glass page-head--bare has-videobg">
       <AiVideoBg name="ai-how" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">HOW IT WORKS</span>
@@ -95,25 +89,9 @@ const jsonld = {
       </div>
     </section>
 
-    <!-- WHAT STAYS HUMAN -->
-    <section class="sec-pad is-alt">
-      <div class="wrap">
-        <div class="copy copy--points ai-human reveal">
-          <span class="eyebrow">WHAT STAYS HUMAN</span>
-          <div class="sec-head is-flush"><h2>The parts that should never be automated.</h2></div>
-          <p>AI is fast and tireless. It's also wrong often enough that nothing it makes should reach a customer unread. So the model keeps four things in human hands, on purpose.</p>
-          <ul class="copy-points">
-            {human.map(([k, v]) => (
-              <li><strong>{k}</strong> {v}</li>
-            ))}
-          </ul>
-          <p class="copy-kicker">That's not a limitation of the model. It is the model.</p>
-        </div>
-      </div>
-    </section>
-
     <!-- FAQ -->
-    <section class="sec-pad">
+    <section class="sec-pad has-bgrid">
+      <BreathingGrid chevrons="none" quiet="none" density="sparse" />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">STRAIGHT ANSWERS</span>
@@ -132,12 +110,25 @@ const jsonld = {
 
     <section class="sec-pad is-alt">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta ai-close">
-          <span class="eyebrow is-center mb-md">STEP ONE</span>
-          <h2>Listening comes first. Tell us about the business.</h2>
-          <div class="hero-btns">
-            <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
-            <a href={`${rel}ai/proof.html`} class="btn btn-ghost">See the proof →</a>
+        <Glass class="reveal" innerClass="cta cta--art ai-close">
+          <div class="cta-art">
+            <img
+              class="ai-close__img"
+              src={`${rel}images/ai/ai-how-listening.jpg`}
+              alt="A yellow legal pad of handwritten call notes on a dark desk at night, one phrase circled in orange, a phone on an active call beside it"
+              width="896"
+              height="1120"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-copy">
+            <span class="eyebrow mb-md">STEP ONE</span>
+            <h2>Listening comes first. Tell us about the business.</h2>
+            <div class="hero-btns">
+              <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+              <a href={`${rel}ai/proof.html`} class="btn btn-ghost">See the proof →</a>
+            </div>
           </div>
         </Glass>
       </div>
@@ -147,19 +138,3 @@ const jsonld = {
   <Footer />
 </Base>
 
-<style>
-  .ai-human {
-    max-width: 760px;
-    margin-inline: auto;
-  }
-  .ai-human > p {
-    color: var(--muted);
-    margin-top: 1.1rem;
-  }
-  .ai-human .copy-points {
-    margin-top: 1.1rem;
-  }
-  .ai-human .copy-kicker {
-    margin-top: 1.4rem;
-  }
-</style>

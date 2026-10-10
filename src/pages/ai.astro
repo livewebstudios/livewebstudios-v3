@@ -14,9 +14,9 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
-import NavIcon from "../components/NavIcon.astro";
+import ServiceRows from "../components/ServiceRows.astro";
 import AiVideoBg from "../components/AiVideoBg.astro";
-import { STATS, SERVICES, ORG, getAiPosts, aiSlug, aiDate } from "../lib/aiStudio";
+import { SERVICES, ORG, getAiPosts, aiSlug, aiDate } from "../lib/aiStudio";
 import { relPrefix } from "../lib/relPrefix";
 import "../styles/ai.css";
 
@@ -28,24 +28,42 @@ const model = [
     n: "01",
     title: "AI-staffed functions",
     body: "Design, development, content, automation and media each run as a working function staffed by AI, with written standards for how every one of them does the job.",
+    points: ["Standards written down, not improvised per job", "A full rebuild moves in weeks, not seasons"],
   },
   {
     n: "02",
     title: "Human direction",
     body: "A human principal sets the brief and signs off on every output before it reaches you. AI does the work. Judgment stays human.",
+    points: ["Nothing reaches your customers unread", "Pricing, tone and anything legal stay with people"],
   },
   {
     n: "03",
     title: "Your business, plugged in",
     body: "We connect the system to the tools you already run: your site, your inbox, your books, your calendar. The work lands where you already look.",
+    points: ["Built on the tools you already pay for", "Your data stays in your accounts wherever possible"],
   },
 ];
 
 const proof = [
-  { href: "ai/proof.html#rebuilt", title: "14 sites rebuilt end to end", body: "An archery range, a kitchen showroom, a church, a tribute band, a financial firm and nine more. Every one built by the system and signed off by a person." },
-  { href: "ai/proof.html#systems", title: "Systems that run themselves", body: "Invoices that send on schedule. Reports that write themselves. Built once, running since." },
-  { href: "ai/proof.html#media", title: "Media made from prompts", body: "Hero films and hundreds of photo composites, rendered from a written brief and finished by a human eye." },
+  { href: "ai/proof.html#rebuilt", title: "12 sites rebuilt end to end", body: "An electrician, a counseling practice, a kitchen showroom, a tribute band, a training program and seven more. Every one built by the system and signed off by a person.",
+    points: ["Named sites you can click through", "Every page signed off by a person"] },
+  { href: "ai/proof.html#systems", title: "Systems that run themselves", body: "Invoices that send on schedule. Reports that write themselves. Built once, running since.",
+    points: ["Zoho invoices and reminders on schedule", "A human reads the exceptions"] },
+  { href: "ai/proof.html#media", title: "Media made from prompts", body: "Hero films and hundreds of photo composites, rendered from a written brief and finished by a human eye.",
+    points: ["No shoot day, no production crew", "This page's hero film is one of them"] },
 ];
+
+/* Row takeaways for the services teaser (Jon 2026-10-10). One line from
+   each service's detail copy, then a short receipt cut from its `shipped`
+   line in aiStudio.ts. Keep them in step if that data changes. */
+const servicePoints: Record<string, string[]> = {
+  websites: ["Static, fast, and yours to edit after launch", "12 full rebuilds shipped, this site included"],
+  automation: ["A short note when something needs a human", "Zoho invoicing on 15 Apps Script files"],
+  content: ["Your voice written down first, from your own words", "A newsletter, three blogs and a weekly comic strip"],
+  media: ["Graded and compressed to load fast on a phone", "Hero films and hundreds of photo composites"],
+  reporting: ["What moved this month, and what happens next", "A DataForSEO pipeline and Search Console audits"],
+  consulting: ["A short list of moves, in the order they pay off", "A legal-sector AI engagement"],
+};
 ---
 
 <Base
@@ -59,7 +77,7 @@ const proof = [
 
   <main class="theme-live-ai">
     <!-- HERO: the tagline is locked, verbatim. -->
-    <section class="page-head page-head--glass has-videobg ai-hero">
+    <section class="page-head page-head--glass page-head--bare has-videobg ai-hero">
       <AiVideoBg name="ai-hero" scrim="hero" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">LIVE AI STUDIOS</span>
@@ -72,25 +90,6 @@ const proof = [
       </div>
     </section>
 
-    <!-- NUMBERS -->
-    <section class="sec-pad">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">THE NUMBERS</span>
-          <h2>Seven months of running the studio on AI.</h2>
-          <p>Every figure below is shipped work. Counted, not forecast. Proof the model holds up under real clients and real deadlines.</p>
-        </div>
-        <div class="stats ai-stats" data-countup>
-          {STATS.map((s) => (
-            <div class="stat reveal">
-              <b data-n={s.n}>{s.n.toLocaleString("en-US")}</b>
-              <span>{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
     <!-- THE MODEL -->
     <section class="sec-pad is-alt">
       <div class="wrap">
@@ -99,17 +98,7 @@ const proof = [
           <h2>AI does the work. A human directs it.</h2>
           <p>Three parts, and all three have to be there. Take away the direction and you get slop. Take away the AI and you get a waiting list.</p>
         </div>
-        <div class="grid-svc ai-model">
-          {model.map((m) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad ai-card">
-                <span class="step-num">{m.n}</span>
-                <h3>{m.title}</h3>
-                <p>{m.body}</p>
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <ServiceRows theme="ai" items={model.map((m) => ({ title: m.title, body: m.body, points: m.points }))} />
       </div>
     </section>
 
@@ -120,18 +109,7 @@ const proof = [
           <span class="eyebrow">SERVICES</span>
           <h2>Six things we run on AI. All of them shipped.</h2>
         </div>
-        <div class="grid-svc">
-          {SERVICES.map((s) => (
-            <a class="card reveal" href={`${rel}ai/services.html#${s.id}`}>
-              <Glass variant="inner" innerClass="card-pad ai-card">
-                <NavIcon name={s.icon} size={24} />
-                <h3>{s.name}</h3>
-                <p>{s.blurb.split(". ")[0]}.</p>
-                <span class="more">How it works →</span>
-              </Glass>
-            </a>
-          ))}
-        </div>
+        <ServiceRows theme="ai" items={SERVICES.map((s) => ({ title: s.name, body: `${s.blurb.split(". ")[0]}.`, href: `${rel}ai/services.html#${s.id}`, points: servicePoints[s.id] }))} />
       </div>
     </section>
 
@@ -142,18 +120,7 @@ const proof = [
           <span class="eyebrow">PROOF</span>
           <h2>Named work. No invented case studies.</h2>
         </div>
-        <div class="grid-svc">
-          {proof.map((p) => (
-            <a class="card reveal" href={`${rel}${p.href}`}>
-              <Glass variant="inner" innerClass="card-pad ai-card">
-                <span class="ai-dot" aria-hidden="true"></span>
-                <h3>{p.title}</h3>
-                <p>{p.body}</p>
-                <span class="more">See the proof →</span>
-              </Glass>
-            </a>
-          ))}
-        </div>
+        <ServiceRows theme="ai" items={proof.map((p) => ({ title: p.title, body: p.body, href: `${rel}${p.href}`, points: p.points }))} />
       </div>
     </section>
 
@@ -189,12 +156,25 @@ const proof = [
     <!-- CLOSE -->
     <section class="sec-pad is-alt">
       <div class="wrap">
-        <Glass class="reveal" innerClass="cta ai-close">
-          <span class="eyebrow is-center mb-md">YOUR TURN</span>
-          <h2>What in your business should run itself?</h2>
-          <div class="hero-btns">
-            <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
-            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+        <Glass class="reveal" innerClass="cta cta--art ai-close">
+          <div class="cta-art">
+            <img
+              class="ai-close__img"
+              src={`${rel}images/ai/ai-close-desk.jpg`}
+              alt="A laptop on a dark desk after hours, its screen showing an automation flowchart with orange dots moving between the steps, beside a stack of invoices and a coffee mug"
+              width="1000"
+              height="1250"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-copy">
+            <span class="eyebrow mb-md">YOUR TURN</span>
+            <h2>What in your business should run itself?</h2>
+            <div class="hero-btns">
+              <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+              <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+            </div>
           </div>
         </Glass>
       </div>
@@ -202,32 +182,6 @@ const proof = [
   </main>
 
   <Footer />
-
-  <script is:inline>
-    // Count-up for the numbers band. Runs once, on first view. The final
-    // values are already in the HTML, so no-JS and reduced-motion visitors
-    // simply see them; this only animates from zero when motion is allowed.
-    (function () {
-      var band = document.querySelector("[data-countup]");
-      if (!band || !("IntersectionObserver" in window)) return;
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      var nums = band.querySelectorAll("b[data-n]");
-      var fmt = function (v) { return Math.round(v).toLocaleString("en-US"); };
-      nums.forEach(function (b) { b.textContent = "0"; });
-      var io = new IntersectionObserver(function (entries) {
-        if (!entries.some(function (e) { return e.isIntersecting; })) return;
-        io.disconnect();
-        var t0 = performance.now(), dur = 1400;
-        (function tick(t) {
-          var k = Math.min(1, (t - t0) / dur);
-          var e = 1 - Math.pow(1 - k, 3);
-          nums.forEach(function (b) { b.textContent = fmt(Number(b.dataset.n) * e); });
-          if (k < 1) requestAnimationFrame(tick);
-        })(t0);
-      }, { threshold: 0.4 });
-      io.observe(band);
-    })();
-  </script>
 </Base>
 
 <style>

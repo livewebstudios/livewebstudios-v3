@@ -44,13 +44,14 @@
   --cat-gold:#E8B478;
   --cat-gold-dim:rgba(232,180,120,.42);
   --brass:#C9A55A;      /* Namesake (ink + brass) */
-  /* Live AI Studios (/ai). Violet is the AI column colour in the services
-     mega, so the sub-brand adopts it. Used FLAT only: fills, hairlines, text,
-     strokes, node dots. Never inside a gradient. */
-  --ai:#A78BFA;         /* primary accent, chips, active states, links */
-  --ai-deep:#7C5CE0;    /* hover, borders, icon strokes */
-  --ai-glow:rgba(167,139,250,0.14); /* section glows, card halos */
-  --ai-ink:#0E0B1A;     /* section-alt ground, near-black with violet cast */
+  /* Live AI Studios (/ai). Orange, sampled from the Live AI Studios logo
+     chevron (Jon 2026-10-10; was violet). Used FLAT only: fills, hairlines,
+     text, strokes, node dots. Never inside a gradient. */
+  --ai:#E8650A;         /* primary accent, chips, active states, links */
+  --ai-soft:#F6A066;    /* lighter tint: hover fills, small link text */
+  --ai-deep:#B84E06;    /* hover, borders, icon strokes */
+  --ai-glow:rgba(232,101,10,0.14); /* section glows, card halos */
+  --ai-ink:#120C09;     /* section-alt ground, near-black with a warm cast */
   --line:rgba(125,211,252,0.14);
   /* Form controls and contact rows only. --line is tuned for decorative
      hairlines (1.2:1); WCAG 1.4.11 wants 3:1 on the boundary of anything you
@@ -479,12 +480,12 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
    two-stop button ramp paints one flat colour, never a purple gradient. */
 .theme-live-ai{
   --cyan:var(--ai);
-  --cyan-soft:#C4B5FD;
+  --cyan-soft:var(--ai-soft);
   --cyan-2:var(--ai);
-  --cyan-deep:#2A1F4D;
+  --cyan-deep:#4A230A;
   --on-accent:var(--ai-ink);
-  --line:rgba(167,139,250,.18);
-  --line-2:rgba(167,139,250,.09);
+  --line:rgba(232,101,10,.18);
+  --line-2:rgba(232,101,10,.09);
 }
 .theme-live-ai .sec-pad.is-alt{background:var(--ai-ink)}
 .theme-live-ai .page-head::before{background:none}
@@ -492,8 +493,8 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
   background:var(--ai);color:var(--ai-ink);border-color:transparent;font-weight:600;
   box-shadow:0 10px 28px var(--ai-glow);
 }
-.theme-live-ai .btn-primary:hover{background:#C4B5FD;color:var(--ai-ink)}
-.theme-live-ai .btn-ghost:hover{border-color:var(--ai);color:#C4B5FD;background:var(--ai-glow)}
+.theme-live-ai .btn-primary:hover{background:var(--ai-soft);color:var(--ai-ink)}
+.theme-live-ai .btn-ghost:hover{border-color:var(--ai);color:var(--ai-soft);background:var(--ai-glow)}
 /* /ai motion: a shorter, quieter reveal than the sitewide 24px/700ms one.
    Same .reveal/.in system and observer (Base.astro), only the distance and
    timing change. Reduced motion: everything visible immediately. */
@@ -1474,7 +1475,7 @@ a:hover > .arrow--down,a:hover .arrow--down{transform:translateY(3px)}
    musician blog. */
 .footer-bridge{
   margin-top:1.4rem;
-  text-align:center;
+  text-align:left;
   font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;
   color:var(--muted-2);
 }

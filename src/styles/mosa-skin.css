@@ -171,6 +171,11 @@
 
 /* ---- Nav / chrome -------------------------------------------- */
 header.nav{background:rgb(var(--mosa-bg-rgb)/.6)}
+/* Where a sub-brand bar (Band / AI / Namesake) stacks under the main nav,
+   a faint light wash on the main bar separates the two (Jon 2026-10-10). */
+header.nav.nav--has-sub{
+  background:linear-gradient(rgb(var(--mosa-fg-rgb)/.12),rgb(var(--mosa-fg-rgb)/.12)),rgb(var(--mosa-bg-rgb)/.6);
+}
 /* Dropdown panel background: frosted blue-slate gradient instead of flat
    black (Jon 2026-08-15: "doesnt look good black"). */
 .mega-inner{
@@ -557,9 +562,12 @@ h1.hero-h1{max-width:22ch}
    The pill treatment itself is NOT conditional. Every eyebrow on these pages
    still gets the tag styling below, per the earlier instruction, so only the
    accent colour changes here. */
-.page-detail section:has(.card) .eyebrow{--mosa-accent-rgb:198 126 216}
+/* 2026-09-28: the detail-page grids became IncludedList rows (.inc-row),
+   which wear the same plum ramp, so they count as plum cards here too. */
+.page-detail section:has(.card, .inc-row) .eyebrow{--mosa-accent-rgb:198 126 216}
 .eyebrow--tag,
-.page-detail .eyebrow{
+.page-detail .eyebrow,
+.theme-live-ai .eyebrow{
   font-family:var(--sans);
   font-weight:700;
   font-size:.8rem;
@@ -581,7 +589,8 @@ h1.hero-h1{max-width:22ch}
   text-shadow:0 1px 2px rgb(0 0 0/.45);
 }
 .eyebrow--tag::before,
-.page-detail .eyebrow::before{
+.page-detail .eyebrow::before,
+.theme-live-ai .eyebrow::before{
   content:"";
   position:absolute;
   inset:0;
@@ -604,7 +613,8 @@ h1.hero-h1{max-width:22ch}
 .hero > .hero-in > .eyebrow--tag.mb-lg,
 .page-head--glass > .wrap > .eyebrow--tag.mb-lg,
 .page-detail .hero > .hero-in > .eyebrow.mb-lg,
-.page-detail .page-head--glass > .wrap > .eyebrow.mb-lg{margin-bottom:1.1rem}
+.page-detail .page-head--glass > .wrap > .eyebrow.mb-lg,
+.theme-live-ai .page-head--glass > .wrap > .eyebrow.mb-lg{margin-bottom:1.1rem}
 
 /* ---- Nav type: mono, sentence case, tight --------------------- */
 .nav-links > a,.studios-trigger{
@@ -766,6 +776,10 @@ header.nav .nav-cta .btn{
   color:var(--ink-soft);font-weight:var(--mosa-weight-regular,400);
   font-size:var(--mosa-text-lead,17px);
 }
+/* An intro line that leads into a section pill (ai-platform): the pill
+   starts a new thought, so it gets a real break, not a line's worth
+   (Jon 2026-10-10: "too tight"). */
+.split .copy .kick + .eyebrow{display:inline-flex;margin-top:2.25rem}
 .portrait{background:rgb(var(--mosa-fg-rgb)/.02)}
 .portrait .frame-lines{border-radius:0;border-color:var(--line)}
 .portrait .big{

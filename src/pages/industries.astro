@@ -14,27 +14,23 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
-import ServiceCard from "../components/ServiceCard.astro";
+import ServiceRows from "../components/ServiceRows.astro";
 import Aurora from "../components/Aurora.jsx";
 import Marquee from "../components/Marquee.astro";
 import VideoBg from "../components/VideoBg.astro";
 import HeroActions from "../components/HeroActions.astro";
 
-/* Same tiled weave the home and services grids use. Relative path per the
-   path rule; this page is root-level so it needs no prefix. */
-const cardArt = "images/bg/metal-weave.jpg";
-
 const industries = [
-  { ico: "◎", title: "Healthcare", body: "HIPAA-aware websites for medical practices, clinics, and health organizations.", slug: "healthcare" },
-  { ico: "❖", title: "Law Firm", body: "Professional websites for law firms. Practice area pages, intake forms, local SEO.", slug: "law-firm" },
-  { ico: "◈", title: "Financial Services", body: "Websites for financial advisors, CPAs, and wealth management firms.", slug: "financial-services" },
-  { ico: "⛭", title: "Construction", body: "Project showcase sites for contractors, builders, and construction companies.", slug: "construction" },
-  { ico: "◧", title: "Real Estate", body: "Listing-ready websites for brokers, agents, and property management.", slug: "real-estate" },
-  { ico: "▦", title: "Manufacturing", body: "Catalog and capability sites for manufacturers and industrial businesses.", slug: "manufacturing" },
-  { ico: "✦", title: "Dental", body: "Patient-focused websites for dental practices with online booking integration.", slug: "dental" },
-  { ico: "✧", title: "Nonprofit", body: "Mission-driven websites for nonprofits, schools, and community organizations.", slug: "nonprofit" },
-  { ico: "⬡", title: "B2B", body: "Lead-generation websites for B2B companies and professional services.", slug: "b2b" },
-  { ico: "◉", title: "Insurance", body: "Quote-ready websites for insurance agencies and brokers.", slug: "insurance" },
+  { ico: "◎", title: "Healthcare", body: "HIPAA-aware websites for medical practices, clinics, and health organizations.", slug: "healthcare", points: ["Insurance accepted, stated plainly", "A page per specialty and location", "Paperwork done before the visit"] },
+  { ico: "❖", title: "Law Firm", body: "Professional websites for law firms. Practice area pages, intake forms, local SEO.", slug: "law-firm", points: ["A real page per practice area", "Attorney bios that read like people", "Intake routed so nothing sits over a weekend"] },
+  { ico: "◈", title: "Financial Services", body: "Websites for financial advisors, CPAs, and wealth management firms.", slug: "financial-services", points: ["Credentials and registrations visible", "A page per service and town", "Never collects account or ID numbers"] },
+  { ico: "⛭", title: "Construction", body: "Project showcase sites for contractors, builders, and construction companies.", slug: "construction", points: ["Galleries sorted by project type", "License and insurance shown up front", "Photo upload so you can quote faster"] },
+  { ico: "◧", title: "Real Estate", body: "Listing-ready websites for brokers, agents, and property management.", slug: "real-estate", points: ["Sold results and reviews up front", "A page per town you actually work", "Leads reach your phone immediately"] },
+  { ico: "▦", title: "Manufacturing", body: "Catalog and capability sites for manufacturers and industrial businesses.", slug: "manufacturing", points: ["Capabilities and tolerances stated", "Certifications shown up front", "Drawing and file upload on every quote"] },
+  { ico: "✦", title: "Dental", body: "Patient-focused websites for dental practices with online booking integration.", slug: "dental", points: ["Insurance answered before they call", "A page per procedure you want more of", "New patient forms filled out before arrival"] },
+  { ico: "✧", title: "Nonprofit", body: "Mission-driven websites for nonprofits, schools, and community organizations.", slug: "nonprofit", points: ["Get help and give help, both obvious", "Accessible for real, not just claimed", "Donations in as few taps as possible"] },
+  { ico: "⬡", title: "B2B", body: "Lead-generation websites for B2B companies and professional services.", slug: "b2b", points: ["Built for a long buying cycle", "Case studies where buyers will find them", "Forms that ask less early, more later"] },
+  { ico: "◉", title: "Insurance", body: "Quote-ready websites for insurance agencies and brokers.", slug: "insurance", points: ["Lines of coverage split clearly", "Commercial kept separate from personal", "Forms short enough that people finish"] },
 ];
 
 ---
@@ -70,17 +66,10 @@ const industries = [
             and the page h1 (launch audit 2026-09-15). Hidden so the page
             gains no new visible copy. */}
         <h2 class="visually-hidden">Industries we build for</h2>
-        <div class="grid-svc">
-          {industries.map((i) => (
-            <ServiceCard
-              title={i.title}
-              body={i.body}
-              href={`industries/${i.slug}.html`}
-              bg={cardArt}
-              art="metal"
-            />
-          ))}
-        </div>
+        {/* Scannable-UI pass 2026-09-28: the 10-card metal grid became the
+            same blue row list /services runs (ServiceRows). Hubs blue,
+            detail pages purple. */}
+        <ServiceRows items={industries.map((i) => ({ title: i.title, body: i.body, points: i.points, href: `industries/${i.slug}.html` }))} />
       </div>
     </section>
 

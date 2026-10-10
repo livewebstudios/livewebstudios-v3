@@ -1,0 +1,313 @@
+---
+import "@fontsource-variable/geist";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+import "../styles/global.css";
+import "../styles/mosa-skin.css";
+import { relPrefix } from "../lib/relPrefix";
+import FaqFx from "../components/FaqFx.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  noindex?: boolean;
+  /* Open Graph share card. Pass a path relative to the site root
+     ("images/og-namesake.jpg") or a root-relative one from blog frontmatter
+     ("/images/blog/foo.jpg"); both get normalized to the absolute URL that
+     og:image requires. Social scrapers do not resolve relative URLs, so this
+     is the second sanctioned place for an absolute internal URL alongside
+     canonical. Defaults to the 1200x630 sitewide card. */
+  ogImage?: string;
+  /* Structured data. Omit and the page gets a WebPage node built from the
+     props above; every page carries schema that way (project rule, and the
+     live site has it on 61 pages). Pass an object or an array of objects to
+     replace that default: index.astro passes LocalBusiness, the 13 service
+     pages pass WebPage + Service, and pages whose template already emits
+     their own schema (blog posts: BlogPosting, faq: FAQPage) pass null so
+     nothing is duplicated. */
+  jsonld?: object | object[] | null;
+  /* The hero photo to preload, as a filename under public/images/ — the SAME
+     value passed to PhotoBg's `src`. Pages whose hero is a still photo pass it;
+     pages whose hero is a VideoBg or the shader canvas do not, because there is
+     no single image to prioritise there and preloading video bytes would
+     compete with the text for bandwidth.
+     The value is deliberately the bare filename rather than a finished URL:
+     both this and PhotoBg build the path with relPrefix() off the same
+     pathname, so the two strings cannot drift. A preload href that differs
+     from the img src by even a "../" is the classic way to download the hero
+     twice and make LCP worse than it was. */
+  preloadHero?: string;
+}
+const {
+  title = "Live Web Studios | Web Design & AI Builds, North Jersey",
+  description =
+    "Custom, AI-platformed websites for North Jersey businesses. Web design, hosting and SEO since 2004. Real work. Real results. One call.",
+  canonical = "https://livewebstudios.com/",
+  noindex = false,
+  ogImage = "images/og-default.jpg",
+  jsonld,
+  preloadHero,
+} = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+
+/* og:image must be absolute: Facebook, LinkedIn, Slack and iMessage fetch it
+   out of band and never resolve a relative path. 1200x630 minimum, or the
+   large card is dropped for a thumbnail. */
+const ogImageUrl = /^https?:\/\//.test(ogImage)
+  ? ogImage
+  : `https://livewebstudios.com/${ogImage.replace(/^\//, "")}`;
+/* Only the og-*.jpg cards are known to be exactly 1200x630. Blog posts pass
+   their own hero (1376x768), so declaring dimensions there would be a lie and
+   scrapers trust the tag over the file. Emit them only when they are true. */
+const ogIsCard = /\/images\/og-[a-z-]+\.jpg$/.test(ogImageUrl);
+
+/* undefined -> the WebPage default; null -> nothing (template emits its own). */
+const schema =
+  jsonld === null
+    ? null
+    : (jsonld ?? {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        description,
+        url: canonical,
+        isPartOf: {
+          "@type": "WebSite",
+          name: "Live Web Studios",
+          url: "https://livewebstudios.com",
+        },
+      });
+
+/* Detail pages under /services/<x> and /industries/<x> get the plum card
+   treatment (Jon 2026-09-07). Derived from the path rather than set per page,
+   so the 23 existing detail pages and any future one pick it up with no edit.
+   The bare /services and /industries index pages do NOT match: the pattern
+   requires a segment after the slash, and those two run the ServiceCard grids
+   over an Aurora instead. The .html suffix on built pages matches either way. */
+const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+
+    {/* LCP hint. An eager <img> in the body is already found by the preload
+        scanner, but not until the inlined stylesheet ahead of it has been
+        parsed; this starts the fetch in the first round trip instead, and
+        fetchpriority tells the browser it outranks the other images on the
+        page. Only emitted for photo heroes (project QA checklist: "Hero image
+        has <link rel=\"preload\"> in <head>"). */}
+    {preloadHero && (
+      <link
+        rel="preload"
+        as="image"
+        href={`${rel}images/${preloadHero}`}
+        fetchpriority="high"
+      />
+    )}
+
+    {schema && (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    )}
+
+    {/* favicxon.png is the favicon (Jon 2026-09-02). The old favicon.svg
+        link is removed, not just reordered: browsers prefer an SVG icon over
+        a PNG regardless of order, so leaving it declared would have kept the
+        old mark showing. Filename keeps Jon's original spelling. */}
+    <link rel="icon" type="image/png" sizes="240x240" href={`${rel}images/favicxon.png`} />
+
+    {/* iOS requests /apple-touch-icon.png implicitly when this link is absent,
+        which 404s on every page load and leaves a home-screen bookmark showing
+        a screenshot instead of the mark. 180x180 on the brand ground, since
+        iOS fills transparency with black anyway. */}
+    <link rel="apple-touch-icon" sizes="180x180" href={`${rel}apple-touch-icon.png`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    {ogIsCard && <meta property="og:image:width" content="1200" />}
+    {ogIsCard && <meta property="og:image:height" content="630" />}
+    <meta property="og:site_name" content="Live Web Studios" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW3VF5PBDT"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-SW3VF5PBDT");
+    </script>
+  </head>
+  <!-- Card art. The home page's carbon weave is the card background site-wide
+       (Jon 2026-09-03), so every .card needs the URL. It is published from
+       here, not from global.css: stylesheets are inlined into every page at
+       every depth, so a url() written in the stylesheet would resolve against
+       whichever page it landed in and 404 on /services/* and /industries/*.
+       rel carries this page's own "../" prefix, which keeps the reference
+       relative per the LWS path rule.
+       page-detail scopes the plum gradient to the 23 detail pages. -->
+  <body
+    class={isDetailPage ? "page-detail" : undefined}
+    style={`--card-art:url('${rel}images/bg/metal-bg.jpg')`}
+  >
+    <!-- Glass refraction filter (Jon 2026-08-27). Three displacement passes at
+         different scales, recombined per RGB channel, so the art bends AND
+         splits into prismatic fringes the way light does through thick glass.
+         Declared once per page; referenced from CSS as filter:url(#lws-glass). -->
+    <svg class="svg-defs" aria-hidden="true" focusable="false" width="0" height="0">
+      <filter id="lws-glass" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.0022 0.0026" numOctaves="1" seed="7" result="noise" />
+        <feGaussianBlur in="noise" stdDeviation="7" result="soft" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="34" xChannelSelector="R" yChannelSelector="G" result="dR" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="22" xChannelSelector="R" yChannelSelector="G" result="dG" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="11" xChannelSelector="R" yChannelSelector="G" result="dB" />
+        <feColorMatrix in="dR" type="matrix" result="rOnly"
+          values="1 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 1 0" />
+        <feColorMatrix in="dG" type="matrix" result="gOnly"
+          values="0 0 0 0 0   0 1 0 0 0   0 0 0 0 0   0 0 0 1 0" />
+        <feColorMatrix in="dB" type="matrix" result="bOnly"
+          values="0 0 0 0 0   0 0 0 0 0   0 0 1 0 0   0 0 0 1 0" />
+        <feBlend in="rOnly" in2="gOnly" mode="screen" result="rg" />
+        <feBlend in="rg" in2="bOnly" mode="screen" />
+      </filter>
+
+    </svg>
+
+    <slot />
+
+    <script is:inline>
+      // Reveal on scroll — exposes window.LWS.observe(el) so dynamically
+      // inserted content (CMS, Phase 2 islands) can register for the same
+      // entrance treatment. IntersectionObserver is the primary path; a
+      // geometry check + passive scroll fallback guarantees content is never
+      // trapped at opacity:0 (IO failure, or anchor-jumping past a section).
+      // Respects prefers-reduced-motion.
+      (function () {
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var supported = "IntersectionObserver" in window;
+        var count = 0;
+
+        function show(el) {
+          el.classList.add("in");
+        }
+        function inView(el) {
+          var r = el.getBoundingClientRect();
+          return r.top < window.innerHeight * 0.92 && r.bottom > 0;
+        }
+
+        var io = supported
+          ? new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (en) {
+                  if (en.isIntersecting) {
+                    show(en.target);
+                    io.unobserve(en.target);
+                  }
+                });
+              },
+              { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+            )
+          : null;
+
+        window.LWS = window.LWS || {};
+        window.LWS.observe = function (el) {
+          if (!el) return;
+          if (reduce || !io) {
+            show(el);
+            return;
+          }
+          el.style.transitionDelay = (count++ % 3) * 0.06 + "s";
+          if (inView(el)) {
+            show(el); // already visible: reveal now, don't wait on IO
+            return;
+          }
+          io.observe(el);
+        };
+
+        // Fallback: reveal anything at or above the fold line that IO hasn't
+        // caught — covers in-view elements AND any fast-scrolled past (top < 0),
+        // so content is never stranded at opacity:0.
+        function sweep() {
+          var pending = document.querySelectorAll(".reveal:not(.in)");
+          for (var i = 0; i < pending.length; i++) {
+            if (pending[i].getBoundingClientRect().top < window.innerHeight * 0.92) {
+              show(pending[i]);
+            }
+          }
+        }
+        window.addEventListener("scroll", sweep, { passive: true });
+        window.addEventListener("resize", sweep, { passive: true });
+
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          window.LWS.observe(el);
+        });
+        requestAnimationFrame(sweep);
+      })();
+    </script>
+
+    <script is:inline>
+      // Lazy background videos (VideoBg): attach src + play only when a section
+      // scrolls near view, pause when it leaves, so a page never decodes all of
+      // its videos at once. Muted/loop/playsinline live on the element.
+      // Respects prefers-reduced-motion (loads a still frame, never plays).
+      (function () {
+        var vids = document.querySelectorAll(".videobg__v[data-src]");
+        if (!vids.length) return;
+        var reduce =
+          window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function attach(v) {
+          if (!v.getAttribute("src")) {
+            v.setAttribute("src", v.dataset.src);
+            // data-once clips hold their last frame. Latch the finish so
+            // scrolling back into view does not restart them.
+            if (v.hasAttribute("data-once")) {
+              v.addEventListener("ended", function () { v.dataset.done = "1"; });
+            }
+          }
+        }
+        function play(v) {
+          if (v.hasAttribute("data-once") && v.dataset.done === "1") return;
+          if (!reduce && v.play) {
+            var p = v.play();
+            if (p && p.catch) p.catch(function () {});
+          }
+        }
+
+        if (!("IntersectionObserver" in window)) {
+          vids.forEach(function (v) { attach(v); play(v); });
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (en) {
+              var v = en.target;
+              if (en.isIntersecting) { attach(v); play(v); }
+              else if (v.pause) v.pause();
+            });
+          },
+          { rootMargin: "300px 0px" }
+        );
+        vids.forEach(function (v) { io.observe(v); });
+      })();
+    </script>
+    {/* Site-wide FAQ decode/type/scan motion (2026-09-28). No-op on pages
+        without a FAQ. */}
+    <FaqFx />
+  </body>
+</html>

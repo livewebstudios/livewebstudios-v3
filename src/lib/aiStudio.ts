@@ -22,7 +22,7 @@ export const STATS = [
   { n: 7, label: "Months" },
   { n: 472, label: "Files shipped" },
   { n: 43, label: "Active clients" },
-  { n: 14, label: "Sites rebuilt end to end" },
+  { n: 12, label: "Sites rebuilt end to end" },
 ];
 
 export type AiService = {
@@ -44,7 +44,7 @@ export const SERVICES: AiService[] = [
       "We design and build custom websites with AI doing the production and human direction on every call. No templates. No plugins to patch.",
     detail:
       "Design comps, copy, code, images and search setup all come out of the same system, so a full rebuild moves in weeks, not seasons. Every page is static and fast. It's yours, and it stays editable after launch.",
-    shipped: "14 full rebuilds, from an archery pro shop to a kitchen showroom to this site.",
+    shipped: "12 full rebuilds, from an electrical contractor to a kitchen showroom to this site.",
     proof: "rebuilt",
   },
   {
@@ -104,32 +104,56 @@ export const SERVICES: AiService[] = [
   },
 ];
 
-/* Rebuilt end to end: the 14. Industry and the one-liner come from each
-   site's own published description; links only where the site is live. */
-export const REBUILDS: { name: string; industry: string; line: string; href?: string }[] = [
-  { name: "Targeteers Archery", industry: "Archery pro shop & range", line: "A family pro shop and 11-lane indoor range, rebuilt around lessons and leagues.", href: "https://targeteersarchery.com/" },
-  { name: "Küche+Cucina", industry: "Luxury kitchen showroom", line: "Custom kitchens, European cabinetry, closets and baths, with a hero film to match.", href: "https://www.kuche-cucina.com/" },
-  { name: "Legacy TCP", industry: "Financial & legal services", line: "Planning, legal, insurance and tax under one roof, explained in one site.", href: "https://legacytcp.com/" },
-  { name: "Winslow", industry: "Tribute band", line: "An Eagles tribute act, with tour dates and booking in one place.", href: "https://winsloweaglestribute.com/" },
-  { name: "Valley Tent", industry: "Event rental", line: "Tents, glassware, linens and tableware for weddings and events.", href: "https://valleytent.com/" },
-  { name: "Community Church GR", industry: "Church", line: "A congregation's front door: service times and how to visit.", href: "https://communitychurchgr.com/" },
-  { name: "Manual Therapy Consultants", industry: "Physical therapy practice", line: "A clinical practice site with intake forms that feed the office.", href: "https://manualtherapyconsultants.com/" },
-  { name: "Mianne Benchwork", industry: "Hobby manufacturing", line: "A national maker's catalogue, rebuilt to sell the product line.", href: "https://miannebenchwork.com/" },
-  { name: "D&J Power Washing", industry: "Exterior cleaning", line: "A local service business, built to turn searches into calls.", href: "https://djpowerwashing.net/" },
-  { name: "Level Set", industry: "Corporate training", line: "A six-module professional program, presented to the companies that buy it." },
-  { name: "The Mosaic Collaborative", industry: "Leadership consulting", line: "Strategy and leadership consulting for companies at inflection points.", href: "https://mosaiccollaborative.com/" },
-  { name: "Live Web Photos", industry: "AI image services", line: "The studio's image division. Staging and retouching at scale.", href: "https://livewebphotos.com/" },
-  { name: "VÖID", industry: "Concept store", line: "Astounding objects that do nothing at all, sold with a straight face." },
-  { name: "Live Web Studios", industry: "Web studio", line: "The parent site you are standing on, rebuilt end to end the same way." },
+/* The portfolio: one list shared by /work and /ai/proof so the two pages
+   never drift. Thumbnails are 800x500 homepage screenshots at
+   images/portfolio/{img}.jpg. `line` is the short card copy on /ai/proof,
+   `body` the longer card copy on /work. No href = this site (links home). */
+export const REBUILDS: { name: string; industry: string; img: string; line: string; body: string; href?: string }[] = [
+  { name: "Mike DiNinno Electric", industry: "Electrical Contractor", img: "mikedininnoelectric", href: "https://mikedininnoelectric.com/",
+    line: "A veteran-owned Clifton electrician with 30+ years of work, built to turn searches into calls.",
+    body: "A veteran-owned, licensed electrical contractor in Clifton, NJ with 30+ years of residential, commercial, and industrial work, panel upgrades, generators, and 24/7 emergency service." },
+  { name: "B-Line Counseling", industry: "Mental Health Services", img: "blinecounseling", href: "https://b-linecounseling.com/",
+    line: "Family-focused counseling in Teaneck, with in-community services for youth across New Jersey.",
+    body: "A family-focused mental health practice in Teaneck, NJ delivering Intensive In-Community, Behavioral Assistant, and Mentor services, plus assessments for youth and families statewide." },
+  { name: "Level Set", industry: "Corporate Training", img: "levelset", href: "https://levelsetmethod.com/",
+    line: "A six-module professional program, presented to the companies that buy it.",
+    body: "A six-module, four-hour corporate fluency program for employers and universities, built by a 25-year HR executive and an Emmy-winning style authority to help new hires succeed and stay." },
+  { name: "The Mosaic Collaborative", industry: "Business Consulting", img: "mosaic", href: "https://mosaic-staging.netlify.app/",
+    line: "Strategy and leadership consulting for companies at inflection points.",
+    body: "A strategy, leadership, and organizational consulting firm helping small and mid-sized companies through critical inflection points, from stalled growth to leadership alignment." },
+  { name: "Küche+Cucina", industry: "Luxury Kitchen Showroom", img: "kuchecucina", href: "https://www.kuche-cucina.com/",
+    line: "Custom kitchens, European cabinetry, closets and baths, with a hero film to match.",
+    body: "A kitchen and fine interiors showroom: custom kitchens, European cabinetry, closets, and baths, presented with a hero film that sells the craft before a word is read." },
+  { name: "Mianne Benchwork", industry: "Hobby Manufacturing", img: "miannebenchwork", href: "https://miannebenchwork.com/",
+    line: "A national maker's catalogue, rebuilt to sell the product line.",
+    body: "A national maker of model railroad benchwork, the fast track to layout construction. Rebuilt so the full catalogue sells itself, kit by kit." },
+  { name: "Same Day Logistics", industry: "Logistics", img: "samedaylogistics", href: "https://samedaylogistics.com/",
+    line: "A nationwide 24/7 courier, from medical delivery to airfreight, headquartered in NJ.",
+    body: "A nationwide 24/7 courier and logistics company headquartered in NJ, offering local courier, medical delivery, airfreight, and specialized logistics services." },
+  { name: "The British Invasion Years", industry: "Tribute Band", img: "britishinvasionyears", href: "https://britishinvasionyears.com/",
+    line: "A '60s British Invasion concert show, with tour dates, video and booking in one place.",
+    body: "A live '60s British Invasion concert show touring theaters coast to coast, tour dates, video, and booking for the band fronted by LWS's own Jon Wolf." },
+  { name: "Live Web Photos", industry: "AI Image Services", img: "livewebphotos", href: "https://livewebphotos.com/",
+    line: "The studio's image division. Staging and retouching at scale.",
+    body: "The AI image-enhancement division of Live Web Studios, virtual staging, product retouching, and architectural visualization delivered at scale in about 48 hours." },
+  { name: "Jon Wolf Studios", industry: "Personal Site", img: "jonwolfstudios", href: "https://jonwolfstudios.com/",
+    line: "The founder's own site, built on the studio's follow-spot animation engine.",
+    body: "The personal site of LWS founder Jon Wolf, North Jersey keyboardist, guitarist, web developer, and AI workflow consultant, built on our follow-spot animation engine." },
+  { name: "VÖID", industry: "Concept Store", img: "void", href: "https://v-id.netlify.app/",
+    line: "Astounding objects that do nothing at all, sold with a straight face.",
+    body: "A tongue-in-cheek concept store selling astounding objects that do nothing at all, certified by the VÖID Code Authority and shipped across the void for free." },
+  { name: "Live Web Studios", industry: "Web Studio", img: "livewebstudios",
+    line: "The parent site you are standing on, rebuilt end to end the same way.",
+    body: "The site you are on. The Live Web Studios parent site, rebuilt end to end on the same system we use for every client." },
 ];
 
 /* Systems that run themselves. */
 export const SYSTEMS = [
   { name: "Hosting-renewal invoicing", body: "Renewals come due and invoices go out through Zoho, reminders on schedule. Fifteen Apps Script files carry the logic; a human reads the exceptions." },
+  { name: "Invoicing", body: "Finished work turns into an invoice built from the job record and sent in your name. No end-of-month pile to assemble by hand." },
+  { name: "Billing", body: "Recurring charges run on schedule, payments land against the right client, and anything late gets a polite nudge before anyone has to chase it." },
   { name: "Monthly reporting pipeline", body: "Search and site data get compared with last month and written up in plain English. Ready to review, not ready to assemble." },
-  { name: "Weekly member-list automation", body: "A membership roster that updates itself every week, so nobody reconciles a spreadsheet by hand on a Friday." },
   { name: "Social posting automation", body: "Facebook and Instagram posts scheduled from an approved calendar, so the feed keeps moving on busy weeks." },
-  { name: "The comic strip pipeline", body: "Script, art, publish: a weekly strip produced end to end by the system. Thirteen strips and counting." },
   { name: "The newsletter engine", body: "Stories in, a finished issue out, written in the sender's voice and queued for approval before it goes anywhere." },
 ];
 

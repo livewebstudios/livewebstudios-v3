@@ -4,24 +4,22 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
-import ServiceCard from "../components/ServiceCard.astro";
+import ServiceRows from "../components/ServiceRows.astro";
 import Aurora from "../components/Aurora.jsx";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 
-/* Home service cards — same six topics, same shared ServiceCard.
-   "LEARN MORE" was a forbidden phrase; CTA reads SEE DETAILS.
-   2026-09-02: home now runs the dark carbon art via art="metal", so it
-   no longer matches /services (which keeps the blue clouds). That was
-   Jon's call and it overrides the 2026-08-27 "make them match" note. */
-const cardArt = "images/bg/metal-weave.jpg";
+/* Home services: same six topics, now in the ServiceRows hub list that
+   /services and /industries run (Jon 2026-10-10, replacing the metal-art
+   ServiceCard grid). Each row links straight to its detail page; the old
+   services.html#anchors no longer exist on the regrouped /services. */
 const homeServices = [
-  { title: "Website Design & Development", body: "Built from scratch. No templates, no page builders.", href: "services.html#web-design" },
-  { title: "Web Hosting & Maintenance", body: "Dedicated infrastructure. Jon watches it so you don't have to.", href: "services.html#hosting" },
-  { title: "AI Platformed Websites", tag: "NEW", body: "Next-gen static sites built with AI. Faster. Cleaner. Lower maintenance.", href: "services.html#ai-platformed" },
-  { title: "SEO & Local Search", body: "Real businesses. Real searches. North Jersey and beyond.", href: "services.html#seo" },
-  { title: "AI Workflow Consulting", body: "Finding where AI tools save you actual time and money.", href: "services.html#ai-consulting" },
-  { title: "Monthly Site Care", body: "Ongoing partner. Not a one-time vendor.", href: "services.html#site-care" },
+  { title: "Website Design & Development", body: "Built from scratch. No templates, no page builders.", href: "services/website-design.html", points: ["Layout starts from your content, not a theme", "Tested on real devices, not just a resized window", "Schema markup for your business type"] },
+  { title: "Web Hosting & Maintenance", body: "Dedicated infrastructure. Jon watches it so you don't have to.", href: "services/hosting.html", points: ["Resources are yours, not split with neighbors", "30 days of offsite backups to roll back to", "SSL included and renewing on its own"] },
+  { title: "AI Platformed Websites", tag: "NEW", body: "Next-gen static sites built with AI. Faster. Cleaner. Lower maintenance.", href: "services/ai-platform.html", points: ["Weeks off the timeline, not days", "Each page built against a real search", "Schema in from line one, not bolted on"] },
+  { title: "SEO & Local Search", body: "Real businesses. Real searches. North Jersey and beyond.", href: "services/seo.html", points: ["Built around what people near you search", "Google Business Profile set up properly", "A short monthly read, not a 40-page PDF"] },
+  { title: "AI Workflow Consulting", body: "Finding where AI tools save you actual time and money.", href: "services/ai-workflow.html", points: ["Drafts in your voice, not generic filler", "Common questions handled automatically", "A person still approves before anything ships"] },
+  { title: "Monthly Site Care", body: "Ongoing partner. Not a one-time vendor.", href: "services/maintenance-plans.html", points: ["Daily offsite backups", "Small content edits included, no hourly billing", "Priority support when something breaks"] },
 ];
 
 
@@ -106,11 +104,7 @@ const localBusiness = {
         <span class="eyebrow eyebrow--tag">WHAT WE BUILD</span>
         <h2>Everything your business needs online.</h2>
       </div>
-      <div class="grid-svc">
-        {homeServices.map((c) => (
-          <ServiceCard title={c.title} body={c.body} href={c.href} bg={cardArt} art="metal" tag={c.tag} />
-        ))}
-      </div>
+      <ServiceRows items={homeServices} />
     </div>
   </section>
 

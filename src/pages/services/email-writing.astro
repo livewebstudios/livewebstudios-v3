@@ -355,11 +355,11 @@ const pageSchema = [
             this section's h2. Keep the three in sync. */}
         <div class="faq-list reveal">
           {faqs.map((f, i) => (
-            <div class:list={["faq-item", i === 0 && "is-open"]} data-faq-item>
+            <div class="faq-item" data-faq-item>
               <button
                 class="faq-q-btn"
                 type="button"
-                aria-expanded={i === 0 ? "true" : "false"}
+                aria-expanded="false"
                 aria-controls={`faq-panel-${i}`}
               >
                 <h3 class="faq-q">{f.q}</h3>
