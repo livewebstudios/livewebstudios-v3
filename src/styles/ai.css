@@ -247,7 +247,7 @@ a.ai-card:hover{transform:translateY(-3px)}
 }
 .start-submit{justify-content:center;min-height:3.4rem;padding:1rem 2rem;font-size:.8rem}
 .start-submit:disabled{opacity:.72;cursor:progress}
-@media (min-width:640px){.start-actions{align-items:flex-start}}
+@media (min-width:640px){.start-actions{align-items:center}}
 
 .form-thanks{padding-block:.5rem}
 .form-thanks:focus{outline:none}
