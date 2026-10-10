@@ -41,54 +41,54 @@ export const SERVICES: AiService[] = [
     name: "AI-Built Websites",
     icon: "monitor",
     blurb:
-      "We design and build custom websites with AI doing the production and human direction on every call. No templates. No plugins to patch.",
+      "We design and build custom websites with AI doing the production work and a person making every call. No templates. No plugins, no constant security updates.",
     detail:
-      "Design comps, copy, code, images and search setup all come out of the same system, so a full rebuild moves in weeks, not seasons. Every page is static and fast. It's yours, and it stays editable after launch.",
+      "Design, writing, images and Google setup all come out of one process, so a full rebuild moves in weeks, not seasons. Every page loads fast. It's yours, and it stays editable after launch.",
     shipped: "12 full rebuilds, from an electrical contractor to a kitchen showroom to this site.",
     proof: "rebuilt",
   },
   {
     id: "automation",
-    name: "Workflow & Office Automation",
+    name: "Office Automation",
     icon: "route",
     blurb:
-      "We find the repetitive office work that eats your week and hand it to a system that runs on schedule. Invoices, reports, member lists and inbox triage, done the same way every time.",
+      "We find the repetitive office work that eats your week and hand it to a system that runs on schedule. Invoices, reports, member lists and inbox sorting, done the same way every time.",
     detail:
       "We map the job as it really runs, including the exceptions, then build it on the tools you already pay for. You get a quiet system and a short note when something needs a human.",
-    shipped: "Hosting-renewal invoicing on Zoho and 15 Apps Script files, plus reporting, member-list and posting automations.",
+    shipped: "Automatic renewal invoices and reminders, plus monthly reports, member lists and social posts.",
     proof: "systems",
   },
   {
     id: "content",
-    name: "AI Content Engines",
+    name: "AI Content in Your Voice",
     icon: "pen",
     blurb:
-      "We build pipelines that turn one idea into a steady run of posts and emails in your voice. You approve; the engine publishes.",
+      "We set up a system that turns one idea into a steady run of posts and emails in your voice. You approve; it publishes.",
     detail:
-      "The voice is written down first, from your own words, so the output sounds like the business and not like a machine. Drafts and scheduling run on rails. Approval stays with you.",
+      "The voice is written down first, from your own words, so the output sounds like the business and not like a machine. Drafting and scheduling happen automatically. Approval stays with you.",
     shipped: "A newsletter engine, social calendars, three blogs and a weekly comic strip, 13 strips in.",
     proof: "systems",
   },
   {
     id: "media",
-    name: "Generative Media",
+    name: "AI Video & Photos",
     icon: "image",
     blurb:
-      "We make hero films and photo composites from a written brief. Footage that fits your brand, no shoot day.",
+      "We make website videos and edited photos from a written description. Footage that fits your brand, no shoot day.",
     detail:
-      "Every clip is graded and compressed for the web, so it loads fast and loops clean. Every still is retouched by a human eye before it ships.",
-    shipped: "Hero films, animation, 3D character work and hundreds of photo composites.",
+      "Every clip is color-corrected and sized for the web, so it loads fast and loops smoothly. Every still is retouched by a human eye before it goes live.",
+    shipped: "Website videos, animation, 3D characters and hundreds of edited photos.",
     proof: "media",
   },
   {
     id: "reporting",
-    name: "AI Reporting & SEO Intelligence",
+    name: "Monthly Search Reports",
     icon: "search",
     blurb:
       "We pull your search data and write the report in plain English. Every month, without anyone assembling spreadsheets.",
     detail:
-      "Rankings and Search Console data land in one place and get read against last month. You get what moved and what happens next.",
-    shipped: "A DataForSEO pipeline, Search Console audits, schema work and client report templates.",
+      "Your Google rankings and traffic land in one place and get compared with last month. You get what moved and what happens next.",
+    shipped: "Automated ranking reports, Google health checks and client report templates.",
     proof: "systems",
   },
   {
@@ -99,7 +99,7 @@ export const SERVICES: AiService[] = [
       "We look at how your business actually runs and tell you where AI earns its keep and where it does not. Straight answers, then a plan you can act on.",
     detail:
       "Useful for firms with rules to follow and data to protect. We assess the workflow and name the risks. Then you get a short list of moves, in the order they pay off.",
-    shipped: "A legal-sector AI engagement and workflow assessments for working businesses.",
+    shipped: "AI guidance for a law firm, plus workflow reviews for working businesses.",
     proof: "advice",
   },
 ];
@@ -137,7 +137,7 @@ export const REBUILDS: { name: string; industry: string; img: string; line: stri
     line: "The studio's image division. Staging and retouching at scale.",
     body: "The AI image-enhancement division of Live Web Studios, virtual staging, product retouching, and architectural visualization delivered at scale in about 48 hours." },
   { name: "Jon Wolf Studios", industry: "Personal Site", img: "jonwolfstudios", href: "https://jonwolfstudios.com/",
-    line: "The founder's own site, built on the studio's follow-spot animation engine.",
+    line: "The founder's own site, with a spotlight effect that follows your cursor.",
     body: "The personal site of LWS founder Jon Wolf, North Jersey keyboardist, guitarist, web developer, and AI workflow consultant, built on our follow-spot animation engine." },
   { name: "VÖID", industry: "Concept Store", img: "void", href: "https://v-id.netlify.app/",
     line: "Astounding objects that do nothing at all, sold with a straight face.",
@@ -149,19 +149,19 @@ export const REBUILDS: { name: string; industry: string; img: string; line: stri
 
 /* Systems that run themselves. */
 export const SYSTEMS = [
-  { name: "Hosting-renewal invoicing", body: "Renewals come due and invoices go out through Zoho, reminders on schedule. Fifteen Apps Script files carry the logic; a human reads the exceptions." },
+  { name: "Hosting-renewal invoicing", body: "Renewals come due and invoices go out on their own, with reminders on schedule. A person only steps in when something looks off." },
   { name: "Invoicing", body: "Finished work turns into an invoice built from the job record and sent in your name. No end-of-month pile to assemble by hand." },
   { name: "Billing", body: "Recurring charges run on schedule, payments land against the right client, and anything late gets a polite nudge before anyone has to chase it." },
-  { name: "Monthly reporting pipeline", body: "Search and site data get compared with last month and written up in plain English. Ready to review, not ready to assemble." },
+  { name: "Monthly reports", body: "Search and site data get compared with last month and written up in plain English. Ready to review, not ready to assemble." },
   { name: "Social posting automation", body: "Facebook and Instagram posts scheduled from an approved calendar, so the feed keeps moving on busy weeks." },
   { name: "The newsletter engine", body: "Stories in, a finished issue out, written in the sender's voice and queued for approval before it goes anywhere." },
 ];
 
 /* Media made from prompts. */
 export const MEDIA = [
-  { name: "Hero films", body: "Looping section films rendered from a text brief, then looped and compressed so they load fast on a phone. This page is running one." },
-  { name: "Photo work", body: "Hundreds of manipulations and composites. Product shots and staging that would have needed a shoot, finished by a human eye." },
-  { name: "Animation and 3D", body: "Character work and motion pieces for brands that want to move, built without a production crew." },
+  { name: "Website videos", body: "Background videos made from a written description, then sized to load fast on a phone. This page is running one." },
+  { name: "Photo work", body: "Hundreds of edited and combined photos. Product shots and staging that would have needed a shoot, finished by a human eye." },
+  { name: "Animation and 3D", body: "Animated characters and motion graphics for brands that want to move, built without a production crew." },
 ];
 
 /* Organization node for the /ai hub, and the parent it hangs from (the same

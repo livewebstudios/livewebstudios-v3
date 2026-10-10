@@ -14,7 +14,6 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
-import BreathingGrid from "../../components/BreathingGrid.astro";
 import AiVideoBg from "../../components/AiVideoBg.astro";
 import { SITE } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
@@ -67,8 +66,7 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
       </div>
     </section>
 
-    <section id="start-form" class="sec-pad start-form has-bgrid">
-      <BreathingGrid chevrons="none" quiet="none" density="sparse" scrim="strong" />
+    <section id="start-form" class="sec-pad start-form sec-grid">
       <div class="wrap start-col">
         <div class="sec-head is-flush">
           <h2>Tell me about the business</h2>
@@ -90,27 +88,24 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
                   <input type="text" id="start-name" name="name" autocomplete="name" required />
                 </div>
                 <div class="start-field">
-                  <label for="start-business">Business name</label>
-                  <input type="text" id="start-business" name="business" autocomplete="organization" />
-                </div>
-                <div class="start-field">
                   <label for="start-email">Email <span class="start-req">Required</span></label>
                   <input type="email" id="start-email" name="email" autocomplete="email" required />
-                </div>
-                <div class="start-field">
-                  <label for="start-phone">Phone (if you'd rather talk)</label>
-                  <input type="tel" id="start-phone" name="phone" autocomplete="tel" />
                 </div>
               </div>
             </fieldset>
 
             <div class="start-grid start-questions">
               <fieldset class="start-choice">
-                <legend>What's the one chore you'd hand off tomorrow if you could?</legend>
+                <legend>What's a chore you'd hand off tomorrow, if you could?</legend>
                 <div class="start-chips">
                   {chores.map((v) => (
                     <label class="start-chip"><input type="checkbox" name="chore" value={v} /><span>{v}</span></label>
                   ))}
+                  <label class="start-chip"><input type="checkbox" name="chore" value="Other" id="start-chore-other-pick" /><span>Other</span></label>
+                </div>
+                <div class="start-field start-detail" id="start-chore-detail">
+                  <label for="start-chore-other">What's the chore?</label>
+                  <input type="text" id="start-chore-other" name="chore_other" />
                 </div>
               </fieldset>
 
@@ -216,13 +211,27 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
       });
       syncDetail();
 
+      // Same pattern for the chore "Other" chip and its text field.
+      var otherPick = document.getElementById("start-chore-other-pick");
+      var otherBox = document.getElementById("start-chore-detail");
+      var otherInput = otherBox && otherBox.querySelector("input");
+      function syncOther() {
+        if (!otherPick || !otherBox) return;
+        otherBox.hidden = !otherPick.checked;
+        otherInput.disabled = !otherPick.checked;
+        if (otherPick.checked) otherInput.focus();
+      }
+      if (otherPick) otherPick.addEventListener("change", syncOther);
+      if (otherPick && otherBox) {
+        otherBox.hidden = !otherPick.checked;
+        otherInput.disabled = !otherPick.checked;
+      }
+
       if (!window.fetch || !window.FormData) return;
 
       f.addEventListener("submit", function (ev) {
         ev.preventDefault();
-        var biz = f.elements.business.value.trim();
-        var who = f.elements.name.value.trim();
-        subject.value = "New AI start form: " + (biz || who);
+        subject.value = "New AI start form: " + f.elements.name.value.trim();
 
         var data = new FormData(f);
         data.delete("_next");

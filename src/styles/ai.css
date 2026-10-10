@@ -8,6 +8,26 @@
    ever moves to its own domain.
    ============================================================ */
 
+/* Drifting section grid (global .sec-grid) in Live AI orange instead of
+   the sitewide cyan. Same 64px tile and loop. The global radial fade is
+   swapped for a short top/bottom fade, two tiles deep, so the lines hold one
+   even colour everywhere else and only soften into the neighbouring
+   sections (Jon 2026-10-10). */
+.theme-live-ai .sec-grid::before{
+  background-image:
+    linear-gradient(to right,rgba(232,101,10,.22) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(232,101,10,.22) 1px,transparent 1px);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 128px,#000 calc(100% - 128px),transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 128px,#000 calc(100% - 128px),transparent 100%);
+}
+@media (max-width:640px){
+  /* Two of the smaller 44px tiles. */
+  .theme-live-ai .sec-grid::before{
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 88px,#000 calc(100% - 88px),transparent 100%);
+    mask-image:linear-gradient(to bottom,transparent 0,#000 88px,#000 calc(100% - 88px),transparent 100%);
+  }
+}
+
 /* Hero: the locked tagline runs longer than a normal page H1. */
 .theme-live-ai .ai-hero h1.page-h1{max-width:18ch}
 .theme-live-ai .ai-hero .hero-btns{margin-top:2rem}
@@ -237,7 +257,9 @@ a.ai-card:hover{transform:translateY(-3px)}
   transition:background-color .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease);
 }
 .start-chip:hover span{border-color:var(--ai-soft)}
-.start-chip input:checked + span{background:var(--ai);border-color:var(--ai);color:var(--ai-ink);font-weight:600}
+/* No bold on pick (Jon 2026-10-10): the heavier weight widened the chip.
+   Picked chips change fill only, same orange in every group. */
+.start-chip input:checked + span{background:var(--ai);border-color:var(--ai);color:var(--ai-ink)}
 .start-chip input:focus-visible + span{outline:2px solid var(--ai-soft);outline-offset:2px}
 
 .start-actions{margin-top:2.2rem;display:flex;flex-direction:column;align-items:stretch;gap:1rem}

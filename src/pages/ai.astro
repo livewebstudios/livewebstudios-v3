@@ -26,14 +26,14 @@ const latest = (await getAiPosts()).slice(0, 3);
 const model = [
   {
     n: "01",
-    title: "AI-staffed functions",
-    body: "Design, development, content, automation and media each run as a working function staffed by AI, with written standards for how every one of them does the job.",
+    title: "AI does the heavy lifting",
+    body: "Websites, writing, automation and video are all produced by AI, following written rules for how each job gets done.",
     points: ["Standards written down, not improvised per job", "A full rebuild moves in weeks, not seasons"],
   },
   {
     n: "02",
     title: "Human direction",
-    body: "A human principal sets the brief and signs off on every output before it reaches you. AI does the work. Judgment stays human.",
+    body: "A person sets the goal and approves every piece before you see it. AI does the work. Judgment stays human.",
     points: ["Nothing reaches your customers unread", "Pricing, tone and anything legal stay with people"],
   },
   {
@@ -48,21 +48,21 @@ const proof = [
   { href: "ai/proof.html#rebuilt", title: "12 sites rebuilt end to end", body: "An electrician, a counseling practice, a kitchen showroom, a tribute band, a training program and seven more. Every one built by the system and signed off by a person.",
     points: ["Named sites you can click through", "Every page signed off by a person"] },
   { href: "ai/proof.html#systems", title: "Systems that run themselves", body: "Invoices that send on schedule. Reports that write themselves. Built once, running since.",
-    points: ["Zoho invoices and reminders on schedule", "A human reads the exceptions"] },
-  { href: "ai/proof.html#media", title: "Media made from prompts", body: "Hero films and hundreds of photo composites, rendered from a written brief and finished by a human eye.",
-    points: ["No shoot day, no production crew", "This page's hero film is one of them"] },
+    points: ["Invoices and reminders that go out on time, automatically", "A human reads the exceptions"] },
+  { href: "ai/proof.html#media", title: "Videos and photos made with AI", body: "Website videos and hundreds of edited photos, made from a written description and finished by a human eye.",
+    points: ["No shoot day, no production crew", "This page's background video is one of them"] },
 ];
 
 /* Row takeaways for the services teaser (Jon 2026-10-10). One line from
    each service's detail copy, then a short receipt cut from its `shipped`
    line in aiStudio.ts. Keep them in step if that data changes. */
 const servicePoints: Record<string, string[]> = {
-  websites: ["Static, fast, and yours to edit after launch", "12 full rebuilds shipped, this site included"],
-  automation: ["A short note when something needs a human", "Zoho invoicing on 15 Apps Script files"],
+  websites: ["Fast, secure, and yours to edit after launch", "12 full rebuilds, this site included"],
+  automation: ["A short note when something needs a human", "Invoices and reminders that send on their own"],
   content: ["Your voice written down first, from your own words", "A newsletter, three blogs and a weekly comic strip"],
-  media: ["Graded and compressed to load fast on a phone", "Hero films and hundreds of photo composites"],
-  reporting: ["What moved this month, and what happens next", "A DataForSEO pipeline and Search Console audits"],
-  consulting: ["A short list of moves, in the order they pay off", "A legal-sector AI engagement"],
+  media: ["Color-corrected and sized to load fast on a phone", "Website videos and hundreds of edited photos"],
+  reporting: ["What moved this month, and what happens next", "Monthly search reports, written in plain English"],
+  consulting: ["A short list of moves, in the order they pay off", "AI guidance for a law firm"],
 };
 ---
 
@@ -82,7 +82,7 @@ const servicePoints: Record<string, string[]> = {
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">LIVE AI STUDIOS</span>
         <h1 class="page-h1">We run our business on AI. <em>Want proof?</em> You're looking at it.</h1>
-        <p class="page-lede">Live AI Studios is an AI-staffed studio: design, development, content, automation and media run by AI, directed by a human on every call.</p>
+        <p class="page-lede">We use AI to build websites, write content, make videos and take busywork off your plate. A real person checks every piece before it reaches you.</p>
         <div class="hero-btns">
           <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
           <a href={`${rel}ai/proof.html`} class="btn btn-ghost">See the proof ↓</a>
@@ -96,14 +96,14 @@ const servicePoints: Record<string, string[]> = {
         <div class="sec-head center reveal">
           <span class="eyebrow">THE MODEL</span>
           <h2>AI does the work. A human directs it.</h2>
-          <p>Three parts, and all three have to be there. Take away the direction and you get slop. Take away the AI and you get a waiting list.</p>
+          <p>Three parts, and all three have to be there. Take away the direction and you get generic junk. Take away the AI and you get a waiting list.</p>
         </div>
         <ServiceRows theme="ai" items={model.map((m) => ({ title: m.title, body: m.body, points: m.points }))} />
       </div>
     </section>
 
     <!-- SERVICES TEASER -->
-    <section class="sec-pad">
+    <section class="sec-pad sec-grid">
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">SERVICES</span>
@@ -126,7 +126,7 @@ const servicePoints: Record<string, string[]> = {
 
     <!-- LATEST INSIGHTS -->
     {latest.length > 0 && (
-      <section class="sec-pad">
+      <section class="sec-pad sec-grid">
         <div class="wrap">
           <div class="sec-head center reveal">
             <span class="eyebrow">INSIGHTS</span>

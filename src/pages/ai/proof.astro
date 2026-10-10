@@ -34,7 +34,7 @@ const rel = relPrefix(Astro.url.pathname);
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">PROOF</span>
         <h1 class="page-h1">Proof, <em>not promises</em>.</h1>
-        <p class="page-lede">1,258 projects and 13,317 exchanges in seven months. This is the work that came out the other end, by name.</p>
+        <p class="page-lede">1,258 projects in seven months. Here's what came out of them, by name.</p>
       </div>
     </section>
 
@@ -43,8 +43,8 @@ const rel = relPrefix(Astro.url.pathname);
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">REBUILT END TO END</span>
-          <h2>{REBUILDS.length} sites, built by the system end to end.</h2>
-          <p>Every one directed by a human and signed off page by page. Different industries, one way of working.</p>
+          <h2>{REBUILDS.length} websites, built start to finish with AI.</h2>
+          <p>A person reviewed and approved every page. Different industries, one way of working.</p>
         </div>
         <ul class="ai-rebuilds">
           {REBUILDS.map((r) => (
@@ -82,8 +82,8 @@ const rel = relPrefix(Astro.url.pathname);
     <section class="sec-pad" id="media">
       <div class="wrap">
         <div class="sec-head center reveal">
-          <span class="eyebrow">MEDIA MADE FROM PROMPTS</span>
-          <h2>Footage and imagery, written first.</h2>
+          <span class="eyebrow">VIDEO AND PHOTOS, MADE WITH AI</span>
+          <h2>Described in words. Delivered as video.</h2>
         </div>
         <ServiceRows theme="ai" items={MEDIA.map((m) => ({ title: m.name, body: m.body }))} />
       </div>
