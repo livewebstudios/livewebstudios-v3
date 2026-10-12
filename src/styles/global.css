@@ -128,6 +128,13 @@ img{max-width:100%;display:block}
   padding:.9rem 1.5rem;border-radius:var(--r-md);cursor:pointer;
   transition:all .28s var(--ease);border:1px solid transparent;white-space:nowrap;
 }
+/* Jon's photo in a circle at the start of a send button (Jon 2026-10-12):
+   /contact and /ai/start. Pulled toward the left edge; the negative block
+   margin lets the 42px circle (dark 2px ring, Jon 2026-10-12) sit in the
+   button's padding, so the button
+   keeps its normal height. */
+.btn.btn--face{padding-left:.6rem}
+.btn-face{flex:none;box-sizing:border-box;width:42px;height:42px;margin-block:-.8rem;border:2px solid #0A0A0A;border-radius:50%;object-fit:cover}
 .btn-primary{
   background:linear-gradient(180deg,var(--cyan),var(--cyan-2));
   color:var(--on-accent);font-weight:600;

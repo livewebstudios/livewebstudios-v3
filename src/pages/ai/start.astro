@@ -134,7 +134,7 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
 
             <div class="start-actions">
               <p class="start-error" id="start-error" role="alert" hidden>Something went wrong on my end. Try again, or just email <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>.</p>
-              <button type="submit" class="btn btn-primary start-submit">Send it to Jon</button>
+              <button type="submit" class="btn btn-primary start-submit btn--face"><img class="btn-face" src={`${rel}images/jon-btn.jpg`} alt="" width="120" height="120" decoding="async" /><span class="start-submit__txt">Send it to Jon</span></button>
             </div>
           </form>
         </Glass>
@@ -177,6 +177,8 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
       var subject = f.querySelector('input[name="_subject"]');
       var source = f.querySelector('input[name="source"]');
       var btn = f.querySelector('button[type="submit"]');
+      // Only the label swaps to "Sending…"; the photo in the button stays.
+      var btnTxt = btn.querySelector(".start-submit__txt") || btn;
       var err = document.getElementById("start-error");
       var detail = document.getElementById("start-ai-detail");
       var detailInput = detail && detail.querySelector("input");
@@ -239,9 +241,9 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
         data.delete("chore");
         if (chores.length) data.append("chore", chores.join(", "));
 
-        var label = btn.textContent;
+        var label = btnTxt.textContent;
         btn.disabled = true;
-        btn.textContent = "Sending…";
+        btnTxt.textContent = "Sending…";
         err.hidden = true;
 
         fetch(f.action, { method: "POST", body: data, headers: { Accept: "application/json" } })
@@ -261,7 +263,7 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
           .catch(function () {
             err.hidden = false;
             btn.disabled = false;
-            btn.textContent = label;
+            btnTxt.textContent = label;
           });
       });
     })();
