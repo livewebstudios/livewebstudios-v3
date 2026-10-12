@@ -1,5 +1,5 @@
 /* ============================================================
-   Live AI Studios (/ai) section styles.
+   LiveAiStudios (/ai) section styles.
    Imported by the /ai pages only. Builds on global.css (the
    .theme-live-ai token scope lives there) and adds only the
    layouts this section needs. Orange is FLAT everywhere below:
@@ -176,6 +176,9 @@ a.ai-card:hover{transform:translateY(-3px)}
    written mobile first: 16px inputs (no iOS zoom), 44px+ tap targets, one
    column under 640px. Orange stays flat, per the section rule above. */
 #start-form{scroll-margin-top:calc(var(--nav-h,85px) + var(--subnav-h,52px) + 3rem)}
+/* Below 900px the AI bar no longer sticks (Nav.astro), so only the main nav
+   needs clearing. */
+@media (max-width:900px){#start-form{scroll-margin-top:calc(var(--nav-h,85px) + 1.5rem)}}
 .start-sec-head{margin-bottom:clamp(1.8rem,4vw,2.8rem)}
 .start-sec-head h2{margin-top:0}
 .start-sec-head p{margin-top:1rem;color:var(--muted);font-size:clamp(1rem,1.4vw,1.1rem);max-width:56ch}
@@ -267,7 +270,9 @@ a.ai-card:hover{transform:translateY(-3px)}
   margin:0;padding:.85rem 1rem;border:1px solid rgba(232,101,10,.55);border-radius:var(--r-sm);
   background:rgba(232,101,10,.1);color:var(--ink-soft);font-size:.95rem;line-height:1.5;
 }
-.start-submit{justify-content:center;min-height:3.4rem;padding:1rem 2rem;font-size:.8rem}
+/* Send button is a full pill to match the answer chips above it (Jon
+   2026-10-12); the rest of the MOSA buttons stay at the sharp 2px. */
+.start-submit{justify-content:center;min-height:3.4rem;padding:1rem 2rem;font-size:.8rem;border-radius:999px}
 .start-submit:disabled{opacity:.72;cursor:progress}
 @media (min-width:640px){.start-actions{align-items:center}}
 
@@ -312,7 +317,7 @@ a.ai-card:hover{transform:translateY(-3px)}
 .ai-close.cta--art h2{margin-inline:0}
 
 /* ---- Heading mark (Jon 2026-10-10) ----
-   Every h1 and h2 on the /ai pages leads with the Live AI Studios mark: the
+   Every h1 and h2 on the /ai pages leads with the LiveAiStudios mark: the
    orange disc with three chevrons knocked out (redrawn from
    26_09_28_liveai_icon_fullcolor-for-dark-bg_128w.png). Inline SVG data URI,
    so there is no url() path to break at different page depths. An inline

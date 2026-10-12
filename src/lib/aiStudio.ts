@@ -1,5 +1,5 @@
 /**
- * aiStudio: the shared facts behind the Live AI Studios (/ai) section.
+ * aiStudio: the shared facts behind the LiveAiStudios (/ai) section.
  *
  * Every number and every named piece of work on the /ai pages comes from
  * here, and everything here traces to shipped work (handoff Section 5). No
@@ -188,10 +188,10 @@ export const ORG = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": ORG_ID,
-  name: "Live AI Studios",
+  name: "LiveAiStudios",
   url: `${SITE}/ai`,
   description:
-    "Live AI Studios is an AI-staffed studio directed by a human principal: websites, automation, content engines, generative media, reporting and AI readiness consulting.",
+    "LiveAiStudios is an AI-staffed studio directed by a human principal: websites, automation, content engines, generative media, reporting and AI readiness consulting.",
   logo: `${SITE}/images/logoRGB.png`,
   brand: { "@type": "Brand", name: "Live Web Studios" },
   parentOrganization: PARENT_ORG,

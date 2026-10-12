@@ -30,7 +30,7 @@
 /expert-witness.html                                                   /services/expert-witness     301
 
 
-# ===== LIVE AI STUDIOS (Jon 2026-09-26) =====
+# ===== LiveAiStudios (Jon 2026-09-26) =====
 # The /ai sub-brand. Short and legacy forms fold into the canonical /ai.
 # liveaistudios.com gets its own domain-level rule once DNS points here
 # (handoff Section 9), not in this block.
