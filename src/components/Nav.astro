@@ -18,6 +18,7 @@
 import StudiosPanel from "./StudiosPanel.astro";
 import NavIcon from "./NavIcon.astro";
 import { relPrefix } from "../lib/relPrefix";
+import AiCaps from "./AiCaps.astro";
 
 const path = Astro.url.pathname;
 const rel = relPrefix(path);
@@ -187,7 +188,7 @@ const isSection = (href: string) =>
                   {col.links.map(([label, href, icon]) => (
                     <a class="svc-link" href={`${rel}${href}`}>
                       <NavIcon name={icon} color={col.color} />
-                      <span class="svc-link__txt">{label}</span>
+                      <span class="svc-link__txt">{label === "LiveAiStudios" ? <AiCaps /> : label}</span>
                     </a>
                   ))}
                 </div>

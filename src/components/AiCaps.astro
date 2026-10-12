@@ -1,0 +1,15 @@
+---
+/**
+ * AiCaps: the brand name in an all-caps spot (nav menus, eyebrows).
+ * All caps reads LIVEAiSTUDIOS, only the i lowercase (Jon 2026-10-12).
+ * The i opts out of text-transform so an uppercase parent cannot lift it.
+ * One wrapping span, so a flex parent (.eyebrow) sees one item, not three.
+ * Mixed-case copy keeps writing plain "LiveAiStudios".
+ */
+---
+<span class="ai-caps">LIVEA<span class="brand-i">i</span>STUDIOS</span>
+<style>
+  .brand-i {
+    text-transform: none;
+  }
+</style>

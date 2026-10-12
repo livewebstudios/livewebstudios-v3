@@ -41,6 +41,7 @@
 import Glass from "./Glass.astro";
 import { ICONS } from "../lib/navIcons";
 import { relPrefix } from "../lib/relPrefix";
+import AiCaps from "./AiCaps.astro";
 
 interface Props {
   /** Normalised key for the current page, for aria-current. */
@@ -125,7 +126,7 @@ const columns: { label: string; items: Item[] }[] = [
                     </svg>
                   </span>
                   <span class="dir-item__txt">
-                    <span class="dir-item__title">{it.title}</span>
+                    <span class="dir-item__title">{it.title === "LiveAiStudios" ? <AiCaps /> : it.title}</span>
                     <span class="dir-item__desc">{it.desc}</span>
                   </span>
                 </a>

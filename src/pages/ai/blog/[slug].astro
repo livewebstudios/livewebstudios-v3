@@ -16,6 +16,7 @@ import { getAiPosts, aiSlug, aiDate, SITE, ORG_ID } from "../../../lib/aiStudio"
 import { withBrand } from "../../../lib/seoTitle";
 import { relPrefix } from "../../../lib/relPrefix";
 import "../../../styles/ai.css";
+import AiCaps from "../../../components/AiCaps.astro";
 
 export async function getStaticPaths() {
   const posts = await getAiPosts();
@@ -121,7 +122,7 @@ const jsonLd = {
     <section class="sec-pad is-alt">
       <div class="wrap">
         <Glass class="reveal" innerClass="cta ai-close">
-          <span class="eyebrow is-center mb-md">LiveAiStudios</span>
+          <span class="eyebrow is-center mb-md"><AiCaps /></span>
           <h2>Less reading. More running itself.</h2>
           <div class="hero-btns">
             <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
