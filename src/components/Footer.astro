@@ -22,6 +22,10 @@ const rel = relPrefix(path);
    points musicians at theirs. Jon 2026-09-15. */
 const onBand = path.includes("/live-band-web-studios");
 
+/* /ai/start hides the newsletter box: on a page whose whole job is one form,
+   a second email field reads as the thing to fill in. Jon 2026-10-12. */
+const { hideSubscribe = false } = Astro.props as { hideSubscribe?: boolean };
+
 // Exact Mailchimp endpoint from the live newsletter page.
 const MAILCHIMP_ACTION =
   "https://livewebstudios.us18.list-manage.com/subscribe/post?u=612de0c3a91b0bcc090cd2337&id=30b288c666&f_id=00d229e7f0";
@@ -108,15 +112,19 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
         </div>
         <p class="foot-tag">Custom, AI-platformed websites for small business. Built in North Jersey since 2004.</p>
 
-        <span class="foot-loop">STAY IN THE LOOP</span>
-        <form class="foot-sub" action={MAILCHIMP_ACTION} method="post" target="_blank">
-          <input type="email" name="EMAIL" required autocomplete="email" placeholder="your@email.com" aria-label="Email address" />
-          <div class="foot-honeypot" aria-hidden="true">
-            <input type="text" name="b_612de0c3a91b0bcc090cd2337_30b288c666" tabindex="-1" value="" />
-          </div>
-          <input type="hidden" name="tags" value="2524065" />
-          <button type="submit" class="btn btn-primary">Subscribe</button>
-        </form>
+        {!hideSubscribe && (
+          <>
+            <span class="foot-loop">STAY IN THE LOOP</span>
+            <form class="foot-sub" action={MAILCHIMP_ACTION} method="post" target="_blank">
+              <input type="email" name="EMAIL" required autocomplete="email" placeholder="your@email.com" aria-label="Email address" />
+              <div class="foot-honeypot" aria-hidden="true">
+                <input type="text" name="b_612de0c3a91b0bcc090cd2337_30b288c666" tabindex="-1" value="" />
+              </div>
+              <input type="hidden" name="tags" value="2524065" />
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+          </>
+        )}
 
         <div class="foot-contactline">
           <span>732.801.9611</span>

@@ -339,7 +339,7 @@ const isSection = (href: string) =>
       )}
     </div>
     {ctx === "ai" && (
-      <p class="subnav-tag">Live AI Studios is the AI side of Live Web Studios. Same Jon, same phone number.</p>
+      <p class="subnav-tag">LiveAiStudios is the AI side of Live Web Studios. Same Jon, same phone number.</p>
     )}
   </div>
 )}
@@ -787,6 +787,12 @@ const isSection = (href: string) =>
       padding-block: 0 0.4rem;
       font-size: 0.66rem;
       letter-spacing: 0.02em;
+    }
+    /* Two pinned bars took 214px of a 375px-wide phone and covered the form
+       headings on /ai/start. Below 900px only the main nav sticks; the AI
+       bar scrolls away with the page. Jon 2026-10-12. */
+    .subnav--ai {
+      position: static;
     }
     .subnav--ai .subnav-links > a {
       padding: 0.35rem 0.2rem;

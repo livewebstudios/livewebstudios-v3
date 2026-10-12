@@ -44,12 +44,14 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
 ---
 
 <Base
-  title="Start with AI | Live AI Studios"
+  title="Start with AI | LiveAiStudios"
   description="Tell Jon Wolf which chore eats your week. He reads every one and writes back within one business day with what AI can take off your plate."
   canonical={`${SITE}/ai/start`}
   ogTitle="What would you hand off tomorrow?"
   ogDescription="Two minutes. Tell me where your week goes and I'll write back with the first move."
-  ogImage="images/og-ai.jpg"
+  ogImage="images/ai/ai-start-share.jpg"
+  ogImageIsCard={true}
+  ogImageAlt="What would you hand off tomorrow? A desk at 10:14 PM covered in invoices."
 >
   <Nav />
 
@@ -59,7 +61,7 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
       <div class="wrap">
         <p class="eyebrow is-center mb-lg">Start</p>
         <h1 class="page-h1">What would you hand off <em>tomorrow?</em></h1>
-        <p class="page-lede">Tell me what your business does and where your week actually goes. I read every one myself and write back with questions, not a sales script.</p>
+        <p class="page-lede">Tell me what your business does and where your week actually goes. I read every one myself and write back within one business day. Questions, not a sales script.</p>
         <div class="hero-btns">
           <a href="#start-form" class="btn btn-primary">Tell me the chore</a>
         </div>
@@ -90,6 +92,14 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
                 <div class="start-field">
                   <label for="start-email">Email <span class="start-req">Required</span></label>
                   <input type="email" id="start-email" name="email" autocomplete="email" required />
+                </div>
+                <div class="start-field">
+                  <label for="start-business">Business name</label>
+                  <input type="text" id="start-business" name="business" autocomplete="organization" />
+                </div>
+                <div class="start-field">
+                  <label for="start-phone">Phone (if you'd rather I call)</label>
+                  <input type="tel" id="start-phone" name="phone" autocomplete="tel" inputmode="tel" />
                 </div>
               </div>
             </fieldset>
@@ -167,7 +177,7 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
 
   </main>
 
-  <Footer />
+  <Footer hideSubscribe />
 
   <script is:inline>
     (function () {
@@ -233,7 +243,10 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
 
       f.addEventListener("submit", function (ev) {
         ev.preventDefault();
-        subject.value = "New AI start form: " + f.elements.name.value.trim();
+        // "New AI lead: Pepe Plumbing (ai-start-facebook)": who, and which
+        // channel sent them. Business name wins when they give one.
+        var who = f.elements.business.value.trim() || f.elements.name.value.trim();
+        subject.value = "New AI lead: " + who + " (" + (source.value || "direct") + ")";
 
         var data = new FormData(f);
         data.delete("_next");

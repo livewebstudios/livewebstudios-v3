@@ -44,6 +44,11 @@ interface Props {
      <title>. */
   ogTitle?: string;
   ogDescription?: string;
+  /* A share image outside the og-*.jpg naming that is still exactly
+     1200x630 (the /ai/start campaign card) sets this so the size tags
+     render, and passes ogImageAlt for og:image:alt. */
+  ogImageIsCard?: boolean;
+  ogImageAlt?: string;
 }
 const {
   title = "Live Web Studios | Web Design & AI Builds, North Jersey",
@@ -56,6 +61,8 @@ const {
   preloadHero,
   ogTitle,
   ogDescription,
+  ogImageIsCard = false,
+  ogImageAlt,
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 
@@ -68,7 +75,7 @@ const ogImageUrl = /^https?:\/\//.test(ogImage)
 /* Only the og-*.jpg cards are known to be exactly 1200x630. Blog posts pass
    their own hero (1376x768), so declaring dimensions there would be a lie and
    scrapers trust the tag over the file. Emit them only when they are true. */
-const ogIsCard = /\/images\/og-[a-z-]+\.jpg$/.test(ogImageUrl);
+const ogIsCard = ogImageIsCard || /\/images\/og-[a-z-]+\.jpg$/.test(ogImageUrl);
 
 /* undefined -> the WebPage default; null -> nothing (template emits its own). */
 const schema =
@@ -145,6 +152,7 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
     <meta property="og:image" content={ogImageUrl} />
     {ogIsCard && <meta property="og:image:width" content="1200" />}
     {ogIsCard && <meta property="og:image:height" content="630" />}
+    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
     <meta property="og:site_name" content="Live Web Studios" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImageUrl} />
@@ -198,7 +206,7 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
     <slot />
 
     <script is:inline>
-      // Reveal on scroll — exposes window.LWS.observe(el) so dynamically
+      // Reveal on scroll: exposes window.LWS.observe(el) so dynamically
       // inserted content (CMS, Phase 2 islands) can register for the same
       // entrance treatment. IntersectionObserver is the primary path; a
       // geometry check + passive scroll fallback guarantees content is never
@@ -247,7 +255,7 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
         };
 
         // Fallback: reveal anything at or above the fold line that IO hasn't
-        // caught — covers in-view elements AND any fast-scrolled past (top < 0),
+        // caught. Covers in-view elements AND any fast-scrolled past (top < 0),
         // so content is never stranded at opacity:0.
         function sweep() {
           var pending = document.querySelectorAll(".reveal:not(.in)");
