@@ -44,7 +44,7 @@
   --cat-gold:#E8B478;
   --cat-gold-dim:rgba(232,180,120,.42);
   --brass:#C9A55A;      /* Namesake (ink + brass) */
-  /* Live AI Studios (/ai). Orange, sampled from the Live AI Studios logo
+  /* LiveAiStudios (/ai). Orange, sampled from the LiveAiStudios logo
      chevron (Jon 2026-10-10; was violet). Used FLAT only: fills, hairlines,
      text, strokes, node dots. Never inside a gradient. */
   --ai:#E8650A;         /* primary accent, chips, active states, links */
@@ -479,7 +479,7 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 .card > .glass-inner > *{position:relative;z-index:1}
 .theme-namesake .card > .glass-inner::before,
 .theme-namesake .card > .glass-inner::after,
-/* Live AI Studios scope (/ai pages). Same pattern as the page-level
+/* LiveAiStudios scope (/ai pages). Same pattern as the page-level
    .theme-live-band / .theme-namesake overrides, held here because seven pages
    and the article template share it. Re-points the accent tokens at the flat
    violet set so every descendant that reads them re-themes with no fork.

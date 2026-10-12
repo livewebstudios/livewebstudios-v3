@@ -53,7 +53,7 @@ const jsonLd = {
   url: postUrl,
   mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
   isPartOf: { "@type": "Blog", name: "Live AI Insights", url: `${SITE}/ai/blog` },
-  author: { "@type": "Organization", "@id": ORG_ID, name: "Live AI Studios" },
+  author: { "@type": "Organization", "@id": ORG_ID, name: "LiveAiStudios" },
   publisher: {
     "@type": "Organization",
     name: "Live Web Studios",
@@ -68,7 +68,7 @@ const jsonLd = {
 ---
 
 <Base
-  title={withBrand(post.data.seoTitle ?? post.data.title, "Live AI Studios")}
+  title={withBrand(post.data.seoTitle ?? post.data.title, "LiveAiStudios")}
   description={post.data.description}
   canonical={postUrl}
   ogImage={ogImage}
@@ -121,7 +121,7 @@ const jsonLd = {
     <section class="sec-pad is-alt">
       <div class="wrap">
         <Glass class="reveal" innerClass="cta ai-close">
-          <span class="eyebrow is-center mb-md">LIVE AI STUDIOS</span>
+          <span class="eyebrow is-center mb-md">LiveAiStudios</span>
           <h2>Less reading. More running itself.</h2>
           <div class="hero-btns">
             <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>

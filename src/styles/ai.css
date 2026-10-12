@@ -1,5 +1,5 @@
 /* ============================================================
-   Live AI Studios (/ai) section styles.
+   LiveAiStudios (/ai) section styles.
    Imported by the /ai pages only. Builds on global.css (the
    .theme-live-ai token scope lives there) and adds only the
    layouts this section needs. Orange is FLAT everywhere below:
@@ -317,7 +317,7 @@ a.ai-card:hover{transform:translateY(-3px)}
 .ai-close.cta--art h2{margin-inline:0}
 
 /* ---- Heading mark (Jon 2026-10-10) ----
-   Every h1 and h2 on the /ai pages leads with the Live AI Studios mark: the
+   Every h1 and h2 on the /ai pages leads with the LiveAiStudios mark: the
    orange disc with three chevrons knocked out (redrawn from
    26_09_28_liveai_icon_fullcolor-for-dark-bg_128w.png). Inline SVG data URI,
    so there is no url() path to break at different page depths. An inline

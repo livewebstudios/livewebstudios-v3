@@ -3,7 +3,7 @@
  * /services/ai-business-services — ported from the live site
  * (livewebstudios.com/services/ai-business-services). Rebuilt on v3
  * layouts/components. Hero illustration dropped per no-image rule.
- * EM DASH BAN applied. The "Live AI Studios" card links to an /ecosystem
+ * EM DASH BAN applied. The "LiveAiStudios" card links to an /ecosystem
  * page not yet ported to v3 (flagged in the port report).
  */
 import Base from "../../layouts/Base.astro";
@@ -126,8 +126,8 @@ const pageSchema = [
       <VideoBg src="bg-blue-fog.mp4" scrim="default" />
       <div class="wrap">
         {/* Sister-company row appended to the list (was a trailing card).
-            Jon 2026-10-10: every row links to the Live AI Studios hub. */}
-        <IncludedList items={[...cards.map((c) => ({ ...c, href: "../ai.html" })), { title: "Live AI Studios", body: "Enterprise-level consulting.", tag: "SISTER CO.", href: "../ai.html", cta: "VISIT →" }]} />
+            Jon 2026-10-10: every row links to the LiveAiStudios hub. */}
+        <IncludedList items={[...cards.map((c) => ({ ...c, href: "../ai.html" })), { title: "LiveAiStudios", body: "Enterprise-level consulting.", tag: "SISTER CO.", href: "../ai.html", cta: "VISIT →" }]} />
       </div>
     </section>
 

@@ -23,7 +23,7 @@ const path = Astro.url.pathname;
 const rel = relPrefix(path);
 
 type Ctx = "main" | "namesake" | "band" | "ai";
-/* Live AI Studios matches on a strict prefix: a bare includes("/ai") would
+/* LiveAiStudios matches on a strict prefix: a bare includes("/ai") would
    also catch /services/ai-platform and every other ai-* service page. */
 const isAi = /^\/ai(\.html|\/|$)/.test(path);
 const ctx: Ctx = path.includes("/namesake")
@@ -55,7 +55,7 @@ const svcCols = [
     color: "#A78BFA",
     links: [
       /* Jon 2026-09-26: the /ai sub-brand leads the column. */
-      ["Live AI Studios", "ai.html", "liveai"],
+      ["LiveAiStudios", "ai.html", "liveai"],
       ["AI Platform", "services/ai-platform.html", "chip"],
       ["AI Business Services", "services/ai-business-services.html", "bot"],
       ["AI Workflow", "services/ai-workflow.html", "route"],
@@ -121,9 +121,9 @@ const namesakeLinks = [
   { label: "Start", href: "namesake/start.html" },
 ];
 
-/* Live AI Studios (/ai), the third sub-brand bar. Same machinery as the two
+/* LiveAiStudios (/ai), the third sub-brand bar. Same machinery as the two
    above. Jon 2026-09-26: the logo work is deferred, so the brand slot carries
-   a plain LIVE AI STUDIOS wordmark (the Namesake treatment) until it lands. */
+   a plain LiveAiStudios wordmark (the Namesake treatment) until it lands. */
 const aiLinks = [
   { label: "Home", href: "ai.html" },
   { label: "Services", href: "ai/services.html" },
@@ -278,13 +278,13 @@ const isSection = (href: string) =>
           <img src={`${rel}images/logo-live-band.png`} alt="Live Band Web Studios" width="681" height="300" decoding="async" />
         </a>
       ) : ctx === "ai" ? (
-        <a class="subnav-brand subnav-brand--ns subnav-brand--ai" href={`${rel}ai.html`} aria-label="Live AI Studios">
-          <img src={`${rel}images/studios/live-ai-studios.png`} alt="Live AI Studios" width="480" height="56" decoding="async" />
+        <a class="subnav-brand subnav-brand--ns subnav-brand--ai" href={`${rel}ai.html`} aria-label="LiveAiStudios">
+          <img src={`${rel}images/studios/live-ai-studios.png`} alt="LiveAiStudios" width="480" height="56" decoding="async" />
         </a>
       ) : (
         <a class="subnav-brand subnav-brand--ns" href={`${rel}namesake.html`}>Namesake</a>
       )}
-      <nav class="subnav-links" aria-label={ctx === "band" ? "Live Band Web Studios" : ctx === "ai" ? "Live AI Studios" : "Namesake"}>
+      <nav class="subnav-links" aria-label={ctx === "band" ? "Live Band Web Studios" : ctx === "ai" ? "LiveAiStudios" : "Namesake"}>
         {subLinks.map((item) => {
           const kids = item.children ?? [];
           const selfActive = navKey(item.href) === here;
@@ -765,7 +765,7 @@ const isSection = (href: string) =>
       transform: none;
       margin-left: auto;
     }
-    /* Live AI Studios: two rows, not four (handoff: "wraps to max two
+    /* LiveAiStudios: two rows, not four (handoff: "wraps to max two
        rows"). Wordmark and CTA share the first row, the five links take the
        second, set a touch tighter so all five fit across 375px. */
     .subnav--ai .subnav-brand {

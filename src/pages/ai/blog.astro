@@ -22,7 +22,7 @@ const jsonld = {
   "@type": "Blog",
   name: "Live AI Insights",
   url,
-  publisher: { "@id": ORG_ID, "@type": "Organization", name: "Live AI Studios" },
+  publisher: { "@id": ORG_ID, "@type": "Organization", name: "LiveAiStudios" },
   blogPost: posts.map((p) => ({
     "@type": "BlogPosting",
     headline: p.data.title,
@@ -33,7 +33,7 @@ const jsonld = {
 ---
 
 <Base
-  title="Insights: AI for Small Business | Live AI Studios"
+  title="Insights: AI for Small Business | LiveAiStudios"
   description="Plain-English notes from a studio that runs on AI: websites, office automation, content, generative media and SEO for small business owners."
   canonical={url}
   ogImage="images/og-ai.jpg"
