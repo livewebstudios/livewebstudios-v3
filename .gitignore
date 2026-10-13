@@ -32,6 +32,17 @@ _notes/
 DESIGN.md
 .env
 
+# Jon 2026-10-13: the repo carries only what the site needs to build and run.
+# Docs, handoffs, editor settings and the blog-restoration working files stay
+# on disk but never get pushed. Blog posts (src/content/blog/*.md) are site
+# content and stay tracked.
+README.md
+AGENTS.md
+docs/
+_restore/
+.vscode/
+.claude/
+
 # Blog restoration working files.
 # NEVER commit the WordPress dump: it carries 2 password hashes, 543 email
 # addresses, Gravity Forms entries and sent-mail records. It stays on the
