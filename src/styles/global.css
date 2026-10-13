@@ -44,6 +44,14 @@
   --cat-gold:#E8B478;
   --cat-gold-dim:rgba(232,180,120,.42);
   --brass:#C9A55A;      /* Namesake (ink + brass) */
+  /* LiveAiStudios (/ai). Orange, sampled from the LiveAiStudios logo
+     chevron (Jon 2026-10-10; was violet). Used FLAT only: fills, hairlines,
+     text, strokes, node dots. Never inside a gradient. */
+  --ai:#E8650A;         /* primary accent, chips, active states, links */
+  --ai-soft:#F6A066;    /* lighter tint: hover fills, small link text */
+  --ai-deep:#B84E06;    /* hover, borders, icon strokes */
+  --ai-glow:rgba(232,101,10,0.14); /* section glows, card halos */
+  --ai-ink:#120C09;     /* section-alt ground, near-black with a warm cast */
   --line:rgba(125,211,252,0.14);
   /* Form controls and contact rows only. --line is tuned for decorative
      hairlines (1.2:1); WCAG 1.4.11 wants 3:1 on the boundary of anything you
@@ -101,8 +109,8 @@ img{max-width:100%;display:block}
 }
 .glass{
   position:relative;background:rgba(11,18,32,.55);
-  backdrop-filter:blur(18px) saturate(140%);
   -webkit-backdrop-filter:blur(18px) saturate(140%);
+  backdrop-filter:blur(18px) saturate(140%);
   border-radius:var(--r-lg);
   border:1px solid var(--line);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06), var(--shadow-high);
@@ -120,6 +128,13 @@ img{max-width:100%;display:block}
   padding:.9rem 1.5rem;border-radius:var(--r-md);cursor:pointer;
   transition:all .28s var(--ease);border:1px solid transparent;white-space:nowrap;
 }
+/* Jon's photo in a circle at the start of a send button (Jon 2026-10-12):
+   /contact and /ai/start. Pulled toward the left edge; the negative block
+   margin lets the 42px circle (dark 2px ring, Jon 2026-10-12) sit in the
+   button's padding, so the button
+   keeps its normal height. */
+.btn.btn--face{padding-left:.6rem}
+.btn-face{flex:none;box-sizing:border-box;width:42px;height:42px;margin-block:-.8rem;border:2px solid #0A0A0A;border-radius:50%;object-fit:cover}
 .btn-primary{
   background:linear-gradient(180deg,var(--cyan),var(--cyan-2));
   color:var(--on-accent);font-weight:600;
@@ -135,8 +150,8 @@ img{max-width:100%;display:block}
 /* ---- Nav ---- */
 header.nav{
   position:sticky;top:0;z-index:50;
-  background:rgba(5,7,11,.72);backdrop-filter:blur(16px) saturate(140%);
-  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  background:rgba(5,7,11,.72);-webkit-backdrop-filter:blur(16px) saturate(140%);
+  backdrop-filter:blur(16px) saturate(140%);
   border-bottom:1px solid var(--line-2);
 }
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
@@ -171,7 +186,7 @@ header.nav{
   opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);
 }
 .studios:hover .studios-caret,.studios.is-open .studios-caret{transform:rotate(180deg)}
-.mega-inner{padding:.55rem;background:rgba(7,11,20,.99);backdrop-filter:blur(30px) saturate(150%);-webkit-backdrop-filter:blur(30px) saturate(150%)} /* frosted, near-opaque: nav backdrop-filter ancestor neutralizes the child blur, so alpha carries the readability over a bright hero */
+.mega-inner{padding:.55rem;background:rgba(7,11,20,.99);-webkit-backdrop-filter:blur(30px) saturate(150%);backdrop-filter:blur(30px) saturate(150%);} /* frosted, near-opaque: nav backdrop-filter ancestor neutralizes the child blur, so alpha carries the readability over a bright hero */
 .mega-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
 .mega-headliners{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
 .mega-card{
@@ -340,6 +355,17 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 /* ---- Services grid ---- */
 .grid-svc{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
 
+/* Numbered engagement steps (/services/expert-witness). An <ol class="grid-svc
+   steps"> so the sequence is a real ordered list for a screen reader, while
+   the grid still lays it out as cards. The marker is switched off because the
+   visible .step-num carries the number instead, and brass separates the count
+   from the cyan the rest of that page runs on. */
+.steps{list-style:none;padding:0;margin:0}
+.step-num{
+  display:block;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.16em;color:var(--brass);margin-bottom:.6rem
+}
+
 /* Reason cards with full-bleed art (Jon 2026-09-14: "create 4 images that go
    in these cards. make sure the words are readable"). The art is authored with
    its subject on the RIGHT and a near-empty dark left half, so the copy lands
@@ -453,6 +479,35 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 .card > .glass-inner > *{position:relative;z-index:1}
 .theme-namesake .card > .glass-inner::before,
 .theme-namesake .card > .glass-inner::after,
+/* LiveAiStudios scope (/ai pages). Same pattern as the page-level
+   .theme-live-band / .theme-namesake overrides, held here because seven pages
+   and the article template share it. Re-points the accent tokens at the flat
+   violet set so every descendant that reads them re-themes with no fork.
+   --cyan-2 equals --cyan on purpose: anything that still paints the old
+   two-stop button ramp paints one flat colour, never a purple gradient. */
+.theme-live-ai{
+  --cyan:var(--ai);
+  --cyan-soft:var(--ai-soft);
+  --cyan-2:var(--ai);
+  --cyan-deep:#4A230A;
+  --on-accent:var(--ai-ink);
+  --line:rgba(232,101,10,.18);
+  --line-2:rgba(232,101,10,.09);
+}
+.theme-live-ai .sec-pad.is-alt{background:var(--ai-ink)}
+.theme-live-ai .page-head::before{background:none}
+.theme-live-ai .btn-primary{
+  background:var(--ai);color:var(--ai-ink);border-color:transparent;font-weight:600;
+  box-shadow:0 10px 28px var(--ai-glow);
+}
+.theme-live-ai .btn-primary:hover{background:var(--ai-soft);color:var(--ai-ink)}
+.theme-live-ai .btn-ghost:hover{border-color:var(--ai);color:var(--ai-soft);background:var(--ai-glow)}
+/* /ai motion: a shorter, quieter reveal than the sitewide 24px/700ms one.
+   Same .reveal/.in system and observer (Base.astro), only the distance and
+   timing change. Reduced motion: everything visible immediately. */
+.theme-live-ai .reveal{transform:translateY(12px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+@media (prefers-reduced-motion:reduce){.theme-live-ai .reveal{opacity:1;transform:none;transition:none}}
+
 .theme-live-band .card > .glass-inner::before,
 .theme-live-band .card > .glass-inner::after{display:none}
 .theme-namesake .card > .glass-inner,
@@ -639,7 +694,12 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
 /* ---- CTA ---- */
 .cta{padding:clamp(3rem,6vw,5.5rem);text-align:center;position:relative;overflow:hidden}
 .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 120% at 50% 0%,rgba(56,189,248,.14),transparent 60%);pointer-events:none}
-.cta h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:700;letter-spacing:-.02em;color:var(--ink-soft);position:relative}
+/* line-height was never declared here, so a .cta h2 inherited the BODY
+   leading (1.6) while every other display heading on the site runs 1.12.
+   Invisible for years because most CTA headings fit on one line; the
+   moment one wraps, the two lines fall apart (Jon 2026-09-22, the
+   email-writing CTA). Same value as .sec-head h2 on line 336. */
+.cta h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:700;line-height:1.12;letter-spacing:-.02em;color:var(--ink-soft);position:relative}
 .cta p{color:var(--muted);margin:1rem auto 2rem;position:relative}
 .cta .hero-btns{position:relative}
 
@@ -721,8 +781,8 @@ footer ul li a:hover{color:var(--cyan-soft)}
   .nav-links{
     display:flex;flex-direction:column;align-items:stretch;gap:0;
     position:absolute;top:100%;left:0;right:0;
-    background:rgba(5,7,11,.97);backdrop-filter:blur(16px) saturate(140%);
-    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    background:rgba(5,7,11,.97);-webkit-backdrop-filter:blur(16px) saturate(140%);
+    backdrop-filter:blur(16px) saturate(140%);
     border-bottom:1px solid var(--line);
     padding:.5rem clamp(1.25rem,4vw,2.5rem) 1.5rem;
     max-height:calc(100dvh - 72px);overflow-y:auto;
@@ -1113,6 +1173,12 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
    116px off the left edge of a 1440 viewport. right: matches .wrap's own
    padding so the panel's edge lines up with the nav above it. */
 .studios--dir{position:static}
+/* Same hand-up for the services panel (Jon 2026-09-22). The LEGAL column made
+   it a 4-up 900px grid, and centred on a trigger that sits left of the nav's
+   middle it ran 63px off the left edge at 1100. Lives here rather than in
+   Nav.astro's scoped block because .studios{position:relative} is declared in
+   this file and wins on source order over a component style. */
+.studios--svc{position:static}
 .mega--studios{
   width:min(860px,96vw);
   left:auto;right:clamp(1.25rem,4vw,2.5rem);transform:translateY(8px);
@@ -1416,7 +1482,7 @@ a:hover > .arrow--down,a:hover .arrow--down{transform:translateY(3px)}
    musician blog. */
 .footer-bridge{
   margin-top:1.4rem;
-  text-align:center;
+  text-align:left;
   font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;
   color:var(--muted-2);
 }

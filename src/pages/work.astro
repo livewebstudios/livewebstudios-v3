@@ -1,12 +1,11 @@
 ---
 /**
  * /work — portfolio (canonical URL; /portfolio 301s here per _redirects).
- * Ported from the live site (livewebstudios.com/portfolio): the 12 real client
- * projects already published publicly there, rebuilt on v3's work-card grid.
+ * Originally ported from the live site (livewebstudios.com/portfolio), rebuilt
+ * on v3's work-card grid. The list is shared with /ai/proof (12 projects).
  * Thumbnails live at images/portfolio/*.jpg (copied from the live site);
  * each card links out to the live client site.
- * EM DASH BAN applied to descriptions. One exception: the band name
- * "Winslow — An Evening of the Eagles" is kept verbatim (proper name). Flagged.
+ * EM DASH BAN applied to descriptions.
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
@@ -15,33 +14,18 @@ import VideoBg from "../components/VideoBg.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 import { imageSize } from "../lib/imageSize";
+import { REBUILDS } from "../lib/aiStudio";
 
-const projects = [
-  { cat: "AI Image Services", title: "Live Web Photos", img: "images/portfolio/livewebphotos.jpg", href: "https://livewebphotos.com/",
-    body: "The AI image-enhancement division of Live Web Studios, virtual staging, product retouching, and architectural visualization delivered at scale in about 48 hours." },
-  { cat: "Personal Site", title: "Jon Wolf Studios", img: "images/portfolio/jonwolfstudios.jpg", href: "https://jonwolfstudios.com/",
-    body: "The personal site of LWS founder Jon Wolf, North Jersey keyboardist, guitarist, web developer, and AI workflow consultant, built on our follow-spot animation engine." },
-  { cat: "Electrical Contractor", title: "Mike DiNinno Electric", img: "images/portfolio/mikedininnoelectric.jpg", href: "https://mikedininnoelectric.com/",
-    body: "A veteran-owned, licensed electrical contractor in Clifton, NJ with 30+ years of residential, commercial, and industrial work, panel upgrades, generators, and 24/7 emergency service." },
-  { cat: "Industrial Maintenance", title: "Energy Services NA", img: "images/portfolio/energyservicesna.jpg", href: "https://energyservicesna.netlify.app/about",
-    body: "An ISO 9001-certified industrial maintenance firm in Hillsborough, NJ, gas turbine, control valve, pump repair, and specialized welding for power-generation plants across North America." },
-  { cat: "Tribute Band", title: "The British Invasion Years", img: "images/portfolio/britishinvasionyears.jpg", href: "https://britishinvasionyears.com",
-    body: "A live '60s British Invasion concert show touring theaters coast to coast, tour dates, video, and booking for the band fronted by LWS's own Jon Wolf." },
-  { cat: "Construction", title: "Catcord Construction", img: "images/portfolio/catcord.jpg", href: "https://catcord.com",
-    body: "A construction management firm serving New York and New Jersey, specializing in commercial, healthcare, office, retail, and multi-family builds." },
-  { cat: "Welding & Steel", title: "Weir Welding", img: "images/portfolio/weirwelding.jpg", href: "https://stagingweirwelding.livewebstudios.com",
-    body: "Structural steel fabrication and erection company serving NJ, NY, and PA, built as a full static site rebuild with Decap CMS blog integration." },
-  { cat: "Architecture", title: "NHA Architects", img: "images/portfolio/nhaarchitect.jpg", href: "https://stagingnha-arch.livewebstudios.com",
-    body: "A Bergen County residential architecture firm specializing in custom home design, renovations, and planning & zoning approvals across Northern NJ and beyond." },
-  { cat: "Logistics", title: "Same Day Logistics", img: "images/portfolio/samedaylogistics.jpg", href: "https://samedaylogistics.com",
-    body: "A nationwide 24/7 courier and logistics company headquartered in NJ, offering local courier, medical delivery, airfreight, and specialized logistics services." },
-  { cat: "Event Rental", title: "Valley Tent", img: "images/portfolio/valleytent.jpg", href: "https://valleytent.com",
-    body: "A full-service event rental company offering tents, glassware, linens, and tableware for weddings and events throughout the region." },
-  { cat: "Tribute Band", title: "Winslow: An Evening of the Eagles", img: "images/portfolio/winslow.jpg", href: "https://winsloweaglestribute.com",
-    body: "A professional Eagles tribute band featuring tour dates, performance info, and fan resources for one of the most sought-after tribute acts on the East Coast." },
-  { cat: "Nonprofit", title: "Bergen Area", img: "images/portfolio/bergenarea.jpg", href: "https://bergenarea.org",
-    body: "The Bergen County Narcotics Anonymous area website, providing meeting information, resources, and community support for recovery." },
-];
+/* Same list as /ai/proof (src/lib/aiStudio.ts REBUILDS). No href = this
+   site, which links home in the same tab. */
+const projects = REBUILDS.map((r) => ({
+  cat: r.industry,
+  title: r.name,
+  img: `images/portfolio/${r.img}.jpg`,
+  href: r.href ?? "index.html",
+  external: Boolean(r.href),
+  body: r.body,
+}));
 ---
 
 <Base
@@ -53,13 +37,13 @@ const projects = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="hero" />
+    <section class="page-head page-head--glass page-head--bare has-videobg">
+      <VideoBg src="quote-webdesk.mp4" scrim="hero" position="70% 50%" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">PORTFOLIO</span>
         <h1 class="page-h1">Real Work. Real <em>Results</em>.</h1>
         <p class="page-lede">A selection of sites built, rebuilt, and ranked by Live Web Studios.</p>
-        <HeroActions links />
+        <HeroActions links stacked story />
       </div>
     </section>
 
@@ -76,14 +60,14 @@ const projects = [
         <div class="work-grid">
           {projects.map((p) => (
             <article class="work-card reveal">
-              <a class="work-thumb work-thumb--img" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${p.title}`}>
+              <a class="work-thumb work-thumb--img" href={p.href} {...(p.external ? { target: "_blank", rel: "noopener noreferrer" } : {})} aria-label={`Visit ${p.title}`}>
                 <img src={p.img} alt={`${p.title} website`} {...imageSize(p.img)} loading="lazy" decoding="async" />
               </a>
               <div class="work-meta">
                 <span class="work-cat">{p.cat}</span>
                 <h2 class="work-title">{p.title}</h2>
                 <p>{p.body}</p>
-                <a class="more" href={p.href} target="_blank" rel="noopener noreferrer">VIEW SITE →</a>
+                <a class="more" href={p.href} {...(p.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{p.external ? "VIEW SITE →" : "YOU ARE HERE →"}</a>
               </div>
             </article>
           ))}
@@ -114,6 +98,12 @@ const projects = [
 </Base>
 
 <style>
+  /* Four across on desktop, same rhythm as the /ai/proof grid (Jon
+     2026-10-10). auto-fill steps down to 3, 2, then 1 on its own. */
+  .work-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
   /* Real thumbnails in the work grid; global .work-thumb stays the CSS
      placeholder for cards without imagery. Scoped here, not in global.css. */
   .work-thumb--img img {

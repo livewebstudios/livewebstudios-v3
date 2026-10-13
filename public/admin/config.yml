@@ -63,3 +63,38 @@ collections:
         hint: "Optional, and not shown on the site. Category does the organising; tags are just notes to yourself."
       - { label: "Draft", name: "draft", widget: "boolean", default: false, required: false, hint: "Tick to hide this post from the public blog." }
       - { label: "Body", name: "body", widget: "markdown" }
+
+  # Live AI Insights (Jon 2026-09-26): the /ai sub-brand's blog. Separate
+  # folder, separate collection; Jon manages it, clients never touch it.
+  # Same field shape as the main blog, with the six /ai tags in place of the
+  # LWS categories. Illustration posts point at .svg, photo posts at .jpg.
+  - name: "ai-blog"
+    label: "AI Insights"
+    folder: "src/content/ai-blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sort_by: ["date"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        picker_utc: true
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        hint: "150-160 characters. Shown on the Insights cards and used as the Google search snippet."
+      - { label: "Featured Image", name: "image", widget: "image", required: false, hint: "Card thumbnail + top of the article. 1600x900." }
+      - { label: "Image Alt Text", name: "imageAlt", widget: "string", required: false }
+      - label: "Tags"
+        name: "tags"
+        widget: "select"
+        multiple: true
+        required: false
+        default: []
+        options: ["websites", "automation", "content", "media", "seo", "consulting"]
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, required: false, hint: "Tick to hide this article from /ai/blog." }
+      - { label: "Body", name: "body", widget: "markdown" }

@@ -41,8 +41,12 @@ interface Props {
       which is what every caller should do. Pass them only to override. */
   width?: number;
   height?: number;
+  /** CSS brightness multiplier for a photo that is darker than the hero
+      needs, e.g. 1.4. Leaves the file untouched (Jon 2026-09-26, the roadcase
+      shot on Contact). */
+  brightness?: number;
 }
-const { src, scrim = "hero", position = "50% 60%", alt, width, height } = Astro.props;
+const { src, scrim = "hero", position = "50% 60%", alt, width, height, brightness } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 
 /* Read the real size off the file when the caller did not state one. Hand-typed
@@ -64,7 +68,7 @@ const h = height ?? dim?.height;
     height={h}
     loading="eager"
     decoding="async"
-    style={`object-position:${position}`}
+    style={`object-position:${position}${brightness ? `;filter:brightness(${brightness})` : ""}`}
   />
   <div class="videobg__scrim"></div>
 </div>

@@ -18,16 +18,22 @@
 import StudiosPanel from "./StudiosPanel.astro";
 import NavIcon from "./NavIcon.astro";
 import { relPrefix } from "../lib/relPrefix";
+import AiCaps from "./AiCaps.astro";
 
 const path = Astro.url.pathname;
 const rel = relPrefix(path);
 
-type Ctx = "main" | "namesake" | "band";
+type Ctx = "main" | "namesake" | "band" | "ai";
+/* LiveAiStudios matches on a strict prefix: a bare includes("/ai") would
+   also catch /services/ai-platform and every other ai-* service page. */
+const isAi = /^\/ai(\.html|\/|$)/.test(path);
 const ctx: Ctx = path.includes("/namesake")
   ? "namesake"
   : path.includes("/live-band-web-studios")
     ? "band"
-    : "main";
+    : isAi
+      ? "ai"
+      : "main";
 
 /* Services mega columns — every live service page, grouped.
    Each group carries one hue rather than giving all fourteen links their own:
@@ -49,10 +55,16 @@ const svcCols = [
     label: "AI",
     color: "#A78BFA",
     links: [
+      /* Jon 2026-09-26: the /ai sub-brand leads the column. */
+      ["LiveAiStudios", "ai.html", "liveai"],
       ["AI Platform", "services/ai-platform.html", "chip"],
       ["AI Business Services", "services/ai-business-services.html", "bot"],
       ["AI Workflow", "services/ai-workflow.html", "route"],
       ["AI Image", "services/ai-image.html", "image"],
+      /* Jon 2026-09-22. Fifth AI link rather than its own column: it is an AI
+         voice-system build sold to the same small businesses the other four
+         serve, so it does not need the separation Expert Witness needed. */
+      ["Email Writing", "services/email-writing.html", "mail"],
     ],
   },
   {
@@ -65,22 +77,18 @@ const svcCols = [
       ["Consulting", "services/consulting.html", "chat"],
     ],
   },
-];
-
-/* Industries dropdown — all 10 verticals (Jon 2026-08-15). One hue across the
-   set: these are peers, so colouring them apart would imply a grouping that
-   does not exist. */
-const indLinks = [
-  ["Healthcare", "industries/healthcare.html", "cross"],
-  ["Law Firm", "industries/law-firm.html", "scales"],
-  ["Financial Services", "industries/financial-services.html", "bank"],
-  ["Construction", "industries/construction.html", "hardhat"],
-  ["Real Estate", "industries/real-estate.html", "towers"],
-  ["Manufacturing", "industries/manufacturing.html", "factory"],
-  ["Dental", "industries/dental.html", "tooth"],
-  ["Nonprofit", "industries/nonprofit.html", "heart"],
-  ["B2B", "industries/b2b.html", "briefcase"],
-  ["Insurance", "industries/insurance.html", "shield"],
+  /* Jon 2026-09-22. Its own column rather than a fourth BRAND link: the
+     expert witness practice sells to attorneys, not to the small businesses
+     the other twelve links sell to, and burying it under BRAND would have
+     read as a design service. Brass, matching the numbered steps on the
+     page itself. The scales glyph is the one Law Firm already uses. */
+  {
+    label: "LEGAL",
+    color: "#C9A55A",
+    links: [
+      ["Expert Witness", "services/expert-witness.html", "scales"],
+    ],
+  },
 ];
 
 /* Sub-brand bars. Order and labels match the live site
@@ -114,6 +122,18 @@ const namesakeLinks = [
   { label: "Start", href: "namesake/start.html" },
 ];
 
+/* LiveAiStudios (/ai), the third sub-brand bar. Same machinery as the two
+   above. Jon 2026-09-26: the logo work is deferred, so the brand slot carries
+   a plain LiveAiStudios wordmark (the Namesake treatment) until it lands. */
+const aiLinks = [
+  { label: "Home", href: "ai.html" },
+  { label: "Services", href: "ai/services.html" },
+  { label: "Proof", href: "ai/proof.html" },
+  { label: "How It Works", href: "ai/how-it-works.html" },
+  /* Also lights up on every /ai/blog/<slug> article (see isSection below). */
+  { label: "Insights", href: "ai/blog.html" },
+];
+
 /* Active state. Normalise both sides to a bare site-root key so the match
    survives build.format 'file' (/x.html), Netlify's clean URL (/x) and a
    trailing slash (/x/). The section index normalises to its own key, so
@@ -123,11 +143,16 @@ const navKey = (href: string) => {
   return s === "" ? "index" : s;
 };
 const here = navKey(path);
-const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
+const subLinks = ctx === "band" ? bandLinks : ctx === "ai" ? aiLinks : namesakeLinks;
+/* A link is active on its own page, and a section index link is also active
+   on the pages filed under it (Insights on /ai/blog/<slug>). Home is exempt
+   so it stays lit only on the section index itself. */
+const isSection = (href: string) =>
+  ctx === "ai" && navKey(href) === "ai/blog" && here.startsWith("ai/blog/");
 
 ---
 
-<header class="nav" data-nav>
+<header class:list={["nav", ctx !== "main" && "nav--has-sub"]} data-nav>
   <div class="wrap nav-in">
     <a class="nav-logo" href={`${rel}index.html`} aria-label="Live Web Studios">
       <img src={`${rel}images/logoRGB.png`} alt="Live Web Studios" width="800" height="245" decoding="async" />
@@ -136,7 +161,12 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     <nav class="nav-links" id="nav-links" aria-label="Primary">
       <a href={`${rel}work.html`}>Work</a>
 
-      <div class="studios" data-dd>
+      {/* studios--svc does for the services panel what studios--dir does for
+          the directory one: drops the wrapper to static so the panel anchors
+          to header.nav instead of this trigger. With four columns the panel
+          is 900px, and centred on a trigger that sits left of centre it hung
+          63px off the left edge at 1100. */}
+      <div class="studios studios--svc" data-dd>
         <span class="dd-pair">
           <a class="studios-trigger" href={`${rel}services.html`}>Services</a>
           <button
@@ -158,37 +188,10 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
                   {col.links.map(([label, href, icon]) => (
                     <a class="svc-link" href={`${rel}${href}`}>
                       <NavIcon name={icon} color={col.color} />
-                      <span class="svc-link__txt">{label}</span>
+                      <span class="svc-link__txt">{label === "LiveAiStudios" ? <AiCaps /> : label}</span>
                     </a>
                   ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="studios" data-dd>
-        <span class="dd-pair">
-          <a class="studios-trigger" href={`${rel}industries.html`}>Industries</a>
-          <button
-            type="button"
-            class="dd-toggle"
-            aria-label="Open industries menu"
-            aria-expanded="false"
-            aria-controls="industries-panel"
-            aria-haspopup="true"
-          ><span class="studios-caret" aria-hidden="true">↓</span></button>
-        </span>
-
-        <div class="mega mega--industries" id="industries-panel" role="region" aria-label="Industries">
-          <div class="mega-inner">
-            <div class="ind-cols">
-              {indLinks.map(([label, href, icon]) => (
-                <a class="svc-link" href={`${rel}${href}`}>
-                  <NavIcon name={icon} color="#7DD3FC" />
-                  <span class="svc-link__txt">{label}</span>
-                </a>
               ))}
             </div>
           </div>
@@ -275,15 +278,19 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
         <a class="subnav-brand" href={`${rel}live-band-web-studios.html`} aria-label="Live Band Web Studios">
           <img src={`${rel}images/logo-live-band.png`} alt="Live Band Web Studios" width="681" height="300" decoding="async" />
         </a>
+      ) : ctx === "ai" ? (
+        <a class="subnav-brand subnav-brand--ns subnav-brand--ai" href={`${rel}ai.html`} aria-label="LiveAiStudios">
+          <img src={`${rel}images/studios/live-ai-studios.png`} alt="LiveAiStudios" width="480" height="56" decoding="async" />
+        </a>
       ) : (
         <a class="subnav-brand subnav-brand--ns" href={`${rel}namesake.html`}>Namesake</a>
       )}
-      <nav class="subnav-links" aria-label={ctx === "band" ? "Live Band Web Studios" : "Namesake"}>
+      <nav class="subnav-links" aria-label={ctx === "band" ? "Live Band Web Studios" : ctx === "ai" ? "LiveAiStudios" : "Namesake"}>
         {subLinks.map((item) => {
           const kids = item.children ?? [];
           const selfActive = navKey(item.href) === here;
           const kidActive = kids.some(([, kh]) => navKey(kh) === here);
-          const active = selfActive || kidActive;
+          const active = selfActive || kidActive || isSection(item.href);
           const panelId = `subnav-${navKey(item.href).split("/").pop()}-panel`;
 
           return kids.length === 0 ? (
@@ -328,7 +335,13 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
       {ctx === "namesake" && (
         <a href={`${rel}namesake/start.html`} class="btn btn-ghost subnav-cta">Start Yours</a>
       )}
+      {ctx === "ai" && (
+        <a href={`${rel}ai/start.html`} class="btn btn-ghost subnav-cta">Start with AI</a>
+      )}
     </div>
+    {ctx === "ai" && (
+      <p class="subnav-tag">LiveAiStudios is the AI side of Live Web Studios. Same Jon, same phone number.</p>
+    )}
   </div>
 )}
 
@@ -421,37 +434,55 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
   .dd-toggle:hover {
     color: var(--cyan-soft);
   }
+  /* 900 not 720 (Jon 2026-09-22): the LEGAL column made this a 4-up grid, and
+     four columns need 840px before "AI Business Services" and "Custom Styles
+     & Cards" stop wrapping. .mega is centred on its trigger (left:50% +
+     translateX(-50%) in global.css), so every extra 100px of panel hangs
+     another 50px off the LEFT of the viewport. That is why the narrow case
+     below drops the width back down instead of only changing the column
+     count: a 900px panel over a 2-up grid was 127px off-screen at 960. */
   .mega--services {
-    width: min(720px, 92vw);
-  }
-  .mega--industries {
-    width: min(480px, 92vw);
+    width: min(900px, 92vw);
+    /* Hover bridge (Jon 2026-09-22: "sometimes the drop down closes before I
+       get there"). Anchoring to header.nav moved top:100% from the trigger's
+       bottom edge down to the header's, opening a 13px strip that belongs to
+       neither the trigger nor the panel: cross it and .studios:hover goes
+       false mid-travel. The negative margin pulls the panel's BOX back up to
+       overlap the trigger while the matching padding holds the VISIBLE panel
+       exactly where it was, so the pointer never leaves a hovered element. */
+    margin-top: -29px;
+    padding-top: 45px;
   }
   /* About holds three rows (Our Story, Blog, FAQ), so it sits narrower than
-     the industries grid. FAQ lives here and nowhere else (Jon 2026-09-07).
+     the Services grid. FAQ lives here and nowhere else (Jon 2026-09-07).
      Blog joined 2026-09-15: the main row had 34px of slack at 1024px against
      the ~65px a seventh top-level item needs, so it would have collided with
      Let's Talk. A row here still puts a blog link on all 86 pages. */
   .mega--about {
     width: min(360px, 92vw);
   }
-  /* .mega-support is a 2-col grid, which the Services/Industries panels use
+  /* .mega-support is a 2-col grid, which the Services panel uses
      for their single row. About carries two, so stack them instead of
      squeezing both subtitles into 135px columns. */
   .mega--about .mega-support {
     grid-template-columns: 1fr;
   }
-  .ind-cols {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0 0.5rem;
-    margin-bottom: 0.4rem;
-  }
   .svc-cols {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
     margin-bottom: 0.4rem;
+  }
+  /* Below the panel's own max width there is no room for four, so pair them
+     up rather than letting every label wrap, and bring the panel back in so
+     its left edge clears the viewport. */
+  @media (max-width: 980px) {
+    .mega--services {
+      width: min(560px, 92vw);
+    }
+    .svc-cols {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   .svc-col {
     display: flex;
@@ -597,6 +628,22 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
     font-size: 0.68rem;
   }
 
+  /* Jon 2026-10-10: the brand line moved off /ai/start into the AI bar, so
+     it rides along under the links on every /ai page. Inside .subnav, so it
+     sticks with it. */
+  .subnav-tag {
+    /* Jon 2026-10-10: "little bigger, little closer to the menu, tighter".
+       No divider, and it tucks up into the bar's bottom padding. */
+    margin: 0.1rem 0 0;
+    padding: 0 clamp(1.25rem, 4vw, 2.5rem) 0.45rem;
+    font-family: var(--mono);
+    font-size: 0.86rem;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--muted-2);
+  }
+
   /* Current page, in the section accent. No new colors: amber for Live Band,
      brass for Namesake, both already in the palette. */
   .subnav {
@@ -604,6 +651,36 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
   }
   .subnav--namesake {
     --sub-accent: var(--brass);
+  }
+  .subnav--ai {
+    --sub-accent: var(--ai);
+  }
+  /* The wordmark takes the accent colour; the ghost CTA picks it up on
+     hover the way Start Yours picks up brass. */
+  .subnav-brand--ai {
+    color: var(--ai);
+  }
+  /* Jon 2026-10-10: the logo replaces the violet wordmark. A wide, short
+     lockup, so it stays centred in the bar instead of overhanging like the
+     Live Band badge. */
+  .subnav-brand.subnav-brand--ai img {
+    height: 26px;
+    filter: none;
+  }
+  /* Mirror the wordmark's inset so the CTA does not sit hard against the
+     viewport edge (same offset .subnav-brand uses on the left). */
+  .subnav--ai .subnav-cta {
+    right: clamp(1.25rem, 4vw, 2.5rem);
+  }
+  /* Jon 2026-10-10: the CTA carries an orange border at rest, so it reads
+     as the one button in the bar; hover fills it with the orange glow. */
+  .subnav--ai .subnav-cta {
+    border-color: var(--ai);
+  }
+  .subnav--ai .subnav-cta:hover {
+    border-color: var(--ai);
+    color: var(--ai);
+    background: var(--ai-glow);
   }
   .subnav-links a.is-active {
     color: var(--sub-accent);
@@ -644,8 +721,7 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
   }
 
   @media (max-width: 900px) {
-    .svc-cols,
-    .ind-cols {
+    .svc-cols {
       grid-template-columns: 1fr;
     }
     /* The bar stops being one fixed-height row here, so the brand goes back
@@ -689,6 +765,40 @@ const subLinks = ctx === "band" ? bandLinks : namesakeLinks;
       position: static;
       transform: none;
       margin-left: auto;
+    }
+    /* LiveAiStudios: two rows, not four (handoff: "wraps to max two
+       rows"). Wordmark and CTA share the first row, the five links take the
+       second, set a touch tighter so all five fit across 375px. */
+    .subnav--ai .subnav-brand {
+      order: 0;
+    }
+    .subnav-brand.subnav-brand--ai img {
+      height: 22px;
+    }
+    .subnav--ai .subnav-cta {
+      order: 1;
+    }
+    .subnav--ai .subnav-links {
+      order: 2;
+      flex-basis: 100%;
+      justify-content: space-between;
+    }
+    .subnav-tag {
+      margin-top: 0;
+      padding-block: 0 0.4rem;
+      font-size: 0.66rem;
+      letter-spacing: 0.02em;
+    }
+    /* Two pinned bars took 214px of a 375px-wide phone and covered the form
+       headings on /ai/start. Below 900px only the main nav sticks; the AI
+       bar scrolls away with the page. Jon 2026-10-12. */
+    .subnav--ai {
+      position: static;
+    }
+    .subnav--ai .subnav-links > a {
+      padding: 0.35rem 0.2rem;
+      font-size: 0.64rem;
+      letter-spacing: 0.06em;
     }
     /* Tap-to-open. global.css drops every .mega to static/visible inside the
        burger menu, which would pin the Forms panel open and triple the bar's

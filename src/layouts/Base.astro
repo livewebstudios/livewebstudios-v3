@@ -5,6 +5,7 @@ import "@fontsource/geist-mono/500.css";
 import "../styles/global.css";
 import "../styles/mosa-skin.css";
 import { relPrefix } from "../lib/relPrefix";
+import FaqFx from "../components/FaqFx.astro";
 
 interface Props {
   title?: string;
@@ -37,6 +38,17 @@ interface Props {
      from the img src by even a "../" is the classic way to download the hero
      twice and make LCP worse than it was. */
   preloadHero?: string;
+  /* Optional share-card overrides. Default to title / description, so every
+     page that does not pass them renders exactly as before. Added for the
+     /ai/start newsletter landing page, whose share line differs from its
+     <title>. */
+  ogTitle?: string;
+  ogDescription?: string;
+  /* A share image outside the og-*.jpg naming that is still exactly
+     1200x630 (the /ai/start campaign card) sets this so the size tags
+     render, and passes ogImageAlt for og:image:alt. */
+  ogImageIsCard?: boolean;
+  ogImageAlt?: string;
 }
 const {
   title = "Live Web Studios | Web Design & AI Builds, North Jersey",
@@ -47,6 +59,10 @@ const {
   ogImage = "images/og-default.jpg",
   jsonld,
   preloadHero,
+  ogTitle,
+  ogDescription,
+  ogImageIsCard = false,
+  ogImageAlt,
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 
@@ -59,7 +75,7 @@ const ogImageUrl = /^https?:\/\//.test(ogImage)
 /* Only the og-*.jpg cards are known to be exactly 1200x630. Blog posts pass
    their own hero (1376x768), so declaring dimensions there would be a lie and
    scrapers trust the tag over the file. Emit them only when they are true. */
-const ogIsCard = /\/images\/og-[a-z-]+\.jpg$/.test(ogImageUrl);
+const ogIsCard = ogImageIsCard || /\/images\/og-[a-z-]+\.jpg$/.test(ogImageUrl);
 
 /* undefined -> the WebPage default; null -> nothing (template emits its own). */
 const schema =
@@ -130,12 +146,13 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
     <link rel="apple-touch-icon" sizes="180x180" href={`${rel}apple-touch-icon.png`} />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={ogTitle ?? title} />
+    <meta property="og:description" content={ogDescription ?? description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageUrl} />
     {ogIsCard && <meta property="og:image:width" content="1200" />}
     {ogIsCard && <meta property="og:image:height" content="630" />}
+    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
     <meta property="og:site_name" content="Live Web Studios" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImageUrl} />
@@ -189,7 +206,7 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
     <slot />
 
     <script is:inline>
-      // Reveal on scroll — exposes window.LWS.observe(el) so dynamically
+      // Reveal on scroll: exposes window.LWS.observe(el) so dynamically
       // inserted content (CMS, Phase 2 islands) can register for the same
       // entrance treatment. IntersectionObserver is the primary path; a
       // geometry check + passive scroll fallback guarantees content is never
@@ -238,7 +255,7 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
         };
 
         // Fallback: reveal anything at or above the fold line that IO hasn't
-        // caught — covers in-view elements AND any fast-scrolled past (top < 0),
+        // caught. Covers in-view elements AND any fast-scrolled past (top < 0),
         // so content is never stranded at opacity:0.
         function sweep() {
           var pending = document.querySelectorAll(".reveal:not(.in)");
@@ -305,5 +322,8 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
         vids.forEach(function (v) { io.observe(v); });
       })();
     </script>
+    {/* Site-wide FAQ decode/type/scan motion (2026-09-28). No-op on pages
+        without a FAQ. */}
+    <FaqFx />
   </body>
 </html>

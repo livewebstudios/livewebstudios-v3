@@ -1,0 +1,245 @@
+---
+/**
+ * IncludedList — the "what's included" block on the service detail pages.
+ *
+ * Scannable-UI pass 2026-09-28: replaces the 3x2 card grid (144px icon
+ * floating at each card's foot) with one panel of divided rows on the
+ * receipt rule. Icon on the left edge, what it is in the middle, what you
+ * walk away with on the right. Section label sits in its own left column.
+ *
+ * Each row wears the detail pages' plum card ramp and hover (Jon
+ * 2026-09-28: "bring that purple and hover effect"), matching the live
+ * site's cards: gradient sweeps up out of the corner, border brightens,
+ * row lifts 5px with a purple glow. --plum-card is published on
+ * .page-detail in mosa-skin.css, which every service page carries.
+ *
+ * Used on every single service and industry page (2026-09-28: "do all").
+ * Illustrated cards (expert-witness, email-writing steps), pricing tiers
+ * and the custom-styles gallery stay cards: they are separate objects
+ * with their own art, which is what a card is for.
+ *
+ * Optional per item: href (+ cta) makes the whole row a link, tag adds a
+ * chip beside the title, num prefixes the title, body can be omitted for
+ * a points-only row. Omit `label` when the section already has its own
+ * centered heading; the list then runs full width.
+ */
+import CardIcon from "./CardIcon.astro";
+
+export interface Item {
+  title: string;
+  body?: string;
+  points?: string[];
+  href?: string;
+  cta?: string;
+  tag?: string;
+  num?: string;
+}
+export interface Props {
+  /** Visible section label, rendered as the h2 pill. ALL CAPS. */
+  label?: string;
+  items: Item[];
+}
+const { label, items } = Astro.props;
+---
+
+<div class:list={["inc", "reveal", !label && "inc--full"]}>
+  {label && <h2 class="inc__label eyebrow">{label}</h2>}
+  <ul class="inc-list">
+    {items.map((c) => (
+      <li class:list={["inc-row", c.href && "inc-row--link", !c.body && "inc-row--nobody"]}>
+        <CardIcon title={c.title} />
+        <div class="inc-row__text">
+          <h3>
+            {c.num && <span class="inc-row__num">{c.num}</span>}
+            {c.href ? <a href={c.href}>{c.title}</a> : c.title}
+            {c.tag && <span class="inc-row__tag">{c.tag}</span>}
+          </h3>
+          {c.body && <p>{c.body}</p>}
+          {c.href && <span class="inc-row__more" aria-hidden="true">{c.cta ?? "SEE DETAILS →"}</span>}
+        </div>
+        {c.points && (
+          <ul class="inc-row__get" aria-label={`${c.title}: what you get`}>
+            {c.points.map((pt) => <li>{pt}</li>)}
+          </ul>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  /* Same row language as the /services hub: icon sized to the text block,
+     each row its own plum card. Third column is the receipt's
+     right edge, the concrete takeaways, in quiet gray so the titles lead. */
+  .inc {
+    display: grid;
+    /* Label column sizes to the pill so it never wraps to two lines. */
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0 2.5rem;
+  }
+  /* The detail-page eyebrow pill, in the plum accent. mosa-skin only turns
+     a pill plum inside a section that :has(.card), and these rows are not
+     .card, so the accent is set here directly. */
+  .inc__label {
+    --mosa-accent-rgb: 198 126 216;
+    align-self: start;
+    justify-self: start;
+    white-space: nowrap;
+    margin: 1.4rem 0 0;
+  }
+  .inc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .inc-row {
+    --inc-shade: rgba(8, 6, 14, 0.42);
+    /* Icon size (Jon 2026-09-28: "make those icons bigger"). Sized to fill
+       the row's height without pushing it taller. */
+    --inc-ico: 84px;
+    display: grid;
+    grid-template-columns: var(--inc-ico) minmax(0, 1fr) 17rem;
+    align-items: start;
+    gap: 1.5rem;
+    padding: 1.4rem 1.75rem;
+    border: 1px solid rgba(150, 90, 170, 0.26);
+    border-radius: var(--r-lg);
+    background-color: rgba(0, 0, 0, 0.32);
+    /* Darker than the stock card (Jon 2026-09-28: "a bit bright to read
+       with white text"). A row is ~3x a card's width, so the ramp's bright
+       end lands right under the points column. A flat shade over the ramp
+       pulls every stop down together; --plum-card itself is left alone so
+       the other detail pages' cards keep their colour. */
+    background-image: linear-gradient(var(--inc-shade), var(--inc-shade)), var(--plum-card);
+    background-size: 118% 118%;
+    background-position: 0% 0%;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition:
+      background-position 0.85s var(--ease),
+      border-color 0.4s var(--ease),
+      box-shadow 0.4s var(--ease),
+      transform 0.4s var(--ease);
+  }
+  .inc-row:hover {
+    background-position: 100% 100%;
+    border-color: rgba(198, 126, 216, 0.5);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 22px 60px rgba(0, 0, 0, 0.55),
+      0 0 44px rgba(150, 72, 168, 0.28);
+    transform: translateY(-5px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .inc-row { transition: none; }
+    .inc-row:hover { transform: none; }
+  }
+  /* CardIcon ships at 144px, centered at a card foot. Here it is the
+     row's left edge. */
+  .inc-row :global(.ico-anim) {
+    width: var(--inc-ico);
+    height: var(--inc-ico);
+    margin: 0;
+    padding: 0;
+    filter: none;
+  }
+  .inc-row__text { max-width: 60ch; }
+  .inc-row h3 {
+    font-family: var(--mono);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    color: var(--ink);
+    margin: 0 0 0.35rem;
+  }
+  .inc-row p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+  }
+  .inc-row__get {
+    list-style: none;
+    margin: 0;
+    padding: 0.1rem 0 0 1.25rem;
+    border-left: 1px solid rgba(198, 126, 216, 0.22);
+    display: grid;
+    gap: 0.5rem;
+  }
+  .inc-row__get li {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--ink);
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .inc-row__get li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--muted-2);
+    font-size: 0.8rem;
+  }
+
+  /* No points: drop the empty right column so the text keeps its width. */
+  .inc-row:not(:has(.inc-row__get)) { grid-template-columns: var(--inc-ico) minmax(0, 1fr); }
+
+  /* Points-only rows (logo-design): no body line, so the title column
+     narrows and the points spread over two columns instead of leaving a
+     wide empty middle between the title and its list. */
+  .inc-row--nobody { grid-template-columns: var(--inc-ico) 14rem minmax(0, 1fr); }
+  .inc-row--nobody .inc-row__get { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; }
+
+  /* No label: the section's own centered heading leads, list runs full. */
+  .inc--full { grid-template-columns: minmax(0, 1fr); }
+
+  /* Linked rows: the title link is stretched over the whole row so the
+     entire card is the target, without wrapping a list in an anchor. */
+  .inc-row--link { position: relative; cursor: pointer; }
+  .inc-row h3 a { color: inherit; text-decoration: none; }
+  .inc-row h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .inc-row h3 a:focus-visible { outline: none; }
+  .inc-row--link:has(a:focus-visible) { outline: 2px solid rgb(198 126 216); outline-offset: 3px; }
+  .inc-row__more {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    transition: color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .inc-row--link:hover .inc-row__more { color: rgb(218 170 230); transform: translateX(4px); }
+  .inc-row__num {
+    font-size: 0.8rem;
+    color: rgb(198 126 216);
+    margin-right: 0.6rem;
+  }
+  .inc-row__tag {
+    display: inline-block;
+    vertical-align: 0.15em;
+    margin-left: 0.6rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    padding: 0.25rem 0.45rem;
+    border: 1px solid rgba(198, 126, 216, 0.45);
+    border-radius: 999px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 1000px) {
+    .inc { grid-template-columns: 1fr; }
+    .inc__label { margin: 0 0 1rem; }
+    .inc-row { --inc-ico: 72px; grid-template-columns: var(--inc-ico) minmax(0, 1fr); }
+    .inc-row__get { grid-column: 2; border-left: 0; padding: 0; }
+    .inc-row--nobody { grid-template-columns: var(--inc-ico) minmax(0, 1fr); }
+    .inc-row--nobody .inc-row__get { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .inc-row { padding: 1.1rem 1rem; }
+    .inc-row { --inc-ico: 56px; grid-template-columns: var(--inc-ico) minmax(0, 1fr); gap: 0.9rem; }
+  }
+</style>

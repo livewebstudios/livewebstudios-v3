@@ -1,0 +1,284 @@
+---
+/**
+ * /ai/start: the one conversion page in the LiveAiStudios section, and the
+ * landing page for the newsletter (Mailchimp links here with utm_* params).
+ * Copy is Jon's final copy from the 2026-10-10 handoff; do not rewrite it.
+ *
+ * The form posts to Formspree with fetch so the thank-you shows inline. With
+ * no JS it posts normally and Formspree redirects to _next, which has to be
+ * absolute (Formspree redirects from its own server). The script at the foot
+ * rewrites _next to whatever host is serving the page, the same pattern
+ * /contact and /namesake/start use, then takes over the submit.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import AiVideoBg from "../../components/AiVideoBg.astro";
+import { SITE } from "../../lib/aiStudio";
+import { relPrefix } from "../../lib/relPrefix";
+import "../../styles/ai.css";
+
+const rel = relPrefix(Astro.url.pathname);
+
+const chores = [
+  "Invoicing",
+  "Chasing late payments",
+  "Answering inquiries and email",
+  "Scheduling and reminders",
+  "Quotes and estimates",
+  "Following up after a job",
+  "Social posts and marketing",
+  "Data entry and paperwork",
+];
+
+const invoiceTiming = [
+  "Same day",
+  "Within a week",
+  "A week or two",
+  "Longer than that",
+  "We don't really invoice that way",
+];
+
+const aiUse = ["Not yet", "A little", "Pretty regularly"];
+---
+
+<Base
+  title="Start with AI | LiveAiStudios"
+  description="Tell Jon Wolf which chore eats your week. He reads every one and writes back within one business day with what AI can take off your plate."
+  canonical={`${SITE}/ai/start`}
+  ogTitle="What would you hand off tomorrow?"
+  ogDescription="Two minutes. Tell me where your week goes and I'll write back with the first move."
+  ogImage="images/ai/ai-start-share.jpg"
+  ogImageIsCard={true}
+  ogImageAlt="What would you hand off tomorrow? A desk at 10:14 PM covered in invoices."
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <section class="page-head page-head--glass page-head--bare start-hero has-videobg">
+      <AiVideoBg name="ai-how" scrim="hero" />
+      <div class="wrap">
+        <p class="eyebrow is-center mb-lg">Start</p>
+        <h1 class="page-h1">What would you hand off <em>tomorrow?</em></h1>
+        <p class="page-lede">Tell me what your business does and where your week actually goes. I read every one myself and write back within one business day. Questions, not a sales script.</p>
+        <div class="hero-btns">
+          <a href="#start-form" class="btn btn-primary">Tell me the chore</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="start-form" class="sec-pad start-form sec-grid">
+      <div class="wrap start-col">
+        <div class="sec-head is-flush">
+          <h2>Tell me about the business</h2>
+          <p>Only your name and email are required. The rest helps me come back with something useful instead of something generic.</p>
+        </div>
+
+        <Glass class="ai-start" innerClass="start-form__pad">
+          <form id="ai-start-form" action="https://formspree.io/f/xkjobjrb" method="POST">
+            <input type="hidden" name="_next" value="https://livewebstudios.com/ai/thank-you.html" />
+            <input type="hidden" name="_subject" value="New AI start form" />
+            <input type="hidden" name="source" value="direct" />
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <fieldset class="start-group" aria-labelledby="start-g1">
+              <h3 id="start-g1">About you</h3>
+              <div class="start-grid">
+                <div class="start-field">
+                  <label for="start-name">Your name <span class="start-req">Required</span></label>
+                  <input type="text" id="start-name" name="name" autocomplete="name" required />
+                </div>
+                <div class="start-field">
+                  <label for="start-email">Email <span class="start-req">Required</span></label>
+                  <input type="email" id="start-email" name="email" autocomplete="email" required />
+                </div>
+                <div class="start-field">
+                  <label for="start-business">Business name</label>
+                  <input type="text" id="start-business" name="business" autocomplete="organization" />
+                </div>
+                <div class="start-field">
+                  <label for="start-phone">Phone (if you'd rather I call)</label>
+                  <input type="tel" id="start-phone" name="phone" autocomplete="tel" inputmode="tel" />
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="start-grid start-questions">
+              <fieldset class="start-choice">
+                <legend>What's a chore you'd hand off tomorrow, if you could?</legend>
+                <div class="start-chips">
+                  {chores.map((v) => (
+                    <label class="start-chip"><input type="checkbox" name="chore" value={v} /><span>{v}</span></label>
+                  ))}
+                  <label class="start-chip"><input type="checkbox" name="chore" value="Other" id="start-chore-other-pick" /><span>Other</span></label>
+                </div>
+                <div class="start-field start-detail" id="start-chore-detail">
+                  <label for="start-chore-other">What's the chore?</label>
+                  <input type="text" id="start-chore-other" name="chore_other" />
+                </div>
+              </fieldset>
+
+              <fieldset class="start-choice">
+                <legend>When a job's done, how long until the invoice actually goes out?</legend>
+                <div class="start-chips">
+                  {invoiceTiming.map((v) => (
+                    <label class="start-chip"><input type="radio" name="invoice_timing" value={v} /><span>{v}</span></label>
+                  ))}
+                </div>
+              </fieldset>
+
+              <fieldset class="start-choice">
+                <legend>Using AI for anything yet?</legend>
+                <div class="start-chips">
+                  {aiUse.map((v) => (
+                    <label class="start-chip"><input type="radio" name="ai_use" value={v} /><span>{v}</span></label>
+                  ))}
+                </div>
+                <div class="start-field start-detail" id="start-ai-detail">
+                  <label for="start-ai-use-detail">If so, what for?</label>
+                  <input type="text" id="start-ai-use-detail" name="ai_use_detail" />
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="start-actions">
+              <p class="start-error" id="start-error" role="alert" hidden>Something went wrong on my end. Try again, or just email <a href="mailto:jonwolf@livewebstudios.com">jonwolf@livewebstudios.com</a>.</p>
+              <button type="submit" class="btn btn-primary start-submit btn--face"><img class="btn-face" src={`${rel}images/jon-btn.jpg`} alt="" width="120" height="120" decoding="async" /><span class="start-submit__txt">Send it to Jon</span></button>
+            </div>
+          </form>
+        </Glass>
+
+        <p class="form-note">It comes straight to my inbox and stays there. I don't sell it or add you to anything new.</p>
+      </div>
+    </section>
+
+    <section class="sec-pad is-alt start-call">
+      <div class="wrap start-call__grid reveal">
+        <div class="start-call__art">
+          <img
+            class="ai-close__img"
+            src={`${rel}images/ai/ai-start-phone.jpg`}
+            alt="A well-used black desk phone on a dark desk at night under a warm lamp, one orange line button lit"
+            width="896"
+            height="1120"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="start-call__copy">
+          <div class="sec-head is-flush">
+            <h2>Rather just talk?</h2>
+          </div>
+          <p>Call me at <a href="tel:7328019611">732.801.9611</a>. I've answered my own phone for 23 years and I'm not stopping now.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer hideSubscribe />
+
+  <script is:inline>
+    (function () {
+      var f = document.getElementById("ai-start-form");
+      if (!f) return;
+      var next = f.querySelector('input[name="_next"]');
+      var subject = f.querySelector('input[name="_subject"]');
+      var source = f.querySelector('input[name="source"]');
+      var btn = f.querySelector('button[type="submit"]');
+      // Only the label swaps to "Sending…"; the photo in the button stays.
+      var btnTxt = btn.querySelector(".start-submit__txt") || btn;
+      var err = document.getElementById("start-error");
+      var detail = document.getElementById("start-ai-detail");
+      var detailInput = detail && detail.querySelector("input");
+
+      // No-JS fallback target follows whatever host serves the page.
+      try {
+        var base = window.location.href.split("#")[0].split("?")[0].replace(/\/+$/, "");
+        if (next) next.value = new URL("thank-you.html", base).href;
+      } catch (e) {
+        /* Keep the built-in fallback. */
+      }
+
+      // Newsletter tracking: ?utm_campaign=newsletter-01 lands in "source".
+      try {
+        var camp = new URLSearchParams(window.location.search).get("utm_campaign");
+        if (camp && source) source.value = camp.slice(0, 100);
+      } catch (e) {
+        /* Stays "direct". */
+      }
+
+      // "If so, what for?" only shows once they say they use AI. With no JS
+      // it stays visible. Disabled while hidden so a stale answer never sends.
+      function syncDetail() {
+        if (!detail) return;
+        var picked = f.querySelector('input[name="ai_use"]:checked');
+        var show = !!picked && picked.value !== "Not yet";
+        detail.hidden = !show;
+        detailInput.disabled = !show;
+      }
+      f.querySelectorAll('input[name="ai_use"]').forEach(function (r) {
+        r.addEventListener("change", syncDetail);
+      });
+      syncDetail();
+
+      // Same pattern for the chore "Other" chip and its text field.
+      var otherPick = document.getElementById("start-chore-other-pick");
+      var otherBox = document.getElementById("start-chore-detail");
+      var otherInput = otherBox && otherBox.querySelector("input");
+      function syncOther() {
+        if (!otherPick || !otherBox) return;
+        otherBox.hidden = !otherPick.checked;
+        otherInput.disabled = !otherPick.checked;
+        if (otherPick.checked) otherInput.focus();
+      }
+      if (otherPick) otherPick.addEventListener("change", syncOther);
+      if (otherPick && otherBox) {
+        otherBox.hidden = !otherPick.checked;
+        otherInput.disabled = !otherPick.checked;
+      }
+
+      if (!window.fetch || !window.FormData) return;
+
+      f.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        // "New AI lead: Pepe Plumbing (ai-start-facebook)": who, and which
+        // channel sent them. Business name wins when they give one.
+        var who = f.elements.business.value.trim() || f.elements.name.value.trim();
+        subject.value = "New AI lead: " + who + " (" + (source.value || "direct") + ")";
+
+        var data = new FormData(f);
+        data.delete("_next");
+        var chores = data.getAll("chore");
+        data.delete("chore");
+        if (chores.length) data.append("chore", chores.join(", "));
+
+        var label = btnTxt.textContent;
+        btn.disabled = true;
+        btnTxt.textContent = "Sending…";
+        err.hidden = true;
+
+        fetch(f.action, { method: "POST", body: data, headers: { Accept: "application/json" } })
+          .then(function (res) {
+            if (!res.ok) throw new Error("Formspree " + res.status);
+            var box = document.createElement("div");
+            box.className = "form-thanks";
+            box.setAttribute("role", "status");
+            box.setAttribute("tabindex", "-1");
+            box.innerHTML =
+              "<h3>Got it.</h3>" +
+              "<p>I'll write back within one business day. Keep an eye out for an email from jonwolf@livewebstudios.com.</p>" +
+              "<p>Jon</p>";
+            f.replaceWith(box);
+            box.focus();
+          })
+          .catch(function () {
+            err.hidden = false;
+            btn.disabled = false;
+            btnTxt.textContent = label;
+          });
+      });
+    })();
+  </script>
+</Base>

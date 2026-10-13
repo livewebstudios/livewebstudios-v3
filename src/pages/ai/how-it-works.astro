@@ -1,0 +1,140 @@
+---
+/**
+ * /ai/how-it-works: the AI-staffed model, explained. Five steps and six
+ * straight answers.
+ *
+ * The FAQ uses native <details>/<summary> rather than the button accordion on
+ * /faq: same look, but it opens with no JavaScript at all. The FAQPage JSON-LD
+ * is generated from the SAME array the markup renders, so the schema and the
+ * visible answers are verbatim-matched by construction.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import BreathingGrid from "../../components/BreathingGrid.astro";
+import AiVideoBg from "../../components/AiVideoBg.astro";
+import { SITE } from "../../lib/aiStudio";
+import { relPrefix } from "../../lib/relPrefix";
+import "../../styles/ai.css";
+
+const rel = relPrefix(Astro.url.pathname);
+
+const steps = [
+  { n: "01", title: "Listen", body: "What your business actually does, and where the week goes. We ask before we build." },
+  { n: "02", title: "Map", body: "Where AI earns its keep, and where it does not. You get a short list of moves in the order they pay off." },
+  { n: "03", title: "Build", body: "Whatever the map calls for. Built on the tools you already run, wherever that makes sense." },
+  { n: "04", title: "Direct", body: "A person checks everything. Nothing reaches your customers until it has been read and signed off." },
+  { n: "05", title: "Run", body: "It keeps working. We keep watch and tune it as the business changes." },
+];
+
+const faq = [
+  { q: "What does it cost?", a: "It depends on scope, and we say so up front. We look at what you need, then quote it in writing before any work starts. A single automation and a full site rebuild are very different jobs, and the quote tells you which one you're buying." },
+  { q: "Do you replace my staff?", a: "No. We take the repetitive work off their desks. The copying, the chasing. Your people keep the judgment calls and the customer relationships, which is where they were most valuable anyway." },
+  { q: "What tools do you use?", a: "The best current AI for writing, code and video, connected to dependable business tools behind the scenes. If you already use something like QuickBooks or Google Workspace, we build on it instead of replacing it." },
+  { q: "How fast is it?", a: "Small automations are usually running within days. A full site rebuild is measured in weeks, not months. The quote comes with a timeline, so you know which before anything starts." },
+  { q: "What about my data?", a: "It stays in your accounts wherever possible, under your control. Before anything is connected we tell you exactly which services will touch it, and client-confidential material gets a written plan before it is handled at all." },
+  { q: "Where do we start?", a: "With a short form. Tell us what the business does and what you wish would run itself. We read it and come back with questions. Then we propose the first move." },
+];
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  url: `${SITE}/ai/how-it-works`,
+  mainEntity: faq.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<Base
+  title="How It Works: The AI-Staffed Model | LiveAiStudios"
+  description="How an AI-staffed studio works: listen, map, build, direct, run. Plus straight answers on cost, speed, tools and your data."
+  canonical={`${SITE}/ai/how-it-works`}
+  ogImage="images/og-ai.jpg"
+  jsonld={jsonld}
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <section class="page-head page-head--glass page-head--bare has-videobg">
+      <AiVideoBg name="ai-how" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">HOW IT WORKS</span>
+        <h1 class="page-h1">AI does the work. <em>We direct it.</em></h1>
+        <p class="page-lede">This isn't a chatbot bolted onto a web agency. AI does the work, and a person steers every step. Here's how it runs.</p>
+      </div>
+    </section>
+
+    <!-- FIVE STEPS -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE MODEL</span>
+          <h2>Five steps, every engagement.</h2>
+        </div>
+        <ol class="grid-svc ai-steps">
+          {steps.map((s) => (
+            <li class="card reveal">
+              <Glass variant="inner" innerClass="card-pad ai-card">
+                <span class="step-num">{s.n}</span>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </Glass>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec-pad has-bgrid">
+      <BreathingGrid chevrons="none" quiet="none" density="sparse" />
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">STRAIGHT ANSWERS</span>
+          <h2>Questions we get every week.</h2>
+        </div>
+        <div class="ai-faq reveal">
+          {faq.map((f) => (
+            <details>
+              <summary><h3>{f.q}</h3></summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta cta--art ai-close">
+          <div class="cta-art">
+            <img
+              class="ai-close__img"
+              src={`${rel}images/ai/ai-how-listening.jpg`}
+              alt="A yellow legal pad of handwritten call notes on a dark desk at night, one phrase circled in orange, a phone on an active call beside it"
+              width="896"
+              height="1120"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-copy">
+            <span class="eyebrow mb-md">STEP ONE</span>
+            <h2>Listening comes first. Tell us about the business.</h2>
+            <div class="hero-btns">
+              <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+              <a href={`${rel}ai/proof.html`} class="btn btn-ghost">See the proof →</a>
+            </div>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+

@@ -1,0 +1,323 @@
+---
+/**
+ * ReceiverCta — the two Live Band pricing CTAs, dressed as the front panel of
+ * an expensive hi-fi receiver (Jon 2026-09-22, McIntosh MHA150 as reference).
+ *
+ * Black glass face between two brushed-alloy end caps, a blue backlit VU meter
+ * whose needle swings when you hover or tab to it, and a label plate that
+ * presses in on click. It is still one plain <a> with the same href it had as
+ * a .btn, so nothing about the link or its crawlability changes.
+ *
+ * The needle is the whole point, so it is a real transform on a real element
+ * rather than a GIF: it inherits the hover AND the keyboard focus state, and
+ * it flattens to a static resting position under prefers-reduced-motion.
+ */
+interface Props {
+  href: string;
+  label: string;
+  /** The loud one. Warms the meter and brightens the plate. */
+  featured?: boolean;
+  /** Where the needle parks on hover, in degrees. Tuned per button so the two
+      do not swing to an identical reading side by side. */
+  peak?: number;
+}
+const { href, label, featured = false, peak = 34 } = Astro.props;
+
+/* Gradient ids must be unique per instance: two of these render on the pricing
+   page, and a duplicate id would have both meters resolve url(#...) to the
+   first one's lamp. */
+const uid = Math.random().toString(36).slice(2, 9);
+
+/* Scale ticks. Long marks at the labelled stops, short between, laid out the
+   way a power meter is: compressed at the bottom, opening up toward the peak. */
+const TICKS = [
+  { a: -52, big: true },
+  { a: -40, big: false },
+  { a: -29, big: true },
+  { a: -19, big: false },
+  { a: -9, big: true },
+  { a: 1, big: false },
+  { a: 11, big: true },
+  { a: 21, big: false },
+  { a: 31, big: true },
+  { a: 42, big: false },
+  { a: 52, big: true },
+];
+const R_OUT = 41;
+const CX = 60;
+const CY = 63;
+const tick = (a: number, big: boolean) => {
+  const rad = (a * Math.PI) / 180;
+  const rIn = big ? R_OUT - 8 : R_OUT - 4.5;
+  return {
+    x1: CX + R_OUT * Math.sin(rad),
+    y1: CY - R_OUT * Math.cos(rad),
+    x2: CX + rIn * Math.sin(rad),
+    y2: CY - rIn * Math.cos(rad),
+  };
+};
+const arcRad = (52 * Math.PI) / 180;
+const arc = {
+  x1: CX - R_OUT * Math.sin(arcRad),
+  y: CY - R_OUT * Math.cos(arcRad),
+  x2: CX + R_OUT * Math.sin(arcRad),
+};
+---
+
+<a
+  class:list={["rcta", featured && "rcta--featured"]}
+  href={href}
+  style={`--peak:${peak}deg`}
+>
+  <span class="rcta__cap rcta__cap--l" aria-hidden="true"></span>
+
+  <span class="rcta__face">
+    <span class="rcta__meter" aria-hidden="true">
+      <svg viewBox="0 0 120 76" class="rcta__svg">
+        <defs>
+          {/* The backlight is brightest just under the scale and falls off to
+              the corners, which is what an edge-lit meter actually looks
+              like. Ids are suffixed per instance so two meters on one page
+              cannot collide. */}
+          <radialGradient id={`rcta-lamp-${uid}`} cx="50%" cy="78%" r="78%">
+            <stop offset="0%" stop-color="#3f92dd"/>
+            <stop offset="55%" stop-color="#1f66b4"/>
+            <stop offset="100%" stop-color="#0b2f56"/>
+          </radialGradient>
+        </defs>
+        <rect x="2" y="2" width="116" height="72" rx="5" fill={`url(#rcta-lamp-${uid})`}/>
+        <!-- scale -->
+        <path
+          d={`M${arc.x1} ${arc.y} A ${R_OUT} ${R_OUT} 0 0 1 ${arc.x2} ${arc.y}`}
+          fill="none" stroke="#eaf3ff" stroke-width="1.4" stroke-linecap="round" opacity=".92"
+        />
+        {TICKS.map((t) => {
+          const p = tick(t.a, t.big);
+          return (
+            <line
+              x1={p.x1} y1={p.y1} x2={p.x2} y2={p.y2}
+              stroke="#eaf3ff" stroke-width={t.big ? 1.6 : 1}
+              stroke-linecap="round" opacity={t.big ? ".95" : ".7"}
+            />
+          );
+        })}
+        <!-- the red overload stretch at the top of the scale -->
+        <path
+          d={`M${CX + R_OUT * Math.sin((31 * Math.PI) / 180)} ${CY - R_OUT * Math.cos((31 * Math.PI) / 180)} A ${R_OUT} ${R_OUT} 0 0 1 ${arc.x2} ${arc.y}`}
+          fill="none" stroke="#ff5a4d" stroke-width="2.4" stroke-linecap="round" opacity=".9"
+        />
+        <!-- needle -->
+        <g class="rcta__needle">
+          <line x1={CX} y1={CY} x2={CX} y2={CY - R_OUT - 4} stroke="#0b1220" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+        <circle cx={CX} cy={CY} r="3.2" fill="#0b1220"/>
+        <circle cx={CX} cy={CY} r="1.2" fill="#8fbdf0"/>
+      </svg>
+      <span class="rcta__glassline"></span>
+    </span>
+
+    <span class="rcta__plate">
+      <span class="rcta__label">{label}</span>
+      <span class="rcta__sub">LIVE BAND WEB STUDIOS</span>
+    </span>
+  </span>
+
+  <span class="rcta__cap rcta__cap--r" aria-hidden="true"></span>
+</a>
+
+<style>
+  /* ---------- chassis ---------- */
+  .rcta {
+    --alu-1: #d8dbdf;
+    --alu-2: #9aa0a8;
+    --alu-3: #6f757d;
+    --peak: 34deg;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 1.4rem;
+    border-radius: 9px;
+    overflow: hidden;
+    isolation: isolate;
+    text-decoration: none;
+    /* The whole unit sits on the page like an object, not a rectangle: a hard
+       top highlight, a long soft drop, and a dark contact shadow underneath. */
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.75),
+      0 1px 0 rgba(255, 255, 255, 0.06),
+      0 12px 26px rgba(0, 0, 0, 0.55),
+      0 2px 6px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(180deg, #14181d 0%, #0a0d11 52%, #05070a 100%);
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+
+  /* ---------- brushed alloy end caps ---------- */
+  .rcta__cap {
+    position: relative;
+    flex: none;
+    width: 17px;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.16) 0 1px,
+        rgba(0, 0, 0, 0.10) 1px 2px
+      ),
+      linear-gradient(90deg, var(--alu-3), var(--alu-1) 38%, var(--alu-2) 62%, var(--alu-3));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.45);
+  }
+  .rcta__cap--l { border-right: 1px solid rgba(0, 0, 0, 0.7); }
+  .rcta__cap--r { border-left: 1px solid rgba(0, 0, 0, 0.7); }
+
+  /* ---------- glass face ---------- */
+  .rcta__face {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
+    padding: 0.7rem 0.9rem;
+    background:
+      radial-gradient(120% 140% at 30% -10%, rgba(255, 255, 255, 0.08), transparent 60%),
+      linear-gradient(180deg, #10141a 0%, #080b0f 60%, #04060a 100%);
+  }
+
+  /* ---------- the meter ---------- */
+  .rcta__meter {
+    position: relative;
+    flex: none;
+    width: 96px;
+    height: 61px;
+    border-radius: 6px;
+    overflow: hidden;
+    /* Recessed into the face: dark rim, inner shadow at the top, and the blue
+       backlight spilling out past the bezel. */
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.9),
+      inset 0 2px 6px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.07),
+      0 0 16px rgba(40, 120, 210, 0.35);
+    transition: box-shadow 0.35s var(--ease);
+  }
+  .rcta__svg { display: block; width: 100%; height: 100%; }
+
+  /* Curved glass: a diagonal sheen across the meter window. */
+  .rcta__glassline {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      152deg,
+      rgba(255, 255, 255, 0.30) 0%,
+      rgba(255, 255, 255, 0.06) 26%,
+      transparent 52%
+    );
+  }
+
+  .rcta__needle {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transform: rotate(-46deg);
+    /* Slight overshoot, the way a real moving-coil needle overswings and
+       settles rather than sliding to a stop. */
+    transition: transform 0.55s cubic-bezier(0.2, 1.5, 0.35, 1);
+  }
+
+  /* ---------- label plate ---------- */
+  .rcta__plate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.22rem;
+    min-width: 0;
+  }
+  .rcta__label {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #eef3f8;
+    line-height: 1.15;
+    /* Engraved: a dark cut above, a light bevel below. */
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+  .rcta__sub {
+    font-family: var(--mono);
+    font-size: 0.47rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(252, 211, 77, 0.72);
+    text-shadow: 0 0 8px rgba(252, 211, 77, 0.35);
+  }
+
+  /* The loud one: warmer plate, brighter backlight. */
+  .rcta--featured .rcta__label { color: #fff; }
+  .rcta--featured .rcta__meter {
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.9),
+      inset 0 2px 6px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.09),
+      0 0 22px rgba(60, 150, 240, 0.5);
+  }
+
+  /* ---------- hover / focus: the needle swings ---------- */
+  .rcta:hover,
+  .rcta:focus-visible {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.34),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.75),
+      0 1px 0 rgba(255, 255, 255, 0.08),
+      0 18px 34px rgba(0, 0, 0, 0.6),
+      0 3px 8px rgba(0, 0, 0, 0.65);
+  }
+  .rcta:focus-visible {
+    outline: 2px solid var(--cyan-soft);
+    outline-offset: 3px;
+  }
+  .rcta:hover .rcta__needle,
+  .rcta:focus-visible .rcta__needle {
+    transform: rotate(var(--peak));
+  }
+  .rcta:hover .rcta__meter,
+  .rcta:focus-visible .rcta__meter {
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.9),
+      inset 0 2px 6px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 0 30px rgba(70, 160, 250, 0.68);
+  }
+
+  /* ---------- press ---------- */
+  .rcta:active {
+    transform: translateY(1px);
+    box-shadow:
+      inset 0 2px 5px rgba(0, 0, 0, 0.8),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+      0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  @media (max-width: 520px) {
+    .rcta { max-width: none; }
+    .rcta__meter { width: 82px; height: 54px; }
+    .rcta__label { font-size: 0.68rem; }
+  }
+
+  /* The swing is decorative. Park the needle mid-scale and hold it there. */
+  @media (prefers-reduced-motion: reduce) {
+    .rcta,
+    .rcta__needle,
+    .rcta__meter {
+      transition: none;
+    }
+    .rcta__needle { transform: rotate(-8deg); }
+    .rcta:hover .rcta__needle,
+    .rcta:focus-visible .rcta__needle { transform: rotate(-8deg); }
+    .rcta:hover, .rcta:focus-visible { transform: none; }
+  }
+</style>

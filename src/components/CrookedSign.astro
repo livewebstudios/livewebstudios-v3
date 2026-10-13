@@ -1,0 +1,118 @@
+---
+/**
+ * CrookedSign — small hand-painted-looking gold tag pointing musicians and
+ * bands at Live Band Web Studios, wherever the "Live Band Web Studios" link
+ * appears sitewide (Jon 2026-09-17: "crooked sign... not too obtrusive, not
+ * ugly, hip/cool, funish... gold". Round 2, same day: "contrast could be
+ * better, font more clear" — flattened the gradient to one saturated gold,
+ * dropped the italic, went bolder/near-black on the text, and sized both
+ * lines up a notch).
+ *
+ * Pure CSS, no webfont, no dependency: an unevenly-cornered gold plank with a
+ * nail in the corner, idling between -8deg and -4deg (paused under
+ * prefers-reduced-motion, and on hover it tilts further instead). It links to
+ * the same destination as the neighboring text link, same pattern as a
+ * thumbnail image linking beside its own title.
+ */
+export interface Props {
+  href: string;
+  /** Smaller variant for tight spots (the footer list row). */
+  compact?: boolean;
+}
+const { href, compact = false } = Astro.props;
+---
+
+<a class:list={["crooked-sign", compact && "crooked-sign--sm"]} href={href} aria-label="Live Band Web Studios">
+  <span class="crooked-sign__nail" aria-hidden="true"></span>
+  <span class="crooked-sign__l1">Musicians/Bands&hellip;</span>
+  <span class="crooked-sign__l2">click here <span aria-hidden="true">&rarr;</span></span>
+</a>
+
+<style>
+  .crooked-sign {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.08rem;
+    padding: 0.38rem 0.7rem 0.42rem;
+    background: linear-gradient(160deg, #f7c928 0%, #e0a516 100%);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    border-radius: 3px 9px 4px 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: #140d02;
+    text-decoration: none;
+    line-height: 1.2;
+    transform: rotate(-7deg);
+    transform-origin: 50% 0%;
+    animation: crooked-sign-idle 3.6s ease-in-out infinite alternate;
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    flex: none;
+  }
+  .crooked-sign:hover,
+  .crooked-sign:focus-visible {
+    transform: rotate(-11deg) translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    animation-play-state: paused;
+  }
+  .crooked-sign__nail {
+    position: absolute;
+    top: -4px;
+    left: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #c7cfd8, #2c323b 70%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+  }
+  .crooked-sign__l1 {
+    /* Color is set here, not just on the parent anchor: the surrounding
+       page (.hero-links a, .foot-col a) targets "a" elements specifically,
+       and its color wins on specificity over the anchor-level rule below
+       since Astro's scoped-style attribute rides along on this component's
+       root element. Neither surrounding rule touches a span, so pinning the
+       color here is what actually keeps the text dark everywhere this sign
+       is dropped in. Jon 2026-09-17: "gold bg is fine, make the font dark." */
+    color: #140d02;
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .crooked-sign__l2 {
+    color: #140d02;
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .crooked-sign--sm {
+    padding: 0.3rem 0.6rem 0.34rem;
+    transform: rotate(-6deg);
+  }
+  .crooked-sign--sm .crooked-sign__l1 {
+    font-size: 0.62rem;
+  }
+  .crooked-sign--sm .crooked-sign__l2 {
+    font-size: 0.68rem;
+  }
+
+  @keyframes crooked-sign-idle {
+    from {
+      transform: rotate(-8deg);
+    }
+    to {
+      transform: rotate(-4deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .crooked-sign {
+      animation: none;
+    }
+  }
+</style>

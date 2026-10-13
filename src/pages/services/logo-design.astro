@@ -8,7 +8,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
-import CardIcon from "../../components/CardIcon.astro";
+import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
@@ -16,6 +16,15 @@ import HeroActions from "../../components/HeroActions.astro";
 /* Schema: the WebPage node Base would emit by default, plus a Service node
    for the offering this page describes (project rule: every page carries
    schema; the live site has it on 61 pages). */
+/* Points-only rows: these two were plain lists in the card grid, so they
+   carry no body line (scannable-ui pass 2026-09-28). */
+const included = [
+  { title: "What You Get",
+    points: ["3 initial concepts", "2 rounds of revisions", "Every format (AI, EPS, SVG, PNG, PDF)", "Color, B&W, reversed versions", "Style guide"] },
+  { title: "Graphic Services",
+    points: ["Social media assets", "Print collateral", "Signage artwork", "Presentation templates", "AI-assisted imagery"] },
+];
+
 const pageSchema = [
   {
     "@context": "https://schema.org",
@@ -75,47 +84,31 @@ const pageSchema = [
             visible so no new copy lands on seven pages without Jon seeing it;
             swap the class off to show it. */}
         <h2 class="visually-hidden">What logo design includes</h2>
-        <div class="grid-svc">
-          <div class="card reveal">
-            <Glass variant="inner" innerClass="card-pad">
-              <h3>What You Get</h3>
-              <ul>
-                <li>3 initial concepts</li>
-                <li>2 rounds of revisions</li>
-                <li>Every format (AI, EPS, SVG, PNG, PDF)</li>
-                <li>Color, B&amp;W, reversed versions</li>
-                <li>Style guide</li>
-              </ul>
-              <CardIcon title="What You Get" />
-            </Glass>
-          </div>
-          <div class="card reveal">
-            <Glass variant="inner" innerClass="card-pad">
-              <h3>Graphic Services</h3>
-              <ul>
-                <li>Social media assets</li>
-                <li>Print collateral</li>
-                <li>Signage artwork</li>
-                <li>Presentation templates</li>
-                <li>AI-assisted imagery</li>
-              </ul>
-              <CardIcon title="Graphic Services" />
-            </Glass>
-          </div>
-        </div>
+        <IncludedList items={included} />
       </div>
     </section>
 
     <!-- CTA -->
     <section class="sec-pad">
-      <div class="wrap">
-        <Glass class="reveal" innerClass="cta">
+      <div class="wrap split split--art-first">
+        <Glass class="reveal" innerClass="portrait portrait--img">
+          <img
+            src="../images/logo-design-cta-sketches.jpg"
+            alt="Pencil sketches of a geometric logo mark on tracing paper with a brass compass, next to the finished navy and orange mark printed on a cream card"
+            width="1000"
+            height="1250"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="frame-lines"></div>
+        </Glass>
+        <div class="cta cta--bare reveal">
           <h2>Ready for a Mark That Lasts?</h2>
           <div class="hero-btns">
             <a href="../contact.html" class="btn btn-primary">Start Your Logo →</a>
             <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
           </div>
-        </Glass>
+        </div>
       </div>
     </section>
   </main>
