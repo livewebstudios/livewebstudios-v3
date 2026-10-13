@@ -1,0 +1,58 @@
+---
+/**
+ * /newsletter/thanks — where a newsletter signup lands when the page script
+ * didn't run (the subscribe function 303s here). With the script, the form
+ * swaps in place and nobody sees this page. noindex, and kept out of the
+ * sitemap in astro.config.mjs. Built 2026-10-13 with the Turnstile form.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import VideoBg from "../../components/VideoBg.astro";
+import Marquee from "../../components/Marquee.astro";
+import HeroActions from "../../components/HeroActions.astro";
+import { relPrefix } from "../../lib/relPrefix";
+
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<Base
+  title="Check Your Inbox | Live Web Studios"
+  description="One more step: click the confirmation link we just emailed you to join the Live Web Studios newsletter."
+  canonical="https://livewebstudios.com/newsletter/thanks"
+  noindex={true}
+>
+  <Nav />
+
+  <main>
+    <!-- PAGE HEAD -->
+    <section class="page-head page-head--glass has-videobg">
+      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">ALMOST THERE</span>
+        <h1 class="page-h1">Check your <em>inbox</em>.</h1>
+        <p class="page-lede">We just sent you a confirmation email. Click the link in it and you're on the list. Nothing else arrives until you do.</p>
+        <HeroActions links />
+      </div>
+    </section>
+
+    <Marquee />
+
+    <!-- WHAT HAPPENS NEXT -->
+    <section class="sec-pad">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">DON'T SEE IT?</span>
+          <h2>Give it a few minutes.</h2>
+          <p>Then look in spam or promotions for an email from Live Web Studios. Still nothing? Email jonwolf@livewebstudios.com and I'll add you myself.</p>
+        </div>
+        <div class="hero-btns reveal">
+          <a href={`${rel}blog.html`} class="btn btn-primary">Read the Blog →</a>
+          <a href={`${rel}index.html`} class="btn btn-ghost">Back to Home</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

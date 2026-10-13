@@ -4,7 +4,8 @@
  * left brand block (logo, tagline, newsletter subscribe) + link columns
  * (Pages / Services / Industries / Studios / Legal) + clean bottom
  * bar (copyright · badge · credit). Newsletter form posts to the same
- * Mailchimp endpoint as /newsletter. Town pages stay held for a later phase.
+ * Netlify subscribe function as /newsletter, and the submit script at the
+ * foot of this file drives both. Town pages stay held for a later phase.
  *
  * Background: bg-blue-fog looping video (strong scrim for dense-link
  * legibility). Link text Title Case per Jon's nav-case decision.
@@ -13,6 +14,7 @@ import VideoBg from "./VideoBg.astro";
 import Arrow from "./Arrow.astro";
 import Social from "./Social.astro";
 import { relPrefix } from "../lib/relPrefix";
+import { TURNSTILE_SITE_KEY, subscribeAction } from "../lib/newsletter";
 const path = Astro.url.pathname;
 const rel = relPrefix(path);
 
@@ -20,10 +22,6 @@ const rel = relPrefix(path);
    On a Live Band page it points home to the LWS blog; everywhere else it
    points musicians at theirs. Jon 2026-09-15. */
 const onBand = path.includes("/live-band-web-studios");
-
-// Exact Mailchimp endpoint from the live newsletter page.
-const MAILCHIMP_ACTION =
-  "https://livewebstudios.us18.list-manage.com/subscribe/post?u=612de0c3a91b0bcc090cd2337&id=30b288c666&f_id=00d229e7f0";
 
 const cols = [
   {
@@ -85,13 +83,22 @@ const cols = [
         <p class="foot-tag">Custom, AI-platformed websites for small business. Built in North Jersey since 2004.</p>
 
         <span class="foot-loop">STAY IN THE LOOP</span>
-        <form class="foot-sub" action={MAILCHIMP_ACTION} method="post" target="_blank">
-          <input type="email" name="EMAIL" required autocomplete="email" placeholder="your@email.com" aria-label="Email address" />
-          <div class="foot-honeypot" aria-hidden="true">
-            <input type="text" name="b_612de0c3a91b0bcc090cd2337_30b288c666" tabindex="-1" value="" />
+        <form class="foot-sub" action={subscribeAction(rel)} method="post" data-newsletter>
+          <div class="foot-sub-row">
+            <input type="email" name="EMAIL" required autocomplete="email" placeholder="your@email.com" aria-label="Email address" />
+            <button type="submit" class="btn btn-primary">Subscribe</button>
           </div>
-          <input type="hidden" name="tags" value="2524065" />
-          <button type="submit" class="btn btn-primary">Subscribe</button>
+          <div class="foot-honeypot" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off" value="" />
+          </div>
+          <div class="nl-challenge" data-sitekey={TURNSTILE_SITE_KEY}></div>
+          <p class="nl-error" role="alert" hidden></p>
+          <template data-done>
+            <div class="nl-done" tabindex="-1">
+              <strong>Check your inbox.</strong>
+              <p>Click the confirm link we just sent. That's what puts you on the list.</p>
+            </div>
+          </template>
         </form>
 
         <div class="foot-contactline">
@@ -174,6 +181,111 @@ const cols = [
   </div>
 </footer>
 
+{/* Newsletter submit, for every form[data-newsletter] on the page (this
+    footer's, plus the /newsletter page form). Lives here because the footer
+    is on every page exactly once. Turnstile renders explicitly into each
+    .nl-challenge box, interaction-only, so nobody sees it unless Cloudflare
+    wants a click. It loads on first focus of a form, or on page load for a
+    form marked data-turnstile-eager, which keeps Cloudflare's script off
+    pages where nobody touches the footer. Tokens are single-use, so the
+    widget resets after any failed send. */}
+<script is:inline>
+  (() => {
+    const forms = document.querySelectorAll("form[data-newsletter]");
+    if (!forms.length) return;
+
+    const GENERIC =
+      "That didn't go through. Try again in a minute, or email jonwolf@livewebstudios.com.";
+    let api;
+    const loadTurnstile = () =>
+      (api ||= new Promise((resolve, reject) => {
+        if (window.turnstile) return resolve(window.turnstile);
+        window.lwsTurnstileReady = () => resolve(window.turnstile);
+        const s = document.createElement("script");
+        s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=lwsTurnstileReady";
+        s.async = true;
+        s.onerror = () => {
+          api = null;
+          reject(new Error("turnstile failed to load"));
+        };
+        document.head.appendChild(s);
+      }));
+
+    forms.forEach((form) => {
+      const box = form.querySelector(".nl-challenge");
+      const err = form.querySelector(".nl-error");
+      const btn = form.querySelector('button[type="submit"]');
+      let widget;
+      let waiting = [];
+
+      const arm = () =>
+        loadTurnstile().then((ts) => {
+          if (widget === undefined) {
+            widget = ts.render(box, {
+              sitekey: box.dataset.sitekey,
+              appearance: "interaction-only",
+              action: "newsletter",
+              callback: (t) => {
+                waiting.forEach((done) => done(t));
+                waiting = [];
+              },
+            });
+          }
+          return ts;
+        });
+
+      // The token is usually ready by the time someone finishes typing. If
+      // not (autofill + Enter, or a challenge to click), wait for it.
+      const token = () =>
+        arm().then(
+          (ts) =>
+            ts.getResponse(widget) ||
+            new Promise((resolve, reject) => {
+              waiting.push(resolve);
+              setTimeout(() => reject(new Error("turnstile timeout")), 30000);
+            })
+        );
+
+      if (form.hasAttribute("data-turnstile-eager")) arm().catch(() => {});
+      else form.addEventListener("focusin", () => arm().catch(() => {}), { once: true });
+
+      const fail = (msg) => {
+        err.textContent = msg || GENERIC;
+        err.hidden = false;
+        if (widget !== undefined && window.turnstile) window.turnstile.reset(widget);
+      };
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        err.hidden = true;
+        btn.disabled = true;
+        try {
+          const data = new FormData(form);
+          data.set("cf-turnstile-response", await token());
+          const res = await fetch(form.action, {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body: new URLSearchParams(data),
+          });
+          const out = await res.json().catch(() => ({}));
+          if (res.ok && out.ok) {
+            const done = form.querySelector("template[data-done]").content.firstElementChild.cloneNode(true);
+            form.replaceWith(done);
+            done.focus();
+            return;
+          }
+          fail(out.message);
+        } catch {
+          fail();
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    });
+  })();
+</script>
+
 <style>
   /* Footer layout — scoped, existing tokens only. */
   .foot-cols {
@@ -202,8 +314,19 @@ const cols = [
      bar, split by the field/button edge. Field takes the ghost half's fill,
      Subscribe takes the primary white half. */
   .foot-sub {
-    display: flex;
     max-width: 340px;
+  }
+  .foot-sub-row {
+    display: flex;
+  }
+  .foot-sub .nl-challenge:not(:empty) {
+    margin: 0.8rem 0 0;
+  }
+  .foot-sub .nl-done strong {
+    font-size: 0.92rem;
+  }
+  .foot-sub .nl-done p {
+    font-size: 0.86rem;
   }
   .foot-sub input[type="email"] {
     flex: 1;

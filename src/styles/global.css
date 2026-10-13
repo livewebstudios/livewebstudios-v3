@@ -904,6 +904,16 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
 .field select{appearance:none;cursor:pointer}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden} /* Formspree honeypot */
 .form-actions{margin-top:.4rem}
+
+/* ---- Newsletter signup (/newsletter + footer), see src/lib/newsletter.ts ---- */
+/* Turnstile runs interaction-only: this box is empty unless Cloudflare asks
+   for a click, and then the widget appears here. */
+.nl-challenge:not(:empty){margin:.4rem 0 1rem}
+.nl-error{margin-top:.8rem;color:#fca5a5;font-size:.86rem;line-height:1.5}
+.nl-done{outline:none}
+.form-pad .nl-done{text-align:center} /* /newsletter: sits under a centered eyebrow */
+.nl-done strong{display:block;color:var(--ink-soft);margin-bottom:.3rem}
+.nl-done p{color:var(--muted);line-height:1.6}
 .contact-aside :is(h2,h3){font-size:1.06rem;font-weight:600;color:var(--ink-soft);margin-bottom:.3rem}
 .contact-aside .label{display:block;margin-bottom:1.4rem}
 .contact-line{display:flex;flex-direction:column;gap:.2rem;margin-bottom:1.3rem}

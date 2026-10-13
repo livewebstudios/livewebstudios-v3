@@ -19,6 +19,7 @@ export default defineConfig({
     // so it never contradicts their robots meta.
     filter: (page) =>
       !page.includes('/thank-you') &&
+      !page.includes('/newsletter/thanks') &&
       !page.includes('/decap') &&
       !page.includes('/admin') &&
       !page.includes('/forms/') &&

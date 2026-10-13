@@ -1,11 +1,13 @@
 ---
 /**
- * /newsletter — ported from livewebstudios.com/newsletter.
- * The exact Mailchimp embedded form is preserved: action URL (u/id/f_id),
- * FNAME + EMAIL fields, the bot-trap field name, and the hidden tags value.
- * The live page used js/newsletter.js for an inline AJAX confirmation panel;
- * v3 has no such script, so this posts to Mailchimp directly (opens Mailchimp's
- * standard confirmation) via target="_blank". EM DASH BAN applied.
+ * /newsletter — ported from livewebstudios.com/newsletter. EM DASH BAN applied.
+ *
+ * 2026-10-13: no longer posts to Mailchimp directly. Bots were posting to the
+ * list-manage.com URL in the page source, so the form now goes to the Netlify
+ * subscribe function (Turnstile check, then Mailchimp double opt-in). The
+ * submit script lives in Footer.astro and handles every form carrying
+ * data-newsletter. data-turnstile-eager loads Turnstile on page load here,
+ * since this page exists to be signed up on; the footer form waits for focus.
  */
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
@@ -14,11 +16,10 @@ import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
+import { relPrefix } from "../lib/relPrefix";
+import { TURNSTILE_SITE_KEY, subscribeAction } from "../lib/newsletter";
 
-// Exact Mailchimp endpoint from the live newsletter page (built as an expression
-// so the & characters aren't HTML-entity-parsed).
-const MAILCHIMP_ACTION =
-  "https://livewebstudios.us18.list-manage.com/subscribe/post?u=612de0c3a91b0bcc090cd2337&id=30b288c666&f_id=00d229e7f0";
+const rel = relPrefix(Astro.url.pathname);
 ---
 
 <Base
@@ -49,13 +50,13 @@ const MAILCHIMP_ACTION =
         <Glass class="reveal" innerClass="form-pad">
           <span class="eyebrow is-center mb-md">JOIN THE NEWSLETTER</span>
 
-          <!-- Mailchimp embedded form — endpoint + field names preserved exactly -->
           <form
             id="newsletterForm"
-            action={MAILCHIMP_ACTION}
+            action={subscribeAction(rel)}
             method="post"
-            target="_blank"
             novalidate
+            data-newsletter
+            data-turnstile-eager
           >
             <div class="field full">
               <label for="mce-FNAME">First name <span class="opt">(optional)</span></label>
@@ -67,17 +68,27 @@ const MAILCHIMP_ACTION =
               <input id="mce-EMAIL" type="email" name="EMAIL" required autocomplete="email" placeholder="you@yourcompany.com" />
             </div>
 
-            <!-- Mailchimp bot trap. Off-screen, never display:none. Do not rename. -->
+            <!-- Bot trap, checked by the subscribe function. Off-screen, never display:none. -->
             <div class="hp" aria-hidden="true">
-              <input type="text" name="b_612de0c3a91b0bcc090cd2337_30b288c666" tabindex="-1" value="" />
+              <input type="text" name="website" tabindex="-1" autocomplete="off" value="" />
             </div>
-            <input type="hidden" name="tags" value="2524065" />
+
+            <div class="nl-challenge" data-sitekey={TURNSTILE_SITE_KEY}></div>
 
             <div class="form-actions">
               <button type="submit" class="btn btn-primary" id="newsletterSubmit">Sign Me Up →</button>
             </div>
 
+            <p class="nl-error" role="alert" hidden></p>
             <p class="opt" style="margin-top:1rem">We'll never sell or share your email. One click to unsubscribe, always.</p>
+
+            <template data-done>
+              <div class="nl-done" tabindex="-1">
+                <strong>One more step. Check your inbox.</strong>
+                <p>We just sent you a confirmation email. Click the link in it and you're on the list. Nothing else arrives until you do.</p>
+                <p>Not there in a few minutes? Look in spam or promotions for an email from Live Web Studios.</p>
+              </div>
+            </template>
           </form>
         </Glass>
       </div>

@@ -10,6 +10,12 @@
   command = "npm run build"
   publish = "dist"
 
+# ===== FUNCTIONS =====
+# netlify/functions/subscribe.mjs: newsletter signup (Turnstile + Mailchimp).
+# Needs TURNSTILE_SECRET_KEY and MAILCHIMP_API_KEY in the Netlify env.
+[functions]
+  directory = "netlify/functions"
+
 # ===== FORCE HTTPS =====
 [[redirects]]
   from = "http://livewebstudios.com/*"
