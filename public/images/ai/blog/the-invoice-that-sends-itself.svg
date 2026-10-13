@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+<title>A corner-cut invoice document gliding along a node track past turning gears toward a violet outbound arrow.</title>
+<rect width="1600" height="900" fill="#0E0B1A"/>
+<line x1="80" y1="610" x2="1360" y2="610" stroke="#5E6B7E" stroke-width="4"/>
+<line x1="80" y1="632" x2="1360" y2="632" stroke="#5E6B7E" stroke-width="2" stroke-dasharray="6 14"/>
+<circle cx="140" cy="610" r="16" fill="#A78BFA" stroke="#A78BFA" stroke-width="4"/>
+<circle cx="380" cy="610" r="16" fill="#A78BFA" stroke="#A78BFA" stroke-width="4"/>
+<circle cx="620" cy="610" r="16" fill="#A78BFA" stroke="#A78BFA" stroke-width="4"/>
+<circle cx="860" cy="610" r="16" fill="#0E0B1A" stroke="#5E6B7E" stroke-width="4"/>
+<circle cx="1100" cy="610" r="16" fill="#0E0B1A" stroke="#5E6B7E" stroke-width="4"/>
+<line x1="140" y1="610" x2="860" y2="610" stroke="#A78BFA" stroke-width="4"/>
+<path d="M449 369L472 371L472 389L449 391L445 405L464 418L455 433L434 424L424 434L433 455L418 464L405 445L391 449L389 472L371 472L369 449L355 445L342 464L327 455L336 434L326 424L305 433L296 418L315 405L311 391L288 389L288 371L311 369L315 355L296 342L305 327L326 336L336 326L327 305L342 296L355 315L369 311L371 288L389 288L391 311L405 315L418 296L433 305L424 326L434 336L455 327L464 342L445 355Z" fill="#0E0B1A" stroke="#5E6B7E" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="380" cy="380" r="30" fill="#0E0B1A" stroke="#5E6B7E" stroke-width="4"/>
+<path d="M547 288L563 292L560 307L544 305L537 315L547 328L535 338L524 326L513 329L511 346L496 345L495 329L484 325L472 336L461 326L471 313L466 303L449 304L447 289L463 285L465 274L452 264L460 252L475 259L484 252L480 236L494 231L500 246L512 247L519 232L533 237L528 253L537 261L552 254L559 267L545 276Z" fill="none" stroke="#A78BFA" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="505" cy="288" r="14" fill="#A78BFA"/>
+<line x1="380" y1="594" x2="380" y2="480" stroke="#5E6B7E" stroke-width="3"/>
+<path d="M1100 594V442H1180" fill="none" stroke="#5E6B7E" stroke-width="3"/>
+<path d="M520 350H650L690 390V570H520Z" fill="none" stroke="#5E6B7E" stroke-width="3" opacity="0.35"/>
+<path d="M610 350H740L780 390V570H610Z" fill="none" stroke="#5E6B7E" stroke-width="3" opacity="0.6"/>
+<line x1="500" y1="400" x2="680" y2="400" stroke="#A78BFA" stroke-width="4" opacity="0.45"/>
+<line x1="560" y1="450" x2="700" y2="450" stroke="#A78BFA" stroke-width="4" opacity="0.65"/>
+<line x1="470" y1="500" x2="690" y2="500" stroke="#A78BFA" stroke-width="4" opacity="0.8500000000000001"/>
+<path d="M720 350H850L890 390V570H720Z" fill="#F3F7FA"/>
+<path d="M850 350V390H890" fill="none" stroke="#5E6B7E" stroke-width="3"/>
+<rect x="744" y="380" width="60" height="14" fill="#7C5CE0"/>
+<rect x="744" y="422" width="122" height="7" fill="#5E6B7E"/>
+<rect x="744" y="446" width="90" height="7" fill="#5E6B7E"/>
+<rect x="744" y="470" width="122" height="7" fill="#5E6B7E"/>
+<rect x="744" y="494" width="70" height="7" fill="#5E6B7E"/>
+<line x1="744" y1="528" x2="866" y2="528" stroke="#5E6B7E" stroke-width="3"/>
+<rect x="816" y="538" width="50" height="12" fill="#7C5CE0"/>
+<line x1="805" y1="570" x2="805" y2="594" stroke="#A78BFA" stroke-width="4"/>
+<path d="M1360 560H1440V500L1540 610L1440 720V660H1360Z" fill="#A78BFA"/>
+<path d="M1250 580H1330M1270 640H1330" stroke="#A78BFA" stroke-width="4" opacity="0.6"/>
+<path d="M1180 410H1226L1244 428V474H1180Z" fill="none" stroke="#A78BFA" stroke-width="4"/>
+<path d="M100 140h3v3h-3zM140 140h3v3h-3zM180 140h3v3h-3zM220 140h3v3h-3zM260 140h3v3h-3zM300 140h3v3h-3zM340 140h3v3h-3zM380 140h3v3h-3zM420 140h3v3h-3zM460 140h3v3h-3zM500 140h3v3h-3zM540 140h3v3h-3zM580 140h3v3h-3zM620 140h3v3h-3zM660 140h3v3h-3zM700 140h3v3h-3zM740 140h3v3h-3zM780 140h3v3h-3zM820 140h3v3h-3zM860 140h3v3h-3zM900 140h3v3h-3zM940 140h3v3h-3zM980 140h3v3h-3zM1020 140h3v3h-3zM1060 140h3v3h-3zM1100 140h3v3h-3zM1140 140h3v3h-3zM1180 140h3v3h-3zM1220 140h3v3h-3zM1260 140h3v3h-3zM1300 140h3v3h-3zM1340 140h3v3h-3zM1380 140h3v3h-3zM1420 140h3v3h-3zM1460 140h3v3h-3zM1500 140h3v3h-3zM100 180h3v3h-3zM140 180h3v3h-3zM180 180h3v3h-3zM220 180h3v3h-3zM260 180h3v3h-3zM300 180h3v3h-3zM340 180h3v3h-3zM380 180h3v3h-3zM420 180h3v3h-3zM460 180h3v3h-3zM500 180h3v3h-3zM540 180h3v3h-3zM580 180h3v3h-3zM620 180h3v3h-3zM660 180h3v3h-3zM700 180h3v3h-3zM740 180h3v3h-3zM780 180h3v3h-3zM820 180h3v3h-3zM860 180h3v3h-3zM900 180h3v3h-3zM940 180h3v3h-3zM980 180h3v3h-3zM1020 180h3v3h-3zM1060 180h3v3h-3zM1100 180h3v3h-3zM1140 180h3v3h-3zM1180 180h3v3h-3zM1220 180h3v3h-3zM1260 180h3v3h-3zM1300 180h3v3h-3zM1340 180h3v3h-3zM1380 180h3v3h-3zM1420 180h3v3h-3zM1460 180h3v3h-3zM1500 180h3v3h-3z" fill="#5E6B7E" opacity="0.4"/>
+<path d="M60 820V860H100" fill="none" stroke="#5E6B7E" stroke-width="3"/>
+</svg>

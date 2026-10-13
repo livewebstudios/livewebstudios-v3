@@ -13,6 +13,7 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import BandSeoCards from "../../components/BandSeoCards.astro";
+import ReceiverCta from "../../components/ReceiverCta.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import PhotoBg from "../../components/PhotoBg.astro";
 
@@ -51,7 +52,7 @@ import PhotoBg from "../../components/PhotoBg.astro";
 
               <p class="price-head">Includes:</p>
               <ul class="feats">
-                <li>Custom hand-built site (HTML/CSS/JS, no WordPress, no page builders, no templates, ever)</li>
+                <li>Custom hand-built site, no pre-made templates, ever. Designed just for you</li>
                 <li>Gig page with upcoming shows</li>
                 <li>Photo gallery</li>
                 <li>YouTube video embeds</li>
@@ -63,13 +64,14 @@ import PhotoBg from "../../components/PhotoBg.astro";
 
               <p class="price-head">Does not include:</p>
               <ul class="feats feats--neg">
+                <li>Custom logo</li>
                 <li>Blog posts</li>
                 <li>EPK page</li>
                 <li>Member bios</li>
                 <li>Set list management</li>
               </ul>
 
-              <a class="btn btn-ghost" href="../contact.html">Start With Basic →</a>
+              <ReceiverCta href="../contact.html" label="Start With Basic →" peak={18} />
             </Glass>
           </div>
 
@@ -112,7 +114,7 @@ import PhotoBg from "../../components/PhotoBg.astro";
                 <li>Monthly SEO + traffic + keyword ranking report</li>
               </ul>
 
-              <a class="btn btn-primary" href="../contact.html">Start With Touring / Pro →</a>
+              <ReceiverCta href="../contact.html" label="Start With Touring / Pro →" featured peak={46} />
             </Glass>
           </div>
         </div>

@@ -14,7 +14,7 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import VideoBg from "../components/VideoBg.astro";
-import ServiceCard from "../components/ServiceCard.astro";
+import ServiceRows from "../components/ServiceRows.astro";
 import Aurora from "../components/Aurora.jsx";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
@@ -24,40 +24,49 @@ import HeroActions from "../components/HeroActions.astro";
 /* 2026-09-07: all three card grids (home, services, industries) moved to the
    tiled metal weave, over an Aurora section background. The blue clouds are
    no longer used here. */
-const cardArt = "images/bg/metal-weave.jpg";
+/* Rows replaced the cards 2026-09-28 (scannable-ui), so the weave art is
+   no longer painted here. */
+const slug = (s: string) => s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 const groups = [
   {
     label: "WEBSITES & HOSTING",
     cards: [
-      { ico: "◧", title: "Website Design & Development", body: "Hand-coded, mobile-first, SEO-structured, fast.", href: "services/website-design.html" },
-      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html" },
-      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html" },
-      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Updates, backups, monitoring. Set it. Don't forget it.", href: "services/maintenance-plans.html" },
+      { ico: "◧", title: "Website Design & Development", body: "Hand-coded, mobile-first, SEO-structured, fast.", href: "services/website-design.html", points: ["Layout starts from your content, not a theme", "Tested on real devices, not just a resized window", "Schema markup for your business type"] },
+      { ico: "✦", title: "AI-Powered Website Platform", tag: "NEW", body: "Our AI-assisted build pipeline. Faster, smarter, better.", href: "services/ai-platform.html", points: ["Weeks off the timeline, not days", "Each page built against a real search", "Schema in from line one, not bolted on"] },
+      { ico: "⛭", title: "Web Hosting & Maintenance", body: "Managed VPS, daily backups, monitoring, support.", href: "services/hosting.html", points: ["Resources are yours, not split with neighbors", "30 days of offsite backups to roll back to", "SSL included and renewing on its own"] },
+      { ico: "◈", title: "Monthly Maintenance Plans", tag: "NEW", body: "Updates, backups, monitoring. Set it. Don't forget it.", href: "services/maintenance-plans.html", points: ["Daily offsite backups", "Small content edits included, no hourly billing", "Priority support when something breaks"] },
     ],
   },
   {
     label: "GROWTH & VISIBILITY",
     cards: [
-      { ico: "◎", title: "SEO & Digital Marketing", body: "Technical SEO, content, local visibility, monthly reporting.", href: "services/seo.html" },
-      { ico: "▤", title: "Website Audits & Consulting", tag: "NEW", body: "Find out why your site isn't working. Written report + call.", href: "services/consulting.html" },
+      { ico: "◎", title: "SEO & Digital Marketing", body: "Technical SEO, content, local visibility, monthly reporting.", href: "services/seo.html", points: ["Find what is actually blocking rankings", "Pages built around real searches", "Rankings, traffic, and calls in one place"] },
+      { ico: "▤", title: "Website Audits & Consulting", tag: "NEW", body: "Find out why your site isn't working. Written report + call.", href: "services/consulting.html", points: ["Real page speed numbers, not a grade", "Searches your buyers use that you miss", "Fixes ranked by effort against payoff"] },
     ],
   },
   {
     label: "AI & AUTOMATION",
     cards: [
-      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html" },
-      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html" },
-      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html" },
+      { ico: "⟐", title: "AI Business Services", tag: "NEW", body: "AI strategy, training, tool selection, custom workflows.", href: "services/ai-business-services.html", points: ["Honest ROI math before you spend", "Tools chosen for your workflow, not the hype", "Training recorded so new hires get it too"] },
+      { ico: "⬡", title: "AI Workflow Automation", tag: "NEW", body: "Automate repetitive tasks. Scale without adding headcount.", href: "services/ai-workflow.html", points: ["Drafts in your voice, not generic filler", "Leads ranked by how likely they are to buy", "A person still approves before anything ships"] },
+      { ico: "▦", title: "AI Image Manipulation", tag: "NEW", body: "Bulk product photos, virtual staging, AI headshots.", href: "services/ai-image.html", points: ["Hundreds of SKUs in one pass", "Furnish an empty room without renting furniture", "Headshots matched so a team looks like a team"] },
+      { ico: "✉", title: "Email Writing & Voice Systems", tag: "NEW", body: "Six AI email voices built from your own sent mail. The invoice chase, the scope decline, the bad news. Yours to keep.", href: "services/email-writing.html", points: ["Built from emails you actually wrote", "Tuned until they stop sounding wrong", "Yours to keep, nothing to renew"] },
     ],
   },
   {
     label: "BRAND & COMMERCE",
     cards: [
-      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html" },
-      { ico: "✧", title: "Logo Design & Graphics", body: "Marks that work at 16px and 16 feet. All file formats.", href: "services/logo-design.html" },
-      { ico: "⬢", title: "E-Commerce Solutions", body: "WooCommerce, Shopify, custom storefronts. Built to convert.", href: "services/ecommerce.html" },
-      { ico: "✷", title: "Custom Styles & Carousel Cards", tag: "NEW", body: "Archie, Mid-Century American & Pop-Art graphic sets for hero panels, carousels, and feature cards.", href: "services/custom-styles-and-carousel-cards.html" },
+      { ico: "❖", title: "Branding & Corporate Identity", body: "Logos, color, typography, brand systems that last.", href: "services/branding.html", points: ["Works at 16px and at 16 feet", "Exact color values for print and screen", "Editable originals, yours to keep"] },
+      { ico: "✧", title: "Logo Design & Graphics", body: "Marks that work at 16px and 16 feet. All file formats.", href: "services/logo-design.html", points: ["3 initial concepts, 2 rounds of revisions", "Every format: AI, EPS, SVG, PNG, PDF", "Color, B&W, and reversed versions"] },
+      { ico: "⬢", title: "E-Commerce Solutions", body: "WooCommerce, Shopify, custom storefronts. Built to convert.", href: "services/ecommerce.html", points: ["Checkout built for one thumb", "Card data never touches your site", "Price and availability in search results"] },
+      { ico: "✷", title: "Custom Styles & Carousel Cards", tag: "NEW", body: "Archie, Mid-Century American & Pop-Art graphic sets for hero panels, carousels, and feature cards.", href: "services/custom-styles-and-carousel-cards.html", points: ["Five hand-built looks", "Original photography, then branded cards", "Your copy painted into the art"] },
+    ],
+  },
+  {
+    label: "LEGAL",
+    cards: [
+      { ico: "⚖", title: "Expert Witness", tag: "NEW", body: "Forensic site analysis, standard of care opinions, and written expert reports for web development, SEO, and accessibility disputes. Plaintiff or defense.", href: "services/expert-witness.html", points: ["Failed builds and development disputes", "Accessibility tested to WCAG 2.1 AA", "Conflict check on one call, no charge"] },
     ],
   },
 ];
@@ -90,25 +99,23 @@ const groups = [
       <Aurora className="aurora--bg" base="#04060c" />
       <div class="wrap">
         <!-- em-dash: "by category below—everything" → "by category below. Everything" -->
-        <p class="page-lede is-center mb-lg">Most clients start with <a href="services/website-design.html">custom website design</a>, <a href="services/ai-platform.html">our AI-assisted platform build</a>, or <a href="services/hosting.html">managed hosting</a>. Skim by category below. Everything ties back to a faster, clearer site.</p>
+        <p class="page-lede is-center mb-lg">Most clients start with <a href="services/website-design.html">custom website design</a>, <a href="services/ai-platform.html">our AI-assisted platform build</a>, or <a href="services/hosting.html">managed hosting</a>. Jump to a category below. Everything ties back to a faster, clearer site.</p>
+        <p class="page-lede is-center mb-lg">When the whole job should run on AI, <a href="ai.html">AI-powered builds</a> from LiveAiStudios take it end to end.</p>
+
+        {/* Scannable-UI pass (2026-09-28): category jump chips, then each
+            category as ONE panel of divided rows instead of a 4-up card grid.
+            Rows share three edges (icon, text, arrow), so 15 services scan
+            in two screens instead of five, and the half-empty 2-card and
+            1-card rows are gone. Rows live in ServiceRows (shared with
+            /industries); home still uses ServiceCard. */}
+        <nav class="svc-jump" aria-label="Service categories">
+          {groups.map((g) => (
+            <a href={`#${slug(g.label)}`}>{g.label} <span>{g.cards.length}</span></a>
+          ))}
+        </nav>
 
         {groups.map((g) => (
-          <div class="svc-group">
-            {/* The group label is the visible pill, but it cannot BE the h2: the
-                global `.sec-head h2` rule is more specific than `.eyebrow--tag`
-                and would blow it up to a 3rem section title. So the heading is
-                carried alongside it, hidden, and the pill is marked decorative
-                so the label is not announced twice. */}
-            <div class="sec-head reveal">
-              <h2 class="visually-hidden">{g.label}</h2>
-              <span class="eyebrow eyebrow--tag" aria-hidden="true">{g.label}</span>
-            </div>
-            <div class="grid-svc grid-svc--4">
-              {g.cards.map((c) => (
-                <ServiceCard title={c.title} body={c.body} href={c.href} bg={cardArt} art="metal" tag={c.tag} />
-              ))}
-            </div>
-          </div>
+          <ServiceRows label={g.label} id={slug(g.label)} items={g.cards} />
         ))}
       </div>
     </section>
@@ -143,24 +150,32 @@ const groups = [
 </Base>
 
 <style>
-  /* Scanline stage for the services band (Jon 2026-08-27). The overlay
-     paints at z-index 0; the content wrapper rides above it. */
+  /* ---- Scannable services list (2026-09-28, scannable-ui pass) ----------
+     Receipt rule: icon on the left edge, title + one-line subline on a
+     shared text edge, arrow hard-right. Every row is the next row's edge.
+     One panel per category, rows divided by hairlines, no nested cards.
+     Color budget: everything at rest is neutral; cyan is spent on hover
+     and on the single CTA below. NEW is a quiet outline chip because 9 of
+     15 services carry it, and nine loud chips cancel each other out. */
 
-  /* Category-group spacing for the services hub. */
-  .svc-group { margin-top: clamp(2.5rem, 5vw, 4rem); }
-  /* The intro lede's mb-lg is overridden by the skin's .page-lede margin,
-     so the first group carries its own gap (Jon 2026-09-15: "spacing needed
-     above Websites & Hosting"). */
-  .svc-group:first-of-type { margin-top: clamp(2rem, 3.5vw, 3rem); }
-  .svc-group .sec-head { margin-bottom: 1.5rem; }
-  /* Category labels are the eyebrow tag pill at its stock size (Jon
-     2026-09-15: "too big here"), the same size as the SERVICES tag in the
-     hero. The old size-up from when these were plain text titles is gone. */
-
-  /* 4 columns on large screens (Jon 2026-08-15) */
-  @media (min-width: 1100px) {
-    .grid-svc--4 {
-      grid-template-columns: repeat(4, 1fr);
-    }
+  .svc-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
   }
+  .svc-jump a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--line-field);
+    border-radius: 999px;
+    background: rgba(5, 7, 11, 0.55);
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .svc-jump a span { color: var(--muted); margin-left: 0.35rem; }
+  .svc-jump a:hover { border-color: var(--cyan); color: var(--cyan-soft); }
 </style>

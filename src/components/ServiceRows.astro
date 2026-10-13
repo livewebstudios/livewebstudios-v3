@@ -1,0 +1,296 @@
+---
+/**
+ * ServiceRows — the hub-page list (blue): home, /services and /industries.
+ *
+ * Scannable-UI pass 2026-09-28, extracted from services.astro so the
+ * industries hub runs the same rows. Each item is one row: icon on the left
+ * edge, title + one-line subline, checkmark points behind a divider, arrow
+ * hard-right.
+ *
+ * Jon 2026-10-10: each row is now its own card in IncludedList's language
+ * (border, corner-sweep gradient, gap between rows, lift-and-glow hover, the
+ * divided checkmark column), so hub and detail pages read as one system.
+ * Hubs stay blue, detail pages plum (Jon 2026-09-28): the ramp below is
+ * --plum-card's stops carried into the site's navy/cyan.
+ *
+ * The single detail pages use IncludedList (plum) instead.
+ *
+ * Jon 2026-10-10: theme="ai" runs the same rows on /ai in the Live AI
+ * orange, with the blue ramp re-cut from warm ink into the logo orange.
+ * Jon asked for the ramp here by name, so these rows are a deliberate
+ * exception to the Live AI "orange flat only" rule. Rows without an href
+ * (the /ai model trio describes, it does not link) render as a plain card
+ * with no arrow.
+ */
+import CardIcon from "./CardIcon.astro";
+
+export interface Item {
+  title: string;
+  body: string;
+  /** Omit for a descriptive row: no link, no arrow. */
+  href?: string;
+  tag?: string;
+  /** 2 or 3 short takeaways, shown as the checkmark column. */
+  points?: string[];
+}
+export interface Props {
+  items: Item[];
+  /** Visible left-column label (h2). Omit for a single full-width list. */
+  label?: string;
+  /** Anchor id, for jump chips. */
+  id?: string;
+  /** "blue" (hubs, default) or "ai" (Live AI orange, /ai). */
+  theme?: "blue" | "ai";
+}
+const { items, label, id, theme = "blue" } = Astro.props;
+---
+
+<div class:list={["svc-cat", "reveal", !label && "svc-cat--full", theme === "ai" && "svc-cat--ai"]} id={id}>
+  {label && <h2 class="svc-cat__label">{label}</h2>}
+  <ul class="svc-list">
+    {items.map((c) => {
+      const Row = c.href ? "a" : "div";
+      return (
+      <li>
+        <Row class:list={["svc-row", c.points && "svc-row--points", !c.href && "svc-row--static"]} href={c.href}>
+          <CardIcon title={c.title} />
+          <div class="svc-row__text">
+            <h3>{c.title}{c.tag && <span class="svc-new">{c.tag}</span>}</h3>
+            <p>{c.body}</p>
+          </div>
+          {c.points && (
+            <ul class="svc-row__get" aria-label={`${c.title}: what you get`}>
+              {c.points.map((pt) => <li>{pt}</li>)}
+            </ul>
+          )}
+          {c.href && <span class="svc-row__go" aria-hidden="true">→</span>}
+        </Row>
+      </li>
+      );
+    })}
+  </ul>
+</div>
+
+<style>
+  .svc-cat {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: 0 2.5rem;
+    margin-top: clamp(2.25rem, 4.5vw, 3.5rem);
+    scroll-margin-top: 110px;
+  }
+  .svc-cat__label {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    color: var(--cyan-soft);
+    padding-top: 1.6rem;
+    margin: 0;
+  }
+
+  .svc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .svc-row {
+    /* --plum-card's stops, re-cut in navy into cyan. */
+    --blue-card: linear-gradient(142deg,
+      #101216 0%, #12161d 22%, #142338 40%,
+      #163553 55%, #19486b 70%, #1d5f84 85%, #27789e 100%);
+    --svc-shade: rgba(6, 9, 14, 0.42);
+    --svc-ico: 84px;
+    display: grid;
+    grid-template-columns: var(--svc-ico) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.4rem 1.75rem;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid rgba(80, 150, 200, 0.26);
+    border-radius: var(--r-lg);
+    background-color: rgba(0, 0, 0, 0.32);
+    /* Same shade-over-ramp as IncludedList so white text stays readable
+       where the bright end lands under the points column. */
+    background-image: linear-gradient(var(--svc-shade), var(--svc-shade)), var(--blue-card);
+    background-size: 118% 118%;
+    background-position: 0% 0%;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition:
+      background-position 0.85s var(--ease),
+      border-color 0.4s var(--ease),
+      box-shadow 0.4s var(--ease),
+      transform 0.4s var(--ease);
+  }
+  .svc-row--points {
+    grid-template-columns: var(--svc-ico) minmax(0, 1fr) 17rem auto;
+    align-items: start;
+  }
+  .svc-row--points .svc-row__go { align-self: center; }
+  .svc-row:hover,
+  .svc-row:focus-visible {
+    background-position: 100% 100%;
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 22px 60px rgba(0, 0, 0, 0.55),
+      0 0 44px rgba(30, 130, 190, 0.28);
+    transform: translateY(-5px);
+  }
+  .svc-row:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    .svc-row { transition: none; }
+    .svc-row:hover, .svc-row:focus-visible { transform: none; }
+  }
+
+  /* CardIcon ships at 144px, centered, pushed to a card foot. Here it is
+     the row's left edge, sized to fill the row without making it taller. */
+  .svc-row :global(.ico-anim) {
+    width: var(--svc-ico);
+    height: var(--svc-ico);
+    margin: 0;
+    padding: 0;
+    filter: none;
+  }
+  .svc-row__text { display: block; max-width: 62ch; }
+  .svc-row h3 {
+    font-family: var(--mono);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    color: var(--ink);
+    margin: 0 0 0.35rem;
+    transition: color 0.2s var(--ease);
+  }
+  .svc-row p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* The checkmark column: the row's receipt, behind a hairline divider. */
+  .svc-row__get {
+    list-style: none;
+    margin: 0;
+    padding: 0.1rem 0 0 1.25rem;
+    border-left: 1px solid rgba(56, 189, 248, 0.22);
+    display: grid;
+    gap: 0.5rem;
+  }
+  .svc-row__get li {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--ink);
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .svc-row__get li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--muted-2);
+    font-size: 0.8rem;
+  }
+
+  .svc-new {
+    display: inline-block;
+    vertical-align: 0.15em;
+    margin-left: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    padding: 0.25rem 0.45rem;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    border-radius: 999px;
+    color: var(--muted);
+  }
+  .svc-row__go {
+    font-size: 1.1rem;
+    color: var(--muted-2);
+    transition: color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .svc-row:hover h3,
+  .svc-row:focus-visible h3 { color: var(--cyan-soft); }
+  .svc-row:hover .svc-row__go,
+  .svc-row:focus-visible .svc-row__go { color: var(--cyan); transform: translateX(4px); }
+
+  /* Below 1280 the side label + a 17rem points column squeeze the title to
+     ~160px, so the points drop under the subline and the vertical divider
+     turns into a hairline above them. The side label stays until 860. */
+  @media (max-width: 1280px) {
+    .svc-row--points { grid-template-columns: var(--svc-ico) minmax(0, 1fr) auto; row-gap: 0.9rem; }
+    .svc-row__get {
+      grid-column: 2;
+      grid-row: 2;
+      border-left: 0;
+      border-top: 1px solid rgba(56, 189, 248, 0.18);
+      padding: 0.8rem 0 0;
+    }
+    .svc-row--points .svc-row__go { grid-column: 3; grid-row: 1 / span 2; }
+    .svc-row--points :global(.ico-anim) { grid-row: 1 / span 2; }
+  }
+  @media (max-width: 1000px) {
+    .svc-row { --svc-ico: 72px; }
+  }
+  @media (max-width: 860px) {
+    .svc-cat { grid-template-columns: 1fr; }
+    .svc-cat__label { padding: 0 0 0.75rem; }
+  }
+  @media (max-width: 600px) {
+    .svc-row { --svc-ico: 56px; padding: 1.1rem 1rem; gap: 0.9rem; }
+  }
+
+  .svc-cat--full { grid-template-columns: minmax(0, 1fr); }
+  .svc-cat--full:first-child { margin-top: 0; }
+
+  /* Descriptive rows: no arrow column, so the grid drops its last track. */
+  .svc-row--static { grid-template-columns: var(--svc-ico) minmax(0, 1fr); }
+  .svc-row--static.svc-row--points { grid-template-columns: var(--svc-ico) minmax(0, 1fr) 17rem; }
+
+  /* ---- Live AI orange (theme="ai") ---- */
+  .svc-cat--ai .svc-cat__label { color: var(--ai-soft); }
+  .svc-cat--ai .svc-row {
+    /* --blue-card's stops, re-cut from warm ink into the logo orange. */
+    --ai-card: linear-gradient(142deg,
+      #110d0b 0%, #15100d 22%, #24150c 40%,
+      #3a1d0b 55%, #55270c 70%, #7a360d 85%, #a8480e 100%);
+    --svc-shade: rgba(12, 7, 4, 0.42);
+    border-color: rgba(232, 101, 10, 0.26);
+    background-image: linear-gradient(var(--svc-shade), var(--svc-shade)), var(--ai-card);
+  }
+  .svc-cat--ai .svc-row:hover,
+  .svc-cat--ai .svc-row:focus-visible {
+    border-color: rgba(232, 101, 10, 0.6);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 22px 60px rgba(0, 0, 0, 0.55),
+      0 0 44px rgba(232, 101, 10, 0.22);
+  }
+  .svc-cat--ai .svc-row:focus-visible { outline-color: var(--ai); }
+  .svc-cat--ai .svc-row__get { border-left-color: rgba(232, 101, 10, 0.26); }
+  .svc-cat--ai .svc-row__get li::before { color: var(--ai); }
+  .svc-cat--ai .svc-new { border-color: rgba(232, 101, 10, 0.5); }
+  .svc-cat--ai .svc-row:hover h3,
+  .svc-cat--ai .svc-row:focus-visible h3 { color: var(--ai-soft); }
+  .svc-cat--ai .svc-row:hover .svc-row__go,
+  .svc-cat--ai .svc-row:focus-visible .svc-row__go { color: var(--ai); }
+  /* CardIcon paints white + logo blue; recolour its blue strokes and fills
+     to the Live AI orange and warm the tile so the glyphs match the rows. */
+  .svc-cat--ai :global(.ik-tile) { fill: #1a110b; stroke: rgba(232, 101, 10, 0.2); }
+  .svc-cat--ai :global(.ik-sb) { stroke: #e8650a; }
+  .svc-cat--ai :global(.ik-sl) { stroke: #f6a066; }
+  .svc-cat--ai :global(.ik-fb) { fill: #e8650a; }
+  .svc-cat--ai :global(.ik-fl) { fill: #f6a066; }
+  @media (max-width: 1280px) {
+    .svc-cat--ai .svc-row__get { border-top-color: rgba(232, 101, 10, 0.2); }
+    .svc-row--static.svc-row--points { grid-template-columns: var(--svc-ico) minmax(0, 1fr); }
+  }
+</style>

@@ -8,7 +8,7 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
-import CardIcon from "../../components/CardIcon.astro";
+import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
@@ -141,22 +141,7 @@ const pageSchema = [
             visible so no new copy lands on seven pages without Jon seeing it;
             swap the class off to show it. */}
         <h2 class="visually-hidden">What SEO includes</h2>
-        <div class="grid-svc">
-          {services.map((c) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
-                {c.points && (
-                  <ul class="card-points">
-                    {c.points.map((pt) => <li>{pt}</li>)}
-                  </ul>
-                )}
-                <CardIcon title={c.title} />
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <IncludedList items={services} />
       </div>
     </section>
 
@@ -185,6 +170,7 @@ const pageSchema = [
           <p class="copy-kicker">Get to the top of the list, and stay there.</p>
           <p>SEO works best on a fast, well-structured site. See how our <a href="website-design.html">Website Design process →</a> sets you up for search success.</p>
           <p>Track your results with our <a href="hosting.html">Hosting &amp; Maintenance plans →</a> that include monthly SEO reports.</p>
+          <p>When a retainer like this one ends up in court instead, that is <a href="expert-witness.html">digital expert witness services →</a>.</p>
         </div>
         <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
           <img

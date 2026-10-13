@@ -11,7 +11,7 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import SiteUpgrade from "../../components/SiteUpgrade.astro";
-import CardIcon from "../../components/CardIcon.astro";
+import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
@@ -47,13 +47,13 @@ const builds = [
 
   <main>
     <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+    <section class="page-head page-head--glass page-head--bare has-videobg">
+      <VideoBg src="bg-town-holo.mp4" scrim="hero" position="66% 50%" />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">CONSTRUCTION</span>
         <h1 class="page-h1">Show the Work. <em>Win the Job.</em></h1>
         <p class="page-lede">Project showcase websites for contractors and builders. Fast, mobile-first, and built to rank in your service area.</p>
-        <HeroActions links />
+        <HeroActions links clear />
       </div>
     </section>
 
@@ -108,23 +108,7 @@ const builds = [
           <h2>Services We Provide for Construction Companies</h2>
         </div>
         <p class="page-lede is-center mb-lg">Portfolio-forward design, local rankings, and imagery that sells the quality of your work.</p>
-        <div class="grid-svc">
-          {services.map((c) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
-                {c.points && (
-                  <ul class="card-points">
-                    {c.points.map((pt) => <li>{pt}</li>)}
-                  </ul>
-                )}
-                <CardIcon title={c.title} />
-                <a class="more" href={c.href}>SEE DETAILS →</a>
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <IncludedList items={services} />
       </div>
     </section>
 
@@ -136,22 +120,7 @@ const builds = [
           <span class="eyebrow">WHAT WE BUILD</span>
           <h2>What We Build for Construction</h2>
         </div>
-        <div class="grid-svc">
-          {builds.map((c) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
-                {c.points && (
-                  <ul class="card-points">
-                    {c.points.map((pt) => <li>{pt}</li>)}
-                  </ul>
-                )}
-                <CardIcon title={c.title} />
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <IncludedList items={builds} />
       </div>
     </section>
 

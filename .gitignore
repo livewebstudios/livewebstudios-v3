@@ -35,17 +35,16 @@ DESIGN.md
 # Jon 2026-10-13: the repo carries only what the site needs to build and run.
 # Docs, handoffs, editor settings and the blog-restoration working files stay
 # on disk but never get pushed. Blog posts (src/content/blog/*.md) are site
-# content and stay tracked.
-README.md
-AGENTS.md
+# content and stay tracked. The leading slash on /*.md matters: it means the
+# repo root only, so it can never catch a blog post.
+/*.md
 docs/
 _restore/
+/scripts/
 .vscode/
 .claude/
+Claude outputs/
 
-# Blog restoration working files.
-# NEVER commit the WordPress dump: it carries 2 password hashes, 543 email
-# addresses, Gravity Forms entries and sent-mail records. It stays on the
-# Desktop and is read in place. The extracted post JSON is safe (post content
-# only) and is committed so the restore is reproducible.
+# _restore/ also holds the WordPress dump: 2 password hashes, 543 email
+# addresses, Gravity Forms entries and sent-mail records. Never force-add it.
 _restore/*.sql

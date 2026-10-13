@@ -22,6 +22,23 @@
 /portfolio.html                                                        /work                        301
 
 
+# ===== EXPERT WITNESS (Jon 2026-09-22) =====
+# New page. The short /expert-witness slug is what goes on a business card and
+# in a directory listing, so it folds into the real URL rather than 404ing.
+/expert-witness                                                        /services/expert-witness     301
+/services/expert-witness/                                              /services/expert-witness     301
+/expert-witness.html                                                   /services/expert-witness     301
+
+
+# ===== LiveAiStudios (Jon 2026-09-26) =====
+# The /ai sub-brand. Short and legacy forms fold into the canonical /ai.
+# liveaistudios.com gets its own domain-level rule once DNS points here
+# (handoff Section 9), not in this block.
+/liveai                                                                /ai                          301
+/ai/                                                                   /ai                          301
+/ai.html                                                               /ai                          301
+
+
 # ===== SISTER COMPANIES ON THEIR OWN DOMAIN =====
 # Jon 2026-09-12: Live Web Photos is livewebphotos.com, there is no local
 # page any more. The old URL is in the live sitemap and indexed, so it 301s

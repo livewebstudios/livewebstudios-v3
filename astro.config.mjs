@@ -14,7 +14,18 @@ export default defineConfig({
   // keeps CSS inside each page: no /_astro/*.css root-relative <link>s,
   // which would break the path rule on a host move.
   build: { format: 'file', inlineStylesheets: 'always' },
-  integrations: [stripHtmlComments(), react(), sitemap({
+  // CSS minifier targets. Without these the minifier assumes a modern-only
+  // baseline and collapses a `backdrop-filter` / `-webkit-backdrop-filter`
+  // pair down to whichever of the two came LAST in the source, because to it
+  // they are the same property declared twice. That silently shipped a
+  // webkit-only backdrop-filter for months: Chrome does not implement
+  // `-webkit-backdrop-filter` at all, so every glass surface on the site
+  // (hero panels, .glass cards, the nav and mega panels) rendered flat in
+  // Chrome while looking correct in `astro dev`, which does not minify.
+  // Naming safari15 makes the minifier emit the prefix itself and keep the
+  // standard property, so both browsers get a working declaration.
+  vite: { build: { cssTarget: ['chrome90', 'edge90', 'firefox90', 'safari15'] } },
+  integrations: [stripHtmlComments(), relativeAstroAssets(), react(), sitemap({
     // Keep noindex pages (form destinations, client guide) out of the sitemap
     // so it never contradicts their robots meta.
     filter: (page) =>
@@ -81,6 +92,49 @@ function stripHtmlComments() {
           if (out !== html) writeFileSync(f, out);
         }
         logger.info(`stripped ${removed} HTML comment(s) from ${files.length} page(s)`);
+      },
+    },
+  };
+}
+
+/**
+ * LWS path rule for bundled scripts. inlineStylesheets keeps CSS out of
+ * /_astro/, but a script too big to inline (the three.js crane hero, Jon
+ * 2026-09-26) still ships as <script src="/_astro/...">, root-relative, which
+ * breaks on the next host move. Rewrite every /_astro/ reference in the built
+ * HTML to a path relative to that page's folder. Chunks import each other with
+ * "./" paths, so only the HTML needs touching.
+ */
+function relativeAstroAssets() {
+  return {
+    name: 'lws-relative-astro-assets',
+    hooks: {
+      'astro:build:done': async ({ dir, logger }) => {
+        const { readdirSync, statSync, readFileSync, writeFileSync } = await import('node:fs');
+        const { join, relative, dirname, sep } = await import('node:path');
+        const { fileURLToPath } = await import('node:url');
+        const root = fileURLToPath(dir);
+        const files = [];
+        (function walk(d) {
+          for (const e of readdirSync(d)) {
+            const p = join(d, e);
+            if (statSync(p).isDirectory()) walk(p);
+            else if (e.endsWith('.html')) files.push(p);
+          }
+        })(root);
+
+        let fixed = 0;
+        for (const f of files) {
+          const html = readFileSync(f, 'utf8');
+          const up = relative(dirname(f), root).split(sep).join('/');
+          const prefix = up ? `${up}/` : '';
+          const out = html.replace(/(src|href)="\/_astro\//g, (_, attr) => {
+            fixed++;
+            return `${attr}="${prefix}_astro/`;
+          });
+          if (out !== html) writeFileSync(f, out);
+        }
+        logger.info(`made ${fixed} /_astro/ reference(s) relative`);
       },
     },
   };

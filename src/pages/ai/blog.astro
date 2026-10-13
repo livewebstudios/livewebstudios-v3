@@ -1,0 +1,110 @@
+---
+/**
+ * /ai/blog: Live AI Insights, the third blog. Index of the ai-blog
+ * collection in the sub-brand shell, newest first. Drafts and anything dated
+ * after the build never render (getAiPosts).
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import VideoBg from "../../components/VideoBg.astro";
+import { getAiPosts, aiSlug, aiDate, SITE, ORG_ID } from "../../lib/aiStudio";
+import { relPrefix } from "../../lib/relPrefix";
+import "../../styles/ai.css";
+
+const rel = relPrefix(Astro.url.pathname);
+const posts = await getAiPosts();
+const url = `${SITE}/ai/blog`;
+
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Live AI Insights",
+  url,
+  publisher: { "@id": ORG_ID, "@type": "Organization", name: "LiveAiStudios" },
+  blogPost: posts.map((p) => ({
+    "@type": "BlogPosting",
+    headline: p.data.title,
+    url: `${SITE}/ai/blog/${aiSlug(p)}`,
+    datePublished: p.data.date.toISOString().split("T")[0],
+  })),
+};
+---
+
+<Base
+  title="Insights: AI for Small Business | LiveAiStudios"
+  description="Plain-English notes from a studio that runs on AI: websites, office automation, content, generative media and SEO for small business owners."
+  canonical={url}
+  ogImage="images/og-ai.jpg"
+  jsonld={jsonld}
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    {/* Jon 2026-09-26: the /blog hero animation, and no glass card
+        (page-head--bare), matching the other two blog indexes. */}
+    <section class="page-head page-head--glass page-head--bare page-head--blog has-videobg">
+      <VideoBg src="jon-webdesk.mp4" scrim="default" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">LIVE AI INSIGHTS</span>
+        <h1 class="page-h1">Notes from a studio that <em>runs on AI</em>.</h1>
+        <p class="page-lede">What works and what it costs. Written for people who run a business, not people who sell AI.</p>
+      </div>
+    </section>
+
+    <section class="sec-pad">
+      <div class="wrap">
+        <h2 class="visually-hidden">All articles</h2>
+        <div class="blog-grid">
+          {posts.map((p) => (
+            <a class="blog-card reveal" href={`blog/${aiSlug(p)}.html`}>
+              {p.data.image && (
+                <div class="blog-thumb">
+                  <img src={`${rel}${p.data.image.replace(/^\//, "")}`} alt={p.data.imageAlt ?? p.data.title} width="1600" height="900" loading="lazy" decoding="async" />
+                </div>
+              )}
+              <div class="blog-meta">
+                <span class="blog-date">{aiDate(p.data.date)}</span>
+                <h3 class="blog-title">{p.data.title}</h3>
+                <p class="blog-sum">{p.data.description}</p>
+                {p.data.tags.length > 0 && (
+                  <span class="ai-tags">
+                    {p.data.tags.map((t) => <span class="ai-tag">{t}</span>)}
+                  </span>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta cta--art ai-close">
+          <div class="cta-art">
+            <img
+              class="ai-close__img"
+              src={`${rel}images/ai/ai-blog-reading.jpg`}
+              alt="A stack of printed articles on a dark desk at night, lines highlighted in orange, reading glasses folded on top"
+              width="896"
+              height="1120"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-copy">
+            <span class="eyebrow mb-md">READ ENOUGH?</span>
+            <h2>See what would run itself in your business.</h2>
+            <div class="hero-btns">
+              <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+            </div>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

@@ -1,0 +1,193 @@
+---
+/**
+ * /ai: LiveAiStudios, the flagship page of the fourth brand in the family.
+ *
+ * The studio's own structure is the product demo, so the page leads with the
+ * locked tagline (verbatim, do not edit), then the numbers as proof of the
+ * model, then the model itself. Positioning rule: "we", always. Never a
+ * headcount, never a smallness confession, never implied human employees.
+ *
+ * Built at the site root as ai.html (build.format 'file'), so relPrefix is ""
+ * and every link below is relative from the root.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Glass from "../components/Glass.astro";
+import ServiceRows from "../components/ServiceRows.astro";
+import AiVideoBg from "../components/AiVideoBg.astro";
+import { SERVICES, ORG, getAiPosts, aiSlug, aiDate } from "../lib/aiStudio";
+import { relPrefix } from "../lib/relPrefix";
+import "../styles/ai.css";
+import AiCaps from "../components/AiCaps.astro";
+
+const rel = relPrefix(Astro.url.pathname);
+const latest = (await getAiPosts()).slice(0, 3);
+
+const model = [
+  {
+    n: "01",
+    title: "AI does the heavy lifting",
+    body: "Websites, writing, automation and video are all produced by AI, following written rules for how each job gets done.",
+    points: ["Standards written down, not improvised per job", "A full rebuild moves in weeks, not seasons"],
+  },
+  {
+    n: "02",
+    title: "Human direction",
+    body: "A person sets the goal and approves every piece before you see it. AI does the work. Judgment stays human.",
+    points: ["Nothing reaches your customers unread", "Pricing, tone and anything legal stay with people"],
+  },
+  {
+    n: "03",
+    title: "Your business, plugged in",
+    body: "We connect the system to the tools you already run: your site, your inbox, your books, your calendar. The work lands where you already look.",
+    points: ["Built on the tools you already pay for", "Your data stays in your accounts wherever possible"],
+  },
+];
+
+const proof = [
+  { href: "ai/proof.html#rebuilt", title: "12 sites rebuilt end to end", body: "An electrician, a counseling practice, a kitchen showroom, a tribute band, a training program and seven more. Every one built by the system and signed off by a person.",
+    points: ["Named sites you can click through", "Every page signed off by a person"] },
+  { href: "ai/proof.html#systems", title: "Systems that run themselves", body: "Invoices that send on schedule. Reports that write themselves. Built once, running since.",
+    points: ["Invoices and reminders that go out on time, automatically", "A human reads the exceptions"] },
+  { href: "ai/proof.html#media", title: "Videos and photos made with AI", body: "Website videos and hundreds of edited photos, made from a written description and finished by a human eye.",
+    points: ["No shoot day, no production crew", "This page's background video is one of them"] },
+];
+
+/* Row takeaways for the services teaser (Jon 2026-10-10). One line from
+   each service's detail copy, then a short receipt cut from its `shipped`
+   line in aiStudio.ts. Keep them in step if that data changes. */
+const servicePoints: Record<string, string[]> = {
+  websites: ["Fast, secure, and yours to edit after launch", "12 full rebuilds, this site included"],
+  automation: ["A short note when something needs a human", "Invoices and reminders that send on their own"],
+  content: ["Your voice written down first, from your own words", "A newsletter, three blogs and a weekly comic strip"],
+  media: ["Color-corrected and sized to load fast on a phone", "Website videos and hundreds of edited photos"],
+  reporting: ["What moved this month, and what happens next", "Monthly search reports, written in plain English"],
+  consulting: ["A short list of moves, in the order they pay off", "AI guidance for a law firm"],
+};
+---
+
+<Base
+  title="LiveAiStudios | An AI-Staffed Studio, Human-Directed"
+  description="LiveAiStudios runs on AI: websites, office automation, content engines and generative media, staffed by AI and directed by a human on every call."
+  canonical="https://livewebstudios.com/ai"
+  ogImage="images/og-ai.jpg"
+  jsonld={ORG}
+>
+  <Nav />
+
+  <main class="theme-live-ai">
+    <!-- HERO: the tagline is locked, verbatim. -->
+    <section class="page-head page-head--glass page-head--bare has-videobg ai-hero">
+      <AiVideoBg name="ai-hero" scrim="hero" />
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg"><AiCaps /></span>
+        <h1 class="page-h1">We run our business on AI. <em>Want proof?</em> You're looking at it.</h1>
+        <p class="page-lede">We use AI to build websites, write content, make videos and take busywork off your plate. A real person checks every piece before it reaches you.</p>
+        <div class="hero-btns">
+          <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+          <a href={`${rel}ai/proof.html`} class="btn btn-ghost">See the proof ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE MODEL -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">THE MODEL</span>
+          <h2>AI does the work. A human directs it.</h2>
+          <p>Three parts, and all three have to be there. Take away the direction and you get generic junk. Take away the AI and you get a waiting list.</p>
+        </div>
+        <ServiceRows theme="ai" items={model.map((m) => ({ title: m.title, body: m.body, points: m.points }))} />
+      </div>
+    </section>
+
+    <!-- SERVICES TEASER -->
+    <section class="sec-pad sec-grid">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">SERVICES</span>
+          <h2>Six things we run on AI. All of them shipped.</h2>
+        </div>
+        <ServiceRows theme="ai" items={SERVICES.map((s) => ({ title: s.name, body: `${s.blurb.split(". ")[0]}.`, href: `${rel}ai/services.html#${s.id}`, points: servicePoints[s.id] }))} />
+      </div>
+    </section>
+
+    <!-- PROOF TEASER -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="eyebrow">PROOF</span>
+          <h2>Named work. No invented case studies.</h2>
+        </div>
+        <ServiceRows theme="ai" items={proof.map((p) => ({ title: p.title, body: p.body, href: `${rel}${p.href}`, points: p.points }))} />
+      </div>
+    </section>
+
+    <!-- LATEST INSIGHTS -->
+    {latest.length > 0 && (
+      <section class="sec-pad sec-grid">
+        <div class="wrap">
+          <div class="sec-head center reveal">
+            <span class="eyebrow">INSIGHTS</span>
+            <h2>Notes from a studio that runs on AI.</h2>
+          </div>
+          <div class="blog-grid">
+            {latest.map((p) => (
+              <a class="blog-card reveal" href={`${rel}ai/blog/${aiSlug(p)}.html`}>
+                {p.data.image && (
+                  <div class="blog-thumb">
+                    <img src={`${rel}${p.data.image.replace(/^\//, "")}`} alt={p.data.imageAlt ?? p.data.title} width="1600" height="900" loading="lazy" decoding="async" />
+                  </div>
+                )}
+                <div class="blog-meta">
+                  <span class="blog-date">{aiDate(p.data.date)}</span>
+                  <h3 class="blog-title">{p.data.title}</h3>
+                  <p class="blog-sum">{p.data.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+          <p class="center-link reveal"><a class="btn btn-ghost" href={`${rel}ai/blog.html`}>All Insights →</a></p>
+        </div>
+      </section>
+    )}
+
+    <!-- CLOSE -->
+    <section class="sec-pad is-alt">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta cta--art ai-close">
+          <div class="cta-art">
+            <img
+              class="ai-close__img"
+              src={`${rel}images/ai/ai-close-desk.jpg`}
+              alt="A laptop on a dark desk after hours, its screen showing an automation flowchart with orange dots moving between the steps, beside a stack of invoices and a coffee mug"
+              width="1000"
+              height="1250"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-copy">
+            <span class="eyebrow mb-md">YOUR TURN</span>
+            <h2>What in your business should run itself?</h2>
+            <div class="hero-btns">
+              <a href={`${rel}ai/start.html`} class="btn btn-primary">Start with AI →</a>
+              <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+            </div>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .center-link {
+    margin-top: 2rem;
+    text-align: center;
+  }
+</style>

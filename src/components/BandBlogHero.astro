@@ -26,6 +26,7 @@
  * index, the category name on an archive, the post title on a post.
  */
 import PhotoBg from "./PhotoBg.astro";
+import VideoBg from "./VideoBg.astro";
 import Arrow from "./Arrow.astro";
 import { relPrefix } from "../lib/relPrefix";
 
@@ -36,18 +37,25 @@ export interface Props {
   lede?: string;
   /** Render the standing blog line and the hero buttons. Index only. */
   standing?: boolean;
+  /** Run the /blog hero animation (jon-webdesk.mp4) instead of the road-case
+      art. Jon 2026-09-26: all three blog index pages share that animation. */
+  video?: boolean;
 }
-const { title, lede, standing = false } = Astro.props;
+const { title, lede, standing = false, video = false } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 ---
 
 <section class="page-head page-head--glass page-head--bare has-videobg bandhero">
-  <PhotoBg
-    src="band/blog/lbws-blog-hero.webp"
-    scrim="hero"
-    position="72% 8%"
-    alt="Caricature of Jon Wolf sitting on a road case in the wings of a stage, a laptop open beside him showing a band website."
-  />
+  {video ? (
+    <VideoBg src="jon-webdesk.mp4" scrim="default" />
+  ) : (
+    <PhotoBg
+      src="band/blog/lbws-blog-hero.webp"
+      scrim="hero"
+      position="72% 8%"
+      alt="Caricature of Jon Wolf sitting on a road case in the wings of a stage, a laptop open beside him showing a band website."
+    />
+  )}
   <div class="bandhero__scrim"></div>
   <div class="wrap">
     <span class="eyebrow mb-lg">The Live Band Web Studios Blog</span>
