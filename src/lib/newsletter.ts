@@ -9,10 +9,11 @@
  * uses Turnstile). The secret key lives only in Netlify env vars.
  */
 
-// TODO(Jon): replace with the real site key from Cloudflare > Turnstile.
-// This is Cloudflare's public TEST key: it always passes, and the real secret
-// key rejects its tokens, so it can never let a signup through in production.
-export const TURNSTILE_SITE_KEY = "1x00000000000000000000AA";
+// Cloudflare > Turnstile > "LWS newsletter forms" (Managed, livewebstudios.com).
+// Only that hostname is allowed, so the widget fails on localhost and Netlify
+// previews. For local testing swap in Cloudflare's test key
+// 1x00000000000000000000AA, and never commit it.
+export const TURNSTILE_SITE_KEY = "0x4AAAAAAFV_26xn9TVWVxER";
 
 // Relative to the page, per the LWS path rule. Pass the page's relPrefix.
 export const subscribeAction = (rel: string) => `${rel}.netlify/functions/subscribe`;
