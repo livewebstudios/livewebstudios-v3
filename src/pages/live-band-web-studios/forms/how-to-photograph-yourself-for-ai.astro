@@ -1,14 +1,16 @@
 ---
 /**
- * /live-band-web-studios/forms/how-to-photograph-yourself-for-ai — ported from
- * the live site. Companion guide to the Music Photo Form; the sub-nav Forms
- * dropdown links to it as "Music Photo Instructions".
+ * /live-band-web-studios/forms/how-to-photograph-yourself-for-ai — the photo
+ * reference guide. The URL stays put: it has been emailed to clients.
  *
- * Every word of the live body copy is carried over. Structure follows
- * music-photo-form.astro (Base, Nav, Footer, Glass, VideoBg, .theme-live-band).
- * The live page's light .mpf-scope card treatment and its page-internal footer
- * are dropped in favour of the v3 glass system and the shared Footer.
- * Decorative inline SVG icons dropped. En dash range "20-40" spelled out.
+ * Jon 2026-10-15: made audience-neutral so it serves musicians, Business Talk
+ * presenters and future clients. Musician-only wording swapped out, the eight
+ * cards became eight rows with an example photo each, a sticky photo column
+ * sits beside the guide on desktop, and the send options carry real logos
+ * (SendOptions, shared with the Music Photo Form).
+ *
+ * Example photos are AI-generated people (Higgsfield), never real client
+ * presenters. Files live in public/images/photo-guide/.
  */
 import Base from "../../../layouts/Base.astro";
 import Nav from "../../../components/Nav.astro";
@@ -16,81 +18,71 @@ import Footer from "../../../components/Footer.astro";
 import Glass from "../../../components/Glass.astro";
 import VideoBg from "../../../components/VideoBg.astro";
 import PhotoBg from "../../../components/PhotoBg.astro";
+import SendOptions from "../../../components/SendOptions.astro";
 
 const steps = [
   {
     n: "1",
     title: "Good lighting is everything",
     body: "Natural light near a window is your best friend. Overcast daylight is ideal. No harsh shadows, no blown-out highlights. Shade outdoors also works great. Avoid shooting in the dark or under fluorescent overhead light.",
+    img: "pg_lighting.webp",
+    alt: "Close-up of a woman lit by soft window light from the side, against a plain light wall.",
   },
   {
     n: "2",
     title: "Shoot from multiple angles",
     body: "Front-facing, left profile, right profile, slightly above, slightly below. I need to understand how you look from different perspectives so I can place you convincingly in any scene. Five to ten shots from varied angles goes a long way.",
+    img: "pg_angles.webp",
+    alt: "Three photos of the same man against a grey wall: facing the camera, then each profile.",
   },
   {
     n: "3",
     title: "Vary your expressions",
-    body: "Serious, smiling, mid-performance intensity, relaxed, eyes closed. The more expressions I have to work from, the more authentic your AI images will look, whether it's a press shot, a live moment, or a candid.",
+    body: "Serious, smiling, relaxed, mid-conversation, eyes closed. The more expressions I have to work from, the more authentic your AI images will look, whether it's a headshot or a candid moment.",
+    img: "pg_expressions.webp",
+    alt: "Three photos of the same woman against a plain wall: serious, laughing, and eyes closed.",
   },
   {
     n: "4",
     title: "Include full-body and close-up shots",
-    body: "Close-ups of your face are essential. But also send full-body shots so I can see your posture, your instrument, your stage presence, and your outfit. Both are needed for different types of scenes.",
+    body: "Close-ups of your face are essential. But also send full-body shots so I can see your posture and what you're wearing. Both are needed for different types of scenes.",
+    img: "pg_full-body-close-up.webp",
+    alt: "A full-length photo of a man against a white wall beside a tight headshot of the same man.",
   },
   {
     n: "5",
     title: "Plain or simple backgrounds preferred",
     body: "A white wall, a plain door, open sky outdoors. Anything clean and uncluttered. I'm extracting you from the background, so complex backgrounds just make that harder.",
+    img: "pg_plain-background.webp",
+    alt: "A woman standing in front of a plain white door in soft daylight, nothing else in frame.",
   },
   {
     n: "6",
-    title: "Wear what you perform in",
-    body: "Send a few shots in your stage outfit or signature look. Also send a few in everyday clothes. I can place you in different wardrobe via AI, but having your real look as reference makes the results more accurate.",
+    title: "Wear what you work in",
+    body: "Send a few shots in what you wear on the job, or your signature look. Also send a few in everyday clothes. I can place you in different wardrobe via AI, but having your real look as reference makes the results more accurate.",
+    img: "pg_wardrobe.webp",
+    alt: "The same woman photographed twice against the same wall, once in a blazer and once in a sweater.",
   },
   {
     n: "7",
     title: "Use Portrait Mode for headshots, landscape for everything else",
-    body: "For individual close-ups: switch to iPhone Portrait Mode. It blurs the background and sharpens your face, which is exactly what I need. For full-body and band shots: rotate your phone horizontal (landscape).",
+    body: "For individual close-ups: switch to iPhone Portrait Mode. It blurs the background and sharpens your face, which is exactly what I need. For full-body and group shots: rotate your phone horizontal (landscape).",
+    img: "pg_portrait-mode.webp",
+    alt: "A hand holding a phone upright, the screen showing a sharp headshot with a softly blurred background.",
   },
   {
     n: "8",
-    title: "Include your instrument",
-    body: "Shots of you holding or playing your instrument, guitar in hand, sticks in the air, keys at your fingertips. Also useful: close-ups of hands on strings, the drum kit, your pedal board. These details make the final images feel real, not generated.",
-  },
-];
-
-const send = [
-  {
-    name: "Google Drive",
-    body: "Upload to a folder, click Share, and send me the link. Great for large batches.",
-    cta: "Open Google Drive →",
-    href: "https://drive.google.com",
-  },
-  {
-    name: "Dropbox",
-    body: 'Use "Request files." No Dropbox account needed on your end. We can set up a link for you.',
-    cta: "Open Dropbox →",
-    href: "https://www.dropbox.com",
-  },
-  {
-    name: "WeTransfer",
-    body: "Free, no account needed. Drag photos in, enter our email, hit Send.",
-    cta: "Open WeTransfer →",
-    href: "https://wetransfer.com",
-  },
-  {
-    name: "iCloud Link",
-    body: "In iPhone Photos, select shots → Share → Copy iCloud Link → paste into an email to us.",
-    cta: "Open iCloud Photos →",
-    href: "https://www.icloud.com/photos/",
+    title: "Include the tools of your trade (if appropriate to your project)",
+    body: "If something belongs in your shots, bring it in. Musicians, that's your instrument. Presenters, maybe a microphone or a whiteboard marker. Close-ups of your hands at work help too. These details make the final images feel real, not generated.",
+    img: "pg_tools-of-the-trade.webp",
+    alt: "Hands on piano keys under a stage light beside a hand holding a microphone in a training room.",
   },
 ];
 ---
 
 <Base
   title="How to Photograph Yourself for AI | Live Band Web Studios"
-  description="How to photograph yourself for AI band photos: lighting, angles, expressions, wardrobe, and how to send your reference shots at full resolution."
+  description="How to photograph yourself for AI images: lighting, angles, expressions and how to send your reference shots at full resolution."
   canonical="https://livewebstudios.com/live-band-web-studios/forms/how-to-photograph-yourself-for-ai"
   ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
 >
@@ -104,39 +96,57 @@ const send = [
         <span class="eyebrow is-center mb-lg">PHOTO GUIDE</span>
         <h1 class="page-h1">How to Photograph Yourself <em>for AI</em>.</h1>
         <p class="page-lede">The reference shots you send are the raw material behind every AI image we build for you. Here is how to shoot them so the results look real.</p>
-        <p class="page-lede optnote">Companion guide to the Music Photo Form.</p>
+        <p class="page-lede optnote">Companion guide to your photo intake form.</p>
       </div>
     </section>
 
-    <!-- GUIDE -->
-    <section class="sec-pad has-videobg">
+    <!-- GUIDE: sticky photo left, the eight steps right -->
+    <section class="sec-pad has-videobg guide-sec">
       <VideoBg src="bg-corner.mp4" scrim="strong" />
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">LIVE WEB STUDIOS · LIVE BAND WEB PHOTOS</span>
-          <h2>Musician photo reference guide</h2>
-        </div>
-        <p class="page-lede is-center reveal">Shoot it right once and we can put you on any stage, in any light, in any scene.</p>
-        <p class="page-lede is-center reveal">The photos you send me are the raw material I use to place you into different scenes, stages, environments, and creative scenarios using AI. The better your reference shots, the more realistic and varied the final results. These aren't finished photos. They're reference material. You're giving me enough to work with.</p>
-        <p class="page-lede is-center mb-lg reveal">The more variety you give me in angles, expressions, and lighting conditions, the more situations I can put you in. Shoot as many as you can.</p>
+      <div class="wrap guide">
+        <figure class="guide-photo reveal">
+          <img
+            src="../../images/photo-guide/pg_self-portrait-window.webp"
+            width="896" height="1120"
+            alt="A woman taking her own reference photo with a phone on a small tripod beside a large window."
+            loading="lazy" decoding="async"
+          />
+        </figure>
 
-        <div class="grid-svc">
-          {steps.map((s) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{s.n}</div>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <div class="guide-body">
+          <div class="sec-head reveal">
+            <span class="eyebrow">LIVE WEB STUDIOS · LIVE WEB PHOTOS</span>
+            <h2>Photo reference guide</h2>
+          </div>
+          <p class="guide-lede guide-lede--lead reveal">Shoot it right once and we can put you in almost any scene.</p>
+          <p class="guide-lede reveal">The photos you send me are the raw material I use to place you into different scenes, stages, environments, and creative scenarios using AI. The better your reference shots, the more realistic and varied the final results. These aren't finished photos. They're reference material. You're giving me enough to work with.</p>
+          <p class="guide-lede reveal">The more variety you give me in angles, expressions, and lighting conditions, the more situations I can put you in. Shoot as many as you can.</p>
 
-        <div class="reveal mt-lg">
-          <Glass innerClass="card-pad">
-            <span class="label">HOW MANY</span>
-            <p>Aim for 20 to 40 photos minimum across different angles, expressions, and lighting. The more reference you give me, the more scenes I can create for you. More is always better here.</p>
-          </Glass>
+          <ol class="guide-rows">
+            {steps.map((s) => (
+              <li class="guide-row reveal">
+                <img
+                  class="guide-row__img"
+                  src={`../../images/photo-guide/${s.img}`}
+                  width="800" height="603"
+                  alt={s.alt}
+                  loading="lazy" decoding="async"
+                />
+                <div class="guide-row__text">
+                  <span class="guide-row__num" aria-hidden="true">{s.n}</span>
+                  <h3>{s.title}</h3>
+                  <p>{s.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div class="reveal mt-lg">
+            <Glass innerClass="card-pad">
+              <span class="label">HOW MANY</span>
+              <p>Aim for 20 to 40 photos minimum across different angles, expressions, and lighting. The more reference you give me, the more scenes I can create for you. More is always better here.</p>
+            </Glass>
+          </div>
         </div>
       </div>
     </section>
@@ -150,23 +160,16 @@ const send = [
         </div>
         <p class="page-lede is-center mb-lg reveal">Send at full resolution. Never via text message or screenshot. Use any of these options:</p>
 
-        <div class="grid-svc">
-          {send.map((o) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <h3>{o.name}</h3>
-                <p>{o.body}</p>
-                <a class="btn btn-ghost" href={o.href} target="_blank" rel="noopener">{o.cta}</a>
-              </Glass>
-            </div>
-          ))}
-        </div>
+        <SendOptions />
 
         <div class="reveal mt-lg">
           <Glass innerClass="card-pad">
             <span class="label">WHERE IT GOES</span>
-            <p>Send everything to <a href="../../contact.html">jonwolf@livewebstudios.com</a> with your band name in the subject line. Never send via iMessage or standard text. Compression kills the quality permanently.</p>
-            <a class="btn btn-primary" href="music-photo-form.html">Fill Out the Music Photo Form →</a>
+            <p>Send everything to <a href="../../contact.html">jonwolf@livewebstudios.com</a> with your name and your band or company name in the subject line. Never send via iMessage or standard text. Compression kills the quality permanently.</p>
+            <div class="next-links">
+              <a class="next-link" href="music-photo-form.html"><span class="label">MUSICIANS</span><span>Music Photo Form →</span></a>
+              <a class="next-link" href="../../contact.html"><span class="label">EVERYONE ELSE</span><span>Use the intake link Jon sent you, or reach out anytime →</span></a>
+            </div>
           </Glass>
         </div>
       </div>
@@ -189,4 +192,65 @@ const send = [
   }
 
   .optnote { color: var(--cyan-soft); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em; }
+
+  /* .has-videobg clips its video with overflow:hidden, which turns the section
+     into a scroll container and kills position:sticky inside it. clip crops
+     the same way without that side effect (Safari <16 keeps hidden: the photo
+     just scrolls normally there). */
+  .guide-sec.has-videobg { overflow: hidden; overflow: clip; }
+
+  /* Two columns: the photo holds ~40% and stays in view while the steps scroll. */
+  .guide { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(2rem, 4vw, 3.5rem); align-items: start; }
+  /* The sticky offset clears the Live Band logo, which hangs ~46px below the
+     sub-nav bar. The max-height keeps the whole photo on short laptop screens. */
+  .guide-photo { margin: 0; position: sticky; top: calc(var(--nav-h) + var(--subnav-h) + 4rem); }
+  .guide-photo img {
+    display: block; width: 100%; height: auto; border-radius: var(--r-lg);
+    border: 1px solid var(--line); box-shadow: var(--shadow-high);
+    max-height: calc(100vh - var(--nav-h) - var(--subnav-h) - 5.5rem); object-fit: cover; object-position: center 30%;
+  }
+
+  .guide-body .sec-head { margin-bottom: 1.5rem; }
+  .guide-lede { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.12rem); margin-top: 1rem; max-width: 60ch; }
+  .guide-lede--lead { color: var(--ink); font-size: clamp(1.08rem, 1.6vw, 1.28rem); margin-top: 0; }
+
+  /* Eight rows, thin divider between them. */
+  .guide-rows { list-style: none; margin: 2.5rem 0 0; padding: 0; }
+  .guide-row {
+    display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 1.5rem; align-items: start;
+    padding: 1.75rem 0; border-top: 1px solid var(--line);
+  }
+  .guide-row:last-child { border-bottom: 1px solid var(--line); }
+  .guide-row__img {
+    display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+    border-radius: var(--r-md); border: 1px solid var(--line);
+  }
+  /* Same numbered tile as the old cards (.card .ico). */
+  .guide-row__num {
+    width: 46px; height: 46px; border-radius: var(--r-md); display: grid; place-items: center;
+    margin-bottom: 0.9rem; background: rgba(252, 211, 77, 0.1); border: 1px solid var(--line);
+    color: var(--cyan-soft); font-family: var(--mono); font-weight: 600;
+  }
+  .guide-row h3 { font-size: 1.18rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.55rem; color: var(--ink-soft); }
+  .guide-row p { color: var(--muted); font-size: 0.95rem; }
+
+  /* Closing links: one for musicians, one for everyone else. */
+  .next-links { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.4rem; }
+  .next-link {
+    display: flex; flex-direction: column; gap: 0.35rem; padding: 0.9rem 1.1rem;
+    border: 1px solid var(--line); border-radius: var(--r-md); background: var(--panel-2);
+    color: var(--cyan-soft); text-decoration: none; font-weight: 500; line-height: 1.4;
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .next-link:hover { border-color: var(--cyan); transform: translateY(-2px); }
+
+  @media (max-width: 900px) {
+    .guide { grid-template-columns: 1fr; }
+    .guide-photo { position: static; }
+    .guide-photo img { max-height: 60vh; object-fit: cover; object-position: center 30%; }
+  }
+  @media (max-width: 640px) {
+    .guide-row { grid-template-columns: 1fr; gap: 1rem; }
+    .next-links { grid-template-columns: 1fr; }
+  }
 </style>

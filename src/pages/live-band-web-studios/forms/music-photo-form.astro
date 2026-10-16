@@ -18,6 +18,7 @@ import Footer from "../../../components/Footer.astro";
 import Glass from "../../../components/Glass.astro";
 import VideoBg from "../../../components/VideoBg.astro";
 import PhotoBg from "../../../components/PhotoBg.astro";
+import SendOptions from "../../../components/SendOptions.astro";
 ---
 
 <Base
@@ -204,71 +205,14 @@ import PhotoBg from "../../../components/PhotoBg.astro";
                   <span class="eyebrow">SECTION 4 · HOW TO SHOOT FOR AI</span>
                   <h2>How to photograph yourself for AI</h2>
                 </div>
-                <p class="field-hint" style="margin-bottom:.6rem">The photos you send me are the raw material I use to place you into different scenes, stages, environments, and creative scenarios using AI. The better your reference shots, the more realistic and varied the final results. These aren't finished photos, they're reference material. You're giving me enough to work with.</p>
-                <!-- em-dash: "The more variety you give me — angles ... — the more situations" -> commas -->
-                <p class="field-hint" style="margin-bottom:1rem">The more variety you give me, angles, expressions, lighting conditions, the more situations I can put you in. Shoot as many as you can.</p>
+                <!-- Jon 2026-10-15: the full eight steps live on the photo guide
+                     only, so the two copies can't drift apart. -->
+                <p class="field-hint" style="margin-bottom:.6rem">The photos you send me are the raw material I use to place you into different scenes and stages using AI. Shoot near a window in soft daylight, against a plain background, from lots of angles. Include your instrument. It makes the final images feel real.</p>
 
-                <div class="step-list">
-                  <div class="step">
-                    <span class="step-num">1</span>
-                    <div class="step-body">
-                      <strong>Good lighting is everything</strong>
-                      <!-- em-dash: "Overcast daylight is ideal — no harsh shadows" -> comma -->
-                      Natural light near a window is your best friend. Overcast daylight is ideal, no harsh shadows, no blown-out highlights. Shade outdoors also works great. Avoid shooting in the dark or under fluorescent overhead light.
-                    </div>
-                  </div>
-                  <div class="step">
-                    <span class="step-num">2</span>
-                    <div class="step-body">
-                      <strong>Shoot from multiple angles</strong>
-                      Front-facing, left profile, right profile, slightly above, slightly below. I need to understand how you look from different perspectives so I can place you convincingly in any scene. Five to ten shots from varied angles goes a long way.
-                    </div>
-                  </div>
-                  <div class="step">
-                    <span class="step-num">3</span>
-                    <div class="step-body">
-                      <strong>Vary your expressions</strong>
-                      Serious, smiling, mid-performance intensity, relaxed, eyes closed. The more expressions I have to work from, the more authentic your AI images will look, whether it's a press shot, a live moment, or a candid.
-                    </div>
-                  </div>
-                  <div class="step">
-                    <span class="step-num">4</span>
-                    <div class="step-body">
-                      <strong>Include full-body and close-up shots</strong>
-                      Close-ups of your face are essential. But also send full-body shots so I can see your posture, your instrument, your stage presence, and your outfit. Both are needed for different types of scenes.
-                    </div>
-                  </div>
-                  <div class="step">
-                    <span class="step-num">5</span>
-                    <div class="step-body">
-                      <strong>Plain or simple backgrounds preferred</strong>
-                      <!-- em-dash: "open sky outdoors — anything clean" -> comma -->
-                      A white wall, a plain door, open sky outdoors, anything clean and uncluttered. I'm extracting you from the background, so complex backgrounds just make that harder.
-                    </div>
-                  </div>
-                  <div class="step">
-                    <span class="step-num">6</span>
-                    <div class="step-body">
-                      <strong>Wear what you perform in</strong>
-                      Send a few shots in your stage outfit or signature look. Also send a few in everyday clothes. I can place you in different wardrobe via AI, but having your real look as reference makes the results more accurate.
-                    </div>
-                  </div>
-                  <div class="step">
-                    <span class="step-num">7</span>
-                    <div class="step-body">
-                      <strong>Use Portrait Mode for headshots, landscape for everything else</strong>
-                      <!-- em-dash: "iPhone Portrait Mode — it blurs the background" -> comma -->
-                      For individual close-ups: switch to iPhone Portrait Mode, it blurs the background and sharpens your face, which is exactly what I need. For full-body and band shots: rotate your phone horizontal (landscape).
-                    </div>
-                  </div>
-                  <div class="step">
-                    <span class="step-num">8</span>
-                    <div class="step-body">
-                      <strong>Include your instrument</strong>
-                      Shots of you holding or playing your instrument, guitar in hand, sticks in the air, keys at your fingertips. Also useful: close-ups of hands on strings, the drum kit, your pedal board. These details make the final images feel real, not generated.
-                    </div>
-                  </div>
-                </div>
+                <a class="guide-link" href="how-to-photograph-yourself-for-ai.html">
+                  <span class="label">BEFORE YOU SHOOT</span>
+                  <span>Read the full photo guide: eight tips, each with an example →</span>
+                </a>
 
                 <div class="callout callout--warn">
                   <!-- en dash range "20–40" -> "20 to 40" -->
@@ -279,26 +223,7 @@ import PhotoBg from "../../../components/PhotoBg.astro";
                 <!-- em-dash: "never via text message or screenshot" already comma; "Send at full resolution — never" -> comma -->
                 <p class="field-hint" style="margin-bottom:0">Send at full resolution, never via text message or screenshot. Use any of these options:</p>
 
-                <div class="send-grid">
-                  <div class="send-card">
-                    <strong>Google Drive</strong>
-                    <span>Upload to a folder, click Share, and send me the link. Great for large batches.</span>
-                  </div>
-                  <div class="send-card">
-                    <strong>Dropbox</strong>
-                    <!-- em-dash: "Request files — no Dropbox account needed" -> comma -->
-                    <span>Use "Request files", no Dropbox account needed on your end. We can set up a link for you.</span>
-                  </div>
-                  <div class="send-card">
-                    <strong>WeTransfer</strong>
-                    <!-- em-dash: "Go to wetransfer.com — free, no account" -> comma -->
-                    <span>Go to wetransfer.com, free, no account needed. Drag photos in, enter our email, hit Send.</span>
-                  </div>
-                  <div class="send-card">
-                    <strong>iCloud Link</strong>
-                    <span>In iPhone Photos, select shots &rarr; Share &rarr; Copy iCloud Link &rarr; paste into an email to us.</span>
-                  </div>
-                </div>
+                <SendOptions compact />
 
                 <div class="callout">
                   <!-- em-dash: "standard text — compression kills the quality" -> comma -->
@@ -468,14 +393,15 @@ import PhotoBg from "../../../components/PhotoBg.astro";
   .other-row .other-text:focus { border-bottom-color: var(--cyan); box-shadow: none; outline: none; }
   .other-row .other-text:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  .step-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.4rem; }
-  .step {
-    display: flex; gap: 1rem; align-items: flex-start; background: var(--panel-2);
-    border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem 1.1rem;
+  /* Prominent link to the full photo guide (Section 4). */
+  .guide-link {
+    display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.4rem;
+    padding: 1rem 1.2rem; border: 1px solid var(--cyan); border-radius: 10px;
+    background: rgba(252, 211, 77, 0.08); color: var(--cyan-soft);
+    font-weight: 600; line-height: 1.4; text-decoration: none;
+    transition: background 0.2s var(--ease), transform 0.2s var(--ease);
   }
-  .step-num { font-family: var(--mono); font-size: 1.2rem; font-weight: 700; color: var(--cyan-soft); min-width: 22px; line-height: 1.2; flex-shrink: 0; }
-  .step-body { font-size: 0.9rem; color: var(--ink); line-height: 1.55; }
-  .step-body strong { display: block; font-weight: 600; color: var(--ink-soft); margin-bottom: 0.2rem; }
+  .guide-link:hover { background: rgba(252, 211, 77, 0.14); transform: translateY(-2px); }
 
   .callout {
     background: var(--panel-2); border: 1px solid var(--cyan); border-radius: 8px;
@@ -483,11 +409,6 @@ import PhotoBg from "../../../components/PhotoBg.astro";
   }
   .callout strong { color: var(--ink-soft); }
   .callout--warn { border-color: #e6a817; color: #fcd34d; }
-
-  .send-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 0.9rem; }
-  .send-card { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem 1rem; }
-  .send-card strong { display: block; font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 0.25rem; }
-  .send-card span { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 
   .form-success { display: none; text-align: center; padding: 3rem 1.5rem 3.5rem; }
   .form-success.show { display: block; }
@@ -498,6 +419,6 @@ import PhotoBg from "../../../components/PhotoBg.astro";
   .submit-note { color: var(--muted); font-size: 0.85rem; margin-top: 0.9rem; }
 
   @media (max-width: 600px) {
-    .check-grid, .send-grid { grid-template-columns: 1fr; }
+    .check-grid { grid-template-columns: 1fr; }
   }
 </style>
