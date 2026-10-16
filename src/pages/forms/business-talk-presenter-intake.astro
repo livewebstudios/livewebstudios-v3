@@ -1,0 +1,347 @@
+---
+/**
+ * /forms/business-talk-presenter-intake — Business Talk Inc. presenter media
+ * profile. Moved here from businesstalk.netlify.app (Jon 2026-10-15), whose old
+ * URL 301s to this page once it is live.
+ *
+ * PRIVATE CLIENT PAGE: noindex meta here, X-Robots-Tag on /forms/* in
+ * netlify.toml, Disallow in robots.txt, filtered out of the sitemap in
+ * astro.config.mjs, and linked from no menu. Reached by direct link only.
+ *
+ * FORM MECHANICS: same Formspree endpoint as the old page (xeedppwp), and every
+ * field name= and option value= is unchanged, so submissions land exactly as
+ * before. The presenter's confirmation copy is a Formspree autoresponse keyed
+ * on the "email" field. The page tries an AJAX send for the inline success
+ * screen and falls back to a normal POST if Formspree refuses it (a captcha
+ * challenge, say), so a submission is never lost.
+ *
+ * Changes from the old page: em dashes out of the copy, "Submit" out of the
+ * button, and the last name no longer arrives pre-filled with "Bannon" (the old
+ * page shipped value="Bannon", so an untouched field sent that name).
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+
+const energy = [
+  ["e1", "Warm and Approachable", "Warm & Approachable"],
+  ["e2", "Authoritative and Commanding", "Authoritative & Commanding"],
+  ["e3", "Energetic and Dynamic", "Energetic & Dynamic"],
+  ["e4", "Calm and Thoughtful", "Calm & Thoughtful"],
+  ["e5", "Sharp and No-Nonsense", "Sharp & No-Nonsense"],
+  ["e6", "Inspiring and Motivational", "Inspiring & Motivational"],
+];
+const wardrobe = [
+  ["w1", "Business Formal (suit and tie or blazer)", "Business Formal"],
+  ["w2", "Business Casual (smart, no tie)", "Business Casual"],
+  ["w3", "Smart Casual (polished but relaxed)", "Smart Casual"],
+  ["w4", "Creative or Industry-specific look", "Creative / Industry"],
+];
+const setting = [
+  ["s1", "Modern office or boardroom", "Modern Office / Boardroom"],
+  ["s2", "Conference or training room", "Conference / Training Room"],
+  ["s3", "Clean abstract studio backdrop", "Studio Backdrop"],
+  ["s4", "Outdoor or urban environment", "Outdoor / Urban"],
+  ["s5", "Warm library or study", "Library / Study"],
+  ["s6", "No preference - surprise me", "Surprise Me"],
+];
+const glasses = [
+  ["g1", "Yes - always", "Yes, always"],
+  ["g2", "Sometimes", "Sometimes"],
+  ["g3", "No", "No"],
+];
+const progress = [
+  ["bt-info", "Your Info"],
+  ["bt-camera", "On Camera"],
+  ["bt-style", "Visual Style"],
+  ["bt-topics", "Your Topics"],
+];
+---
+
+<Base
+  title="Presenter Media Profile, Business Talk Inc. | Live Web Studios"
+  description="Business Talk Inc. presenter media profile. Everything Live Web Studios needs to create your AI-generated photos and video for the Business Talk platform."
+  canonical="https://livewebstudios.com/forms/business-talk-presenter-intake"
+  noindex={true}
+>
+  <Nav />
+
+  <main>
+    <section class="page-head page-head--glass">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">PRODUCED BY LIVE WEB STUDIOS</span>
+        <h1 class="page-h1">Business Talk Inc. · <em>Presenter Media Profile</em></h1>
+        <p class="page-lede">Fill this out once. It gives us everything we need to create your professional AI-generated photos and video for the Business Talk platform.</p>
+      </div>
+    </section>
+
+    <section class="sec-pad">
+      <div class="wrap form-wrap">
+        <div id="bt-success" class="form-success" role="status" tabindex="-1">
+          <div class="big">You're all set.</div>
+          <p>Your presenter profile is on its way to us. The Live Web Studios team will be in touch with your production details. Check your inbox for a confirmation copy.</p>
+        </div>
+
+        <div id="bt-form-wrap">
+          <ol class="bt-progress" aria-label="Form sections">
+            {progress.map(([id, name], i) => (
+              <li><a href={`#${id}`}><span class="bt-progress__n">{i + 1}</span>{name}</a></li>
+            ))}
+          </ol>
+
+          <Glass class="reveal" innerClass="form-pad">
+            <form id="bt-form" action="https://formspree.io/f/xeedppwp" method="POST">
+              <input type="hidden" name="_subject" value="New Business Talk Presenter Profile" />
+              <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+              <!-- SECTION 1 -->
+              <div class="fgroup" id="bt-info">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 1 · YOUR INFO</span>
+                  <h2>The basics</h2>
+                  <p class="fgroup-note">How we identify you and where your confirmation goes.</p>
+                </div>
+                <div class="form-row">
+                  <div class="field">
+                    <label for="bt-first">First name <span class="req-star">*</span></label>
+                    <input type="text" id="bt-first" name="first_name" required autocomplete="given-name" placeholder="Jordan" />
+                  </div>
+                  <div class="field">
+                    <label for="bt-last">Last name <span class="req-star">*</span></label>
+                    <input type="text" id="bt-last" name="last_name" required autocomplete="family-name" placeholder="Smith" />
+                  </div>
+                  <div class="field full">
+                    <label for="bt-email">Your email <span class="req-star">*</span></label>
+                    <p class="field-hint" id="bt-email-hint">We'll send a confirmation copy to this address when you send the form.</p>
+                    <input type="email" id="bt-email" name="email" required autocomplete="email" aria-describedby="bt-email-hint" placeholder="you@businesstalkinc.com" />
+                  </div>
+                  <div class="field full">
+                    <label for="bt-title">Your title / role <span class="req-star">*</span></label>
+                    <p class="field-hint" id="bt-title-hint">As it should appear on the platform, e.g. "Sales Strategy Coach".</p>
+                    <input type="text" id="bt-title" name="title" required aria-describedby="bt-title-hint" placeholder="Founder &amp; Lead Instructor" />
+                  </div>
+                  <div class="field full">
+                    <label for="bt-url">LinkedIn or website URL</label>
+                    <p class="field-hint" id="bt-url-hint">Helps us see your existing visual brand. Totally optional.</p>
+                    <input type="url" id="bt-url" name="social_url" aria-describedby="bt-url-hint" placeholder="https://linkedin.com/in/yourname" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECTION 2 -->
+              <div class="fgroup" id="bt-camera">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 2 · ON CAMERA</span>
+                  <h2>How you look on camera</h2>
+                  <p class="fgroup-note">Helps us generate photos and video that actually look like you.</p>
+                </div>
+                <div class="field">
+                  <label for="bt-desc">Physical description <span class="req-star">*</span></label>
+                  <p class="field-hint" id="bt-desc-hint">In addition to the photos you'll be sending us, this helps us fine-tune your AI-generated images: hair color and style, eye color, approximate age range, complexion, build. The more specific, the better the result.</p>
+                  <textarea id="bt-desc" name="physical_description" required aria-describedby="bt-desc-hint" placeholder="e.g. Short dark brown hair, brown eyes, mid-40s, olive complexion, clean-shaven, medium build"></textarea>
+                </div>
+
+                <fieldset class="field">
+                  <legend>Your on-camera energy <span class="req-star">*</span></legend>
+                  <p class="field-hint">How do you want to come across? Pick up to two.</p>
+                  <div class="pill-group">
+                    {energy.map(([id, value, label]) => (
+                      <span class="pill"><input type="checkbox" name="energy[]" id={id} value={value} /><label for={id}>{label}</label></span>
+                    ))}
+                  </div>
+                </fieldset>
+              </div>
+
+              <!-- SECTION 3 -->
+              <div class="fgroup" id="bt-style">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 3 · VISUAL STYLE</span>
+                  <h2>Visual style preferences</h2>
+                  <p class="fgroup-note">We handle the creative direction. This keeps us in your lane.</p>
+                </div>
+
+                <fieldset class="field">
+                  <legend>Wardrobe style <span class="req-star">*</span></legend>
+                  <p class="field-hint">What you'd naturally wear when presenting professionally.</p>
+                  <div class="pill-group">
+                    {wardrobe.map(([id, value, label], i) => (
+                      <span class="pill"><input type="radio" name="wardrobe" id={id} value={value} required={i === 0} /><label for={id}>{label}</label></span>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div class="field">
+                  <label for="bt-colors">Wardrobe colors, preferred or avoid</label>
+                  <p class="field-hint" id="bt-colors-hint">Any colors you always wear on camera? Anything that washes you out?</p>
+                  <input type="text" id="bt-colors" name="wardrobe_colors" aria-describedby="bt-colors-hint" placeholder="e.g. Navy or charcoal. Avoid bright red or yellow." />
+                </div>
+
+                <fieldset class="field">
+                  <legend>Preferred setting / background <span class="req-star">*</span></legend>
+                  <p class="field-hint">Where should your photos and video look like they were shot? Pick all that apply.</p>
+                  <div class="pill-group">
+                    {setting.map(([id, value, label]) => (
+                      <span class="pill"><input type="checkbox" name="setting[]" id={id} value={value} /><label for={id}>{label}</label></span>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div class="field">
+                  <label for="bt-nos">Hard no's</label>
+                  <p class="field-hint" id="bt-nos-hint">Anything you absolutely don't want: backgrounds, poses, vibes, looks.</p>
+                  <textarea id="bt-nos" name="hard_nos" class="short" aria-describedby="bt-nos-hint" placeholder="e.g. No overly staged poses. Nothing too casual. Avoid outdoor shots."></textarea>
+                </div>
+              </div>
+
+              <!-- SECTION 4 -->
+              <div class="fgroup" id="bt-topics">
+                <div class="fgroup-head">
+                  <span class="eyebrow">SECTION 4 · YOUR TOPICS</span>
+                  <h2>What you teach</h2>
+                  <p class="fgroup-note">Shapes how we frame you visually and contextually on the platform.</p>
+                </div>
+
+                <div class="field">
+                  <label for="bt-topics-in">Your primary topics or subject areas <span class="req-star">*</span></label>
+                  <p class="field-hint" id="bt-topics-hint">What do you teach, present, or coach? Bullet points are fine.</p>
+                  <textarea id="bt-topics-in" name="topics" required aria-describedby="bt-topics-hint" placeholder="e.g. Sales strategy, closing techniques, pipeline management, leadership for sales teams"></textarea>
+                </div>
+
+                <div class="field">
+                  <label for="bt-feel">What should viewers feel watching your segment?</label>
+                  <p class="field-hint" id="bt-feel-hint">Not what you want to say. What you want them to feel. One or two sentences is perfect.</p>
+                  <textarea id="bt-feel" name="viewer_feeling" class="short" aria-describedby="bt-feel-hint" placeholder="e.g. Like this person gets it. Like I can actually do this if I follow their system."></textarea>
+                </div>
+
+                <fieldset class="field">
+                  <legend>Do you wear glasses?</legend>
+                  <div class="pill-group">
+                    {glasses.map(([id, value, label]) => (
+                      <span class="pill"><input type="radio" name="glasses" id={id} value={value} /><label for={id}>{label}</label></span>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div class="field">
+                  <label for="bt-notes">Anything else we should know?</label>
+                  <p class="field-hint" id="bt-notes-hint">Props, tools, signature items, anything that belongs in your visual world.</p>
+                  <textarea id="bt-notes" name="additional_notes" class="short" aria-describedby="bt-notes-hint" placeholder="e.g. I usually present with a whiteboard. I always have a coffee. I have a signature gesture when I talk."></textarea>
+                </div>
+              </div>
+
+              <div class="form-actions bt-actions">
+                <p class="submit-note"><strong>That's it.</strong> Hit send and you're done. A confirmation lands in your inbox, and the Live Web Studios team takes it from here.</p>
+                <button type="submit" class="btn btn-primary">Send My Profile →</button>
+              </div>
+            </form>
+          </Glass>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    /* AJAX send to Formspree for the inline success screen. If Formspree says
+       no (a captcha challenge, a rate limit), fall back to a normal POST so the
+       presenter still gets through. Endpoint matches the action attribute. */
+    (function () {
+      var form = document.getElementById("bt-form");
+      var wrap = document.getElementById("bt-form-wrap");
+      var success = document.getElementById("bt-success");
+      if (!form) return;
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var btn = form.querySelector("button[type=submit]");
+        if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+        try {
+          var res = await fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" }
+          });
+          if (!res.ok) throw new Error("formspree " + res.status);
+          wrap.style.display = "none";
+          success.classList.add("show");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          success.focus({ preventScroll: true });
+        } catch (err) {
+          HTMLFormElement.prototype.submit.call(form);
+        }
+      });
+    })();
+  </script>
+</Base>
+
+<style>
+  .form-wrap { max-width: 920px; }
+
+  /* Four-step strip from the old page; each step jumps to its section. */
+  .bt-progress {
+    list-style: none; margin: 0 0 1.5rem; padding: 0;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;
+  }
+  .bt-progress a {
+    display: flex; align-items: center; gap: 0.55rem; padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line); border-radius: var(--r-md); background: var(--panel-2);
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+  }
+  .bt-progress a:hover { border-color: var(--cyan); color: var(--cyan-soft); }
+  .bt-progress__n {
+    flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(56, 189, 248, 0.14); color: var(--cyan-soft); font-weight: 600;
+  }
+
+  .fgroup { margin-bottom: 2.6rem; scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+  .fgroup-head { margin-bottom: 1.6rem; }
+  .fgroup-head h2 {
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.01em; margin-top: 0.7rem; color: var(--ink-soft);
+  }
+  .fgroup-note { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+
+  .field-hint { color: var(--muted); font-size: 0.85rem; line-height: 1.55; margin: -0.15rem 0 0.15rem; }
+  .req-star { color: var(--cyan-soft); }
+  .field textarea.short { min-height: 80px; }
+
+  /* Pill groups: a fieldset whose legend reads like the site's field labels. */
+  fieldset.field { border: 0; padding: 0; min-width: 0; }
+  fieldset.field legend {
+    padding: 0; margin-bottom: 0.5rem; font-family: var(--mono); font-size: 0.7rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  }
+  .pill-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem; }
+  .pill { position: relative; }
+  .pill input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .field .pill label {
+    display: inline-flex; align-items: center; min-height: 40px; padding: 0.5rem 1rem;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--panel-2);
+    font-family: var(--sans); font-size: 0.88rem; letter-spacing: 0; text-transform: none;
+    color: var(--ink); cursor: pointer; user-select: none;
+  }
+  .field .pill label:hover { border-color: var(--cyan); color: var(--cyan-soft); }
+  .pill input:checked + label {
+    background: rgba(56, 189, 248, 0.14); border-color: var(--cyan); color: var(--cyan-soft); font-weight: 500;
+  }
+  .pill input:focus-visible + label { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+  .bt-actions { text-align: center; }
+  .submit-note { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.1rem; }
+  .submit-note strong { color: var(--ink-soft); }
+
+  .form-success { display: none; text-align: center; padding: 3rem 1.5rem 3.5rem; }
+  .form-success.show { display: block; }
+  .form-success:focus { outline: none; }
+  .form-success .big { font-size: clamp(2.4rem, 7vw, 3.4rem); font-weight: 700; color: var(--cyan-soft); line-height: 1.05; }
+  .form-success p { color: var(--ink); margin-top: 0.9rem; }
+
+  @media (max-width: 700px) {
+    .bt-progress { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
