@@ -30,6 +30,12 @@
 /expert-witness.html                                                   /services/expert-witness     301
 
 
+# ===== CLIENT REVIEW PAGES (Jon 2026-10-16) =====
+# Private, noindex. The link Jon sends Chante carries a trailing slash; the
+# built file is clients/vysyn-assets.html, served at the slashless URL.
+/clients/vysyn-assets/                                                 /clients/vysyn-assets        301
+
+
 # ===== LiveAiStudios (Jon 2026-09-26) =====
 # The /ai sub-brand. Short and legacy forms fold into the canonical /ai.
 # liveaistudios.com gets its own domain-level rule once DNS points here

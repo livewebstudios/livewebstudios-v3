@@ -100,6 +100,14 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
 
+# Client review pages (/clients/vysyn-assets, Jon 2026-10-16). Same belt and
+# braces as /forms/ minus the robots.txt Disallow: a Disallow line would
+# advertise the folder, so these rely on the meta tag and this header.
+[[headers]]
+  for = "/clients/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
 # Hotlink assets: the Decap admin login pulls its logo from
 # livewebstudios.com/hlink/. Serve it, but keep it out of the index.
 [[headers]]

@@ -1,0 +1,552 @@
+---
+/**
+ * /clients/vysyn-assets — private review page for Chante Ramsey (VySyn
+ * Photography): every logo file and photo recovered from her old site, so she
+ * can pick what goes on the new one. Jon sends the link; nothing on the site
+ * links here. NOINDEX (robots meta here, X-Robots-Tag on /clients/* in
+ * netlify.toml), filtered out of the sitemap, and deliberately NOT listed in
+ * robots.txt so the URL is not advertised.
+ *
+ * Built from 26_10_16_vysyn-assets-handoff.md. Order, alt text and tags live
+ * in src/data/vysynAssets.ts; the files in src/assets/clients/vysyn/ are
+ * optimized at build time (AVIF + WebP grid, WebP lightbox at 2000px max), so
+ * the 1 to 2 MB originals never reach the browser.
+ */
+import { Picture, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import { sections, TOTAL_FILES } from "../../data/vysynAssets";
+
+const ROOT = "/src/assets/clients/vysyn/";
+const modules = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/clients/vysyn/**/*.{jpg,jpeg,png}",
+  { eager: true }
+);
+
+/* Group the folder contents and sort them the way Finder does. */
+const byDir = new Map<string, string[]>();
+for (const path of Object.keys(modules)) {
+  const [dir, name] = path.slice(ROOT.length).split("/");
+  if (!byDir.has(dir)) byDir.set(dir, []);
+  byDir.get(dir)!.push(name);
+}
+const finder = (a: string, b: string) =>
+  a.localeCompare(b, "en", { numeric: true, sensitivity: "base" });
+for (const names of byDir.values()) names.sort(finder);
+
+/* The handoff list wins over the sort, so render in list order, but refuse to
+   build if the folders and the list disagree on WHICH files exist. */
+if (Object.keys(modules).length !== TOTAL_FILES) {
+  throw new Error(`VySyn assets: found ${Object.keys(modules).length} files, expected ${TOTAL_FILES}`);
+}
+for (const s of sections) {
+  const onDisk = [...(byDir.get(s.dir) ?? [])].sort().join("|");
+  const listed = s.files.map((f) => f.name).sort().join("|");
+  if (onDisk !== listed) throw new Error(`VySyn assets: ${s.dir} does not match src/data/vysynAssets.ts`);
+}
+
+const GRID_WIDTHS = [400, 800, 1200];
+const LOWRES_NOTE = "Send the original if you want this one on the new site.";
+
+const rendered = await Promise.all(
+  sections.map(async (s) => ({
+    ...s,
+    files: await Promise.all(
+      s.files.map(async (f) => {
+        const src = modules[`${ROOT}${s.dir}/${f.name}`].default;
+        /* Never upscale: a file narrower than 1200 tops out at its own width. */
+        const widths = GRID_WIDTHS.filter((w) => w < src.width);
+        if (src.width <= GRID_WIDTHS[GRID_WIDTHS.length - 1]) widths.push(src.width);
+        const full = await getImage({ src, width: Math.min(2000, src.width), format: "webp" });
+        return { ...f, src, widths, full };
+      })
+    ),
+  }))
+);
+
+const heroLogo = modules[`${ROOT}0-logo/VySyn-LOGO-Final-med.png`].default;
+
+/* Slot widths for `columns: 4 260px` inside .wrap: 1 column below ~583px,
+   2 to ~882px, 3 to ~1167px, then 4 at about 280px each. */
+const SIZES = "(max-width: 582px) calc(100vw - 2.5rem), (max-width: 882px) 46vw, (max-width: 1167px) 31vw, 280px";
+---
+
+<Base
+  title="VySyn Assets | Live Web Studios"
+  description="Every logo file and photo recovered from the old VySyn Photography site, sorted for Chante Ramsey to review. Prepared by Live Web Studios."
+  canonical="https://livewebstudios.com/clients/vysyn-assets"
+  noindex={true}
+>
+  <Nav />
+
+  <main>
+    <section class="page-head page-head--glass va-hero">
+      <div class="wrap">
+        <span class="eyebrow mb-lg">PREPARED FOR CHANTE RAMSEY · VYSYN PHOTOGRAPHY</span>
+        <h1 class="page-h1">VySyn Assets</h1>
+        <p class="page-lede">Chante, this is everything I could recover from the old VySyn site. Every logo file and every photo, sorted into one place. Scroll through, decide what you love, and tell me what stays. If something's missing, send it over and it goes on this page too.</p>
+        <div class="va-hero-logo">
+          <Picture
+            src={heroLogo}
+            widths={[heroLogo.width]}
+            sizes={`${heroLogo.width}px`}
+            formats={["avif"]}
+            fallbackFormat="webp"
+            alt="VySyn Photography logo"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </section>
+
+    <nav class="va-jump" aria-label="Asset sections">
+      <div class="wrap">
+        <ul>
+          {rendered.map((s) => (
+            <li>
+              <a href={`#${s.id}`}>{s.jump} <span>{s.files.length}</span></a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+
+    {rendered.map((s, si) => (
+      <section id={s.id} class:list={["va-sec", { "va-sec--logo": s.dir === "0-logo" }]} data-va-section>
+        <div class="wrap">
+          <header class="va-head">
+            <span class="va-num">{s.num}</span>
+            <div class="va-head-copy">
+              <h2>{s.title} <span class="va-count">{s.files.length} files</span></h2>
+              <p class="va-note">{s.note}</p>
+              <p class="va-where"><span class="label">Where it goes</span> {s.where}</p>
+            </div>
+          </header>
+
+          <div class="va-grid">
+            {s.files.map((f, fi) => (
+              <figure class="va-tile">
+                <button
+                  type="button"
+                  class="va-open"
+                  data-full={f.full.src}
+                  data-w={f.full.attributes.width ?? f.src.width}
+                  data-h={f.full.attributes.height ?? f.src.height}
+                  data-name={f.name}
+                  data-dims={`${f.src.width} × ${f.src.height}`}
+                >
+                  <Picture
+                    src={f.src}
+                    widths={f.widths}
+                    sizes={SIZES}
+                    formats={["avif"]}
+                    fallbackFormat="webp"
+                    alt={f.alt}
+                    loading={si === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    style={`max-width:${f.src.width}px`}
+                  />
+                  {f.tag === "lowres" && <span class="va-pill" title={LOWRES_NOTE}>LOW RES</span>}
+                  {f.tag === "stock" && <span class="va-pill va-pill--stock">STOCK</span>}
+                </button>
+                <figcaption class="va-cap">
+                  <span class="va-file">{f.name}</span>
+                  <span class="va-dims">{String(fi + 1).padStart(2, "0")} · {f.src.width} × {f.src.height}</span>
+                  {f.tag === "lowres" && <span class="va-flag">{LOWRES_NOTE}</span>}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <section class="va-close">
+      <div class="wrap">
+        <Glass innerClass="cta va-cta">
+          <h2>Send me your picks</h2>
+          <p>Go through each section and send me the filenames you want on the new site. Mark your top 3 for the home page. Anything marked LOW RES needs the original file if you want to use it.</p>
+          <div class="hero-btns">
+            <a href="tel:7328019611" class="btn btn-primary">Call me: 732.801.9611</a>
+            <a href="mailto:jonwolf@livewebstudios.com" class="btn btn-ghost">Email Jon</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <div class="va-lb" id="va-lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <button type="button" class="va-lb-btn va-lb-close" aria-label="Close viewer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <button type="button" class="va-lb-btn va-lb-prev" aria-label="Previous photo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <figure class="va-lb-stage">
+      <img class="va-lb-img" alt="" decoding="async" />
+      <figcaption class="va-lb-cap">
+        <span class="va-lb-name"></span>
+        <span class="va-lb-meta"></span>
+      </figcaption>
+    </figure>
+    <button type="button" class="va-lb-btn va-lb-next" aria-label="Next photo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+    </button>
+  </div>
+
+  <Footer />
+</Base>
+
+<script>
+  // Lightbox: opens from any tile, steps through that tile's section only
+  // (wrapping at the ends). Mouse, keyboard (Esc, Left, Right, Tab stays
+  // inside) and horizontal swipe.
+  const lb = document.getElementById("va-lb") as HTMLElement | null;
+  if (lb) {
+    const img = lb.querySelector(".va-lb-img") as HTMLImageElement;
+    const nameEl = lb.querySelector(".va-lb-name") as HTMLElement;
+    const metaEl = lb.querySelector(".va-lb-meta") as HTMLElement;
+    const closeBtn = lb.querySelector(".va-lb-close") as HTMLButtonElement;
+    const prevBtn = lb.querySelector(".va-lb-prev") as HTMLButtonElement;
+    const nextBtn = lb.querySelector(".va-lb-next") as HTMLButtonElement;
+    let group: HTMLButtonElement[] = [];
+    let idx = 0;
+    let opener: HTMLElement | null = null;
+
+    const preload = (b: HTMLButtonElement | undefined) => {
+      if (b?.dataset.full) new Image().src = b.dataset.full;
+    };
+
+    const show = () => {
+      const b = group[idx];
+      const thumb = b.querySelector("img");
+      img.removeAttribute("src");
+      img.width = Number(b.dataset.w);
+      img.height = Number(b.dataset.h);
+      img.alt = thumb?.alt ?? "";
+      img.src = b.dataset.full ?? "";
+      nameEl.textContent = b.dataset.name ?? "";
+      metaEl.textContent = `${b.dataset.dims} · ${idx + 1} of ${group.length}`;
+      const n = group.length;
+      preload(group[(idx + 1) % n]);
+      preload(group[(idx - 1 + n) % n]);
+    };
+
+    const step = (d: number) => {
+      idx = (idx + d + group.length) % group.length;
+      show();
+    };
+
+    const open = (b: HTMLButtonElement) => {
+      const sec = b.closest("[data-va-section]");
+      group = sec ? Array.from(sec.querySelectorAll<HTMLButtonElement>(".va-open")) : [b];
+      idx = Math.max(0, group.indexOf(b));
+      opener = b;
+      const single = group.length < 2;
+      prevBtn.hidden = single;
+      nextBtn.hidden = single;
+      show();
+      lb.hidden = false;
+      document.documentElement.classList.add("va-lock");
+      closeBtn.focus();
+    };
+
+    const close = () => {
+      lb.hidden = true;
+      document.documentElement.classList.remove("va-lock");
+      img.removeAttribute("src");
+      opener?.focus();
+    };
+
+    document.querySelectorAll<HTMLButtonElement>(".va-open").forEach((b) => {
+      b.addEventListener("click", () => open(b));
+    });
+    closeBtn.addEventListener("click", close);
+    prevBtn.addEventListener("click", () => step(-1));
+    nextBtn.addEventListener("click", () => step(1));
+    // A click on the dark backdrop (not the photo or a control) closes.
+    lb.addEventListener("click", (e) => {
+      const t = e.target as HTMLElement;
+      if (t === lb || t.classList.contains("va-lb-stage")) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (lb.hidden) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
+      else if (e.key === "Tab") {
+        const f = [closeBtn, prevBtn, nextBtn].filter((x) => !x.hidden);
+        const i = f.indexOf(document.activeElement as HTMLButtonElement);
+        e.preventDefault();
+        f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+    });
+
+    let x0 = 0;
+    let y0 = 0;
+    lb.addEventListener("touchstart", (e) => {
+      x0 = e.touches[0].clientX;
+      y0 = e.touches[0].clientY;
+    }, { passive: true });
+    lb.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - x0;
+      const dy = e.changedTouches[0].clientY - y0;
+      if (group.length > 1 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  }
+</script>
+
+<style>
+  /* ---- Hero ---- */
+  .va-hero-logo {
+    margin-top: 1.5rem;
+    display: inline-block;
+    padding: 1rem 1.4rem;
+    background: #f6f4f8;
+    border-radius: var(--r-md);
+  }
+  .va-hero-logo :global(img) { width: 100%; max-width: 280px; height: auto; }
+
+  /* ---- Sticky jump bar ---- */
+  .va-jump {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 40;
+    background: rgb(var(--mosa-bg-rgb) / 0.82);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-block: 1px solid var(--line);
+  }
+  .va-jump ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.75rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .va-jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .va-jump a span { color: var(--cyan); }
+  .va-jump a:hover,
+  .va-jump a:focus-visible { border-color: var(--cyan); color: var(--cyan-soft); }
+
+  /* ---- Sections ---- */
+  .va-sec {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    border-bottom: 1px solid var(--line-2);
+    /* clear the sticky nav plus the jump bar on anchor jumps */
+    scroll-margin-top: calc(var(--nav-h) + 4rem);
+  }
+  .va-head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.25rem;
+    align-items: start;
+    margin-bottom: 2rem;
+    max-width: 760px;
+  }
+  .va-num {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    color: var(--cyan);
+    padding-top: 0.55rem;
+  }
+  .va-head h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink-soft);
+    line-height: 1.15;
+  }
+  .va-count {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-left: 0.5rem;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .va-note { color: var(--muted); margin-top: 0.6rem; }
+  .va-where { margin-top: 0.6rem; color: var(--ink); font-size: 0.95rem; }
+  .va-where .label { margin-right: 0.5rem; color: var(--cyan-soft); }
+
+  /* ---- Masonry grid: CSS columns, real proportions, no cropping ---- */
+  .va-grid { columns: 4 260px; column-gap: 1rem; }
+  .va-tile {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    break-inside: avoid;
+    margin: 0 0 1rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  .va-open {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: #0a0f19;
+    cursor: zoom-in;
+  }
+  .va-open :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-inline: auto;
+  }
+  .va-open:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; }
+
+  /* Logo tiles: light checkerboard so transparent PNGs read, never purple
+     on black. */
+  /* Small marks: narrower columns so all four logo files sit in one row. */
+  .va-sec--logo .va-grid { columns: 4 180px; }
+  .va-sec--logo .va-open {
+    padding: 1.25rem;
+    background-color: #f4f4f6;
+    background-image: conic-gradient(#e6e6ea 25%, transparent 0 50%, #e6e6ea 0 75%, transparent 0);
+    background-size: 18px 18px;
+  }
+
+  .va-pill {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.28rem 0.55rem;
+    border-radius: 999px;
+    background: var(--amber);
+    color: #1b1400;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    line-height: 1;
+  }
+  .va-pill--stock {
+    background: rgb(5 7 11 / 0.78);
+    color: var(--ink-soft);
+    border: 1px solid rgb(255 255 255 / 0.35);
+  }
+
+  .va-cap {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.7rem 0.85rem 0.8rem;
+    border-top: 1px solid var(--line-2);
+  }
+  .va-file {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+  .va-dims {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .va-flag { font-size: 0.78rem; color: var(--amber); line-height: 1.4; }
+
+  /* ---- Closing CTA ---- */
+  .va-close { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  :global(.va-cta) { padding: clamp(2rem, 5vw, 3.5rem); }
+  :global(.va-cta) p { max-width: 60ch; }
+
+  /* ---- Lightbox ---- */
+  :global(html.va-lock) { overflow: hidden; }
+  .va-lb {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 3.5rem 0.75rem 1rem;
+    background: rgb(3 5 9 / 0.94);
+    touch-action: pan-y;
+  }
+  .va-lb[hidden] { display: none; }
+  .va-lb-stage {
+    margin: 0;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+  .va-lb-img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 9rem);
+    object-fit: contain;
+    border-radius: var(--r-sm);
+  }
+  .va-lb-cap {
+    display: grid;
+    gap: 0.2rem;
+    text-align: center;
+    font-family: var(--mono);
+  }
+  .va-lb-name { font-size: 0.78rem; color: var(--ink-soft); overflow-wrap: anywhere; }
+  .va-lb-meta { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; }
+  .va-lb-btn {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    background: rgb(255 255 255 / 0.06);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .va-lb-btn:hover,
+  .va-lb-btn:focus-visible { border-color: var(--cyan); background: rgb(56 189 248 / 0.12); outline: none; }
+  .va-lb-btn[hidden] { visibility: hidden; display: grid; }
+  .va-lb-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .va-lb-close { position: absolute; top: 0.75rem; right: 0.75rem; }
+
+  @media (max-width: 519px) {
+    .va-grid { columns: 1; }
+    .va-jump ul { padding: 0.6rem 0; gap: 0.4rem; }
+    .va-jump a { padding: 0.36rem 0.62rem; font-size: 0.6rem; letter-spacing: 0.08em; }
+    .va-sec { scroll-margin-top: calc(var(--nav-h) + 8.5rem); }
+    .va-head { grid-template-columns: 1fr; }
+    .va-num { padding-top: 0; }
+    /* Arrows move to the bottom corners so the photo gets the full width. */
+    .va-lb { grid-template-columns: 1fr; padding: 3.5rem 0.5rem 4.5rem; }
+    .va-lb-prev, .va-lb-next { position: absolute; bottom: 1rem; }
+    .va-lb-prev { left: 1rem; }
+    .va-lb-next { right: 1rem; }
+    .va-lb-img { max-height: calc(100dvh - 12rem); }
+  }
+</style>

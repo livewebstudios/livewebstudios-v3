@@ -35,6 +35,7 @@ export default defineConfig({
       !page.includes('/admin') &&
       !page.includes('/forms/') &&
       !page.includes('/hlink') &&
+      !page.includes('/clients/') &&
       !page.includes('/404'),
   })]
 });
@@ -128,10 +129,18 @@ function relativeAstroAssets() {
           const html = readFileSync(f, 'utf8');
           const up = relative(dirname(f), root).split(sep).join('/');
           const prefix = up ? `${up}/` : '';
-          const out = html.replace(/(src|href)="\/_astro\//g, (_, attr) => {
+          const rel = () => {
             fixed++;
-            return `${attr}="${prefix}_astro/`;
-          });
+            return `${prefix}_astro/`;
+          };
+          // src/href (scripts, <img>) and data-* (the /clients/vysyn-assets
+          // lightbox's full-size URL), then every candidate in a srcset, not
+          // just the first: astro:assets <Picture> writes
+          // srcset="/_astro/a.avif 400w, /_astro/b.avif 800w".
+          const out = html
+            .replace(/(src|href|data-[\w-]+)="\/_astro\//g, (_, attr) => `${attr}="${rel()}`)
+            .replace(/\bsrcset="([^"]*)"/g, (_, v) =>
+              `srcset="${v.replace(/(^|,\s*)\/_astro\//g, (_m, sep) => `${sep}${rel()}`)}"`);
           if (out !== html) writeFileSync(f, out);
         }
         logger.info(`made ${fixed} /_astro/ reference(s) relative`);
