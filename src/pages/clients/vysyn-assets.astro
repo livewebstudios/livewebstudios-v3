@@ -50,7 +50,6 @@ for (const s of sections) {
 
 const GRID_WIDTHS = [400, 800, 1200];
 const LOWRES_NOTE = "Send the original if you want this one on the new site.";
-const STOCK_NOTE = "Stock photo (Pexels), not your work.";
 
 const rendered = await Promise.all(
   sections.map(async (s) => ({
@@ -151,13 +150,12 @@ const SIZES = "(max-width: 582px) calc(100vw - 2.5rem), (max-width: 882px) 46vw,
                     style={`max-width:${f.src.width}px`}
                   />
                   {f.tag === "lowres" && <span class="va-pill" title={LOWRES_NOTE}>LOW RES</span>}
-                  {f.tag === "stock" && <span class="va-pill va-pill--stock" title={STOCK_NOTE}>STOCK</span>}
+                  {f.tag === "stock" && <span class="va-pill va-pill--stock">STOCK</span>}
                 </button>
                 <figcaption class="va-cap">
                   <span class="va-file">{f.name}</span>
                   <span class="va-dims">{String(fi + 1).padStart(2, "0")} · {f.src.width} × {f.src.height}</span>
                   {f.tag === "lowres" && <span class="va-flag">{LOWRES_NOTE}</span>}
-                  {f.tag === "stock" && <span class="va-flag">{STOCK_NOTE}</span>}
                 </figcaption>
               </figure>
             ))}
