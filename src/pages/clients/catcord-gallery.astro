@@ -1,0 +1,732 @@
+---
+/**
+ * /clients/catcord-gallery: private tease for Catcord Construction: every
+ * project photo from catcord.com/projects, sorted by market, to show what an
+ * AI-built gallery on their next site could do. Jon sends the link; nothing on
+ * the site links here. NOINDEX (robots meta here, X-Robots-Tag on /clients/* in
+ * netlify.toml), filtered out of the sitemap, and deliberately NOT listed in
+ * robots.txt so the URL is not advertised.
+ *
+ * Built from docs/26_10_19_catcord_gallery_claude_code_handoff.md. Order,
+ * featured picks and alt text live in src/data/catcordGallery.ts; the photos in
+ * src/assets/clients/catcord/photos/ were pulled and stripped of EXIF by
+ * scripts/catcord-fetch.mjs and are optimized again at build time (AVIF + WebP
+ * grid, WebP lightbox at 1600px max).
+ *
+ * Each market opens on its 8 featured photos; the rest sit in a container that
+ * the script hides on init and VIEW ALL reveals. With JS off every section and
+ * every photo stays visible.
+ */
+import { Picture, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import logo from "../../assets/clients/catcord/logo/catcord-logo.png";
+import { categories, TOTAL_FILES } from "../../data/catcordGallery";
+
+const ROOT = "/src/assets/clients/catcord/photos/";
+const modules = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/clients/catcord/photos/**/*.jpg",
+  { eager: true }
+);
+
+/* Refuse to build if the folders and the data file disagree on WHICH files
+   exist, so a photo dropped into a folder without a data edit (or the other
+   way round) fails here instead of shipping. */
+const byDir = new Map<string, string[]>();
+for (const path of Object.keys(modules)) {
+  const [dir, name] = path.slice(ROOT.length).split("/");
+  if (!byDir.has(dir)) byDir.set(dir, []);
+  byDir.get(dir)!.push(name);
+}
+if (Object.keys(modules).length !== TOTAL_FILES) {
+  throw new Error(`Catcord gallery: found ${Object.keys(modules).length} files, expected ${TOTAL_FILES}`);
+}
+for (const c of categories) {
+  const onDisk = [...(byDir.get(c.dir) ?? [])].sort().join("|");
+  const listed = c.files.map((f) => f.name).sort().join("|");
+  if (onDisk !== listed) throw new Error(`Catcord gallery: ${c.dir} does not match src/data/catcordGallery.ts`);
+  for (const name of c.featured) {
+    if (!c.files.some((f) => f.name === name)) throw new Error(`Catcord gallery: featured ${c.dir}/${name} is not in files`);
+  }
+}
+
+const GRID_WIDTHS = [400, 800, 1200];
+const LIGHTBOX_MAX = 1600; // LWS standard
+
+const rendered = await Promise.all(
+  categories.map(async (c) => {
+    const files = await Promise.all(
+      c.files.map(async (f) => {
+        const src = modules[`${ROOT}${c.dir}/${f.name}`].default;
+        /* Never upscale: a file narrower than 1200 tops out at its own width. */
+        const widths = GRID_WIDTHS.filter((w) => w < src.width);
+        if (src.width <= GRID_WIDTHS[GRID_WIDTHS.length - 1]) widths.push(src.width);
+        const full = await getImage({ src, width: Math.min(LIGHTBOX_MAX, src.width), format: "webp" });
+        return { ...f, src, widths, full };
+      })
+    );
+    const featured = c.featured.map((name) => files.find((f) => f.name === name)!);
+    const rest = files.filter((f) => !c.featured.includes(f.name));
+    return { ...c, total: files.length, featured, rest };
+  })
+);
+
+/* Only the first 4 tiles on the page load eagerly. */
+let tileIndex = 0;
+const nextLoading = () => (tileIndex++ < 4 ? "eager" : "lazy");
+const tiles = rendered.map((c) => ({
+  ...c,
+  featured: c.featured.map((f) => ({ ...f, loading: nextLoading() as "eager" | "lazy" })),
+  rest: c.rest.map((f) => ({ ...f, loading: "lazy" as const })),
+}));
+
+/* Slot widths for `columns: 4 260px` inside .wrap: 1 column below ~583px,
+   2 to ~882px, 3 to ~1167px, then 4 at about 280px each. */
+const SIZES = "(max-width: 582px) calc(100vw - 2.5rem), (max-width: 882px) 46vw, (max-width: 1167px) 31vw, 280px";
+
+/* Logo sits upright inside a 180px white diamond. An upright w x h box fits a
+   diamond of side s when w + h <= s * sqrt(2) (254px for s = 180). The PNG's
+   mark fills only about 73% x 42% of its white canvas, so the image renders
+   at 230px (mark about 168 x 97) and the diamond clips the white margin. */
+const LOGO_W = 230;
+---
+
+<Base
+  title="Catcord Project Gallery | Live Web Studios"
+  description="A private preview of an AI-built project gallery for Catcord Construction, sorted by market. Prepared by Live Web Studios."
+  canonical="https://livewebstudios.com/clients/catcord-gallery"
+  noindex={true}
+>
+  <Nav />
+
+  <main class="theme-catcord" data-cg>
+    {/* Runs before the gallery parses, so the extra tiles never flash or start
+        downloading before the module script takes over. */}
+    <script is:inline>document.documentElement.classList.add("cg-js");</script>
+
+    <section class="page-head page-head--glass cg-hero">
+      <div class="wrap">
+        <div class="cg-hero-row">
+          <div class="cg-hero-copy">
+            <span class="eyebrow mb-lg">PREPARED FOR CATCORD CONSTRUCTION · A LIVE WEB STUDIOS PREVIEW</span>
+            <h1 class="page-h1">Catcord Project Gallery</h1>
+            <p class="page-lede">Over 25 years of builds, sorted the way your clients shop for a contractor: by market. Tap a category and the work is right there. No digging through pages of thumbnails.</p>
+          </div>
+          <div class="cg-diamond">
+            <Picture
+              src={logo}
+              widths={[LOGO_W, logo.width]}
+              sizes={`${LOGO_W}px`}
+              formats={["avif"]}
+              fallbackFormat="webp"
+              alt="Catcord Construction logo"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cg-value" aria-labelledby="cg-value-h">
+      <div class="wrap">
+        <h2 id="cg-value-h">A gallery that does the selling for you</h2>
+        <div class="cg-value-grid">
+          <div class="cg-value-item">
+            <h3>One tap to the right portfolio</h3>
+            <p>A hospital board wants healthcare work, a school district wants classrooms. Every market has its own bubble, and it opens on the strongest eight photos.</p>
+          </div>
+          <div class="cg-value-item">
+            <h3>Every market has its own link</h3>
+            <p>Send a link to the healthcare gallery with a bid and the prospect lands on exactly the work that wins it.</p>
+          </div>
+          <div class="cg-value-item">
+            <h3>Fast on a phone in a parking lot</h3>
+            <p>Every photo is resized and compressed automatically, so {TOTAL_FILES} photos load like a handful.</p>
+          </div>
+          <div class="cg-value-item">
+            <h3>Built with AI, run by people</h3>
+            <p>AI sorted every project photo, picked the lead shots for each market and wrote their descriptions. Adding a new job means dropping photos in a folder.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cg-filter">
+      <div class="wrap">
+        <div class="cg-pills" role="toolbar" aria-label="Filter projects by market">
+          <button type="button" class="cg-pill" data-filter="" aria-pressed="true">ALL <span>{TOTAL_FILES}</span></button>
+          {tiles.map((c) => (
+            <button type="button" class="cg-pill" data-filter={c.id} aria-pressed="false" tabindex="-1">{c.pill} <span>{c.total}</span></button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="cg-gallery" id="gallery">
+      {tiles.map((c) => (
+        <section id={c.id} class="cg-sec" data-cat data-title={c.title}>
+          <div class="wrap">
+            <header class="cg-head">
+              <h2>{c.title} <span class="cg-count">{c.total} photos</span></h2>
+              <p class="cg-blurb">{c.blurb}</p>
+            </header>
+
+            <div class="cg-grid">
+              {c.featured.map((f) => (
+                <figure class="cg-tile">
+                  <button type="button" class="cg-open" data-full={f.full.src} data-w={f.full.attributes.width ?? f.src.width} data-h={f.full.attributes.height ?? f.src.height}>
+                    <Picture src={f.src} widths={f.widths} sizes={SIZES} formats={["avif"]} fallbackFormat="webp" alt={f.alt} loading={f.loading} decoding="async" style={`max-width:${f.src.width}px`} />
+                  </button>
+                </figure>
+              ))}
+            </div>
+
+            {c.rest.length > 0 && (
+              <div class="cg-grid cg-more" id={`more-${c.id}`}>
+                {c.rest.map((f) => (
+                  <figure class="cg-tile">
+                    <button type="button" class="cg-open" data-full={f.full.src} data-w={f.full.attributes.width ?? f.src.width} data-h={f.full.attributes.height ?? f.src.height}>
+                      <Picture src={f.src} widths={f.widths} sizes={SIZES} formats={["avif"]} fallbackFormat="webp" alt={f.alt} loading={f.loading} decoding="async" style={`max-width:${f.src.width}px`} />
+                    </button>
+                  </figure>
+                ))}
+              </div>
+            )}
+
+            {c.rest.length > 0 && (
+              <button type="button" class="cg-viewall" aria-expanded="false" aria-controls={`more-${c.id}`} data-label={`VIEW ALL ${c.total} PHOTOS`} hidden>VIEW ALL {c.total} PHOTOS</button>
+            )}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <section class="cg-close">
+      <div class="wrap">
+        <Glass innerClass="cta cg-cta">
+          <h2>Want this on catcord.com?</h2>
+          <p>This is a working preview built from the photos already on your site. The full version adds project pages, search and a blog that brings in bid inquiries. Let's talk.</p>
+          <div class="hero-btns">
+            <a href="tel:7328019611" class="btn btn-primary">Call me: 732.801.9611</a>
+            <a href="mailto:jonwolf@livewebstudios.com" class="btn btn-ghost">Email Jon</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <div class="cg-lb" id="cg-lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <button type="button" class="cg-lb-btn cg-lb-close" aria-label="Close viewer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <button type="button" class="cg-lb-btn cg-lb-prev" aria-label="Previous photo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <figure class="cg-lb-stage">
+      <img class="cg-lb-img" alt="" decoding="async" />
+      <figcaption class="cg-lb-cap"></figcaption>
+    </figure>
+    <button type="button" class="cg-lb-btn cg-lb-next" aria-label="Next photo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+    </button>
+  </div>
+
+  <Footer />
+</Base>
+
+<script>
+  const root = document.querySelector("[data-cg]") as HTMLElement | null;
+  if (root) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const bar = root.querySelector(".cg-filter") as HTMLElement;
+    const gallery = root.querySelector("#gallery") as HTMLElement;
+    const pills = Array.from(bar.querySelectorAll<HTMLButtonElement>("[data-filter]"));
+    const sections = Array.from(root.querySelectorAll<HTMLElement>("[data-cat]"));
+    const ids = new Set(sections.map((s) => s.id));
+
+    // Scroll so `el` lands just below the sticky nav and filter bar.
+    const scrollToEl = (el: HTMLElement) => {
+      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 85;
+      const top = el.getBoundingClientRect().top + window.scrollY - navH - bar.offsetHeight - 12;
+      window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion.matches ? "auto" : "smooth" });
+    };
+
+    // ---- VIEW ALL / SHOW FEWER ----
+    // The extra tiles ship visible (no-JS fallback); hide them here.
+    sections.forEach((sec) => {
+      const btn = sec.querySelector(".cg-viewall") as HTMLButtonElement | null;
+      if (!btn) return;
+      const more = document.getElementById(btn.getAttribute("aria-controls") ?? "") as HTMLElement;
+      more.hidden = true;
+      more.dataset.ready = "";
+      btn.hidden = false;
+      btn.addEventListener("click", () => {
+        const open = btn.getAttribute("aria-expanded") === "true";
+        more.hidden = open;
+        btn.setAttribute("aria-expanded", String(!open));
+        btn.textContent = open ? (btn.dataset.label ?? "") : "SHOW FEWER";
+        if (open) scrollToEl(sec.querySelector("h2") as HTMLElement);
+      });
+    });
+
+    // ---- Market filter ----
+    const setRoving = (active: HTMLButtonElement) => {
+      pills.forEach((p) => (p.tabIndex = p === active ? 0 : -1));
+    };
+
+    const apply = (id: string | null, opts: { push?: boolean; scroll?: boolean } = {}) => {
+      pills.forEach((p) => {
+        const on = (p.dataset.filter || null) === id;
+        p.setAttribute("aria-pressed", String(on));
+        if (on) setRoving(p);
+      });
+      sections.forEach((s) => (s.hidden = id !== null && s.id !== id));
+      if (opts.push) {
+        const url = id ? `#${id}` : location.pathname + location.search;
+        history.pushState(null, "", url);
+      }
+      if (opts.scroll) scrollToEl(gallery);
+    };
+
+    pills.forEach((p, i) => {
+      p.addEventListener("click", () => apply(p.dataset.filter || null, { push: true, scroll: true }));
+      // Toolbar keys: arrows, Home and End move between pills.
+      p.addEventListener("keydown", (e) => {
+        let j = -1;
+        if (e.key === "ArrowRight") j = (i + 1) % pills.length;
+        else if (e.key === "ArrowLeft") j = (i - 1 + pills.length) % pills.length;
+        else if (e.key === "Home") j = 0;
+        else if (e.key === "End") j = pills.length - 1;
+        if (j < 0) return;
+        e.preventDefault();
+        setRoving(pills[j]);
+        pills[j].focus();
+        pills[j].scrollIntoView({ block: "nearest", inline: "nearest" });
+      });
+    });
+
+    const fromHash = () => {
+      const h = decodeURIComponent(location.hash.slice(1));
+      return ids.has(h) ? h : null;
+    };
+    const initial = fromHash();
+    apply(initial, { scroll: initial !== null });
+    window.addEventListener("popstate", () => apply(fromHash(), { scroll: true }));
+
+    // ---- Lightbox ----
+    // Steps through every photo in the opened tile's market, revealed or not,
+    // in page order (wrapping at the ends). Mouse, keyboard (Esc, Left,
+    // Right, Tab stays inside) and horizontal swipe.
+    const lb = document.getElementById("cg-lb") as HTMLElement;
+    const img = lb.querySelector(".cg-lb-img") as HTMLImageElement;
+    const cap = lb.querySelector(".cg-lb-cap") as HTMLElement;
+    const closeBtn = lb.querySelector(".cg-lb-close") as HTMLButtonElement;
+    const prevBtn = lb.querySelector(".cg-lb-prev") as HTMLButtonElement;
+    const nextBtn = lb.querySelector(".cg-lb-next") as HTMLButtonElement;
+    let group: HTMLButtonElement[] = [];
+    let title = "";
+    let idx = 0;
+    let opener: HTMLElement | null = null;
+
+    const preload = (b: HTMLButtonElement | undefined) => {
+      if (b?.dataset.full) new Image().src = b.dataset.full;
+    };
+
+    const show = () => {
+      const b = group[idx];
+      const thumb = b.querySelector("img");
+      img.removeAttribute("src");
+      img.width = Number(b.dataset.w);
+      img.height = Number(b.dataset.h);
+      img.alt = thumb?.alt ?? "";
+      img.src = b.dataset.full ?? "";
+      cap.textContent = `${title} · ${idx + 1} / ${group.length}`;
+      const n = group.length;
+      preload(group[(idx + 1) % n]);
+      preload(group[(idx - 1 + n) % n]);
+    };
+
+    const step = (d: number) => {
+      idx = (idx + d + group.length) % group.length;
+      show();
+    };
+
+    const open = (b: HTMLButtonElement) => {
+      const sec = b.closest("[data-cat]") as HTMLElement | null;
+      group = sec ? Array.from(sec.querySelectorAll<HTMLButtonElement>(".cg-open")) : [b];
+      title = sec?.dataset.title ?? "";
+      idx = Math.max(0, group.indexOf(b));
+      opener = b;
+      const single = group.length < 2;
+      prevBtn.hidden = single;
+      nextBtn.hidden = single;
+      show();
+      lb.hidden = false;
+      document.documentElement.classList.add("cg-lock");
+      closeBtn.focus();
+    };
+
+    const close = () => {
+      lb.hidden = true;
+      document.documentElement.classList.remove("cg-lock");
+      img.removeAttribute("src");
+      opener?.focus();
+    };
+
+    root.querySelectorAll<HTMLButtonElement>(".cg-open").forEach((b) => {
+      b.addEventListener("click", () => open(b));
+    });
+    closeBtn.addEventListener("click", close);
+    prevBtn.addEventListener("click", () => step(-1));
+    nextBtn.addEventListener("click", () => step(1));
+    // A click on the dark backdrop (not the photo or a control) closes.
+    lb.addEventListener("click", (e) => {
+      const t = e.target as HTMLElement;
+      if (t === lb || t.classList.contains("cg-lb-stage")) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (lb.hidden) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
+      else if (e.key === "Tab") {
+        const f = [closeBtn, prevBtn, nextBtn].filter((x) => !x.hidden);
+        const i = f.indexOf(document.activeElement as HTMLButtonElement);
+        e.preventDefault();
+        f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+    });
+
+    let x0 = 0;
+    let y0 = 0;
+    lb.addEventListener("touchstart", (e) => {
+      x0 = e.touches[0].clientX;
+      y0 = e.touches[0].clientY;
+    }, { passive: true });
+    lb.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - x0;
+      const dy = e.changedTouches[0].clientY - y0;
+      if (group.length > 1 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  }
+</script>
+
+<style>
+  /* ---- Catcord skin -------------------------------------------------
+     Same approach as .theme-live-ai: re-point the accent tokens the reused
+     VySyn CSS reads, so it turns Catcord orange on navy instead of LWS cyan.
+     Navy #00305c (main header) and blue #1b568c (top bar) are sampled from
+     catcord.com's live Divi CSS; orange #ee9b01 is their brand orange.
+     Orange is for pills, counts, active states and focus rings only. Never
+     body text. Contrast on navy: white 12.7:1, --muted 7.9:1, orange 5.9:1,
+     --cyan-soft 8.2:1; ink #001a33 on orange 7.8:1. Orange on the blue is
+     3.4:1, so it never sits on the blue as text. */
+  .theme-catcord {
+    --cc-navy: #00305c;
+    --cc-blue: #1b568c;
+    --cc-orange: #ee9b01;
+    --cc-ink: #001a33;
+    --cyan: var(--cc-orange);
+    --cyan-soft: #ffc04d;
+    --cyan-2: var(--cc-orange);
+    --cyan-deep: #5c3c00;
+    --on-accent: var(--cc-ink);
+    --mosa-bg-rgb: 0 48 92;
+    --line: rgb(255 255 255 / 0.14);
+    --line-2: rgb(255 255 255 / 0.08);
+    --panel: rgb(255 255 255 / 0.04);
+    display: block;
+    background: var(--cc-navy);
+  }
+  .theme-catcord :focus-visible { outline: 2px solid var(--cc-orange); outline-offset: 2px; }
+
+  /* ---- Hero ---- */
+  .cg-hero-row {
+    display: flex;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4.5rem);
+  }
+  .cg-hero-copy { min-width: 0; max-width: 60ch; }
+  /* White diamond, echoing the one in catcord.com's header. The rotated
+     180px square needs 255px of room, hence the margin. */
+  .cg-diamond {
+    position: relative;
+    flex: none;
+    width: 180px;
+    height: 180px;
+    margin: 38px;
+    background: #fff;
+    transform: rotate(45deg);
+    overflow: hidden;
+    box-shadow: 0 0 0 6px rgb(238 155 1 / 0.9), 0 18px 50px rgb(0 0 0 / 0.35);
+  }
+  /* Centred on the diamond's middle, then turned back upright. */
+  .cg-diamond :global(picture) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+  .cg-diamond :global(img) {
+    display: block;
+    width: 230px;
+    max-width: none;
+    height: auto;
+  }
+
+  /* ---- Value band ---- */
+  .cg-value { padding-block: clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--line-2); }
+  .cg-value h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink-soft);
+    line-height: 1.15;
+    max-width: 24ch;
+  }
+  .cg-value-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .cg-value-item {
+    padding: 1.4rem 1.5rem;
+    background: rgb(27 86 140 / 0.35);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--cc-orange);
+    border-radius: var(--r-lg);
+  }
+  .cg-value-item h3 { font-size: 1.1rem; font-weight: 600; color: var(--ink-soft); line-height: 1.3; }
+  .cg-value-item p { margin-top: 0.5rem; color: var(--ink); font-size: 0.97rem; line-height: 1.55; }
+
+  /* ---- Sticky filter bar (the .va-jump look) ---- */
+  .cg-filter {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 40;
+    background: rgb(var(--mosa-bg-rgb) / 0.86);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-block: 1px solid var(--line);
+  }
+  /* Pills only work with JS; without it the stacked sections are the page. */
+  :global(html:not(.cg-js)) .cg-filter { display: none; }
+  .cg-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+  }
+  .cg-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background-color 0.2s var(--ease);
+  }
+  .cg-pill span { color: var(--cyan); transition: color 0.2s var(--ease); }
+  .cg-pill:hover { border-color: var(--cyan); color: var(--cyan-soft); }
+  .cg-pill[aria-pressed="true"] {
+    background: var(--cc-orange);
+    border-color: var(--cc-orange);
+    color: var(--cc-ink);
+    font-weight: 500;
+  }
+  .cg-pill[aria-pressed="true"] span { color: var(--cc-ink); }
+
+  /* ---- Sections ---- */
+  .cg-sec {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .cg-sec[hidden] { display: none; }
+  .cg-head { margin-bottom: 2rem; max-width: 760px; }
+  .cg-head h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink-soft);
+    line-height: 1.15;
+  }
+  .cg-count {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--cyan);
+    margin-left: 0.5rem;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .cg-blurb { color: var(--muted); margin-top: 0.6rem; }
+
+  /* ---- Masonry grid: CSS columns, real proportions, no cropping ---- */
+  .cg-grid { columns: 4 260px; column-gap: 1rem; }
+  .cg-more { margin-top: 0; }
+  .cg-more[hidden] { display: none; }
+  :global(html.cg-js) .cg-more:not([data-ready]) { display: none; }
+  .cg-tile {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    break-inside: avoid;
+    margin: 0 0 1rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  .cg-open {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: #001a33;
+    cursor: zoom-in;
+  }
+  .cg-open :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-inline: auto;
+  }
+  .cg-open:focus-visible { outline: 2px solid var(--cc-orange); outline-offset: -2px; }
+
+  .cg-viewall {
+    display: inline-flex;
+    margin-top: 1rem;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid var(--cc-orange);
+    border-radius: 999px;
+    background: transparent;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .cg-viewall:hover { background: var(--cc-orange); color: var(--cc-ink); }
+  .cg-viewall[hidden] { display: none; }
+
+  /* ---- Closing CTA ---- */
+  .cg-close { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  :global(.cg-cta) { padding: clamp(2rem, 5vw, 3.5rem); }
+  :global(.cg-cta) p { max-width: 60ch; }
+
+  /* ---- Lightbox ---- */
+  :global(html.cg-lock) { overflow: hidden; }
+  .cg-lb {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 3.5rem 0.75rem 1rem;
+    background: rgb(0 16 32 / 0.95);
+    touch-action: pan-y;
+  }
+  .cg-lb[hidden] { display: none; }
+  .cg-lb-stage {
+    margin: 0;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+  .cg-lb-img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 9rem);
+    object-fit: contain;
+    border-radius: var(--r-sm);
+  }
+  .cg-lb-cap {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+  .cg-lb-btn {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    background: rgb(255 255 255 / 0.06);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .cg-lb-btn:hover,
+  .cg-lb-btn:focus-visible { border-color: #ee9b01; background: rgb(238 155 1 / 0.14); outline: none; }
+  .cg-lb-btn[hidden] { visibility: hidden; display: grid; }
+  .cg-lb-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .cg-lb-close { position: absolute; top: 0.75rem; right: 0.75rem; }
+
+  @media (max-width: 860px) {
+    .cg-hero-row { flex-direction: column-reverse; align-items: flex-start; gap: 0.5rem; }
+    .cg-diamond { width: 120px; height: 120px; margin: 26px; }
+    .cg-diamond :global(img) { width: 134px; }
+  }
+
+  @media (max-width: 700px) {
+    .cg-value-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Phones: one scrollable row of pills with a fade on the right edge. */
+  @media (max-width: 600px) {
+    .cg-filter .wrap { position: relative; padding-inline: 0; }
+    .cg-filter .wrap::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 2.5rem;
+      background: linear-gradient(to right, rgb(var(--mosa-bg-rgb) / 0), rgb(var(--mosa-bg-rgb)));
+      pointer-events: none;
+    }
+    .cg-pills {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 0.6rem 2.5rem 0.6rem 1.25rem;
+      gap: 0.4rem;
+    }
+    .cg-pills::-webkit-scrollbar { display: none; }
+  }
+
+  @media (max-width: 519px) {
+    .cg-grid { columns: 1; }
+    /* Arrows move to the bottom corners so the photo gets the full width. */
+    .cg-lb { grid-template-columns: 1fr; padding: 3.5rem 0.5rem 4.5rem; }
+    .cg-lb-prev, .cg-lb-next { position: absolute; bottom: 1rem; }
+    .cg-lb-prev { left: 1rem; }
+    .cg-lb-next { right: 1rem; }
+    .cg-lb-img { max-height: calc(100dvh - 12rem); }
+  }
+</style>
