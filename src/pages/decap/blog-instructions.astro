@@ -130,7 +130,7 @@ const checklist = [
           <li class="dg-step reveal"><span class="dg-step__body">Type your email and password, then click <span class="dg-chip dg-chip--solid">Log in</span></span></li>
         </ol>
         <div class="callout callout--tip reveal" role="note">
-          <p><strong>First time?</strong> You got an invite email from Live Web Studios. Open it, click <strong>Accept the invite</strong>, and pick a password. That's your login from now on.</p>
+          <p><strong>First time?</strong> You got an invite email from Netlify (it sends logins for your website). Open it, click <strong>Accept the invite</strong>, and pick a password. That's your login from now on.</p>
         </div>
       </section>
 
@@ -139,8 +139,7 @@ const checklist = [
         <h2 class="dg-h2" id="h-write">Write a New Post</h2>
         <ol class="dg-steps" role="list">
           <li class="dg-step reveal"><span class="dg-step__body">In the left menu, click <span class="dg-chip dg-chip--menu">Insights</span> (some sites say <span class="dg-chip dg-chip--menu">Blog</span>, same thing).</span></li>
-          <li class="dg-step reveal"><span class="dg-step__body">Click the posts file to open it (it's named something like <span class="dg-chip dg-chip--menu">Insights Posts</span>).</span></li>
-          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--outline">Add post</span>. A blank post appears in the list.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--outline">New Insight</span> (or <span class="dg-chip dg-chip--outline">New Post</span>) at the top. On some sites you open the posts file first and click <span class="dg-chip dg-chip--outline">Add post</span>. Same idea.</span></li>
           <li class="dg-step reveal"><span class="dg-step__body">Fill in the boxes (chart below). The preview on the right shows how it will look.</span></li>
           <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--solid">Publish</span> in the top right corner, then <span class="dg-chip dg-chip--solid">Publish now</span></span></li>
           <li class="dg-step reveal"><span class="dg-step__body">Wait about 1 minute, then refresh your Insights page. You're live.</span></li>
@@ -185,6 +184,7 @@ const checklist = [
           </table>
         </div>
         <p class="dg-note">Your site may show a box or two more or fewer than this list. Just fill in what you see.</p>
+        <p class="dg-note">See a box called <strong>Hide from the site (draft)</strong>? Leave it unchecked to publish. Check it to save a post without showing it yet.</p>
 
         <h3 class="dg-h3">Writing tips that help Google find you</h3>
         <ul class="dg-list">
@@ -210,9 +210,9 @@ const checklist = [
       <section class="dg-sec" id="edit" aria-labelledby="h-edit">
         <h2 class="dg-h2" id="h-edit">Edit or Delete a Post</h2>
         <ol class="dg-steps" role="list">
-          <li class="dg-step reveal"><span class="dg-step__body">Go to <span class="dg-chip dg-chip--menu">Insights</span> and open the posts file, same as before.</span></li>
-          <li class="dg-step reveal"><span class="dg-step__body">Find the post and click its title bar to open it.</span></li>
-          <li class="dg-step reveal"><span class="dg-step__body">To <strong>edit</strong>: make your changes. To <strong>delete</strong>: click the trash can or <strong>X</strong> on that post's title bar.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--menu">Insights</span> and find your post in the list (on some sites, open the posts file first).</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click the post to open it.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">To <strong>edit</strong>: make your changes. To <strong>delete</strong>: open the post and click <strong>Delete published entry</strong> at the top. On sites with a posts file, click the trash can or <strong>X</strong> on that post's title bar.</span></li>
           <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--solid">Publish</span> → <span class="dg-chip dg-chip--solid">Publish now</span></span></li>
         </ol>
         <div class="callout callout--warn reveal" role="note">
@@ -261,7 +261,7 @@ const checklist = [
         <ul class="fixes" role="list">
           <li class="fix reveal">
             <h3>My post isn't showing</h3>
-            <p>Wait 2 minutes, then hard-refresh: Ctrl + F5 (Windows) or Cmd + Shift + R (Mac).</p>
+            <p>Check that <strong>Hide from the site (draft)</strong> is unchecked, then publish again. Wait 2 minutes, then hard-refresh: Ctrl + F5 (Windows) or Cmd + Shift + R (Mac).</p>
           </li>
           <li class="fix reveal">
             <h3>The login box won't open</h3>
