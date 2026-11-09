@@ -31,7 +31,7 @@ export default defineConfig({
     filter: (page) =>
       !page.includes('/thank-you') &&
       !page.includes('/newsletter/thanks') &&
-      !page.includes('/decap') &&
+      !/\/decap\/?$/.test(page) &&
       !page.includes('/admin') &&
       !page.includes('/forms/') &&
       !page.includes('/hlink') &&

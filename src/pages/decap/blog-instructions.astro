@@ -1,0 +1,958 @@
+---
+/**
+ * /decap/blog-instructions: client guide for posting to the Insights blog
+ * through Decap CMS. Jon links every Decap client here, usually with
+ * ?site=clientdomain.com so the page shows their own editor address.
+ *
+ * Lives at /decap/blog-instructions (not /decap): the existing /decap is the
+ * band-client "How to Add Tour Dates" guide and stays as it is.
+ *
+ * Copy is the approved text from the 2026-11-09 handoff, word for word.
+ * Direct link only: not in the nav, not in the footer. Indexable, in the
+ * sitemap (astro.config.mjs filter now excludes only the bare /decap page).
+ *
+ * Styling: the site's own dark tokens (global.css). Everything page-specific
+ * is scoped below and built from existing tokens. The deeper "solid" blue is
+ * a color-mix of --cyan-2 toward black so white text clears AA; plain
+ * --cyan-2 with white text is only 3:1.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Glass from "../../components/Glass.astro";
+import { relPrefix } from "../../lib/relPrefix";
+
+const rel = relPrefix(Astro.url.pathname);
+
+const pageUrl = "https://livewebstudios.com/decap/blog-instructions";
+const title = "How to Post to Your Insights Blog | Live Web Studios";
+const description =
+  "Step-by-step guide for Live Web Studios clients: log in to your website editor, publish an Insights blog post, add photos, and create categories. No tech skills needed.";
+
+const org = {
+  "@type": "Organization",
+  name: "Live Web Studios",
+  url: "https://livewebstudios.com",
+};
+
+const jsonld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: "How to Post to Your Insights Blog",
+    description,
+    author: org,
+    publisher: {
+      ...org,
+      logo: {
+        "@type": "ImageObject",
+        url: "https://livewebstudios.com/images/logoRGB.png",
+      },
+    },
+    url: pageUrl,
+    mainEntityOfPage: pageUrl,
+    datePublished: "2026-11-09",
+    inLanguage: "en-US",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://livewebstudios.com/" },
+      { "@type": "ListItem", position: 2, name: "Decap Guide", item: pageUrl },
+    ],
+  },
+];
+
+const nav = [
+  ["LOG IN", "login"],
+  ["WRITE A POST", "write"],
+  ["EDIT", "edit"],
+  ["CATEGORIES", "categories"],
+  ["CHECKLIST", "checklist"],
+  ["QUICK FIXES", "fixes"],
+];
+
+const checklist = [
+  "Headline is clear",
+  "Category is picked",
+  "Featured image added",
+  "Image description filled in",
+  "Summary filled in",
+  "Broken into sections",
+  "One link to your own page",
+  "Spell-checked",
+];
+---
+
+<Base title={title} description={description} canonical={pageUrl} jsonld={jsonld}>
+  <Nav />
+
+  <main id="main" class="dg">
+    <!-- PAGE HEAD -->
+    <section class="page-head">
+      <div class="wrap">
+        <span class="eyebrow is-center mb-lg">CLIENT GUIDE · WEBSITE BLOG EDITOR</span>
+        <h1 class="page-h1">How to Post to Your <em>Insights Blog</em></h1>
+        <p class="page-lede">Write an article, add a photo, pick a category, put it live. No tech skills needed.</p>
+      </div>
+    </section>
+
+    <!-- EDITOR ADDRESS BAR -->
+    <div class="wrap dg-col dg-addr-wrap">
+      <a class="addr reveal" data-addr>
+        <span class="addr__tab">YOUR EDITOR</span>
+        <span class="addr__url">https://<span class="addr__host js-site">yourwebsite.com</span>/admin</span>
+      </a>
+      <p class="addr__note" data-addr-note>Swap <strong>yourwebsite.com</strong> for your own web address. Then bookmark it. That page is the only place you need to go.</p>
+    </div>
+
+    <!-- STICKY SECTION NAV -->
+    <div class="dg-subnav" data-dg-subnav>
+      <div class="wrap dg-col">
+        <nav aria-label="On this page">
+          <ul>
+            {nav.map(([label, id]) => (
+              <li><a href={`#${id}`} data-dg-link={id}>{label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="wrap dg-col dg-body">
+      <!-- 1. LOG IN -->
+      <section class="dg-sec" id="login" aria-labelledby="h-login">
+        <h2 class="dg-h2" id="h-login">Log In</h2>
+        <ol class="dg-steps" role="list">
+          <li class="dg-step reveal"><span class="dg-step__body">Open your browser (Chrome works best) and go to <strong><span class="js-site">yourwebsite.com</span>/admin</strong>.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--solid">Login with Netlify Identity</span></span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Type your email and password, then click <span class="dg-chip dg-chip--solid">Log in</span></span></li>
+        </ol>
+        <div class="callout callout--tip reveal" role="note">
+          <p><strong>First time?</strong> You got an invite email from Live Web Studios. Open it, click <strong>Accept the invite</strong>, and pick a password. That's your login from now on.</p>
+        </div>
+      </section>
+
+      <!-- 2. WRITE A NEW POST -->
+      <section class="dg-sec" id="write" aria-labelledby="h-write">
+        <h2 class="dg-h2" id="h-write">Write a New Post</h2>
+        <ol class="dg-steps" role="list">
+          <li class="dg-step reveal"><span class="dg-step__body">In the left menu, click <span class="dg-chip dg-chip--menu">Insights</span> (some sites say <span class="dg-chip dg-chip--menu">Blog</span>, same thing).</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click the posts file to open it (it's named something like <span class="dg-chip dg-chip--menu">Insights Posts</span>).</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--outline">Add post</span>. A blank post appears in the list.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Fill in the boxes (chart below). The preview on the right shows how it will look.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--solid">Publish</span> in the top right corner, then <span class="dg-chip dg-chip--solid">Publish now</span></span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Wait about 1 minute, then refresh your Insights page. You're live.</span></li>
+        </ol>
+
+        <h3 class="dg-h3">What goes in each box</h3>
+        <div class="field-wrap reveal">
+          <table class="field-table">
+            <thead>
+              <tr><th scope="col">Box</th><th scope="col">What to put in it</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Title</th>
+                <td>Your headline. Clear beats clever. Example: <em>5 Signs Your Roof Needs Repair Before Winter</em></td>
+              </tr>
+              <tr>
+                <th scope="row">Date</th>
+                <td>Today's date. Click the box and pick it from the calendar.</td>
+              </tr>
+              <tr>
+                <th scope="row">Category</th>
+                <td>Pick one from the dropdown list. (Section 4 shows how to add new ones.)</td>
+              </tr>
+              <tr>
+                <th scope="row">Featured Image</th>
+                <td>Click <span class="dg-chip dg-chip--outline">Choose an image</span> → <span class="dg-chip dg-chip--outline">Upload</span> → pick the photo from your computer → <span class="dg-chip dg-chip--solid">Choose selected</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Image Description</th>
+                <td>One short sentence describing the photo. Example: <em>Crew installing new shingles on a two-story home.</em> Google reads this.</td>
+              </tr>
+              <tr>
+                <th scope="row">Summary</th>
+                <td>1 or 2 sentences. This is the teaser people see on your Insights page before they click in.</td>
+              </tr>
+              <tr>
+                <th scope="row">Body</th>
+                <td>The article itself. Use the toolbar at the top of the box for bold, headings, links and bullet lists.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="dg-note">Your site may show a box or two more or fewer than this list. Just fill in what you see.</p>
+
+        <h3 class="dg-h3">Writing tips that help Google find you</h3>
+        <ul class="dg-list">
+          <li><strong>Aim for 600 to 1,000 words.</strong> Short posts rarely show up in search.</li>
+          <li><strong>Break it into sections.</strong> Highlight a line, then choose <strong>Heading 2</strong> from the toolbar. Walls of text lose readers.</li>
+          <li><strong>Link to one of your own pages.</strong> Highlight a few words, click the link icon, paste the page address (your Services or Contact page works great).</li>
+          <li><strong>Write like you talk.</strong> Answer a question your customers actually ask you.</li>
+        </ul>
+
+        <div class="callout callout--warn reveal" role="note">
+          <p><strong>Copying from Word or Google Docs?</strong> Paste with <strong>Ctrl + Shift + V</strong> (Windows) or <strong>Cmd + Shift + V</strong> (Mac). That strips out hidden formatting that can make your post look strange.</p>
+        </div>
+
+        <h3 class="dg-h3">Photo rules</h3>
+        <ul class="dg-list">
+          <li>JPG files, wide (landscape) shape.</li>
+          <li>No bigger than <strong>1600 pixels wide</strong> and under <strong>1 MB</strong>. Phone photos are usually too big, so shrink them first.</li>
+          <li>Only use photos you took or paid for. Images pulled off Google can get you a copyright bill.</li>
+        </ul>
+      </section>
+
+      <!-- 3. EDIT OR DELETE -->
+      <section class="dg-sec" id="edit" aria-labelledby="h-edit">
+        <h2 class="dg-h2" id="h-edit">Edit or Delete a Post</h2>
+        <ol class="dg-steps" role="list">
+          <li class="dg-step reveal"><span class="dg-step__body">Go to <span class="dg-chip dg-chip--menu">Insights</span> and open the posts file, same as before.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Find the post and click its title bar to open it.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">To <strong>edit</strong>: make your changes. To <strong>delete</strong>: click the trash can or <strong>X</strong> on that post's title bar.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--solid">Publish</span> → <span class="dg-chip dg-chip--solid">Publish now</span></span></li>
+        </ol>
+        <div class="callout callout--warn reveal" role="note">
+          <p><strong>Deleted something by mistake?</strong> Don't panic, and don't keep publishing. Call Jon. It can be brought back.</p>
+        </div>
+      </section>
+
+      <!-- 4. CATEGORIES -->
+      <section class="dg-sec" id="categories" aria-labelledby="h-categories">
+        <h2 class="dg-h2" id="h-categories">Create a Category</h2>
+        <p class="dg-intro">Categories are labels that group your posts, like <em>Tips</em>, <em>Company News</em> or <em>Projects</em>. Visitors use them to find what they care about.</p>
+        <ol class="dg-steps" role="list">
+          <li class="dg-step reveal"><span class="dg-step__body">In the left menu, click <span class="dg-chip dg-chip--menu">Settings</span>. (On some sites it's called <span class="dg-chip dg-chip--menu">Categories</span>.)</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Open <span class="dg-chip dg-chip--menu">Blog Categories</span>.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--outline">Add category</span></span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Type the category name.</span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Click <span class="dg-chip dg-chip--solid">Publish</span> → <span class="dg-chip dg-chip--solid">Publish now</span></span></li>
+          <li class="dg-step reveal"><span class="dg-step__body">Your new category now shows up in the <strong>Category</strong> dropdown when you write a post. Don't see it? Refresh the page.</span></li>
+        </ol>
+
+        <h3 class="dg-h3">Category ground rules</h3>
+        <ul class="dg-list">
+          <li><strong>Keep it to 4 to 8 categories total.</strong> Twenty categories with one post each looks empty.</li>
+          <li><strong>Short names, 1 to 3 words.</strong> Capitalize each word: <em>Kitchen Remodels</em>, not <em>kitchen remodel tips and ideas</em>.</li>
+          <li><strong>No near-twins.</strong> "Tip" and "Tips" are two separate categories to your website. Pick one.</li>
+          <li><strong>Want to rename or delete one?</strong> Reach out to Jon first. Posts already using it need to be updated at the same time.</li>
+        </ul>
+      </section>
+
+      <!-- 5. CHECKLIST -->
+      <section class="dg-sec" id="checklist" aria-labelledby="h-checklist">
+        <h2 class="dg-h2" id="h-checklist">Before You Hit Publish</h2>
+        <ul class="checks reveal" role="list">
+          {checklist.map((item, i) => (
+            <li class="check">
+              <input type="checkbox" id={`chk-${i}`} />
+              <label for={`chk-${i}`}>{item}</label>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- 6. QUICK FIXES -->
+      <section class="dg-sec" id="fixes" aria-labelledby="h-fixes">
+        <h2 class="dg-h2" id="h-fixes">Quick Fixes</h2>
+        <ul class="fixes" role="list">
+          <li class="fix reveal">
+            <h3>My post isn't showing</h3>
+            <p>Wait 2 minutes, then hard-refresh: Ctrl + F5 (Windows) or Cmd + Shift + R (Mac).</p>
+          </li>
+          <li class="fix reveal">
+            <h3>The login box won't open</h3>
+            <p>Your pop-up blocker is in the way. Allow pop-ups for your site, or try Chrome.</p>
+          </li>
+          <li class="fix reveal">
+            <h3>My photo won't upload</h3>
+            <p>It's too big. Shrink it under 1 MB and try again.</p>
+          </li>
+          <li class="fix reveal">
+            <h3>I forgot my password</h3>
+            <p>Click <strong>Forgot password?</strong> in the login box. A reset link lands in your inbox in a minute or two.</p>
+          </li>
+          <li class="fix reveal">
+            <h3>I can't find the invite email</h3>
+            <p>Check your spam folder for a message from Netlify. Still nothing? Call Jon for a fresh one.</p>
+          </li>
+          <li class="fix reveal">
+            <h3>Something looks broken</h3>
+            <p>Stop publishing and call Jon. Easy to fix, easier if you haven't kept going.</p>
+          </li>
+        </ul>
+        <div class="callout callout--tip reveal" role="note">
+          <p><strong>What this editor is for:</strong> your Insights posts and categories. Changes to your actual pages (Home, About, Services, photos, hours, phone number) go through Live Web Studios. Send them over and they get handled.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- CLOSING CTA -->
+    <section class="sec-pad is-alt dg-cta">
+      <div class="wrap">
+        <Glass class="reveal" innerClass="cta">
+          <h2>Questions? Call me.</h2>
+          <div class="hero-btns">
+            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
+            <a href={`${rel}contact.html`} class="btn btn-primary">Let's Talk</a>
+          </div>
+        </Glass>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script is:inline>
+    // Personalize the guide from ?site=. Anything that is not a plain domain
+    // leaves the page generic, with no error shown. Text only, never innerHTML.
+    (function () {
+      var raw;
+      try { raw = new URLSearchParams(window.location.search).get("site"); } catch (e) { return; }
+      if (!raw) return;
+      var d = raw.trim().toLowerCase().replace(/^https?:\/\//, "").split(/[\/?#]/)[0];
+      if (!/^(?!-)(?:[a-z0-9-]{1,63}\.)+[a-z]{2,24}$/.test(d)) return;
+
+      document.querySelectorAll(".js-site").forEach(function (el) {
+        el.textContent = d;
+      });
+      var bar = document.querySelector("[data-addr]");
+      if (bar) {
+        bar.setAttribute("href", "https://" + d + "/admin/");
+        bar.setAttribute("target", "_blank");
+        bar.setAttribute("rel", "noopener");
+      }
+      var note = document.querySelector("[data-addr-note]");
+      if (note) note.textContent = "This link opens your editor. Bookmark it.";
+      document.title = "How to Post to Your Insights Blog | " + d;
+    })();
+  </script>
+
+  <script is:inline>
+    // Highlight the sub-nav link for the section being read.
+    (function () {
+      var links = document.querySelectorAll("[data-dg-link]");
+      if (!links.length || !("IntersectionObserver" in window)) return;
+      var byId = {};
+      links.forEach(function (a) { byId[a.getAttribute("data-dg-link")] = a; });
+      function setActive(id) {
+        links.forEach(function (a) {
+          if (a === byId[id]) {
+            a.setAttribute("aria-current", "true");
+            // Keep the active link visible in the scrolling row on phones.
+            var row = a.closest("ul");
+            if (row && row.scrollWidth > row.clientWidth) {
+              row.scrollTo({ left: a.offsetLeft - 16, behavior: "auto" });
+            }
+          } else {
+            a.removeAttribute("aria-current");
+          }
+        });
+      }
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) setActive(en.target.id);
+          });
+        },
+        { rootMargin: "-25% 0px -65% 0px" }
+      );
+      document.querySelectorAll(".dg-sec").forEach(function (s) {
+        if (byId[s.id]) io.observe(s);
+      });
+    })();
+  </script>
+</Base>
+
+<style>
+  .dg {
+    --g-solid: var(--cyan-deep);
+    --g-solid: color-mix(in srgb, var(--cyan-2) 62%, #000);
+    counter-reset: sec;
+  }
+  .dg-col {
+    max-width: 920px;
+  }
+
+  /* ---- Editor address bar ---- */
+  .dg-addr-wrap {
+    padding-top: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  .addr {
+    display: flex;
+    align-items: stretch;
+    border: 2px solid var(--cyan-2);
+    border-radius: var(--r-lg);
+    background: var(--panel);
+    overflow: hidden;
+    color: var(--ink-soft);
+    box-shadow: var(--shadow-low);
+  }
+  .addr__tab {
+    flex: none;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.3rem;
+    background: var(--g-solid);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+  .addr__url {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 1.3rem;
+    font-weight: 800;
+    font-size: clamp(1.05rem, 2.6vw, 1.7rem);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    display: block;
+    align-self: center;
+  }
+  .addr__host {
+    color: var(--cyan);
+  }
+  a.addr[href] {
+    transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  a.addr[href]:hover {
+    border-color: var(--cyan-soft);
+    box-shadow: var(--shadow-high);
+  }
+  a.addr[href]:focus-visible {
+    outline: 3px solid var(--cyan-soft);
+    outline-offset: 4px;
+  }
+  .addr__note {
+    margin-top: 0.9rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .addr__note strong {
+    color: var(--ink);
+  }
+
+  /* ---- Sticky section nav ---- */
+  .dg-subnav {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 40;
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    background: rgba(5, 7, 11, 0.94);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-block: 1px solid var(--line);
+  }
+  .dg-subnav ul {
+    list-style: none;
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .dg-subnav ul::-webkit-scrollbar {
+    display: none;
+  }
+  .dg-subnav a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 0.95rem;
+    white-space: nowrap;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+  .dg-subnav a:hover {
+    color: var(--ink-soft);
+  }
+  .dg-subnav a[aria-current] {
+    color: var(--cyan-soft);
+    border-bottom-color: var(--cyan);
+  }
+  .dg-subnav a:focus-visible {
+    outline: 3px solid var(--cyan-soft);
+    outline-offset: -3px;
+    border-radius: 4px;
+  }
+
+  /* ---- Sections ---- */
+  .dg-body {
+    padding-bottom: clamp(2rem, 5vw, 4rem);
+  }
+  .dg-sec {
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    scroll-margin-top: calc(var(--nav-h) + 3.5rem);
+  }
+  .dg-sec + .dg-sec {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    border-top: 1px solid var(--line-2);
+  }
+  .dg-h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink-soft);
+    margin-bottom: 1.4rem;
+  }
+  .dg-h2::before {
+    counter-increment: sec;
+    content: counter(sec);
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    background: var(--g-solid);
+    border: 2px solid var(--cyan);
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  .dg-h3 {
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin: 2.4rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+  .dg-intro {
+    margin-bottom: 1.4rem;
+    max-width: 62ch;
+  }
+  .dg-note {
+    margin-top: 0.9rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* ---- Steps ---- */
+  .dg-steps {
+    list-style: none;
+    counter-reset: step;
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .dg-step {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.95rem 1.1rem;
+    background: var(--panel);
+    border: 1px solid var(--line-field);
+    border-radius: var(--r-lg);
+    line-height: 1.75;
+    break-inside: avoid;
+  }
+  .dg-step::before {
+    content: counter(step);
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: var(--r-md);
+    background: var(--bg);
+    border: 1px solid var(--cyan);
+    color: var(--cyan-soft);
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 1.05rem;
+  }
+  .dg-step__body strong {
+    color: var(--ink-soft);
+  }
+
+  /* ---- Button chips: mimic the real Decap buttons ---- */
+  .dg-chip {
+    display: inline;
+    padding: 0.18em 0.6em;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.92em;
+    line-height: 2;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    border: 1px solid transparent;
+  }
+  .dg-chip--solid {
+    background: var(--g-solid);
+    border-color: var(--cyan-2);
+    color: #fff;
+  }
+  .dg-chip--outline {
+    background: rgba(56, 189, 248, 0.16);
+    border-color: var(--cyan);
+    color: var(--cyan-soft);
+  }
+  .dg-chip--menu {
+    background: rgb(var(--mosa-fg-rgb) / 0.12);
+    border-color: rgb(var(--mosa-fg-rgb) / 0.2);
+    color: var(--ink);
+  }
+
+  /* ---- Callouts ---- */
+  .callout {
+    margin: 1.5rem 0;
+    padding: 1.05rem 1.3rem;
+    border-radius: var(--r-md);
+    border: 1px solid transparent;
+    border-left-width: 6px;
+    break-inside: avoid;
+  }
+  .callout strong {
+    color: var(--ink-soft);
+  }
+  .callout--tip {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.28);
+    border-left-color: var(--cyan);
+  }
+  .callout--warn {
+    background: rgba(252, 211, 77, 0.1);
+    border-color: rgba(252, 211, 77, 0.3);
+    border-left-color: var(--amber);
+  }
+
+  /* ---- Lists ---- */
+  .dg-list {
+    list-style: none;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .dg-list li {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+  .dg-list li::before {
+    content: "";
+    position: absolute;
+    left: 0.2rem;
+    top: 0.7em;
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: var(--cyan);
+  }
+  .dg-list strong {
+    color: var(--ink-soft);
+  }
+
+  /* ---- Field table ---- */
+  .field-wrap {
+    border: 1px solid var(--line-field);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  .field-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .field-table thead th {
+    background: var(--cyan-deep);
+    color: #fff;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 0.85rem 1.1rem;
+  }
+  .field-table tbody th,
+  .field-table td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.95rem 1.1rem;
+    border-top: 1px solid var(--line);
+    background: var(--panel);
+  }
+  .field-table tbody th {
+    width: 11rem;
+    color: var(--ink-soft);
+    font-weight: 700;
+  }
+  .field-table tbody tr:nth-child(even) th,
+  .field-table tbody tr:nth-child(even) td {
+    background: var(--panel-2);
+  }
+  .field-table tr {
+    break-inside: avoid;
+  }
+
+  /* ---- Checklist ---- */
+  .checks {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 1.5rem;
+  }
+  .check {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-height: 44px;
+  }
+  .check input {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: none;
+    display: grid;
+    place-content: center;
+    width: 26px;
+    height: 26px;
+    margin: 0;
+    border: 2px solid var(--cyan);
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s var(--ease);
+  }
+  .check input::after {
+    content: "";
+    width: 12px;
+    height: 6px;
+    margin-top: -2px;
+    border-left: 3px solid #fff;
+    border-bottom: 3px solid #fff;
+    transform: rotate(-45deg);
+    opacity: 0;
+  }
+  .check input:checked {
+    background: var(--g-solid);
+  }
+  .check input:checked::after {
+    opacity: 1;
+  }
+  .check input:focus-visible {
+    outline: 3px solid var(--cyan-soft);
+    outline-offset: 3px;
+  }
+  .check label {
+    flex: 1;
+    cursor: pointer;
+    padding-block: 0.4rem;
+  }
+
+  /* ---- Quick fixes ---- */
+  .fixes {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .fix {
+    padding: 1.2rem 1.3rem;
+    background: var(--panel);
+    border: 1px solid var(--line-field);
+    border-radius: var(--r-lg);
+    break-inside: avoid;
+  }
+  .fix h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 0.45rem;
+  }
+  .fix strong {
+    color: var(--ink-soft);
+  }
+
+  /* ---- Phones ---- */
+  @media (max-width: 640px) {
+    .addr {
+      flex-direction: column;
+    }
+    .addr__tab {
+      padding: 0.7rem 1.1rem;
+    }
+    .addr__url {
+      padding: 0.9rem 1.1rem 1rem;
+    }
+    .dg-step {
+      padding: 0.85rem 0.9rem;
+      gap: 0.8rem;
+      align-items: start;
+    }
+    .dg-step::before {
+      width: 2.1rem;
+      height: 2.1rem;
+      font-size: 0.95rem;
+    }
+    .dg-h2::before {
+      width: 2.3rem;
+      height: 2.3rem;
+    }
+    .checks,
+    .fixes {
+      grid-template-columns: 1fr;
+    }
+
+    /* Field table becomes stacked cards, label on top. */
+    .field-wrap {
+      border: 0;
+      border-radius: 0;
+      overflow: visible;
+    }
+    .field-table,
+    .field-table tbody,
+    .field-table tr,
+    .field-table tbody th,
+    .field-table td {
+      display: block;
+      width: 100%;
+    }
+    .field-table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+    .field-table tr {
+      margin-bottom: 0.8rem;
+      border: 1px solid var(--line-field);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .field-table tbody th {
+      background: var(--cyan-deep);
+      color: #fff;
+      border-top: 0;
+      padding: 0.7rem 1rem;
+    }
+    .field-table td,
+    .field-table tbody tr:nth-child(even) td {
+      background: var(--panel);
+      border-top: 0;
+      padding: 0.85rem 1rem 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dg a,
+    .dg input {
+      transition: none;
+    }
+  }
+
+  /* ---- Print: a clean, paper-friendly copy of the guide ---- */
+  @media print {
+    :global(header.nav),
+    :global(footer),
+    .dg-subnav,
+    .dg-cta {
+      display: none !important;
+    }
+    :global(body) {
+      background: #fff !important;
+      color: #111 !important;
+    }
+    .dg,
+    .dg * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .dg .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .dg {
+      color: #111;
+    }
+    .dg .page-head {
+      background: none;
+      padding-block: 1rem;
+    }
+    .dg .page-head::before {
+      display: none;
+    }
+    .dg h1.page-h1,
+    .dg .dg-h2,
+    .dg .dg-h3,
+    .dg .fix h3,
+    .dg strong,
+    .dg .addr {
+      color: #111 !important;
+    }
+    .dg .page-lede,
+    .dg .addr__note,
+    .dg .dg-note {
+      color: #444;
+    }
+    .dg .addr,
+    .dg .dg-step,
+    .dg .fix,
+    .dg .field-table tbody th,
+    .dg .field-table td {
+      background: #fff !important;
+    }
+    .dg .dg-step,
+    .dg .fix,
+    .dg .field-wrap {
+      border-color: #9aa7b5;
+    }
+    .dg .dg-step::before {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+    .dg .dg-chip--menu {
+      background: #e6e9ee;
+      color: #111;
+      border-color: #c3c9d2;
+    }
+    .dg .dg-chip--outline {
+      background: #e3f3fd;
+      color: #0b4a63;
+      border-color: #1b7fb8;
+    }
+    .dg .addr__host {
+      color: #0b6fa3;
+    }
+    .dg .callout--tip {
+      background: #e3f3fd;
+    }
+    .dg .callout--warn {
+      background: #fff6d6;
+    }
+    .dg .callout--tip,
+    .dg .callout--warn {
+      border-color: #b9c4d0;
+    }
+    .dg .callout--tip {
+      border-left-color: #1b7fb8;
+    }
+    .dg .callout--warn {
+      border-left-color: #c98a00;
+    }
+    .dg .dg-sec {
+      break-inside: auto;
+      padding-top: 1.25rem;
+    }
+    .dg .dg-h2,
+    .dg .dg-h3 {
+      break-after: avoid;
+    }
+  }
+</style>
