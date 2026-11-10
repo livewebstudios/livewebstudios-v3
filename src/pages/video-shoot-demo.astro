@@ -1,0 +1,242 @@
+---
+/**
+ * /video-shoot-demo: private review page for British Invasion Years (Bob, Dave,
+ * Joe). Shows the eight 10-second loops that play on the screen behind the band
+ * during the video shoot, one card per song. Jon sends the link; nothing on the
+ * site links here. NOINDEX (robots meta here, X-Robots-Tag in netlify.toml),
+ * filtered out of the sitemap, NOT listed in robots.txt so the URL is not
+ * advertised.
+ *
+ * Videos and posters live in public/video-shoot-demo/ (web copies; the
+ * originals stay in the untracked video-shoot-demo/ folder at the repo root).
+ * Files over 15 MB were re-encoded H.264 CRF 23; the rest were remuxed with
+ * +faststart and no audio. Posters are the frame at 1s, 1280px wide.
+ *
+ * Card order below is the set order. To reorder, move the rows; the numbers
+ * follow the array.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+type Song = { file: string; title: string; artist: string; final: boolean };
+
+const songs: Song[] = [
+  { file: "all-day-all-night", title: "All Day and All of the Night", artist: "The Kinks", final: true },
+  { file: "daydream-believer", title: "Daydream Believer", artist: "The Monkees", final: true },
+  { file: "glad-all-over", title: "Glad All Over", artist: "The Dave Clark Five", final: true },
+  { file: "good-lovin", title: "Good Lovin'", artist: "The Young Rascals", final: false },
+  { file: "hang-on-sloopy", title: "Hang On Sloopy", artist: "The McCoys", final: false },
+  { file: "happy-together", title: "Happy Together", artist: "The Turtles", final: false },
+  { file: "sugar-sugar", title: "Sugar, Sugar", artist: "The Archies", final: false },
+  { file: "time-of-the-season", title: "Time of the Season", artist: "The Zombies", final: true },
+];
+
+const MEDIA = "video-shoot-demo/";
+---
+
+<Base
+  title="BIY Video Shoot Backdrops | Live Web Studios"
+  description="Private review page for British Invasion Years: the backdrop clip that plays behind the band during each song of the video shoot."
+  canonical="https://livewebstudios.com/video-shoot-demo"
+  noindex={true}
+>
+  <Nav />
+
+  <main class="vs">
+    <section class="page-head vs-head">
+      <div class="wrap vs-wrap">
+        <span class="eyebrow">British Invasion Years</span>
+        <h1 class="page-h1">Video Shoot Backdrops</h1>
+        <p class="vs-intro">This is what plays on the screen behind us during each song. Every clip is 10 seconds and repeats over and over.</p>
+      </div>
+    </section>
+
+    <section class="vs-list" aria-label="Backdrops in set order">
+      <div class="wrap vs-wrap">
+        {songs.map((s, i) => (
+          <article class="vs-card" id={s.file} aria-labelledby={`${s.file}-t`}>
+            <header class="vs-card-head">
+              <span class="vs-num" aria-hidden="true">{i + 1}</span>
+              <div class="vs-card-copy">
+                <h2 id={`${s.file}-t`} class="vs-title">{s.title}</h2>
+                <p class="vs-artist">{s.artist}</p>
+                <p class="vs-plays">Plays behind us during {s.title}.</p>
+              </div>
+              <span class:list={["vs-badge", s.final ? "vs-badge--final" : "vs-badge--demo"]}>
+                {s.final ? "Final" : "Demo, still being worked on"}
+              </span>
+            </header>
+
+            <video
+              class="vs-video"
+              src={`${MEDIA}${s.file}.mp4`}
+              poster={`${MEDIA}${s.file}.jpg`}
+              width="1920"
+              height="1080"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label={`Backdrop for ${s.title}`}
+              data-vs-video
+            ></video>
+
+            <button type="button" class="vs-full" data-vs-full aria-label={`Full Screen: ${s.title}`}>
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+              </svg>
+              <span>Full Screen</span>
+            </button>
+          </article>
+        ))}
+
+        <p class="vs-questions">Questions? Text Jon.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<script is:inline>
+  // Play a backdrop only while it is on screen; eight 1080p videos decoding at
+  // once chokes an iPad. A video in full screen is never paused by this.
+  (function () {
+    var vids = Array.prototype.slice.call(document.querySelectorAll("[data-vs-video]"));
+    if (!vids.length) return;
+
+    function isFull(v) {
+      return document.fullscreenElement === v ||
+        document.webkitFullscreenElement === v ||
+        v.webkitDisplayingFullscreen === true;
+    }
+    function play(v) {
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var v = en.target;
+          if (en.isIntersecting) play(v);
+          else if (!isFull(v)) v.pause();
+        });
+      }, { threshold: 0.2 });
+      vids.forEach(function (v) { io.observe(v); });
+    }
+
+    // Low Power Mode on an iPhone blocks autoplay and leaves the poster
+    // showing. A tap on the picture starts it.
+    vids.forEach(function (v) {
+      v.addEventListener("click", function () { if (v.paused) play(v); });
+    });
+
+    // Full Screen. Desktop Chrome/Safari and iPad use the Fullscreen API on the
+    // video itself; iPhone has no element full screen, only the native player
+    // (webkitEnterFullscreen), which keeps looping.
+    var canApi = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+    function iphoneFull(v) {
+      if (v.webkitEnterFullscreen) {
+        try { v.webkitEnterFullscreen(); } catch (e) {}
+      }
+    }
+    document.querySelectorAll("[data-vs-full]").forEach(function (btn) {
+      var v = btn.parentNode.querySelector("[data-vs-video]");
+      btn.addEventListener("click", function () {
+        play(v);
+        if (canApi && v.requestFullscreen) {
+          var r = v.requestFullscreen();
+          if (r && r.catch) r.catch(function () { iphoneFull(v); });
+        } else if (canApi && v.webkitRequestFullscreen) {
+          v.webkitRequestFullscreen();
+        } else {
+          iphoneFull(v);
+        }
+      });
+    });
+  })();
+</script>
+
+<style>
+  /* Near-black page so the clip colours read true. The site ground (--bg,
+     #05070B) already is; the head drops its cyan bloom for the same reason. */
+  .vs { background: var(--bg); color: var(--ink); font-size: 1.125rem; }
+  .vs-wrap { max-width: calc(1100px + 2 * clamp(1.25rem, 4vw, 2.5rem)); }
+
+  .vs-head::before { background: none; }
+  .vs-head { padding-block: clamp(3rem, 7vw, 5.5rem) clamp(2rem, 4vw, 3rem); }
+  .vs-head .eyebrow { font-size: .9rem; color: var(--ink); }
+  .vs-head .eyebrow::before { display: none; }
+  .vs-intro {
+    margin: 1.4rem auto 0; max-width: 46ch;
+    font-size: clamp(1.15rem, 1rem + .6vw, 1.4rem); line-height: 1.55; color: #C9D3DE;
+  }
+
+  .vs-list { padding-block: clamp(2.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem); }
+
+  /* Clears the sticky nav when a #song link lands on a card. */
+  .vs-card { scroll-margin-top: 96px; }
+  .vs-card + .vs-card {
+    margin-top: clamp(3.5rem, 8vw, 6rem);
+    padding-top: clamp(3rem, 6vw, 4.5rem);
+    border-top: 1px solid rgba(255, 255, 255, .12);
+  }
+
+  .vs-card-head {
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: start; gap: .4rem clamp(1rem, 2.5vw, 1.6rem);
+    margin-bottom: 1.4rem;
+  }
+  .vs-num {
+    font-family: var(--mono); font-weight: 500; line-height: 1;
+    font-size: clamp(2rem, 1rem + 3vw, 3.2rem); color: var(--cyan-soft);
+    min-width: 1.4ch; padding-top: .15rem;
+  }
+  .vs-title {
+    margin: 0; font-weight: 800; line-height: 1.08; letter-spacing: -.02em;
+    font-size: clamp(1.75rem, 1rem + 2.6vw, 2.75rem); color: #fff;
+  }
+  .vs-artist { margin: .45rem 0 0; font-size: clamp(1.125rem, 1rem + .4vw, 1.3rem); color: #B7C2CF; }
+  .vs-plays { margin: .6rem 0 0; font-size: 1.125rem; color: #DDE3EA; }
+
+  .vs-badge {
+    align-self: start; white-space: nowrap;
+    font-size: 1rem; font-weight: 600; line-height: 1.2;
+    padding: .5rem .9rem; border-radius: 999px; border: 1px solid;
+  }
+  .vs-badge--final { color: #86EFAC; border-color: rgba(134, 239, 172, .55); background: rgba(34, 197, 94, .12); }
+  .vs-badge--demo { color: #FCD34D; border-color: rgba(252, 211, 77, .55); background: rgba(245, 158, 11, .12); }
+
+  .vs-video {
+    display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+    object-fit: contain; background: #000; border-radius: 10px;
+    cursor: pointer;
+  }
+  .vs-video:fullscreen { object-fit: contain; border-radius: 0; width: 100%; height: 100%; }
+
+  .vs-full {
+    display: flex; align-items: center; justify-content: center; gap: .7rem;
+    margin: 1.1rem auto 0; min-height: 60px; padding: .9rem 2.2rem;
+    font: 700 1.2rem/1 var(--sans); letter-spacing: .02em;
+    color: #05070B; background: #F3F7FA; border: 0; border-radius: 12px;
+    cursor: pointer; transition: background .2s, transform .2s;
+  }
+  .vs-full:hover { background: #fff; transform: translateY(-1px); }
+  .vs-full:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+
+  .vs-questions {
+    margin: clamp(3.5rem, 8vw, 5.5rem) 0 0; text-align: center;
+    font-size: clamp(1.25rem, 1rem + .8vw, 1.6rem); font-weight: 600; color: #fff;
+  }
+
+  @media (max-width: 640px) {
+    /* Badge drops under the title so a long song name keeps the full width. */
+    .vs-card-head { grid-template-columns: auto 1fr; }
+    .vs-badge { grid-column: 2; justify-self: start; margin-top: .5rem; }
+    .vs-full { width: 100%; }
+    .vs-video { border-radius: 6px; }
+  }
+</style>

@@ -36,6 +36,7 @@ export default defineConfig({
       !page.includes('/forms/') &&
       !page.includes('/hlink') &&
       !page.includes('/clients/') &&
+      !page.includes('/video-shoot-demo') &&
       !page.includes('/404'),
   })]
 });
