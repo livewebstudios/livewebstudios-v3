@@ -34,6 +34,9 @@
 # Private, noindex. The link Jon sends Chante carries a trailing slash; the
 # built file is clients/vysyn-assets.html, served at the slashless URL.
 /clients/vysyn-assets/                                                 /clients/vysyn-assets        301
+# BIY video shoot backdrops (Jon 2026-11-09). Built file is
+# video-shoot-demo.html; the clips sit in the video-shoot-demo/ folder beside it.
+/video-shoot-demo/                                                     /video-shoot-demo            301
 
 
 # ===== LiveAiStudios (Jon 2026-09-26) =====

@@ -108,6 +108,19 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
 
+# BIY video shoot backdrops (Jon 2026-11-09). Private band review page and
+# its clips. No long cache on the clips: the DEMO ones get replaced in place
+# under the same filenames.
+[[headers]]
+  for = "/video-shoot-demo"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/video-shoot-demo/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
 # Hotlink assets: the Decap admin login pulls its logo from
 # livewebstudios.com/hlink/. Serve it, but keep it out of the index.
 [[headers]]
