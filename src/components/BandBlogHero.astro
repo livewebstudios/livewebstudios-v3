@@ -40,8 +40,15 @@ export interface Props {
   /** Run the /blog hero animation (jon-webdesk.mp4) instead of the road-case
       art. Jon 2026-09-26: all three blog index pages share that animation. */
   video?: boolean;
+  /** Trailing phrase of the title to set in gold (Gold Rack blog index). */
+  gold?: string;
 }
-const { title, lede, standing = false, video = false } = Astro.props;
+const { title, lede, standing = false, video = false, gold } = Astro.props;
+/* Gold Rack index only: the phrase at the end of the title that carries the
+   gold gradient. Never passed on palette-only pages, where .lb-gold has no
+   gradient token to paint with. */
+const goldTail = gold && title.endsWith(gold) ? gold : "";
+const titleLead = goldTail ? title.slice(0, -goldTail.length) : title;
 const rel = relPrefix(Astro.url.pathname);
 ---
 
@@ -59,7 +66,7 @@ const rel = relPrefix(Astro.url.pathname);
   <div class="bandhero__scrim"></div>
   <div class="wrap">
     <span class="eyebrow mb-lg">The Live Band Web Studios Blog</span>
-    <h1 class="page-h1">{title}</h1>
+    <h1 class="page-h1">{titleLead}{goldTail && <span class="lb-gold">{goldTail}</span>}</h1>
 
     {standing && (
       <p class="page-lede">

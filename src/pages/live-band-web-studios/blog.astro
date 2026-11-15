@@ -10,13 +10,16 @@
  * site root per the LWS path rule. The shared chrome works that out itself
  * through relPrefix.
  */
-import Base from "../../layouts/Base.astro";
-import Nav from "../../components/Nav.astro";
-import Footer from "../../components/Footer.astro";
+import LiveBandLayout from "../../layouts/LiveBandLayout.astro";
 import BandBlogHero from "../../components/BandBlogHero.astro";
 import CategoryNav from "../../components/CategoryNav.astro";
 import DayJob from "../../components/DayJob.astro";
 import PostCta from "../../components/PostCta.astro";
+import HoldButton from "../../components/lbws/HoldButton.astro";
+import Plate from "../../components/lbws/Plate.astro";
+import Led from "../../components/lbws/Led.astro";
+import Arrow from "../../components/lbws/Arrow.astro";
+import CtaPlate from "../../components/lbws/CtaPlate.astro";
 import { byAudience, resolve, has } from "../../lib/categories";
 import { getPosts, slugOf, bandImage } from "../../lib/posts";
 import { relPrefix } from "../../lib/relPrefix";
@@ -41,6 +44,10 @@ const cards = posts.map((post) => {
     cats,
     image: raw ? `${rel}${raw.replace(/^\//, "")}` : "",
     imageAlt: post.data.imageAlt ?? "",
+    /* Gold Rack date plate: month over day, year for screen readers. */
+    month: post.data.date.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }).toUpperCase(),
+    day: post.data.date.toLocaleDateString("en-US", { day: "2-digit", timeZone: "UTC" }),
+    year: post.data.date.getUTCFullYear(),
     dateLabel: post.data.date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
@@ -51,78 +58,59 @@ const cards = posts.map((post) => {
 });
 ---
 
-<Base
+<LiveBandLayout
   title="Musician Marketing Blog | Live Band Web Studios"
   description="Getting booked is a marketing job. Plain-English help with band websites, EPKs, social posts, email lists, and AI for working musicians."
   canonical="https://livewebstudios.com/live-band-web-studios/blog"
   ogImage="images/og-live-band.jpg"
 >
-  <Nav />
+  {/* Hero layout and the animated Jon are untouched; the Gold Rack only
+      restyles the type and buttons and adds the hold button. */}
+  <BandBlogHero title="Getting Booked Is a Marketing Job." gold="Marketing Job." standing video>
+    <HoldButton />
+  </BandBlogHero>
 
-  <main class="theme-live-band">
-    <BandBlogHero title="Getting Booked Is a Marketing Job." standing video />
+  <CategoryNav available={available} isIndex audience="musicians" />
 
-    <CategoryNav available={available} isIndex audience="musicians" />
-
-    <section class="sec-pad" id="posts">
-      <div class="wrap">
-        <div class="blog-grid">
-          {cards.map((c) => (
-            <a class="blog-card" href={`blog/${c.slug}.html`}>
-              {c.image ? (
-                <div class="blog-thumb">
-                  <img src={c.image} alt={c.imageAlt || c.title} width="1200" height="630" loading="lazy" decoding="async" />
-                </div>
-              ) : (
-                <div class="blog-thumb--empty"><span>LBWS</span></div>
-              )}
-              <div class="blog-meta">
-                <span class="blog-date">{c.dateLabel}</span>
-                <h2 class="blog-title">{c.title}</h2>
-                <p class="blog-sum">{c.summary}</p>
-                <span class="blog-cats">
-                  {c.cats.map((k) => <span class="blog-cat">{k.name}</span>)}
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
+  <section class="lb-section" id="posts" aria-label="Posts">
+    <div class="lb-container">
+      <div class="lb-grid-2">
+        {cards.map((c) => (
+          <a class="lb-post" href={`blog/${c.slug}.html`} data-reveal>
+            <span class="lb-nameplate lb-post__date"><span>{c.month}</span><b>{c.day}</b><span class="lb-vh">, {c.year}</span></span>
+            <div class="lb-post__body">
+              <span class="lb-post__cat lb-mono">{c.cats.map((k) => k.name).join(" · ")}</span>
+              <h2 class="lb-post__title">{c.title}</h2>
+              <p class="lb-post__sum">{c.summary}</p>
+              <span class="lb-mini__more lb-mono" aria-hidden="true">READ <Arrow /></span>
+            </div>
+          </a>
+        ))}
       </div>
-    </section>
+    </div>
+  </section>
 
-    {/* Jon 2026-09-15: the index now closes the way a post does. Same two
-        blocks, same order, so somebody who lands on the index from search gets
-        the offer and the byline without having to open an article first. */}
-    <section class="sec-pad">
-      <div class="wrap">
-        <div class="index-foot">
-          <PostCta />
-          <div class="index-author">
-            <DayJob variant="compact" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* The crossover strip, last: the credential, in LWS language. */}
-    <section class="sec-pad is-alt">
-      <div class="wrap">
+  {/* Jon 2026-09-15: the index closes the way a post does. Same blocks, same
+      order, now each on its own plate. */}
+  <section class="lb-section lb-section--tight" aria-label="About this blog">
+    <div class="lb-container">
+      <Plate variant="raised" class="lb-blogplate" data-reveal>
+        <Led class="lb-blogplate__led" />
+        <PostCta />
+      </Plate>
+      <Plate class="lb-blogplate" data-reveal>
+        <DayJob variant="compact" />
+      </Plate>
+      <Plate class="lb-blogplate" data-reveal>
         <DayJob />
-      </div>
-    </section>
-  </main>
+      </Plate>
+    </div>
+  </section>
 
-  <Footer />
-</Base>
+  <CtaPlate />
+</LiveBandLayout>
 
 <style>
-  /* Matches the measure the same two blocks sit at on a post page, so the
-     index's closing pair and a post's closing pair read as one thing. */
-  .index-foot {
-    max-width: 72ch;
-    margin-inline: auto;
-  }
-  .index-author {
-    margin-top: 2.5rem;
-  }
+  .lb-section--tight { padding-block: calc(var(--lb-section-y) * 0.5); }
+  .lb-container :global(.lb-blogplate__led) { margin-bottom: var(--lb-s-4); }
 </style>

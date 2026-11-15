@@ -561,3 +561,75 @@ main.lbws-gold-palette {
   background: var(--lb-ink);
 }
 main.lbws-gold-palette :focus-visible { outline-color: var(--lb-amber); }
+
+/* ---------- 23. BLOG INDEX ---------- */
+/* Hero: layout and the animated Jon are frozen. Only type and buttons change. */
+.lbws-gold .bandhero .eyebrow { color: var(--lb-parchment); font: 400 var(--lb-fs-mono) / 1.5 var(--lb-font-mono); letter-spacing: var(--lb-tracking-mono); text-transform: uppercase; }
+.lbws-gold .bandhero h1.page-h1 { font-family: var(--lb-font-display); font-weight: var(--lb-fw-display); letter-spacing: var(--lb-tracking-display); color: var(--lb-cream); }
+.lbws-gold .bandhero h1.page-h1 em { font-style: normal; }
+.lbws-gold .bandhero .page-lede { font-family: var(--lb-font-display); color: var(--lb-cream); }
+.lbws-gold .bandhero .btn { display: inline-flex; justify-content: center; align-items: center; gap: var(--lb-s-2); min-height: 48px; padding: .75rem 1.25rem; border-radius: var(--lb-r-2);
+  font: 500 var(--lb-fs-mono) / 1.1 var(--lb-font-mono); letter-spacing: var(--lb-tracking-mono); text-transform: uppercase; transform: none; }
+.lbws-gold .bandhero .btn.btn-primary { background: var(--lb-brass-face); color: var(--lb-engrave); border: 1px solid var(--lb-brass-dark);
+  box-shadow: 0 2px 0 var(--lb-brass-dark), 0 6px 14px -6px #000c, inset 0 1px 0 color-mix(in srgb, var(--lb-cream) 40%, transparent); }
+.lbws-gold .bandhero .btn.btn-primary:hover { filter: brightness(1.08); }
+.lbws-gold .bandhero .btn.btn-ghost { color: var(--lb-brass); border: 1px solid var(--lb-brass); background: color-mix(in srgb, var(--lb-ink) 55%, transparent); box-shadow: none; }
+.lbws-gold .bandhero .btn.btn-ghost:hover { color: var(--lb-brass-bright); border-color: var(--lb-brass-bright); background: color-mix(in srgb, var(--lb-walnut) 55%, var(--lb-ink)); }
+.lbws-gold .bandhero .lb-hold { right: 0; bottom: 0; }
+
+/* Category pills become lever switches. Same links, same labels, same
+   aria-current; the lever is drawn in ::before and flips on the current one. */
+.lbws-gold .cat-bar { background: var(--lb-ink); border-color: var(--lb-hairline-soft); }
+.lbws-gold .cat-bar__label { color: var(--lb-parchment); font-family: var(--lb-font-mono); letter-spacing: var(--lb-tracking-mono); text-transform: uppercase; }
+.lbws-gold .cat-chip { gap: var(--lb-s-3); min-height: 44px; padding: .5rem .75rem .5rem .5rem; color: var(--lb-parchment); background: var(--lb-charcoal);
+  border: 1px solid var(--lb-hairline-soft); border-radius: var(--lb-r-2); box-shadow: inset 0 1px 0 var(--lb-edge-light);
+  font: 400 var(--lb-fs-mono-sm) / 1.2 var(--lb-font-mono); letter-spacing: var(--lb-tracking-mono); text-transform: uppercase; transform: none; }
+.lbws-gold .cat-chip::before { content: ""; flex: 0 0 auto; width: 40px; height: 22px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--lb-metal-6), var(--lb-metal-3)) 3px 3px / 17px 16px no-repeat, linear-gradient(180deg, var(--lb-well), var(--lb-charcoal));
+  box-shadow: inset 0 1px 3px #000000e6, 0 1px 0 color-mix(in srgb, var(--lb-cream) 6%, transparent);
+  transition: background-position var(--lb-t-slow) var(--lb-ease); }
+.lbws-gold .cat-chip:hover { color: var(--lb-cream); border-color: var(--lb-hairline); background: var(--lb-charcoal); transform: none; }
+.lbws-gold .cat-chip.is-current { color: var(--lb-cream); border-color: var(--lb-brass); background: var(--lb-charcoal); }
+.lbws-gold .cat-chip.is-current::before { background: linear-gradient(90deg, var(--lb-brass-dark), var(--lb-brass-bright)) 20px 3px / 17px 16px no-repeat, linear-gradient(180deg, var(--lb-well), var(--lb-charcoal)); }
+.lbws-gold .cat-chip:focus-visible { outline: 2px solid var(--lb-amber); outline-offset: 3px; }
+/* The bridge to the Live Web Studios blog stays a link, not a toggle. */
+.lbws-gold .cat-chips__bridge { border-left-color: var(--lb-hairline-soft); }
+.lbws-gold .cat-chip.chip--bridge { min-height: 44px; padding: 0; background: none; border: 0; box-shadow: none; color: var(--lb-brass);
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .5em; text-decoration-color: color-mix(in srgb, var(--lb-brass) 40%, transparent); }
+.lbws-gold .cat-chip.chip--bridge::before { content: none; }
+.lbws-gold .cat-chip.chip--bridge:hover { color: var(--lb-brass-bright); background: none; }
+
+/* Post cards: the excerpt and a two-line date plate. */
+.lb-post__sum { color: var(--lb-parchment); font-size: .9375rem; line-height: 1.5; }
+.lb-post__date span { font-size: .6875rem; }
+
+/* The closing blocks sit on plates; the components keep their own layout and
+   lose only their own surface. */
+.lb-blogplate { padding: clamp(1.5rem, 1rem + 2vw, 2.5rem); }
+.lb-blogplate + .lb-blogplate { margin-top: var(--lb-s-6); }
+.lbws-gold .lb-blogplate .post-cta, .lbws-gold .lb-blogplate .day-job { background: none; border: 0; box-shadow: none; border-radius: 0; padding: 0; margin: 0; max-width: none; }
+main.lbws-gold .post-cta__title, main.lbws-gold .day-job__title { font-family: var(--lb-font-display); font-weight: var(--lb-fw-display); letter-spacing: var(--lb-tracking-display); color: var(--lb-cream); }
+main.lbws-gold .post-cta__text, main.lbws-gold .day-job__text { color: var(--lb-parchment); font-family: var(--lb-font-display); }
+main.lbws-gold .day-job__eyebrow { color: var(--lb-brass); font-family: var(--lb-font-mono); letter-spacing: var(--lb-tracking-mono); text-transform: uppercase; }
+main.lbws-gold .day-job__dot { background: var(--lb-amber); box-shadow: 0 0 6px 1px color-mix(in srgb, var(--lb-amber) 70%, transparent); }
+main.lbws-gold .day-job__cursor { background: var(--lb-brass); }
+main.lbws-gold .post-cta__btn, main.lbws-gold .day-job__btn--primary { display: inline-flex; align-items: center; gap: var(--lb-s-2); min-height: 48px; padding: .75rem 1.25rem; border-radius: var(--lb-r-2);
+  background: var(--lb-brass-face); color: var(--lb-engrave); border: 1px solid var(--lb-brass-dark);
+  box-shadow: 0 2px 0 var(--lb-brass-dark), 0 6px 14px -6px #000c, inset 0 1px 0 color-mix(in srgb, var(--lb-cream) 40%, transparent);
+  font: 500 var(--lb-fs-mono) / 1.1 var(--lb-font-mono); letter-spacing: var(--lb-tracking-mono); text-transform: uppercase; text-decoration: none; transform: none; }
+main.lbws-gold .post-cta__btn:hover, main.lbws-gold .day-job__btn--primary:hover { filter: brightness(1.08); transform: none; background: var(--lb-brass-face); color: var(--lb-engrave); }
+main.lbws-gold .day-job__link, main.lbws-gold .day-job__plain, main.lbws-gold .day-job__btn--secondary { color: var(--lb-brass); background: none; border: 0; box-shadow: none; padding: 0;
+  font: 500 var(--lb-fs-mono) / 1.4 var(--lb-font-mono); letter-spacing: var(--lb-tracking-mono); text-transform: uppercase;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .5em; text-decoration-color: color-mix(in srgb, var(--lb-brass) 40%, transparent); }
+main.lbws-gold .day-job__text .day-job__link { font: inherit; letter-spacing: inherit; text-transform: none; text-underline-offset: .25em; }
+main.lbws-gold .day-job__link:hover, main.lbws-gold .day-job__plain:hover, main.lbws-gold .day-job__btn--secondary:hover { color: var(--lb-brass-bright); background: none; transform: none; }
+main.lbws-gold .day-job__img { border-radius: var(--lb-r-2); padding: 4px; background: var(--lb-charcoal); box-shadow: var(--lb-shadow-inset); aspect-ratio: 1 / 1; object-fit: cover; }
+.lbws-gold .lb-post__title { font-size: clamp(1.25rem, 1.1rem + .5vw, 1.5rem); font-weight: 400; line-height: 1.25; letter-spacing: -.01em; }
+/* The blog hero's heavy text shadow would show through transparent gradient
+   text and turn it black, so the gold phrase carries none. */
+.lbws-gold .bandhero h1.page-h1 .lb-gold { text-shadow: none; -webkit-text-fill-color: transparent; }
+.lbws-gold .bandhero .hero-btns { gap: var(--lb-s-3); }
+main.lbws-gold .day-job__btn { min-height: 48px; }
+/* Category chips hard-code the site cyan for hover and current; brass here. */
+main.lbws-gold-palette .cat-chip:hover { border-color: rgba(201, 164, 92, 0.65); background: rgba(201, 164, 92, 0.1); }
+main.lbws-gold-palette .cat-chip.is-current { border-color: rgba(201, 164, 92, 0.85); background: rgba(201, 164, 92, 0.16); }
