@@ -1,0 +1,31 @@
+---
+/**
+ * PageHero: the shorter sub-page hero (Pricing, Forms, Personal Sites,
+ * Portfolio). The page passes its frozen photo (PhotoBg) in the "media" slot;
+ * it breathes slowly under two light beams. Copy is left-aligned as before.
+ * The H1 goes in the default slot so one word can carry .lb-gold.
+ */
+import HoldButton from "./HoldButton.astro";
+import Led from "./Led.astro";
+interface Props { eyebrow: string; sub?: string }
+const { eyebrow, sub } = Astro.props;
+---
+<section class="lb-hero lb-hero--page" aria-labelledby="lb-page-h1">
+  <div class="lb-hero__media" aria-hidden="true"><slot name="media" /></div>
+  <div class="lb-hero__beams" aria-hidden="true"><i></i><i></i></div>
+  <div class="lb-hero__overlay" aria-hidden="true"></div>
+  <div class="lb-hero__content lb-container">
+    <div class="lb-pagehero">
+      <span class="lb-eyebrow lb-mono" data-hero-in><Led />{eyebrow}</span>
+      <h1 id="lb-page-h1" data-hero-line><slot /></h1>
+      <div class="lb-hairline" data-draw aria-hidden="true"></div>
+      {sub && <p class="lb-lead lb-pagehero__sub" data-hero-in>{sub}</p>}
+      <slot name="after" />
+    </div>
+  </div>
+  <HoldButton />
+</section>
+
+<style>
+  .lb-pagehero__sub { color: var(--lb-cream); }
+</style>

@@ -522,3 +522,28 @@
 @media (hover: hover) and (pointer: fine) {
   .lb-mini__link:hover .lb-pf__img > img[src*="images/band/"] { filter: brightness(1.42) contrast(1.04); }
 }
+
+/* Pricing CTAs. Jon kept his ReceiverCta buttons (2026-11-15) instead of the
+   kit's plain buttons and level meters; inside the Gold Rack they retint from
+   alloy and blue backlight to brass caps and an amber-lit meter. CSS beats the
+   SVG's presentation attributes, so the component itself is untouched. */
+.lbws-gold a.rcta { --alu-1: var(--lb-brass-bright); --alu-2: var(--lb-brass); --alu-3: var(--lb-brass-dark); }
+.lbws-gold .rcta .rcta__svg radialGradient stop:nth-child(1) { stop-color: #f6d58c; }
+.lbws-gold .rcta .rcta__svg radialGradient stop:nth-child(2) { stop-color: #d99a3a; }
+.lbws-gold .rcta .rcta__svg radialGradient stop:nth-child(3) { stop-color: #5a3510; }
+.lbws-gold .rcta .rcta__svg > path:first-of-type, .lbws-gold .rcta .rcta__svg > line { stroke: var(--lb-engrave); }
+.lbws-gold .rcta .rcta__svg > circle:last-of-type { fill: var(--lb-brass-bright); }
+.lbws-gold .rcta .rcta__meter { box-shadow: inset 0 0 0 1px #000000e6, inset 0 2px 6px #00000099, 0 0 0 1px #ffffff12, 0 0 16px color-mix(in srgb, var(--lb-amber) 35%, transparent); }
+.lbws-gold .rcta.rcta--featured .rcta__meter { box-shadow: inset 0 0 0 1px #000000e6, inset 0 2px 6px #00000099, 0 0 0 1px #ffffff17, 0 0 22px color-mix(in srgb, var(--lb-amber) 50%, transparent); }
+.lbws-gold .rcta:hover .rcta__meter, .lbws-gold .rcta:focus-visible .rcta__meter { box-shadow: inset 0 0 0 1px #000000e6, inset 0 2px 6px #00000099, 0 0 0 1px #ffffff1f, 0 0 30px color-mix(in srgb, var(--lb-amber) 68%, transparent); }
+.lbws-gold .rcta .rcta__sub { color: color-mix(in srgb, var(--lb-brass) 80%, transparent); text-shadow: 0 0 8px var(--lb-amber-glow); }
+.lbws-gold .rcta .rcta__label { font-family: var(--lb-font-mono); }
+.lbws-gold .rcta:focus-visible { outline-color: var(--lb-amber); }
+
+/* Sub-page tier plates: the repo's real line items run longer than the kit's,
+   with nested lists under EPK and the blog posts. */
+.lb-tier__label { color: var(--lb-parchment); font-size: var(--lb-fs-mono-sm); }
+.lb-tier__list ul { grid-column: 2; display: grid; gap: var(--lb-s-2); margin: var(--lb-s-3) 0 var(--lb-s-1); padding: 0 0 0 var(--lb-s-4); list-style: none;
+  border-left: 1px solid var(--lb-hairline-soft); color: var(--lb-parchment); font-size: .9375rem; }
+.lb-tier__list ul li { display: block; }
+.lb-tier__price .lb-tier__amt--sm { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }

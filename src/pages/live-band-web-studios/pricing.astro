@@ -1,223 +1,172 @@
 ---
 /**
- * /live-band-web-studios/pricing — ported from the live site
- * (livewebstudios.com/live-band-web-studios/pricing). One folder deep (two dots
- * up on imports). Wrapped in .theme-live-band for the amber accent (token
- * override reproduced in scoped <style>, matching the hub). No <img>: the live
- * hero video/photo is replaced with a page-head + VideoBg. Prices kept verbatim.
- * Tabler icon font (external CDN) dropped; glyph markers used instead.
- * EM DASH BAN applied to all ported copy.
+ * /live-band-web-studios/pricing: ported from the live site. One folder deep
+ * (two dots up on imports). Prices kept verbatim. EM DASH BAN applied to all
+ * ported copy.
+ *
+ * Gold Rack redesign (2026-11-15): two tier plates (Touring / Pro raised, with
+ * the amber top glow), payment terms on the walnut owner panel, the Personal
+ * Sites teaser as an icon MiniCard, then the shared SEO rack and closing CTA
+ * plate. Jon kept his ReceiverCta buttons as the tier CTAs; the Gold Rack
+ * stylesheet retints them brass. The teal stage photo stays as the hero media.
  */
-import Base from "../../layouts/Base.astro";
-import Nav from "../../components/Nav.astro";
-import Footer from "../../components/Footer.astro";
-import Glass from "../../components/Glass.astro";
-import BandSeoCards from "../../components/BandSeoCards.astro";
-import ReceiverCta from "../../components/ReceiverCta.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import LiveBandLayout from "../../layouts/LiveBandLayout.astro";
 import PhotoBg from "../../components/PhotoBg.astro";
+import ReceiverCta from "../../components/ReceiverCta.astro";
+import PageHero from "../../components/lbws/PageHero.astro";
+import TierPlate from "../../components/lbws/TierPlate.astro";
+import OwnerPanel from "../../components/lbws/OwnerPanel.astro";
+import KnobRow from "../../components/lbws/KnobRow.astro";
+import Led from "../../components/lbws/Led.astro";
+import MiniCard from "../../components/lbws/MiniCard.astro";
+import SeoRack from "../../components/lbws/SeoRack.astro";
+import CtaPlate from "../../components/lbws/CtaPlate.astro";
 
+const basicIncludes = [
+  "Custom hand-built site, no pre-made templates, ever. Designed just for you",
+  "Gig page with upcoming shows",
+  "Photo gallery",
+  "YouTube video embeds",
+  "Decap CMS access. Band updates their own gig dates without calling Jon",
+  "1 hour/month of updates by Jon (photos, copy, minor changes)",
+  "Monthly SEO + traffic report",
+  "Monthly suggestions form link included in every report",
+];
+const basicExcludes = ["Custom logo", "Blog posts", "EPK page", "Member bios", "Set list management"];
+const proIncludes: { text: string; sub?: string[] }[] = [
+  { text: "Full custom multi-page site" },
+  {
+    text: "Electronic Press Kit (EPK) page:",
+    sub: [
+      "Bio (3-5 sentences, industry-reader ready)",
+      "High-res photo download links",
+      "Audio/video samples (YouTube embeds + streaming)",
+      "Notable venues / tour history",
+      "Press quotes",
+      "Tech rider summary (PA requirements, monitor setup, stage plot PDF link, input list PDF link, backline)",
+      "Set list (CMS-managed, always current)",
+      "Booking contact, one line",
+    ],
+  },
+  { text: "Set list management. Band members update via Decap CMS" },
+  { text: "Member bio pages, built from member bio forms; placeholders until forms arrive" },
+  {
+    text: "3 SEO blog posts per month written by Jon:",
+    sub: [
+      "Local SEO (show posts targeting city + venue + genre keywords)",
+      "Gear / equipment posts (band's voice)",
+      "Behind the scenes / rehearsal (band's voice)",
+      "Venue recaps / press-style posts",
+    ],
+  },
+  { text: "Monthly SEO + traffic + keyword ranking report" },
+];
 ---
 
-<Base
+<LiveBandLayout
   title="Pricing | Live Band Web Studios"
   description="Two tiers. No templates. Custom band websites starting at $600/year. Built by a musician."
   canonical="https://livewebstudios.com/live-band-web-studios/pricing"
-  ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
+  ogImage="images/og-live-band.jpg"
+  preloadHero="lbws_bluestage.jpg"
 >
-  <Nav />
+  <PageHero eyebrow="No Contracts. No Surprises. No WordPress." sub="Two tiers. Prepaid annually. Built from scratch every time.">
+    <PhotoBg slot="media" src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
+    <span class="lb-gold">Pricing</span>
+  </PageHero>
 
-  <main class="theme-live-band">
-    <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass page-head--bare has-videobg">
-      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
-      <div class="wrap">
-        <span class="eyebrow is-center mb-lg">No Contracts. No Surprises. No WordPress.</span>
-        <h1 class="page-h1"><em>Pricing</em></h1>
-        <p class="page-lede">Two tiers. Prepaid annually. Built from scratch every time.</p>
-      </div>
-    </section>
-
-    <!-- PRICING CARDS -->
-    <section class="sec-pad">
-      <div class="wrap">
-        <div class="grid-svc grid-svc--2">
-          <!-- BASIC -->
-          <div class="card reveal">
-            <Glass variant="inner" innerClass="card-pad price-card">
-              <span class="tier-badge tier-badge--gold">Basic (“Bar Band Special”)</span>
-              <div class="price-amt">$600 <span class="price-note">/ year</span></div>
-              <div class="price-note">(prepaid annually)</div>
-              <div class="price-build">Build: $625.00</div>
-
-              <p class="price-head">Includes:</p>
-              <ul class="feats">
-                <li>Custom hand-built site, no pre-made templates, ever. Designed just for you</li>
-                <li>Gig page with upcoming shows</li>
-                <li>Photo gallery</li>
-                <li>YouTube video embeds</li>
-                <li>Decap CMS access. Band updates their own gig dates without calling Jon</li>
-                <li>1 hour/month of updates by Jon (photos, copy, minor changes)</li>
-                <li>Monthly SEO + traffic report</li>
-                <li>Monthly suggestions form link included in every report</li>
-              </ul>
-
-              <p class="price-head">Does not include:</p>
-              <ul class="feats feats--neg">
-                <li>Custom logo</li>
-                <li>Blog posts</li>
-                <li>EPK page</li>
-                <li>Member bios</li>
-                <li>Set list management</li>
-              </ul>
-
-              <ReceiverCta href="../contact.html" label="Start With Basic →" peak={18} />
-            </Glass>
+  <!-- THE TWO TIERS -->
+  <section class="lb-section" aria-label="Pricing tiers">
+    <div class="lb-container">
+      <div class="lb-tiers">
+        <TierPlate label="BASIC" name="Bar Band Special">
+          <div class="lb-tier__price">
+            <span class="lb-tier__amt lb-gold">$600</span>
+            <span class="lb-tier__per lb-mono">/ year (prepaid annually)</span>
+            <span class="lb-tier__per lb-mono lb-mono--sm lb-tier__build">Build: $625.00</span>
           </div>
+          <p class="lb-tier__label lb-mono">Includes:</p>
+          <ul role="list" class="lb-tier__list">
+            {basicIncludes.map((t) => <li><Led />{t}</li>)}
+          </ul>
+          <p class="lb-tier__label lb-mono">Does not include:</p>
+          <ul role="list" class="lb-tier__list lb-tier__list--off">
+            {basicExcludes.map((t) => <li>{t}</li>)}
+          </ul>
+          <ReceiverCta href="../contact.html" label="Start With Basic →" peak={18} />
+        </TierPlate>
 
-          <!-- TOURING / PRO -->
-          <div class="card reveal">
-            <Glass variant="inner" innerClass="card-pad price-card">
-              <span class="tier-badge tier-badge--cyan">Touring / Pro Acts &amp; Bands</span>
-              <div class="price-amt-sm">$995 build</div>
-              <div class="price-plus">+</div>
-              <div class="price-amt">$1,548 <span class="price-note">/ year ($129.00 a month)</span></div>
-              <div class="price-note">(prepaid annually)</div>
-
-              <p class="price-head">Includes everything in Basic, plus:</p>
-              <ul class="feats">
-                <li>Full custom multi-page site</li>
-                <li>
-                  Electronic Press Kit (EPK) page:
-                  <ul class="feats-sub">
-                    <li>Bio (3-5 sentences, industry-reader ready)</li>
-                    <li>High-res photo download links</li>
-                    <li>Audio/video samples (YouTube embeds + streaming)</li>
-                    <li>Notable venues / tour history</li>
-                    <li>Press quotes</li>
-                    <li>Tech rider summary (PA requirements, monitor setup, stage plot PDF link, input list PDF link, backline)</li>
-                    <li>Set list (CMS-managed, always current)</li>
-                    <li>Booking contact, one line</li>
-                  </ul>
-                </li>
-                <li>Set list management. Band members update via Decap CMS</li>
-                <li>Member bio pages, built from member bio forms; placeholders until forms arrive</li>
-                <li>
-                  3 SEO blog posts per month written by Jon:
-                  <ul class="feats-sub">
-                    <li>Local SEO (show posts targeting city + venue + genre keywords)</li>
-                    <li>Gear / equipment posts (band's voice)</li>
-                    <li>Behind the scenes / rehearsal (band's voice)</li>
-                    <li>Venue recaps / press-style posts</li>
-                  </ul>
-                </li>
-                <li>Monthly SEO + traffic + keyword ranking report</li>
-              </ul>
-
-              <ReceiverCta href="../contact.html" label="Start With Touring / Pro →" featured peak={46} />
-            </Glass>
+        <TierPlate label="TOURING / PRO" name="Pro Acts & Bands" featured>
+          <div class="lb-tier__price">
+            <span class="lb-tier__amt lb-tier__amt--sm lb-gold">$995 build</span>
+            <span class="lb-tier__per lb-mono lb-tier__plus" aria-hidden="true">+</span>
+            <span class="lb-tier__amt lb-gold">$1,548</span>
+            <span class="lb-tier__per lb-mono">/ year ($129.00 a month)</span>
+            <span class="lb-tier__per lb-mono lb-mono--sm lb-tier__build">(prepaid annually)</span>
           </div>
-        </div>
+          <p class="lb-tier__label lb-mono">Includes everything in Basic, plus:</p>
+          <ul role="list" class="lb-tier__list">
+            {proIncludes.map((it) => (
+              <li>
+                <Led />
+                <span>
+                  {it.text}
+                  {it.sub && <ul role="list">{it.sub.map((s) => <li>{s}</li>)}</ul>}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <ReceiverCta href="../contact.html" label="Start With Touring / Pro →" featured peak={46} />
+        </TierPlate>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PAYMENT NOTE -->
-    <!-- Jon 2026-09-15: the FAQ "Call Jon directly" card clip, behind this
-         card too. Same recipe as /faq: the clip fills the card, copy held to
-         the left where the scrim is heavy, Jon on the right where it is light. -->
-    <section class="sec-pad is-alt">
-      <div class="wrap">
-        <Glass class="reveal" innerClass="feature cta--video">
-          <VideoBg src="jon-webdesk.mp4" scrim="default" poster="jon-webdesk-poster.jpg" />
-          <!-- em-dash: "a payment plan can be arranged — talk to Jon" → comma -->
-          <p>Yearly prepaid is standard. Half up front + a payment plan can be arranged, talk to Jon. Every site is a real conversation, not a checkout flow.</p>
-          <p class="mt-lg"><a href="../contact.html">jonwolf@livewebstudios.com</a> · <a href="tel:7328019611">732.801.9611</a></p>
-        </Glass>
-      </div>
-    </section>
+  <!-- PAYMENT TERMS -->
+  <section class="lb-section lb-section--tight" aria-label="Payment terms">
+    <div class="lb-container">
+      <OwnerPanel>
+        <p>Yearly prepaid is standard. Half up front + a payment plan can be arranged, talk to Jon. Every site is a real conversation, not a checkout flow.</p>
+        <p class="lb-owner__links">
+          <a class="lb-textlink" href="../contact.html">jonwolf@livewebstudios.com</a>
+          <a class="lb-textlink" href="tel:7328019611">732.801.9611</a>
+        </p>
+        <Fragment slot="rows">
+          <KnobRow>Yearly prepaid is standard</KnobRow>
+          <KnobRow>Half up front and a payment plan? Talk to Jon</KnobRow>
+          <KnobRow>A real conversation, not a checkout flow</KnobRow>
+        </Fragment>
+      </OwnerPanel>
+    </div>
+  </section>
 
-    <!-- PERSONAL SITES TEASER -->
-    <section class="sec-pad">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <h2>Individual Musician? We Do That Too.</h2>
-          <p class="page-lede is-center">Personal sites for solo artists, sidemen, studio players, and anyone who's more than just a band member. Consultation-based pricing.</p>
-          <div class="hero-btns is-center mt-lg">
-            <a class="btn btn-ghost" href="personal-sites.html">See Personal Sites →</a>
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- PERSONAL SITES TEASER -->
+  <section class="lb-section lb-section--tight" aria-label="Personal sites">
+    <div class="lb-container">
+      <ul role="list" class="lb-wide-card">
+        <MiniCard
+          icon="person"
+          kicker="PERSONAL SITES"
+          title="Individual Musician? We Do That Too."
+          line="Personal sites for solo artists, sidemen, studio players, and anyone who's more than just a band member. Consultation-based pricing."
+          href="personal-sites.html"
+          more="See Personal Sites"
+        />
+      </ul>
+    </div>
+  </section>
 
-    <!-- SEO / AI PLATFORM -->
-    <section class="sec-pad has-videobg">
-      <VideoBg src="bg-color-tv.mp4" scrim="default" />
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <!-- em-dash: "Found on Google — Not Just Built" → comma -->
-          <span class="eyebrow">FOUND ON GOOGLE, NOT JUST BUILT</span>
-          <h2>SEO Is Baked Into Every Build</h2>
-        </div>
-        <!-- em-dash: "core part of what we do — every site is engineered" → comma -->
-        <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
-        <BandSeoCards />
-        <!-- em-dash: "Google didn't tweak the rules — it rewrote them" → comma -->
-        <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
-      </div>
-    </section>
-  </main>
+  <SeoRack />
 
-  <Footer />
-</Base>
+  <CtaPlate />
+</LiveBandLayout>
 
 <style>
-  /* Amber sub-brand theming — token override reproduced from live-band-web-studios.astro. */
-  .theme-live-band {
-    --cyan: #fcd34d;
-    --cyan-soft: #fde68a;
-    --cyan-2: #f59e0b;
-    --cyan-deep: #4a3a08;
-    --on-accent: #1a1400;
-    --line: rgba(252, 211, 77, 0.16);
-    --line-2: rgba(252, 211, 77, 0.08);
-  }
-
-  /* Two-up card grid (system default grid-svc is 3-up). */
-  .grid-svc--2 { grid-template-columns: repeat(2, 1fr); }
-
-  /* Pricing card internals. */
-  .price-card { display: flex; flex-direction: column; }
-  .tier-badge {
-    align-self: flex-start;
-    font-family: var(--mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 0.4rem 0.75rem;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    margin-bottom: 1rem;
-  }
-  .tier-badge--gold { color: #e3cb8b; background: rgba(201, 165, 90, 0.1); }
-  .tier-badge--cyan { color: var(--cyan-soft); background: rgba(252, 211, 77, 0.1); }
-  .price-amt { font-family: var(--sans); font-weight: 700; font-size: 2.2rem; color: var(--ink-soft); }
-  .price-amt-sm { font-family: var(--sans); font-weight: 600; font-size: 1.2rem; color: var(--ink-soft); }
-  .price-plus { color: var(--muted-2); font-size: 1.1rem; margin: 0.1rem 0; }
-  .price-note { font-size: 0.9rem; color: var(--muted-2); font-weight: 400; }
-  .price-build { color: var(--cyan-soft); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em; margin-top: 0.6rem; }
-  .price-head { font-weight: 600; color: var(--ink-soft); margin-top: 1.4rem; margin-bottom: 0.6rem; }
-
-  .feats { list-style: none; display: grid; gap: 0.55rem; }
-  .feats li { position: relative; padding-left: 1.5rem; color: var(--muted); font-size: 0.94rem; }
-  .feats li::before { content: "✓"; position: absolute; left: 0; color: var(--cyan-soft); font-weight: 700; }
-  .feats--neg li::before { content: "✕"; color: var(--muted-2); }
-  .feats-sub { list-style: none; display: grid; gap: 0.4rem; margin-top: 0.5rem; margin-left: 0.2rem; }
-  .feats-sub li { padding-left: 1.2rem; font-size: 0.9rem; }
-  .feats-sub li::before { content: "•"; color: var(--muted-2); }
-
-  .price-card .btn { margin-top: auto; align-self: flex-start; }
-
-  @media (max-width: 900px) {
-    .grid-svc--2 { grid-template-columns: 1fr; }
-  }
+  .lb-tier__build { flex-basis: 100%; }
+  .lb-tier__plus { color: var(--lb-brass); }
+  .lb-tier :global(.rcta) { justify-self: stretch; }
+  .lb-section--tight { padding-block: calc(var(--lb-section-y) * 0.5); }
+  .lb-owner__links { display: flex; flex-wrap: wrap; gap: var(--lb-s-2) var(--lb-s-6); }
+  .lb-wide-card { list-style: none; margin: 0; padding: 0; }
+  .lb-wide-card :global(.lb-mini__name) { font-size: var(--lb-fs-h3); }
 </style>

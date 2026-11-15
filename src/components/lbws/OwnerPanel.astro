@@ -1,0 +1,16 @@
+---
+/**
+ * OwnerPanel: the walnut plate, copy on the left and knob rows on the right.
+ * Default slot = the copy column (nameplate and heading included by the page
+ * when it has them). "rows" slot = <KnobRow>s. "after" slot spans both columns
+ * (the Portfolio thumbnails).
+ */
+import Plate from "./Plate.astro";
+interface Props { class?: string; label?: string }
+const { class: cls, label } = Astro.props;
+---
+<Plate variant="walnut" class:list={["lb-owner", cls]} data-reveal aria-label={label}>
+  <div class="lb-owner__copy"><slot /></div>
+  <ul role="list" class="lb-owner__list"><slot name="rows" /></ul>
+  <slot name="after" />
+</Plate>

@@ -1,28 +1,34 @@
 ---
 /**
  * SeoRack: the "SEO Is Baked Into Every Build" block every Live Band page
- * carries. Built once. The page's own background video stays as the media
- * layer; the cards are three photo MiniCards and the AI Platform line is a
- * raised plate with an amber LED. Copy is the repo's; the Forms page passes its
- * shorter lede.
+ * carries. Built once. Three photo MiniCards, and the AI Platform line as a
+ * raised plate with an amber LED. Copy is the repo's; the Forms page passes
+ * its shorter lede.
+ *
+ * Background (Jon 2026-11-15: "even the colored mp4 waves... do something
+ * else. high end."): the colored wave video is gone. In its place, an amp
+ * grille: a fine perforated metal mesh with warm tube glow drifting slowly
+ * behind it, between two brass rails. Pure CSS, transform-only motion, so it
+ * stops with the hold button and under reduced motion like everything else.
  */
-import VideoBg from "../VideoBg.astro";
 import SectionHead from "./SectionHead.astro";
 import MiniCard from "./MiniCard.astro";
 import Plate from "./Plate.astro";
 import Led from "./Led.astro";
 import { BAND_SEO } from "../../lib/bandSeo";
 import { relPrefix } from "../../lib/relPrefix";
-interface Props { video?: string; lede?: string; id?: string }
+interface Props { lede?: string; id?: string }
 const {
-  video = "bg-color-tv.mp4",
   lede = "A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.",
   id = "seo",
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 ---
-<section class="lb-section has-videobg lb-seo" id={id} aria-labelledby={`${id}-h`}>
-  <VideoBg src={video} scrim="default" />
+<section class="lb-section lb-seo" id={id} aria-labelledby={`${id}-h`}>
+  <div class="lb-seo__bay" aria-hidden="true">
+    <div class="lb-seo__tubes"><i></i><i></i><i></i></div>
+    <div class="lb-seo__grille"></div>
+  </div>
   <div class="lb-container">
     <SectionHead nameplate="FOUND ON GOOGLE, NOT JUST BUILT" id={`${id}-h`}>
       SEO Is Baked Into <span class="lb-gold">Every Build</span>
@@ -47,18 +53,76 @@ const rel = relPrefix(Astro.url.pathname);
 </section>
 
 <style>
-  /* VideoBg sits as the section's media layer; the content rides above it. */
   .lb-seo { isolation: isolate; overflow: hidden; }
   .lb-seo .lb-container { position: relative; z-index: 1; }
-  /* Feather the video into the page above and below, no hard band edges. */
-  .lb-seo::after {
-    content: "";
+
+  /* The bay: a recessed opening in the rack, brass rail top and bottom. */
+  .lb-seo__bay {
     position: absolute;
     inset: 0;
     z-index: 0;
+    overflow: hidden;
     pointer-events: none;
-    background: linear-gradient(180deg, var(--lb-ink) 0%, transparent 16%, transparent 84%, var(--lb-ink) 100%);
+    background: var(--lb-metal-1);
+    isolation: isolate;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--lb-brass) 55%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--lb-brass) 55%, transparent),
+      inset 0 24px 48px -24px #000,
+      inset 0 -24px 48px -24px #000;
   }
+  /* Tube glow, behind the mesh. Three soft lamps that drift. */
+  .lb-seo__tubes { position: absolute; inset: 0; overflow: hidden; }
+  .lb-seo__tubes i {
+    position: absolute;
+    width: 46vmax;
+    height: 46vmax;
+    border-radius: 50%;
+    will-change: transform;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--lb-amber) 62%, transparent), color-mix(in srgb, var(--lb-amber) 18%, transparent) 55%, transparent 100%);
+  }
+  .lb-seo__tubes i:nth-child(1) { top: -12vmax; left: -8vmax; }
+  .lb-seo__tubes i:nth-child(2) { bottom: -18vmax; right: -6vmax; background: radial-gradient(closest-side, color-mix(in srgb, var(--lb-brass-bright) 55%, transparent), color-mix(in srgb, var(--lb-brass) 16%, transparent) 55%, transparent 100%); }
+  .lb-seo__tubes i:nth-child(3) { top: 30%; left: 38%; width: 34vmax; height: 34vmax; background: radial-gradient(closest-side, color-mix(in srgb, #ff7a2a 40%, transparent), transparent 100%); }
+  /* The mesh: the glow layer is masked to a staggered grid of round holes, so
+     light only shows through the perforations and the rest stays metal. */
+  .lb-seo__tubes {
+    --hole: radial-gradient(circle at center, #000 0 2px, transparent 2.8px);
+    -webkit-mask-image: var(--hole), var(--hole);
+    mask-image: var(--hole), var(--hole);
+    -webkit-mask-size: 9px 9px;
+    mask-size: 9px 9px;
+    -webkit-mask-position: 0 0, 4.5px 4.5px;
+    mask-position: 0 0, 4.5px 4.5px;
+  }
+  /* Unlit holes still read as holes: a faint dark dot grid on the metal. */
+  .lb-seo__grille {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    --pit: radial-gradient(circle at center, #000 0 2px, transparent 2.8px);
+    background-image: var(--pit), var(--pit);
+    background-size: 9px 9px;
+    background-position: 0 0, 4.5px 4.5px;
+  }
+  /* A soft sheen across the mesh and a vignette so the copy sits on calm. */
+  .lb-seo__bay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(115deg, transparent 30%, color-mix(in srgb, var(--lb-cream) 4%, transparent) 48%, transparent 62%),
+      radial-gradient(ellipse 95% 80% at 50% 50%, color-mix(in srgb, var(--lb-ink) 12%, transparent), color-mix(in srgb, var(--lb-ink) 58%, transparent) 100%);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .lb-seo__tubes i:nth-child(1) { animation: lb-tube-a 38s ease-in-out infinite alternate; }
+    .lb-seo__tubes i:nth-child(2) { animation: lb-tube-b 47s ease-in-out infinite alternate; }
+    .lb-seo__tubes i:nth-child(3) { animation: lb-tube-c 29s ease-in-out infinite alternate; }
+  }
+  @keyframes lb-tube-a { to { transform: translate(34vw, 10vh) scale(1.15); } }
+  @keyframes lb-tube-b { to { transform: translate(-30vw, -8vh) scale(0.9); } }
+  @keyframes lb-tube-c { to { transform: translate(-18vw, 6vh) scale(1.25); } }
+
   .lb-seo__platform {
     display: flex;
     align-items: baseline;

@@ -1,0 +1,19 @@
+---
+/** Pricing plate. Basic sits on a default plate; Touring / Pro is `featured`:
+    raised, with the amber top glow. The price block, lists and CTA go in the
+    default slot so every existing line item stays as written. */
+import Plate from "./Plate.astro";
+import Nameplate from "./Nameplate.astro";
+interface Props { label: string; name: string; featured?: boolean }
+const { label, name, featured = false } = Astro.props;
+---
+<Plate as="article" variant={featured ? "raised" : "default"} class:list={["lb-tier", featured && "lb-tier--pro"]} data-reveal>
+  <header class="lb-tier__head lb-tier__head--solo">
+    <div><Nameplate>{label}</Nameplate><h2 class="lb-tier__name">{name}</h2></div>
+  </header>
+  <slot />
+</Plate>
+
+<style>
+  .lb-tier__head--solo { grid-template-columns: 1fr; }
+</style>
