@@ -1,0 +1,10 @@
+---
+/** A mixed-size run of names separated by brass dots. The three sizes cycle
+    through a fixed pattern in which no two neighbours match. */
+interface Props { names: string[] }
+const { names } = Astro.props;
+const pattern = ["w1", "w3", "w2", "w1", "w2", "w1", "w3", "w2"];
+---
+<p class="lb-wall" data-reveal>
+  {names.map((n, i) => <span class={pattern[i % pattern.length]}>{n}</span>)}
+</p>
