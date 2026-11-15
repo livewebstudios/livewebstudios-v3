@@ -24,15 +24,19 @@ type BaseProps = Parameters<typeof Base>[0];
 type Props = BaseProps & {
   /** Extra classes for <main>, alongside lbws-gold. */
   mainClass?: string;
+  /** Palette only (form sub-pages, blog posts, blog categories): the page keeps
+      its own layout and components and just turns warm ink and brass. No
+      Gold Rack base styles, haze or fader. */
+  palette?: boolean;
 };
-const { mainClass, ...baseProps } = Astro.props;
+const { mainClass, palette = false, ...baseProps } = Astro.props;
 ---
 
 <Base {...baseProps}>
   <Fragment slot="head">
     {/* Headings are set in this face above the fold; preloading it stops the
         fallback-to-Jakarta swap flash on the hero title. */}
-    <link rel="preload" href={jakartaWoff2} as="font" type="font/woff2" crossorigin />
+    {!palette && <link rel="preload" href={jakartaWoff2} as="font" type="font/woff2" crossorigin />}
     {/* Before first paint: restore a paused hold button from this session, and
         flag that motion is allowed so the power-on states start hidden only
         when they will actually animate in. */}
@@ -44,9 +48,9 @@ const { mainClass, ...baseProps } = Astro.props;
 
   <Nav />
 
-  <main class:list={["lbws-gold", mainClass]}>
-    <Haze />
-    <ScrollFader />
+  <main class:list={[palette ? "lbws-gold-palette theme-live-band" : "lbws-gold", mainClass]}>
+    {!palette && <Haze />}
+    {!palette && <ScrollFader />}
     <slot />
   </main>
 

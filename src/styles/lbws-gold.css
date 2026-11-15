@@ -547,3 +547,17 @@
   border-left: 1px solid var(--lb-hairline-soft); color: var(--lb-parchment); font-size: .9375rem; }
 .lb-tier__list ul li { display: block; }
 .lb-tier__price .lb-tier__amt--sm { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+
+/* ---------- 22. PALETTE-ONLY PAGES ---------- */
+/* Form sub-pages, blog posts and blog categories keep their own layout and
+   components. They only move from amber-on-black to brass-on-warm-ink, by
+   remapping the accent tokens their existing styles already read. */
+main.lbws-gold-palette {
+  --lb-ink: #0e0c0a; --lb-brass: #c9a45c; --lb-brass-bright: #e6c47a; --lb-brass-mid: #a8863f; --lb-amber: #f0a830;
+  --cyan: var(--lb-brass); --cyan-soft: var(--lb-brass-bright); --cyan-2: var(--lb-brass-mid); --cyan-deep: #3a2c10; --on-accent: #17120a;
+  --amber: var(--lb-brass);
+  --line: rgba(201, 164, 92, 0.18); --line-2: rgba(201, 164, 92, 0.09);
+  --mosa-accent-rgb: 201 164 92; --mosa-bg-rgb: 14 12 10;
+  background: var(--lb-ink);
+}
+main.lbws-gold-palette :focus-visible { outline-color: var(--lb-amber); }

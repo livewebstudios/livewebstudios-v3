@@ -12,23 +12,18 @@
  * EM DASH BAN applied to visible copy; radio/checkbox VALUE attributes are
  * left verbatim to keep the submission payload identical.
  */
-import Base from "../../../layouts/Base.astro";
-import Nav from "../../../components/Nav.astro";
-import Footer from "../../../components/Footer.astro";
+import LiveBandLayout from "../../../layouts/LiveBandLayout.astro";
 import Glass from "../../../components/Glass.astro";
 import VideoBg from "../../../components/VideoBg.astro";
 import PhotoBg from "../../../components/PhotoBg.astro";
 ---
 
-<Base
+<LiveBandLayout palette
   title="Band Bio Form | Live Band Web Studios"
   description="New band intake form for Live Band Web Studios. Fill in what you've got, skip what you don't. Goes directly to Jon Wolf."
   canonical="https://livewebstudios.com/live-band-web-studios/forms/band-bio-form"
   ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
 >
-  <Nav />
-
-  <main class="theme-live-band">
     <!-- HERO -->
     <section class="page-head page-head--glass page-head--bare has-videobg">
       <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
@@ -451,9 +446,6 @@ import PhotoBg from "../../../components/PhotoBg.astro";
         </Glass>
       </div>
     </section>
-  </main>
-
-  <Footer />
 
   <script is:inline>
     /* "We don't have a website" toggle -> sets hidden has_website field.
@@ -506,7 +498,7 @@ import PhotoBg from "../../../components/PhotoBg.astro";
       });
     })();
   </script>
-</Base>
+</LiveBandLayout>
 
 <style>
   /* Amber sub-brand theming — overrides the accent custom properties on the

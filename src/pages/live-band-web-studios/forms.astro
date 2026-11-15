@@ -1,139 +1,111 @@
 ---
 /**
- * /live-band-web-studios/forms — ported from the live site
- * (livewebstudios.com/live-band-web-studios/forms). A hub/index that links to
- * the three form pages plus the photo instructions guide at forms/*.html. One folder
- * deep (two dots up on imports). Wrapped in .theme-live-band for the amber
- * accent (token override reproduced in scoped <style>). No <img>: live hero
- * photo dropped for page-head + VideoBg. Tabler icon font dropped for glyphs.
- * EM DASH BAN applied to all ported copy.
+ * /live-band-web-studios/forms: the hub for the four client form pages.
+ *
+ * Gold Rack redesign (2026-11-15): four numbered icon MiniCards in a
+ * two-column grid, the "goes to Jon" note on a small plate with an amber LED,
+ * then the shared SEO rack and closing CTA plate. Copy and links unchanged.
  */
-import Base from "../../layouts/Base.astro";
-import Nav from "../../components/Nav.astro";
-import Footer from "../../components/Footer.astro";
-import Glass from "../../components/Glass.astro";
-import BandSeoCards from "../../components/BandSeoCards.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import LiveBandLayout from "../../layouts/LiveBandLayout.astro";
 import PhotoBg from "../../components/PhotoBg.astro";
+import PageHero from "../../components/lbws/PageHero.astro";
+import MiniCard from "../../components/lbws/MiniCard.astro";
+import Plate from "../../components/lbws/Plate.astro";
+import Led from "../../components/lbws/Led.astro";
+import SeoRack from "../../components/lbws/SeoRack.astro";
+import CtaPlate from "../../components/lbws/CtaPlate.astro";
 
-// Form cards — hub links to the three form pages (em dashes converted).
+// Form cards: hub links to the four form pages (em dashes converted).
 const forms = [
   {
-    ico: "♪",
-    // em-dash: "New Bands — Start Here" → comma
+    icon: "doc" as const,
     badge: "New Bands, Start Here",
     title: "Band Bio Form",
     body: "Fill this out before we start the build. The more detail you give us, the less back-and-forth we do over email. This goes to Jon directly. He reads every one.",
     href: "forms/band-bio-form.html",
-    cta: "Fill Out the Band Bio Form →",
-    primary: true,
+    cta: "Fill Out the Band Bio Form",
   },
   {
-    ico: "◉",
+    icon: "person" as const,
     badge: "Individual Members",
     title: "Band Member Bio Form",
     body: "One form per band member. Covers your gear, your history, your influences, your story. Fill in what you've got. The more you give us, the better your bio page and EPK copy will be.",
     href: "forms/band-member-bio-form.html",
-    cta: "Fill Out the Member Bio Form →",
-    primary: false,
+    cta: "Fill Out the Member Bio Form",
   },
   {
-    ico: "❖",
+    icon: "camera" as const,
     badge: "Photos & AI Imagery",
     title: "Music Photo Form",
-    // em-dash: "AI-generated scenes — all in your look" → comma
     body: "Musician intake & photo guide. Tell us your visual vibe, then follow the photo guide to shoot reference shots we'll turn into press photos, EPK images, and AI-generated scenes, all in your look.",
     href: "forms/music-photo-form.html",
-    cta: "Fill Out the Music Photo Form →",
-    primary: true,
+    cta: "Fill Out the Music Photo Form",
   },
   {
-    ico: "◈",
+    icon: "bulb" as const,
     badge: "Before You Shoot",
     title: "Music Photo Instructions",
     body: "The companion guide to the Music Photo Form. Lighting, angles, expressions, wardrobe, and how to send your reference shots at full resolution. Read it before you pick up the phone and start shooting.",
     href: "forms/how-to-photograph-yourself-for-ai.html",
-    cta: "Read the Photo Instructions →",
-    primary: false,
+    cta: "Read the Photo Instructions",
   },
 ];
-
 ---
 
-<Base
+<LiveBandLayout
   title="Forms | Live Band Web Studios"
   description="Band bio form and member bio form for Live Band Web Studios clients."
   canonical="https://livewebstudios.com/live-band-web-studios/forms"
-  ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
+  ogImage="images/og-live-band.jpg"
+  preloadHero="lbws_bluestage.jpg"
 >
-  <Nav />
+  <PageHero eyebrow="CLIENT FORMS" sub="Fill in what you've got. Skip what you don't. We'll figure out the rest together.">
+    <PhotoBg slot="media" src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
+    Forms<span class="lb-gold">.</span>
+    <p slot="after" class="lb-mono lb-mono--sm lb-forms__note" data-hero-in>Everything is optional. No required fields. No asterisks. No pressure.</p>
+  </PageHero>
 
-  <main class="theme-live-band">
-    <!-- PAGE HEAD -->
-    <section class="page-head page-head--glass page-head--bare has-videobg">
-      <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
-      <div class="wrap">
-        <span class="eyebrow is-center mb-lg">CLIENT FORMS</span>
-        <h1 class="page-h1"><em>Forms</em>.</h1>
-        <p class="page-lede">Fill in what you've got. Skip what you don't. We'll figure out the rest together.</p>
-        <p class="forms-note is-center">Everything is optional. No required fields. No asterisks. No pressure.</p>
-      </div>
-    </section>
+  <section class="lb-section" aria-labelledby="forms-h">
+    <div class="lb-container">
+      {/* Structural only: the cards below are h3s with nothing between them
+          and the page h1 (launch audit 2026-09-15). Hidden so the page gains
+          no new visible copy. */}
+      <h2 class="lb-vh" id="forms-h">The forms</h2>
+      <ul role="list" class="lb-grid-2">
+        {forms.map((f, i) => (
+          <MiniCard
+            icon={f.icon}
+            num={String(i + 1).padStart(2, "0")}
+            kicker={`${String(i + 1).padStart(2, "0")} · ${f.badge}`}
+            title={f.title}
+            line={f.body}
+            href={f.href}
+            more={f.cta}
+          />
+        ))}
+      </ul>
+      <Plate class="lb-forms__jon" data-reveal>
+        <Led />
+        <p>Every form here goes directly to Jon Wolf at <a class="lb-inline-link" href="../contact.html">jonwolf@livewebstudios.com</a>. No auto-responder. No chatbot. A real person gets this.</p>
+      </Plate>
+    </div>
+  </section>
 
-    <!-- FORM CARDS -->
-    <section class="sec-pad">
-      <div class="wrap">
-        {/* Structural only: the cards below are h3s with nothing between them
-            and the page h1 (launch audit 2026-09-15). Hidden so the page
-            gains no new visible copy. */}
-        <h2 class="visually-hidden">The forms</h2>
-        <div class="grid-svc">
-          {forms.map((f) => (
-            <div class="card reveal">
-              <Glass variant="inner" innerClass="card-pad">
-                <div class="ico">{f.ico}</div>
-                <span class="label">{f.badge}</span>
-                <h3>{f.title}</h3>
-                <p>{f.body}</p>
-                <a class={f.primary ? "btn btn-primary" : "btn btn-ghost"} href={f.href}>{f.cta}</a>
-              </Glass>
-            </div>
-          ))}
-        </div>
-        <p class="page-lede is-center mt-lg reveal">Every form here goes directly to Jon Wolf at <a href="../contact.html">jonwolf@livewebstudios.com</a>. No auto-responder. No chatbot. A real person gets this.</p>
-      </div>
-    </section>
+  <SeoRack lede="Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch." />
 
-    <!-- SEO / AI PLATFORM -->
-    <section class="sec-pad is-alt has-videobg">
-      <VideoBg src="bg-color-tv.mp4" scrim="default" />
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">FOUND ON GOOGLE, NOT JUST BUILT</span>
-          <h2>SEO Is Baked Into Every Build</h2>
-        </div>
-        <!-- em-dash: "core part of what we do — every site is engineered" → comma -->
-        <p class="page-lede is-center mb-lg reveal">Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
-        <BandSeoCards />
-        <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
-      </div>
-    </section>
-  </main>
-
-  <Footer />
-</Base>
+  <CtaPlate />
+</LiveBandLayout>
 
 <style>
-  /* Amber sub-brand theming — token override reproduced from live-band-web-studios.astro. */
-  .theme-live-band {
-    --cyan: #fcd34d;
-    --cyan-soft: #fde68a;
-    --cyan-2: #f59e0b;
-    --cyan-deep: #4a3a08;
-    --on-accent: #1a1400;
-    --line: rgba(252, 211, 77, 0.16);
-    --line-2: rgba(252, 211, 77, 0.08);
+  .lb-forms__note { color: var(--lb-parchment); }
+  .lb-container :global(.lb-forms__jon) {
+    display: flex;
+    align-items: baseline;
+    gap: var(--lb-s-4);
+    margin-top: var(--lb-s-8);
+    padding: var(--lb-s-6) var(--lb-s-8);
   }
-
-  .forms-note { color: var(--cyan-soft); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em; margin-top: 0.8rem; }
+  .lb-container :global(.lb-forms__jon) p { color: var(--lb-parchment); max-width: none; }
+  .lb-inline-link { color: var(--lb-brass); text-underline-offset: 0.25em; }
+  .lb-inline-link:hover { color: var(--lb-brass-bright); }
 </style>

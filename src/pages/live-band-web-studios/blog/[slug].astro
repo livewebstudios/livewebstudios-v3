@@ -11,10 +11,8 @@
  * chrome works that out itself through relPrefix.
  */
 import { render } from "astro:content";
-import Base from "../../../layouts/Base.astro";
+import LiveBandLayout from "../../../layouts/LiveBandLayout.astro";
 import { withBrand } from "../../../lib/seoTitle";
-import Nav from "../../../components/Nav.astro";
-import Footer from "../../../components/Footer.astro";
 import BandBlogHero from "../../../components/BandBlogHero.astro";
 import CategoryNav from "../../../components/CategoryNav.astro";
 import PostCta from "../../../components/PostCta.astro";
@@ -147,17 +145,13 @@ const jsonLd = [
 ];
 ---
 
-<Base
+<LiveBandLayout palette
   title={withBrand(post.data.seoTitle ?? post.data.title, "Live Band Web Studios")}
   description={description}
   canonical={postUrl}
   ogImage={raw || "images/og-live-band.jpg"}
   jsonld={null}  preloadHero="band/blog/lbws-blog-hero.webp"
->
-  <Nav />
-
-  <main class="theme-live-band">
-    <BandBlogHero title={post.data.title}>
+>    <BandBlogHero title={post.data.title}>
       <p class="post-date">
         {dateLabel}
         {cats.map((c, i) => (
@@ -209,12 +203,9 @@ const jsonLd = [
     </section>
 
     <CategoryNav available={available} current={cats[0]?.slug} audience="musicians" />
-  </main>
-
-  <Footer />
-
+  </main>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
-</Base>
+</LiveBandLayout>
 
 <style>
   /* Matches the LWS post body exactly: same tokens, same measure. The room is

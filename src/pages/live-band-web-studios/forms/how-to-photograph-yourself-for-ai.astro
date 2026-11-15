@@ -12,9 +12,7 @@
  * Example photos are AI-generated people (Higgsfield), never real client
  * presenters. Files live in public/images/photo-guide/.
  */
-import Base from "../../../layouts/Base.astro";
-import Nav from "../../../components/Nav.astro";
-import Footer from "../../../components/Footer.astro";
+import LiveBandLayout from "../../../layouts/LiveBandLayout.astro";
 import Glass from "../../../components/Glass.astro";
 import VideoBg from "../../../components/VideoBg.astro";
 import PhotoBg from "../../../components/PhotoBg.astro";
@@ -80,16 +78,12 @@ const steps = [
 ];
 ---
 
-<Base
+<LiveBandLayout palette
   title="How to Photograph Yourself for AI | Live Band Web Studios"
   description="How to photograph yourself for AI images: lighting, angles, expressions and how to send your reference shots at full resolution."
   canonical="https://livewebstudios.com/live-band-web-studios/forms/how-to-photograph-yourself-for-ai"
   ogImage="images/og-live-band.jpg"  preloadHero="lbws_bluestage.jpg"
->
-  <Nav />
-
-  <main class="theme-live-band">
-    <!-- HERO -->
+>    <!-- HERO -->
     <section class="page-head page-head--glass page-head--bare has-videobg">
       <PhotoBg src="lbws_bluestage.jpg" scrim="hero" alt="An empty concert stage under teal spotlights and haze: a grand piano, a drum kit on a riser, three electric guitars on stands, and a wall of amplifiers and road cases." />
       <div class="wrap">
@@ -174,10 +168,7 @@ const steps = [
         </div>
       </div>
     </section>
-  </main>
-
-  <Footer />
-</Base>
+  </main></LiveBandLayout>
 
 <style>
   /* Amber sub-brand theming — token override reproduced from forms.astro. */

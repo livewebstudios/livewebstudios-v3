@@ -7,9 +7,7 @@
  * Three levels deep, so links need "../../../" to reach the site root. The
  * shared chrome works that out itself through relPrefix.
  */
-import Base from "../../../../layouts/Base.astro";
-import Nav from "../../../../components/Nav.astro";
-import Footer from "../../../../components/Footer.astro";
+import LiveBandLayout from "../../../../layouts/LiveBandLayout.astro";
 import BandBlogHero from "../../../../components/BandBlogHero.astro";
 import CategoryNav from "../../../../components/CategoryNav.astro";
 import DayJob from "../../../../components/DayJob.astro";
@@ -78,17 +76,13 @@ const jsonLd = JSON.stringify({
 });
 ---
 
-<Base
+<LiveBandLayout palette
   title={cat.metaTitle}
   description={cat.metaDescription}
   canonical={catUrl}
   ogImage="images/og-live-band.jpg"  preloadHero="band/blog/lbws-blog-hero.webp"
 >
-  <script type="application/ld+json" set:html={jsonLd} is:inline />
-  <Nav />
-
-  <main class="theme-live-band">
-    <BandBlogHero title={cat.name} lede={cat.blurb} />
+  <script type="application/ld+json" set:html={jsonLd} is:inline />    <BandBlogHero title={cat.name} lede={cat.blurb} />
 
     <CategoryNav available={available} current={cat.slug} audience="musicians" />
 
@@ -123,7 +117,4 @@ const jsonLd = JSON.stringify({
         <DayJob />
       </div>
     </section>
-  </main>
-
-  <Footer />
-</Base>
+  </main></LiveBandLayout>
