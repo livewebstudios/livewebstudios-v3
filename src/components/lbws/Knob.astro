@@ -1,0 +1,27 @@
+---
+/** Rotary knob. `lit` = how many of the 11 ticks are lit at the set position,
+    `set` = the cap's dialed-in angle. The dialed-in state is the default, so
+    it renders correctly with no JS and under reduced motion. */
+import { uid } from "../../lib/lbwsGear";
+interface Props { lit?: number; set?: number; id?: string }
+const { lit = 9, set = 78, id = uid("knob") } = Astro.props;
+const ticks = Array.from({ length: 11 }, (_, k) => k);
+---
+<span class="knob" aria-hidden="true" style={`--knob-set:${set}deg`}>
+  <svg viewBox="0 0 64 64" width="44" height="44" focusable="false">
+    <defs>
+      <radialGradient id={`${id}-face`} cx="40%" cy="32%" r="75%"><stop offset="0" class="knob-s-1" /><stop offset="0.55" class="knob-s-2" /><stop offset="1" class="knob-s-3" /></radialGradient>
+      <linearGradient id={`${id}-skirt`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="knob-s-4" /><stop offset="1" class="knob-s-5" /></linearGradient>
+    </defs>
+    {ticks.map((k) => (
+      <line x1="32" y1="2.5" x2="32" y2="6.5" class="knob__tick" style={`--i:${k}`} data-lit={k < lit ? "" : undefined} transform={`rotate(${-135 + 27 * k} 32 32)`} />
+    ))}
+    <circle cx="32" cy="33" r="22" class="knob__shadow" />
+    <circle cx="32" cy="32" r="22" fill={`url(#${id}-skirt)`} />
+    <g class="knob__cap">
+      <circle cx="32" cy="32" r="17.5" fill={`url(#${id}-face)`} class="knob__face" />
+      <circle cx="32" cy="32" r="17.5" class="knob__knurl" />
+      <line x1="32" y1="17" x2="32" y2="26" class="knob__pointer" />
+    </g>
+  </svg>
+</span>

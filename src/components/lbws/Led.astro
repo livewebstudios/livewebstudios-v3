@@ -1,0 +1,6 @@
+---
+/** Breathing indicator dot. Decorative. */
+interface Props { color?: "amber" | "red"; class?: string; style?: string }
+const { color = "amber", class: cls, style } = Astro.props;
+---
+<span class:list={["lb-led", color === "red" && "lb-led--red", cls]} style={style} aria-hidden="true"></span>

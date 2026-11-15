@@ -1,0 +1,62 @@
+---
+/** VU meter. The needle group carries data-vu-needle and data-db, plus an
+    inline --vu-rot so it is parked at its final angle before any script runs.
+    Decorative meters pass `decorative` and are hidden from assistive tech;
+    the hero pair keeps role="img". */
+import { dbToDeg, pol, arc, uid } from "../../lib/lbwsGear";
+interface Props { label?: string; db?: number; id?: string; decorative?: boolean }
+const { label = "VU", db = -5, id = uid("vu"), decorative = false } = Astro.props;
+const f = (n: number) => n.toFixed(2);
+const majors = [-20, -10, -7, -5, -3, 0, 3].map((d) => {
+  const a = dbToDeg(d);
+  const [x1, y1] = pol(a, 84);
+  const [x2, y2] = pol(a, 93);
+  const [tx, ty] = pol(a, 102);
+  return { x1, y1, x2, y2, tx, ty, hot: d > 0, txt: d > 0 ? `+${d}` : d === 0 ? "0" : String(Math.abs(d)) };
+});
+const minors = [-2, -1, 1, 2].map((d) => {
+  const a = dbToDeg(d);
+  const [x1, y1] = pol(a, 84);
+  const [x2, y2] = pol(a, 90);
+  return { x1, y1, x2, y2, hot: d > 0 };
+});
+const a11y = decorative ? { "aria-hidden": "true" } : { role: "img", "aria-label": "VU meter" };
+---
+<svg class="vu" viewBox="0 0 220 150" focusable="false" {...a11y}>
+  <defs>
+    <radialGradient id={`${id}-face`} cx="50%" cy="70%" r="80%"><stop offset="0" class="vu-s-face-hi" /><stop offset="0.6" class="vu-s-face" /><stop offset="1" class="vu-s-face-lo" /></radialGradient>
+    <radialGradient id={`${id}-glow`} cx="50%" cy="85%" r="70%"><stop offset="0" class="vu-s-glow" /><stop offset="1" class="vu-s-glow vu-s-clear" /></radialGradient>
+    <linearGradient id={`${id}-glass`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="vu-s-glass-a" /><stop offset="0.45" class="vu-s-glass-b" /><stop offset="0.46" class="vu-s-glass-b vu-s-clear" /></linearGradient>
+    <linearGradient id={`${id}-bezel`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="vu-s-bezel-a" /><stop offset="1" class="vu-s-bezel-b" /></linearGradient>
+    <clipPath id={`${id}-win`}><rect x="12" y="12" width="196" height="118" rx="3" /></clipPath>
+  </defs>
+  <rect x="1" y="1" width="218" height="148" rx="6" fill={`url(#${id}-bezel)`} class="vu__bezel" />
+  <rect x="11" y="11" width="198" height="120" rx="4" class="vu__well" />
+  <g clip-path={`url(#${id}-win)`}>
+    <rect x="12" y="12" width="196" height="118" fill={`url(#${id}-face)`} />
+    <rect x="12" y="12" width="196" height="118" fill={`url(#${id}-glow)`} />
+    <path d={arc(-50, 50, 84)} class="vu__arc" />
+    <path d={arc(dbToDeg(0), dbToDeg(3), 87)} class="vu__redzone" />
+    {majors.map((m) => (
+      <Fragment>
+        <line x1={f(m.x1)} y1={f(m.y1)} x2={f(m.x2)} y2={f(m.y2)} class:list={["vu__tick vu__tick--major", m.hot && "vu--hot"]} />
+        <text x={f(m.tx)} y={f(m.ty)} class:list={["vu__num", m.hot && "vu--hot-text"]} text-anchor="middle" dominant-baseline="middle">{m.txt}</text>
+      </Fragment>
+    ))}
+    {minors.map((m) => (
+      <line x1={f(m.x1)} y1={f(m.y1)} x2={f(m.x2)} y2={f(m.y2)} class:list={["vu__tick", m.hot && "vu--hot"]} />
+    ))}
+    <text x="34" y="44" class="vu__sign">&minus;</text>
+    <text x="186" y="44" class="vu__sign vu--hot-text" text-anchor="end">+</text>
+    <text x="110" y="100" class="vu__label" text-anchor="middle">{label}</text>
+    <g class="vu__needle" data-vu-needle data-db={db} style={`--vu-rot:${f(dbToDeg(db))}deg`}>
+      <line x1="111.2" y1="132" x2="111.2" y2="37" class="vu__needle-shadow" />
+      <line x1="110" y1="132" x2="110" y2="34" class="vu__needle-line" />
+    </g>
+    <rect x="12" y="112" width="196" height="20" class="vu__lip" />
+    <circle cx="110" cy="132" r="9" class="vu__pivot" />
+    <circle cx="108" cy="130" r="3" class="vu__pivot-hi" />
+    <rect x="12" y="12" width="196" height="118" fill={`url(#${id}-glass)`} />
+  </g>
+  <rect x="11.5" y="11.5" width="197" height="119" rx="4" class="vu__rim" />
+</svg>

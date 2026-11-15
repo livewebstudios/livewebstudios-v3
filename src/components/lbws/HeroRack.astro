@@ -1,0 +1,69 @@
+---
+/**
+ * HeroRack: the Live Band home hero (Home only). Three columns at 1200px and
+ * up: three feats, the centre stack, three feats. On phones the centre stack
+ * comes first and the two feat columns sit side by side under it.
+ *
+ * The page passes its frozen media (the drum-start VideoBg) in the "media"
+ * slot. The light beams and the overlay sit above it; nothing animates the
+ * video itself. The ticker pins to the bottom of the hero.
+ */
+import Plate from "./Plate.astro";
+import VuPair from "./VuPair.astro";
+import Led from "./Led.astro";
+import Icon from "./Icon.astro";
+import Readout from "./Readout.astro";
+import HoldButton from "./HoldButton.astro";
+type IconName = "screen" | "doc" | "person" | "search" | "pen" | "phone" | "camera" | "bulb";
+interface Feat { title: string; line: string; href: string; icon: IconName }
+interface Cta { label: string; href: string }
+interface Props {
+  logo: string;
+  eyebrow: string;
+  lines: [string, string];
+  h1: string;
+  sub: string;
+  ctas: [Cta, Cta];
+  featsLeft: Feat[];
+  featsRight: Feat[];
+  readout: string[];
+}
+const { logo, eyebrow, lines, h1, sub, ctas, featsLeft, featsRight, readout } = Astro.props;
+---
+<section class="lb-hero" data-hero aria-labelledby="lb-hero-h1">
+  <div class="lb-hero__media" aria-hidden="true"><slot name="media" /></div>
+  <div class="lb-hero__beams" aria-hidden="true"><i></i><i></i></div>
+  <div class="lb-hero__overlay" aria-hidden="true"></div>
+
+  <div class="lb-hero__content lb-container">
+    <ul role="list" class="lb-hero__feats lb-hero__feats--l" data-hero-in>
+      {featsLeft.map((f) => (
+        <li><a class="lb-feat" href={f.href}><span class="lb-feat__icon"><Icon name={f.icon} /></span><span class="lb-feat__text"><span class="lb-feat__title lb-mono">{f.title}</span><span class="lb-feat__line">{f.line}</span></span></a></li>
+      ))}
+    </ul>
+
+    <div class="lb-hero__center">
+      <img class="lb-hero__logo" src={logo} width="681" height="300" alt="Live Band Web Studios" fetchpriority="high" decoding="async" data-hero-in />
+      <span class="lb-eyebrow lb-mono" data-hero-in><Led />{eyebrow}</span>
+      <p class="lb-hero__title"><span class="lb-hero__line" data-hero-line>{lines[0]}</span><span class="lb-hero__line" data-hero-line>{lines[1]}</span></p>
+      <h1 class="lb-hero__h1" id="lb-hero-h1" data-hero-in>{h1}</h1>
+      <p class="lb-hero__sub" data-hero-in>{sub}</p>
+      <Plate class="lb-hero__meters" data-hero-in>
+        <VuPair db={-5} />
+        <div class="lb-hero__ctas">
+          <a href={ctas[0].href} class="lb-btn lb-btn--primary" data-meter-cta="0">{ctas[0].label}</a>
+          <a href={ctas[1].href} class="lb-btn lb-btn--ghost" data-meter-cta="1">{ctas[1].label}</a>
+        </div>
+      </Plate>
+    </div>
+
+    <ul role="list" class="lb-hero__feats lb-hero__feats--r" data-hero-in>
+      {featsRight.map((f) => (
+        <li><a class="lb-feat" href={f.href}><span class="lb-feat__icon"><Icon name={f.icon} /></span><span class="lb-feat__text"><span class="lb-feat__title lb-mono">{f.title}</span><span class="lb-feat__line">{f.line}</span></span></a></li>
+      ))}
+    </ul>
+  </div>
+
+  <HoldButton />
+  <Readout items={readout} />
+</section>

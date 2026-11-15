@@ -1,0 +1,72 @@
+---
+/**
+ * SeoRack: the "SEO Is Baked Into Every Build" block every Live Band page
+ * carries. Built once. The page's own background video stays as the media
+ * layer; the cards are three photo MiniCards and the AI Platform line is a
+ * raised plate with an amber LED. Copy is the repo's; the Forms page passes its
+ * shorter lede.
+ */
+import VideoBg from "../VideoBg.astro";
+import SectionHead from "./SectionHead.astro";
+import MiniCard from "./MiniCard.astro";
+import Plate from "./Plate.astro";
+import Led from "./Led.astro";
+import { BAND_SEO } from "../../lib/bandSeo";
+import { relPrefix } from "../../lib/relPrefix";
+interface Props { video?: string; lede?: string; id?: string }
+const {
+  video = "bg-color-tv.mp4",
+  lede = "A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.",
+  id = "seo",
+} = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+---
+<section class="lb-section has-videobg lb-seo" id={id} aria-labelledby={`${id}-h`}>
+  <VideoBg src={video} scrim="default" />
+  <div class="lb-container">
+    <SectionHead nameplate="FOUND ON GOOGLE, NOT JUST BUILT" id={`${id}-h`}>
+      SEO Is Baked Into <span class="lb-gold">Every Build</span>
+      <p class="lb-lead" slot="lede" data-reveal>{lede}</p>
+    </SectionHead>
+    <ul role="list" class="lb-grid-3">
+      {BAND_SEO.map((s, i) => (
+        <MiniCard
+          stack
+          num={String(i + 1).padStart(2, "0")}
+          title={s.title}
+          line={s.body}
+          image={{ src: `${rel}images/band/${s.art}`, alt: s.alt }}
+        />
+      ))}
+    </ul>
+    <Plate variant="raised" class="lb-seo__platform" data-reveal>
+      <Led />
+      <p><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
+    </Plate>
+  </div>
+</section>
+
+<style>
+  /* VideoBg sits as the section's media layer; the content rides above it. */
+  .lb-seo { isolation: isolate; overflow: hidden; }
+  .lb-seo .lb-container { position: relative; z-index: 1; }
+  /* Feather the video into the page above and below, no hard band edges. */
+  .lb-seo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--lb-ink) 0%, transparent 16%, transparent 84%, var(--lb-ink) 100%);
+  }
+  .lb-seo__platform {
+    display: flex;
+    align-items: baseline;
+    gap: var(--lb-s-4);
+    margin-top: var(--lb-s-10);
+    padding: var(--lb-s-6) var(--lb-s-8);
+  }
+  .lb-seo__platform p { color: var(--lb-parchment); max-width: none; }
+  .lb-seo__platform strong { color: var(--lb-cream); font-weight: 500; }
+  @media (max-width: 599px) { .lb-seo__platform { padding: var(--lb-s-6) var(--lb-s-5); } }
+</style>

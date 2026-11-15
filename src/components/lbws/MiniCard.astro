@@ -1,0 +1,60 @@
+---
+/**
+ * MiniCard: a photo in a picture frame with a numbered nameplate, or an icon
+ * dial when there is no photo. Renders as an <li>; put it in a
+ * <ul role="list" class="lb-grid-2"> or "lb-grid-3".
+ *
+ * The heading carries the real target: a link (`href`), a button that opens
+ * one of the page's <dialog> overlays (`modal`), or nothing. Its ::after
+ * stretches over the card, so the whole card is clickable while the markup
+ * stays valid (a <button> cannot hold an <h3>). A card with no target does not
+ * lift on hover and drops the MORE row.
+ */
+import PictureFrame from "./PictureFrame.astro";
+import Nameplate from "./Nameplate.astro";
+import Icon from "./Icon.astro";
+import Arrow from "./Arrow.astro";
+interface Props {
+  title: string;
+  line: string;
+  num?: string;
+  more?: string;
+  href?: string;
+  modal?: string;
+  kicker?: string;
+  image?: { src: string; alt: string; width?: number; height?: number };
+  icon?: "screen" | "doc" | "person" | "search" | "pen" | "phone" | "camera" | "bulb";
+  /** Photo over copy instead of beside it (three-up grids). */
+  stack?: boolean;
+  parallax?: boolean;
+  class?: string;
+}
+const { title, line, num, more, href, modal, kicker, image, icon, stack = false, parallax = true, class: cls } = Astro.props;
+const isStatic = !href && !modal;
+---
+<li class:list={["lb-mini", icon && !image && "lb-mini--icon", stack && "lb-mini--stack", isStatic && "lb-mini--static", cls]} data-reveal>
+  <div class="lb-mini__link">
+    {image ? (
+      <div class="lb-mini__media">
+        <PictureFrame src={image.src} alt={image.alt} width={image.width} height={image.height} parallax={parallax} />
+        {num && <Nameplate num class="lb-mini__num">{num}</Nameplate>}
+      </div>
+    ) : icon ? (
+      <span class="lb-mini__dial"><Icon name={icon} size={28} /></span>
+    ) : null}
+    <div class="lb-mini__body">
+      {kicker && <span class="lb-mini__kicker lb-mono">{kicker}</span>}
+      <h3 class="lb-mini__name">
+        {href ? (
+          <a class="lb-stretch" href={href}>{title}</a>
+        ) : modal ? (
+          <button type="button" class="lb-stretch" data-modal-open={modal}>{title}</button>
+        ) : (
+          title
+        )}
+      </h3>
+      <p class="lb-mini__line">{line}</p>
+      {more && !isStatic && <span class="lb-mini__more lb-mono" aria-hidden="true">{more} <Arrow /></span>}
+    </div>
+  </div>
+</li>

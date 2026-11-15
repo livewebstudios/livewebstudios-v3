@@ -1,0 +1,14 @@
+---
+/** Nameplate, H2 and the hairline that draws in under it. The H2 text goes in
+    the default slot so a page can wrap one word in <span class="lb-gold">.
+    Anything in the "lede" slot sits under the hairline. */
+import Nameplate from "./Nameplate.astro";
+interface Props { nameplate?: string; id?: string; hairline?: boolean; class?: string }
+const { nameplate, id, hairline = true, class: cls } = Astro.props;
+---
+<div class:list={["lb-section-head", cls]}>
+  {nameplate && <Nameplate data-reveal>{nameplate}</Nameplate>}
+  <h2 id={id} data-reveal><slot /></h2>
+  {hairline && <div class="lb-hairline" data-draw aria-hidden="true"></div>}
+  <slot name="lede" />
+</div>

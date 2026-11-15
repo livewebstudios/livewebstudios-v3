@@ -167,6 +167,9 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
       gtag("js", new Date());
       gtag("config", "G-SW3VF5PBDT");
     </script>
+    {/* Per-layout head additions (LiveBandLayout: font preload and the
+        pre-paint motion flags). Empty on every other page. */}
+    <slot name="head" />
   </head>
   <!-- Card art. The home page's carbon weave is the card background site-wide
        (Jon 2026-09-03), so every .card needs the URL. It is published from
@@ -299,6 +302,8 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
         }
         function play(v) {
           if (v.hasAttribute("data-once") && v.dataset.done === "1") return;
+          // The Live Band hold button sets this. Never set on other pages.
+          if (document.documentElement.dataset.motion === "paused") return;
           if (!reduce && v.play) {
             var p = v.play();
             if (p && p.catch) p.catch(function () {});

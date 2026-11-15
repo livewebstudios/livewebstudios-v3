@@ -1,0 +1,14 @@
+---
+/** The ticker band (Home hero only, one per page). The items repeat to fill a
+    wide screen; the first pass is read once by screen readers, the repeats
+    and the looping second copy are aria-hidden. */
+interface Props { items: string[]; repeat?: number }
+const { items, repeat = 4 } = Astro.props;
+const run = Array.from({ length: repeat }, () => items).flat();
+---
+<div class="lb-readout lb-mono lb-mono--sm" data-readout>
+  <div class="lb-readout__track">
+    <ul role="list" class="lb-readout__list">{run.map((t, i) => <li aria-hidden={i >= items.length ? "true" : undefined}>{t}</li>)}</ul>
+    <ul role="list" class="lb-readout__list lb-readout__list--dup" aria-hidden="true">{run.map((t) => <li>{t}</li>)}</ul>
+  </div>
+</div>

@@ -1,29 +1,31 @@
 ---
 /**
- * Live Band Web Studios — the first STUDIOS mega-panel headliner.
+ * Live Band Web Studios: the first STUDIOS mega-panel headliner.
  * Sites built for professional, touring bands and artists: tour dates,
- * setlists, press kits / EPKs, and booking. The differentiator from core
- * LWS (business sites) and Namesake (solo personal brand) is the working
- * band: a group that gigs, tours, and gets booked.
+ * setlists, press kits / EPKs, and booking.
  *
  * Canonical URL is /live-band-web-studios (built as
  * live-band-web-studios.html). Reversed 2026-07-04 per Jon's decision (was
  * /live-band, which is now the fold-in 301): nav, footer, and the STUDIOS
  * mega-panel all link straight here; /live-band 301s in for old bookmarks.
  *
- * Reuses the whole LWS system (Base, Nav, Footer, Glass) and re-themes the
- * accent cyan -> amber (#FCD34D, the sanctioned Live Band token already in
- * global.css) by overriding the accent custom properties on the
- * .theme-live-band wrapper. Same scoping pattern 2C used for .theme-namesake,
- * so no component is forked. The hero uses the live site's drum-start clip
- * and leads with the LBWS logo (Jon 2026-09-12).
+ * Gold Rack redesign (2026-11-15): every block is a piece of studio gear
+ * bolted into a rack. LiveBandLayout wraps the page in <main class="lbws-gold">
+ * and loads the scoped stylesheet, fonts and motion script; the header, nav,
+ * sub-nav and footer are untouched. The drum-start hero clip and the SEO fog
+ * video stay exactly as they were; only what sits on top of them changed.
+ * Copy, links and the overlay content are the page's own.
  */
-import Base from "../layouts/Base.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
-import Glass from "../components/Glass.astro";
-import BandSeoCards from "../components/BandSeoCards.astro";
+import LiveBandLayout from "../layouts/LiveBandLayout.astro";
 import VideoBg from "../components/VideoBg.astro";
+import HeroRack from "../components/lbws/HeroRack.astro";
+import SectionHead from "../components/lbws/SectionHead.astro";
+import PictureFrame from "../components/lbws/PictureFrame.astro";
+import MiniCard from "../components/lbws/MiniCard.astro";
+import SignalChain from "../components/lbws/SignalChain.astro";
+import SeoRack from "../components/lbws/SeoRack.astro";
+import CtaPlate from "../components/lbws/CtaPlate.astro";
+import Screws from "../components/lbws/Screws.astro";
 import { relPrefix } from "../lib/relPrefix";
 
 const rel = relPrefix(Astro.url.pathname);
@@ -152,205 +154,135 @@ const steps = [
   { art: "step-the-ongoing.jpg", alt: "A tour calendar open on a desk beside a laptop", title: "The Ongoing", body: "Monthly SEO reports. Blog posts. Gig calendar updates. Jon doesn't disappear after launch." },
 ];
 
+/* Gold Rack hero feats (2026-11-15). New copy, pending Jon's sign-off. */
+const featsLeft = [
+  { title: "FULL BAND SITES", line: "Gig pages, galleries, video and set lists.", href: "#kit", icon: "screen" as const },
+  { title: "EPK PAGES", line: "Tech rider and stage plot on one link.", href: "#kit", icon: "doc" as const },
+  { title: "PERSONAL SITES", line: "Your name, your domain.", href: `${rel}live-band-web-studios/personal-sites.html`, icon: "person" as const },
+];
+const featsRight = [
+  { title: "SEO BUILT IN", line: "Built to rank. Worked on after launch.", href: "#seo", icon: "search" as const },
+  { title: "YOU CAN EDIT IT", line: "Update gig dates without calling Jon.", href: `${rel}live-band-web-studios/pricing.html`, icon: "pen" as const },
+  { title: "THE CALL", line: "You talk to Jon. No intake forms.", href: "#process", icon: "phone" as const },
+];
+
+/* Button and card labels drop the trailing arrow glyph: the Gold Rack draws
+   its own arrow chip, and the labels are set in mono caps by CSS. */
+const bare = (s: string) => s.replace(/\s*→\s*$/, "");
 ---
 
-<Base
+<LiveBandLayout
   title="Live Band Web Studios | Websites for Touring Bands & Artists"
   description="Websites for working bands and artists: tour dates, press kits and EPKs, setlists, music, and booking. A studio of Live Web Studios."
   canonical="https://livewebstudios.com/live-band-web-studios"
   ogImage="images/og-live-band.jpg"
 >
-  <Nav />
+  <HeroRack
+    logo={`${rel}images/logo-live-band-gold.png`}
+    eyebrow="A SERVICE OF LIVE WEB STUDIOS"
+    lines={["Your band deserves a website", "as serious as your rider."]}
+    h1="Live Band Web Studios, custom websites for bands and musicians"
+    sub="Hand-built. Custom. No templates. No page builders. Built by a musician who's been on every side of that stage."
+    ctas={[
+      { label: "Let's talk.", href: `${rel}contact.html` },
+      { label: "See the work", href: `${rel}live-band-web-studios/portfolio.html` },
+    ]}
+    featsLeft={featsLeft}
+    featsRight={featsRight}
+    readout={["HAND-BUILT", "MADE TO LAST", "BUILT BY A MUSICIAN", "YOUR BAND", "YOUR SITE"]}
+  >
+    <VideoBg slot="media" src="bg-drumstart-1080.mp4" scrim="hero" once />
+  </HeroRack>
 
-  <main class="theme-live-band">
-    <!-- HERO — matches the live Live Band hero (Jon 2026-09-12): the drum-start
-         clip behind a centred lockup with the LBWS logo as the focus, not a
-         headline. This is a brand inside the brand, so the LWS header and main
-         menu above it are untouched.
-
-         The h1 carries the page's real heading for search and screen readers
-         while the logo does the visual work, the way the live page does it.
-         Centred with no glass panel, matching that reference. -->
-    <section class="hero hero--bare lbs-hero">
-      <VideoBg src="bg-drumstart-1080.mp4" scrim="hero" once />
-      <div class="wrap hero-in lbs-hero-in">
-        <h1 class="visually-hidden">Live Band Web Studios, custom websites for bands and musicians</h1>
-        <span class="eyebrow lbs-eyebrow">A SERVICE OF LIVE WEB STUDIOS</span>
-        <img
-          class="lbs-hero-logo"
-          src={`${rel}images/logo-live-band.png`}
-          alt="Live Band Web Studios"
-          width="681"
-          height="300"
-          fetchpriority="high"
-          decoding="async"
+  <!-- POSITIONING: copy left, photo right. Stacks photo-first on phones. -->
+  <section class="lb-section" aria-labelledby="why-h">
+    <div class="lb-container lb-why">
+      <div class="lb-why__copy">
+        <SectionHead nameplate="WHY NOT A TEMPLATE" id="why-h">
+          They give you a template. We build you a <span class="lb-gold">website.</span>
+        </SectionHead>
+        <p class="lb-lead" data-reveal>The drag-and-drop site builders all start from the same place: a template someone else designed for someone else's band. Every site we build starts from scratch. Your colors. Your vibe. Your music. Fast load times. Nothing breaks, nothing needs babysitting, and there's never a surprise bill to keep it running.</p>
+      </div>
+      <div class="lb-why__art" data-reveal>
+        <PictureFrame
+          src={`${rel}images/band/why-not-a-template.jpg`}
+          alt="A custom band website open on a laptop sitting on a road case backstage, lit by amber stage light"
+          parallax
         />
-        <p class="lbs-hero-tagline">Your band deserves a website as serious as your rider.</p>
-        <p class="lbs-hero-sub">Hand-built. Custom. No templates. No page builders. Built by a musician who's been on every side of that stage.</p>
-        <div class="hero-btns lbs-hero-btns">
-          <a href="contact.html" class="btn btn-primary">Let's talk. →</a>
-          <a href="live-band-web-studios/portfolio.html" class="btn btn-ghost">See the work →</a>
-        </div>
-        <div class="telemetry lbs-telemetry">
-          <span>HAND-BUILT <b>MADE TO LAST</b></span>
-          <span>BUILT BY A <b>MUSICIAN</b></span>
-          <span>YOUR BAND <b>YOUR SITE</b></span>
-        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- POSITIONING — copy left, subject photo right (Jon 2026-09-12). The
-         image is a real element rather than a background so it keeps its alt
-         text and its own aspect ratio; it stacks under the copy on phones. -->
-    <section class="sec-pad">
-      <div class="wrap">
-        <Glass class="reveal" innerClass="feature lbs-split">
-          <div class="lbs-split-copy">
-            <span class="eyebrow mb-md">WHY NOT A TEMPLATE</span>
-            <h2>They give you a template. We build you a website.</h2>
-            <p>The drag-and-drop site builders all start from the same place: a template someone else designed for someone else's band. Every site we build starts from scratch. Your colors. Your vibe. Your music. Fast load times. Nothing breaks, nothing needs babysitting, and there's never a surprise bill to keep it running.</p>
-          </div>
-          <figure class="lbs-split-art">
-            <img
-              src={`${rel}images/band/why-not-a-template.jpg`}
-              alt="A custom band website open on a laptop sitting on a road case backstage, lit by amber stage light"
-              width="900"
-              height="900"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-        </Glass>
-      </div>
-    </section>
+  <!-- WHAT WE BUILD -->
+  <section id="kit" class="lb-section" aria-labelledby="kit-h">
+    <div class="lb-container">
+      <SectionHead nameplate="FOR BANDS · FOR SOLO ARTISTS · FOR THE WHOLE CIRCUIT" id="kit-h">
+        What We <span class="lb-gold">Build</span>
+      </SectionHead>
+      <ul role="list" class="lb-grid-3">
+        {build.map((b, i) => (
+          <MiniCard
+            stack
+            num={String(i + 1).padStart(2, "0")}
+            title={b.title}
+            line={b.body}
+            image={{ src: `${rel}images/band/${b.art}`, alt: b.alt }}
+            href={b.href ? `${rel}${b.href}` : undefined}
+            modal={!b.href ? modals[b.title]?.id : undefined}
+            more={b.cta ? bare(b.cta) : modals[b.title] ? "More Info" : undefined}
+          />
+        ))}
+      </ul>
+      <p class="lb-section-foot" data-reveal>Want to see the full band sites we've built? <a class="lb-textlink lb-textlink--inline" href={`${rel}live-band-web-studios/portfolio.html`}>Take a look at the work</a>.</p>
+    </div>
+  </section>
 
-    <!-- WHAT WE BUILD (ported from live) -->
-    <section id="kit" class="sec-pad is-alt">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">FOR BANDS · FOR SOLO ARTISTS · FOR THE WHOLE CIRCUIT</span>
-          <h2>What We Build</h2>
-        </div>
-        <div class="grid-svc">
-          {build.map((b) => (
-            <div class="card lbs-card reveal">
-              <Glass variant="inner" innerClass="lbs-card__inner">
-                <div class="lbs-card__art">
-                  <img src={`${rel}images/band/${b.art}`} alt={b.alt} width="900" height="900" loading="lazy" decoding="async" />
-                </div>
-                <div class="card-pad">
-                  <h3>{b.title}</h3>
-                  <p>{b.body}</p>
-                  {b.href && <a class="btn btn-primary card-cta" href={b.href}>{b.cta}</a>}
-                  {modals[b.title] && (
-                    <button type="button" class="btn btn-primary card-cta" data-modal-open={modals[b.title].id}>
-                      More Info →
-                    </button>
-                  )}
-                </div>
-              </Glass>
-            </div>
+  <!-- HOW IT WORKS: the signal chain. Each title opens its overlay. -->
+  <section id="process" class="lb-section" aria-labelledby="process-h">
+    <div class="lb-container">
+      <SectionHead nameplate="THE PROCESS" id="process-h">How It Works</SectionHead>
+      <SignalChain rel={rel} steps={steps.map((s) => ({ ...s, modal: modals[s.title]?.id }))} />
+    </div>
+  </section>
+
+  <SeoRack />
+
+  <CtaPlate />
+
+  {/* Overlays for the cards above. Native <dialog>: the browser supplies the
+      backdrop, the top layer, focus trapping and Esc-to-close, so the only
+      script needed is open, and a close on any click (Jon 2026-09-14:
+      "closes upon click on the pop or outside"). Gold Rack: each one is a
+      charcoal plate with screws. */}
+  {Object.values(modals).map((m) => (
+    <dialog class="lbs-modal" id={`modal-${m.id}`} aria-labelledby={`modal-${m.id}-h`}>
+      <div class="lbs-modal__inner">
+        <Screws />
+        <button type="button" class="lbs-modal__close" aria-label="Close">×</button>
+        <h3 id={`modal-${m.id}-h`}>{m.heading}</h3>
+        <div class:list={["lbs-modal__figs", m.figures.length === 1 && "is-single"]}>
+          {m.figures.map((f) => (
+            <figure>
+              <img src={`${rel}images/band/${f.art}`} alt={f.alt} width="1000" height="750" loading="lazy" decoding="async" />
+              <figcaption>{f.cap}</figcaption>
+            </figure>
           ))}
         </div>
-        <p class="page-lede is-center mt-lg reveal">Want to see the full band sites we've built? <a href="live-band-web-studios/portfolio.html">Take a look at the work</a>.</p>
+        <p>{m.body}</p>
+        {m.steps && (
+          <ol class="lbs-modal__steps">
+            {m.steps.map((st) => <li>{st}</li>)}
+          </ol>
+        )}
+        <span class="lbs-modal__hint">Click anywhere to close</span>
       </div>
-    </section>
-
-    <!-- HOW IT WORKS (ported from live) -->
-    <section class="sec-pad">
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <span class="eyebrow">THE PROCESS</span>
-          <h2>How It Works</h2>
-        </div>
-        <div class="grid-svc grid-svc--steps">
-          {steps.map((s) => (
-            <div class="card lbs-card reveal">
-              <Glass variant="inner" innerClass="lbs-card__inner">
-                <div class="lbs-card__art">
-                  <img src={`${rel}images/band/${s.art}`} alt={s.alt} width="900" height="900" loading="lazy" decoding="async" />
-                </div>
-                <div class="card-pad">
-                  <h3>{s.title}</h3>
-                  <p>{s.body}</p>
-                  {modals[s.title] && (
-                    <button type="button" class="btn btn-primary card-cta" data-modal-open={modals[s.title].id}>
-                      More Info →
-                    </button>
-                  )}
-                </div>
-              </Glass>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- SEO (ported from live) -->
-    <section class="sec-pad has-videobg">
-      <VideoBg src="bg-color-tv.mp4" scrim="default" />
-      <div class="wrap">
-        <div class="sec-head center reveal">
-          <!-- em-dash: "Found on Google — Not Just Built" → comma -->
-          <span class="eyebrow">FOUND ON GOOGLE, NOT JUST BUILT</span>
-          <h2>SEO Is Baked Into Every Build</h2>
-        </div>
-        <!-- em-dash: "core part of what we do — every site is engineered" → comma -->
-        <p class="page-lede is-center mb-lg reveal">A website nobody finds is a poster in a locked room. Getting you found is a core part of what we do, every site is engineered to rank, and we keep working it after launch.</p>
-        <BandSeoCards />
-        <!-- em-dash: "Google didn't tweak the rules — it rewrote them" → comma -->
-        <p class="page-lede is-center mt-lg reveal"><strong>Built on the Live Web Studios AI Platform.</strong> Google didn't tweak the rules, it rewrote them. The old SEO playbook doesn't work anymore. We build for how search works now, and adjust the moment it changes again.</p>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="sec-pad is-alt" style={`--lbs-art:url('${rel}images/band/cta-social-web.jpg')`}>
-      <div class="wrap">
-        <Glass class="reveal" innerClass="cta lbs-cta-art">
-          <h2>Ready to Stop Sending People to Your Facebook Page?</h2>
-          <p>Let's build the site your live show actually deserves.</p>
-          <div class="hero-btns">
-            <a href="contact.html" class="btn btn-primary">Get in Touch →</a>
-            <a href="tel:7328019611" class="btn btn-ghost">732.801.9611</a>
-          </div>
-        </Glass>
-      </div>
-    </section>
-    {/* Popups for the cards above. Native <dialog>: the browser supplies the
-        backdrop, the top layer, focus trapping and Esc-to-close, so the only
-        script needed is open, and a close on any click (Jon 2026-09-14:
-        "closes upon click on the pop or outside"). */}
-    {Object.values(modals).map((m) => (
-      <dialog class="lbs-modal" id={`modal-${m.id}`} aria-labelledby={`modal-${m.id}-h`}>
-        <div class="lbs-modal__inner">
-          <button type="button" class="lbs-modal__close" aria-label="Close">×</button>
-          <h3 id={`modal-${m.id}-h`}>{m.heading}</h3>
-          <div class:list={["lbs-modal__figs", m.figures.length === 1 && "is-single"]}>
-            {m.figures.map((f) => (
-              <figure>
-                <img src={`${rel}images/band/${f.art}`} alt={f.alt} width="1000" height="750" loading="lazy" decoding="async" />
-                <figcaption>{f.cap}</figcaption>
-              </figure>
-            ))}
-          </div>
-          <p>{m.body}</p>
-          {m.steps && (
-            <ol class="lbs-modal__steps">
-              {m.steps.map((st) => <li>{st}</li>)}
-            </ol>
-          )}
-          <span class="lbs-modal__hint">Click anywhere to close</span>
-        </div>
-      </dialog>
-    ))}
-  </main>
-
-  <Footer />
+    </dialog>
+  ))}
 
   <script is:inline>
-    // "More Info" popups. Native <dialog> does the heavy lifting (backdrop,
-    // top layer, focus handling, Esc), so this only wires the open button and
-    // closes on any click - on the panel or outside it, per Jon 2026-09-14.
+    // Overlays. Native <dialog> does the heavy lifting (backdrop, top layer,
+    // focus handling, Esc), so this only wires the open buttons and closes on
+    // any click, on the panel or outside it, per Jon 2026-09-14.
     (function () {
       var dialogs = document.querySelectorAll("dialog.lbs-modal");
       if (!dialogs.length) return;
@@ -359,8 +291,6 @@ const steps = [
         btn.addEventListener("click", function () {
           var d = document.getElementById("modal-" + btn.dataset.modalOpen);
           if (!d) return;
-          // showModal gives the backdrop and the inert page behind it. Older
-          // engines without it fall back to a plain open dialog.
           if (d.showModal) d.showModal();
           else d.setAttribute("open", "");
         });
@@ -374,256 +304,75 @@ const steps = [
       });
     })();
   </script>
-</Base>
+</LiveBandLayout>
 
 <style>
-  /* Amber sub-brand theming. Overriding the accent custom properties on the
-     wrapper re-themes every descendant that reads them (buttons, eyebrows,
-     glass borders, hero em, telemetry) with zero component forks. Same
-     naming/scoping as 2C's .theme-namesake. */
-  .theme-live-band {
-    --cyan: #fcd34d;          /* amber base — buttons, dots, eyebrow rule */
-    --cyan-soft: #fde68a;     /* light amber — eyebrow text, hero em, telemetry */
-    --cyan-2: #f59e0b;        /* deep amber — button gradient base */
-    --cyan-deep: #4a3a08;
-    --on-accent: #1a1400;     /* dark ink on amber surfaces (~12:1) */
-    --line: rgba(252, 211, 77, 0.16);
-    --line-2: rgba(252, 211, 77, 0.08);
+  /* ---- Positioning split: copy left, framed photo right --------------- */
+  .lb-why {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--lb-s-10);
+    align-items: center;
+  }
+  .lb-why .lb-section-head { margin-bottom: var(--lb-s-6); }
+  .lb-why__art { order: -1; }
+  @media (min-width: 900px) {
+    .lb-why { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: var(--lb-s-16); }
+    .lb-why__art { order: 0; }
   }
 
-  /* Hero fallback poster hardcodes cyan rgba and lives inside the React
-     island, so custom-property inheritance can't reach it — retheme amber. */
-  .theme-live-band :global(.hero-fallback) {
-    background:
-      radial-gradient(46% 38% at 50% 46%, rgba(252, 211, 77, 0.14), transparent 62%),
-      radial-gradient(78% 58% at 50% 48%, rgba(252, 211, 77, 0.06), transparent 72%),
-      var(--bg);
-  }
+  /* A textlink inside a sentence reads as a link, not a button-height row. */
+  .lb-textlink--inline { display: inline; min-height: 0; }
 
-  .card-cta {
-    margin-top: 1rem;
-    align-self: flex-start;
-    font-size: 0.68rem;
-    /* .btn is white-space:nowrap, which pushed the longest label ("See full
-       band sites we've built") 9px past its card at 1280. Harmless while
-       these were ghost buttons; obvious the moment they carry a solid amber
-       fill, so let the long one wrap instead of clipping. */
-    white-space: normal;
-    max-width: 100%;
-    text-align: center;
-  }
-
-  /* Jon 2026-09-14: "make these buttons yellow branded color background with
-     dark text (reverse)". Solid amber, dark ink, the inverse of the ghost
-     treatment they carried before.
-
-     Both colors have to be restated rather than inherited. mosa-skin.css
-     re-skins .btn-primary site-wide to flat white on near-black
-     (rgb(var(--mosa-fg-rgb))), which lands AFTER global.css and ignores
-     --cyan, so the .theme-live-band amber above never reaches the button on
-     its own. The values still come from the theme's own tokens, so this
-     stays one accent, not a fourth yellow.
-
-     The shadow is restated for the same reason it is on .hero-fallback:
-     .btn-primary's glow is a hardcoded cyan rgba, not a custom property. */
-  .card-cta.btn-primary {
-    background: var(--cyan);
-    color: var(--on-accent);
-    border-color: transparent;
-    font-weight: 600;
-    box-shadow:
-      0 8px 24px rgba(252, 211, 77, 0.26),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  }
-  .card-cta.btn-primary:hover {
-    background: var(--cyan-soft);
-    color: var(--on-accent);
-    transform: translateY(-2px);
-    box-shadow:
-      0 14px 34px rgba(252, 211, 77, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  }
-
-  /* ---- Card art (Jon 2026-09-12; reworked 2026-09-14) -----------------
-     Jon 2026-09-14: "instead of icons, i want a photo in the cards on top.
-     put the images in the top half of the card. words should not go over the
-     image. just put words under the cards."
-
-     So the photo is no longer a BACKGROUND with the copy floating over it.
-     It is a banner occupying the top of the card, and every word sits below
-     it on flat panel colour. That retires the whole scrim/text-shadow/
-     contrast-tuning apparatus the old treatment needed: nothing is over the
-     art any more, so there is nothing to protect.
-
-     The art is a ratio BOX with the image absolutely filling it, not an <img>
-     carrying its own aspect-ratio: as a flex child a replaced element ignores
-     aspect-ratio and sizes to its height attribute. 4:3 rather than 16:9
-     because the sources are square, and a widescreen crop threw most of each
-     frame away. The glyph icons are gone with the icons themselves. */
-  .lbs-card > :global(.glass-inner) {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border-radius: var(--r-md);
-    border-color: rgba(252, 211, 77, 0.2);
-    /* Jon 2026-09-15: "the cards on this page are ALL too large... just make
-       the cards less height." The inherited 2.4rem from .card .glass-inner was
-       framing the art AND sitting outside .card-pad, so each card carried two
-       nested frames and ~77px of pure vertical dead space. Zero here, art bled
-       to the edge, .card-pad owns the inset. Matches the Namesake value cards,
-       which is the other half of the ask. */
-    padding: 0;
-  }
-  /* 1:1, because the source frames are square: any wider ratio throws away
-     the top and bottom of every one of them. It also lands the banner at
-     roughly half the card, which is what Jon asked for. Widened on a narrow
-     single-column layout, where a square banner would run the full page
-     width and push the copy off the screen. */
-  .lbs-card__art {
-    position: relative;
-    flex: none;
-    width: 100%;
-    /* Was 1/1. Square art alone was 305px of a 682px card at 1440. 3:2 is what
-       the How It Works cards below and the Namesake value cards both run, so
-       all three now read as one component. */
-    aspect-ratio: 3 / 2;
-    overflow: hidden;
-    border-bottom: 1px solid rgba(252, 211, 77, 0.18);
-  }
-  @media (max-width: 900px) {
-    .lbs-card__art { aspect-ratio: 16 / 9; }
-  }
-  /* The four How It Works cards carry two lines of copy against the build
-     cards' full paragraph (Jon 2026-09-14: "make these 4 cards less heights").
-     They were already 3:2 while the build cards were square; the build cards
-     have since joined them, so this now only restates the shared ratio and is
-     kept as the explicit anchor for the steps row. */
-  .grid-svc--steps .lbs-card__art { aspect-ratio: 3 / 2; }
-  .grid-svc--steps .lbs-card :global(.card-pad) { padding: 1.4rem 2.4rem 1.4rem; }
-  .grid-svc--steps .lbs-card :global(.card-cta) { margin-top: 0.9rem; padding: 0.6rem 1rem; }
-  /* Equal columns. The default 1fr is minmax(auto,1fr), so the one card
-     carrying a long CTA ("See full band sites we've built") set a min-content
-     width for its column and took 357px against its neighbours' 280 - which
-     made its banner visibly bigger than the other two in the same row.
-     Gated to the 3-up range on purpose: Astro scopes this with an attribute
-     selector, which outranks global.css's plain `.grid-svc` even inside its
-     max-width:900px media query, so ungated it would hold three columns at
-     phone width and crush each card to 36px. */
-  @media (min-width: 901px) {
-    .grid-svc {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-  .lbs-card__art img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    object-fit: cover;
-    object-position: center;
-    /* The sources are deliberately near-black amber stage light and need
-       lifting to read at card size. Brightness, not saturation: there is
-       almost no colour in those shadows to boost. Less lift than the old
-       background treatment used, because the art no longer has a scrim
-       sitting on it. */
-    filter: brightness(1.35) contrast(103%);
-    transform: scale(1.02);
-    transition: transform 2.4s var(--ease), filter 0.4s var(--ease);
-  }
-  .lbs-card:hover .lbs-card__art img {
-    transform: scale(1.1);
-    filter: brightness(1.55) contrast(105%);
-  }
-  /* The base .card-pad carries height:100%, written for a pad that IS the
-     whole card. Under a banner in an auto-height flex column that resolves
-     against a height which already includes the pad, and the card inflates.
-     Let flex size it from its content. */
-  .lbs-card :global(.card-pad) {
-    height: auto;
-    padding: 1.6rem 2.4rem 1.5rem;
-  }
-  /* The paragraph's 1.3rem margin-bottom and the CTA's own 1rem margin-top do
-     not collapse inside a flex column, so the two stacked into a 37px trench
-     between the copy and the button. The paragraph's margin is enough on its
-     own. The steps row keeps its explicit 0.9rem below, set further up. */
-  .lbs-card :global(.card-cta) {
-    margin-top: 0;
-  }
-  .lbs-card:hover > :global(.glass-inner) {
-    border-color: rgba(252, 211, 77, 0.45);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 24px 60px rgba(0, 0, 0, 0.55),
-      0 0 44px rgba(252, 211, 77, 0.14);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .lbs-card__art img { transition: none; transform: none; }
-    .lbs-card:hover .lbs-card__art img { transform: none; }
-  }
-
-  /* ---- "More Info" popups (Jon 2026-09-14) ---------------------------
-     Native <dialog>, so the backdrop, the top layer and Esc are the
-     browser's job. Styled to the Live Band amber rather than the site cyan,
-     because it opens off a Live Band card. Closing on any click is
-     deliberate (Jon: "closes upon click on the pop or outside"), so the
-     panel carries a visible hint saying so and the × is only there for
-     anyone looking for the usual affordance. */
+  /* ---- Overlays: a charcoal plate with screws ------------------------- */
   .lbs-modal {
     width: min(760px, calc(100vw - 2rem));
     max-height: calc(100vh - 3rem);
-    /* The UA centres a modal dialog with inset:0 + margin:auto, but the
-       global `*{margin:0}` reset in global.css wins over the UA sheet and
-       pinned it to the top-left corner. Restore it explicitly. */
+    /* global.css's *{margin:0} beats the UA centring; restore it. */
     margin: auto;
     padding: 0;
-    border: 1px solid rgba(252, 211, 77, 0.3);
-    border-radius: var(--r-lg);
-    background: #070a11;
-    color: var(--ink);
-    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.7), 0 0 60px rgba(252, 211, 77, 0.08);
+    border: 0;
+    border-radius: var(--lb-r-panel);
+    background: var(--lb-charcoal);
+    color: var(--lb-cream);
+    box-shadow: var(--lb-shadow-inset), inset 0 2px 0 var(--lb-edge-light), 0 40px 120px rgba(0, 0, 0, 0.7);
     overflow: auto;
   }
   .lbs-modal::backdrop {
-    background: rgba(3, 5, 9, 0.78);
+    background: rgba(14, 12, 10, 0.8);
     backdrop-filter: blur(6px);
   }
   .lbs-modal__inner {
     position: relative;
-    padding: 1.9rem 1.9rem 1.6rem;
+    padding: 2.2rem 2.2rem 1.8rem;
     cursor: pointer;
   }
   .lbs-modal__close {
     position: absolute;
-    top: 0.75rem;
-    right: 0.9rem;
+    top: 1.1rem;
+    right: 1.4rem;
     width: 34px;
     height: 34px;
     display: grid;
     place-items: center;
     border-radius: 50%;
-    border: 1px solid var(--line);
+    border: 1px solid color-mix(in srgb, var(--lb-brass) 55%, transparent);
     background: transparent;
-    color: var(--muted);
+    color: var(--lb-brass);
     font-size: 1.2rem;
     line-height: 1;
     cursor: pointer;
   }
-  .lbs-modal__close:hover {
-    color: var(--ink-soft);
-    border-color: rgba(252, 211, 77, 0.45);
-  }
+  .lbs-modal__close:hover { color: var(--lb-brass-bright); border-color: var(--lb-brass-bright); }
   .lbs-modal h3 {
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--ink-soft);
-    margin: 0 2.4rem 1.15rem 0;
+    font-size: var(--lb-fs-h3);
+    margin: 0 3rem 1.2rem 0;
   }
   .lbs-modal__figs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.9rem;
-    margin-bottom: 1.15rem;
+    margin-bottom: 1.2rem;
   }
   .lbs-modal__figs.is-single { grid-template-columns: 1fr; }
   .lbs-modal__figs figure { margin: 0; }
@@ -631,20 +380,17 @@ const steps = [
     display: block;
     width: 100%;
     height: auto;
-    border-radius: var(--r-md);
-    border: 1px solid rgba(252, 211, 77, 0.16);
+    border-radius: var(--lb-r-2);
+    box-shadow: inset 0 0 0 1px var(--lb-hairline-soft);
   }
   .lbs-modal__figs figcaption {
     margin-top: 0.5rem;
-    font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    color: var(--amber);
+    font: 500 var(--lb-fs-mono-sm) / 1.3 var(--lb-font-mono);
+    letter-spacing: var(--lb-tracking-mono);
+    color: var(--lb-brass);
   }
   .lbs-modal p {
-    color: var(--muted);
-    font-size: 0.95rem;
-    max-width: 62ch;
+    color: var(--lb-parchment);
     margin: 0 0 1.1rem;
   }
   .lbs-modal__steps {
@@ -652,16 +398,14 @@ const steps = [
     counter-reset: lbs-step;
     margin: 0 0 1.2rem;
     padding: 0;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: 0.7rem;
   }
   .lbs-modal__steps li {
     counter-increment: lbs-step;
     position: relative;
-    padding-left: 2.1rem;
-    color: var(--muted);
-    font-size: 0.92rem;
+    padding-left: 2.2rem;
+    color: var(--lb-parchment);
     line-height: 1.5;
     max-width: 62ch;
   }
@@ -669,220 +413,20 @@ const steps = [
     content: counter(lbs-step, decimal-leading-zero);
     position: absolute;
     left: 0;
-    top: 0.08rem;
-    font-family: var(--mono);
-    font-size: 0.66rem;
+    top: 0.12rem;
+    font: 500 var(--lb-fs-mono-sm) / 1.4 var(--lb-font-mono);
     letter-spacing: 0.1em;
-    color: var(--amber);
+    color: var(--lb-brass);
   }
   .lbs-modal__hint {
     display: block;
-    font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
-    color: var(--muted-2);
+    font: 400 var(--lb-fs-mono-sm) / 1.4 var(--lb-font-mono);
+    letter-spacing: var(--lb-tracking-mono);
+    text-transform: uppercase;
+    color: var(--lb-steel);
   }
   @media (max-width: 640px) {
     .lbs-modal__figs { grid-template-columns: 1fr; }
-    .lbs-modal__inner { padding: 1.5rem 1.2rem 1.3rem; }
-  }
-
-  /* ---- Positioning split: copy left, photo right --------------------- */
-  :global(.lbs-split) {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    align-items: center;
-    gap: clamp(1.8rem, 4vw, 3.4rem);
-  }
-  :global(.lbs-split) .lbs-split-copy h2 {
-    max-width: 18ch;
-  }
-  :global(.lbs-split) .lbs-split-copy p {
-    margin-bottom: 0;
-  }
-  .lbs-split-art {
-    margin: 0;
-    justify-self: end;
-    width: 100%;
-    max-width: 460px;
-    border-radius: var(--r-md);
-    overflow: hidden;
-    border: 1px solid rgba(252, 211, 77, 0.2);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  }
-  .lbs-split-art img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-  @media (max-width: 860px) {
-    :global(.lbs-split) {
-      grid-template-columns: 1fr;
-    }
-    .lbs-split-art {
-      justify-self: stretch;
-      max-width: none;
-      order: -1;
-    }
-  }
-
-  /* ---- CTA: the browser + social illustration, held to the right ----
-     Decoration behind the headline, not content, so it is a background layer
-     rather than an <img>.
-
-     The art is drawn on the right half of a 16:9 frame and the panel is much
-     wider than 16:9, so sizing it to the panel height leaves its left edge
-     sitting mid-panel as a visible seam. A mask fades that edge out instead:
-     the layer is fully transparent through the left third, fully opaque by
-     the point the illustration actually starts. ::after then holds a gentle
-     left-to-right scrim so the headline keeps its black field. */
-  :global(.lbs-cta-art) {
-    position: relative;
-    overflow: hidden;
-  }
-  /* mosa-skin.css carries `.cta::before{display:none}` at equal specificity,
-     so this layer has to out-rank it: hence the doubled class and the
-     explicit display. */
-  :global(.cta.lbs-cta-art)::before {
-    content: "";
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image: var(--lbs-art);
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-size: auto 124%;
-    -webkit-mask-image: linear-gradient(90deg,
-      transparent 0%, transparent 30%, #000 58%, #000 100%);
-    mask-image: linear-gradient(90deg,
-      transparent 0%, transparent 30%, #000 58%, #000 100%);
-  }
-  :global(.lbs-cta-art)::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: linear-gradient(90deg,
-      rgba(5, 7, 11, 0.92) 0%,
-      rgba(5, 7, 11, 0.78) 40%,
-      rgba(5, 7, 11, 0.3) 62%,
-      rgba(5, 7, 11, 0) 100%);
-  }
-  :global(.lbs-cta-art) > * {
-    position: relative;
-    z-index: 1;
-  }
-  /* Keep the headline and lede clear of the illustration on wide screens.
-     The shared .cta h2 is 22ch, which runs straight into the browser mock. */
-  :global(.lbs-cta-art) h2 {
-    max-width: 16ch;
-  }
-  :global(.lbs-cta-art) p {
-    max-width: 34ch;
-  }
-  @media (max-width: 980px) {
-    /* Narrow: the art would sit straight under the buttons, so pull it back
-       to a faint texture and let the copy own the panel. */
-    :global(.cta.lbs-cta-art)::before {
-      background-size: cover;
-      background-position: center;
-      -webkit-mask-image: none;
-      mask-image: none;
-      opacity: 0.16;
-    }
-    :global(.lbs-cta-art)::after {
-      background: rgba(5, 7, 11, 0.8);
-    }
-    :global(.lbs-cta-art) h2,
-    :global(.lbs-cta-art) p {
-      max-width: none;
-    }
-  }
-
-  /* ---- Hero: logo-led, centred, matching the live Live Band page ----
-     The shared .hero-in is a left-aligned flex column (mosa-skin), so this
-     recentres it for this one hero. No glass panel: the live reference puts
-     the lockup straight on the video.
-
-     GEOMETRY (Jon 2026-09-12, "the mp4 should be centered vertically a bit
-     more... the menu is pushing it down"): the section sits BELOW both
-     sticky bars in flow, so the space it actually occupies on first paint
-     is one viewport minus their combined height. It was instead sized
-     92vh and carrying .hero-in's inherited 14rem top padding, which made
-     it ~830px tall inside a ~450px visible band — the video covers the
-     section, so its centre fell way below the fold and the frame read as
-     shoved down behind the menus. Sizing the section to the band it really
-     occupies puts the clip's centre back on the screen's centre. */
-  .lbs-hero {
-    min-height: calc(100svh - var(--nav-h) - var(--subnav-h));
-  }
-  .lbs-hero-in {
-    align-items: center;
-    text-align: center;
-    max-width: 900px;
-    margin-inline: auto;
-    /* Replaces the 14rem/5rem bottom-anchored padding. vh-aware so a short
-       laptop window gets a hero that still fits one screen. */
-    padding-block: clamp(1.25rem, 4vh, 3.5rem) clamp(1.25rem, 4vh, 3.5rem);
-  }
-  .lbs-eyebrow {
-    justify-content: center;
-    color: var(--cyan-soft);
-  }
-  /* The logo IS the headline here, so it gets headline scale. Capped against
-     BOTH axes: 78vw so it never outgrows a phone, and a vh cap so it cannot
-     push the lockup past one screen on a short window. */
-  .lbs-hero-logo {
-    display: block;
-    width: min(560px, 78vw, 64vh);
-    height: auto;
-    margin: clamp(0.6rem, 2vh, 1.4rem) auto clamp(0.7rem, 2.2vh, 1.6rem);
-    filter: drop-shadow(0 14px 40px rgba(0, 0, 0, 0.55));
-  }
-  .lbs-hero-tagline {
-    font-size: clamp(1.15rem, 2.4vw, 2rem);
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--ink-soft);
-    max-width: 24ch;
-    margin-inline: auto;
-    text-wrap: balance;
-  }
-  .lbs-hero-sub {
-    color: var(--muted);
-    max-width: 56ch;
-    margin: clamp(0.5rem, 1.6vh, 1rem) auto 0;
-  }
-  .lbs-hero-btns {
-    justify-content: center;
-    margin-top: clamp(1rem, 2.6vh, 1.8rem);
-  }
-  .lbs-telemetry {
-    justify-content: center;
-    margin-top: clamp(1rem, 2.8vh, 2rem);
-  }
-  @media (max-width: 640px) {
-    .lbs-telemetry { gap: 0.5rem 1.2rem; }
-  }
-
-  /* Two-up card grid (system default grid-svc is 3-up). Mirrors the
-     grid-svc--2 pattern 2C introduced for Namesake. */
-  .grid-svc--2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* Portrait mark — amber glyph instead of the JW block. */
-  .lb-mark {
-    color: rgba(252, 211, 77, 0.16);
-    font-weight: 700;
-  }
-
-  @media (max-width: 900px) {
-    .grid-svc--2 {
-      grid-template-columns: 1fr;
-    }
+    .lbs-modal__inner { padding: 1.8rem 1.3rem 1.4rem; }
   }
 </style>

@@ -19,32 +19,15 @@
  */
 import Glass from "./Glass.astro";
 import { relPrefix } from "../lib/relPrefix";
+import { BAND_SEO } from "../lib/bandSeo";
 
 /* Built from the page's own depth: this renders at /live-band-web-studios and
    one level down at /live-band-web-studios/portfolio, so a single literal
    would 404 on one of them. Relative either way, per the LWS path rule. */
 const rel = relPrefix(Astro.url.pathname);
 
-const seo = [
-  {
-    art: "seo-schema-meta.jpg",
-    alt: "A hand-drawn stage diagram on a road case lid with a pencil across it",
-    title: "Schema & Meta, Done Right",
-    body: "Structured data (schema markup), clean meta tags, and the right title and description on every page, so search engines understand exactly who you are and where you play.",
-  },
-  {
-    art: "seo-the-words.jpg",
-    alt: "A phone face up on a road case, an empty search field glowing on its screen",
-    title: "The Words People Type",
-    body: "We target the real search words and key phrases fans and talent buyers actually search, your genre, your cities, your venues, woven through every page.",
-  },
-  {
-    art: "seo-blog-articles.jpg",
-    alt: "A stack of printed pages and a notebook on a road case under a work lamp",
-    title: "Blog Articles Engines Love",
-    body: "Fresh articles every month, show recaps, new markets, gear talk, the steady, keyword-rich content search engines reward with higher rankings.",
-  },
-];
+/* Data lives in lib/bandSeo.ts, shared with the Gold Rack SeoRack. */
+const seo = BAND_SEO;
 ---
 
 <div class="grid-svc">

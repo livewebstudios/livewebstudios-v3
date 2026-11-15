@@ -1,0 +1,58 @@
+---
+/**
+ * LiveBandLayout: the Gold Rack wrapper for the Live Band Web Studios pages
+ * (2026-11-15). Wraps Base, keeps the frozen chrome (Nav with its band sub-nav,
+ * Footer) exactly as every other page has it, and puts the page content inside
+ * <main class="lbws-gold">, the one class every Gold Rack style is scoped to.
+ *
+ * Fonts and lbws-gold.css are imported here and nowhere else, so pages outside
+ * Live Band never load them. Headings use Plus Jakarta Sans 300, labels IBM
+ * Plex Mono; the header, sub-nav and footer keep Geist from Base.
+ */
+import "@fontsource-variable/plus-jakarta-sans";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "../styles/lbws-gold.css";
+import jakartaWoff2 from "@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url";
+import Base from "./Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Haze from "../components/lbws/Haze.astro";
+import ScrollFader from "../components/lbws/ScrollFader.astro";
+
+type BaseProps = Parameters<typeof Base>[0];
+type Props = BaseProps & {
+  /** Extra classes for <main>, alongside lbws-gold. */
+  mainClass?: string;
+};
+const { mainClass, ...baseProps } = Astro.props;
+---
+
+<Base {...baseProps}>
+  <Fragment slot="head">
+    {/* Headings are set in this face above the fold; preloading it stops the
+        fallback-to-Jakarta swap flash on the hero title. */}
+    <link rel="preload" href={jakartaWoff2} as="font" type="font/woff2" crossorigin />
+    {/* Before first paint: restore a paused hold button from this session, and
+        flag that motion is allowed so the power-on states start hidden only
+        when they will actually animate in. */}
+    <script is:inline>
+      try { if (sessionStorage.getItem('lb-motion') === 'paused') document.documentElement.dataset.motion = 'paused'; } catch (e) {}
+      if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) document.documentElement.classList.add('js-motion');
+    </script>
+  </Fragment>
+
+  <Nav />
+
+  <main class:list={["lbws-gold", mainClass]}>
+    <Haze />
+    <ScrollFader />
+    <slot />
+  </main>
+
+  <Footer />
+
+  <script>
+    import "../scripts/lbws-motion.js";
+  </script>
+</Base>

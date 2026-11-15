@@ -1,0 +1,6 @@
+---
+/** Engraved brass label. Replaces every eyebrow that sits above an H2. */
+interface Props { num?: boolean; class?: string; [key: string]: unknown }
+const { num = false, class: cls, ...rest } = Astro.props;
+---
+<span class:list={["lb-nameplate", num && "lb-nameplate--num", cls]} {...rest}><slot /></span>

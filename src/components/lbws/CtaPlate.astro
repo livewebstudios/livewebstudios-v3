@@ -1,0 +1,49 @@
+---
+/**
+ * CtaPlate: the closing plate, the same on all six Live Band pages. The page's
+ * one moment of delight: hover or focus the button and both needles hit 0 dB
+ * while the five knobs turn up in sequence.
+ *
+ * `gold` is the phrase at the end of the title that gets the gold gradient.
+ */
+import Plate from "./Plate.astro";
+import VuPair from "./VuPair.astro";
+import Knob from "./Knob.astro";
+import Led from "./Led.astro";
+import { relPrefix } from "../../lib/relPrefix";
+interface Props { title?: string; gold?: string; line?: string; button?: string }
+const {
+  title = "Ready to Stop Sending People to Your Facebook Page?",
+  gold = "Facebook Page?",
+  line = "Let's build the site your live show actually deserves.",
+  button = "Get in Touch",
+} = Astro.props;
+const rel = relPrefix(Astro.url.pathname);
+const lead = title.endsWith(gold) ? title.slice(0, -gold.length) : title;
+const goldPart = title.endsWith(gold) ? gold : "";
+const knobs = [
+  { label: "SITE", lit: 6, set: 27 },
+  { label: "EPK", lit: 8, set: 54 },
+  { label: "SEO", lit: 9, set: 81 },
+  { label: "BLOG", lit: 7, set: 30 },
+  { label: "GIGS", lit: 10, set: 105 },
+];
+---
+<section class="lb-section lb-cta-sec" aria-labelledby="lb-cta-h">
+  <div class="lb-container">
+    <Plate variant="walnut" class="lb-cta" data-reveal data-knob-group>
+      <span class="lb-cta__glow" aria-hidden="true"></span>
+      <VuPair class="lb-cta__meters" db={-7} decorative />
+      <span class="lb-eyebrow lb-mono"><Led color="red" />THE LINE IS OPEN</span>
+      <h2 class="lb-cta__title" id="lb-cta-h">{lead}{goldPart && <span class="lb-gold">{goldPart}</span>}</h2>
+      <a class="lb-cta__phone" href="tel:7328019611">732.801.9611</a>
+      <a class="lb-btn lb-btn--primary lb-btn--lg" href={`${rel}contact.html`} data-meter-cta="all" data-knob-trigger>{button}</a>
+      <p class="lb-cta__policy">{line}</p>
+      <ul role="list" class="lb-strip lb-mono lb-mono--sm" aria-hidden="true">
+        {knobs.map((k) => (
+          <li data-knob><Knob lit={k.lit} set={k.set} />{k.label}</li>
+        ))}
+      </ul>
+    </Plate>
+  </div>
+</section>

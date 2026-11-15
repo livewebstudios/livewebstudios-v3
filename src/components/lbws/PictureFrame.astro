@@ -1,0 +1,25 @@
+---
+/** A photo in a charcoal frame. Keeps the source's own alt, width and height.
+    `parallax` lets the photo drift inside its window on scroll, only where
+    animation-timeline: view() exists. */
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  ratio?: "4x3" | "16x9" | "1x1";
+  parallax?: boolean;
+  loading?: "lazy" | "eager";
+  class?: string;
+  as?: "figure" | "div";
+}
+const { src, alt, width = 900, height = 900, ratio = "4x3", parallax = false, loading = "lazy", class: cls, as: Tag = "figure" } = Astro.props;
+---
+<Tag class:list={["lb-pf", ratio !== "4x3" && `lb-pf--${ratio}`, cls]}>
+  <span class="lb-pf__window">
+    <span class="lb-pf__img" data-parallax={parallax ? "" : undefined}>
+      <img src={src} alt={alt} width={width} height={height} loading={loading} decoding="async" />
+    </span>
+  </span>
+  <slot />
+</Tag>

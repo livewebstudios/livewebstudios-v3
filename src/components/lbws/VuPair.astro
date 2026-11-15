@@ -1,0 +1,10 @@
+---
+/** L and R meters. `idle` lets the needles ride while the pair is on screen. */
+import VuMeter from "./VuMeter.astro";
+interface Props { idle?: boolean; db?: number; decorative?: boolean; class?: string }
+const { idle = true, db = -5, decorative = false, class: cls } = Astro.props;
+---
+<div class:list={["lb-vu-pair", cls]} data-vu-idle={idle ? "" : undefined} aria-hidden={decorative ? "true" : undefined}>
+  <VuMeter label="VU · L" db={db} decorative={decorative} />
+  <VuMeter label="VU · R" db={db} decorative={decorative} />
+</div>

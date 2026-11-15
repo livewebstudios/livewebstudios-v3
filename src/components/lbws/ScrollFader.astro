@@ -1,0 +1,9 @@
+---
+/** Fixed brass fader on the right edge that tracks scroll. 1200px and up. */
+const ticks = [6, 36, 66, 96, 126];
+---
+<div class="lb-fader" aria-hidden="true">
+  <span class="lb-fader__slot"></span>
+  {ticks.map((t) => <span class="lb-fader__tick" style={`top:${t}px`}></span>)}
+  <span class="lb-fader__cap" data-fader-cap></span>
+</div>

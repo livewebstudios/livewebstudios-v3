@@ -1,0 +1,12 @@
+---
+/** Four 6px slotted screws, one in each corner of the parent plate. */
+const turns = [18, -34, 62, -8];
+---
+<span class="screws" aria-hidden="true">
+  {turns.map((r, n) => (
+    <svg class={`screw screw--${n}`} viewBox="0 0 12 12" width="6" height="6" focusable="false">
+      <circle cx="6" cy="6" r="5.5" class="screw__head" />
+      <line x1="2.4" y1="6" x2="9.6" y2="6" class="screw__slot" transform={`rotate(${r} 6 6)`} />
+    </svg>
+  ))}
+</span>

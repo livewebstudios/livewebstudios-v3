@@ -1,0 +1,8 @@
+---
+/** A knob plus one line of text. Dials in when it scrolls into view and turns
+    up further on hover. Render inside a <ul role="list" class="lb-owner__list">. */
+import Knob from "./Knob.astro";
+interface Props { lit?: number; set?: number }
+const { lit = 9, set = 78 } = Astro.props;
+---
+<li class="lb-knob-row" data-knob><Knob lit={lit} set={set} /><span><slot /></span></li>

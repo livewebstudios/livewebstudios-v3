@@ -1,0 +1,28 @@
+---
+/** How It Works as a signal chain: four step cards under a brass wire with an
+    LED node over each. The wire draws and the nodes light left to right once.
+    Each step title is a button that opens the page's existing overlay. */
+import PictureFrame from "./PictureFrame.astro";
+import Nameplate from "./Nameplate.astro";
+import Led from "./Led.astro";
+interface Step { art: string; alt: string; title: string; body: string; modal?: string }
+interface Props { steps: Step[]; rel: string }
+const { steps, rel } = Astro.props;
+---
+<ol role="list" class="lb-chain" data-chain>
+  {steps.map((s, i) => (
+    <li data-reveal>
+      <div class="lb-step">
+        <Led class="lb-step__node" style={`--n:${i}`} />
+        <PictureFrame src={`${rel}images/band/${s.art}`} alt={s.alt} />
+        <div class="lb-step__body">
+          <Nameplate num>{String(i + 1).padStart(2, "0")}</Nameplate>
+          <h3 class="lb-mini__name">
+            {s.modal ? <button type="button" class="lb-step__btn" data-modal-open={s.modal}>{s.title}</button> : s.title}
+          </h3>
+          <p class="lb-mini__line">{s.body}</p>
+        </div>
+      </div>
+    </li>
+  ))}
+</ol>

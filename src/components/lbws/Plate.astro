@@ -1,0 +1,17 @@
+---
+/** A panel bolted into the rack. Walnut end cheeks are for one hero plate per
+    page plus the closing CTA. Extra attributes (data-*, id) pass through. */
+import Screws from "./Screws.astro";
+interface Props {
+  variant?: "default" | "raised" | "walnut";
+  screws?: boolean;
+  as?: "div" | "article" | "section" | "aside";
+  class?: string;
+  [key: string]: unknown;
+}
+const { variant = "default", screws = true, as: Tag = "div", class: cls, ...rest } = Astro.props;
+---
+<Tag class:list={["lb-panel", variant !== "default" && `lb-panel--${variant}`, cls]} {...rest}>
+  {screws && <Screws />}
+  <slot />
+</Tag>
