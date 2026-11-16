@@ -218,10 +218,17 @@
   background: linear-gradient(180deg, color-mix(in srgb, var(--lb-amber) 26%, transparent), transparent 75%); filter: blur(28px); }
 .lb-hero__beams i:nth-child(1) { transform: translateX(-120%) rotate(18deg); }
 .lb-hero__beams i:nth-child(2) { transform: translateX(20%) rotate(-16deg); background: linear-gradient(180deg, color-mix(in srgb, var(--lb-brass-bright) 20%, transparent), transparent 70%); }
+/* Jon 2026-11-16: "this bg movie needs to be seen better." The drum video sat
+   under VideoBg's hero scrim plus this overlay (flat 55% ink, a 45% centre pool
+   and a 92% vignette), so the stage read as near black. VideoBg's scrim is off
+   here and every layer is roughly halved; the title's text-shadow and a shadow
+   on the side feats carry legibility. The bottom still fades to ink. */
+.lb-hero:not(.lb-hero--page) .videobg__scrim { background: none; }
 .lb-hero__overlay { position: absolute; inset: 0; z-index: -1;
-  background: radial-gradient(ellipse 85% 80% at 50% 45%, transparent 30%, color-mix(in srgb, var(--lb-ink) 55%, transparent) 62%, color-mix(in srgb, var(--lb-ink) 92%, transparent) 100%),
-              radial-gradient(50% 55% at 50% 50%, color-mix(in srgb, var(--lb-ink) 45%, transparent), transparent 75%),
-              linear-gradient(180deg, color-mix(in srgb, var(--lb-ink) 35%, transparent) 0%, transparent 25%, transparent 60%, var(--lb-ink) 100%), #0e0c0a8c; }
+  background: radial-gradient(ellipse 90% 85% at 50% 45%, transparent 45%, color-mix(in srgb, var(--lb-ink) 30%, transparent) 72%, color-mix(in srgb, var(--lb-ink) 65%, transparent) 100%),
+              radial-gradient(45% 50% at 50% 52%, color-mix(in srgb, var(--lb-ink) 30%, transparent), transparent 75%),
+              linear-gradient(180deg, color-mix(in srgb, var(--lb-ink) 25%, transparent) 0%, transparent 22%, transparent 70%, var(--lb-ink) 100%), #0e0c0a33; }
+.lb-hero:not(.lb-hero--page) :is(.lb-hero__sub, .lb-hero__h1, .lb-eyebrow, .lb-feat__text) { text-shadow: 0 1px 14px rgb(0 0 0 / .75), 0 1px 3px rgb(0 0 0 / .6); }
 .lb-hero__content { align-self: center; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--lb-s-4); row-gap: var(--lb-s-10); padding-block: var(--lb-s-16) var(--lb-s-10); }
 .lb-hero__center { grid-column: 1 / -1; order: -1; display: grid; justify-items: center; gap: var(--lb-s-5); text-align: center; }
 .lb-hero__logo { width: clamp(200px, 22vw, 300px); height: auto; filter: drop-shadow(0 10px 24px #000000b3); }
