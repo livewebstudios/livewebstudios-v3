@@ -6,12 +6,13 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
-import VideoBg from "../components/VideoBg.astro";
+import StudioBg from "../components/StudioBg.astro";
+import { scenePhoto } from "../lib/studioScenes";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 ---
 
-<Base
+<Base preloadHero={scenePhoto("desk")}
   title="Thank You | Live Web Studios"
   description="Message received. Jon typically replies the same day."
   canonical="https://livewebstudios.com/thank-you"
@@ -22,7 +23,7 @@ import HeroActions from "../components/HeroActions.astro";
   <main>
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <StudioBg scene="desk" hero />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">MESSAGE SENT</span>
         <h1 class="page-h1">Thank <em>You</em>.</h1>

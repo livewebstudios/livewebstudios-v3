@@ -9,7 +9,8 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import StudioBg from "../../components/StudioBg.astro";
+import { scenePhoto } from "../../lib/studioScenes";
 import Marquee from "../../components/Marquee.astro";
 import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
@@ -110,7 +111,7 @@ const pageSchema = [
 ];
 ---
 
-<Base
+<Base preloadHero={scenePhoto("desk")}
   title="SEO & Digital Marketing | Live Web Studios"
   description="Expert SEO services for small business, Saddle Brook, NJ. Local SEO, keyword research, content, technical audits. 23 years experience."
   canonical="https://livewebstudios.com/services/seo"
@@ -121,7 +122,7 @@ const pageSchema = [
   <main>
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <StudioBg scene="desk" hero />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">SEO &amp; MARKETING</span>
         <h1 class="page-h1">Rank Higher. Get Found. <em>Grow</em>.</h1>
@@ -133,7 +134,7 @@ const pageSchema = [
 
     <!-- WHAT'S INCLUDED -->
     <section class="sec-pad has-videobg has-scan">
-      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <StudioBg scene="keys" />
       <div class="wrap">
         {/* Structural only. These cards are h3s and this page has no other
             heading between them and the h1, which skipped a level on every

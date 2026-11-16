@@ -6,12 +6,13 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
-import VideoBg from "../components/VideoBg.astro";
+import StudioBg from "../components/StudioBg.astro";
+import { scenePhoto } from "../lib/studioScenes";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
 ---
 
-<Base
+<Base preloadHero={scenePhoto("keys")}
   title="Page Not Found | Live Web Studios"
   description="This page moved, doesn't exist, or was retired. Head back to the Live Web Studios homepage."
   canonical="https://livewebstudios.com/404"
@@ -22,7 +23,7 @@ import HeroActions from "../components/HeroActions.astro";
   <main>
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <StudioBg scene="keys" hero />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">404</span>
         <h1 class="page-h1">Page Not <em>Found</em>.</h1>

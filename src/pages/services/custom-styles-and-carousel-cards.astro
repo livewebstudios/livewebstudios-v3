@@ -17,7 +17,8 @@
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import StudioBg from "../../components/StudioBg.astro";
+import { scenePhoto } from "../../lib/studioScenes";
 import HeroActions from "../../components/HeroActions.astro";
 import { relPrefix } from "../../lib/relPrefix";
 /* Real pixel dimensions for all 88 files, generated from the images
@@ -104,13 +105,13 @@ const pageSchema = [
 ];
 ---
 
-<Base title={TITLE} description={DESC} canonical={URL} jsonld={pageSchema}>
+<Base preloadHero={scenePhoto("keys")} title={TITLE} description={DESC} canonical={URL} jsonld={pageSchema}>
   <Nav />
 
   <main>
     <!-- HERO -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <StudioBg scene="keys" hero />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">STYLE LIBRARY</span>
         <h1 class="page-h1">Custom Styles &amp; <em>Carousel Cards</em>.</h1>

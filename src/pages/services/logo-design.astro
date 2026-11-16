@@ -9,7 +9,8 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import StudioBg from "../../components/StudioBg.astro";
+import { scenePhoto } from "../../lib/studioScenes";
 import Marquee from "../../components/Marquee.astro";
 import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
@@ -53,7 +54,7 @@ const pageSchema = [
 ];
 ---
 
-<Base
+<Base preloadHero={scenePhoto("room")}
   title="Logo Design & Graphics | Live Web Studios"
   description="Logo design and graphic services, all formats, all media. Social, print, presentations, signage. Live Web Studios, Saddle Brook, NJ. Est. 2004."
   canonical="https://livewebstudios.com/services/logo-design"
@@ -64,7 +65,7 @@ const pageSchema = [
   <main>
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-color-tv.mp4" scrim="hero" />
+      <StudioBg scene="room" hero />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">LOGO DESIGN</span>
         <h1 class="page-h1">First Impressions Are <em>Permanent</em>.</h1>
@@ -76,7 +77,7 @@ const pageSchema = [
 
     <!-- WHAT YOU GET / GRAPHIC SERVICES -->
     <section class="sec-pad has-videobg has-scan">
-      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <StudioBg scene="keys" />
       <div class="wrap">
         {/* Structural only. These cards are h3s and this page has no other
             heading between them and the h1, which skipped a level on every

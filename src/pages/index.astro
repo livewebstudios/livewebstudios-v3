@@ -3,7 +3,8 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
-import VideoBg from "../components/VideoBg.astro";
+import StudioBg from "../components/StudioBg.astro";
+import { scenePhoto } from "../lib/studioScenes";
 import ServiceRows from "../components/ServiceRows.astro";
 import Aurora from "../components/Aurora.jsx";
 import Marquee from "../components/Marquee.astro";
@@ -67,17 +68,21 @@ const localBusiness = {
 };
 ---
 
-<Base jsonld={localBusiness}>
+<Base preloadHero={scenePhoto("desk")} jsonld={localBusiness}>
   <Nav />
 
   <main>
 
   <!-- HERO -->
-  <!-- hero--bare: no glass panel on the home hero (Jon 2026-09-12). Every
-       other hero, Live Band included, keeps it. -->
+  {/* hero--bare (Jon 2026-09-12) keeps the glass off the full-width .hero-in
+      block, as before. Jon 2026-11-16 (handoff section 3): the hero is the
+      desk photo now, and the copy, eyebrow to buttons, sits in its own glass
+      panel (.hero-panel). The studio cards and the telemetry row stay outside
+      it, under it, as in the prototype. */}
   <section class="hero hero--bare">
-    <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+    <StudioBg scene="desk" hero />
     <div class="wrap hero-in">
+      <div class="hero-panel">
       <div class="chip"><span class="dot"></span> LIVE · TAKING NEW PROJECTS</div>
       {/* Plain eyebrow on purpose (Jon 2026-09-15): the tag pill works on the
           short section labels below but not on this long caption line, which
@@ -86,6 +91,7 @@ const localBusiness = {
       <h1 class="hero-h1">Web design. Hosting. <em>AI-powered</em> builds.</h1>
       <p class="hero-sub">Real work. Real results. One call.</p>
       <HeroActions links />
+      </div>
       {/* Jon 2026-11-16: the four sub-studios, in studio-strip order. These
           replace the boxed link row that sat at the bottom right. */}
       <StudioCards />
@@ -135,7 +141,7 @@ const localBusiness = {
       #contact link landing on the buttons rather than on nothing.
       Astro comment, not HTML, so the removed copy does not ship. */}
   <section id="contact" class="sec-pad has-videobg">
-    <VideoBg src="bg-color-tv.mp4" scrim="default" />
+    <StudioBg scene="room" />
     <div class="wrap">
       {/* Curtain reveal (Jon 2026-09-14). The copy already says "the curtain
           goes up when the show is ready", and Jon's other career is on a
@@ -197,8 +203,11 @@ const localBusiness = {
 
      The ticker now takes 46px off the foot of the hero (session 2), so the
      block padding gives that much back: at 1440x900 the copy, the cards and
-     the ticker all land inside the first screen. */
+     the ticker all land inside the first screen.
+
+     Session 3 put the copy in a glass panel, which adds its own padding top
+     and bottom, so the top padding here came down by the same amount. */
   .hero--bare > .hero-in {
-    padding-block: clamp(2.5rem, 7vh, 6rem) clamp(1.25rem, 3vh, 2.5rem);
+    padding-block: clamp(1.25rem, 3vh, 4rem) clamp(1.25rem, 3vh, 2.5rem);
   }
 </style>

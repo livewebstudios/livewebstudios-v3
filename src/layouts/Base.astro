@@ -4,9 +4,12 @@ import "@fontsource/geist-mono/400.css";
 import "@fontsource/geist-mono/500.css";
 import "../styles/global.css";
 import "../styles/mosa-skin.css";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { relPrefix } from "../lib/relPrefix";
 import FaqFx from "../components/FaqFx.astro";
 import { studioFromPath } from "../lib/studios";
+import { imageSize } from "../lib/imageSize";
 
 interface Props {
   title?: string;
@@ -37,7 +40,10 @@ interface Props {
      both this and PhotoBg build the path with relPrefix() off the same
      pathname, so the two strings cannot drift. A preload href that differs
      from the img src by even a "../" is the classic way to download the hero
-     twice and make LCP worse than it was. */
+     twice and make LCP worse than it was.
+     When the photo has an 800px sibling (the studio scenes do), the preload
+     carries the same srcset and sizes PhotoBg puts on the <img>, so a phone
+     preloads the small file and a desktop the large one. */
   preloadHero?: string;
   /* Optional share-card overrides. Default to title / description, so every
      page that does not pass them renders exactly as before. Added for the
@@ -66,6 +72,18 @@ const {
   ogImageAlt,
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
+
+/* Mirrors PhotoBg's own check, so the preload and the <img> always name the
+   same candidates. A mismatch would fetch the hero twice. */
+const heroSmall = preloadHero?.replace(/\.(jpe?g|png|webp)$/i, "-800.$1");
+const heroDim =
+  preloadHero && heroSmall && heroSmall !== preloadHero &&
+  existsSync(join("public", "images", heroSmall))
+    ? imageSize(`images/${preloadHero}`)
+    : undefined;
+const heroSrcset = heroDim
+  ? `${rel}images/${heroSmall} 800w, ${rel}images/${preloadHero} ${heroDim.width}w`
+  : undefined;
 /* One of the five studios, from the URL. Drives the accent colour of the
    shared chrome through body[data-studio] in global.css. */
 const studio = studioFromPath(Astro.url.pathname);
@@ -129,6 +147,8 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
         rel="preload"
         as="image"
         href={`${rel}images/${preloadHero}`}
+        imagesrcset={heroSrcset}
+        imagesizes={heroSrcset ? "100vw" : undefined}
         fetchpriority="high"
       />
     )}

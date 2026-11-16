@@ -10,7 +10,7 @@ import { render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import StudioBg from "../../components/StudioBg.astro";
 import Glass from "../../components/Glass.astro";
 import { byAudience, resolve, has } from "../../lib/categories";
 import { getPosts, slugOf, safeTime } from "../../lib/posts";
@@ -178,7 +178,7 @@ const jsonLd = JSON.stringify({
 
     <!-- CTA -->
     <section class="sec-pad is-alt has-videobg">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="default" />
+      <StudioBg scene="proofs" />
       <div class="wrap">
         <Glass class="reveal" innerClass="cta glass-refract">
           <span class="eyebrow is-center mb-md">GOT A PROJECT?</span>

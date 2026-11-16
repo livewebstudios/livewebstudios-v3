@@ -7,10 +7,15 @@
  * Netlify subscribe function as /newsletter, and the submit script at the
  * foot of this file drives both. Town pages stay held for a later phase.
  *
- * Background: bg-blue-fog looping video (strong scrim for dense-link
- * legibility). Link text Title Case per Jon's nav-case decision.
+ * Background: strong scrim for dense-link legibility. On Live Web Studios
+ * pages it is the rack, the studio scene that replaced bg-blue-fog (Jon
+ * 2026-11-16, handoff section 3). On the four sub-studios the footer keeps
+ * the bg-blue-fog loop: the handoff swaps Live Web Studios pages only. Link
+ * text Title Case per Jon's nav-case decision.
  */
 import VideoBg from "./VideoBg.astro";
+import StudioBg from "./StudioBg.astro";
+import { studioFromPath } from "../lib/studios";
 import Arrow from "./Arrow.astro";
 import Social from "./Social.astro";
 import { imageSize } from "../lib/imageSize";
@@ -101,7 +106,9 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
 ---
 
 <footer class="has-videobg">
-  <VideoBg src="bg-blue-fog.mp4" scrim="strong" />
+  {studioFromPath(path) === "lws"
+    ? <StudioBg scene="rack" scrim="strong" />
+    : <VideoBg src="bg-blue-fog.mp4" scrim="strong" />}
   <div class="wrap">
     <div class="foot-cols">
       <div class="foot-brand">

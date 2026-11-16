@@ -19,16 +19,31 @@
  * path rule intact at any depth.
  *
  * Eager by nature: a still frame is one request and it IS the hero, so unlike
- * VideoBg there is nothing to lazy-load and nothing to pause.
+ * VideoBg there is nothing to lazy-load and nothing to pause. A photo behind a
+ * section band further down the page passes `lazy` instead.
+ *
+ * Studio scenes (Jon 2026-11-16, five-studio navigation, handoff section 3):
+ * the five after-hours studio photos in public/images/bg/ (lws-bg-desk, -rack,
+ * -keys, -proofs, -room) replace the abstract video loops on Live Web Studios
+ * pages. They run through this component with three additions:
+ *   - srcset. When a `<name>-800.jpg` sits beside the file, phones get it.
+ *   - scrim="studio". Hero treatment: dark on the copy side, clear on the
+ *     other, and a short fade into the page ground at the foot. The photo
+ *     itself is never blurred.
+ *   - drift. Hero only: 46 seconds, scale 1 to 1.05 with a 1% pan, back and
+ *     forth. Bands below the hero stay still. Off under reduced motion.
  */
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { relPrefix } from "../lib/relPrefix";
 import { imageSize } from "../lib/imageSize";
 
 interface Props {
   /** Filename in public/images/. */
   src: string;
-  /** Readability overlay strength. Matches VideoBg's three levels. */
-  scrim?: "hero" | "default" | "strong";
+  /** Readability overlay strength. Matches VideoBg's three levels, plus
+      "studio" for a hero that carries one of the studio scenes. */
+  scrim?: "hero" | "default" | "strong" | "studio";
   /** Focal point, as a CSS object-position. The bluestage shot carries its
       subject low-centre, so heroes that crop tall want something below 50%. */
   position?: string;
@@ -45,8 +60,15 @@ interface Props {
       needs, e.g. 1.4. Leaves the file untouched (Jon 2026-09-26, the roadcase
       shot on Contact). */
   brightness?: number;
+  /** Slow hero drift. Heroes only; a band below the hero stays still. */
+  drift?: boolean;
+  /** For a photo behind a band below the fold: load it when it nears view. */
+  lazy?: boolean;
 }
-const { src, scrim = "hero", position = "50% 60%", alt, width, height, brightness } = Astro.props;
+const {
+  src, scrim = "hero", position = "50% 60%", alt, width, height, brightness,
+  drift = false, lazy = false,
+} = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
 
 /* Read the real size off the file when the caller did not state one. Hand-typed
@@ -57,16 +79,29 @@ const rel = relPrefix(Astro.url.pathname);
 const dim = imageSize(`images/${src}`);
 const w = width ?? dim?.width;
 const h = height ?? dim?.height;
+
+/* Phone-size sibling. Looked up on disk at build time so a photo without one
+   renders exactly as before, and adding one later needs no call-site edit. */
+const small = src.replace(/\.(jpe?g|png|webp)$/i, "-800.$1");
+const hasSmall = small !== src && existsSync(join("public", "images", small));
+const srcset =
+  hasSmall && w ? `${rel}images/${small} 800w, ${rel}images/${src} ${w}w` : undefined;
 ---
 
-<div class:list={["photobg", `videobg--${scrim}`]} aria-hidden={alt ? undefined : "true"}>
+<div
+  class:list={["photobg", `videobg--${scrim}`, scrim === "studio" && "photobg--studio", drift && "photobg--drift"]}
+  aria-hidden={alt ? undefined : "true"}
+>
   <img
     class="photobg__img"
     src={`${rel}images/${src}`}
+    srcset={srcset}
+    sizes={srcset ? "100vw" : undefined}
     alt={alt ?? ""}
     width={w}
     height={h}
-    loading="eager"
+    loading={lazy ? "lazy" : "eager"}
+    fetchpriority={lazy ? undefined : "high"}
     decoding="async"
     style={`object-position:${position}${brightness ? `;filter:brightness(${brightness})` : ""}`}
   />
@@ -91,5 +126,36 @@ const h = height ?? dim?.height;
     height: 100%;
     object-fit: cover;
     display: block;
+  }
+
+  /* Studio hero scrim. The copy sits on the left in every Live Web Studios
+     hero, so the dark runs left to right; the short ramp at the foot lands on
+     the page ground so the photo does not end on a hard line. */
+  .photobg--studio :global(.videobg__scrim) {
+    background:
+      linear-gradient(90deg, rgb(3 6 12 / .62) 0%, rgb(3 6 12 / .34) 46%, rgb(3 6 12 / .16) 100%),
+      linear-gradient(0deg, rgb(var(--mosa-bg-rgb, 5 7 11) / .92) 0%, rgb(var(--mosa-bg-rgb, 5 7 11) / 0) 30%);
+  }
+  /* Stacked layouts: the panel spans the frame, so the ramp goes flat. */
+  @media (max-width: 900px) {
+    .photobg--studio :global(.videobg__scrim) {
+      background:
+        linear-gradient(0deg, rgb(var(--mosa-bg-rgb, 5 7 11) / .92) 0%, rgb(var(--mosa-bg-rgb, 5 7 11) / 0) 30%),
+        rgb(3 6 12 / .42);
+    }
+  }
+
+  /* Barely moving. The image only ever grows from its own box, so no edge
+     can show at any point of the pan. */
+  .photobg--drift .photobg__img {
+    animation: photobg-drift 46s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes photobg-drift {
+    from { transform: scale(1) translate3d(0, 0, 0); }
+    to { transform: scale(1.05) translate3d(-1%, -.6%, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .photobg--drift .photobg__img { animation: none; will-change: auto; }
   }
 </style>

@@ -19,6 +19,7 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import VideoBg from "../../components/VideoBg.astro";
+import StudioBg from "../../components/StudioBg.astro";
 import Marquee from "../../components/Marquee.astro";
 import { relPrefix } from "../../lib/relPrefix";
 
@@ -250,10 +251,13 @@ const pageSchema = [
     <!-- THE SIX VOICES -->
     <section class="sec-pad has-videobg" id="voices">
       {/* Jon 2026-09-22: "an appropriate non-annoying animated background,
-          not too techy". bg-blue-fog is a slow gradient haze with no imagery
+          not too techy". That was bg-blue-fog, a slow gradient haze. Since
+          2026-11-16 it is the rack, the studio scene that replaced that loop
+          sitewide, still and behind the same scrim. The old note went on:
+          bg-blue-fog is a slow gradient haze with no imagery
           in it at all, and six opaque glass cards sit over most of it, so the
           drift only reads in the gutters. */}
-      <VideoBg src="bg-blue-fog.mp4" scrim="default" />
+      <StudioBg scene="rack" />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">WHAT YOU GET</span>

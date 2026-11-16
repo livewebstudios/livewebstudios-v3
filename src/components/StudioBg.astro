@@ -1,0 +1,45 @@
+---
+/**
+ * StudioBg: one of the five studio scenes behind a Live Web Studios section
+ * (Jon 2026-11-16, five-studio navigation, handoff section 3). Drop it in
+ * where a <VideoBg> sat, inside a section that carries `has-videobg`:
+ *
+ *   <StudioBg scene="desk" hero />             a hero: studio scrim, slow drift
+ *   <StudioBg scene="keys" />                  a band below the hero: still
+ *   <StudioBg scene="keys" scrim="strong" />   a band behind a form
+ *
+ * It renders the photo through PhotoBg, sharp, never blurred. While a scene's
+ * file is not in public/images/bg/ yet it renders the loop that scene replaces
+ * through VideoBg, exactly as the page ran before, so a missing photo never
+ * leaves a hole. See src/lib/studioScenes.ts.
+ *
+ * Live Web Studios pages only. Live Band, LiveAiStudios, Live Web Photos and
+ * Namesake keep their own backgrounds.
+ */
+import PhotoBg from "./PhotoBg.astro";
+import VideoBg from "./VideoBg.astro";
+import { scenePhoto, sceneLoop, sceneFocus, type Scene } from "../lib/studioScenes";
+
+interface Props {
+  scene: Scene;
+  /** The section is the page's hero. Gets the left-to-right studio scrim and
+      the drift, and the photo loads first. Leave off for a band. */
+  hero?: boolean;
+  /** Band scrim strength. Ignored on a hero. */
+  scrim?: "default" | "strong";
+}
+const { scene, hero = false, scrim = "default" } = Astro.props;
+const photo = scenePhoto(scene);
+---
+
+{photo ? (
+  <PhotoBg
+    src={photo}
+    scrim={hero ? "studio" : scrim}
+    position={sceneFocus(scene)}
+    drift={hero}
+    lazy={!hero}
+  />
+) : (
+  <VideoBg src={sceneLoop(scene)} scrim={hero ? "hero" : scrim} />
+)}

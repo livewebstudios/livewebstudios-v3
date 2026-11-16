@@ -13,7 +13,8 @@ import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import SiteUpgrade from "../../components/SiteUpgrade.astro";
 import IncludedList from "../../components/IncludedList.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import StudioBg from "../../components/StudioBg.astro";
+import { scenePhoto } from "../../lib/studioScenes";
 import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 
@@ -39,7 +40,7 @@ const builds = [
 ];
 ---
 
-<Base
+<Base preloadHero={scenePhoto("keys")}
   title="Law Firm Web Design | Live Web Studios"
   description="Professional websites for law firms. Practice area pages, intake forms, local SEO."
   canonical="https://livewebstudios.com/industries/law-firm"
@@ -49,7 +50,7 @@ const builds = [
   <main>
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-corner.mp4" scrim="hero" />
+      <StudioBg scene="keys" hero />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">LAW FIRM</span>
         <h1 class="page-h1">Your Website Should Work <em>as Hard as You Do.</em></h1>
@@ -117,7 +118,7 @@ const builds = [
 
     <!-- WHAT WE BUILD -->
     <section class="sec-pad has-videobg has-scan">
-      <VideoBg src="bg-color-tv.mp4" scrim="default" />
+      <StudioBg scene="room" />
       <div class="wrap">
         <div class="sec-head center reveal">
           <span class="eyebrow">WHAT WE BUILD</span>

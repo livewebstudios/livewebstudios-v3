@@ -9,7 +9,8 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import StudioBg from "../../components/StudioBg.astro";
+import { scenePhoto } from "../../lib/studioScenes";
 import Marquee from "../../components/Marquee.astro";
 import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
@@ -59,7 +60,7 @@ const pageSchema = [
 ];
 ---
 
-<Base
+<Base preloadHero={scenePhoto("proofs")}
   title="Branding & Corporate Identity | Live Web Studios"
   description="Logo systems, color palettes, typography and brand guidelines. Corporate identity packages from Live Web Studios, Saddle Brook NJ."
   canonical="https://livewebstudios.com/services/branding"
@@ -70,7 +71,7 @@ const pageSchema = [
   <main>
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-orange-beam-noaudio.mp4" scrim="hero" />
+      <StudioBg scene="proofs" hero />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">BRANDING</span>
         <h1 class="page-h1">Your Brand. Built to <em>Last</em>.</h1>
@@ -82,7 +83,7 @@ const pageSchema = [
 
     <!-- BRAND CARDS -->
     <section class="sec-pad has-videobg has-scan">
-      <VideoBg src="bg-corner.mp4" scrim="default" />
+      <StudioBg scene="keys" />
       <div class="wrap">
         <IncludedList anchors label="WHAT BRANDING INCLUDES" items={cards} />
       </div>

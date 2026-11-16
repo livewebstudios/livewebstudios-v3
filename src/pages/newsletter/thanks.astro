@@ -8,7 +8,8 @@
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
-import VideoBg from "../../components/VideoBg.astro";
+import StudioBg from "../../components/StudioBg.astro";
+import { scenePhoto } from "../../lib/studioScenes";
 import Marquee from "../../components/Marquee.astro";
 import HeroActions from "../../components/HeroActions.astro";
 import { relPrefix } from "../../lib/relPrefix";
@@ -16,7 +17,7 @@ import { relPrefix } from "../../lib/relPrefix";
 const rel = relPrefix(Astro.url.pathname);
 ---
 
-<Base
+<Base preloadHero={scenePhoto("desk")}
   title="Check Your Inbox | Live Web Studios"
   description="One more step: click the confirmation link we just emailed you to join the Live Web Studios newsletter."
   canonical="https://livewebstudios.com/newsletter/thanks"
@@ -27,7 +28,7 @@ const rel = relPrefix(Astro.url.pathname);
   <main>
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
-      <VideoBg src="bg-looping-waves.mp4" scrim="hero" />
+      <StudioBg scene="desk" hero />
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">ALMOST THERE</span>
         <h1 class="page-h1">Check your <em>inbox</em>.</h1>
