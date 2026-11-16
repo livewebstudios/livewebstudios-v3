@@ -27,15 +27,18 @@
   --scan-amber:#E8C88A;
   --on-accent:#04121C;   /* near-black ink on cyan surfaces */
   /* Sub-brand accents (Phase 2 sub-brands + STUDIOS mega-panel doorways) */
-  /* Rendered height of header.nav: .nav-in 84px (mosa-skin.css) + 1px
-     border-bottom. Measured at 1280 and 375; it does not change by
-     breakpoint. .subnav sticks to this, so keep the two in step. */
-  --nav-h:85px;
-  /* Sub-brand bar under the main nav (Live Band, Namesake). Held as a token
-     because page layout has to subtract it: the sub-branded heroes start
-     BELOW both sticky bars, so their height is 100svh minus both. */
-  --subnav-h:52px;
+  /* Chrome heights (Jon 2026-11-16, five-studio navigation). The studio strip
+     sticks at top:0 and the nav bar sticks under it at top:var(--strip-h), so
+     anything that has to clear the header subtracts BOTH: a full-screen hero
+     is 100svh - var(--strip-h) - var(--nav-h), a sticky sidebar or an anchor
+     offset starts at var(--strip-h) + var(--nav-h). --nav-h is the bar's whole
+     rendered height, border included. Both step down under 980px (see the
+     media rule after this block). There is no --subnav-h any more: each
+     studio has one nav bar, not a second bar stacked under the main one. */
+  --strip-h:38px;
+  --nav-h:84px;
   --amber:#FCD34D;      /* Live Band Web Studios */
+  --amber-soft:#FDE08A; /* its soft tint: strip tab and nav text */
   /* Blog categories (Jon 2026-09-15: "maybe that gold color? or gold/red?").
      Deliberately NOT --amber: that one means Live Band Web Studios across the
      site, and reusing it would make a blog label read as sub-brand chrome.
@@ -43,7 +46,15 @@
      page background so small mono caps stay legible. */
   --cat-gold:#E8B478;
   --cat-gold-dim:rgba(232,180,120,.42);
-  --brass:#C9A55A;      /* Namesake (ink + brass) */
+  /* Brass. Namesake's colour until 2026-11-16, when Namesake went green
+     (--namesake below). Still the accent for Live Band's Gold Rack pieces,
+     Expert Witness, Email Writing and Logo Design. Do not point Namesake
+     back at it. */
+  --brass:#C9A55A;
+  --namesake:#4ADE80;      /* Namesake */
+  --namesake-soft:#86EFAC; /* its soft tint: text on dark, hover fills */
+  --lwp:#E91E8C;           /* Live Web Photos (magenta) */
+  --lwp-soft:#F472B6;      /* its soft tint: text on dark, hover fills */
   /* LiveAiStudios (/ai). Orange, sampled from the LiveAiStudios logo
      chevron (Jon 2026-10-10; was violet). Used FLAT only: fills, hairlines,
      text, strokes, node dots. Never inside a gradient. */
@@ -69,6 +80,12 @@
   --wrap:1240px;
 }
 
+/* The strip grows to a 44px touch target and the bar drops to 68px once the
+   links move behind the burger. */
+@media (max-width:980px){
+  :root{--strip-h:44px;--nav-h:68px}
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -80,6 +97,16 @@ body{
   overflow-x:hidden;
 }
 a{color:inherit;text-decoration:none}
+/* Which studio the page belongs to. Base.astro sets data-studio on <body>
+   from the URL, and the chrome (studio strip, nav bar, ticker) reads the
+   accent from these three instead of each carrying its own five-way switch.
+   --studio-rgb is the same colour as space-separated channels, for
+   rgb(var(--studio-rgb) / alpha) hairlines and fills. */
+body{--studio:var(--cyan);--studio-soft:var(--cyan-soft);--studio-rgb:56 189 248}
+body[data-studio="band"]{--studio:var(--amber);--studio-soft:var(--amber-soft);--studio-rgb:252 211 77}
+body[data-studio="ai"]{--studio:var(--ai);--studio-soft:var(--ai-soft);--studio-rgb:232 101 10}
+body[data-studio="lwp"]{--studio:var(--lwp);--studio-soft:var(--lwp-soft);--studio-rgb:233 30 140}
+body[data-studio="ns"]{--studio:var(--namesake);--studio-soft:var(--namesake-soft);--studio-rgb:74 222 128}
 .svg-defs{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
 /* Readable by search engines and screen readers, invisible on screen. Used
    where a graphic carries the heading (the Live Band hero logo). */
@@ -147,104 +174,11 @@ img{max-width:100%;display:block}
 }
 .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan-soft);transform:translateY(-2px);background:rgba(56,189,248,.08)}
 
-/* ---- Nav ---- */
-header.nav{
-  position:sticky;top:0;z-index:50;
-  background:rgba(5,7,11,.72);-webkit-backdrop-filter:blur(16px) saturate(140%);
-  backdrop-filter:blur(16px) saturate(140%);
-  border-bottom:1px solid var(--line-2);
-}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
-.nav-logo img{height:46px;width:auto}
-.nav-links{display:flex;align-items:center;gap:2rem}
-.nav-links a,.studios-trigger{
-  font-family:var(--sans);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);transition:color .2s var(--ease);position:relative;padding:.4rem 0;
-}
-.nav-links a:hover,.studios-trigger:hover{color:var(--cyan-soft)}
-.studios-trigger{
-  background:none;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;
-}
-.studios-caret{display:inline-block;transition:transform .25s var(--ease)}
-/* .dd-pair / .dd-toggle base styles live in Nav.astro's scoped block, and the
-   MOSA segmented-cell fix for them is in mosa-skin.css. */
-.dd-toggle:focus-visible{outline:2px solid var(--cyan-soft);outline-offset:3px;border-radius:2px}
-
-/* ---- STUDIOS mega-panel ---- */
-.studios{position:relative}
-/* padding-top is the hover bridge: the pointer has to cross from the trigger
-   down into the panel, and any pixel in between that is not inside .studios
-   drops :hover and closes the panel mid-travel. The panel's top sat 8px below
-   the trigger's bottom edge, so margin-top pulls the box up to meet it and the
-   same 8px goes back into padding-top. .mega-inner does not move. */
-.mega{
-  position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);
-  width:min(640px,90vw);margin-top:-8px;padding-top:24px;opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .26s var(--ease),transform .26s var(--ease),visibility .26s var(--ease);z-index:60;
-}
-.studios:hover .mega,.studios:focus-within .mega,.studios.is-open .mega{
-  opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);
-}
-.studios:hover .studios-caret,.studios.is-open .studios-caret{transform:rotate(180deg)}
-.mega-inner{padding:.55rem;background:rgba(7,11,20,.99);-webkit-backdrop-filter:blur(30px) saturate(150%);backdrop-filter:blur(30px) saturate(150%);} /* frosted, near-opaque: nav backdrop-filter ancestor neutralizes the child blur, so alpha carries the readability over a bright hero */
-.mega-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
-.mega-headliners{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
-.mega-card{
-  display:flex;flex-direction:column;gap:.35rem;padding:1.1rem;border-radius:var(--r-md);
-  background:rgba(11,18,32,.6);border:1px solid var(--line);position:relative;overflow:hidden;
-  transition:transform .28s var(--ease),border-color .28s var(--ease),box-shadow .28s var(--ease);
-}
-.mega-card::before{
-  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-  background:radial-gradient(120% 90% at 15% 0%,var(--door),transparent 60%);
-}
-.mega-card--band{--door:rgba(252,211,77,.16)}
-.mega-card--namesake{--door:rgba(201,165,90,.16)}
-.mega-card:hover{transform:translateY(-3px)}
-.mega-card--band:hover{border-color:rgba(252,211,77,.45);box-shadow:0 18px 40px rgba(0,0,0,.4),0 0 34px rgba(252,211,77,.14)}
-.mega-card--namesake:hover{border-color:rgba(201,165,90,.45);box-shadow:0 18px 40px rgba(0,0,0,.4),0 0 34px rgba(201,165,90,.14)}
-.mega-kicker{
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;position:relative;
-}
-.mega-card--band .mega-kicker{color:var(--amber)}
-.mega-card--namesake .mega-kicker{color:var(--brass)}
-.mega-name{font-weight:600;font-size:1.02rem;color:var(--ink-soft);letter-spacing:.02em;position:relative}
-.mega-hook{color:var(--muted);font-size:.86rem;position:relative}
-.mega-go{
-  margin-top:.3rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
-  display:inline-flex;gap:.4rem;transition:gap .2s var(--ease);position:relative;
-}
-.mega-card--band .mega-go{color:var(--amber)}
-.mega-card--namesake .mega-go{color:var(--brass)}
-.mega-go::after{content:"→"}
-.mega-card:hover .mega-go{gap:.75rem}
-.mega-support{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
-.mega-row{
-  display:flex;align-items:flex-start;gap:.7rem;padding:.38rem .45rem;border-radius:var(--r-sm);
-  border:1px solid var(--line-2);transition:background .2s var(--ease),border-color .2s var(--ease);
-}
-.mega-row__txt{display:flex;flex-direction:column;gap:.08rem;min-width:0}
-.mega-row .nav-ico{opacity:.72;padding-top:1px;transition:opacity .2s var(--ease)}
-.mega-row:hover .nav-ico{opacity:1}
-.mega-row:hover{background:rgba(56,189,248,.08);border-color:var(--line)}
-/* Jon 2026-09-15: "make the sub button text the same as the studios sub text
-   font/size." So the About rows drop the mono terminal readout and take the
-   family, sizes and weights of .dir-item__title / .dir-item__desc in the
-   Studios directory. Both dropdowns now read as one system. Sizes are kept in
-   step with those two rules - change them together or the panels drift. */
-.mega-row-title{font-size:.82rem;font-weight:600;letter-spacing:.01em;line-height:1.25;color:var(--ink)}
-/* Jon 2026-09-15: "keep the dropdown sub text only one line in About."
-   Enforced here rather than left to character count, so a longer subtitle
-   added later truncates instead of quietly reflowing the whole panel. */
-.mega-row-sub{
-  color:var(--muted-2);font-size:.78rem;line-height:1.45;font-weight:400;
-  text-transform:none;letter-spacing:.005em;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-
-.nav-cta{display:flex;align-items:center;gap:1rem}
-.nav-cta .btn{padding:.62rem 1.1rem}
-.burger{display:none;background:rgba(11,18,32,.6);color:var(--ink);cursor:pointer}
+/* ---- Nav ----
+   The studio strip and the nav bar carry their own styles, scoped, in
+   StudioStrip.astro and Nav.astro (Jon 2026-11-16, five-studio navigation).
+   Nothing about either lives in this file except the height tokens and the
+   body[data-studio] accent scope near the top. */
 
 /* ---- Hero ---- */
 .hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden}
@@ -300,7 +234,7 @@ h1.hero-h1 em{font-style:normal;color:var(--cyan-soft)}
 
 /* ---- Section scaffolding ---- */
 section{position:relative}
-section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps */
+section[id]{scroll-margin-top:calc(var(--strip-h) + var(--nav-h) + 4px)} /* clear the sticky strip and nav on anchor jumps */
 .sec-pad{padding-block:clamp(4.5rem,8vw,8rem)}
 .sec-pad.is-alt{background:var(--bg-2)}
 
@@ -431,7 +365,7 @@ section[id]{scroll-margin-top:88px} /* clear the 73px sticky nav on anchor jumps
    every page at every depth, so a url() in this file would resolve against
    whichever page it landed in and 404 on /services/* and /industries/*.
 
-   Sub-brand themes are excluded. Namesake runs ink + brass and Live Band
+   Sub-brand themes are excluded. Namesake runs ink + green and Live Band
    runs amber; cyan-lit carbon fights both. */
 .card > .glass-inner{overflow:hidden}
 .card > .glass-inner::before{
@@ -777,59 +711,10 @@ footer ul li a:hover{color:var(--cyan-soft)}
 .videobg--strong .videobg__scrim{background:linear-gradient(180deg, rgba(5,7,11,.88) 0%, rgba(5,7,11,.95) 100%);}
 
 @media (max-width:900px){
-  /* Burger opens nav-links as a slide-down menu; mega-panel renders inline. */
-  .nav-links{
-    display:flex;flex-direction:column;align-items:stretch;gap:0;
-    position:absolute;top:100%;left:0;right:0;
-    background:rgba(5,7,11,.97);-webkit-backdrop-filter:blur(16px) saturate(140%);
-    backdrop-filter:blur(16px) saturate(140%);
-    border-bottom:1px solid var(--line);
-    padding:.5rem clamp(1.25rem,4vw,2.5rem) 1.5rem;
-    max-height:calc(100dvh - 72px);overflow-y:auto;
-    opacity:0;visibility:hidden;transform:translateY(-8px);pointer-events:none;
-    transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s var(--ease);
-  }
-  .nav-open .nav-links{opacity:1;visibility:visible;transform:none;pointer-events:auto}
-  .nav-links > a{padding:1rem 0;border-bottom:1px solid var(--line-2)}
-  .studios{position:static}
-  .studios-trigger{width:100%;justify-content:space-between;padding:1rem 0;border-bottom:1px solid var(--line-2)}
-  /* mega-panel static + always visible inside the open mobile menu.
-     Jon 2026-09-16: the visible/clickable half has to be gated on .nav-open.
-     The drawer closes with opacity:0 + visibility:hidden + pointer-events:none
-     on .nav-links, but a child CAN override an inherited visibility:hidden and
-     pointer-events:none - it cannot override the parent's opacity:0. Ungated,
-     every .mega stayed hit-testable while invisible, so the closed drawer left
-     a ~345x450 dead zone over the top-left of every page at phone width that
-     swallowed taps on whatever sat under it. Layout reset stays unconditional;
-     only the visibility switch moves inside .nav-open. */
-  .mega{
-    position:static;width:auto;transform:none;
-    margin:.6rem 0;padding-top:0;
-  }
-  .nav-open .mega{opacity:1;visibility:visible;pointer-events:auto}
-  /* The open-state rules carry transform:translateX(-50%) so the panel centres
-     under its trigger on the desktop bar. In the drawer the panel is static and
-     full width, so that transform slides it half its own width off the left
-     edge the moment the row is hovered, focused or tapped open. Same
-     specificity as those rules, declared later, so it wins on source order. */
-  .studios:hover .mega,
-  .studios:focus-within .mega,
-  .studios.is-open .mega{transform:none}
-  .mega-headliners,.mega-support{grid-template-columns:1fr}
-  /* STUDIOS panel mobile reset lives at the foot of this file, after the
-     .mega--studios block it has to override. */
-
   .grid-svc{grid-template-columns:1fr;gap:1rem}
   .split{grid-template-columns:1fr;gap:2rem}
   .foot-grid{grid-template-columns:1fr 1fr;gap:2rem}
   .foot-dir-list{grid-template-columns:repeat(2,1fr)}
-  .burger{display:grid;place-items:center;width:42px;height:42px;border-radius:var(--r-sm);border:1px solid var(--line)}
-  /* The sub-brand bar is a sibling of <header>, so the burger drawer does not
-     contain it and its own sticky layer shows straight through the drawer's
-     97%-opaque panel: on a Live Band or Namesake page you read that bar's
-     links ghosted behind Work / Services. Two nav layers at once is wrong on
-     a phone regardless, so drop it for as long as the drawer is open. */
-  .nav-open + .subnav{display:none}
 }
 @media (max-width:560px){.foot-grid{grid-template-columns:1fr}.foot-directory{grid-template-columns:1fr;gap:2rem}}
 
@@ -1163,151 +1048,6 @@ h1.page-h1 em{font-style:normal;color:var(--cyan-soft)}
      scrim no longer protects it. Even it out and anchor the crop on Jon. */
   .cta--video{min-height:0}
   .cta--video .videobg__v{object-position:70% center}
-}
-
-/* ============================================================
-   STUDIOS PANEL — the sub-brand directory
-   Jon 2026-09-14: every Live Band and Namesake page reachable from the main
-   nav on EVERY page, laid out as headed columns of icon + title + one-line
-   explainer, and styled apart from the Services / Industries / About megas
-   ("that needs to pop").
-
-   The device is a lighting truss: a lit rule across the head, and contents
-   that rise in on a stagger rather than the panel simply fading. All of it
-   runs on :hover / :focus-within / .is-open so it works with JS off, and it
-   goes flat and static inside the mobile burger menu.
-   ============================================================ */
-/* The directory panel positions against header.nav (sticky, so it is a
-   containing block) rather than against its trigger. Dropping the wrapper to
-   static is what hands it up: anchored to the trigger, a 1080px panel ran
-   116px off the left edge of a 1440 viewport. right: matches .wrap's own
-   padding so the panel's edge lines up with the nav above it. */
-.studios--dir{position:static}
-/* Same hand-up for the services panel (Jon 2026-09-22). The LEGAL column made
-   it a 4-up 900px grid, and centred on a trigger that sits left of the nav's
-   middle it ran 63px off the left edge at 1100. Lives here rather than in
-   Nav.astro's scoped block because .studios{position:relative} is declared in
-   this file and wins on source order over a component style. */
-.studios--svc{position:static}
-.mega--studios{
-  width:min(860px,96vw);
-  left:auto;right:clamp(1.25rem,4vw,2.5rem);transform:translateY(8px);
-  /* This panel anchors to header.nav, not to its trigger, so the header's
-     bottom padding widens the hover bridge gap to 26px: far enough that the
-     pointer reliably lands in dead space and the panel shuts on the way down.
-     Same trick as .mega, sized for the larger offset. */
-  margin-top:-26px;padding-top:42px;
-}
-.studios:hover .mega--studios,
-.studios:focus-within .mega--studios,
-.studios.is-open .mega--studios{transform:translateY(0)}
-
-.mega--studios .mega-inner{
-  position:relative;overflow:hidden;padding:.68rem .7rem .62rem;
-  background:
-    radial-gradient(120% 100% at 50% -10%,rgba(56,189,248,.07),transparent 58%),
-    rgba(6,9,16,.99);
-  border-color:rgba(255,255,255,.14);
-  box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08);
-}
-
-/* ---- The truss: a lit bar across the head of the panel ---- */
-.mega--studios .mega-truss{
-  position:absolute;top:0;left:0;right:0;height:2px;pointer-events:none;
-  background:linear-gradient(90deg,
-    transparent 0%,var(--amber) 18%,var(--cyan) 50%,var(--brass) 82%,transparent 100%);
-  opacity:0;transform:scaleX(.4);transform-origin:50% 50%;
-  transition:opacity .45s var(--ease),transform .6s var(--ease);
-}
-.studios:hover .mega--studios .mega-truss,
-.studios:focus-within .mega--studios .mega-truss,
-.studios.is-open .mega--studios .mega-truss{opacity:1;transform:scaleX(1)}
-
-/* ---- Staggered entrance: the house lights come up column by column ---- */
-.mega--studios .mega-head,
-.mega--studios .dir-col{
-  opacity:0;transform:translateY(10px);
-  transition:opacity .34s var(--ease),transform .34s var(--ease);
-}
-.studios:hover .mega--studios .mega-head,
-.studios:focus-within .mega--studios .mega-head,
-.studios.is-open .mega--studios .mega-head,
-.studios:hover .mega--studios .dir-col,
-.studios:focus-within .mega--studios .dir-col,
-.studios.is-open .mega--studios .dir-col{opacity:1;transform:translateY(0)}
-.mega--studios .mega-head{transition-delay:.04s}
-.mega--studios .dir-col:nth-child(1){transition-delay:.09s}
-.mega--studios .dir-col:nth-child(2){transition-delay:.14s}
-.mega--studios .dir-col:nth-child(3){transition-delay:.19s}
-.mega--studios .dir-col:nth-child(4){transition-delay:.24s}
-
-/* ---- Directory ---- */
-.dir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem .8rem}
-.dir-col__label{
-  display:block;padding-bottom:.3rem;margin-bottom:.42rem;
-  border-bottom:1px solid rgba(255,255,255,.14);
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
-  color:var(--ink-soft);font-weight:500;
-}
-.dir-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.08rem}
-.dir-item{
-  display:grid;grid-template-columns:22px minmax(0,1fr);gap:.7rem;align-items:start;
-  padding:.25rem .28rem;margin-inline:-.28rem;border-radius:var(--r-sm);
-  border:1px solid transparent;
-  transition:background .2s var(--ease),border-color .2s var(--ease);
-}
-.dir-item:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
-.dir-item__ico{display:block;line-height:0;padding-top:1px}
-.dir-item__ico svg{width:20px;height:20px;display:block}
-.dir-item__txt{display:flex;flex-direction:column;gap:.08rem;min-width:0}
-.dir-item__title{
-  font-size:.82rem;font-weight:600;color:var(--ink-soft);letter-spacing:.01em;line-height:1.25;
-}
-/* The supporting line under a directory item is description, not link text, so
-   it opts out of the uppercase and the wide tracking that `.nav-links a` puts
-   on every nav link. Jon 2026-09-15: set in caps and tracked out it read as a
-   terminal readout, and at two or three lines deep that is hard work. The item
-   title above it stays in caps, which is where the nav caps rule applies. */
-.dir-item__desc{
-  color:var(--muted-2);font-size:.78rem;line-height:1.45;
-  text-transform:none;letter-spacing:.005em;font-weight:400;
-  text-wrap:pretty;
-}
-.dir-item:hover .dir-item__desc{color:var(--muted)}
-.dir-item[aria-current="page"]{
-  background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);
-}
-.dir-item[aria-current="page"] .dir-item__title{color:#fff}
-
-/* Reduced motion: the panel still opens, it just does not perform. */
-@media (prefers-reduced-motion:reduce){
-  .mega--studios .mega-head,
-  .mega--studios .dir-col{opacity:1;transform:none;transition:none}
-  .mega--studios .mega-truss{opacity:1;transform:none;transition:none}
-}
-
-/* Narrower desktops: four columns stop fitting well before the burger menu
-   takes over, so fold to two. */
-@media (max-width:1180px){
-  .mega--studios{width:min(720px,94vw)}
-  .dir{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-
-/* Burger menu: the panel renders inline and is always open, so undo the
-   desktop positioning and the staggered entrance. Declared here, at the foot
-   of the file, because the .mega--studios rules above would otherwise win on
-   source order and leave every column stuck at opacity:0. */
-@media (max-width:900px){
-  .studios--dir{position:static}
-  .mega--studios{width:auto;left:auto;right:auto;transform:none;margin-top:.6rem;padding-top:0}
-  .studios:hover .mega--studios,
-  .studios:focus-within .mega--studios,
-  .studios.is-open .mega--studios{transform:none}
-  .mega--studios .mega-inner{padding:.5rem}
-  .mega--studios .mega-head,
-  .mega--studios .dir-col{opacity:1;transform:none;transition:none}
-  .mega--studios .mega-truss{display:none}
-  .dir{grid-template-columns:1fr;gap:.62rem}
 }
 
 /* ---- Blog category bar (Jon 2026-09-15) -----------------------

@@ -442,7 +442,7 @@ const checklist = [
   /* ---- Sticky section nav ---- */
   .dg-subnav {
     position: sticky;
-    top: var(--nav-h);
+    top: calc(var(--strip-h) + var(--nav-h));
     z-index: 40;
     margin-top: clamp(1.5rem, 3vw, 2.25rem);
     background: rgba(5, 7, 11, 0.94);
@@ -494,7 +494,7 @@ const checklist = [
   }
   .dg-sec {
     padding-top: clamp(2.5rem, 5vw, 4rem);
-    scroll-margin-top: calc(var(--nav-h) + 3.5rem);
+    scroll-margin-top: calc(var(--strip-h) + var(--nav-h) + 3.5rem);
   }
   .dg-sec + .dg-sec {
     margin-top: clamp(1.5rem, 3vw, 2.5rem);
@@ -858,7 +858,8 @@ const checklist = [
 
   /* ---- Print: a clean, paper-friendly copy of the guide ---- */
   @media print {
-    :global(header.nav),
+    :global(.strip),
+    :global(.sitenav),
     :global(footer),
     .dg-subnav,
     .dg-cta {

@@ -1,138 +1,46 @@
 ---
 /**
- * Nav — main navigation + optional sub-brand bar.
+ * Nav: the studio strip, then ONE nav bar for whichever studio the page is in.
  *
- * The main nav renders on EVERY page (Jon 2026-08-15: sub-brands must not
- * replace it). Pages under /namesake or /live-band-web-studios also get a
- * second sticky sub-menu bar directly under the main nav with that brand's
- * links (LBWS uses its own logo, ported from the old site).
+ * Jon 2026-11-16 (five-studio navigation). This reverses the 2026-08-15 rule
+ * that sub-brands must not replace the main nav. Live Web Studios pages get
+ * the main nav; a sub-site page gets that studio's nav alone, promoted to the
+ * full 84px bar. There is no second stacked bar any more. The main site's
+ * links stay reachable from a sub-site through the Live Web Studios tab in
+ * the strip (desktop) and the boxed group at the foot of the sheet (mobile).
  *
- * Nav text is Title Case per Jon 2026-08-15 ("first letter caps"), which
- * overrides the older ALL CAPS nav rule for this site.
+ * Sticky at top:var(--strip-h), full size, no shrink on scroll. Jon tried the
+ * floating pill and rejected it.
  *
- * SERVICES is a real link to services.html; its mega opens on hover (desktop)
- * or via the caret button (tap/click). STUDIOS keeps a plain toggle (no hub
- * page). All links are static HTML (crawlable); JS only enhances toggles and
- * the burger.
+ * Live Web Studios links are Title Case sans (Jon 2026-08-15, which overrides
+ * the older ALL CAPS nav rule for this site). Sub-site links keep their mono,
+ * uppercase, letter-spaced style, tinted with the studio accent.
+ *
+ * SERVICES is a real link to services.html and ABOUT a real link to
+ * about.html; each also opens a panel on hover, or from its caret button on
+ * tap, click and keyboard. Every link is static HTML (crawlable). JS only
+ * enhances: the hover delay, the caret toggles, the rail swap, the burger.
+ *
+ * The bar is a solid colour on purpose. A backdrop-filter on the header
+ * would switch off the blur on the glass panels that hang from it.
  */
-import StudiosPanel from "./StudiosPanel.astro";
-import NavIcon from "./NavIcon.astro";
+import StudioStrip from "./StudioStrip.astro";
 import { relPrefix } from "../lib/relPrefix";
-import AiCaps from "./AiCaps.astro";
+import {
+  studioFromPath,
+  studioByKey,
+  studioNav,
+  lwsLinks,
+  aboutRows,
+  servicePanes,
+  link,
+} from "../lib/studios";
 
 const path = Astro.url.pathname;
 const rel = relPrefix(path);
-
-type Ctx = "main" | "namesake" | "band" | "ai";
-/* LiveAiStudios matches on a strict prefix: a bare includes("/ai") would
-   also catch /services/ai-platform and every other ai-* service page. */
-const isAi = /^\/ai(\.html|\/|$)/.test(path);
-const ctx: Ctx = path.includes("/namesake")
-  ? "namesake"
-  : path.includes("/live-band-web-studios")
-    ? "band"
-    : isAi
-      ? "ai"
-      : "main";
-
-/* Services mega columns — every live service page, grouped.
-   Each group carries one hue rather than giving all fourteen links their own:
-   at this count per-item colour reads as confetti, where a colour per column
-   reads as the structure it actually is. */
-const svcCols = [
-  {
-    label: "BUILD",
-    color: "#38BDF8",
-    links: [
-      ["Website Design", "services/website-design.html", "monitor"],
-      ["E-Commerce", "services/ecommerce.html", "cart"],
-      ["Hosting", "services/hosting.html", "server"],
-      ["Maintenance Plans", "services/maintenance-plans.html", "gear"],
-      ["SEO & Marketing", "services/seo.html", "search"],
-    ],
-  },
-  {
-    label: "AI",
-    color: "#A78BFA",
-    links: [
-      /* Jon 2026-09-26: the /ai sub-brand leads the column. */
-      ["LiveAiStudios", "ai.html", "liveai"],
-      ["AI Platform", "services/ai-platform.html", "chip"],
-      ["AI Business Services", "services/ai-business-services.html", "bot"],
-      ["AI Workflow", "services/ai-workflow.html", "route"],
-      ["AI Image", "services/ai-image.html", "image"],
-      /* Jon 2026-09-22. Fifth AI link rather than its own column: it is an AI
-         voice-system build sold to the same small businesses the other four
-         serve, so it does not need the separation Expert Witness needed. */
-      ["Email Writing", "services/email-writing.html", "mail"],
-    ],
-  },
-  {
-    label: "BRAND",
-    color: "#FCD34D",
-    links: [
-      ["Branding", "services/branding.html", "compass"],
-      ["Logo Design", "services/logo-design.html", "pen"],
-      ["Custom Styles & Cards", "services/custom-styles-and-carousel-cards.html", "cards"],
-      ["Consulting", "services/consulting.html", "chat"],
-    ],
-  },
-  /* Jon 2026-09-22. Its own column rather than a fourth BRAND link: the
-     expert witness practice sells to attorneys, not to the small businesses
-     the other twelve links sell to, and burying it under BRAND would have
-     read as a design service. Brass, matching the numbered steps on the
-     page itself. The scales glyph is the one Law Firm already uses. */
-  {
-    label: "LEGAL",
-    color: "#C9A55A",
-    links: [
-      ["Expert Witness", "services/expert-witness.html", "scales"],
-    ],
-  },
-];
-
-/* Sub-brand bars. Order and labels match the live site
-   (build/live-band-web-studios/index.html lines 37-56). "Forms" stays a real
-   link and also opens a dropdown of the four form pages. */
-const bandLinks = [
-  { label: "Home", href: "live-band-web-studios.html" },
-  { label: "Pricing", href: "live-band-web-studios/pricing.html" },
-  {
-    label: "Forms",
-    href: "live-band-web-studios/forms.html",
-    children: [
-      ["Band Bio Form", "live-band-web-studios/forms/band-bio-form.html"],
-      ["Band Member Bio Form", "live-band-web-studios/forms/band-member-bio-form.html"],
-      ["Music Photo Form", "live-band-web-studios/forms/music-photo-form.html"],
-      ["Music Photo Instructions", "live-band-web-studios/forms/how-to-photograph-yourself-for-ai.html"],
-    ],
-  },
-  { label: "Personal Sites", href: "live-band-web-studios/personal-sites.html" },
-  { label: "Portfolio", href: "live-band-web-studios/portfolio.html" },
-  /* Jon 2026-09-15: the musician blog belongs in the sub-brand bar too. The
-     Studios dropdown gets a door to it from the rest of the site, but someone
-     already inside Live Band needs it here, and needs the active state on it
-     while they are reading. */
-  { label: "Blog", href: "live-band-web-studios/blog.html" },
-];
-
-const namesakeLinks = [
-  { label: "Overview", href: "namesake.html" },
-  { label: "How It Works", href: "namesake/how-it-works.html" },
-  { label: "Start", href: "namesake/start.html" },
-];
-
-/* LiveAiStudios (/ai), the third sub-brand bar. Same machinery as the two
-   above. Jon 2026-09-26: the logo work is deferred, so the brand slot carries
-   a plain LiveAiStudios wordmark (the Namesake treatment) until it lands. */
-const aiLinks = [
-  { label: "Home", href: "ai.html" },
-  { label: "Services", href: "ai/services.html" },
-  { label: "Proof", href: "ai/proof.html" },
-  { label: "How It Works", href: "ai/how-it-works.html" },
-  /* Also lights up on every /ai/blog/<slug> article (see isSection below). */
-  { label: "Insights", href: "ai/blog.html" },
-];
+const ctx = studioFromPath(path);
+const nav = studioNav[ctx];
+const home = studioByKey(ctx).href;
 
 /* Active state. Normalise both sides to a bare site-root key so the match
    survives build.format 'file' (/x.html), Netlify's clean URL (/x) and a
@@ -143,126 +51,150 @@ const navKey = (href: string) => {
   return s === "" ? "index" : s;
 };
 const here = navKey(path);
-const subLinks = ctx === "band" ? bandLinks : ctx === "ai" ? aiLinks : namesakeLinks;
 /* A link is active on its own page, and a section index link is also active
    on the pages filed under it (Insights on /ai/blog/<slug>). Home is exempt
    so it stays lit only on the section index itself. */
 const isSection = (href: string) =>
   ctx === "ai" && navKey(href) === "ai/blog" && here.startsWith("ai/blog/");
 
+/* Column colours in the Services panel. Web Services keeps one hue per
+   column (Build cyan, Brand gold, Legal brass); every other studio's pane
+   runs in that studio's soft tint. */
+const paneTint: Record<string, { rgb: string; cols: string[] }> = {
+  lws: { rgb: "56 189 248", cols: ["#38BDF8", "#FCD34D", "#C9A55A"] },
+  band: { rgb: "252 211 77", cols: ["#FCD34D"] },
+  ai: { rgb: "232 101 10", cols: ["#F6A066"] },
+  lwp: { rgb: "233 30 140", cols: ["#F472B6"] },
+  ns: { rgb: "74 222 128", cols: ["#86EFAC"] },
+};
 ---
 
-<header class:list={["nav", ctx !== "main" && "nav--has-sub"]} data-nav>
-  <div class="wrap nav-in">
-    <a class="nav-logo" href={`${rel}index.html`} aria-label="Live Web Studios">
-      <img src={`${rel}images/logoRGB.png`} alt="Live Web Studios" width="800" height="245" decoding="async" />
+<StudioStrip />
+
+<header class={`sitenav sitenav--${ctx}`} data-nav>
+  <div class="sitenav-in">
+    <a class={`sn-logo sn-logo--${ctx}`} href={link(rel, home)} aria-label={nav.logo.alt}>
+      <img
+        src={`${rel}${nav.logo.src}`}
+        alt={nav.logo.alt}
+        width={nav.logo.width}
+        height={nav.logo.height}
+        decoding="async"
+      />
     </a>
 
-    <nav class="nav-links" id="nav-links" aria-label="Primary">
-      <a href={`${rel}work.html`}>Work</a>
+    <div class="sn-sheet" id="nav-links">
+      <nav class="sn-links" aria-label={nav.label}>
+        {nav.links.map((item) => {
+          const mega =
+            ctx !== "lws" ? null : item.label === "Services" ? "services" : item.label === "About" ? "about" : null;
+          const kids = item.children ?? [];
+          const selfActive = navKey(item.href) === here;
+          const kidActive = kids.some(([, kh]) => navKey(kh) === here);
+          const active = selfActive || kidActive || isSection(item.href);
+          const current = selfActive ? "page" : active ? "true" : undefined;
 
-      {/* studios--svc does for the services panel what studios--dir does for
-          the directory one: drops the wrapper to static so the panel anchors
-          to header.nav instead of this trigger. With four columns the panel
-          is 900px, and centred on a trigger that sits left of centre it hung
-          63px off the left edge at 1100. */}
-      <div class="studios studios--svc" data-dd>
-        <span class="dd-pair">
-          <a class="studios-trigger" href={`${rel}services.html`}>Services</a>
-          <button
-            type="button"
-            class="dd-toggle"
-            aria-label="Open services menu"
-            aria-expanded="false"
-            aria-controls="services-panel"
-            aria-haspopup="true"
-          ><span class="studios-caret" aria-hidden="true">↓</span></button>
-        </span>
+          if (!mega && kids.length === 0) {
+            return (
+              <a class="sn-cell sn-link" href={link(rel, item.href)} aria-current={current}>{item.label}</a>
+            );
+          }
 
-        <div class="mega mega--services" id="services-panel" role="region" aria-label="Services">
-          <div class="mega-inner svc-inner">
-            <div class="svc-cols">
-              {svcCols.map((col) => (
-                <div class="svc-col">
-                  <span class="svc-col-label">{col.label}</span>
-                  {col.links.map(([label, href, icon]) => (
-                    <a class="svc-link" href={`${rel}${href}`}>
-                      <NavIcon name={icon} color={col.color} />
-                      <span class="svc-link__txt">{label === "LiveAiStudios" ? <AiCaps /> : label}</span>
+          const panelId = mega ? `${mega}-panel` : `nav-${navKey(item.href).split("/").pop()}-panel`;
+          return (
+            <div class:list={["sn-cell", "sn-dd", `sn-dd--${mega ?? "drop"}`]} data-dd={mega ?? "drop"}>
+              <span class="sn-pair">
+                <a class="sn-link" href={link(rel, item.href)} aria-current={current}>{item.label}</a>
+                <button
+                  type="button"
+                  class="sn-caret"
+                  aria-label={`Open ${item.label} menu`}
+                  aria-expanded="false"
+                  aria-controls={panelId}
+                ><span aria-hidden="true">↓</span></button>
+              </span>
+
+              {mega === "services" && (
+                <div class="sn-mega sn-mega--services" id={panelId} role="region" aria-label="Services">
+                  {/* Each pane sits straight after its rail row in the source,
+                      so Tab walks row, that row's links, next row. The grid
+                      puts the rows in column one and the live pane in column
+                      two whatever the source order. */}
+                  <div class="svc" data-svc>
+                    <p class="svc-head">Start here</p>
+                    {servicePanes.map((pane, i) => {
+                      const tint = paneTint[pane.key];
+                      return (
+                        <>
+                          <a
+                            class:list={["svc-rail", i === 0 && "is-on"]}
+                            href={link(rel, studioByKey(pane.key).href)}
+                            data-pane={pane.key}
+                            style={`--r:${tint.rgb};grid-row:${i + 2}`}
+                          >{pane.rail} <span aria-hidden="true">→</span></a>
+                          <div
+                            class:list={["svc-pane", `svc-pane--${pane.key}`, i === 0 && "is-on"]}
+                            data-pane={pane.key}
+                          >
+                            {pane.cols.map((col, c) => (
+                              <div class="svc-col" style={`--k:${tint.cols[c] ?? tint.cols[0]}`}>
+                                <p class="svc-col-head">{col.heading}</p>
+                                {col.links.map(([label, href]) => (
+                                  <a href={link(rel, href)}>{label}</a>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {mega === "about" && (
+                <div class="sn-mega sn-mega--about" id={panelId} role="region" aria-label="About">
+                  {aboutRows.map((row) => (
+                    <a class="about-row" href={link(rel, row.href)}>
+                      <span class="about-row-title">{row.title} →</span>
+                      <span class="about-row-sub">{row.sub}</span>
                     </a>
                   ))}
                 </div>
-              ))}
+              )}
+
+              {!mega && (
+                <div class="sn-mega sn-mega--drop" id={panelId} role="region" aria-label={item.label}>
+                  {kids.map(([klabel, khref]) => (
+                    <a
+                      class="drop-link"
+                      href={link(rel, khref)}
+                      aria-current={navKey(khref) === here ? "page" : undefined}
+                    >{klabel}</a>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      </div>
+          );
+        })}
+      </nav>
 
-      <div class="studios" data-dd>
-        <span class="dd-pair">
-          <a class="studios-trigger" href={`${rel}about.html`}>About</a>
-          <button
-            type="button"
-            class="dd-toggle"
-            aria-label="Open about menu"
-            aria-expanded="false"
-            aria-controls="about-panel"
-            aria-haspopup="true"
-          ><span class="studios-caret" aria-hidden="true">↓</span></button>
-        </span>
+      {/* Mobile sheet only: the parent site's links, boxed, on a sub-site. */}
+      {ctx !== "lws" && (
+        <nav class="sn-parent" aria-label="Live Web Studios">
+          <span class="sn-parent-label">LIVE WEB STUDIOS</span>
+          {lwsLinks.map((l) => (
+            <a href={link(rel, l.href)}>{l.label} <span aria-hidden="true">→</span></a>
+          ))}
+        </nav>
+      )}
+    </div>
 
-        <div class="mega mega--about" id="about-panel" role="region" aria-label="About">
-          <div class="mega-inner">
-            <div class="mega-support">
-              <a class="mega-row" href={`${rel}about.html`}>
-                <NavIcon name="book" color="#38BDF8" />
-                <span class="mega-row__txt">
-                  <span class="mega-row-title">Our Story →</span>
-                  <span class="mega-row-sub">23 years in, just getting started</span>
-                </span>
-              </a>
-              <a class="mega-row" href={`${rel}blog.html`}>
-                <NavIcon name="pen" color="#38BDF8" />
-                <span class="mega-row__txt">
-                  <span class="mega-row-title">Blog →</span>
-                  <span class="mega-row-sub">Web design, AI, SEO, and tangents</span>
-                </span>
-              </a>
-              <a class="mega-row" href={`${rel}faq.html`}>
-                <NavIcon name="help" color="#38BDF8" />
-                <span class="mega-row__txt">
-                  <span class="mega-row-title">FAQ →</span>
-                  <span class="mega-row-sub">Straight answers, no sales pitch</span>
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* studios--dir carries the wide directory panel. The modifier exists
-          so the panel can position against the header rather than this
-          trigger: at 1080px wide, anchored to a trigger sitting near the end
-          of the nav, it hung 116px off the left edge of the viewport. */}
-      <div class="studios studios--dir" data-dd>
-        <button
-          type="button"
-          class="studios-trigger"
-          aria-expanded="false"
-          aria-controls="studios-panel"
-          aria-haspopup="true"
-        >Studios <span class="studios-caret" aria-hidden="true">↓</span></button>
-        <StudiosPanel here={here} />
-      </div>
-
-      <a href={`${rel}contact.html`}>Contact</a>
-    </nav>
-
-    <div class="nav-cta">
-      <a href={`${rel}contact.html`} class="btn btn-primary">Let's Talk</a>
+    <div class="sn-right">
+      <a class="sn-btn" href={link(rel, nav.cta.href)}>{nav.cta.label}</a>
       <button
         type="button"
-        class="burger"
+        class="sn-burger"
         aria-label="Menu"
         aria-expanded="false"
         aria-controls="nav-links"
@@ -271,144 +203,128 @@ const isSection = (href: string) =>
   </div>
 </header>
 
-{ctx !== "main" && (
-  <div class={`subnav subnav--${ctx}`} data-subnav>
-    <div class="wrap subnav-in">
-      {ctx === "band" ? (
-        <a class="subnav-brand" href={`${rel}live-band-web-studios.html`} aria-label="Live Band Web Studios">
-          <img src={`${rel}images/logo-live-band-gold.png`} alt="Live Band Web Studios" width="681" height="300" decoding="async" />
-        </a>
-      ) : ctx === "ai" ? (
-        <a class="subnav-brand subnav-brand--ns subnav-brand--ai" href={`${rel}ai.html`} aria-label="LiveAiStudios">
-          <img src={`${rel}images/studios/live-ai-studios.png`} alt="LiveAiStudios" width="480" height="56" decoding="async" />
-        </a>
-      ) : (
-        <a class="subnav-brand subnav-brand--ns" href={`${rel}namesake.html`}>Namesake</a>
-      )}
-      <nav class="subnav-links" aria-label={ctx === "band" ? "Live Band Web Studios" : ctx === "ai" ? "LiveAiStudios" : "Namesake"}>
-        {subLinks.map((item) => {
-          const kids = item.children ?? [];
-          const selfActive = navKey(item.href) === here;
-          const kidActive = kids.some(([, kh]) => navKey(kh) === here);
-          const active = selfActive || kidActive || isSection(item.href);
-          const panelId = `subnav-${navKey(item.href).split("/").pop()}-panel`;
-
-          return kids.length === 0 ? (
-            <a
-              href={`${rel}${item.href}`}
-              class={active ? "is-active" : undefined}
-              aria-current={selfActive ? "page" : undefined}
-            >{item.label}</a>
-          ) : (
-            <span class="subnav-item studios" data-dd>
-              <span class="dd-pair">
-                <a
-                  href={`${rel}${item.href}`}
-                  class={active ? "is-active" : undefined}
-                  aria-current={selfActive ? "page" : undefined}
-                >{item.label}</a>
-                <button
-                  type="button"
-                  class="dd-toggle"
-                  aria-label={`Open ${item.label} menu`}
-                  aria-expanded="false"
-                  aria-controls={panelId}
-                  aria-haspopup="true"
-                ><span class="studios-caret" aria-hidden="true">↓</span></button>
-              </span>
-
-              <div class="mega subnav-drop" id={panelId} role="region" aria-label={item.label}>
-                <div class="mega-inner">
-                  {kids.map(([klabel, khref]) => (
-                    <a
-                      class="svc-link"
-                      href={`${rel}${khref}`}
-                      aria-current={navKey(khref) === here ? "page" : undefined}
-                    >{klabel}</a>
-                  ))}
-                </div>
-              </div>
-            </span>
-          );
-        })}
-      </nav>
-      {ctx === "namesake" && (
-        <a href={`${rel}namesake/start.html`} class="btn btn-ghost subnav-cta">Start Yours</a>
-      )}
-      {ctx === "ai" && (
-        <a href={`${rel}ai/start.html`} class="btn btn-ghost subnav-cta">Start with AI</a>
-      )}
-    </div>
-    {ctx === "ai" && (
-      <p class="subnav-tag">LiveAiStudios is the AI side of Live Web Studios. Same Jon, same phone number.</p>
-    )}
-  </div>
-)}
-
 <script is:inline>
-  // Progressive enhancement: dropdown toggles ([data-dd] carets) + burger.
-  // Hover-open is pure CSS; the toggle buttons serve tap/click users.
+  // Progressive enhancement. Without this script the panels still open on
+  // hover and on focus in CSS, and every link is a plain link.
   (function () {
     var header = document.querySelector("[data-nav]");
     if (!header) return;
+    header.classList.add("is-js");
 
-    // The sub-brand bar sits outside <header>, so scope the toggles to the
-    // document and reuse this one system rather than adding a second.
-    var dds = document.querySelectorAll("[data-dd]");
-    var closeAll = function () {
-      dds.forEach(function (dd) {
-        dd.classList.remove("is-open");
-        var t = dd.querySelector("button[aria-expanded]");
-        if (t) t.setAttribute("aria-expanded", "false");
+    var mq = window.matchMedia("(max-width: 980px)");
+    var dds = header.querySelectorAll("[data-dd]");
+    var svc = header.querySelector("[data-svc]");
+    var timer;
+
+    var showPane = function (key) {
+      if (!svc) return;
+      svc.querySelectorAll("[data-pane]").forEach(function (el) {
+        el.classList.toggle("is-on", el.dataset.pane === key);
       });
     };
+    var setOpen = function (dd, open) {
+      var was = dd.classList.contains("is-open");
+      if (was === open) return;
+      dd.classList.toggle("is-open", open);
+      var btn = dd.querySelector(".sn-caret");
+      if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
+      // The Services panel always opens on Web Services.
+      if (open && dd.dataset.dd === "services") showPane("lws");
+    };
+    var closeAll = function (except) {
+      dds.forEach(function (dd) {
+        if (dd !== except) setOpen(dd, false);
+      });
+    };
+
     dds.forEach(function (dd) {
-      var toggle = dd.querySelector(".dd-toggle") || dd.querySelector("button.studios-trigger");
-      if (!toggle) return;
-      toggle.addEventListener("click", function (e) {
+      var btn = dd.querySelector(".sn-caret");
+      btn.addEventListener("click", function (e) {
         e.stopPropagation();
-        var wasOpen = dd.classList.contains("is-open");
-        closeAll();
-        if (!wasOpen) {
-          dd.classList.add("is-open");
-          toggle.setAttribute("aria-expanded", "true");
-        }
+        clearTimeout(timer);
+        var was = dd.classList.contains("is-open");
+        // On the bar one panel shows at a time; in the sheet they are
+        // independent accordions.
+        if (!mq.matches) closeAll(dd);
+        setOpen(dd, !was);
       });
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeAll();
-    });
-    document.addEventListener("click", function (e) {
-      var inside = false;
-      dds.forEach(function (dd) {
-        if (dd.contains(e.target)) inside = true;
+      // Open on hover, and stay open while the pointer is on the trigger or
+      // the panel. The 180ms grace covers the trip between the two.
+      dd.addEventListener("mouseenter", function () {
+        if (mq.matches) return;
+        clearTimeout(timer);
+        closeAll(dd);
+        setOpen(dd, true);
       });
-      if (!inside) closeAll();
+      dd.addEventListener("mouseleave", function () {
+        if (mq.matches) return;
+        clearTimeout(timer);
+        timer = setTimeout(function () { setOpen(dd, false); }, 180);
+      });
+      dd.addEventListener("focusout", function (e) {
+        if (mq.matches) return;
+        if (!dd.contains(e.relatedTarget)) setOpen(dd, false);
+      });
     });
 
-    // --- Mobile burger menu ---
-    var burger = header.querySelector(".burger");
-    var closeBurger = function () {
-      header.classList.remove("nav-open");
-      if (burger) {
-        burger.setAttribute("aria-expanded", "false");
-        burger.textContent = "☰";
-      }
-    };
-    if (burger) {
-      burger.addEventListener("click", function () {
-        var open = header.classList.toggle("nav-open");
-        burger.setAttribute("aria-expanded", open ? "true" : "false");
-        burger.textContent = open ? "✕" : "☰";
+    // Services rail: hover or focus a row and the right side swaps to that
+    // studio's list. A click goes to the studio home. On a touch screen the
+    // first tap on a row shows its list and the second tap follows the link.
+    if (svc) {
+      svc.querySelectorAll(".svc-rail").forEach(function (row) {
+        var key = row.dataset.pane;
+        var touchSwap = false;
+        row.addEventListener("pointerdown", function (e) {
+          touchSwap = e.pointerType === "touch" && !row.classList.contains("is-on");
+        });
+        row.addEventListener("mouseenter", function () { showPane(key); });
+        row.addEventListener("focus", function () { showPane(key); });
+        row.addEventListener("click", function (e) {
+          if (touchSwap) {
+            e.preventDefault();
+            showPane(key);
+          }
+          touchSwap = false;
+        });
       });
     }
 
-    // Crossing the 900px breakpoint with the drawer open left nav-open and any
-    // .is-open panel set while the CSS switched back to the desktop bar, which
-    // pinned a mega open with no pointer on it. Reset both on every crossing.
-    var mq = window.matchMedia("(max-width: 900px)");
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      dds.forEach(function (dd) {
+        if (!dd.classList.contains("is-open")) return;
+        // Hand focus back to the trigger before the panel hides under it.
+        if (dd.contains(document.activeElement)) dd.querySelector(".sn-caret").focus();
+        setOpen(dd, false);
+      });
+    });
+    document.addEventListener("click", function (e) {
+      if (mq.matches) return;
+      if (!e.target.closest || !e.target.closest("[data-dd]")) closeAll();
+    });
+
+    // --- Mobile sheet ---
+    var burger = header.querySelector(".sn-burger");
+    var setSheet = function (open) {
+      header.classList.toggle("nav-open", open);
+      burger.setAttribute("aria-expanded", open ? "true" : "false");
+      burger.textContent = open ? "✕" : "☰";
+    };
+    burger.addEventListener("click", function () {
+      setSheet(!header.classList.contains("nav-open"));
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && header.classList.contains("nav-open")) {
+        setSheet(false);
+        burger.focus();
+      }
+    });
+
+    // Crossing the breakpoint with the sheet or a panel open would carry that
+    // state into a layout it was not opened in. Reset both on every crossing.
     var onBreakpoint = function () {
-      closeBurger();
+      clearTimeout(timer);
+      setSheet(false);
       closeAll();
     };
     if (mq.addEventListener) mq.addEventListener("change", onBreakpoint);
@@ -417,414 +333,735 @@ const isSection = (href: string) =>
 </script>
 
 <style>
-  /* Services mega + sub-brand bar — scoped, existing tokens only. */
-  .dd-pair {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.15rem;
+  /* ============================================================
+     Bar
+     ============================================================ */
+  .sitenav {
+    /* Height of the bordered link box inside the bar. */
+    --sn-box: 56px;
+    position: sticky;
+    top: var(--strip-h);
+    z-index: 50;
+    box-sizing: border-box;
+    height: var(--nav-h);
+    background: #000;
+    /* The hairline is an inset shadow, not a border, so the bar's content box
+       is the full --nav-h and a panel at top:100% lands flush under it. */
+    box-shadow: inset 0 -1px 0 rgb(var(--studio-rgb) / 0.22);
   }
-  .dd-toggle {
-    background: none;
-    border: 0;
-    cursor: pointer;
-    color: var(--muted);
-    padding: 0.4rem 0.2rem;
-    transition: color 0.2s var(--ease);
-  }
-  .dd-toggle:hover {
-    color: var(--cyan-soft);
-  }
-  /* 900 not 720 (Jon 2026-09-22): the LEGAL column made this a 4-up grid, and
-     four columns need 840px before "AI Business Services" and "Custom Styles
-     & Cards" stop wrapping. .mega is centred on its trigger (left:50% +
-     translateX(-50%) in global.css), so every extra 100px of panel hangs
-     another 50px off the LEFT of the viewport. That is why the narrow case
-     below drops the width back down instead of only changing the column
-     count: a 900px panel over a 2-up grid was 127px off-screen at 960. */
-  .mega--services {
-    width: min(900px, 92vw);
-    /* Hover bridge (Jon 2026-09-22: "sometimes the drop down closes before I
-       get there"). Anchoring to header.nav moved top:100% from the trigger's
-       bottom edge down to the header's, opening a 13px strip that belongs to
-       neither the trigger nor the panel: cross it and .studios:hover goes
-       false mid-travel. The negative margin pulls the panel's BOX back up to
-       overlap the trigger while the matching padding holds the VISIBLE panel
-       exactly where it was, so the pointer never leaves a hovered element. */
-    margin-top: -29px;
-    padding-top: 45px;
-  }
-  /* About holds three rows (Our Story, Blog, FAQ), so it sits narrower than
-     the Services grid. FAQ lives here and nowhere else (Jon 2026-09-07).
-     Blog joined 2026-09-15: the main row had 34px of slack at 1024px against
-     the ~65px a seventh top-level item needs, so it would have collided with
-     Let's Talk. A row here still puts a blog link on all 86 pages. */
-  .mega--about {
-    width: min(360px, 92vw);
-  }
-  /* .mega-support is a 2-col grid, which the Services panel uses
-     for their single row. About carries two, so stack them instead of
-     squeezing both subtitles into 135px columns. */
-  .mega--about .mega-support {
-    grid-template-columns: 1fr;
-  }
-  .svc-cols {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-    margin-bottom: 0.4rem;
-  }
-  /* Below the panel's own max width there is no room for four, so pair them
-     up rather than letting every label wrap, and bring the panel back in so
-     its left edge clears the viewport. */
-  @media (max-width: 980px) {
-    .mega--services {
-      width: min(560px, 92vw);
-    }
-    .svc-cols {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  .svc-col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.08rem;
-  }
-  .svc-col-label {
-    font-family: var(--mono);
-    font-size: 0.56rem;
-    letter-spacing: 0.2em;
-    color: var(--cyan-soft);
-    padding: 0.18rem 0.3rem 0.25rem;
-  }
-  .svc-link {
+  .sitenav-in {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-    padding: 0.21rem 0.3rem;
-    border-radius: var(--r-sm);
-    transition: color 0.2s var(--ease), background 0.2s var(--ease);
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 100%;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
   }
-  .svc-link__txt {
+  /* The logo is the one flexible item in the bar. Each studio's lockup has a
+     height it wants (max-height below); when a phone is too narrow for logo,
+     button and burger at full size, the logo gives up width and scales down
+     in proportion instead of pushing the burger off the edge. */
+  .sn-logo {
+    display: flex;
+    align-items: center;
+    /* Full bar height, so a short lockup is still a full-size tap target. */
+    align-self: stretch;
+    flex: 0 1 auto;
     min-width: 0;
   }
-  /* The glyph sits a shade under the label at rest so the column still reads
-     as a list of words, then comes up to full strength with the row. */
-  .svc-link .nav-ico {
-    opacity: 0.72;
-    transition: opacity 0.2s var(--ease);
-  }
-  .svc-link:hover .nav-ico {
-    opacity: 1;
-  }
-  .svc-link:hover {
-    color: var(--ink-soft);
-    background: rgba(56, 189, 248, 0.08);
-  }
-  /* The Forms dropdown reuses .svc-link but has no icons, so it keeps the
-     original single-column text rhythm. */
-  .subnav-drop .svc-link {
+  .sn-logo img {
     display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 50px;
+  }
+  .sn-logo--band img { max-height: 70px; }
+  .sn-logo--ai img { max-height: 28px; }
+  .sn-logo--lwp img { max-height: 44px; }
+  .sn-logo--ns img { max-height: 44px; }
+  .sn-logo:focus-visible,
+  .sn-link:focus-visible,
+  .sn-caret:focus-visible,
+  .sn-btn:focus-visible,
+  .sn-burger:focus-visible,
+  .sn-mega a:focus-visible,
+  .sn-parent a:focus-visible {
+    outline: 2px solid var(--studio-soft);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
-  /* ---- Sub-brand bar: sticks flush under the main nav ---- */
-  .subnav {
-    position: sticky;
-    top: var(--nav-h);
-    z-index: 49;
-    background: rgba(5, 7, 11, 0.66);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-    border-bottom: 1px solid var(--line-2);
-  }
-  .subnav-in {
-    position: relative;
+  /* ---- Link box: one hairline frame, a divider between cells ---- */
+  .sn-sheet {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.6rem;
-    height: var(--subnav-h);
+    flex: none;
   }
-  /* The lockup is deliberately taller than the bar (Jon 2026-09-12: bigger
-     logo, same bar height). Taking it out of flow is what keeps that true —
-     in flow it would simply grow the bar. It hangs DOWNWARD rather than
-     sitting centred because the main nav stacks above this bar, so a
-     vertically centred lockup would have its top edge clipped by it. */
-  .subnav-brand {
-    position: absolute;
-    /* Absolute offsets resolve against .wrap's PADDING box, so left:0 would
-       put the lockup hard against the viewport edge. Repeating .wrap's own
-       padding-inline lines it up with the main nav's logo instead. */
-    left: clamp(1.25rem, 4vw, 2.5rem);
-    top: 2px;
-    line-height: 0;
-  }
-  /* 68px -> 96px (Jon 2026-09-14: "make the live band logo larger"). The bar
-     height is unchanged: the lockup is out of flow, so it just overhangs
-     further into the hero below, which is the point of taking it out of flow
-     in the first place. */
-  .subnav-brand img {
-    height: 96px;
-    width: auto;
-    display: block;
-    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
-  }
-  /* Namesake's brand is a wordmark, not an oversized lockup, so it has
-     nothing to overhang with: recentre it against the bar. */
-  .subnav-brand--ns {
-    top: 50%;
-    transform: translateY(-50%);
-    line-height: 1;
-    font-family: var(--mono);
-    font-size: 0.86rem;
-    letter-spacing: 0.22em;
-    color: var(--brass, #c9a55a);
-  }
-  /* Segmented control, matching the main nav's treatment: one hairline box
-     with a divider between each cell. Same --line-nav token, so the two bars
-     stay in step if that value ever moves. */
-  .subnav-links {
+  .sn-links {
     display: flex;
     align-items: stretch;
-    gap: 0;
-    border: 1px solid var(--line-nav);
+    box-sizing: border-box;
+    height: var(--sn-box);
+    border: 1px solid rgb(var(--studio-rgb) / 0.34);
+    border-radius: 6px;
   }
-  .subnav-links > a,
-  .subnav-links > .subnav-item {
-    display: inline-flex;
+  .sn-cell {
+    display: flex;
+    align-items: stretch;
+    border-left: 1px solid rgb(var(--studio-rgb) / 0.34);
+    transition: background 0.2s var(--ease);
+  }
+  .sn-cell:first-child {
+    border-left: 0;
+    border-radius: 5px 0 0 5px;
+  }
+  .sn-cell:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+  .sn-cell:hover,
+  .sn-dd.is-open {
+    background: rgb(255 255 255 / 0.07);
+  }
+  .sitenav--lws .sn-links,
+  .sitenav--lws .sn-cell {
+    border-color: rgb(255 255 255 / 0.2);
+  }
+  .sn-link {
+    display: flex;
     align-items: center;
-    padding: 0.55rem 1.05rem;
-    border-right: 1px solid var(--line-nav);
-  }
-  .subnav-links > :last-child {
-    border-right: 0;
-  }
-  .subnav-links > a:hover,
-  .subnav-links > .subnav-item:hover {
-    background: rgb(var(--mosa-fg-rgb) / 0.07);
-  }
-  /* NAV TEXT RULE: every navigation link, sub-menus included, is ALL CAPS. */
-  .subnav-links a,
-  .subnav-drop .svc-link {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
+    padding-inline: clamp(12px, 1.7vw, 24px);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    /* Reserved so the current page's underline does not shift the label. */
+    border-bottom: 2px solid transparent;
     transition: color 0.2s var(--ease);
   }
-  .subnav-links a:hover {
-    color: var(--cyan-soft);
-  }
-  .subnav-cta {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 0.4rem 0.9rem;
-    font-size: 0.68rem;
-  }
-
-  /* Jon 2026-10-10: the brand line moved off /ai/start into the AI bar, so
-     it rides along under the links on every /ai page. Inside .subnav, so it
-     sticks with it. */
-  .subnav-tag {
-    /* Jon 2026-10-10: "little bigger, little closer to the menu, tighter".
-       No divider, and it tucks up into the bar's bottom padding. */
-    margin: 0.1rem 0 0;
-    padding: 0 clamp(1.25rem, 4vw, 2.5rem) 0.45rem;
+  /* Sub-sites: mono, uppercase, letter-spaced, as their bars always were. */
+  .sitenav:not(.sitenav--lws) .sn-link {
     font-family: var(--mono);
-    font-size: 0.86rem;
-    letter-spacing: 0.02em;
-    line-height: 1.4;
-    text-align: center;
-    color: var(--muted-2);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .sn-link[aria-current] {
+    color: var(--studio-soft);
+    border-bottom-color: var(--studio);
   }
 
-  /* Current page, in the section accent. No new colors: amber for Live Band,
-     brass for Namesake, both already in the palette. */
-  .subnav {
-    --sub-accent: var(--amber);
+  /* ---- Dropdown cell: label + caret, panel hangs under the bar ---- */
+  .sn-dd {
+    position: relative;
   }
-  .subnav--namesake {
-    --sub-accent: var(--brass);
+  /* The Services panel is as wide as the bar, so it anchors to the header
+     rather than to its trigger. */
+  .sn-dd--services {
+    position: static;
   }
-  .subnav--ai {
-    --sub-accent: var(--ai);
+  .sn-pair {
+    display: flex;
+    align-items: stretch;
   }
-  /* The wordmark takes the accent colour; the ghost CTA picks it up on
-     hover the way Start Yours picks up brass. */
-  .subnav-brand--ai {
-    color: var(--ai);
+  .sn-pair .sn-link {
+    padding-right: 4px;
   }
-  /* Jon 2026-10-10: the logo replaces the violet wordmark. A wide, short
-     lockup, so it stays centred in the bar instead of overhanging like the
-     Live Band badge. */
-  .subnav-brand.subnav-brand--ai img {
-    height: 26px;
-    filter: none;
-  }
-  /* Mirror the wordmark's inset so the CTA does not sit hard against the
-     viewport edge (same offset .subnav-brand uses on the left). */
-  .subnav--ai .subnav-cta {
-    right: clamp(1.25rem, 4vw, 2.5rem);
-  }
-  /* Jon 2026-10-10: the CTA carries an orange border at rest, so it reads
-     as the one button in the bar; hover fills it with the orange glow. */
-  .subnav--ai .subnav-cta {
-    border-color: var(--ai);
-  }
-  .subnav--ai .subnav-cta:hover {
-    border-color: var(--ai);
-    color: var(--ai);
-    background: var(--ai-glow);
-  }
-  .subnav-links a.is-active {
-    color: var(--sub-accent);
-    box-shadow: inset 0 -2px 0 var(--sub-accent);
-  }
-  /* The active cell in a segmented control is the whole cell, so when the
-     active link is the one inside the Forms dropdown pair the rule has to
-     reach the cell rather than the anchor. */
-  .subnav-links > .subnav-item:has(a.is-active) {
-    box-shadow: inset 0 -2px 0 var(--sub-accent);
-  }
-  .subnav-links > .subnav-item a.is-active {
-    box-shadow: none;
-  }
-  .subnav-drop .svc-link[aria-current="page"] {
-    color: var(--sub-accent);
-  }
-
-  /* Forms dropdown. Reuses .studios/.mega positioning and the glass tokens
-     from global.css; only the width and the single-column list differ. */
-  .subnav-item {
-    display: inline-flex;
+  .sn-caret {
+    display: flex;
     align-items: center;
+    padding: 0 clamp(10px, 1.4vw, 18px) 0 4px;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
   }
-  .subnav-drop {
-    width: min(260px, 92vw);
-    padding-top: 12px;
+  .sn-caret span {
+    display: inline-block;
+    transition: transform 0.25s var(--ease);
   }
-  .subnav-drop .mega-inner {
+  .sn-dd.is-open .sn-caret span {
+    transform: rotate(180deg);
+  }
+  .sn-pair:has(.sn-link[aria-current]) .sn-caret {
+    color: var(--studio-soft);
+    border-bottom-color: var(--studio);
+  }
+
+  /* ---- Button ---- */
+  .sn-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+  }
+  .sn-btn {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 0 24px;
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    background: #fff;
+    color: #05070b;
+    transition: filter 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .sitenav--band .sn-btn { background: var(--amber); color: #120c02; }
+  .sitenav--ai .sn-btn { background: #f0792a; color: #120c09; }
+  .sitenav--lwp .sn-btn { background: var(--lwp-soft); color: #16060f; }
+  .sitenav--ns .sn-btn { background: var(--namesake-soft); color: #07140c; }
+  .sn-btn:hover {
+    filter: brightness(1.08);
+  }
+  .sitenav--lws .sn-btn:hover {
+    filter: none;
+    background: var(--cyan-soft);
+  }
+  .sn-btn:active {
+    transform: translateY(1px);
+  }
+  .sn-burger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: 1px solid rgb(var(--studio-rgb) / 0.4);
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--studio-soft);
+    cursor: pointer;
+  }
+  .sn-parent {
+    display: none;
+  }
+
+  /* ============================================================
+     Panels. One glass style for all of them, attached flush under the
+     bar with 16px bottom corners.
+     ============================================================ */
+  .sn-mega {
+    position: absolute;
+    /* From the cell's bottom edge down to the bar's: half the space the link
+       box leaves in the bar, plus the box's own 1px frame. */
+    top: calc(100% + (var(--nav-h) - var(--sn-box)) / 2 + 1px);
+    z-index: 1;
+    box-sizing: border-box;
+    padding: 22px;
+    border-radius: 0 0 16px 16px;
+    background: rgb(8 12 20 / 0.86);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid rgb(255 255 255 / 0.16);
+    border-top: 0;
+    box-shadow: 0 30px 70px rgb(0 0 0 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.06);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-6px);
+    /* Closing: visibility waits out the fade, then drops. Opening (below): it
+       flips at once, so the panel's links are focusable the instant the
+       caret is pressed rather than one frame later. */
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0s linear 0.2s;
+  }
+  .sn-dd.is-open > .sn-mega,
+  .sitenav:not(.is-js) .sn-dd:hover > .sn-mega,
+  .sitenav:not(.is-js) .sn-dd:focus-within > .sn-mega {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    transition-delay: 0s;
+  }
+  /* Covers the strip of bar between a cell and its panel, so the pointer is
+     always over something that belongs to the dropdown on the way down. */
+  .sn-mega--about::before,
+  .sn-mega--drop::before,
+  .sitenav:not(.is-js) .sn-mega--services::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: calc((var(--nav-h) - var(--sn-box)) / 2 + 2px);
+  }
+
+  /* ---- Services: "Start here" rail + the hovered studio's list ---- */
+  .sn-mega--services {
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: min(1160px, calc(100% - 2rem));
+    margin-inline: auto;
+  }
+  .svc {
+    display: grid;
+    grid-template-columns: 298px minmax(0, 1fr);
+    grid-template-rows: auto repeat(5, auto) 1fr;
+    column-gap: 22px;
+    min-height: 300px;
+  }
+  .svc-head,
+  .svc-col-head {
+    margin: 0 0 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: #a9b5c4;
+  }
+  .svc-head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .svc-rail {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 44px;
+    margin-bottom: 6px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+    background: linear-gradient(135deg, rgb(var(--r) / 0.16), rgb(var(--r) / 0.04));
+    border: 1px solid rgb(var(--r) / 0.4);
+    transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .svc-rail span {
+    color: rgb(var(--r));
+    transition: transform 0.2s var(--ease);
+  }
+  .svc-rail:hover {
+    background: rgb(var(--r) / 0.24);
+  }
+  .svc-rail.is-on {
+    background: rgb(var(--r) / 0.3);
+    border-color: rgb(var(--r));
+  }
+  .svc-rail.is-on span {
+    transform: translateX(3px);
+  }
+  .svc-pane {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    display: none;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 26px;
+    align-content: start;
+    padding-left: 26px;
+    border-left: 1px solid rgb(255 255 255 / 0.1);
+  }
+  .svc-pane.is-on {
+    display: grid;
+    /* The list swaps under a moving pointer. A short fade reads as one panel
+       changing its contents; a hard cut read as a flicker. */
+    animation: svc-pane-in 0.14s var(--ease);
+  }
+  @keyframes svc-pane-in {
+    from { opacity: 0; }
+  }
+  .svc-col-head {
+    color: var(--k);
+  }
+  .svc-col a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 38px;
+    padding: 0 8px;
+    margin-left: -8px;
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--ink-soft);
+    transition: background 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .svc-col a::before {
+    content: "";
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: var(--k);
+  }
+  .svc-col a:hover {
+    background: rgb(255 255 255 / 0.07);
+    color: #fff;
+  }
+
+  /* ---- About: narrow, under its own trigger ---- */
+  .sn-mega--about {
+    left: 50%;
+    translate: -50% 0;
+    width: min(420px, calc(100vw - 2rem));
+    display: grid;
+    gap: 4px;
+    padding: 10px;
+  }
+  .about-row {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
-    padding: 0.3rem;
+    gap: 2px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: background 0.2s var(--ease);
   }
-  .subnav-item .dd-toggle {
-    font-size: 0.62rem;
-    padding: 0.25rem 0.15rem;
+  .about-row:hover {
+    background: rgb(56 189 248 / 0.1);
+  }
+  .about-row-title {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #fff;
+  }
+  .about-row-sub {
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.4;
+    color: #a9b5c4;
   }
 
-  @media (max-width: 900px) {
-    .svc-cols {
-      grid-template-columns: 1fr;
+  /* ---- Sub-site dropdowns (Forms, Case Studies) ---- */
+  .sn-mega--drop {
+    left: 50%;
+    translate: -50% 0;
+    width: max-content;
+    min-width: 260px;
+    max-width: calc(100vw - 2rem);
+    display: grid;
+    gap: 2px;
+    padding: 8px;
+    border-color: rgb(var(--studio-rgb) / 0.3);
+  }
+  .drop-link {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 12px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .drop-link:hover {
+    background: rgb(var(--studio-rgb) / 0.12);
+    color: #fff;
+  }
+  .drop-link[aria-current="page"] {
+    color: var(--studio-soft);
+  }
+
+  /* Live Web Photos carries the widest set: six links, a dropdown caret and a
+     three-word button. At full size it needs about 1275px; measured at 1190
+     the links ran 56px under the button. So this bar alone steps its type and
+     padding down a notch until there is room. */
+  @media (max-width: 1300px) {
+    .sitenav--lwp .sitenav-in {
+      gap: 1rem;
     }
-    /* The bar stops being one fixed-height row here, so the brand goes back
-       into flow (an overhanging lockup only works against a fixed bar) and
-       the row returns to left-aligned. */
-    .subnav-in {
-      position: static;
-      height: auto;
-      padding-block: 0.6rem;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      gap: 0.8rem 1.2rem;
+    .sn-logo--lwp img { max-height: 34px; }
+    .sitenav--lwp .sn-link {
+      padding-inline: 10px;
+      font-size: 12px;
+      letter-spacing: 0.05em;
     }
-    .subnav-brand {
-      position: static;
-      top: auto;
-      transform: none;
+    .sitenav--lwp .sn-pair .sn-link {
+      padding-right: 4px;
     }
-    .subnav-brand img {
-      height: 60px;
-      filter: none;
+    .sitenav--lwp .sn-caret {
+      padding-right: 10px;
     }
-    /* Links wrap onto one or two rows; nothing pushes the page sideways. */
-    .subnav-links {
-      flex-wrap: wrap;
-      gap: 0;
-      max-width: 100%;
+    .sitenav--lwp .sn-btn {
+      padding: 0 12px;
+      font-size: 14px;
     }
-    /* A wrapped segmented control leaves dangling dividers on the row ends,
-       so drop the box and the cell padding and go back to plain links. */
-    .subnav-links,
-    .subnav-links > a,
-    .subnav-links > .subnav-item {
-      border: 0;
+  }
+
+  /* Six links and a long button get tight before the burger takes over. */
+  @media (max-width: 1180px) {
+    .sitenav-in {
+      gap: 1rem;
     }
-    .subnav-links > a,
-    .subnav-links > .subnav-item {
-      padding: 0.35rem 0.55rem;
+    .sitenav:not(.sitenav--lws) .sn-link {
+      letter-spacing: 0.08em;
     }
-    .subnav-cta {
-      position: static;
-      transform: none;
-      margin-left: auto;
+    .sn-btn {
+      padding: 0 16px;
     }
-    /* LiveAiStudios: two rows, not four (handoff: "wraps to max two
-       rows"). Wordmark and CTA share the first row, the five links take the
-       second, set a touch tighter so all five fit across 375px. */
-    .subnav--ai .subnav-brand {
-      order: 0;
+    .sn-logo--band img { max-height: 60px; }
+    .sn-logo--lwp img { max-height: 28px; }
+    .sn-logo--ns img { max-height: 38px; }
+    .svc {
+      grid-template-columns: 250px minmax(0, 1fr);
     }
-    .subnav-brand.subnav-brand--ai img {
-      height: 22px;
+    .svc-pane {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      padding-left: 20px;
     }
-    .subnav--ai .subnav-cta {
-      order: 1;
+  }
+
+  /* ============================================================
+     Under 980px: logo, button and burger in the bar. The links move to a
+     sheet that fills the screen below the two bars.
+     ============================================================ */
+  @media (max-width: 980px) {
+    .sn-logo img { max-height: 40px; }
+    .sn-logo--band img { max-height: 52px; }
+    .sn-logo--ai img { max-height: 20px; }
+    .sn-logo--lwp img { max-height: 28px; }
+    .sn-logo--ns img { max-height: 36px; }
+    .sn-btn {
+      height: 44px;
+      padding: 0 16px;
+      font-size: 14px;
     }
-    .subnav--ai .subnav-links {
-      order: 2;
-      flex-basis: 100%;
-      justify-content: space-between;
+    .sn-burger {
+      display: block;
     }
-    .subnav-tag {
-      margin-top: 0;
-      padding-block: 0 0.4rem;
-      font-size: 0.66rem;
-      letter-spacing: 0.02em;
-    }
-    /* Two pinned bars took 214px of a 375px-wide phone and covered the form
-       headings on /ai/start. Below 900px only the main nav sticks; the AI
-       bar scrolls away with the page. Jon 2026-10-12. */
-    .subnav--ai {
-      position: static;
-    }
-    .subnav--ai .subnav-links > a {
-      padding: 0.35rem 0.2rem;
-      font-size: 0.64rem;
-      letter-spacing: 0.06em;
-    }
-    /* Tap-to-open. global.css drops every .mega to static/visible inside the
-       burger menu, which would pin the Forms panel open and triple the bar's
-       height. The sub-nav has no burger, so keep this one panel absolute and
-       closed until the caret sets .is-open. Selectors stay one step more
-       specific than the global .mega rules they override. */
-    .subnav .subnav-item {
-      position: relative;
-    }
-    .subnav .subnav-drop {
+
+    .sn-sheet {
       position: absolute;
       top: 100%;
-      left: 50%;
-      transform: translateX(-50%) translateY(8px);
-      margin: 0;
-      width: min(260px, calc(100vw - 2.5rem));
+      left: 0;
+      right: 0;
+      height: calc(100dvh - var(--strip-h) - var(--nav-h));
+      flex-direction: column;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 8px 16px 24px;
+      background: var(--bg);
+      /* Closed: out of the tab order and out of hit-testing, not just
+         transparent. An invisible sheet that still takes taps would cover
+         the whole page. */
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
+      transform: translateY(-6px);
+      transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0s linear 0.2s;
     }
-    .subnav .subnav-item.is-open .subnav-drop,
-    .subnav .subnav-item:focus-within .subnav-drop {
+    .nav-open .sn-sheet {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
+      transform: none;
+      transition-delay: 0s;
+    }
+    .sn-links {
+      flex: none;
+      flex-direction: column;
+      height: auto;
+      border: 0;
+      border-radius: 0;
+    }
+    .sn-cell,
+    .sn-cell:first-child,
+    .sn-cell:last-child {
+      border-left: 0;
+      border-radius: 0;
+      border-bottom: 1px solid rgb(var(--studio-rgb) / 0.18);
+    }
+    .sn-cell:hover,
+    .sn-dd.is-open {
+      background: none;
+    }
+    .sn-link {
+      flex: 1;
+      min-height: 52px;
+      padding-inline: 0;
+      font-size: 16px;
+      border-bottom: 0;
+    }
+    .sitenav:not(.sitenav--lws) .sn-link,
+    .sitenav--lwp .sn-link {
+      padding-inline: 0;
+      font-size: 14px;
+      letter-spacing: 0.14em;
+    }
+    .sitenav--lwp .sn-btn {
+      padding: 0 12px;
+    }
+    .sn-dd,
+    .sn-dd--services {
+      position: static;
+      flex-direction: column;
+    }
+    .sn-pair {
+      justify-content: space-between;
+    }
+    .sn-caret {
+      justify-content: center;
+      width: 52px;
+      padding: 0;
+      border-bottom: 0;
+      font-size: 15px;
+      color: var(--studio-soft);
+    }
+
+    /* Panels become accordions inside the sheet: in flow, closed until the
+       caret opens them, no glass (they sit on the sheet's own ground). */
+    .sn-mega,
+    .sn-mega--services,
+    .sn-mega--about,
+    .sn-mega--drop {
+      position: static;
+      display: none;
+      width: auto;
+      min-width: 0;
+      max-width: none;
+      margin: 0;
+      padding: 0 0 12px;
+      translate: none;
+      transform: none;
+      opacity: 1;
+      visibility: inherit;
+      pointer-events: auto;
+      background: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      transition: none;
+    }
+    .sn-mega::before {
+      display: none;
+    }
+    .sn-dd.is-open > .sn-mega,
+    .sitenav:not(.is-js) .sn-dd:focus-within > .sn-mega {
+      display: grid;
+    }
+    /* The five studios are already in the strip above, so the sheet carries
+       the Web Services list alone. */
+    .svc {
+      display: block;
+      min-height: 0;
+    }
+    .svc-head,
+    .svc-rail,
+    .svc-pane,
+    .svc-pane.is-on {
+      display: none;
+    }
+    .svc-pane.svc-pane--lws {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 20px;
+      padding-left: 0;
+      border-left: 0;
+    }
+    .svc-col a {
+      min-height: 44px;
+    }
+    .about-row {
+      padding-inline: 0;
+    }
+    .drop-link {
+      min-height: 44px;
+      padding-inline: 0;
+      white-space: normal;
+    }
+
+    .sn-parent {
+      display: flex;
+      flex: none;
+      flex-direction: column;
+      margin-top: 20px;
+      padding: 12px 14px 4px;
+      border: 1px solid rgb(125 211 252 / 0.25);
+      border-radius: 10px;
+      background: #0b1220;
+    }
+    .sn-parent-label {
+      padding-bottom: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      color: var(--cyan-soft);
+    }
+    .sn-parent a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 46px;
+      font-family: var(--sans);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      border-bottom: 1px solid rgb(125 211 252 / 0.12);
+    }
+    .sn-parent a:last-child {
+      border-bottom: 0;
+    }
+    .sn-parent a span {
+      color: var(--cyan-soft);
+    }
+  }
+  @media (max-width: 420px) {
+    .svc-pane.svc-pane--lws {
+      grid-template-columns: 1fr;
+    }
+    /* Small phones: the button gives back some padding so the logo, the one
+       item that shrinks, is not squeezed to a sliver beside a three-word
+       button. The burger keeps its 44px target. */
+    .sitenav-in {
+      gap: 0.6rem;
+    }
+    .sn-right {
+      gap: 8px;
+    }
+    .sn-btn,
+    .sitenav--lwp .sn-btn {
+      padding: 0 10px;
+      font-size: 13px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sn-cell,
+    .sn-link,
+    .sn-caret span,
+    .sn-btn,
+    .sn-mega,
+    .sn-sheet,
+    .svc-rail,
+    .svc-rail span,
+    .svc-col a,
+    .about-row,
+    .drop-link {
+      transition: none;
+    }
+    .sn-mega,
+    .sn-sheet {
+      transform: none;
+    }
+    .svc-pane.is-on {
+      animation: none;
     }
   }
 </style>

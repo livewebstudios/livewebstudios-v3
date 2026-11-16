@@ -8,6 +8,7 @@ import ServiceRows from "../components/ServiceRows.astro";
 import Aurora from "../components/Aurora.jsx";
 import Marquee from "../components/Marquee.astro";
 import HeroActions from "../components/HeroActions.astro";
+import StudioCards from "../components/StudioCards.astro";
 
 /* Home services: same six topics, now in the ServiceRows hub list that
    /services and /industries run (Jon 2026-10-10, replacing the metal-art
@@ -85,6 +86,9 @@ const localBusiness = {
       <h1 class="hero-h1">Web design. Hosting. <em>AI-powered</em> builds.</h1>
       <p class="hero-sub">Real work. Real results. One call.</p>
       <HeroActions links />
+      {/* Jon 2026-11-16: the four sub-studios, in studio-strip order. These
+          replace the boxed link row that sat at the bottom right. */}
+      <StudioCards />
       <div class="telemetry">
         <span>ESTABLISHED <b>2004</b></span>
         <span>SITES SHIPPED <b>200+</b></span>
@@ -186,4 +190,13 @@ const localBusiness = {
 <style>
   /* Scanline stage for the services band (Jon 2026-08-27). The overlay
      paints at z-index 0; the content wrapper rides above it. */
+
+  /* Home hero with the four studio cards in it (Jon 2026-11-16). The system
+     hero opens with 14rem of top padding, which was right for copy alone but
+     pushed the cards under the fold on a laptop. Scaled to the screen height
+     here so the copy, the buttons and the cards land in the first screen;
+     .hero keeps centring the block when there is room to spare. */
+  .hero--bare > .hero-in {
+    padding-block: clamp(3.5rem, 9vh, 7rem) clamp(2.5rem, 5vh, 3.5rem);
+  }
 </style>

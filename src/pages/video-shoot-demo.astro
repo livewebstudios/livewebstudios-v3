@@ -178,7 +178,7 @@ const MEDIA = "video-shoot-demo/";
   .vs-list { padding-block: clamp(2.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem); }
 
   /* Clears the sticky nav when a #song link lands on a card. */
-  .vs-card { scroll-margin-top: 96px; }
+  .vs-card { scroll-margin-top: calc(var(--strip-h) + var(--nav-h) + 0.75rem); }
   .vs-card + .vs-card {
     margin-top: clamp(3.5rem, 8vw, 6rem);
     padding-top: clamp(3rem, 6vw, 4.5rem);

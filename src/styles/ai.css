@@ -175,10 +175,10 @@ a.ai-card:hover{transform:translateY(-3px)}
    Most readers arrive from the newsletter on a phone, so everything below is
    written mobile first: 16px inputs (no iOS zoom), 44px+ tap targets, one
    column under 640px. Orange stays flat, per the section rule above. */
-#start-form{scroll-margin-top:calc(var(--nav-h,85px) + var(--subnav-h,52px) + 3rem)}
+#start-form{scroll-margin-top:calc(var(--strip-h,38px) + var(--nav-h,84px) + 3rem)}
 /* Below 900px the AI bar no longer sticks (Nav.astro), so only the main nav
    needs clearing. */
-@media (max-width:900px){#start-form{scroll-margin-top:calc(var(--nav-h,85px) + 1.5rem)}}
+@media (max-width:900px){#start-form{scroll-margin-top:calc(var(--strip-h,44px) + var(--nav-h,68px) + 1.5rem)}}
 .start-sec-head{margin-bottom:clamp(1.8rem,4vw,2.8rem)}
 .start-sec-head h2{margin-top:0}
 .start-sec-head p{margin-top:1rem;color:var(--muted);font-size:clamp(1rem,1.4vw,1.1rem);max-width:56ch}

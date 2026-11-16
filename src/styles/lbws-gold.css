@@ -506,10 +506,10 @@
 }
 .lb-section-foot { margin-top: var(--lb-s-8); color: var(--lb-parchment); }
 
-/* Home hero fit. On the live site the hero sits under the 85px nav and the
-   52px band sub-nav, and the sub-nav already carries the logo, so the hero
-   sizes to the band under the two bars and its centre stack runs tighter. */
-.lb-hero[data-hero] { min-height: max(calc(100svh - var(--nav-h, 85px) - var(--subnav-h, 52px)), 40rem); }
+/* Home hero fit. The hero sits under the studio strip and the Live Band nav
+   bar, and that bar already carries the logo, so the hero sizes to the screen
+   left under the two and its centre stack runs tighter. */
+.lb-hero[data-hero] { min-height: max(calc(100svh - var(--strip-h, 38px) - var(--nav-h, 84px)), 40rem); }
 .lb-hero[data-hero] .lb-hero__content { padding-block: var(--lb-s-10) var(--lb-s-8); }
 .lb-hero[data-hero] .lb-hero__center { gap: var(--lb-s-4); }
 .lb-hero[data-hero] .lb-hero__logo { width: clamp(170px, 15vw, 230px); }

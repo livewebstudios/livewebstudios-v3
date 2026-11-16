@@ -195,11 +195,11 @@ const steps = [
   .guide { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(2rem, 4vw, 3.5rem); align-items: start; }
   /* The sticky offset clears the Live Band logo, which hangs ~46px below the
      sub-nav bar. The max-height keeps the whole photo on short laptop screens. */
-  .guide-photo { margin: 0; position: sticky; top: calc(var(--nav-h) + var(--subnav-h) + 4rem); }
+  .guide-photo { margin: 0; position: sticky; top: calc(var(--strip-h) + var(--nav-h) + 4rem); }
   .guide-photo img {
     display: block; width: 100%; height: auto; border-radius: var(--r-lg);
     border: 1px solid var(--line); box-shadow: var(--shadow-high);
-    max-height: calc(100vh - var(--nav-h) - var(--subnav-h) - 5.5rem); object-fit: cover; object-position: center 30%;
+    max-height: calc(100vh - var(--strip-h) - var(--nav-h) - 5.5rem); object-fit: cover; object-position: center 30%;
   }
 
   .guide-body .sec-head { margin-bottom: 1.5rem; }

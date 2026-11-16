@@ -7,7 +7,7 @@
  * /namesake/how-it-works still had the original text-only trio, because the
  * block was pasted into both pages and only one of them got the art. Pulling
  * it into one component is what stops that drifting apart again: the examples,
- * the markup and the brass styling now live here, and both pages render the
+ * the markup and the Namesake styling now live here, and both pages render the
  * same thing.
  *
  * The section wrapper stays with the caller. /namesake runs it as `is-alt` and
@@ -99,7 +99,7 @@ const examples = [
      banner box, the cover fit and the hover push-in; these only hold the cards
      together as flex columns so the banner sits flush at the top and the pad
      sizes from its own content, and re-point the hover keyline from the system
-     cyan to Namesake brass. */
+     cyan to Namesake green. */
   .ns-live :global(.glass-inner) {
     display: flex;
     flex-direction: column;
@@ -107,7 +107,7 @@ const examples = [
     padding: 0;
   }
   .ns-live :global(.glass-inner:hover) {
-    border-color: rgba(201, 165, 90, 0.38);
+    border-color: rgba(74, 222, 128, 0.38);
   }
   /* The placeholder box for the slot with no site yet. Keyline and label only,
      no imagery, the same approach .work-thumb takes elsewhere. */
@@ -118,7 +118,7 @@ const examples = [
     background:
       repeating-linear-gradient(
         135deg,
-        rgba(201, 165, 90, 0.05) 0 10px,
+        rgba(74, 222, 128, 0.05) 0 10px,
         transparent 10px 20px
       ),
       rgba(10, 8, 5, 0.6);
@@ -127,6 +127,6 @@ const examples = [
     font-family: var(--mono);
     font-size: 0.7rem;
     letter-spacing: 0.2em;
-    color: rgba(201, 165, 90, 0.5);
+    color: rgba(74, 222, 128, 0.5);
   }
 </style>

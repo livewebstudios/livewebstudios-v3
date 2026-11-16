@@ -1,6 +1,6 @@
 /**
  * relPrefix — compute the "../" prefix a page needs to reach the site root,
- * from its own URL. Lets the shared chrome (Nav, Footer, VideoBg, StudiosPanel)
+ * from its own URL. Lets the shared chrome (Nav, StudioStrip, Footer, VideoBg)
  * keep every asset + link reference RELATIVE (per the LWS path rule) while
  * still resolving correctly on nested pages like /services/website-design or
  * /live-band-web-studios/forms/band-bio-form.

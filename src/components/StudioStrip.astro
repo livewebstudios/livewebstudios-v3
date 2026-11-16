@@ -1,0 +1,329 @@
+---
+/**
+ * StudioStrip: the five studios, across the top of every page.
+ *
+ * Jon 2026-11-16. Live Web Studios is one company with five studios, and this
+ * strip is how a visitor sees which one they are in and steps to another. It
+ * replaces the Studios dropdown in the main nav. Sticky at top:0 and always
+ * visible; the nav sticks directly under it at top:var(--strip-h).
+ *
+ * On a sub-site the Live Web Studios tab also carries a caret that opens a
+ * compact panel of the parent links (Home, Work, Services, About, Contact),
+ * so the main site stays one step away from every sub-site page. Hover and
+ * focus open it in CSS; the caret button serves tap and click. Under 980px
+ * the panel is not offered: the row scrolls sideways there, and the same
+ * links sit in the boxed group at the foot of the mobile sheet instead.
+ *
+ * Rendered by Nav.astro, so a page that has the nav has the strip.
+ */
+import { studios, studioFromPath, lwsLinks, link } from "../lib/studios";
+import { relPrefix } from "../lib/relPrefix";
+
+const path = Astro.url.pathname;
+const rel = relPrefix(path);
+const current = studioFromPath(path);
+
+const key = (href: string) => {
+  const s = href.replace(/^\/+/, "").replace(/\/+$/, "").replace(/\.html$/, "");
+  return s === "" ? "index" : s;
+};
+const here = key(path);
+/* "page" on the studio's own home, "true" on the pages under it: the tab
+   names the section you are in, and only one address is literally the page. */
+const currentAttr = (href: string) => (key(href) === here ? "page" : "true");
+
+const panelLinks = [{ label: "Home", href: "index.html" }, ...lwsLinks];
+---
+
+<div class="strip" data-strip data-studio={current}>
+  <div class="strip-in">
+    <nav class="strip-tabs" aria-label="Studios">
+      {studios.map((s) => {
+        const isCurrent = s.key === current;
+        const tab = (
+          <a
+            class={`strip-tab strip-tab--${s.key}`}
+            href={link(rel, s.href)}
+            aria-current={isCurrent ? currentAttr(s.href) : undefined}
+          >
+            <span class="strip-full">{s.name}</span>
+            <span class="strip-short">{s.short}</span>
+          </a>
+        );
+        return s.key === "lws" && current !== "lws" ? (
+          <span class="strip-parent" data-strip-dd>
+            {tab}
+            <button
+              type="button"
+              class="strip-caret"
+              aria-label="Open Live Web Studios menu"
+              aria-expanded="false"
+              aria-controls="strip-lws-panel"
+            ><span aria-hidden="true">↓</span></button>
+            <span class="strip-panel" id="strip-lws-panel">
+              {panelLinks.map((l) => (
+                <a href={link(rel, l.href)}>{l.label} <span aria-hidden="true">→</span></a>
+              ))}
+            </span>
+          </span>
+        ) : tab;
+      })}
+    </nav>
+  </div>
+</div>
+
+<script is:inline>
+  // Tap and click for the Live Web Studios panel. Hover and focus are CSS.
+  (function () {
+    var dd = document.querySelector("[data-strip-dd]");
+    if (!dd) return;
+    var btn = dd.querySelector(".strip-caret");
+    var set = function (open) {
+      dd.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      set(!dd.classList.contains("is-open"));
+    });
+    document.addEventListener("click", function (e) {
+      if (!dd.contains(e.target)) set(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      var had = dd.classList.contains("is-open") || dd.contains(document.activeElement);
+      set(false);
+      // Hover and focus hold the panel open in CSS; this lets Escape win.
+      if (had) {
+        dd.classList.add("is-dismissed");
+        if (dd.contains(document.activeElement)) btn.focus();
+      }
+    });
+    var clear = function () { dd.classList.remove("is-dismissed"); };
+    dd.addEventListener("mouseleave", clear);
+    dd.addEventListener("focusout", function (e) {
+      if (!dd.contains(e.relatedTarget)) clear();
+    });
+  })();
+</script>
+
+<style>
+  .strip {
+    --c: var(--studio);
+    --c-rgb: var(--studio-rgb);
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    height: var(--strip-h);
+    background: #030509;
+    /* The one hairline: the current studio's accent. No boxes around tabs. */
+    border-bottom: 1px solid rgb(var(--c-rgb) / 0.38);
+  }
+  .strip-in {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    /* Same inset as the nav bar under it, so the first tab's dot sits over
+       the logo's left edge. */
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+  }
+  .strip-tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    /* Pull the first tab's own padding back out so its dot, not its box,
+       aligns with the logo. */
+    margin-left: -15px;
+  }
+  .strip-tab {
+    --t: var(--cyan);
+    --t-soft: var(--cyan-soft);
+    --t-rgb: 56 189 248;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 15px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    color: #a9b5c4;
+    white-space: nowrap;
+    /* Sits over the strip's own hairline, so the current tab's underline
+       replaces that 1px instead of stacking on it. */
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .strip-tab::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--t);
+  }
+  .strip-tab--band { --t: var(--amber); --t-soft: var(--amber-soft); --t-rgb: 252 211 77; }
+  .strip-tab--ai { --t: var(--ai); --t-soft: var(--ai-soft); --t-rgb: 232 101 10; }
+  .strip-tab--lwp { --t: var(--lwp); --t-soft: var(--lwp-soft); --t-rgb: 233 30 140; }
+  .strip-tab--ns { --t: var(--namesake); --t-soft: var(--namesake-soft); --t-rgb: 74 222 128; }
+  .strip-tab:hover {
+    color: #fff;
+    background: rgb(255 255 255 / 0.06);
+  }
+  .strip-tab[aria-current] {
+    color: var(--t-soft);
+    font-weight: 700;
+    background: rgb(var(--t-rgb) / 0.12);
+    border-bottom-color: var(--t);
+  }
+  .strip-tab:focus-visible,
+  .strip-caret:focus-visible,
+  .strip-panel a:focus-visible {
+    outline: 2px solid var(--t-soft, var(--cyan-soft));
+    outline-offset: -2px;
+  }
+  .strip-short {
+    display: none;
+  }
+
+  /* ---- Live Web Studios tab on a sub-site: caret + parent links ---- */
+  .strip-parent {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+  }
+  .strip-parent .strip-tab {
+    padding-right: 4px;
+  }
+  .strip-caret {
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 4px;
+    margin-bottom: -1px;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    font-size: 11px;
+    color: #a9b5c4;
+    cursor: pointer;
+    transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .strip-caret span {
+    display: inline-block;
+    transition: transform 0.2s var(--ease);
+  }
+  .strip-parent:hover .strip-tab,
+  .strip-parent:hover .strip-caret,
+  .strip-parent.is-open .strip-tab,
+  .strip-parent.is-open .strip-caret {
+    color: #fff;
+    background: rgb(255 255 255 / 0.06);
+  }
+  .strip-parent.is-open .strip-caret span {
+    transform: rotate(180deg);
+  }
+  /* Flush against the strip, no gap: top:100% of a box that already overlaps
+     the strip's hairline by 1px. */
+  .strip-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    width: 280px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: rgb(11 18 32 / 0.82);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgb(125 211 252 / 0.3);
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 24px 60px rgb(0 0 0 / 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    /* Closing: visibility waits out the fade. Opening: it flips at once, so
+       the links are focusable the instant the panel is asked for. */
+    transition: opacity 0.18s var(--ease), transform 0.18s var(--ease), visibility 0s linear 0.18s;
+  }
+  .strip-parent:not(.is-dismissed):hover .strip-panel,
+  .strip-parent:not(.is-dismissed):focus-within .strip-panel,
+  .strip-parent.is-open .strip-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .strip-panel a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    transition: background 0.2s var(--ease);
+  }
+  .strip-panel a:hover {
+    background: rgb(56 189 248 / 0.12);
+  }
+  .strip-panel a span {
+    color: var(--cyan-soft);
+  }
+
+  @media (max-width: 980px) {
+    .strip-in {
+      padding-inline: 0;
+    }
+    /* Short labels, and the row scrolls sideways with no scrollbar. */
+    .strip-tabs {
+      flex: 1;
+      min-width: 0;
+      margin-left: 0;
+      padding-inline: clamp(0.25rem, 2vw, 1rem);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+    .strip-tabs::-webkit-scrollbar {
+      display: none;
+    }
+    .strip-tab {
+      flex: none;
+      padding: 0 10px;
+    }
+    .strip-full {
+      display: none;
+    }
+    .strip-short {
+      display: inline;
+    }
+    /* The parent links live in the mobile sheet at this width. */
+    .strip-parent {
+      position: static;
+      flex: none;
+    }
+    .strip-parent .strip-tab {
+      padding-right: 10px;
+    }
+    .strip-caret,
+    .strip-panel {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .strip-tab,
+    .strip-caret,
+    .strip-caret span,
+    .strip-panel {
+      transition: none;
+    }
+  }
+</style>

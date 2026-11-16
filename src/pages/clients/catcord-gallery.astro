@@ -247,9 +247,12 @@ const LOGO_W = 230;
     const sections = Array.from(root.querySelectorAll<HTMLElement>("[data-cat]"));
     const ids = new Set(sections.map((s) => s.id));
 
-    // Scroll so `el` lands just below the sticky nav and filter bar.
+    // Scroll so `el` lands just below the sticky studio strip, nav and filter bar.
     const scrollToEl = (el: HTMLElement) => {
-      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 85;
+      const root = getComputedStyle(document.documentElement);
+      const navH =
+        (parseFloat(root.getPropertyValue("--strip-h")) || 38) +
+        (parseFloat(root.getPropertyValue("--nav-h")) || 84);
       const top = el.getBoundingClientRect().top + window.scrollY - navH - bar.offsetHeight - 12;
       window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion.matches ? "auto" : "smooth" });
     };
@@ -507,7 +510,7 @@ const LOGO_W = 230;
   /* ---- Sticky filter bar (the .va-jump look) ---- */
   .cg-filter {
     position: sticky;
-    top: var(--nav-h);
+    top: calc(var(--strip-h) + var(--nav-h));
     z-index: 40;
     background: rgb(var(--mosa-bg-rgb) / 0.86);
     -webkit-backdrop-filter: blur(14px);

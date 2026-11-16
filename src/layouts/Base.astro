@@ -6,6 +6,7 @@ import "../styles/global.css";
 import "../styles/mosa-skin.css";
 import { relPrefix } from "../lib/relPrefix";
 import FaqFx from "../components/FaqFx.astro";
+import { studioFromPath } from "../lib/studios";
 
 interface Props {
   title?: string;
@@ -65,6 +66,9 @@ const {
   ogImageAlt,
 } = Astro.props;
 const rel = relPrefix(Astro.url.pathname);
+/* One of the five studios, from the URL. Drives the accent colour of the
+   shared chrome through body[data-studio] in global.css. */
+const studio = studioFromPath(Astro.url.pathname);
 
 /* og:image must be absolute: Facebook, LinkedIn, Slack and iMessage fetch it
    out of band and never resolve a relative path. 1200x630 minimum, or the
@@ -181,6 +185,7 @@ const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
        page-detail scopes the plum gradient to the 23 detail pages. -->
   <body
     class={isDetailPage ? "page-detail" : undefined}
+    data-studio={studio}
     style={`--card-art:url('${rel}images/bg/metal-bg.jpg')`}
   >
     <!-- Glass refraction filter (Jon 2026-08-27). Three displacement passes at

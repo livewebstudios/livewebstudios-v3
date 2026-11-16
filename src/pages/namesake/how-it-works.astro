@@ -2,7 +2,7 @@
 /**
  * /namesake/how-it-works — ported from the live site
  * (livewebstudios.com/namesake/how-it-works). One folder deep, so imports use
- * two dots up. Wrapped in .theme-namesake so it inherits the brass accent
+ * two dots up. Wrapped in .theme-namesake so it inherits the green accent
  * (the token-override block is reproduced in the scoped <style> below, matching
  * the namesake.astro hub). No <img>: the live floating-portrait hero + logo SVG
  * are dropped for a page-head hero. EM DASH BAN applied to all ported copy.
@@ -154,18 +154,18 @@ const included = [
 </Base>
 
 <style>
-  /* Brass sub-brand theming — token override reproduced from namesake.astro. */
+  /* Green sub-brand theming (was brass until 2026-11-16) — token override reproduced from namesake.astro. */
   .theme-namesake {
-    --cyan: #c9a55a;
-    --cyan-soft: #e3cb8b;
-    --cyan-2: #a9863c;
-    --cyan-deep: #4a3a12;
-    --on-accent: #1a1206;
-    --line: rgba(201, 165, 90, 0.16);
-    --line-2: rgba(201, 165, 90, 0.08);
+    --cyan: var(--namesake);          /* green base (#4ADE80): buttons, dots, eyebrow rule */
+    --cyan-soft: var(--namesake-soft); /* light green (#86EFAC): eyebrow text, hero em */
+    --cyan-2: #22c55e;                 /* deep green: button gradient base */
+    --cyan-deep: #14532d;
+    --on-accent: #07140c;              /* dark green ink on green surfaces (~11:1) */
+    --line: rgba(74, 222, 128, 0.16);
+    --line-2: rgba(74, 222, 128, 0.08);
   }
 
-  /* Editorial numbered steps — brass keyline down the left (from hub). */
+  /* Editorial numbered steps — green keyline down the left (from hub). */
   .ns-steps {
     display: grid;
     gap: 1.25rem;
@@ -180,7 +180,7 @@ const included = [
     align-items: start;
     padding: 1.6rem 1.8rem;
     border-left: 1px solid var(--line);
-    background: rgba(201, 165, 90, 0.03);
+    background: rgba(74, 222, 128, 0.03);
     border-radius: 0 var(--r-md) var(--r-md) 0;
   }
   .ns-step-art {

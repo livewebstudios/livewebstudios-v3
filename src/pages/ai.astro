@@ -81,7 +81,11 @@ const servicePoints: Record<string, string[]> = {
     <section class="page-head page-head--glass page-head--bare has-videobg ai-hero">
       <AiVideoBg name="ai-hero" scrim="hero" />
       <div class="wrap">
-        <span class="eyebrow is-center mb-lg"><AiCaps /></span>
+        {/* Jon 2026-11-16: the brand line rode in the AI nav bar until each
+            studio got a single nav. It is the hero eyebrow now. One wrapping
+            span so the flex eyebrow sees one item, and AiCaps keeps the i
+            lowercase under the eyebrow's uppercase. */}
+        <span class="eyebrow is-center mb-lg ai-hero-tag"><span><AiCaps /> is the AI side of Live Web Studios. Same Jon, same phone number.</span></span>
         <h1 class="page-h1">We run our business on AI. <em>Want proof?</em> You're looking at it.</h1>
         <p class="page-lede">We use AI to build websites, write content, make videos and take busywork off your plate. A real person checks every piece before it reaches you.</p>
         <div class="hero-btns">

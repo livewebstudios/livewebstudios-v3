@@ -1,0 +1,149 @@
+---
+/**
+ * StudioCards: the four sub-studios as glass cards under the home hero copy.
+ *
+ * Jon 2026-11-16. Replaces the boxed link row that used to sit at the bottom
+ * right of the home hero. One card per sub-studio, in studio-strip order.
+ * Each card is the studio's logo, a small mono label in the studio colour and
+ * one line of description, and the whole card is the link.
+ *
+ * Card style is fixed by the handoff: 5% white fill, 14px blur, a 1px border
+ * in the studio colour at 45% alpha, 14px radius, a 3px lift on hover. Four
+ * across on desktop, two by two under 980px.
+ */
+import { relPrefix } from "../lib/relPrefix";
+import { studioCards, studioByKey, studioNav, link } from "../lib/studios";
+
+const rel = relPrefix(Astro.url.pathname);
+---
+
+<nav class="studio-cards" aria-label="Our studios">
+  {studioCards.map((card) => {
+    const studio = studioByKey(card.key);
+    const logo = studioNav[card.key].logo;
+    return (
+      <a class={`studio-card studio-card--${card.key}`} href={link(rel, studio.href)}>
+        <span class="studio-card-mark">
+          <img
+            src={`${rel}${logo.src}`}
+            alt={logo.alt}
+            width={logo.width}
+            height={logo.height}
+            decoding="async"
+          />
+        </span>
+        <span class="studio-card-txt">
+          <span class="studio-card-label">{card.label}</span>
+          <span class="studio-card-desc">{card.desc}</span>
+        </span>
+      </a>
+    );
+  })}
+</nav>
+
+<style>
+  .studio-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+    max-width: 1240px;
+    margin-top: 2.75rem;
+  }
+  .studio-card {
+    /* Label text takes the soft tint: the base colours do not all clear
+       4.5:1 as 11px type on the dark glass. The border takes the base. */
+    --c: var(--amber-soft);
+    --c-rgb: 252 211 77;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 150px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    text-align: left;
+    background: rgb(255 255 255 / 0.05);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgb(var(--c-rgb) / 0.45);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+    transition: transform 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+  .studio-card--ai { --c: var(--ai-soft); --c-rgb: 232 101 10; }
+  .studio-card--lwp { --c: var(--lwp-soft); --c-rgb: 233 30 140; }
+  .studio-card--ns { --c: var(--namesake-soft); --c-rgb: 74 222 128; }
+  .studio-card:hover {
+    transform: translateY(-3px);
+    background: rgb(var(--c-rgb) / 0.1);
+    border-color: rgb(var(--c-rgb) / 0.8);
+  }
+  .studio-card:focus-visible {
+    outline: 2px solid var(--c);
+    outline-offset: 3px;
+  }
+  .studio-card-mark {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    max-width: 100%;
+  }
+  .studio-card-mark img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-height: 48px;
+    max-width: 100%;
+  }
+  /* Wide, short lockups read too heavy at the full 48px. */
+  .studio-card--ai .studio-card-mark img { max-height: 22px; }
+  .studio-card--lwp .studio-card-mark img { max-height: 34px; }
+  .studio-card--ns .studio-card-mark img { max-height: 38px; }
+  .studio-card-txt {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .studio-card-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--c);
+  }
+  .studio-card-desc {
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 980px) {
+    .studio-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 2rem;
+    }
+    .studio-card {
+      min-height: 132px;
+      padding: 14px 16px;
+    }
+    .studio-card-mark {
+      height: 40px;
+    }
+    .studio-card-mark img { max-height: 40px; }
+    .studio-card--ai .studio-card-mark img { max-height: 18px; }
+    .studio-card--lwp .studio-card-mark img { max-height: 26px; }
+    .studio-card--ns .studio-card-mark img { max-height: 30px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .studio-card {
+      transition: none;
+    }
+    .studio-card:hover {
+      transform: none;
+    }
+  }
+</style>

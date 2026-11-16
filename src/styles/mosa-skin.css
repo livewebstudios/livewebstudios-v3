@@ -169,25 +169,8 @@
   color:var(--ink-soft);transform:none;
 }
 
-/* ---- Nav / chrome -------------------------------------------- */
-header.nav{background:rgb(var(--mosa-bg-rgb)/.6)}
-/* Where a sub-brand bar (Band / AI / Namesake) stacks under the main nav,
-   a faint light wash on the main bar separates the two (Jon 2026-10-10). */
-header.nav.nav--has-sub{
-  background:linear-gradient(rgb(var(--mosa-fg-rgb)/.12),rgb(var(--mosa-fg-rgb)/.12)),rgb(var(--mosa-bg-rgb)/.6);
-}
-/* Dropdown panel background: frosted blue-slate gradient instead of flat
-   black (Jon 2026-08-15: "doesnt look good black"). */
-.mega-inner{
-  background:linear-gradient(165deg,rgb(20 28 44/.94) 0%,rgb(10 14 24/.96) 60%,rgb(8 11 18/.97) 100%);
-  -webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);
-  border:1px solid rgb(var(--mosa-fg-rgb)/.14);
-  box-shadow:0 24px 60px rgb(0 0 0/.5),inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.07);
-}
-.mega-card{background:rgb(var(--mosa-fg-rgb)/.03);border-radius:var(--r-sm)}
-.mega-card::before{display:none}
-.mega-card:hover{transform:none}
-.mega-card--band:hover,.mega-card--namesake:hover{box-shadow:none}
+/* Nav chrome: the studio strip and the nav bar style themselves, scoped, in
+   StudioStrip.astro and Nav.astro. Nothing here touches them. */
 .chip{
   background:transparent;border:1px solid var(--line);
   backdrop-filter:none;border-radius:var(--r-sm);
@@ -381,25 +364,6 @@ h1.hero-h1{
 }
 .chip{margin-bottom:1.6rem}
 
-/* ---- Nav: bordered segments ----------------------------------
-   MOSA boxes each nav item and lets the boxes share edges, so the
-   nav reads as one segmented control rather than floating links. */
-/* Nav segments run brighter than --line (Jon 2026-09-07: "make the border
-   around the nav buttons slightly brighter"). Scoped to a nav-only token
-   rather than lifting --line, which draws every card, glass surface and rule
-   on the site. .10 -> .18 alpha. */
-:root{--line-nav:rgb(var(--mosa-fg-rgb)/.18)}
-.nav-links{gap:0;border:1px solid var(--line-nav)}
-.nav-links > a,.studios-trigger{
-  padding:.85rem 1.15rem;border-right:1px solid var(--line-nav);
-}
-.nav-links > a:last-child{border-right:0}
-.nav-links > a:hover,.studios-trigger:hover{
-  background:rgb(var(--mosa-fg-rgb)/.06);color:var(--ink-soft);
-}
-.nav-in{height:84px}
-.nav-cta .btn{padding:.85rem 1.4rem;border-radius:0}
-
 /* ---- Interior page heads: left-aligned ------------------------ */
 .page-head{text-align:left;padding-block:9rem 4rem}
 /* Blog hero height (Jon 2026-09-15): "header should be less height for the
@@ -478,7 +442,6 @@ footer{padding-block:120px 2rem}
 /* ---- Full-bleed chrome ---------------------------------------
    MOSA runs the nav edge-to-edge and starts hero copy near the left
    viewport edge. Body sections keep the centered container. */
-header.nav .wrap{max-width:none;padding-inline:clamp(1.5rem,3vw,2.5rem)}
 .hero-in{max-width:none;padding-inline:clamp(1.5rem,5vw,6.5rem)}
 h1.hero-h1{max-width:22ch}
 
@@ -616,60 +579,12 @@ h1.hero-h1{max-width:22ch}
 .page-detail .page-head--glass > .wrap > .eyebrow.mb-lg,
 .theme-live-ai .page-head--glass > .wrap > .eyebrow.mb-lg{margin-bottom:1.1rem}
 
-/* ---- Nav type: mono, sentence case, tight --------------------- */
-.nav-links > a,.studios-trigger{
-  text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
-  font-size:var(--mosa-text-sm,14px);color:var(--ink);
-}
-.btn,.nav-cta .btn{text-transform:uppercase}
+.btn{text-transform:uppercase}
 
 /* ============================================================
    PASS 2 — targeted corrections
    Higher specificity so these beat global.css regardless of order.
    ============================================================ */
-
-/* ---- Nav buttons: MOSA segmented control ---------------------- */
-header.nav .nav-links{gap:0;border:1px solid var(--line-nav)}
-header.nav .nav-links > a,header.nav .studios-trigger{
-  font-family:var(--sans);font-size:var(--mosa-text-sm,14px);
-  text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
-  color:var(--ink);padding:.95rem 1.35rem;
-  border-right:1px solid var(--line-nav);border-radius:0;
-}
-header.nav .nav-links > a:last-child{border-right:0}
-header.nav .nav-links > a:hover,header.nav .studios-trigger:hover{
-  background:rgb(var(--mosa-fg-rgb)/.07);color:var(--ink-soft);
-}
-
-/* ---- Dropdown trigger pairs: the caret belongs to its own label -----
-   Jon 2026-09-15: the carets were rendering at the START of the next cell
-   ("↓ Industries", "↓ About") instead of after their own label.
-
-   Cause is the rule directly above. Services, Industries and About are each a
-   real <a> PLUS a separate caret <button>, wrapped in .dd-pair. The MOSA cell
-   treatment (1.35rem side padding + the divider border) was landing on the
-   <a> alone, so the cell boundary fell BETWEEN the label and its caret and the
-   caret was pushed outside, hard against the next label. "Studios ↓" looked
-   right only because that one is a single button carrying both, so the cell
-   wrapped the pair by accident.
-
-   The fix is to make .dd-pair the cell and strip the cell treatment off the
-   link inside it. Every trigger then matches "Studios ↓". */
-header.nav .nav-links .dd-pair{
-  display:inline-flex;align-items:center;gap:.4rem;
-  padding:.95rem 1.35rem;
-  border-right:1px solid var(--line-nav);
-}
-header.nav .dd-pair > .studios-trigger{padding:0;border-right:0}
-/* Hover now lights the whole cell, label and caret together, the way the
-   plain links already do. */
-header.nav .nav-links .dd-pair:hover{background:rgb(var(--mosa-fg-rgb)/.07)}
-header.nav .nav-links .dd-pair:hover > .studios-trigger{color:var(--ink-soft)}
-header.nav .nav-cta .btn{
-  font-family:var(--sans);font-size:var(--mosa-text-sm,14px);
-  text-transform:none;letter-spacing:var(--mosa-track-mono,.02em);
-  padding:.95rem 1.5rem;
-}
 
 /* ---- Headings: MOSA weight (regular, not bold) ----------------- */
 .sec-head h2,.feature h2,.cta h2,h1.hero-h1,h1.page-h1,
@@ -856,13 +771,6 @@ main a:not(.btn):not(.card):not(.work-card):not(.blog-card):not(.glass-inner):ho
   font-weight:var(--mosa-weight-regular,400)!important;
 }
 
-/* ---- Nav case ------------------------------------------------
-   ALL CAPS per the LWS NAV TEXT RULE (the earlier MOSA lowercase
-   override is removed; markup already types capitals). */
-header.nav .nav-links > a,header.nav .studios-trigger{
-  display:inline-flex;align-items:center;
-}
-
 @media (max-width:900px){
   /* global.css already collapses .contact-grid to one column here, but the
      MOSA split above re-declares the two-column track with no breakpoint of
@@ -870,9 +778,6 @@ header.nav .nav-links > a,header.nav .studios-trigger{
      side by side down to phone width and the aside ran off the right edge. */
   .contact-grid{grid-template-columns:1fr;gap:2rem}
   .hero-in{padding-block:9rem 4rem;padding-inline:clamp(1.25rem,4vw,2.5rem)}
-  header.nav .nav-links{border:0}
-  header.nav .nav-links > a,header.nav .studios-trigger{border-right:0}
-  header.nav .nav-links .dd-pair{border-right:0}
   .sec-pad{padding-block:72px}
   footer{padding-block:72px 2rem}
   .card .glass-inner,.card-pad{padding:1.8rem}
@@ -985,9 +890,6 @@ h1.hero-h1 em,h1.page-h1 em,.page-head h1 em{
   border-color:rgb(var(--mosa-fg-rgb)/.2);
   box-shadow:inset 0 1px 0 rgb(var(--mosa-fg-rgb)/.14);
 }
-
-/* Nav "Let's Talk" matches the hero bar's corner radius (Jon 2026-08-27). */
-header.nav .nav-cta .btn{border-radius:6px}
 
 /* ---- Detail-page cards: plum gradient ------------------------
    Jon 2026-09-07, from a reference card: near-black at the top-left ramping

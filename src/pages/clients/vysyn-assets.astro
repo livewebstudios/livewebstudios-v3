@@ -314,7 +314,7 @@ const SIZES = "(max-width: 582px) calc(100vw - 2.5rem), (max-width: 882px) 46vw,
   /* ---- Sticky jump bar ---- */
   .va-jump {
     position: sticky;
-    top: var(--nav-h);
+    top: calc(var(--strip-h) + var(--nav-h));
     z-index: 40;
     background: rgb(var(--mosa-bg-rgb) / 0.82);
     -webkit-backdrop-filter: blur(14px);
@@ -353,7 +353,7 @@ const SIZES = "(max-width: 582px) calc(100vw - 2.5rem), (max-width: 882px) 46vw,
     padding-block: clamp(3rem, 6vw, 5rem);
     border-bottom: 1px solid var(--line-2);
     /* clear the sticky nav plus the jump bar on anchor jumps */
-    scroll-margin-top: calc(var(--nav-h) + 4rem);
+    scroll-margin-top: calc(var(--strip-h) + var(--nav-h) + 4rem);
   }
   .va-head {
     display: grid;
@@ -539,7 +539,7 @@ const SIZES = "(max-width: 582px) calc(100vw - 2.5rem), (max-width: 882px) 46vw,
     .va-grid { columns: 1; }
     .va-jump ul { padding: 0.6rem 0; gap: 0.4rem; }
     .va-jump a { padding: 0.36rem 0.62rem; font-size: 0.6rem; letter-spacing: 0.08em; }
-    .va-sec { scroll-margin-top: calc(var(--nav-h) + 8.5rem); }
+    .va-sec { scroll-margin-top: calc(var(--strip-h) + var(--nav-h) + 8.5rem); }
     .va-head { grid-template-columns: 1fr; }
     .va-num { padding-top: 0; }
     /* Arrows move to the bottom corners so the photo gets the full width. */
