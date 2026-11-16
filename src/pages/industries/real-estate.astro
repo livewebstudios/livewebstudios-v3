@@ -56,9 +56,8 @@ const builds = [
         <p class="page-lede">High-performance websites for brokers, agents, and property managers, built for search and built to convert.</p>
         <HeroActions links />
       </div>
+      <Marquee items={services.map((s) => ({ label: s.title, href: s.href }))} label="Services for this industry" />
     </section>
-
-    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

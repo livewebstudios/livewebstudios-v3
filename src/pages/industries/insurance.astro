@@ -56,9 +56,8 @@ const builds = [
         <p class="page-lede">Quote-ready websites for insurance agencies and brokers, mobile-first, fast, and built for local search.</p>
         <HeroActions links />
       </div>
+      <Marquee items={services.map((s) => ({ label: s.title, href: s.href }))} label="Services for this industry" />
     </section>
-
-    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

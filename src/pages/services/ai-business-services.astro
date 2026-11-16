@@ -14,6 +14,7 @@ import BotTalk from "../../components/BotTalk.astro";
 import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
+import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
@@ -77,9 +78,8 @@ const pageSchema = [
         <p class="page-lede">For companies that want to lead, not follow.</p>
         <HeroActions links />
       </div>
+      <Marquee items={tickerFromFeatures(cards)} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- WHAT AI CAN DO -->
     <section class="sec-pad">
@@ -127,7 +127,7 @@ const pageSchema = [
       <div class="wrap">
         {/* Sister-company row appended to the list (was a trailing card).
             Jon 2026-10-10: every row links to the LiveAiStudios hub. */}
-        <IncludedList items={[...cards.map((c) => ({ ...c, href: "../ai.html" })), { title: "LiveAiStudios", body: "Enterprise-level consulting.", tag: "SISTER CO.", href: "../ai.html", cta: "VISIT →" }]} />
+        <IncludedList anchors items={[...cards.map((c) => ({ ...c, href: "../ai.html" })), { title: "LiveAiStudios", body: "Enterprise-level consulting.", tag: "SISTER CO.", href: "../ai.html", cta: "VISIT →" }]} />
       </div>
     </section>
 

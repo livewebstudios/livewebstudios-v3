@@ -16,6 +16,7 @@ import { REBUILDS, SYSTEMS, MEDIA, SITE } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
 import { imageSize } from "../../lib/imageSize";
 import "../../styles/ai.css";
+import Marquee from "../../components/Marquee.astro";
 
 const rel = relPrefix(Astro.url.pathname);
 ---
@@ -36,6 +37,7 @@ const rel = relPrefix(Astro.url.pathname);
         <h1 class="page-h1">Proof, <em>not promises</em>.</h1>
         <p class="page-lede">1,258 projects in seven months. Here's what came out of them, by name.</p>
       </div>
+      <Marquee />
     </section>
 
     <!-- REBUILT END TO END -->

@@ -95,10 +95,8 @@ const localBusiness = {
         <span>RESPONSE <b>ONE CALL</b></span>
       </div>
     </div>
+    <Marquee />
   </section>
-
-  <!-- MARQUEE -->
-  <Marquee />
 
   <!-- SERVICES -->
   <section id="services" class="sec-pad has-aurora sec-grid">
@@ -195,8 +193,12 @@ const localBusiness = {
      hero opens with 14rem of top padding, which was right for copy alone but
      pushed the cards under the fold on a laptop. Scaled to the screen height
      here so the copy, the buttons and the cards land in the first screen;
-     .hero keeps centring the block when there is room to spare. */
+     .hero keeps centring the block when there is room to spare.
+
+     The ticker now takes 46px off the foot of the hero (session 2), so the
+     block padding gives that much back: at 1440x900 the copy, the cards and
+     the ticker all land inside the first screen. */
   .hero--bare > .hero-in {
-    padding-block: clamp(3.5rem, 9vh, 7rem) clamp(2.5rem, 5vh, 3.5rem);
+    padding-block: clamp(2.5rem, 7vh, 6rem) clamp(1.25rem, 3vh, 2.5rem);
   }
 </style>

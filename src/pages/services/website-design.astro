@@ -14,6 +14,7 @@ import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
+import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
 
 const included = [
@@ -79,9 +80,8 @@ const pageSchema = [
         <p class="page-lede">Hand-coded, mobile-first, built to rank.</p>
         <HeroActions links />
       </div>
+      <Marquee items={tickerFromFeatures(included)} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- OUR APPROACH -->
     <section class="sec-pad">
@@ -154,7 +154,7 @@ const pageSchema = [
         {/* Scannable-UI pass 2026-09-28: card grid -> IncludedList rows.
             The centered INCLUDED eyebrow + "Every Build Comes With" h2
             fold into the list's left-column label. */}
-        <IncludedList label="EVERY BUILD COMES WITH" items={included} />
+        <IncludedList anchors label="EVERY BUILD COMES WITH" items={included} />
       </div>
     </section>
 

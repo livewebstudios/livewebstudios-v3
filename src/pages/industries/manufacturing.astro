@@ -57,9 +57,8 @@ const builds = [
         <p class="page-lede">Catalog and capability sites for manufacturers and industrial businesses, built to impress buyers and rank for your products.</p>
         <HeroActions links />
       </div>
+      <Marquee items={services.map((s) => ({ label: s.title, href: s.href }))} label="Services for this industry" />
     </section>
-
-    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

@@ -236,9 +236,8 @@ const pageSchema = [
           </nav>
         </div>
       </div>
+      <Marquee items={areas.map((a) => ({ label: a.title, href: "#practice-areas" }))} label="What this service covers" />
     </section>
-
-    <Marquee />
 
     <!-- PRACTICE AREAS -->
     <section class="sec-pad has-scan" id="practice-areas">

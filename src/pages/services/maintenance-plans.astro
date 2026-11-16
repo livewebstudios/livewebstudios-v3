@@ -14,6 +14,7 @@ import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
+import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
 
 const included = [
@@ -100,9 +101,8 @@ const pageSchema = [
         <p class="page-lede">Monthly website maintenance plans.</p>
         <HeroActions links />
       </div>
+      <Marquee items={tickerFromFeatures(included)} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- WHAT'S INCLUDED -->
     <section class="sec-pad has-videobg has-scan">
@@ -114,7 +114,7 @@ const pageSchema = [
           <!-- em-dash: "every single month — without you" → "every single month, without you" -->
           <p>A maintenance plan means your site is monitored, protected, backed up, and reported on every single month, without you lifting a finger.</p>
         </div>
-        <IncludedList items={included} />
+        <IncludedList anchors items={included} />
       </div>
     </section>
 

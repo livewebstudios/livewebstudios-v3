@@ -11,6 +11,7 @@ import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
+import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
 
 const services = [
@@ -127,9 +128,8 @@ const pageSchema = [
         <p class="page-lede">SEO for small business, 23 years of search experience, North Jersey and nationwide.</p>
         <HeroActions links />
       </div>
+      <Marquee items={tickerFromFeatures(services)} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- WHAT'S INCLUDED -->
     <section class="sec-pad has-videobg has-scan">
@@ -141,7 +141,7 @@ const pageSchema = [
             visible so no new copy lands on seven pages without Jon seeing it;
             swap the class off to show it. */}
         <h2 class="visually-hidden">What SEO includes</h2>
-        <IncludedList items={services} />
+        <IncludedList anchors items={services} />
       </div>
     </section>
 

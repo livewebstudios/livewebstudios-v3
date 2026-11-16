@@ -56,9 +56,8 @@ const builds = [
         <p class="page-lede">Mission-driven websites for nonprofits, schools, and community organizations, built to engage donors and volunteers.</p>
         <HeroActions links />
       </div>
+      <Marquee items={services.map((s) => ({ label: s.title, href: s.href }))} label="Services for this industry" />
     </section>
-
-    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

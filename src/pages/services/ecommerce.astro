@@ -11,6 +11,7 @@ import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
+import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
 
 const cards = [
@@ -76,9 +77,8 @@ const pageSchema = [
         <p class="page-lede">E-commerce design &amp; development.</p>
         <HeroActions links />
       </div>
+      <Marquee items={tickerFromFeatures(cards)} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- ECOMMERCE CARDS -->
     <section class="sec-pad has-videobg has-scan">
@@ -90,7 +90,7 @@ const pageSchema = [
             visible so no new copy lands on seven pages without Jon seeing it;
             swap the class off to show it. */}
         <h2 class="visually-hidden">What an e-commerce build includes</h2>
-        <IncludedList items={cards} />
+        <IncludedList anchors items={cards} />
       </div>
     </section>
 

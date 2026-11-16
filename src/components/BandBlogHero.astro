@@ -29,6 +29,7 @@ import PhotoBg from "./PhotoBg.astro";
 import VideoBg from "./VideoBg.astro";
 import Arrow from "./Arrow.astro";
 import { relPrefix } from "../lib/relPrefix";
+import Marquee from "./Marquee.astro";
 
 export interface Props {
   /** This page's H1. Unique per page. */
@@ -91,6 +92,7 @@ const rel = relPrefix(Astro.url.pathname);
       </div>
     )}
   </div>
+  <Marquee />
 </section>
 
 <style>

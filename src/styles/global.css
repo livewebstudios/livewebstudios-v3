@@ -37,6 +37,9 @@
      studio has one nav bar, not a second bar stacked under the main one. */
   --strip-h:38px;
   --nav-h:84px;
+  /* The ticker pinned to the foot of each hero (Marquee.astro). A hero that
+     carries one keeps this much clear under its copy. */
+  --ticker-h:46px;
   --amber:#FCD34D;      /* Live Band Web Studios */
   --amber-soft:#FDE08A; /* its soft tint: strip tab and nav text */
   /* Blog categories (Jon 2026-09-15: "maybe that gold color? or gold/red?").
@@ -181,7 +184,7 @@ img{max-width:100%;display:block}
    body[data-studio] accent scope near the top. */
 
 /* ---- Hero ---- */
-.hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden}
+.hero{position:relative;min-height:calc(100svh - var(--strip-h) - var(--nav-h));display:flex;align-items:center;overflow:hidden}
 .hero-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
 .hero-fallback{ /* poster if WebGL unavailable — portal-centered glow */
   position:absolute;inset:0;z-index:0;
@@ -220,17 +223,38 @@ h1.hero-h1 em{font-style:normal;color:var(--cyan-soft)}
 .telemetry span{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
 .telemetry b{color:var(--cyan-soft);font-weight:500}
 
-/* ---- Marquee ---- */
-.marquee{
-  border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);
-  padding:1.1rem 0;overflow:hidden;white-space:nowrap;background:var(--bg-2);
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-          mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+/* ---- Ticker heroes (Jon 2026-11-16, five-studio navigation) ----
+   The ticker itself, its look and its motion, lives scoped in Marquee.astro.
+   What is here is the hero's side of the deal. A hero that carries the ticker
+   as a direct child:
+     1. fills the first screen under the studio strip and the nav bar, so the
+        ticker sits on the bottom edge of that screen at any window size;
+     2. keeps one ticker's height clear at its foot, so the bar never lands on
+        the copy when the copy is what sets the height (phones).
+   Keyed on :has(> .marquee) rather than a class on each <section>: dropping
+   <Marquee /> into a hero is the whole opt-in, and a hero without one is
+   untouched. The Live Band heroes do the same in lbws-gold.css and the
+   Namesake home hero in namesake.astro, each next to its own hero rules. */
+.page-head:has(> .marquee){
+  min-height:calc(100svh - var(--strip-h) - var(--nav-h));
+  /* Centre the copy in the taller frame. align-content on a plain block box
+     leaves the .wrap's own width and margins exactly as they were, which a
+     switch to flex or grid would not. Older browsers ignore it and the copy
+     stays where it always sat, at the top. */
+  align-content:center;
+  /* The ticker's own accent hairline is the hero's bottom edge now. The
+     page-head's faint rule under it left a second line 1px below. */
+  border-bottom:0;
 }
-.marquee-track{display:inline-flex;gap:2.5rem;animation:scroll 38s linear infinite}
-.marquee-track span{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.marquee-track span::before{content:"◆";color:var(--cyan);margin-right:2.5rem;font-size:.6rem;vertical-align:middle}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.page-head:has(> .marquee)::after{content:"";display:block;height:var(--ticker-h)}
+.hero:has(> .marquee){padding-bottom:var(--ticker-h)}
+/* The blog heroes stay short. Jon 2026-09-15 cut them down so the category
+   bar and the first post titles clear the fold, and a first-screen hero would
+   undo that. The ticker still pins to their bottom edge. Raised in
+   OPEN_QUESTIONS.md (N2-1). */
+.page-head--blog:has(> .marquee),
+.bandhero:has(> .marquee),
+.page-head--post:has(> .marquee){min-height:0}
 
 /* ---- Section scaffolding ---- */
 section{position:relative}
@@ -719,7 +743,7 @@ footer ul li a:hover{color:var(--cyan-soft)}
 @media (max-width:560px){.foot-grid{grid-template-columns:1fr}.foot-directory{grid-template-columns:1fr;gap:2rem}}
 
 @media (prefers-reduced-motion:reduce){
-  .marquee-track,.chip::after,.chip .dot{animation:none}
+  .chip::after,.chip .dot{animation:none}
   html{scroll-behavior:auto}
   /* no entrance movement — reveal content is simply present */
   .reveal{opacity:1;transform:none;transition:none}

@@ -7,12 +7,17 @@
  * The page passes its frozen media (the drum-start VideoBg) in the "media"
  * slot. The light beams and the overlay sit above it; nothing animates the
  * video itself. The ticker pins to the bottom of the hero.
+ *
+ * Jon 2026-11-16 (five-studio navigation): that ticker is now the sitewide
+ * Marquee, the same linked bar every studio carries, running the Live Band
+ * list from src/lib/studios.ts. It replaces the Gold Rack Readout band that
+ * sat here, so the hero has one ticker and not two stacked.
  */
 import Plate from "./Plate.astro";
 import VuPair from "./VuPair.astro";
 import Led from "./Led.astro";
 import Icon from "./Icon.astro";
-import Readout from "./Readout.astro";
+import Marquee from "../Marquee.astro";
 import HoldButton from "./HoldButton.astro";
 type IconName = "screen" | "doc" | "person" | "search" | "pen" | "phone" | "camera" | "bulb";
 interface Feat { title: string; line: string; href: string; icon: IconName }
@@ -26,9 +31,8 @@ interface Props {
   ctas: [Cta, Cta];
   featsLeft: Feat[];
   featsRight: Feat[];
-  readout: string[];
 }
-const { logo, eyebrow, lines, h1, sub, ctas, featsLeft, featsRight, readout } = Astro.props;
+const { logo, eyebrow, lines, h1, sub, ctas, featsLeft, featsRight } = Astro.props;
 ---
 <section class="lb-hero" data-hero aria-labelledby="lb-hero-h1">
   <div class="lb-hero__media" aria-hidden="true"><slot name="media" /></div>
@@ -65,5 +69,5 @@ const { logo, eyebrow, lines, h1, sub, ctas, featsLeft, featsRight, readout } = 
   </div>
 
   <HoldButton />
-  <Readout items={readout} />
+  <Marquee />
 </section>

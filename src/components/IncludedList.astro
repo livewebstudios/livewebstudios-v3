@@ -24,6 +24,7 @@
  * centered heading; the list then runs full width.
  */
 import CardIcon from "./CardIcon.astro";
+import { featureAnchor } from "../lib/studios";
 
 export interface Item {
   title: string;
@@ -38,15 +39,19 @@ export interface Props {
   /** Visible section label, rendered as the h2 pill. ALL CAPS. */
   label?: string;
   items: Item[];
+  /** Stamp an id on each row, from its title, so the hero ticker on a service
+      page can jump to it (Jon 2026-11-16). One list per page at most: two
+      lists with a shared title would repeat an id. */
+  anchors?: boolean;
 }
-const { label, items } = Astro.props;
+const { label, items, anchors = false } = Astro.props;
 ---
 
 <div class:list={["inc", "reveal", !label && "inc--full"]}>
   {label && <h2 class="inc__label eyebrow">{label}</h2>}
   <ul class="inc-list">
     {items.map((c) => (
-      <li class:list={["inc-row", c.href && "inc-row--link", !c.body && "inc-row--nobody"]}>
+      <li id={anchors ? featureAnchor(c.title) : undefined} class:list={["inc-row", c.href && "inc-row--link", !c.body && "inc-row--nobody"]}>
         <CardIcon title={c.title} />
         <div class="inc-row__text">
           <h3>
@@ -121,6 +126,10 @@ const { label, items } = Astro.props;
       border-color 0.4s var(--ease),
       box-shadow 0.4s var(--ease),
       transform 0.4s var(--ease);
+  }
+  /* A row the hero ticker jumps to lands clear of the strip and the nav. */
+  .inc-row[id] {
+    scroll-margin-top: calc(var(--strip-h) + var(--nav-h) + 1.5rem);
   }
   .inc-row:hover {
     background-position: 100% 100%;

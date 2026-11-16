@@ -20,6 +20,7 @@ import { SERVICES, ORG, getAiPosts, aiSlug, aiDate } from "../lib/aiStudio";
 import { relPrefix } from "../lib/relPrefix";
 import "../styles/ai.css";
 import AiCaps from "../components/AiCaps.astro";
+import Marquee from "../components/Marquee.astro";
 
 const rel = relPrefix(Astro.url.pathname);
 const latest = (await getAiPosts()).slice(0, 3);
@@ -93,6 +94,7 @@ const servicePoints: Record<string, string[]> = {
           <a href={`${rel}ai/proof.html`} class="btn btn-ghost">See the proof ↓</a>
         </div>
       </div>
+      <Marquee />
     </section>
 
     <!-- THE MODEL -->

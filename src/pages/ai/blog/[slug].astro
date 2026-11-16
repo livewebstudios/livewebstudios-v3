@@ -17,6 +17,7 @@ import { withBrand } from "../../../lib/seoTitle";
 import { relPrefix } from "../../../lib/relPrefix";
 import "../../../styles/ai.css";
 import AiCaps from "../../../components/AiCaps.astro";
+import Marquee from "../../../components/Marquee.astro";
 
 export async function getStaticPaths() {
   const posts = await getAiPosts();
@@ -78,7 +79,7 @@ const jsonLd = {
   <Nav />
 
   <main class="theme-live-ai">
-    <section class="page-head page-head--glass page-head--bare">
+    <section class="page-head page-head--glass page-head--bare page-head--post">
       <div class="wrap">
         <span class="eyebrow is-center mb-lg">LIVE AI INSIGHTS</span>
         <h1 class="page-h1 post-h1">{post.data.title}</h1>
@@ -87,6 +88,7 @@ const jsonLd = {
           {post.data.tags.length > 0 && <> · {post.data.tags.join(", ")}</>}
         </p>
       </div>
+      <Marquee />
     </section>
 
     <section class="sec-pad">

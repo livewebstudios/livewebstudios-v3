@@ -1,35 +1,286 @@
 ---
 /**
- * Marquee — the scrolling services strip.
+ * Marquee: the ticker pinned to the bottom edge of the hero.
  *
- * Ran on the home page only; Jon 2026-08-27 asked for it on every Live Web
- * Studios page. Deliberately NOT used on the Live Band Web Studios or
- * Namesake pages, which carry their own sub-brand.
+ * Jon 2026-11-16 (five-studio navigation, handoff section 2). It began as the
+ * scrolling services strip under the home hero, went onto every Live Web
+ * Studios page on 2026-08-27, and stayed off Live Band and Namesake. It now
+ * runs on all five studios, in each studio's accent, and every item is a link.
  *
- * The list is duplicated once so the CSS translate loop is seamless; the
- * second copy is aria-hidden so screen readers read the services once.
- * Animation is disabled under prefers-reduced-motion in global.css.
+ * Place it as the LAST CHILD of the hero <section>. It positions itself
+ * against that section's bottom edge; global.css ("Ticker heroes") gives the
+ * hero its first-screen height and keeps the copy clear of the bar.
+ *
+ * What it shows, first match wins:
+ *   1. `items`, when the page passes its own list. A service page passes what
+ *      the service includes, an industry page the services it links to.
+ *   2. The list for the studio the page belongs to (tickerItems in
+ *      src/lib/studios.ts). This is what a bare <Marquee /> renders.
+ *   3. The original hard-coded services list below, kept as the fallback.
+ *
+ * The list is written once for people and then repeated to fill the bar. Only
+ * the first copy is read by screen readers and reached by Tab; every repeat is
+ * aria-hidden and its links carry tabindex="-1".
+ *
+ * Motion: a CSS translate loop, paused while the pointer is over the bar. With
+ * keyboard focus inside, the row stops at its start so the focused link is on
+ * screen and the bar scrolls with the focus. Under prefers-reduced-motion
+ * there is no animation and no repeat: one row that scrolls sideways.
  */
-const services = [
-  "Web Hosting",
-  "Website Design",
-  "AI Automation",
-  "SEO Optimization",
-  "E-Commerce",
-  "Logo & Brand Identity",
-  "Custom Graphics & Animation",
-  "Site Maintenance",
-  "Content Strategy",
-  "Monthly SEO & Keyword Reporting",
-  "Domain Registration",
-  "Social Media",
-  "Performance Audits",
+import { relPrefix } from "../lib/relPrefix";
+import { link, studioByKey, studioFromPath, tickerItems, type TickerItem } from "../lib/studios";
+
+export interface Props {
+  /** The page's own list. Omit for the studio's list. */
+  items?: TickerItem[];
+  /** aria-label for the bar. Defaults to "What <studio> does". */
+  label?: string;
+}
+
+/* The fallback: the list this component shipped with, each entry now pointed
+   at the page that covers it. */
+const fallback: TickerItem[] = [
+  { label: "Web Hosting", href: "services/hosting.html" },
+  { label: "Website Design", href: "services/website-design.html" },
+  { label: "AI Automation", href: "ai.html" },
+  { label: "SEO Optimization", href: "services/seo.html" },
+  { label: "E-Commerce", href: "services/ecommerce.html" },
+  { label: "Logo & Brand Identity", href: "services/branding.html" },
+  { label: "Custom Graphics & Animation", href: "services/custom-styles-and-carousel-cards.html" },
+  { label: "Site Maintenance", href: "services/maintenance-plans.html" },
+  { label: "Content Strategy", href: "services/consulting.html" },
+  { label: "Monthly SEO & Keyword Reporting", href: "services/seo.html" },
+  { label: "Domain Registration", href: "services/hosting.html" },
+  { label: "Social Media", href: "services.html" },
+  { label: "Performance Audits", href: "services.html" },
 ];
+
+const { items, label } = Astro.props;
+const path = Astro.url.pathname;
+const rel = relPrefix(path);
+const studio = studioFromPath(path);
+
+const own = items?.filter((i) => i.label && i.href) ?? [];
+const studioList = tickerItems[studio] ?? [];
+const list = own.length ? own : studioList.length ? studioList : fallback;
+
+/* How many copies fill the bar. The loop slides the track by half its own
+   width, so each half has to be at least as wide as the widest screen or the
+   row runs out before it wraps. Widths are estimated from the type: 13px mono
+   with .16em tracking is about 10px a character, plus the dot and the padding
+   round each item. A three-item industry list needs many more copies than the
+   ten-item home list, and both end up moving at about the same speed. */
+const CHAR = 10;
+const ITEM = 41;
+const WIDEST = 3840;
+const SPEED = 42; /* px per second */
+const setWidth = list.reduce((w, i) => w + i.label.length * CHAR + ITEM, 0);
+const perHalf = Math.max(1, Math.ceil(WIDEST / setWidth));
+const copies = perHalf * 2;
+const duration = Math.round((setWidth * perHalf) / SPEED);
+
+const barLabel = label ?? `What ${studioByKey(studio).name} does`;
 ---
 
-<div class="marquee" aria-label="Live Web Studios services">
-  <div class="marquee-track">
-    {services.map((s) => <span>{s}</span>)}
-    {services.map((s) => <span aria-hidden="true">{s}</span>)}
+<nav class="marquee" aria-label={barLabel} data-marquee>
+  <div class="marquee-track" style={`--marquee-dur:${duration}s`}>
+    {Array.from({ length: copies }, (_, copy) => (
+      <ul class="marquee-set" role="list" aria-hidden={copy > 0 ? "true" : undefined}>
+        {list.map((item) => (
+          <li>
+            <a href={link(rel, item.href)} tabindex={copy > 0 ? -1 : undefined}>
+              <span>{item.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ))}
   </div>
-</div>
+</nav>
+
+<script>
+  /* Tabbing through the row scrolls the bar sideways to follow the focus.
+     The browser only does that for a link that is wholly out of view, so a
+     link half off the edge is nudged the rest of the way in here. Put the bar
+     back at the start when focus leaves, so the loop resumes from a full bar.
+     Under reduced motion the row is the visitor's to scroll, so it is left
+     where they put it. */
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const bars = document.querySelectorAll<HTMLElement>("[data-marquee]");
+  const EDGE = 12;
+  bars.forEach((bar) => {
+    bar.addEventListener("focusin", (e) => {
+      const item = (e.target as HTMLElement).closest("a");
+      if (!item || !item.matches(":focus-visible")) return;
+      requestAnimationFrame(() => {
+        const box = bar.getBoundingClientRect();
+        const at = item.getBoundingClientRect();
+        if (at.right > box.right - EDGE) bar.scrollLeft += at.right - box.right + EDGE;
+        else if (at.left < box.left + EDGE) bar.scrollLeft -= box.left - at.left + EDGE;
+      });
+    });
+    bar.addEventListener("focusout", (e) => {
+      if (still.matches || bar.contains(e.relatedTarget as Node | null)) return;
+      bar.scrollLeft = 0;
+    });
+  });
+
+  /* Hold the loop while the bar is scrolled out of view. Nothing is watching
+     it there, and the hero is one screen of a long page. */
+  if ("IntersectionObserver" in window) {
+    const seen = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        entry.target.toggleAttribute("data-offscreen", !entry.isIntersecting);
+      }
+    });
+    bars.forEach((bar) => seen.observe(bar));
+  }
+</script>
+
+<style>
+  /* Pinned to the bottom edge of the hero it sits in. Every hero on the site
+     is already a positioned box, so the bar lands on the hero's edge even
+     where the :has() rules in global.css are not understood. */
+  .marquee {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 3;
+    box-sizing: border-box;
+    height: var(--ticker-h, 46px);
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    /* Dark glass. The hairline is the studio accent, the same colour and
+       about the same strength as the one under the studio strip, so the two
+       bars bracket the first screen. */
+    background: rgb(3 5 9 / 0.72);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid rgb(var(--studio-rgb, 56 189 248) / 0.35);
+    text-align: left;
+  }
+
+  .marquee-track {
+    display: flex;
+    flex: none;
+    width: max-content;
+    animation: marquee var(--marquee-dur, 60s) linear infinite;
+    will-change: transform;
+  }
+  .marquee-set {
+    display: flex;
+    flex: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .marquee-set li {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  /* The dot between items, in the studio accent. Leads each item, so the gap
+     between the last item of one copy and the first of the next carries one
+     too and the seam does not show. */
+  .marquee-set li::before {
+    content: "";
+    flex: none;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--studio, var(--cyan));
+  }
+
+  /* The link is the full height of the bar: a 46px target on a 13px label. */
+  .marquee-set a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 1.1rem;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  /* Colour sits on the inner span. The sitewide "main a:hover" rule in
+     mosa-skin.css outranks anything written here for the link itself, and
+     this keeps the hover tint without raising the stakes on specificity. */
+  .marquee-set a span {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #c5d2e0;
+    transition: color 0.2s var(--ease, ease);
+  }
+  .marquee-set a:hover span,
+  .marquee-set a:focus-visible span {
+    color: var(--studio-soft, var(--cyan-soft));
+  }
+  .marquee-set a:active span {
+    color: var(--ink-soft, #fff);
+  }
+  .marquee-set a:focus-visible {
+    outline: 2px solid var(--studio-soft, var(--cyan-soft));
+    outline-offset: -5px;
+    border-radius: 8px;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Pause where it is while the pointer is on the bar, while anything in it
+     holds focus, and while the bar is scrolled out of view. */
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track,
+  .marquee[data-offscreen] .marquee-track {
+    animation-play-state: paused;
+  }
+  /* Keyboard focus: stop at the start instead of pausing mid-slide. A row
+     frozen mid-slide can leave the focused link off the left edge, where no
+     scroll can reach it. At rest every link is to the right of the origin, so
+     the browser scrolls the bar to whichever one has focus. */
+  .marquee:has(a:focus-visible) .marquee-track {
+    animation: none;
+  }
+  /* At rest the row starts at the bar's left edge, so the dot that leads the
+     very first item would sit hard against it. Hidden, not removed, so the
+     row keeps its measure. */
+  .marquee:has(a:focus-visible) .marquee-set:first-child li:first-child::before {
+    visibility: hidden;
+  }
+
+  /* No animation, no repeats: one row, scrolled sideways by hand. */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+    .marquee::-webkit-scrollbar {
+      display: none;
+    }
+    .marquee-track {
+      animation: none;
+      will-change: auto;
+    }
+    .marquee-set[aria-hidden="true"] {
+      display: none;
+    }
+    /* A still row lines up with the page gutter instead of starting at the
+       screen edge behind a stray dot. */
+    .marquee-set:first-child {
+      padding-inline: calc(clamp(1.25rem, 4vw, 2.5rem) - 1.1rem - 5px);
+    }
+    .marquee-set:first-child li:first-child::before {
+      visibility: hidden;
+    }
+    .marquee-set a span {
+      transition: none;
+    }
+  }
+</style>

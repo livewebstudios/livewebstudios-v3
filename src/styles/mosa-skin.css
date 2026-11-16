@@ -669,7 +669,7 @@ h1.hero-h1{max-width:22ch}
 
 /* ---- Mono labels + eyebrows ----------------------------------- */
 .label,.work-cat,.blog-date,.foot-bottom p,.foot-credit,.mark,
-.telemetry span,.marquee-track span{
+.telemetry span{
   font-family:var(--mono);color:var(--muted);
   letter-spacing:var(--mosa-track-label,.06em);
 }
@@ -678,12 +678,6 @@ h1.hero-h1{max-width:22ch}
    modifier would fight the layout. */
 .eyebrow.is-center{justify-content:flex-start}
 .telemetry b{color:var(--ink-soft);font-weight:var(--mosa-weight-regular,400)}
-
-/* ---- Marquee: neutral separators ------------------------------ */
-.marquee{background:rgb(var(--mosa-fg-rgb)/.02)}
-.marquee-track span::before{
-  content:"/";color:var(--muted-2);font-size:var(--mosa-text-xs,12px);
-}
 
 /* ---- Split / portrait blocks ---------------------------------- */
 .split{gap:4rem}

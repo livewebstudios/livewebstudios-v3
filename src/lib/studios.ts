@@ -59,9 +59,11 @@ export function studioFromPath(pathname: string): StudioKey {
   return "lws";
 }
 
-/** Resolve a studios.ts href against a page's relPrefix. */
+/** Resolve a studios.ts href against a page's relPrefix. A full URL, an
+    on-page "#anchor" and an href a page has already made relative ("../x")
+    pass through untouched. */
 export const link = (rel: string, href: string) =>
-  /^https?:\/\//.test(href) ? href : `${rel}${href}`;
+  /^(https?:\/\/|#|\.\.?\/)/.test(href) ? href : `${rel}${href}`;
 
 /* ---- Per-studio nav -------------------------------------------------- */
 
@@ -309,6 +311,92 @@ export const servicePanes: ServicePane[] = [
     ],
   },
 ];
+
+/* ---- Ticker ----------------------------------------------------------- */
+
+export interface TickerItem {
+  label: string;
+  /** A site-root key like the rest of this file, or anything link() passes
+      through: a full URL, an on-page "#anchor", a page-relative "../x". */
+  href: string;
+}
+
+/* What the ticker at the foot of the hero rotates (Jon 2026-11-16, handoff
+   section 2). One list per studio: Marquee.astro picks the list for the page
+   it is on, so the studio home, its blog, About, Contact and FAQ all run the
+   same one. A service page and an industry page pass their own list instead.
+
+   Every item is a link. An item with no page of its own goes to the nearest
+   real page or to the section that covers it, never to an invented address. */
+const BAND = "live-band-web-studios.html";
+
+export const tickerItems: Record<StudioKey, TickerItem[]> = {
+  lws: [
+    { label: "Website Design", href: "services/website-design.html" },
+    { label: "E-Commerce", href: "services/ecommerce.html" },
+    { label: "Hosting", href: "services/hosting.html" },
+    { label: "Maintenance Plans", href: "services/maintenance-plans.html" },
+    { label: "SEO & Marketing", href: "services/seo.html" },
+    { label: "Branding", href: "services/branding.html" },
+    { label: "Logo Design", href: "services/logo-design.html" },
+    /* Session 4 moves this page under /ai; the href changes there. */
+    { label: "AI Workflow", href: "services/ai-workflow.html" },
+    { label: "Consulting", href: "services/consulting.html" },
+    { label: "Expert Witness", href: "services/expert-witness.html" },
+  ],
+  /* None of the first seven has a page of its own. They are what the "What We
+     Build" cards on the Live Band home cover (#kit): Full Band Sites lists gig
+     pages, galleries, video and set lists, and the EPK card lists the tech
+     rider and the stage plot. The last two follow the hero's own links. */
+  band: [
+    { label: "Gig Pages", href: `${BAND}#kit` },
+    { label: "Galleries", href: `${BAND}#kit` },
+    { label: "Video", href: `${BAND}#kit` },
+    { label: "Set Lists", href: `${BAND}#kit` },
+    { label: "EPK Pages", href: `${BAND}#kit` },
+    { label: "Tech Rider", href: `${BAND}#kit` },
+    { label: "Stage Plot", href: `${BAND}#kit` },
+    { label: "SEO Built In", href: `${BAND}#seo` },
+    { label: "You Can Edit It", href: "live-band-web-studios/pricing.html" },
+  ],
+  ai: [
+    { label: "Office Automation", href: "ai/services.html#automation" },
+    { label: "AI Content in Your Voice", href: "ai/services.html#content" },
+    { label: "AI Video & Photos", href: "ai/services.html#media" },
+    { label: "Monthly Search Reports", href: "ai/services.html#reporting" },
+    /* Session 4 moves these two under /ai; the hrefs change there. */
+    { label: "AI Workflow", href: "services/ai-workflow.html" },
+    { label: "AI Platform", href: "services/ai-platform.html" },
+  ],
+  /* Defined now, rendered from session 5 on, when the Live Web Photos pages
+     land. Until then these resolve to livewebphotos.com like the nav does. */
+  lwp: [
+    ...caseStudies.map(([label, href]) => ({ label, href })),
+    { label: "AI Portraits", href: lwp("live-web-photos/ai-portraits.html", "professional-portfolio.html") },
+  ],
+  /* The four kinds of people are named in the Namesake home hero and have no
+     page each, so they go to the studio home. "Built Around You" lands on the
+     process section, whose heading says the same thing. */
+  ns: [
+    { label: "Executives", href: "namesake.html" },
+    { label: "Founders", href: "namesake.html" },
+    { label: "Attorneys", href: "namesake.html" },
+    { label: "Performers", href: "namesake.html" },
+    { label: "Built Around You", href: "namesake.html#work" },
+    { label: "Not a Template", href: "namesake.html" },
+  ],
+};
+
+/* Service pages: the ticker lists what the service includes, read from the
+   page's own feature array, and each item jumps to its row. IncludedList
+   stamps the matching id on the row when it is given `anchors`. */
+const slug = (s: string) =>
+  s.toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+export const featureAnchor = (title: string) => `inc-${slug(title)}`;
+
+export const tickerFromFeatures = (features: { title: string }[]): TickerItem[] =>
+  features.map((f) => ({ label: f.title, href: `#${featureAnchor(f.title)}` }));
 
 /* ---- Home hero cards ------------------------------------------------- */
 

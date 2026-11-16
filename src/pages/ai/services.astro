@@ -16,6 +16,7 @@ import BreathingGrid from "../../components/BreathingGrid.astro";
 import { SERVICES, ORG_ID, SITE } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
 import "../../styles/ai.css";
+import Marquee from "../../components/Marquee.astro";
 
 const rel = relPrefix(Astro.url.pathname);
 const url = `${SITE}/ai/services`;
@@ -49,6 +50,7 @@ const jsonld = SERVICES.map((s) => ({
         <h1 class="page-h1">Six things we run on AI. <em>All of them shipped.</em></h1>
         <p class="page-lede">Nothing on this page is a capability we hope to have. Each offer is the same system that already runs our own studio, pointed at your business.</p>
       </div>
+      <Marquee />
     </section>
 
     <!-- THE SIX -->

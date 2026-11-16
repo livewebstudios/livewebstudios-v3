@@ -4,9 +4,13 @@
  * Portfolio). The page passes its frozen photo (PhotoBg) in the "media" slot;
  * it breathes slowly under two light beams. Copy is left-aligned as before.
  * The H1 goes in the default slot so one word can carry .lb-gold.
+ *
+ * Jon 2026-11-16: it carries the studio ticker on its bottom edge like every
+ * other hero, and fills the first screen so the ticker sits at the foot of it.
  */
 import HoldButton from "./HoldButton.astro";
 import Led from "./Led.astro";
+import Marquee from "../Marquee.astro";
 interface Props { eyebrow: string; sub?: string }
 const { eyebrow, sub } = Astro.props;
 ---
@@ -24,6 +28,7 @@ const { eyebrow, sub } = Astro.props;
     </div>
   </div>
   <HoldButton />
+  <Marquee />
 </section>
 
 <style>

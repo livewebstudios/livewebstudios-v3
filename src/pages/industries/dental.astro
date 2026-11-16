@@ -55,9 +55,8 @@ const builds = [
         <p class="page-lede">Patient-focused websites for dental practices with online booking, local SEO, and trust-building design.</p>
         <HeroActions links />
       </div>
+      <Marquee items={services.map((s) => ({ label: s.title, href: s.href }))} label="Services for this industry" />
     </section>
-
-    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

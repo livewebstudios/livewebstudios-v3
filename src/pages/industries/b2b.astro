@@ -56,9 +56,8 @@ const builds = [
         <p class="page-lede">Lead-generation websites for B2B companies, built to rank, convert, and represent your brand at the highest level.</p>
         <HeroActions links />
       </div>
+      <Marquee items={services.map((s) => ({ label: s.title, href: s.href }))} label="Services for this industry" />
     </section>
-
-    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

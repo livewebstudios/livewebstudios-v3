@@ -12,6 +12,7 @@ import VideoBg from "../../components/VideoBg.astro";
 import { getAiPosts, aiSlug, aiDate, SITE, ORG_ID } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
 import "../../styles/ai.css";
+import Marquee from "../../components/Marquee.astro";
 
 const rel = relPrefix(Astro.url.pathname);
 const posts = await getAiPosts();
@@ -51,6 +52,7 @@ const jsonld = {
         <h1 class="page-h1">Notes from a studio that <em>runs on AI</em>.</h1>
         <p class="page-lede">What works and what it costs. Written for people who run a business, not people who sell AI.</p>
       </div>
+      <Marquee />
     </section>
 
     <section class="sec-pad">

@@ -9,6 +9,7 @@ import Footer from "../../components/Footer.astro";
 import { SITE } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
 import "../../styles/ai.css";
+import Marquee from "../../components/Marquee.astro";
 
 const rel = relPrefix(Astro.url.pathname);
 ---
@@ -32,6 +33,7 @@ const rel = relPrefix(Astro.url.pathname);
           <a href={`${rel}ai/blog.html`} class="btn btn-ghost">Read the Insights →</a>
         </div>
       </div>
+      <Marquee />
     </section>
   </main>
 

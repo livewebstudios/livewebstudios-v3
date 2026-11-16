@@ -57,9 +57,8 @@ const builds = [
         <p class="page-lede">Professional websites for law firms, built to rank locally, generate leads, and establish authority.</p>
         <HeroActions links />
       </div>
+      <Marquee items={services.map((s) => ({ label: s.title, href: s.href }))} label="Services for this industry" />
     </section>
-
-    <Marquee />
 
     <!-- WHY -->
     <section class="sec-pad">

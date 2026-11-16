@@ -515,6 +515,16 @@
 .lb-hero[data-hero] .lb-hero__logo { width: clamp(170px, 15vw, 230px); }
 .lb-hero[data-hero] .lb-hero__meters { width: min(100%, 27rem); padding: var(--lb-s-4); margin-top: 0; }
 
+/* Studio ticker (Jon 2026-11-16, five-studio navigation). The sitewide Marquee
+   pins to the bottom edge of both Live Band heroes. The hero keeps one
+   ticker's height clear at its foot, the sub-page hero grows from its short
+   band to the first screen so the ticker sits at the bottom of it, and the
+   hold button moves up out of the bar's way. The home hero used to end in the
+   Readout band; its rules above are left in place with the component. */
+.lb-hero:has(> .marquee) { padding-bottom: var(--ticker-h, 46px); }
+.lb-hero--page:has(> .marquee) { min-height: max(calc(100svh - var(--strip-h, 38px) - var(--nav-h, 84px)), 26rem); }
+.lb-hero:has(> .marquee) > .lb-hold { bottom: calc(var(--ticker-h, 46px) + var(--lb-s-4)); }
+
 /* The band art in images/band/ is shot deliberately near-black in amber
    stage light; the pre-Gold-Rack cards lifted it the same way. Brightness
    only, and only for that set, so screenshots and portraits stay true. */

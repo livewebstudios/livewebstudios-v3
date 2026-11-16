@@ -11,6 +11,7 @@ import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
+import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
 
 /* Schema: the WebPage node Base would emit by default, plus a Service node
@@ -70,9 +71,8 @@ const pageSchema = [
         <p class="page-lede">Logo design &amp; graphic services.</p>
         <HeroActions links />
       </div>
+      <Marquee items={tickerFromFeatures(included)} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- WHAT YOU GET / GRAPHIC SERVICES -->
     <section class="sec-pad has-videobg has-scan">
@@ -84,7 +84,7 @@ const pageSchema = [
             visible so no new copy lands on seven pages without Jon seeing it;
             swap the class off to show it. */}
         <h2 class="visually-hidden">What logo design includes</h2>
-        <IncludedList items={included} />
+        <IncludedList anchors items={included} />
       </div>
     </section>
 

@@ -13,6 +13,7 @@ import BotTalk from "../../components/BotTalk.astro";
 import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
+import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
 
 const pillars = [
@@ -74,9 +75,8 @@ const pageSchema = [
         <p class="page-lede">The LWS AI-Powered Website Platform.</p>
         <HeroActions links />
       </div>
+      <Marquee items={tickerFromFeatures(pillars)} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- INTRO + WHAT THIS MEANS -->
     <section class="sec-pad">
@@ -122,7 +122,7 @@ const pageSchema = [
     <section class="sec-pad is-alt has-videobg has-scan">
       <VideoBg src="bg-blue-fog.mp4" scrim="default" />
       <div class="wrap">
-        <IncludedList items={pillars.map((c) => ({ ...c, href: "../ai.html" }))} />
+        <IncludedList anchors items={pillars.map((c) => ({ ...c, href: "../ai.html" }))} />
       </div>
     </section>
 

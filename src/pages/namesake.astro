@@ -20,6 +20,7 @@ import Footer from "../components/Footer.astro";
 import Glass from "../components/Glass.astro";
 import NamesakeLive from "../components/NamesakeLive.astro";
 import VideoBg from "../components/VideoBg.astro";
+import Marquee from "../components/Marquee.astro";
 import { imageSize } from "../lib/imageSize";
 
 // Portrait slot -> file map (14 slots, 13 unique photos; slot 14 reuses 06,
@@ -115,6 +116,7 @@ const values = [
         <span class="fh-scroll-cue__line"></span>
         Scroll
       </div>
+      <Marquee />
     </section>
 
     <!-- POSITIONING -->
@@ -306,7 +308,10 @@ const values = [
   .fh-hero {
     --fh-ink: var(--bg);
     position: relative;
-    min-height: clamp(620px, 92vh, 920px);
+    /* Jon 2026-11-16: the first screen under the strip and the nav, so the
+       ticker sits on its bottom edge. Was clamp(620px, 92vh, 920px); the
+       620px floor stays for short windows. */
+    min-height: max(620px, calc(100svh - var(--strip-h) - var(--nav-h)));
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -448,7 +453,8 @@ const values = [
 
   /* Scroll cue. */
   .fh-scroll-cue {
-    position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
+    /* Lifted by the ticker's height: the bar owns the bottom edge now. */
+    position: absolute; left: 50%; bottom: calc(var(--ticker-h) + 18px); transform: translateX(-50%);
     display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
     color: var(--muted-2); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
     font-family: var(--mono);

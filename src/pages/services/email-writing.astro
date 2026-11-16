@@ -212,9 +212,8 @@ const pageSchema = [
           <a class="btn btn-ghost" href="#voices">The Six Voices ↓</a>
         </div>
       </div>
+      <Marquee items={voices.map((v) => ({ label: v.title, href: "#voices" }))} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- THE PROBLEM -->
     {/* Jon 2026-09-22: the envelope drift was scrapped ("they look terrible,

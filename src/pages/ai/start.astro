@@ -18,6 +18,7 @@ import AiVideoBg from "../../components/AiVideoBg.astro";
 import { SITE } from "../../lib/aiStudio";
 import { relPrefix } from "../../lib/relPrefix";
 import "../../styles/ai.css";
+import Marquee from "../../components/Marquee.astro";
 
 const rel = relPrefix(Astro.url.pathname);
 
@@ -66,6 +67,7 @@ const aiUse = ["Not yet", "A little", "Pretty regularly"];
           <a href="#start-form" class="btn btn-primary">Tell me the chore</a>
         </div>
       </div>
+      <Marquee />
     </section>
 
     <section id="start-form" class="sec-pad start-form sec-grid">

@@ -22,6 +22,7 @@
  */
 import VideoBg from "./VideoBg.astro";
 import HeroActions from "./HeroActions.astro";
+import Marquee from "./Marquee.astro";
 
 export interface Props {
   /** This page's H1. Unique per page. */
@@ -52,4 +53,5 @@ const { title, lede, standing = false } = Astro.props;
     <slot />
     <HeroActions />
   </div>
+  <Marquee />
 </section>

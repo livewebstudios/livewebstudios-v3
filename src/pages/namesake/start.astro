@@ -16,6 +16,7 @@ import Glass from "../../components/Glass.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import NamesakePreview from "../../components/NamesakePreview.tsx";
 import { relPrefix } from "../../lib/relPrefix";
+import Marquee from "../../components/Marquee.astro";
 
 /* The island builds every font URL from this, so the preview keeps the LWS
    path rule at any depth. */
@@ -71,6 +72,7 @@ const examples = [
           <NamesakePreview client:load base={rel} />
         </div>
       </div>
+      <Marquee />
     </section>
 
     <!-- THE INTAKE FORM -->

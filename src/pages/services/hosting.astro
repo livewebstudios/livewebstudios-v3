@@ -11,6 +11,7 @@ import Glass from "../../components/Glass.astro";
 import IncludedList from "../../components/IncludedList.astro";
 import VideoBg from "../../components/VideoBg.astro";
 import Marquee from "../../components/Marquee.astro";
+import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
 
 const features = [
@@ -76,9 +77,8 @@ const pageSchema = [
         <p class="page-lede">Managed hosting &amp; maintenance.</p>
         <HeroActions links />
       </div>
+      <Marquee items={tickerFromFeatures(features)} label="What this service includes" />
     </section>
-
-    <Marquee />
 
     <!-- WHY HOSTING MATTERS -->
     <section class="sec-pad">
@@ -131,7 +131,7 @@ const pageSchema = [
           <span class="eyebrow">INCLUDED</span>
           <h2>Production-Grade Hosting</h2>
         </div>
-        <IncludedList items={features} />
+        <IncludedList anchors items={features} />
       </div>
     </section>
 
