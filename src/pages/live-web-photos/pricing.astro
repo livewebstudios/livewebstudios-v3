@@ -1,0 +1,226 @@
+---
+/**
+ * /live-web-photos/pricing. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/pricing.html (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Marquee from "../../components/Marquee.astro";
+import LwpScripts from "../../components/LwpScripts.astro";
+import "../../styles/lwp.css";
+---
+
+<Base
+  title={"AI Image Enhancement Pricing | Live Web Photos"}
+  description={"Transparent pricing for AI virtual staging, product photo enhancement, architectural visualization, and professional AI portrait portfolios. Starting at $5/image."}
+  canonical="https://livewebstudios.com/live-web-photos/pricing"
+  ogImage="images/lwp/og-home.jpg"
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <div class="page-hero">
+      <div class="container">
+        <span class="section-label">No Guesswork</span>
+        <h1>Transparent Pricing</h1>
+        <p>Every service has a clear price. You know what you're spending before you send us a single file. No quotes-on-request, no surprise invoices, no hourly billing theater.</p>
+      </div>
+      <Marquee />
+    </div>
+
+    <!-- PER-IMAGE PRICING TABLE -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label">Per-Image Services</span>
+        <h2 class="section-title">Pay Per Image</h2>
+        <p class="section-intro">Ideal for one-off projects, new catalog listings, or trying the service before committing to a bulk order.</p>
+
+        <div style="margin-top:60px;border:1px solid var(--color-border);">
+
+          <div class="price-row price-row-head" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;background:var(--color-bg-alt);padding:16px 28px;border-bottom:1px solid var(--color-border);">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-mid);">Service</div>
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-mid);">Standard</div>
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-mid);">Premium</div>
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-mid);">Turnaround</div>
+          </div>
+
+          <div class="price-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:20px 28px;border-bottom:1px solid var(--color-border);align-items:center;">
+            <div><strong style="color:var(--color-white);">Background Removal / Cleanup</strong><br><span style="font-size:0.82rem;color:var(--color-mid);">Product isolation, white or transparent background</span></div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$5</div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$9</div>
+            <div style="font-size:0.82rem;color:var(--color-mid);">48 hrs / 24 hrs rush</div>
+          </div>
+
+          <div class="price-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:20px 28px;border-bottom:1px solid var(--color-border);align-items:center;">
+            <div><strong style="color:var(--color-white);">Product Photo Enhancement</strong><br><span style="font-size:0.82rem;color:var(--color-mid);">Lighting, color correction, studio quality output</span></div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$8</div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$15</div>
+            <div style="font-size:0.82rem;color:var(--color-mid);">48 hrs / 24 hrs rush</div>
+          </div>
+
+          <div class="price-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:20px 28px;border-bottom:1px solid var(--color-border);align-items:center;">
+            <div><strong style="color:var(--color-white);">Floral / Specialty Retail</strong><br><span style="font-size:0.82rem;color:var(--color-mid);">Background swap, vibrancy, detail enhancement</span></div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$12</div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$20</div>
+            <div style="font-size:0.82rem;color:var(--color-mid);">48 hrs / 24 hrs rush</div>
+          </div>
+
+          <div class="price-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:20px 28px;border-bottom:1px solid var(--color-border);align-items:center;">
+            <div><strong style="color:var(--color-white);">Virtual Staging — Per Room</strong><br><span style="font-size:0.82rem;color:var(--color-mid);">Empty room furnished, styled, and lit</span></div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$25</div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$45</div>
+            <div style="font-size:0.82rem;color:var(--color-mid);">48 hrs / 24 hrs rush</div>
+          </div>
+
+          <div class="price-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:20px 28px;border-bottom:1px solid var(--color-border);align-items:center;">
+            <div><strong style="color:var(--color-white);">Architectural Visualization</strong><br><span style="font-size:0.82rem;color:var(--color-mid);">People, landscaping, sky, lighting activation</span></div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$35</div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$65</div>
+            <div style="font-size:0.82rem;color:var(--color-mid);">48–72 hrs</div>
+          </div>
+
+          <div class="price-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:20px 28px;align-items:center;">
+            <div><strong style="color:var(--color-white);">Complex Composite / Custom</strong><br><span style="font-size:0.82rem;color:var(--color-mid);">Multi-element, high-accuracy, or unusual requests</span></div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">$20+</div>
+            <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--color-white);">Quote</div>
+            <div style="font-size:0.82rem;color:var(--color-mid);">Quoted per project</div>
+          </div>
+
+        </div>
+        <p style="font-size:0.8rem;color:var(--color-mid);margin-top:12px;">Standard = good. Premium = exceptional detail, multiple iterations, priority queue.</p>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="section-alt">
+      <div class="container">
+        <span class="section-label">Bundle & Save</span>
+        <h2 class="section-title">Volume Packages</h2>
+        <p class="section-intro">Have 20 images? 200? Volume pricing scales with your needs. The more you process, the less you pay per image.</p>
+        <div class="pricing-grid">
+
+          <div class="pricing-card">
+            <div class="pricing-tier">Starter</div>
+            <div class="pricing-price">$79</div>
+            <div class="pricing-unit">Up to 10 images — product enhancement</div>
+            <ul class="pricing-features">
+              <li>Up to 10 product images</li>
+              <li>Background removal + studio cleanup</li>
+              <li>48-hour delivery</li>
+              <li>1 round of revisions</li>
+              <li>High-res JPG + Web-optimized</li>
+            </ul>
+            <a href="contact.html" class="lwp-btn lwp-btn-outline">GET STARTED</a>
+          </div>
+
+          <div class="pricing-card featured">
+            <div class="pricing-tier">Studio</div>
+            <div class="pricing-price">$299</div>
+            <div class="pricing-unit">Up to 50 images — mixed services</div>
+            <ul class="pricing-features">
+              <li>Up to 50 images (mix of services)</li>
+              <li>Full enhancement pipeline</li>
+              <li>Priority 48-hour turnaround</li>
+              <li>2 rounds of revisions</li>
+              <li>Multiple output formats</li>
+              <li>Dedicated project contact</li>
+            </ul>
+            <a href="contact.html" class="lwp-btn lwp-btn--onfill">MOST POPULAR</a>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-tier">Enterprise</div>
+            <div class="pricing-price">Custom</div>
+            <div class="pricing-unit">100+ images / ongoing retainer</div>
+            <ul class="pricing-features">
+              <li>Unlimited image volume</li>
+              <li>Dedicated processing pipeline</li>
+              <li>Custom SLA and delivery schedule</li>
+              <li>Monthly retainer pricing</li>
+              <li>API integration (coming soon)</li>
+              <li>Account management included</li>
+            </ul>
+            <a href="contact.html" class="lwp-btn lwp-btn-outline">LET'S TALK</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- AI PORTRAIT PRICING -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label">Featured Service</span>
+        <h2 class="section-title">AI Professional Portfolio Pricing</h2>
+        <div class="pricing-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+
+          <div class="pricing-card">
+            <div class="pricing-tier">Essential</div>
+            <div class="pricing-price">$149</div>
+            <div class="pricing-unit">Per person</div>
+            <ul class="pricing-features">
+              <li>Send 20 input photos <i>recommended</i></li>
+              <li>10 final portfolio images</li>
+              <li>3 scene settings</li>
+              <li>LinkedIn + website optimized</li>
+              <li>48-hour delivery</li>
+            </ul>
+            <a href="contact.html" class="lwp-btn lwp-btn-outline">ORDER NOW</a>
+          </div>
+
+          <div class="pricing-card featured">
+            <div class="pricing-tier">Professional</div>
+            <div class="pricing-price">$249</div>
+            <div class="pricing-unit">Per person</div>
+            <ul class="pricing-features">
+              <li>Send 20 input photos <i>recommended</i></li>
+              <li>20 final portfolio images</li>
+              <li>6 scene settings</li>
+              <li>Print-ready + web formats</li>
+              <li>1 revision round</li>
+              <li>Priority 24-hour delivery</li>
+            </ul>
+            <a href="contact.html" class="lwp-btn lwp-btn--onfill">BEST VALUE</a>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-tier">Executive</div>
+            <div class="pricing-price">$399</div>
+            <div class="pricing-unit">Per person</div>
+            <ul class="pricing-features">
+              <li>Send 30 input photos <i>recommended</i></li>
+              <li>30+ final portfolio images</li>
+              <li>10 scene settings</li>
+              <li>Press kit ready</li>
+              <li>2 revision rounds</li>
+              <li>Social media cut-downs</li>
+              <li>Rush same-day available</li>
+            </ul>
+            <a href="contact.html" class="lwp-btn lwp-btn-outline">ORDER NOW</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FREE SAMPLE CTA -->
+    <section style="background:var(--color-accent-fill);padding:80px 0;text-align:center;">
+      <div class="container">
+        <h2 style="color:#fff;margin-bottom:16px;">Try It Before You Buy It</h2>
+        <p style="color:rgba(255,255,255,0.85);max-width:480px;margin:0 auto 32px;">Send one image. We'll enhance it and return it free — watermarked, so you see exactly what you're getting before spending a dollar.</p>
+        <a href="contact.html" class="lwp-btn lwp-btn--onfill">GET A FREE SAMPLE</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

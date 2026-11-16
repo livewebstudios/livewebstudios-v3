@@ -1,0 +1,125 @@
+---
+/**
+ * LwpScripts: the page behaviour the Live Web Photos site shipped in
+ * js/main.js, ported as one small inline script (Jon 2026-11-16, five-studio
+ * navigation, handoff section 5). Drop it once at the foot of a Live Web
+ * Photos page, after </main>.
+ *
+ *   - before/after sliders (.slider-wrap): mouse, touch, and now the arrow
+ *     keys once a slider has focus
+ *   - FAQ accordion (.faq-item)
+ *   - scroll reveal (.animate-in)
+ *
+ * Not ported: the mobile nav toggle (the nav comes from this site) and the
+ * autoplay-video pause under reduced motion (the hero video runs through
+ * VideoBg, which already holds a still frame under reduced motion).
+ *
+ * Everything is scoped to .theme-lwp, so it cannot reach another studio's
+ * markup. The script marks <main> with .lwp-js first: lwp.css only hides
+ * reveal content and closes FAQ answers once that class is there, so the page
+ * reads in full without JavaScript.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector(".theme-lwp");
+    if (!root) return;
+    root.classList.add("lwp-js");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* --- BEFORE/AFTER SLIDERS --- */
+    root.querySelectorAll(".slider-wrap").forEach(function (wrap) {
+      var before = wrap.querySelector(".slider-before");
+      var divider = wrap.querySelector(".slider-divider");
+      if (!before || !divider) return;
+      var dragging = false;
+      var pos = 50;
+
+      function set(p) {
+        pos = Math.max(5, Math.min(95, p));
+        before.style.width = pos + "%";
+        divider.style.left = pos + "%";
+        wrap.setAttribute("aria-valuenow", String(Math.round(pos)));
+      }
+      function fromX(x) {
+        var rect = wrap.getBoundingClientRect();
+        set(((x - rect.left) / rect.width) * 100);
+      }
+
+      wrap.addEventListener("mousedown", function (e) { dragging = true; fromX(e.clientX); });
+      document.addEventListener("mouseup", function () { dragging = false; });
+      document.addEventListener("mousemove", function (e) { if (dragging) fromX(e.clientX); });
+
+      /* passive:false on both, so preventDefault() can stop the page from
+         scrolling sideways while the divider is being dragged. */
+      wrap.addEventListener("touchstart", function (e) { dragging = true; fromX(e.touches[0].clientX); }, { passive: false });
+      document.addEventListener("touchend", function () { dragging = false; });
+      document.addEventListener("touchmove", function (e) {
+        if (!dragging) return;
+        e.preventDefault();
+        fromX(e.touches[0].clientX);
+      }, { passive: false });
+
+      /* Keyboard: the old slider could not be worked without a pointer. */
+      wrap.setAttribute("tabindex", "0");
+      wrap.setAttribute("role", "slider");
+      wrap.setAttribute("aria-label", "Before and after comparison. Use the left and right arrow keys.");
+      wrap.setAttribute("aria-valuemin", "5");
+      wrap.setAttribute("aria-valuemax", "95");
+      wrap.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowLeft") { set(pos - 5); e.preventDefault(); }
+        else if (e.key === "ArrowRight") { set(pos + 5); e.preventDefault(); }
+        else if (e.key === "Home") { set(5); e.preventDefault(); }
+        else if (e.key === "End") { set(95); e.preventDefault(); }
+      });
+
+      set(50);
+    });
+
+    /* --- FAQ ACCORDION --- */
+    var items = root.querySelectorAll(".faq-item");
+    items.forEach(function (item, n) {
+      var btn = item.querySelector(".faq-question");
+      var answer = item.querySelector(".faq-answer");
+      if (!btn || !answer) return;
+      var id = answer.id || "lwp-faq-" + (n + 1);
+      answer.id = id;
+      btn.setAttribute("aria-controls", id);
+      btn.setAttribute("aria-expanded", "false");
+      btn.addEventListener("click", function () {
+        var isOpen = item.classList.contains("open");
+        items.forEach(function (i) {
+          i.classList.remove("open");
+          var a = i.querySelector(".faq-answer");
+          var b = i.querySelector(".faq-question");
+          if (a) a.style.maxHeight = "0";
+          if (b) b.setAttribute("aria-expanded", "false");
+        });
+        if (!isOpen) {
+          item.classList.add("open");
+          answer.style.maxHeight = answer.scrollHeight + "px";
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+    /* --- SCROLL REVEAL --- */
+    var els = root.querySelectorAll(".animate-in");
+    if (els.length) {
+      if (reduce || !("IntersectionObserver" in window)) {
+        els.forEach(function (el) { el.classList.add("visible"); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        els.forEach(function (el) { io.observe(el); });
+      }
+    }
+  })();
+</script>

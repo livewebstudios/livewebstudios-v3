@@ -1,0 +1,159 @@
+---
+/**
+ * /live-web-photos/portraits. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/portraits.html (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Marquee from "../../components/Marquee.astro";
+import LwpScripts from "../../components/LwpScripts.astro";
+import "../../styles/lwp.css";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { imageSize } from "../../lib/imageSize";
+
+/* The sample strip under the hero. The old page pointed at these eight files
+   and none of them was in the old site's images folder, so the strip showed
+   eight broken images. Each one renders here once its file is in
+   public/images/lwp/, and the strip is left out while none are. */
+const samples: [string, string][] = [
+  ["portrait-editorial.jpg", "AI editorial portrait — dramatic lighting, press quality"],
+  ["portrait-linkedin.jpg", "AI LinkedIn headshot — professional clean background"],
+  ["portrait-lifestyle.jpg", "AI lifestyle portrait — café environment"],
+  ["portrait-outdoor.jpg", "AI outdoor portrait — natural environment"],
+  ["portrait-office.jpg", "AI office portrait — executive desk setting"],
+  ["portrait-candid.jpg", "AI candid portrait — walking street shot"],
+  ["portrait-social.jpg", "AI social media portrait — casual stylish"],
+  ["portrait-print.jpg", "AI print-ready portrait — magazine quality"],
+];
+const shown = samples.filter(([f]) => existsSync(join("public", "images", "lwp", f)));
+---
+
+<Base
+  title={"AI Portrait Photography — All Angles, All Contexts | Live Web Photos"}
+  description={"AI-generated portraits for every media context — LinkedIn headshots, editorial, lifestyle, social, print, website, and press. Professional quality from your phone photos."}
+  canonical="https://livewebstudios.com/live-web-photos/portraits"
+  ogImage="images/lwp/og-home.jpg"
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <div class="page-hero">
+      <div class="container">
+        <span class="section-label">Portrait Services</span>
+        <h1>Every Angle. Every Context.<br>One Portfolio.</h1>
+        <p>Professional portraits for LinkedIn, your website, editorial features, social media, press kits, and print — all generated from the photos on your phone.</p>
+      </div>
+      <Marquee />
+    </div>
+
+    <!-- PORTRAIT GALLERY GRID -->
+    {shown.length > 0 && (
+    <section style="background:#1c1c1c;padding:2px 0;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;">
+        {shown.map(([file, alt]) => {
+          const dim = imageSize(`images/lwp/${file}`);
+          return (
+            <img loading="lazy" decoding="async" src={`../images/lwp/${file}`} alt={alt} width={dim?.width} height={dim?.height} style="width:100%;aspect-ratio:3/4;object-fit:cover;" />
+          );
+        })}
+      </div>
+      <p style="text-align:center;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-mid);padding:14px;margin:0;">Sample portfolio outputs — generated from standard smartphone input photos</p>
+    </section>
+    )}
+
+    <!-- PORTRAIT USE CASES -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label">Use Cases</span>
+        <h2 class="section-title">The Right Photo for Every Platform</h2>
+        <p class="section-intro">Different platforms have different visual expectations. A LinkedIn headshot looks different from a press kit photo. A website portrait looks different from an Instagram profile. We generate for all of them.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:60px;">
+
+          <div style="background:var(--color-bg-card);padding:36px 32px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:12px;">LinkedIn & Professional</div>
+            <h3 style="font-size:1.05rem;margin-bottom:12px;">The Headshot</h3>
+            <p style="color:var(--color-mid);font-size:0.88rem;line-height:1.7;">Clean background, face forward, professional attire context. The image that represents you in every cold connection, job application, and business conversation.</p>
+            <div style="margin-top:16px;font-size:0.75rem;color:var(--color-mid);border-top:1px solid var(--color-border);padding-top:14px;">Best for: LinkedIn · Team pages · Bios</div>
+          </div>
+
+          <div style="background:var(--color-bg-card);padding:36px 32px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:12px;">Website & Press Kit</div>
+            <h3 style="font-size:1.05rem;margin-bottom:12px;">The Editorial Portrait</h3>
+            <p style="color:var(--color-mid);font-size:0.88rem;line-height:1.7;">More dramatic. More context. A portrait that makes a statement — suitable for the homepage About section, the press kit, the speaking bio, and the publication feature.</p>
+            <div style="margin-top:16px;font-size:0.75rem;color:var(--color-mid);border-top:1px solid var(--color-border);padding-top:14px;">Best for: Websites · Press kits · Speaker pages</div>
+          </div>
+
+          <div style="background:var(--color-bg-card);padding:36px 32px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:12px;">Social Media</div>
+            <h3 style="font-size:1.05rem;margin-bottom:12px;">The Lifestyle Shot</h3>
+            <p style="color:var(--color-mid);font-size:0.88rem;line-height:1.7;">Working at a café. Walking a city block. Natural and candid-feeling. The images that make your social media presence feel like a real person instead of a corporate placeholder.</p>
+            <div style="margin-top:16px;font-size:0.75rem;color:var(--color-mid);border-top:1px solid var(--color-border);padding-top:14px;">Best for: Instagram · Twitter/X · Facebook</div>
+          </div>
+
+          <div style="background:var(--color-bg-card);padding:36px 32px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-accent);margin-bottom:12px;">Print & Advertising</div>
+            <h3 style="font-size:1.05rem;margin-bottom:12px;">The Print-Ready Portrait</h3>
+            <p style="color:var(--color-mid);font-size:0.88rem;line-height:1.7;">High-resolution, color-accurate, print-ready. For magazine features, newspaper advertisements, brochures, and any use case that requires physical reproduction at large scale.</p>
+            <div style="margin-top:16px;font-size:0.75rem;color:var(--color-mid);border-top:1px solid var(--color-border);padding-top:14px;">Best for: Print ads · Magazines · Brochures</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- INPUT GUIDE -->
+    <section class="section-alt">
+      <div class="container" style="max-width:760px;margin:0 auto;">
+        <span class="section-label">Your Part</span>
+        <h2 style="margin-bottom:24px;">How to Take Photos That Work</h2>
+        <p style="color:var(--color-mid);line-height:1.9;margin-bottom:20px;">You don't need a studio. You don't need a ring light. You need a phone, a window, and about 20 minutes. Here's exactly what makes input photos work well:</p>
+        <div style="border:1px solid var(--color-border);">
+          <div style="padding:20px 28px;border-bottom:1px solid var(--color-border);display:flex;gap:16px;align-items:flex-start;">
+            <span style="color:var(--color-accent);font-weight:700;flex-shrink:0;">✓</span>
+            <div><strong style="color:var(--color-white);">Good natural light</strong><br><span style="font-size:0.88rem;color:var(--color-mid);">Stand near a window, facing it. Avoid overhead lights only, and avoid harsh sunlight that creates strong shadows on your face.</span></div>
+          </div>
+          <div style="padding:20px 28px;border-bottom:1px solid var(--color-border);display:flex;gap:16px;align-items:flex-start;">
+            <span style="color:var(--color-accent);font-weight:700;flex-shrink:0;">✓</span>
+            <div><strong style="color:var(--color-white);">Multiple angles</strong><br><span style="font-size:0.88rem;color:var(--color-mid);">Shoot straight-on, 3/4 left, 3/4 right, slight upward angle, slight downward angle. 5–6 angle variations across your 20 photos.</span></div>
+          </div>
+          <div style="padding:20px 28px;border-bottom:1px solid var(--color-border);display:flex;gap:16px;align-items:flex-start;">
+            <span style="color:var(--color-accent);font-weight:700;flex-shrink:0;">✓</span>
+            <div><strong style="color:var(--color-white);">Clean simple background</strong><br><span style="font-size:0.88rem;color:var(--color-mid);">Plain wall, clean outdoor environment. The AI replaces the background entirely — but a busy background makes extraction harder and can affect edge quality.</span></div>
+          </div>
+          <div style="padding:20px 28px;border-bottom:1px solid var(--color-border);display:flex;gap:16px;align-items:flex-start;">
+            <span style="color:var(--color-accent);font-weight:700;flex-shrink:0;">✓</span>
+            <div><strong style="color:var(--color-white);">Expressions vary</strong><br><span style="font-size:0.88rem;color:var(--color-mid);">Neutral, slight smile, confident. The AI generates new expressions based on context, but input variety helps the model understand your face accurately.</span></div>
+          </div>
+          <div style="padding:20px 28px;display:flex;gap:16px;align-items:flex-start;">
+            <span style="color:var(--color-accent);font-weight:700;flex-shrink:0;">✓</span>
+            <div><strong style="color:var(--color-white);">Wear what you'd wear professionally</strong><br><span style="font-size:0.88rem;color:var(--color-mid);">The AI can adjust wardrobe context to an extent, but input photos in business casual or professional attire get the best results.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:var(--color-accent-fill);padding:80px 0;text-align:center;">
+      <div class="container">
+        <h2 style="color:#fff;margin-bottom:16px;">Ready to Build Your Portfolio?</h2>
+        <p style="color:rgba(255,255,255,0.85);max-width:480px;margin:0 auto 32px;">Starting at $149. 48-hour delivery. Submit one photo free to see the quality before you order.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <a href="ai-portraits.html" class="lwp-btn lwp-btn--onfill">VIEW PORTFOLIO PACKAGES</a>
+          <a href="contact.html" class="lwp-btn" style="background:transparent;border:2px solid #fff;color:#fff;">GET A FREE SAMPLE</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

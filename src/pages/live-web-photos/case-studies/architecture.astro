@@ -1,0 +1,156 @@
+---
+/**
+ * /live-web-photos/case-studies/architecture. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/case-studies/architecture.html (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Marquee from "../../../components/Marquee.astro";
+import LwpScripts from "../../../components/LwpScripts.astro";
+import "../../../styles/lwp.css";
+---
+
+<Base
+  title={"Architectural Visualization Case Study | Live Web Photos"}
+  description={"How AI rendering enhancement cut architectural client signoff from 21 days to 6 across a commercial development portfolio. People, sky, landscape, and lighting added at scale."}
+  canonical="https://livewebstudios.com/live-web-photos/case-studies/architecture"
+  ogImage="images/lwp/og-home.jpg"
+  ogTitle={"Architectural Visualization Case Study | Live Web Photos"}
+  ogDescription={"Empty renderings brought to life — sky replacement, people, activated lighting."}
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <div class="page-hero">
+      <div class="container">
+        <span class="section-label">Case Study — Architecture</span>
+        <h1>Renderings Without Life Don't Sell Buildings.</h1>
+        <p>How an architectural firm cut average client signoff from 21 days to 6 by replacing flat presentation renders with photorealistic, populated, atmospherically-lit visuals.</p>
+      </div>
+      <Marquee />
+    </div>
+
+    <!-- BEFORE/AFTER GRID -->
+    <section class="section-alt">
+      <div class="container">
+        <span class="section-label">Before / After</span>
+        <h2 class="section-title">Drag to Compare</h2>
+        <p class="section-intro">Each pair below shows a real architectural rendering enhanced for client presentation. Sky replacement, ambient people, landscape activation, and corrected lighting — all generated to photorealistic standard.</p>
+      </div>
+      <div class="slider-gallery cs-stack" style="margin-top:40px;">
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-arch-1">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-architect1-after.jpg" alt="After architectural enhancement — populated commercial exterior" width="1264" height="848">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-architect1-before.jpg" alt="Before architectural enhancement — flat empty exterior" width="1264" height="848"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Commercial Exterior — Populated</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-arch-2">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-architect2-after.jpg" alt="After architectural enhancement — atmospheric exterior" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-architect2-before.jpg" alt="Before architectural enhancement — bare render" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Sky Replacement & Atmosphere</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-arch-3">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-architect3-after.jpg" alt="After architectural enhancement — activated lighting interior" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-architect3-before.jpg" alt="Before architectural enhancement — flat lighting render" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Activated Lighting — Twilight</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label spark">The Numbers</span>
+        <h2 class="section-title">What Photoreal Visuals Delivered</h2>
+        <p class="section-intro">Tracked across 14 commercial development presentations over a single fiscal year. Same firm, same client mix, same project types as the prior year benchmark.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:60px;">
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">6 days</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Avg Client Signoff</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">down from 21 prior year</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">$35</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Avg Cost per Image</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">vs. $400+ photoreal render</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">8</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Concept Variants</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">delivered per project, 48 hrs</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">3.1×</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Stakeholder Approval</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">first-pass acceptance rate</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICE SUMMARY + PRICING -->
+    <section class="section-alt">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center;">
+          <div>
+            <span class="section-label">The Service</span>
+            <h2>Architectural Renderings That Sell the Vision.</h2>
+            <p style="color:var(--color-mid);margin:16px 0;line-height:1.8;">Send us your CAD output, presentation render, or pre-construction photo. We return it with photorealistic sky, ambient people, vehicles, landscape activation, and weather conditions — anything needed to make stakeholders feel the building before it's built.</p>
+            <p style="color:var(--color-mid);line-height:1.8;">Multiple atmospheric variants per project. 48-hour delivery on standard work. Used by architects, developers, real estate sales teams, and pre-construction marketing.</p>
+            <ul style="margin:24px 0;color:var(--color-mid);font-size:0.9rem;">
+              <li style="padding:8px 0;border-bottom:1px solid var(--color-border);">→ Sky replacement and weather conditions (clear, overcast, twilight, golden hour)</li>
+              <li style="padding:8px 0;border-bottom:1px solid var(--color-border);">→ Ambient people, vehicles, and contextual landscape</li>
+              <li style="padding:8px 0;">→ Interior lighting activation and material correction</li>
+            </ul>
+            <a href="../contact.html" class="lwp-btn">GET A FREE SAMPLE</a>
+          </div>
+          <div style="background:var(--color-bg-card);border-radius:var(--radius-card);box-shadow:var(--shadow-glow);padding:40px;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent);margin-bottom:14px;">Starting At</div>
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-white);line-height:1;">$35</div>
+            <div style="font-size:0.85rem;color:var(--color-mid);margin:6px 0 22px;">per image — package pricing for 8+ variants</div>
+            <div style="border-top:1px solid var(--color-border);padding-top:20px;font-size:0.85rem;color:var(--color-mid);line-height:1.7;">Standard 48-hour delivery. Multi-variant packages quoted within 24 hours.</div>
+            <a href="../pricing.html" class="lwp-btn lwp-btn-outline" style="margin-top:24px;display:inline-block;">SEE FULL PRICING</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background:var(--color-accent-fill);padding:80px 0;text-align:center;">
+      <div class="container">
+        <h2 style="color:#fff;margin-bottom:14px;">Send Us One Render. See What Happens.</h2>
+        <p style="color:rgba(255,255,255,0.85);max-width:540px;margin:0 auto 30px;font-size:1.05rem;">Submit a single rendering or pre-construction photo. We'll return one enhanced version free, watermarked, in 24 hours.</p>
+        <a href="../contact.html" class="lwp-btn lwp-btn--onfill">GET A FREE SAMPLE</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

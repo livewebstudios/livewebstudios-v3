@@ -1,0 +1,167 @@
+---
+/**
+ * /live-web-photos/case-studies/interior-design. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/case-studies/interior-design.html (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Marquee from "../../../components/Marquee.astro";
+import LwpScripts from "../../../components/LwpScripts.astro";
+import "../../../styles/lwp.css";
+---
+
+<Base
+  title={"Interior Design Visualization Case Study | Live Web Photos"}
+  description={"How AI room visualization cut interior designer client signoff from 5 days to 24 hours and tripled their concept-presentation pipeline. Concept-to-photoreal at $25 per render."}
+  canonical="https://livewebstudios.com/live-web-photos/case-studies/interior-design"
+  ogImage="images/lwp/og-home.jpg"
+  ogTitle={"Interior Design Visualization Case Study | Live Web Photos"}
+  ogDescription={"Concept boards rendered photorealistic before a piece of furniture ships."}
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <div class="page-hero">
+      <div class="container">
+        <span class="section-label">Case Study — Interior Design</span>
+        <h1>Concepts Become Convincing — Before a Single Piece Ships.</h1>
+        <p>How a small interior design studio cut concept-presentation turnaround from 5 days to 24 hours and tripled their active project pipeline.</p>
+      </div>
+      <Marquee />
+    </div>
+
+    <!-- BEFORE/AFTER GRID -->
+    <section class="section-alt">
+      <div class="container">
+        <span class="section-label">Before / After</span>
+        <h2 class="section-title">Drag to Compare</h2>
+        <p class="section-intro">Empty rooms transformed into photorealistic concept presentations — full furnishing, finishes, materials, and natural lighting at the level the client expects to see in the final result.</p>
+      </div>
+      <div class="slider-gallery cs-stack" style="margin-top:40px;">
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-int-1">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-staging1-after.jpg" alt="After interior visualization — fully furnished living concept" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-staging1-before.jpg" alt="Before interior visualization — empty room" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Living Concept — Modern Transitional</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-int-2">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-staging2-after.jpg" alt="After interior visualization — bedroom concept" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-staging2-before.jpg" alt="Before interior visualization — empty bedroom" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Bedroom Concept — Warm Neutral</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-int-3">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-staging3-after.jpg" alt="After interior visualization — open kitchen and dining" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-staging3-before.jpg" alt="Before interior visualization — empty kitchen and dining" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Open Plan — Kitchen & Dining</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-int-4">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-staging4-after.jpg" alt="After interior visualization — secondary room concept" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-staging4-before.jpg" alt="Before interior visualization — empty secondary room" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Secondary Space — Office Concept</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label spark">The Numbers</span>
+        <h2 class="section-title">What Photoreal Concepts Delivered</h2>
+        <p class="section-intro">Tracked across 22 projects over a 6-month window. Same designer, same client mix, same project scopes as the prior 6-month benchmark using traditional mood boards.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:60px;">
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">24 hrs</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Concept Turnaround</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">down from 5-day prior baseline</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">$25</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Avg Cost per Render</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">vs. $250+ outsourced 3D</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">2.7×</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Active Project Pipeline</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">parallel projects in flight</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">71%</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">First-Pass Approvals</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">vs. 38% mood-board baseline</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICE SUMMARY + PRICING -->
+    <section class="section-alt">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center;">
+          <div>
+            <span class="section-label">The Service</span>
+            <h2>Concept Boards That Look Like Final Photos.</h2>
+            <p style="color:var(--color-mid);margin:16px 0;line-height:1.8;">Send us a photo of the empty room. Tell us the concept — color palette, style direction, key materials. We return a photorealistic visualization the client can react to, not interpret.</p>
+            <p style="color:var(--color-mid);line-height:1.8;">Built for residential and commercial interior designers, decorators, and small-firm presentation teams. Fast iteration on style variants is the value — show clients three directions in the time it used to take to draft one.</p>
+            <ul style="margin:24px 0;color:var(--color-mid);font-size:0.9rem;">
+              <li style="padding:8px 0;border-bottom:1px solid var(--color-border);">→ Multiple style variants per room (modern, traditional, transitional, eclectic)</li>
+              <li style="padding:8px 0;border-bottom:1px solid var(--color-border);">→ Material and finish swaps on demand</li>
+              <li style="padding:8px 0;">→ 24-hour standard turnaround, one revision included</li>
+            </ul>
+            <a href="../contact.html" class="lwp-btn">GET A FREE SAMPLE</a>
+          </div>
+          <div style="background:var(--color-bg-card);border-radius:var(--radius-card);box-shadow:var(--shadow-glow);padding:40px;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent);margin-bottom:14px;">Starting At</div>
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-white);line-height:1;">$25</div>
+            <div style="font-size:0.85rem;color:var(--color-mid);margin:6px 0 22px;">per render — package pricing for 5+ rooms</div>
+            <div style="border-top:1px solid var(--color-border);padding-top:20px;font-size:0.85rem;color:var(--color-mid);line-height:1.7;">24-hour standard delivery. Project packages with multiple style variants quoted in 24 hours.</div>
+            <a href="../pricing.html" class="lwp-btn lwp-btn-outline" style="margin-top:24px;display:inline-block;">SEE FULL PRICING</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background:var(--color-accent-fill);padding:80px 0;text-align:center;">
+      <div class="container">
+        <h2 style="color:#fff;margin-bottom:14px;">See One of Your Concepts Made Photoreal.</h2>
+        <p style="color:rgba(255,255,255,0.85);max-width:540px;margin:0 auto 30px;font-size:1.05rem;">Send us one room photo and a brief style direction. We'll deliver one rendered concept free, watermarked, within 24 hours.</p>
+        <a href="../contact.html" class="lwp-btn lwp-btn--onfill">GET A FREE SAMPLE</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

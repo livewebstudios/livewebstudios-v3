@@ -90,6 +90,19 @@ export const CATEGORIES: Category[] = [
     metaDescription:
       "Practical writing for owners: why you need a site, choosing a domain, blogging, analytics, and getting real value out of what you already have.",
   },
+  /* Jon 2026-11-16 (five-studio navigation, handoff 5.2): the nine posts that
+     came over from livewebphotos.com. The Live Web Photos nav "Blog" link goes
+     to this archive. */
+  {
+    audience: "business",
+    name: "Photos & Images",
+    short: "Photos",
+    slug: "photos-images",
+    blurb: "AI photo work that sells the listing, the product and the person.",
+    metaTitle: "Photos & Images Articles | Live Web Studios",
+    metaDescription:
+      "Writing from Live Web Photos on AI image work: virtual staging, product photos, architectural visuals, headshots, and what each one really costs.",
+  },
   {
     audience: "business",
     name: "LWS News",

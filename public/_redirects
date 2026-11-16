@@ -63,12 +63,15 @@
 /services/email-writing.html                                           /ai/email-writing            301
 
 
-# ===== SISTER COMPANIES ON THEIR OWN DOMAIN =====
-# Jon 2026-09-12: Live Web Photos is livewebphotos.com, there is no local
-# page any more. The old URL is in the live sitemap and indexed, so it 301s
-# out rather than 404ing.
-/ecosystem/live-web-photos                                             https://livewebphotos.com/   301!
-/ecosystem/live-web-photos.html                                        https://livewebphotos.com/   301!
+# ===== LIVE WEB PHOTOS (Jon 2026-11-16) =====
+# Live Web Photos is the fourth studio on this site now, at /live-web-photos
+# (five-studio navigation, handoff section 5). The old /ecosystem address,
+# which sent people out to livewebphotos.com from 2026-09-12, comes home.
+# The map for the old domain itself is a separate file for the old site:
+# docs/26_11_16_livewebphotos_redirects.txt (not deployed from here).
+/ecosystem/live-web-photos                                             /live-web-photos             301
+/ecosystem/live-web-photos.html                                        /live-web-photos             301
+/live-web-photos/                                                      /live-web-photos             301
 
 
 # ===== SITEMAP =====

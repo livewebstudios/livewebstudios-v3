@@ -1,0 +1,167 @@
+---
+/**
+ * /live-web-photos/case-studies/ecommerce. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/case-studies/ecommerce.html (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Marquee from "../../../components/Marquee.astro";
+import LwpScripts from "../../../components/LwpScripts.astro";
+import "../../../styles/lwp.css";
+---
+
+<Base
+  title={"E-Commerce Product Photo Case Study | Live Web Photos"}
+  description={"How AI product enhancement lifted conversion rate 38% on a 400-SKU online retail catalog. Bulk processing, studio-quality output, $8 per image."}
+  canonical="https://livewebstudios.com/live-web-photos/case-studies/ecommerce"
+  ogImage="images/lwp/og-home.jpg"
+  ogTitle={"E-Commerce Case Study | Live Web Photos"}
+  ogDescription={"Smartphone product shots transformed to studio quality at catalog scale."}
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <div class="page-hero">
+      <div class="container">
+        <span class="section-label">Case Study — E-Commerce</span>
+        <h1>Smartphone Photos In. Studio Catalog Out.</h1>
+        <p>How a 400-SKU specialty retailer cut their photography overhead 92% and lifted conversion rate 38% — without booking a single studio session.</p>
+      </div>
+      <Marquee />
+    </div>
+
+    <!-- BEFORE/AFTER GRID -->
+    <section class="section-alt">
+      <div class="container">
+        <span class="section-label">Before / After</span>
+        <h2 class="section-title">Drag to Compare</h2>
+        <p class="section-intro">Background isolation, studio-lighting simulation, color correction, and contextual scene placement — applied at catalog scale and delivered as a batch.</p>
+      </div>
+      <div class="slider-gallery cs-stack" style="margin-top:40px;">
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-ecom-1">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-commerce1after.jpg" alt="After product enhancement — studio quality result" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-commerce1before.jpg" alt="Before product enhancement — raw smartphone shot" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Product Isolation — Hero Shot</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-ecom-2">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-commerce2-after.jpg" alt="After product enhancement — lifestyle context" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-commerce2-before.jpg" alt="Before product enhancement — original product photo" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Lifestyle Context</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-ecom-3">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-commerce3-after.jpg" alt="After product enhancement — color corrected" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-commerce3-before.jpg" alt="Before product enhancement — uncorrected color" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Color & Lighting Correction</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-ecom-4">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-ecommerce4-after.jpg" alt="After product enhancement — clean catalog shot" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-ecommerce4-before.jpg" alt="Before product enhancement — cluttered original" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Catalog-Ready Output</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label spark">The Numbers</span>
+        <h2 class="section-title">What Catalog Replacement Delivered</h2>
+        <p class="section-intro">Tracked over a 90-day window post-rollout against the same period prior year. Same product mix, same ad spend, same site.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:60px;">
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">+38%</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Conversion Rate Lift</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">site-wide, 90-day window</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">$8</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Avg Cost per Image</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">vs. $40 prior studio rate</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">5 days</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Full Catalog Turnaround</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">400+ SKUs, batch delivery</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">−22%</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Return Rate</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">"didn't match photo" complaints</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICE SUMMARY + PRICING -->
+    <section class="section-alt">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center;">
+          <div>
+            <span class="section-label">The Service</span>
+            <h2>Catalog Photography. Without the Catalog Photographer.</h2>
+            <p style="color:var(--color-mid);margin:16px 0;line-height:1.8;">Send us your existing product shots — phone snaps, prior catalog files, supplier images, whatever you have. We deliver back a consistent, studio-grade catalog ready to upload to Shopify, Amazon, Etsy, or your own site.</p>
+            <p style="color:var(--color-mid);line-height:1.8;">Bulk pricing scales aggressively. The more SKUs you send, the lower the per-image rate. No subscription, no minimums under 25 images.</p>
+            <ul style="margin:24px 0;color:var(--color-mid);font-size:0.9rem;">
+              <li style="padding:8px 0;border-bottom:1px solid var(--color-border);">→ Background removal and replacement (white, contextual, lifestyle)</li>
+              <li style="padding:8px 0;border-bottom:1px solid var(--color-border);">→ Studio-lighting simulation and color correction</li>
+              <li style="padding:8px 0;">→ Consistent crop, framing, and export specs across every SKU</li>
+            </ul>
+            <a href="../contact.html" class="lwp-btn">GET A FREE SAMPLE</a>
+          </div>
+          <div style="background:var(--color-bg-card);border-radius:var(--radius-card);box-shadow:var(--shadow-glow);padding:40px;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent);margin-bottom:14px;">Starting At</div>
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-white);line-height:1;">$8</div>
+            <div style="font-size:0.85rem;color:var(--color-mid);margin:6px 0 22px;">per image — volume discounts at 50, 100, 250+</div>
+            <div style="border-top:1px solid var(--color-border);padding-top:20px;font-size:0.85rem;color:var(--color-mid);line-height:1.7;">Bulk batch processing standard. Custom catalog packages quoted in 24 hours.</div>
+            <a href="../pricing.html" class="lwp-btn lwp-btn-outline" style="margin-top:24px;display:inline-block;">SEE FULL PRICING</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background:var(--color-accent-fill);padding:80px 0;text-align:center;">
+      <div class="container">
+        <h2 style="color:#fff;margin-bottom:14px;">See One of Your SKUs Done Right.</h2>
+        <p style="color:rgba(255,255,255,0.85);max-width:540px;margin:0 auto 30px;font-size:1.05rem;">Send us one product photo — phone shot is fine. We'll deliver back a catalog-ready version free. No card required.</p>
+        <a href="../contact.html" class="lwp-btn lwp-btn--onfill">GET A FREE SAMPLE</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

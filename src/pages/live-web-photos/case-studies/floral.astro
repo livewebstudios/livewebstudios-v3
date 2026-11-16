@@ -1,0 +1,145 @@
+---
+/**
+ * /live-web-photos/case-studies/floral. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/case-studies/floral.html (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import Marquee from "../../../components/Marquee.astro";
+import LwpScripts from "../../../components/LwpScripts.astro";
+import "../../../styles/lwp.css";
+---
+
+<Base
+  title={"Floral & Specialty Retail Photography Case Study | Live Web Photos"}
+  description={"How AI photo enhancement lifted a North Jersey florist's online order rate 47% and quadrupled social engagement on arrangement posts. Studio-quality output at $12 per image."}
+  canonical="https://livewebstudios.com/live-web-photos/case-studies/floral"
+  ogImage="images/lwp/og-home.jpg"
+  ogTitle={"Floral Photography Case Study | Live Web Photos"}
+  ogDescription={"Florist photos at $12 per image. 47% lift in online order rate, 4× social engagement."}
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <div class="page-hero">
+      <div class="container">
+        <span class="section-label">Case Study — Floral & Specialty</span>
+        <h1>Shop Photos Lose Sales. Catalog Photos Make Them.</h1>
+        <p>How a single-location florist lifted online order rate 47% and quadrupled social engagement by replacing fluorescent shop snapshots with catalog-grade arrangement photography.</p>
+      </div>
+      <Marquee />
+    </div>
+
+    <!-- BEFORE/AFTER GRID -->
+    <section class="section-alt">
+      <div class="container">
+        <span class="section-label">Before / After</span>
+        <h2 class="section-title">Drag to Compare</h2>
+        <p class="section-intro">Background replacement, color vibrancy correction, and studio-lighting simulation — applied at the volume a working flower shop actually needs.</p>
+      </div>
+      <div class="slider-gallery cs-stack" style="margin-top:40px;">
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-floral-1">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-floral1-after.jpg" alt="After floral enhancement — studio quality arrangement" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-floral1-before.jpg" alt="Before floral enhancement — shop snapshot" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Signature Arrangement — Studio Background</div>
+        </div>
+
+        <div class="gallery-slider-item">
+          <div class="slider-frame"><div class="slider-wrap" id="cs-floral-2">
+            <img loading="lazy" decoding="async" src="../../images/lwp/service-floral2-after.jpg" alt="After floral enhancement — color and texture corrected" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="../../images/lwp/service-floral2-before.jpg" alt="Before floral enhancement — washed-out shop photo" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div></div>
+          <div class="slider-category">Color Vibrancy & Texture Detail</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label spark">The Numbers</span>
+        <h2 class="section-title">What Catalog-Grade Photos Delivered</h2>
+        <p class="section-intro">Tracked across one florist's online catalog and social presence over a 90-day window. Same arrangements, same staff, same season as the prior-year baseline.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:60px;">
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">+47%</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Online Order Rate</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">90-day post-rollout window</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">$12</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Avg Cost per Image</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">vs. $90 prior local studio</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">200+</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Arrangements Weekly</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">batch-processed in flight</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:36px 28px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:center;">
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-accent);line-height:1;margin-bottom:10px;">4.2×</div>
+            <div style="font-size:0.78rem;color:var(--color-white);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Social Engagement</div>
+            <div style="font-size:0.78rem;color:var(--color-mid);margin-top:6px;">Instagram reach per post</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICE SUMMARY + PRICING -->
+    <section class="section-alt">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center;">
+          <div>
+            <span class="section-label">The Service</span>
+            <h2>Catalog-Grade Floral Photography. Without a Studio.</h2>
+            <p style="color:var(--color-mid);margin:16px 0;line-height:1.8;">Snap your arrangements on the work table with a phone, in any light, against any background. We deliver back catalog-quality photos with studio backgrounds, corrected color, and the texture detail that makes a bouquet look worth ordering.</p>
+            <p style="color:var(--color-mid);line-height:1.8;">Built for working florists, specialty food retailers, and small-batch product businesses where arrangements rotate weekly and there's no time for a photoshoot.</p>
+            <ul style="margin:24px 0;color:var(--color-mid);font-size:0.9rem;">
+              <li style="padding:8px 0;border-bottom:1px solid var(--color-border);">→ Background replacement (white, contextual, editorial)</li>
+              <li style="padding:8px 0;border-bottom:1px solid var(--color-border);">→ Color vibrancy correction and saturation balancing</li>
+              <li style="padding:8px 0;">→ Seasonal catalog packages with bulk pricing</li>
+            </ul>
+            <a href="../contact.html" class="lwp-btn">GET A FREE SAMPLE</a>
+          </div>
+          <div style="background:var(--color-bg-card);border-radius:var(--radius-card);box-shadow:var(--shadow-glow);padding:40px;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent);margin-bottom:14px;">Starting At</div>
+            <div style="font-family:var(--font-display);font-size:3.2rem;font-weight:700;color:var(--color-white);line-height:1;">$12</div>
+            <div style="font-size:0.85rem;color:var(--color-mid);margin:6px 0 22px;">per image — seasonal catalog packages priced separately</div>
+            <div style="border-top:1px solid var(--color-border);padding-top:20px;font-size:0.85rem;color:var(--color-mid);line-height:1.7;">48-hour standard turnaround. Weekly batch arrangements with recurring delivery available.</div>
+            <a href="../pricing.html" class="lwp-btn lwp-btn-outline" style="margin-top:24px;display:inline-block;">SEE FULL PRICING</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background:var(--color-accent-fill);padding:80px 0;text-align:center;">
+      <div class="container">
+        <h2 style="color:#fff;margin-bottom:14px;">See One of Your Arrangements Done Right.</h2>
+        <p style="color:rgba(255,255,255,0.85);max-width:540px;margin:0 auto 30px;font-size:1.05rem;">Send us one phone shot of an arrangement. We'll deliver back a catalog-grade version free, watermarked, in 24 hours.</p>
+        <a href="../contact.html" class="lwp-btn lwp-btn--onfill">GET A FREE SAMPLE</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

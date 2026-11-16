@@ -1,0 +1,974 @@
+/* ============================================================
+   Live Web Photos (/live-web-photos) section styles.
+   Imported by the Live Web Photos pages only. Ported from the
+   stand-alone site's css/style.css on 2026-11-16 (five-studio
+   navigation, handoff section 5) and scoped to .theme-lwp, which
+   sits on each page's <main>. Kept in its own file so the section
+   lifts out whole, the way ai.css does for LiveAiStudios.
+
+   What changed in the port, and why:
+
+   1. Everything is scoped under .theme-lwp. The old file styled
+      bare h1, p, a and body; here those only reach this studio.
+   2. The chrome is gone. .site-nav, .nav-*, .site-footer, .footer-*
+      and .skip-link are not ported: the studio strip, the Live Web
+      Photos nav, the ticker and the footer come from this site.
+   3. Magenta leads. The old accent was a cyan (#0099CC) that reads
+      as Live Web Studios on this site. Inside .theme-lwp:
+        --color-accent       soft magenta  text, icons, hairlines
+        --color-accent-lt    lighter pink  link hover
+        --color-accent-dk    brand magenta
+        --color-accent-fill  deep magenta  solid bands under white type
+        --color-spark        brand magenta (unchanged)
+      Brand magenta is 4.2:1 as small text on the grey ground, so text
+      uses the soft tint (6.5:1). White type on brand magenta is 4.0:1,
+      so solid bands use the deep fill (6.9:1).
+   4. Buttons are the soft tint with dark ink, matching the nav button
+      this studio already has, instead of a cyan gradient with white.
+   5. Six class names that collide with this site's own are renamed in
+      the markup: hero, hero-sub, btn, btn-outline, steps, faq-list
+      carry an lwp- prefix.
+   6. Type is the site's own sans. The old site loaded Space Grotesk
+      and Inter from Google Fonts; no third-party font request here.
+   7. Section photos (bokeh, studio light, arch texture) are passed in
+      as --lwp-bg from the page, because this file is inlined into pages
+      at three folder depths and a relative url() cannot be right for
+      all of them.
+   ============================================================ */
+
+.theme-lwp {
+  --color-bg: #1c1c1c;
+  --color-bg-alt: #242424;
+  --color-bg-card: #2c2c2c;
+  --color-text: #f0f0f0;
+  --color-mid: #a8a8a8;
+  --color-text-soft: #b5b5b5;
+  --color-border: #2a2a2a; /* dividers only, never text */
+  --color-accent: var(--lwp-soft, #F472B6);
+  --color-accent-lt: #F9A8D4;
+  --color-accent-dk: var(--lwp, #E91E8C);
+  --color-accent-fill: #B5126F;
+  --color-spark: var(--lwp, #E91E8C);
+  --color-white: #ffffff;
+  --lwp-ink: #16060f;
+
+  --font-display: var(--sans);
+  --font-body: var(--sans);
+
+  --text-eyebrow: 0.75rem;
+  --text-caption: 0.82rem;
+  --text-small: 0.875rem;
+  --text-body: 1rem;
+  --text-lead: 1.075rem;
+  --text-quote: 1.15rem;
+  --text-h4: 1.25rem;
+  --text-h3: clamp(1.25rem, 2.2vw, 1.65rem);
+  --text-h2: clamp(1.85rem, 3.6vw, 3rem);
+  --text-h1: clamp(2.6rem, 5.2vw, 4.6rem);
+
+  --max-width: 1200px;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: 0.25s var(--ease-out-quart);
+
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+  --space-3xl: 144px;
+  --grid-gap: 24px;
+  --section-pad: clamp(60px, 8vw, 120px) 0;
+
+  --z-modal: 9000;
+
+  --radius-card: 14px;
+  --radius-btn: 10px;
+
+  --btn-grad: radial-gradient(ellipse 120% 100% at 50% 0%, #F9A8D4 0%, #F472B6 55%, #EC5FA9 100%);
+  --btn-grad-hover: radial-gradient(ellipse 120% 100% at 50% 0%, #FBC4E2 0%, #F78CC4 55%, #F472B6 100%);
+  --featured-grad: radial-gradient(ellipse 120% 100% at 50% 0%, #BE1578 0%, #B5126F 45%, #8E0E57 100%);
+
+  --shadow-glow: 0 0 22px rgba(255, 255, 255, 0.05), 0 4px 14px rgba(0, 0, 0, 0.28);
+  --shadow-glow-hover: 0 0 30px rgba(255, 255, 255, 0.08), 0 6px 18px rgba(0, 0, 0, 0.36);
+  --shadow-btn: 0 0 18px rgba(233, 30, 140, 0.28), 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-btn-hover: 0 0 28px rgba(233, 30, 140, 0.45), 0 6px 16px rgba(0, 0, 0, 0.5);
+
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+}
+
+/* Images carry width and height attributes now (they had none), so the
+   browser knows the shape before the bytes land. height:auto keeps those
+   attributes from fixing the rendered height; every rule below that sets a
+   height on purpose is more specific than this one. */
+.theme-lwp img { max-width: 100%; height: auto; display: block; }
+.theme-lwp a { color: var(--color-accent); text-decoration: none; transition: color var(--transition); }
+/* !important: the site skin sets a hover colour on every link inside <main>
+   with a selector six classes deep. */
+.theme-lwp a:hover { color: var(--color-accent-lt) !important; }
+.theme-lwp ul { list-style: none; }
+
+/* --- TYPOGRAPHY --- */
+.theme-lwp h1,
+.theme-lwp h2,
+.theme-lwp h3,
+.theme-lwp h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-white);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.theme-lwp h1 { font-size: var(--text-h1); line-height: 1.05; letter-spacing: -0.02em; }
+.theme-lwp h2 { font-size: var(--text-h2); line-height: 1.15; }
+.theme-lwp h3 { font-size: var(--text-h3); line-height: 1.25; }
+.theme-lwp h4 { font-size: var(--text-h4); line-height: 1.3; }
+.theme-lwp p {
+  color: var(--color-text);
+  margin-bottom: 1rem;
+  text-wrap: pretty;
+}
+
+/* --- LAYOUT --- */
+.theme-lwp .container { max-width: var(--max-width); margin: 0 auto; padding: 0 40px; }
+.theme-lwp .section { padding: var(--section-pad); }
+.theme-lwp .section-alt { background: var(--color-bg-alt); padding: var(--section-pad); }
+
+/* --- BUTTONS --- */
+.theme-lwp .lwp-btn {
+  padding: 14px 36px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--btn-grad);
+  color: var(--lwp-ink);
+  border: none;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  text-decoration: none;
+  /* A few buttons carry smaller inline padding and came out 40px tall.
+     Every button is at least a 44px target. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  text-align: center;
+}
+.theme-lwp .lwp-btn:hover {
+  background: var(--btn-grad-hover);
+  color: var(--lwp-ink) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-btn-hover);
+}
+.theme-lwp .lwp-btn-outline {
+  background: transparent;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  box-shadow: none;
+}
+.theme-lwp .lwp-btn-outline:hover {
+  background: var(--btn-grad);
+  border-color: transparent;
+  color: var(--lwp-ink) !important;
+  box-shadow: var(--shadow-btn);
+}
+/* The white button on a deep magenta band keeps its magenta label on hover. */
+.theme-lwp .lwp-btn--onfill,
+.theme-lwp .lwp-btn--onfill:hover { background: #fff; color: var(--color-accent-fill) !important; }
+.theme-lwp .lwp-btn--onfill:hover { background: #FCE7F3; }
+
+/* --- HERO (landing) ---
+   The room video runs through VideoBg (lazy, poster first, still under
+   reduced motion). The hero is the first screen under the strip and the
+   nav, with the ticker pinned on its bottom edge. */
+.theme-lwp .lwp-hero {
+  position: relative;
+  min-height: calc(100svh - var(--strip-h) - var(--nav-h));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--color-bg);
+  padding-block: clamp(3rem, 8vh, 6rem) calc(var(--ticker-h, 46px) + clamp(2rem, 6vh, 4rem));
+}
+/* Left-weighted veil over the video: the copy sits on the left, the room
+   stays visible on the right. The old site ran a flat 20% veil and let the
+   grey sub line sit straight on the footage. */
+.theme-lwp .lwp-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.76) 42%, rgba(10, 10, 10, 0.24) 100%),
+    linear-gradient(0deg, rgba(10, 10, 10, 0.6) 0%, rgba(10, 10, 10, 0) 34%);
+}
+@media (max-width: 900px) {
+  .theme-lwp .lwp-hero::before { background: rgba(10, 10, 10, 0.78); }
+}
+.theme-lwp .lwp-hero > .container { position: relative; z-index: 2; width: 100%; }
+.theme-lwp .hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 20px;
+  display: block;
+}
+/* Over the video the small label takes the lighter tint: the soft one
+   measured 4.0:1 against the brightest patch of the room behind it. */
+.theme-lwp .lwp-hero .hero-eyebrow { color: var(--color-accent-lt); }
+.theme-lwp .lwp-hero h1 { margin-bottom: 24px; }
+.theme-lwp .lwp-hero h1 em { font-style: italic; color: var(--color-accent); }
+.theme-lwp .lwp-hero-sub {
+  font-size: 1.1rem;
+  color: #d6d6d6;
+  max-width: 560px;
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+.theme-lwp .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* Trust strip */
+.theme-lwp .trust-strip {
+  background: var(--color-bg-alt);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 20px 0;
+}
+.theme-lwp .trust-strip .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+.theme-lwp .trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-mid);
+}
+.theme-lwp .trust-item strong { color: var(--color-white); }
+.theme-lwp .trust-item .icon { color: var(--color-spark); font-size: 1rem; }
+
+/* --- BEFORE/AFTER SLIDER --- */
+.theme-lwp .slider-wrap {
+  position: relative;
+  overflow: hidden;
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  background: var(--color-bg);
+  container-type: inline-size;
+}
+.theme-lwp .slider-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.theme-lwp .slider-before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+.theme-lwp .slider-before img {
+  width: 100cqw;
+  height: 100%;
+  object-fit: contain;
+  max-width: none;
+}
+.theme-lwp .slider-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-white);
+  z-index: 10;
+  transform: translateX(-50%);
+}
+.theme-lwp .slider-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  background: var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+.theme-lwp .slider-handle svg { width: 18px; color: #0a0a0a; }
+.theme-lwp .slider-label {
+  position: absolute;
+  bottom: 16px;
+  font-size: var(--text-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 4px 10px;
+}
+.theme-lwp .label-before { left: 16px; }
+.theme-lwp .label-after { right: 16px; }
+/* The slider answers the arrow keys once it has focus (added in the port:
+   the old one was mouse and touch only). */
+.theme-lwp .slider-wrap:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+
+.theme-lwp .hero-slider {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  aspect-ratio: 1200 / 896;
+  height: auto;
+}
+
+.theme-lwp .slider-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--color-border);
+}
+.theme-lwp .gallery-slider-item { background: var(--color-bg); }
+.theme-lwp .gallery-slider-item .slider-wrap { aspect-ratio: 1200 / 896; height: auto; }
+.theme-lwp .gallery-slider-item .slider-category {
+  padding: 14px 20px;
+  font-size: var(--text-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  border-top: 1px solid var(--color-border);
+}
+
+/* --- SECTION HEADINGS --- */
+.theme-lwp .section-label {
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  display: block;
+  margin-bottom: 12px;
+}
+.theme-lwp .section-title { margin-bottom: 20px; }
+.theme-lwp .section-intro { color: var(--color-mid); max-width: 600px; line-height: 1.8; }
+/* Was brand magenta against the old cyan labels. Small type, so it takes
+   the soft tint like every other label now. */
+.theme-lwp .section-label.spark { color: var(--color-accent); }
+
+/* --- SAMPLE PORTFOLIO GRIDS (AI Portraits) --- */
+.theme-lwp .portfolio-set { margin-top: var(--space-xl); }
+.theme-lwp .portfolio-set-label {
+  font-size: var(--text-h4);
+  color: var(--color-white);
+  margin-bottom: var(--space-md);
+}
+.theme-lwp .portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--grid-gap);
+}
+.theme-lwp .portfolio-grid figure { margin: 0; }
+.theme-lwp .portfolio-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+.theme-lwp .portfolio-grid figcaption {
+  margin-top: var(--space-xs);
+  font-size: var(--text-caption);
+  letter-spacing: 0.04em;
+  color: var(--color-mid);
+}
+.theme-lwp .portfolio-grid.wide { grid-template-columns: 1fr; }
+.theme-lwp .portfolio-grid.wide img { aspect-ratio: 16 / 9; }
+.theme-lwp .portfolio-footnote {
+  margin: var(--space-lg) 0 0;
+  font-size: var(--text-caption);
+  color: var(--color-mid);
+}
+@media (max-width: 900px) {
+  .theme-lwp .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .theme-lwp .portfolio-grid { grid-template-columns: 1fr; }
+}
+
+.theme-lwp .spark-glow { box-shadow: 0 0 20px #E91E8C22, 0 0 1px #E91E8C44; }
+.theme-lwp .spark-text { color: var(--color-accent); }
+.theme-lwp .spark-border { border-color: #E91E8C55; }
+
+/* PHOTO FRAME: static images */
+.theme-lwp .photo-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding-right: 14px;
+  padding-bottom: 14px;
+  box-sizing: border-box;
+}
+.theme-lwp .photo-frame img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: block;
+  border: 1px solid #2a2a2a;
+}
+.theme-lwp .photo-frame::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #E91E8C99;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* SLIDER FRAME: before/after sliders */
+.theme-lwp .slider-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding-right: 14px;
+  padding-bottom: 14px;
+  box-sizing: border-box;
+}
+.theme-lwp .slider-frame::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #E91E8C99;
+  z-index: 0;
+  pointer-events: none;
+}
+.theme-lwp .slider-frame .slider-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* Case study slider stack */
+.theme-lwp .slider-gallery.cs-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 900px;
+  margin: 0 auto;
+  background: transparent;
+  padding-right: 12px;
+  padding-bottom: 12px;
+}
+.theme-lwp .slider-gallery.cs-stack .gallery-slider-item { background: transparent; }
+.theme-lwp .slider-gallery.cs-stack .photo-frame .slider-wrap { background: var(--color-bg); }
+
+/* --- BACKGROUND TEXTURE SECTIONS ---
+   --lwp-bg is set inline on the section by the page (see note 7 above). */
+.theme-lwp .section-bg-bokeh,
+.theme-lwp .section-bg-studio,
+.theme-lwp .section-bg-arch {
+  background: #0a0a0a var(--lwp-bg, none) center / cover no-repeat;
+  position: relative;
+}
+.theme-lwp .section-bg-bokeh::before,
+.theme-lwp .section-bg-studio::before,
+.theme-lwp .section-bg-arch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.theme-lwp .section-bg-bokeh::before { background: rgba(10, 10, 10, 0.82); }
+.theme-lwp .section-bg-studio::before { background: rgba(10, 10, 10, 0.8); }
+.theme-lwp .section-bg-arch::before { background: rgba(10, 10, 10, 0.85); }
+.theme-lwp .section-bg-bokeh > *,
+.theme-lwp .section-bg-studio > *,
+.theme-lwp .section-bg-arch > * { position: relative; z-index: 1; }
+
+/* --- SERVICE GRID --- */
+.theme-lwp .service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--grid-gap);
+  margin-top: 60px;
+}
+.theme-lwp .service-card {
+  background: var(--color-bg-card);
+  padding: 48px 40px;
+  border: 1px solid #1e1e1e;
+  border-top: 2px solid var(--color-spark);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-glow);
+  transition: background var(--transition), box-shadow 0.3s ease, border-color 0.3s ease, transform var(--transition);
+}
+.theme-lwp .service-card:hover {
+  background: #383838;
+  border-color: #E91E8C44;
+  border-top-color: var(--color-spark);
+  box-shadow: 0 0 28px #E91E8C18, 0 0 1px #E91E8C33, var(--shadow-glow-hover);
+  transform: translateY(-2px);
+}
+.theme-lwp .service-icon {
+  background: #E91E8C11;
+  border: 1px solid #E91E8C22;
+  padding: 10px 14px;
+  display: inline-block;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  font-size: 1.7rem;
+  line-height: 1;
+}
+.theme-lwp .service-card h3 { margin-bottom: 12px; font-size: 1.2rem; }
+.theme-lwp .service-card p { color: var(--color-mid); font-size: 0.9rem; margin-bottom: 20px; }
+.theme-lwp .service-card:hover p { color: #c2c2c2; }
+.theme-lwp .service-card a { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* --- HOW IT WORKS --- */
+.theme-lwp .lwp-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap);
+  margin-top: 60px;
+}
+.theme-lwp .step {
+  background: var(--color-bg-card);
+  padding: 48px 40px;
+  position: relative;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-glow);
+}
+.theme-lwp .step-number {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--color-spark);
+  text-shadow: 0 0 20px #E91E8C44;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.theme-lwp .step h3 { margin-bottom: 12px; }
+.theme-lwp .step p { color: var(--color-mid); font-size: 0.9rem; }
+
+/* --- PRICING --- */
+.theme-lwp .pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--grid-gap);
+  margin-top: 60px;
+}
+.theme-lwp .pricing-card {
+  background: var(--color-bg-card);
+  padding: 48px 40px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-glow);
+}
+.theme-lwp .pricing-card.featured {
+  background: var(--featured-grad);
+  box-shadow: 0 0 28px rgba(255, 255, 255, 0.08), 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+.theme-lwp .pricing-card.featured h3,
+.theme-lwp .pricing-card.featured p,
+.theme-lwp .pricing-card.featured li { color: var(--color-white); }
+.theme-lwp .pricing-tier {
+  font-size: var(--text-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 16px;
+}
+.theme-lwp .pricing-card.featured .pricing-tier { color: var(--color-white); }
+.theme-lwp .pricing-price {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.theme-lwp .pricing-unit { font-size: 0.8rem; color: var(--color-mid); margin-bottom: 24px; }
+.theme-lwp .pricing-card.featured .pricing-unit { color: var(--color-white); }
+/* Inline-styled cards that sit on the deep fill wrote their small labels at
+   70% white, which was fine on the old cyan and measures 3.7:1 on magenta. */
+.theme-lwp [style*="--color-accent-fill"] [style*="rgba(255,255,255,0.7)"] { color: rgba(255, 255, 255, 0.94) !important; }
+.theme-lwp .pricing-features { margin: 24px 0; }
+.theme-lwp .pricing-features li {
+  font-size: 0.88rem;
+  color: var(--color-mid);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.theme-lwp .pricing-features li::before { content: "→"; color: var(--color-accent); font-size: 0.8rem; }
+.theme-lwp .pricing-card.featured .pricing-features li { border-color: rgba(255, 255, 255, 0.2); }
+.theme-lwp .pricing-card.featured .pricing-features li::before { color: var(--color-white); }
+/* The button inside the featured card sits on deep magenta, so it goes white. */
+.theme-lwp .pricing-card.featured .lwp-btn { background: #fff; color: var(--color-accent-fill) !important; box-shadow: none; }
+
+/* --- TESTIMONIALS --- */
+.theme-lwp .testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--grid-gap);
+  margin-top: 60px;
+}
+.theme-lwp .testimonial-card {
+  background: var(--color-bg-card);
+  padding: 48px 40px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-glow);
+}
+.theme-lwp .testimonial-quote {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--color-white);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.theme-lwp .testimonial-quote::before { content: "\201C"; color: var(--color-accent); }
+.theme-lwp .testimonial-quote::after { content: "\201D"; color: var(--color-accent); }
+.theme-lwp .testimonial-author { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; color: var(--color-mid); text-transform: uppercase; }
+.theme-lwp .testimonial-role { font-size: 0.75rem; color: var(--color-mid); margin-top: 2px; }
+
+/* --- FAQ --- */
+.theme-lwp .lwp-faq-list { margin-top: 60px; }
+.theme-lwp .faq-item { border-bottom: 1px solid var(--color-border); }
+.theme-lwp .faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 24px 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.theme-lwp .faq-question:hover { color: var(--color-accent); }
+.theme-lwp .faq-icon { font-size: 1.4rem; color: var(--color-accent); flex-shrink: 0; transition: transform 0.3s; }
+.theme-lwp .faq-item.open .faq-icon { transform: rotate(45deg); }
+.theme-lwp .faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.theme-lwp .faq-answer p {
+  color: var(--color-mid);
+  padding-bottom: 24px;
+  max-width: 680px;
+}
+/* Without the script every answer is open, so nothing is ever unreachable. */
+.theme-lwp:not(.lwp-js) .faq-answer { max-height: none; }
+
+/* --- PAGE HERO (inner pages) ---
+   First screen under the strip and the nav, copy centred in it, ticker on
+   the bottom edge: the same deal every other hero on the site has since the
+   ticker went in. The old 140px top padding cleared a fixed nav that is not
+   here; this nav sits in the flow. */
+.theme-lwp .page-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: calc(100svh - var(--strip-h) - var(--nav-h));
+  padding: clamp(3rem, 8vh, 5rem) 0 calc(var(--ticker-h, 46px) + clamp(2.5rem, 7vh, 5rem));
+  background: var(--color-bg);
+  border-bottom: 0;
+}
+.theme-lwp .page-hero > .container { width: 100%; }
+.theme-lwp .page-hero h1 { margin-bottom: 16px; }
+.theme-lwp .page-hero p { color: var(--color-mid); font-size: 1.05rem; max-width: 560px; }
+
+/* --- SCROLL REVEAL ---
+   Hidden only once the script is running (.lwp-js on <main>), so the
+   content is there for anyone without it. */
+.theme-lwp.lwp-js .animate-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ease-out-quart), transform 0.6s var(--ease-out-quart);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.theme-lwp.lwp-js .animate-in.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- CONTACT FORM (was an inline style block on the contact page) --- */
+.theme-lwp .lwp-form .lwp-field { margin-bottom: 18px; }
+.theme-lwp .lwp-form label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-mid);
+  margin-bottom: 8px;
+}
+.theme-lwp .lwp-form .req { color: var(--color-accent); }
+.theme-lwp .lwp-form input,
+.theme-lwp .lwp-form select,
+.theme-lwp .lwp-form textarea {
+  width: 100%;
+  background: var(--color-bg);
+  /* Was --color-border (1.2:1 against the card). A field edge has to be
+     findable, so it takes the mid grey at 3.6:1. */
+  border: 1px solid #6f6f6f;
+  color: var(--color-white);
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.theme-lwp .lwp-form select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-mid) 50%), linear-gradient(135deg, var(--color-mid) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+.theme-lwp .lwp-form textarea { resize: vertical; min-height: 120px; }
+.theme-lwp .lwp-form input:focus,
+.theme-lwp .lwp-form select:focus,
+.theme-lwp .lwp-form textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(233, 30, 140, 0.35);
+}
+.theme-lwp .lwp-form input::placeholder,
+.theme-lwp .lwp-form textarea::placeholder { color: rgba(255, 255, 255, 0.55); }
+.theme-lwp .lwp-form select option { background: var(--color-bg-card); color: var(--color-white); }
+@keyframes lwp-fade-in-up {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- LIGHTBOX (was an inline style block on the AI Portraits page) --- */
+.theme-lwp .lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: rgba(0, 0, 0, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: zoom-out;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+.theme-lwp .lightbox.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.35s ease, visibility 0s linear 0s;
+}
+.theme-lwp .lightbox img {
+  width: auto;
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+  cursor: default;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+  transform: scale(0.94);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out;
+}
+.theme-lwp .lightbox.open img {
+  transform: scale(1);
+  opacity: 1;
+}
+.theme-lwp .lightbox.swapping img {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: transform 0.18s ease-in, opacity 0.18s ease-in;
+}
+.theme-lwp .lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 8px 14px;
+  min-width: 44px;
+  min-height: 44px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.theme-lwp .lightbox-close:hover { color: #fff; transform: scale(1.1); }
+.theme-lwp .lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 2.4rem;
+  cursor: pointer;
+  padding: 16px 22px;
+  min-width: 44px;
+  min-height: 44px;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+.theme-lwp .lightbox-nav:hover { color: #fff; }
+.theme-lwp .lightbox-prev { left: 16px; }
+.theme-lwp .lightbox-next { right: 16px; }
+.theme-lwp .lightbox.single .lightbox-nav { display: none; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+  .theme-lwp .lwp-steps { grid-template-columns: 1fr; }
+  .theme-lwp .slider-gallery { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .theme-lwp .container { padding: 0 20px; }
+  /* Force any inline-styled multi-column grid to stack on phones. Catches
+     the ad-hoc section layouts written as style="display:grid;grid-template-
+     columns:..." across about, services, case studies, contact and portraits. */
+  .theme-lwp [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* Their column gaps were set for two columns (60 to 80px); stacked, that
+     much air between two halves of one thought reads as two sections. */
+  .theme-lwp [style*="grid-template-columns"][style*="gap:80px"],
+  .theme-lwp [style*="grid-template-columns"][style*="gap:60px"] {
+    gap: 40px !important;
+  }
+
+  /* Pricing table: card-style rows on phones */
+  .theme-lwp .price-row-head { display: none !important; }
+  .theme-lwp .price-row {
+    padding: 24px 20px !important;
+    gap: 0 !important;
+  }
+  .theme-lwp .price-row > *:first-child {
+    padding-bottom: 14px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .theme-lwp .price-row > *:nth-child(n + 2) {
+    display: flex !important;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+  .theme-lwp .price-row > *:nth-child(2)::before { content: "Standard"; }
+  .theme-lwp .price-row > *:nth-child(3)::before { content: "Premium"; }
+  .theme-lwp .price-row > *:nth-child(4)::before { content: "Turnaround"; }
+  .theme-lwp .price-row > *:nth-child(n + 2)::before {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-mid);
+  }
+  .theme-lwp .trust-strip .container { gap: 14px 30px; }
+  .theme-lwp .pricing-grid { grid-template-columns: 1fr; }
+  .theme-lwp .service-grid { grid-template-columns: 1fr; }
+  .theme-lwp .service-card,
+  .theme-lwp .step,
+  .theme-lwp .pricing-card,
+  .theme-lwp .testimonial-card { padding: 32px 24px; }
+
+  .theme-lwp .hero-ctas {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .theme-lwp .hero-ctas .lwp-btn {
+    width: 100%;
+    text-align: center;
+  }
+  .theme-lwp .lightbox { padding: 16px; }
+  .theme-lwp .lightbox-nav { font-size: 1.8rem; padding: 12px 14px; }
+  .theme-lwp .lightbox-close { top: 12px; right: 16px; font-size: 1.6rem; }
+}
+
+/* Stand-alone links (a card's "See Examples" line, not a link inside a
+   sentence) were 15px tall. On touch screens they get a full 44px target. */
+@media (pointer: coarse), (max-width: 768px) {
+  .theme-lwp :is(div, section, article, figure) > a:not(.lwp-btn) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* --- KEYBOARD FOCUS --- */
+.theme-lwp :focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* The ticker sits inside the hero and keeps its own focus style. */
+.theme-lwp .marquee :focus-visible { border-radius: 0; }
+.theme-lwp .lwp-form input:focus-visible,
+.theme-lwp .lwp-form select:focus-visible,
+.theme-lwp .lwp-form textarea:focus-visible {
+  outline: none;
+}
+
+/* --- REDUCED MOTION --- */
+@media (prefers-reduced-motion: reduce) {
+  .theme-lwp *:not(.marquee):not(.marquee *),
+  .theme-lwp *:not(.marquee):not(.marquee *)::before,
+  .theme-lwp *:not(.marquee):not(.marquee *)::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .theme-lwp.lwp-js .animate-in { opacity: 1; transform: none; }
+}

@@ -54,6 +54,7 @@ collections:
           - "Hosting & Performance"
           - "WordPress & Migration"
           - "Running a Business Online"
+          - "Photos & Images"
           - "LWS News"
       - label: "Tags"
         name: "tags"

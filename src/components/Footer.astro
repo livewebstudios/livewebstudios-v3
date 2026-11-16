@@ -15,7 +15,7 @@
  */
 import VideoBg from "./VideoBg.astro";
 import StudioBg from "./StudioBg.astro";
-import { studioFromPath } from "../lib/studios";
+import { studioFromPath, studioByKey } from "../lib/studios";
 import Arrow from "./Arrow.astro";
 import Social from "./Social.astro";
 import { imageSize } from "../lib/imageSize";
@@ -90,7 +90,9 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
     links: [
       ["Live Web Studios", "index.html", "images/logoRGB.png"],
       ["LiveAiStudios", "ai.html", "images/studios/live-ai-studios.png"],
-      ["Live Web Photos", "https://livewebphotos.com", "images/studios/live-web-photos.png"],
+      /* Local since 2026-11-16: Live Web Photos is the fourth studio on this
+         site (handoff section 5). Same address the studio strip uses. */
+      ["Live Web Photos", studioByKey("lwp").href, "images/studios/live-web-photos.png"],
       ["Live Band Web Studios", "live-band-web-studios.html", "images/studios/live-band-web-studios.png"],
     ],
     sub: {
@@ -170,10 +172,9 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
           <h3>{c.href ? <a class="foot-col__h" href={`${rel}${c.href}`}>{c.h}</a> : c.h}</h3>
           <ul>
             {c.links.map(([label, href, logo]) => {
-              /* Sister companies with their own domain link out in a new tab
-                 (Jon 2026-09-12: Live Web Photos is livewebphotos.com, there
-                 is no local page). Internal links stay relative per the path
-                 rule. */
+              /* A full URL links out in a new tab. Internal links stay
+                 relative per the path rule. (Live Web Photos was the one
+                 external entry until it moved in on 2026-11-16.) */
               const ext = href.startsWith("http");
               const resolvedHref = ext ? href : `${rel}${href}`;
               return (

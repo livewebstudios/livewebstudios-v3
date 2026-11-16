@@ -1,0 +1,147 @@
+---
+/**
+ * /live-web-photos/contact. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/contact.html (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Marquee from "../../components/Marquee.astro";
+import LwpScripts from "../../components/LwpScripts.astro";
+import "../../styles/lwp.css";
+---
+
+<Base
+  title={"Contact Live Web Photos | Get a Free Sample Edit"}
+  description={"Get a free sample AI image edit, request a quote, or submit your project. 48-hour standard delivery. Serving clients nationally from North Jersey."}
+  canonical="https://livewebstudios.com/live-web-photos/contact"
+  ogImage="images/lwp/og-home.jpg"
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <div class="page-hero">
+      <div class="container">
+        <span class="section-label">Start Here</span>
+        <h1>Get Your Free Sample Edit</h1>
+        <p>Send us one image. We'll enhance it and return it — free, watermarked, undeniably impressive. No credit card, no obligation, no awkward sales call. Just proof.</p>
+      </div>
+      <Marquee />
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:start;">
+
+          <!-- Left: info panel -->
+          <div>
+            <h2 style="margin-bottom:24px;">What Happens Next</h2>
+            <div style="margin-bottom:32px;">
+              <div style="display:flex;gap:16px;margin-bottom:24px;align-items:flex-start;">
+                <div style="background:var(--color-accent-fill);color:#fff;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0;">01</div>
+                <div><strong style="color:var(--color-white);display:block;margin-bottom:4px;">Submit your project below</strong><span style="font-size:0.88rem;color:var(--color-mid);">Tell us what you need. Attach a sample image if you have one ready.</span></div>
+              </div>
+              <div style="display:flex;gap:16px;margin-bottom:24px;align-items:flex-start;">
+                <div style="background:var(--color-accent-fill);color:#fff;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0;">02</div>
+                <div><strong style="color:var(--color-white);display:block;margin-bottom:4px;">We process your free sample</strong><span style="font-size:0.88rem;color:var(--color-mid);">Within 48 hours you'll receive an enhanced version with our watermark applied.</span></div>
+              </div>
+              <div style="display:flex;gap:16px;align-items:flex-start;">
+                <div style="background:var(--color-accent-fill);color:#fff;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0;">03</div>
+                <div><strong style="color:var(--color-white);display:block;margin-bottom:4px;">Decide if you want the rest</strong><span style="font-size:0.88rem;color:var(--color-mid);">If the sample impresses you — and it will — we'll quote the full project.</span></div>
+              </div>
+            </div>
+
+            <div style="border:1px solid var(--color-border);padding:28px;">
+              <h3 style="font-size:1rem;margin-bottom:16px;">Direct Contact</h3>
+              <p style="font-size:0.88rem;color:var(--color-mid);margin-bottom:8px;"><a href="mailto:jonwolf@livewebstudios.com" style="color:var(--color-accent);">jonwolf@livewebstudios.com</a></p>
+              <p style="font-size:0.88rem;color:var(--color-mid);margin-bottom:0;"><a href="tel:+17328019611" style="color:var(--color-accent);">732.801.9611</a></p>
+              <p style="font-size:0.78rem;color:var(--color-mid);margin-top:16px;line-height:1.6;">North Jersey based. National service delivery.<br>Standard turnaround: 48 hours.</p>
+            </div>
+
+            <div style="margin-top:24px;background:var(--color-bg-alt);border-left:3px solid var(--color-accent);padding:20px 24px;">
+              <p style="font-size:0.82rem;color:var(--color-mid);margin:0;line-height:1.7;">⚡ <strong style="color:var(--color-white);">48-hour standard delivery</strong> on all single-image and small batch orders. Rush (24hr) available on request.</p>
+            </div>
+          </div>
+
+          <!-- Right: Formspree contact form -->
+          <div>
+            <div style="background:var(--color-bg-card);border:1px solid var(--color-border);padding:48px 40px;">
+              <h3 style="margin-bottom:32px;">Submit Your Project</h3>
+
+              <form action="https://formspree.io/f/xlgzpoql" method="POST" class="lwp-form">
+                <!-- Hidden: thank-you redirect (bypasses Formspree branding on free plan) -->
+                <input type="hidden" name="_next" value="https://livewebstudios.com/live-web-photos/contact?sent=1">
+                <input type="hidden" name="_subject" value="[LWP] New free-sample request">
+
+                <div class="lwp-field">
+                  <label for="lwp-name">Name <span class="req">*</span></label>
+                  <input id="lwp-name" type="text" name="name" required autocomplete="name">
+                </div>
+
+                <div class="lwp-field">
+                  <label for="lwp-email">Email <span class="req">*</span></label>
+                  <input id="lwp-email" type="email" name="email" required autocomplete="email">
+                </div>
+
+                <div class="lwp-field">
+                  <label for="lwp-phone">Phone</label>
+                  <input id="lwp-phone" type="tel" name="phone" autocomplete="tel">
+                </div>
+
+                <div class="lwp-field">
+                  <label for="lwp-service">What are you looking for?</label>
+                  <select id="lwp-service" name="service">
+                    <option value="">— Choose a service —</option>
+                    <option value="Virtual Staging">Virtual Staging</option>
+                    <option value="E-Commerce Product Enhancement">E-Commerce Product Enhancement</option>
+                    <option value="Architectural Visualization">Architectural Visualization</option>
+                    <option value="AI Professional Portfolio">AI Professional Portfolio</option>
+                    <option value="Floral &amp; Specialty Retail">Floral &amp; Specialty Retail</option>
+                  </select>
+                </div>
+
+                <div class="lwp-field">
+                  <label for="lwp-message">Message</label>
+                  <textarea id="lwp-message" name="message" rows="6" placeholder="Tell us about your project — image count, timeline, anything we should know."></textarea>
+                </div>
+
+                <button type="submit" class="lwp-btn" style="width:100%;margin-top:8px;">GET A FREE SAMPLE</button>
+              </form>
+
+            </div>
+            <p style="font-size:0.75rem;color:var(--color-mid);margin-top:12px;text-align:center;">
+              Your information is never shared or sold. We use it only to process your request.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <script is:inline>
+      // Show a small confirmation banner if redirected back with ?sent=1
+      (function(){
+        if (location.search.indexOf('sent=1') !== -1) {
+          var form = document.querySelector('.lwp-form');
+          if (!form) return;
+          var msg = document.createElement('div');
+          msg.setAttribute('role', 'status');
+          msg.setAttribute('aria-live', 'polite');
+          msg.style.cssText = 'background:rgba(233,30,140,0.12);border:1px solid var(--color-spark);color:var(--color-white);padding:14px 18px;margin-bottom:24px;font-size:0.92rem;border-radius:4px;animation:lwp-fade-in-up 0.4s var(--ease-out-quart) both;';
+          msg.innerHTML = '<strong>Thanks — got it.</strong> We\'ll be in touch within 48 hours.';
+          form.parentNode.insertBefore(msg, form);
+        }
+      })();
+    </script>
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

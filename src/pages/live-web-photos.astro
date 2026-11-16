@@ -1,0 +1,374 @@
+---
+/**
+ * /live-web-photos. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/ (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Marquee from "../components/Marquee.astro";
+import VideoBg from "../components/VideoBg.astro";
+import LwpScripts from "../components/LwpScripts.astro";
+import "../styles/lwp.css";
+
+/* Structured data carried over from the old page, with its URLs moved to
+   this address. */
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Live Web Photos",
+  "url": "https://livewebstudios.com/live-web-photos",
+  "logo": "https://livewebstudios.com/images/lwp-logo-magenta.png",
+  "description": "AI-powered bulk image enhancement, virtual staging, architectural visualization, e-commerce product photography, and professional AI portfolio services.",
+  "slogan": "Studio-Quality Visuals. Infinite Scale.",
+  "telephone": "+17328019611",
+  "email": "jonwolf@livewebstudios.com",
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "Live Web Studios",
+    "url": "https://livewebstudios.com"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "NJ",
+    "addressCountry": "US"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+  }
+};
+---
+
+<Base
+  title={"AI Image Enhancement & Virtual Staging Services | Live Web Photos"}
+  description={"Studio-quality AI image editing at scale. Virtual staging, product photo enhancement, architectural visualization & AI professional portfolios. 48-hour delivery. Get a free sample edit."}
+  canonical="https://livewebstudios.com/live-web-photos"
+  ogImage="images/lwp/og-home.jpg"
+  ogTitle={"AI Image Enhancement & Virtual Staging | Live Web Photos"}
+  ogDescription={"Studio-quality visuals. Infinite scale. AI-powered image editing for real estate, e-commerce, architecture, and professional portfolios."}
+  jsonld={jsonld}
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <!-- ============================================================ HERO -->
+    {/* The old home video (video/room-vid.mp4) with its poster, now
+        public/video-bg/lwp-room-vid.mp4 and -poster.jpg, run through VideoBg:
+        poster first, clip loaded when the hero is on screen, a still frame
+        under reduced motion. The veil over it is .lwp-hero::before in lwp.css. */}
+    <section class="lwp-hero has-videobg">
+      <VideoBg src="lwp-room-vid.mp4" scrim="hero" />
+
+      <div class="container">
+        <span class="hero-eyebrow">A Division of Live Web Studios — Est. 2004</span>
+        <h1>Studio-Quality Visuals.<br><em>Infinite Scale.</em></h1>
+        <p class="lwp-hero-sub">
+          AI-powered image enhancement for real estate, e-commerce, architecture,
+          and professionals who can't afford a studio — but can't afford not to look like one.
+        </p>
+        <div class="hero-ctas">
+          <a href="live-web-photos/contact.html" class="lwp-btn">GET A FREE SAMPLE</a>
+          <a href="live-web-photos/services.html" class="lwp-btn lwp-btn-outline">VIEW SERVICES</a>
+        </div>
+      </div>
+      <Marquee />
+    </section>
+
+    <!-- ============================================================ TRUST STRIP -->
+    <div class="trust-strip">
+      <div class="container">
+        <div class="trust-item"><span class="icon">⚡</span> <strong>48-Hour</strong>&nbsp;Standard Delivery</div>
+        <div class="trust-item"><span class="icon">✓</span> <strong>Free</strong>&nbsp;Sample Edit — No Commitment</div>
+        <div class="trust-item"><span class="icon">★</span> <strong>22 Years</strong>&nbsp;of Visual Storytelling</div>
+      </div>
+    </div>
+
+    <!-- ============================================================ HERO SLIDER -->
+    <section style="background:#1c1c1c; padding:0;">
+      <div style="padding:0 0 2px 0;">
+        <div class="slider-wrap hero-slider" id="hero-slider">
+          <img decoding="async" src="images/lwp/hero-after.jpg" alt="After AI image enhancement — studio quality result" width="1200" height="896">
+          <div class="slider-before" style="width:50%;">
+            <img decoding="async" src="images/lwp/hero-before.jpg" alt="Before AI image enhancement — original photo" width="1200" height="896">
+          </div>
+          <div class="slider-divider" style="left:50%;">
+            <div class="slider-handle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg>
+            </div>
+          </div>
+          <span class="slider-label label-before">BEFORE</span>
+          <span class="slider-label label-after">AFTER</span>
+        </div>
+      </div>
+      <div style="padding:16px 40px; background:#1c1c1c; text-align:center;">
+        <p style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-mid);margin:0;">
+          Drag the divider — See the difference AI enhancement makes
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================ SAMPLE GALLERY SLIDERS -->
+    <section class="section-alt">
+      <div class="container">
+        <span class="section-label">Proof of Work</span>
+        <h2 class="section-title">The Results Speak for Themselves</h2>
+        <p class="section-intro">Real before/after pairs across our core service categories. These are the kinds of transformations your clients and customers will see.</p>
+      </div>
+      <div class="slider-gallery" style="margin-top:40px;">
+        <div class="gallery-slider-item">
+          <div class="slider-wrap" id="gallery-slider-1">
+            <img loading="lazy" decoding="async" src="images/lwp/service-staging1-after.jpg" alt="After virtual staging — furnished luxury living room" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="images/lwp/service-staging1-before.jpg" alt="Before virtual staging — empty room" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div>
+          <div class="slider-category">Virtual Staging</div>
+        </div>
+        <div class="gallery-slider-item">
+          <div class="slider-wrap" id="gallery-slider-2">
+            <img loading="lazy" decoding="async" src="images/lwp/service-commerce1after.jpg" alt="After product enhancement — studio quality product photo" width="1200" height="896">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="images/lwp/service-commerce1before.jpg" alt="Before product enhancement — raw product shot" width="1200" height="896"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div>
+          <div class="slider-category">Product Photography</div>
+        </div>
+        <div class="gallery-slider-item">
+          <div class="slider-wrap" id="gallery-slider-3">
+            <img loading="lazy" decoding="async" src="images/lwp/service-architect1-after.jpg" alt="After AI portrait enhancement — professional portfolio photo" width="1264" height="848">
+            <div class="slider-before" style="width:50%;"><img loading="lazy" decoding="async" src="images/lwp/service-architect1-before.jpg" alt="Before AI portrait — casual phone photo" width="1264" height="848"></div>
+            <div class="slider-divider" style="left:50%;"><div class="slider-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div></div>
+            <span class="slider-label label-before">BEFORE</span>
+            <span class="slider-label label-after">AFTER</span>
+          </div>
+          <div class="slider-category">AI Portrait</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ SERVICES -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label">What We Do</span>
+        <h2 class="section-title">Built for the Industries That Run on Visuals</h2>
+        <p class="section-intro">Every market we serve shares one thing: the image is the first impression. And the first impression is everything.</p>
+        <div class="service-grid">
+          <div class="service-card animate-in">
+            <div class="service-icon">🏠</div>
+            <h3>Virtual Staging</h3>
+            <p>Empty rooms filled with photorealistic AI-generated furniture and finishes. Built for realtors, developers, and interior designers who need listings to move.</p>
+            <a href="live-web-photos/case-studies/real-estate.html">See Examples →</a>
+          </div>
+          <div class="service-card animate-in" style="--reveal-delay:80ms;">
+            <div class="service-icon">📦</div>
+            <h3>E-Commerce Product Enhancement</h3>
+            <p>Remove backgrounds, add lifestyle context, color correct — processed in bulk. From $5 per image. 50–500+ SKUs in a single batch.</p>
+            <a href="live-web-photos/case-studies/ecommerce.html">See Examples →</a>
+          </div>
+          <div class="service-card animate-in" style="--reveal-delay:160ms;">
+            <div class="service-icon">🏗️</div>
+            <h3>Architectural Visualization</h3>
+            <p>Add people, landscaping, activated lighting, and life to empty renderings and pre-construction photos. Make the vision real before it's built.</p>
+            <a href="live-web-photos/case-studies/architecture.html">See Examples →</a>
+          </div>
+          <div class="service-card animate-in" style="--reveal-delay:240ms;">
+            <div class="service-icon">👤</div>
+            <h3>AI Professional Portfolios</h3>
+            <p>Send us 20 photos. We return a full professional portfolio — office, lifestyle, editorial, social. No photographer required. No studio booking. No $2,000 invoice.</p>
+            <a href="live-web-photos/ai-portraits.html">Learn More →</a>
+          </div>
+          <div class="service-card animate-in" style="--reveal-delay:320ms;">
+            <div class="service-icon">💐</div>
+            <h3>Floral & Specialty Retail</h3>
+            <p>Studio-quality arrangement photography without the studio. Background replacement, color enhancement, and bulk processing for florists and specialty retailers.</p>
+            <a href="live-web-photos/case-studies/floral.html">See Examples →</a>
+          </div>
+          <div class="service-card animate-in" style="--reveal-delay:400ms;">
+            <div class="service-icon">🎨</div>
+            <h3>Bulk Image Processing</h3>
+            <p>Have 50 images? 500? We process at scale. Consistent quality across your entire catalog, delivered in batches with 48-hour turnaround on standard orders.</p>
+            <a href="live-web-photos/services.html">View All Services →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ HOW IT WORKS -->
+    <section class="section section-bg-bokeh" style="--lwp-bg:url('images/lwp/bokeh.jpg')">
+      <div class="container">
+        <span class="section-label spark">The Process</span>
+        <h2 class="section-title">Three Steps. Studio Results.</h2>
+        <p class="section-intro">No complicated onboarding. No back-and-forth. Just upload, enhance, and receive.</p>
+        <div class="lwp-steps">
+          <div class="step">
+            <div class="step-number">01</div>
+            <h3>Submit Your Photos</h3>
+            <p>Upload your existing images through our contact form. Phone photos, DSLR files, CAD renderings, product shots — we work with what you have.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">02</div>
+            <h3>AI Enhancement Pipeline</h3>
+            <p>Our AI-powered workflow processes each image — background removal, lighting correction, staging, color grading, and quality review by a human eye before delivery.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">03</div>
+            <h3>Studio-Quality Delivery</h3>
+            <p>Receive your enhanced files within 48 hours on standard orders. High-resolution, print-ready, web-optimized — formatted for wherever you're publishing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ AI PORTRAIT CALLOUT -->
+    <section class="section" style="background: var(--color-bg);">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
+          <div>
+            <span class="section-label">Featured Service</span>
+            <h2>Your Professional Portfolio.<br>Without the Photographer.</h2>
+            <p style="color:var(--color-mid);margin:20px 0;line-height:1.8;">
+              Send us 20 photos taken on your phone. We generate a complete professional
+              image portfolio using AI — suited for LinkedIn, your website, press kits,
+              social media, and executive branding.
+            </p>
+            <p style="color:var(--color-mid);margin-bottom:20px;line-height:1.8;">
+              Office desk. Coffee shop. City street. Park bench. Candid lifestyle.
+              Every scenario. Every angle. Photography-quality resolution.
+            </p>
+            <p style="font-family:var(--font-display);font-size:1.3rem;font-style:italic;color:var(--color-white);margin-bottom:32px;">
+              "Photographers charge $2,000. We don't."
+            </p>
+            <a href="live-web-photos/ai-portraits.html" class="lwp-btn">SEE HOW IT WORKS</a>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--color-border);">
+            <img loading="lazy" decoding="async" src="images/lwp/pro-portfolio/jon-at-desk.jpg" alt="AI professional portrait — office setting" style="width:100%;aspect-ratio:3/4;object-fit:cover;" width="600" height="800">
+            <img loading="lazy" decoding="async" src="images/lwp/pro-portfolio/jon-cafe.jpg" alt="AI professional portrait — café lifestyle" style="width:100%;aspect-ratio:3/4;object-fit:cover;" width="1067" height="800">
+            <img loading="lazy" decoding="async" src="images/lwp/pro-portfolio/jon-park-bench.jpg" alt="AI professional portrait — outdoor urban" style="width:100%;aspect-ratio:3/4;object-fit:cover;" width="1067" height="800">
+            <img loading="lazy" decoding="async" src="images/lwp/pro-portfolio/jon-studio.jpg" alt="AI professional portrait — candid walking" style="width:100%;aspect-ratio:3/4;object-fit:cover;" width="1152" height="1536">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ TESTIMONIALS -->
+    <section class="section section-bg-studio" style="--lwp-bg:url('images/lwp/bg-studio-light.jpg')">
+      <div class="container">
+        <span class="section-label">Client Results</span>
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-quote">We listed a property with empty rooms for three months. Zero offers. Live Web Photos staged it digitally — we had a contract in 11 days. The images looked better than units we paid a real stager $3,000 for.</p>
+            <div class="testimonial-author">Michelle R.</div>
+            <div class="testimonial-role">Licensed Realtor — Bergen County, NJ</div>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-quote">I run a 400-product e-commerce catalog. Getting professional photos done was killing us — $40 a shot adds up fast. LWP processed our entire back catalog in a week. Consistent, clean, ready to upload. Game changer.</p>
+            <div class="testimonial-author">David K.</div>
+            <div class="testimonial-role">Owner — Online Retail, Morris County NJ</div>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-quote">I was skeptical about AI headshots. But I sent them my iPhone photos and got back 15 images I'd proudly put on my firm's website and LinkedIn. My managing partner asked who shot them. I said: AI. She didn't believe me.</p>
+            <div class="testimonial-author">Brian H.</div>
+            <div class="testimonial-role">Attorney — Northern NJ</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ FAQ -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label">Common Questions</span>
+        <h2 class="section-title">FAQ</h2>
+        <div class="lwp-faq-list" style="max-width:800px;">
+
+          <div class="faq-item">
+            <button class="faq-question">Is this real photography or obviously AI? <span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>The output is photorealistic — generated at photography quality using the same AI models used by major advertising agencies. When done correctly, the results are indistinguishable from a professional studio shoot. We review every image before delivery and reject anything that doesn't meet that standard.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">How do I submit my photos? <span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Through our contact form. Upload your files directly or share a Google Drive / Dropbox link. We accept JPG, PNG, RAW, TIFF, and most standard formats. For large orders (50+ images), we'll set up a shared folder workflow with you.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">How long does it take? <span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Standard orders are delivered within 48 hours. Rush delivery (24 hours) is available at a surcharge — just note it in your request. Large batch orders (100+ images) are quoted individually with a delivery timeline upfront.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">What file formats do you deliver? <span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>High-resolution JPG by default. We also deliver PNG (with transparent background where applicable), WebP for web-optimized use, and TIFF for print-ready output. Just specify your needs when you submit.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">Can I request revisions? <span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Yes. One round of revisions is included with every order. If something isn't right — style, color, composition — tell us specifically what to adjust and we'll re-process. We'd rather get it right than have you settle.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">Do you work with businesses outside New Jersey? <span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Absolutely. Everything is delivered digitally, so we work with clients nationwide. We're based in North Jersey but our client base spans coast to coast — particularly in e-commerce, real estate, and professional services.</p></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">Is the free sample edit really free? <span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>Yes. Send us one image and we'll return an enhanced version at no charge. We put a watermark on it — because obviously — but you'll see exactly what the output looks like before spending a dollar. No credit card, no obligation, no awkward sales call. Just proof.</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ CLOSING CTA -->
+    <section style="background:var(--color-accent-fill);padding:80px 0;text-align:center;">
+      <div class="container">
+        <h2 style="color:#fff;margin-bottom:16px;">Send One Photo. See What Comes Back.</h2>
+        <p style="color:rgba(255,255,255,0.8);max-width:520px;margin:0 auto 36px;font-size:1.05rem;">
+          Send us one image. We'll transform it and send it back — free, watermarked, and undeniably impressive.
+        </p>
+        <a href="live-web-photos/contact.html" class="lwp-btn lwp-btn--onfill">GET A FREE SAMPLE</a>
+      </div>
+    </section>
+
+    <!-- ============================================================ LINEAGE / TRUST -->
+    <section class="section section-bg-arch" style="--lwp-bg:url('images/lwp/bg-arch-texture.jpg')">
+      <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
+        <div>
+          <span class="section-label spark">Our Lineage</span>
+          <h2>22 Years of Visual Storytelling.<br>Now Powered by AI.</h2>
+          <p style="color:var(--color-mid);margin:20px 0;line-height:1.8;">
+            Live Web Photos is a division of <a href="index.html" style="color:var(--color-accent);">Live Web Studios</a> —
+            a North Jersey web design and development agency established in 2004.
+            We've been building the visual presence of small and mid-size businesses for over two decades.
+          </p>
+          <p style="color:var(--color-mid);line-height:1.8;">
+            We didn't pivot to AI because it was trendy. We adopted it because
+            the results for our clients are undeniable — and we've stress-tested
+            every tool in the stack before it touches a client deliverable.
+          </p>
+          <a href="live-web-photos/about.html" class="lwp-btn lwp-btn-outline" style="margin-top:28px;">ABOUT LIVE WEB PHOTOS</a>
+        </div>
+        <div style="text-align:center;">
+          <img decoding="async" src="images/lwp-logo-magenta.png" alt="Live Web Photos — Division of Live Web Studios Est. 2004" style="max-width:280px;opacity:0.85;" width="849" height="160">
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ FOOTER -->
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

@@ -1,0 +1,389 @@
+---
+/**
+ * /live-web-photos/ai-portraits. Live Web Photos, the fourth studio.
+ *
+ * Ported on 2026-11-16 from livewebphotos.com/professional-portfolio.html (five-studio
+ * navigation, handoff section 5). The copy is carried over as written; Jon
+ * edits it later. What changed is the frame around it: the studio strip, the
+ * Live Web Photos nav, the ticker and the footer come from this site, asset
+ * and link paths are relative to this address, and six class names that
+ * collide with this site's own carry an lwp- prefix. Styles: src/styles/lwp.css.
+ * Sliders, FAQ and scroll reveal: src/components/LwpScripts.astro.
+ */
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import Marquee from "../../components/Marquee.astro";
+import LwpScripts from "../../components/LwpScripts.astro";
+import "../../styles/lwp.css";
+---
+
+<Base
+  title={"AI Professional Portfolio Photos — No Photographer Needed | Live Web Photos"}
+  description={"Send us 20 phone photos. We generate a complete professional portrait portfolio using AI — office, lifestyle, editorial, social. Starting at $149. 48-hour delivery."}
+  canonical="https://livewebstudios.com/live-web-photos/ai-portraits"
+  ogImage="images/lwp/og-home.jpg"
+>
+  <Nav />
+
+  <main class="theme-lwp">
+    <!-- HERO -->
+    <section class="page-hero">
+      <div class="container">
+        <span class="section-label">Featured Service</span>
+        <h1>Your Professional Portfolio.<br>Without the Photographer.</h1>
+        <p style="color:var(--color-mid);max-width:600px;font-size:1.1rem;line-height:1.8;margin:20px 0 36px;">
+          Send us 20 photos taken on your phone. We return a complete, professional-quality
+          image portfolio — every scene you need for LinkedIn, your website, press kits,
+          social media, and executive branding.
+        </p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
+          <a href="contact.html" class="lwp-btn">ORDER YOUR PORTFOLIO — FROM $149</a>
+          <a href="#how-it-works" class="lwp-btn lwp-btn-outline">HOW IT WORKS</a>
+        </div>
+      </div>
+      <Marquee />
+    </section>
+
+    <!-- PROOF GALLERY -->
+    <section style="background:#1c1c1c;padding:60px 0;">
+      <div id="portfolio-gallery" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;max-width:1100px;margin:0 auto;padding:0 40px 24px;overflow:visible;">
+        <div class="photo-frame"><img loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/jon-at-desk.jpg" alt="AI professional portrait — executive at desk" style="width:100%;aspect-ratio:3/4;object-fit:cover;cursor:zoom-in;" width="600" height="800"></div>
+        <div class="photo-frame"><img loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/jon-cafe.jpg" alt="AI professional portrait — lifestyle café setting" style="width:100%;aspect-ratio:3/4;object-fit:cover;cursor:zoom-in;" width="1067" height="800"></div>
+        <div class="photo-frame"><img loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/jon-park-bench.jpg" alt="AI professional portrait — outdoor urban street" style="width:100%;aspect-ratio:3/4;object-fit:cover;cursor:zoom-in;" width="1067" height="800"></div>
+        <div class="photo-frame"><img loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/jon-teaching.jpg" alt="AI professional portrait — candid walking shot" style="width:100%;aspect-ratio:3/4;object-fit:cover;cursor:zoom-in;" width="1067" height="800"></div>
+        <div class="photo-frame"><img loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/jon-studio.jpg" alt="AI professional portrait — studio look" style="width:100%;aspect-ratio:3/4;object-fit:cover;cursor:zoom-in;" width="1152" height="1536"></div>
+        <div class="photo-frame"><img loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/jon-studios2.jpg" alt="AI professional portrait — alternate studio look" style="width:100%;aspect-ratio:3/4;object-fit:cover;cursor:zoom-in;" width="1152" height="1536"></div>
+      </div>
+      <div style="padding:14px 40px;text-align:center;">
+        <p style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-mid);margin:0;">Jon's own portfolio, generated from 20 smartphone photos.</p>
+      </div>
+    </section>
+
+    <!-- SAMPLE PORTFOLIOS: AI-generated demo models -->
+    <section class="section-alt">
+      <div class="container">
+        <span class="section-label">More Sample Portfolios</span>
+        <h2 class="section-title">Same Service. Completely Different Results.</h2>
+        <p class="section-intro">Pick the scene. Pick the lens. Every image is one of a kind, even when two people share a setting.</p>
+
+        <div class="portfolio-set animate-in">
+          <h3 class="portfolio-set-label">The Facilitator</h3>
+          <div class="portfolio-grid">
+            <figure><div class="photo-frame"><img width="1600" height="1986" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/maya-studio-85mm.jpg" alt="AI professional portrait, woman in a navy blazer against a warm gray studio backdrop, shot as if on an 85mm lens"></div><figcaption>Studio · 85mm f/1.8</figcaption></figure>
+            <figure><div class="photo-frame"><img width="1600" height="1073" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/maya-workshop-35mm.jpg" alt="AI professional portrait, woman leading a workshop in a glass-walled conference room, shot as if on a 35mm lens"></div><figcaption>Workshop · 35mm f/2.8</figcaption></figure>
+            <figure><div class="photo-frame"><img width="1600" height="1073" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/maya-coaching-135mm.jpg" alt="AI professional portrait, woman listening closely in a one-on-one coaching session in a lamp-lit office, shot as if on a 135mm lens"></div><figcaption>Coaching · 135mm f/2</figcaption></figure>
+            <figure><div class="photo-frame"><img width="1600" height="1986" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/maya-stage-50mm.jpg" alt="AI professional portrait, woman standing under a single spotlight on an empty black-box theater stage, shot as if on a 50mm lens"></div><figcaption>Stage · 50mm f/1.4</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="portfolio-set animate-in">
+          <h3 class="portfolio-set-label">The Coach</h3>
+          <div class="portfolio-grid">
+            <figure><div class="photo-frame"><img width="1400" height="1738" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/daniel-editorial-50mm.jpg" alt="AI professional portrait, black-and-white editorial headshot of a bearded man in hard side light, shot as if on a 50mm lens"></div><figcaption>Editorial · 50mm f/2</figcaption></figure>
+            <figure><div class="photo-frame"><img width="1600" height="893" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/daniel-keynote-200mm.jpg" alt="AI professional portrait, man speaking on a conference keynote stage with a headset mic, shot as if on a 200mm lens"></div><figcaption>Keynote · 200mm f/2.8</figcaption></figure>
+            <figure><div class="photo-frame"><img width="1600" height="1073" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/daniel-city-35mm.jpg" alt="AI professional portrait, man walking a riverfront promenade lined with glass towers, shot as if on a 35mm lens"></div><figcaption>City walk · 35mm f/2</figcaption></figure>
+            <figure><div class="photo-frame"><img width="1600" height="1073" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/daniel-office-28mm.jpg" alt="AI professional portrait, man seated on the edge of a desk in a corner office at golden hour, shot as if on a 28mm lens"></div><figcaption>Corner office · 28mm f/4</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="portfolio-set animate-in">
+          <div class="portfolio-grid wide">
+            <figure><div class="photo-frame"><img width="1600" height="893" loading="lazy" decoding="async" src="../images/lwp/pro-portfolio/group-workshop-35mm.jpg" alt="AI professional portrait, two facilitators leading a small-group training session in a bright training room, shot as if on a 35mm lens"></div><figcaption>Co-facilitated workshop · 35mm f/4</figcaption></figure>
+          </div>
+        </div>
+
+        <p class="portfolio-footnote">Maya and Daniel are AI-generated demo models, not clients.</p>
+      </div>
+    </section>
+
+    <!-- THE PROBLEM -->
+    <section class="section">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
+          <div>
+            <span class="section-label">The Reality</span>
+            <h2>The World Runs on Professional Imagery.</h2>
+            <p style="color:var(--color-mid);margin:16px 0;line-height:1.8;">Your LinkedIn profile photo is seen before your resume. Your website headshot forms an opinion before your copy is read. Your press kit photo determines whether a journalist uses your quote or someone else's.</p>
+            <p style="color:var(--color-mid);margin-bottom:24px;line-height:1.8;">Professional photography sessions run $1,500–$3,000 for a half-day shoot. You get maybe 10 usable photos, one location, one outfit, one look. Then you need to do it again in 18 months when the photos feel dated.</p>
+            <p style="font-family:var(--font-display);font-size:1.4rem;font-style:italic;color:var(--color-white);">We solve all of that — for a fraction of the price.</p>
+          </div>
+          <div style="background:var(--color-bg-alt);border:1px solid var(--color-border);padding:48px 40px;">
+            <h3 style="margin-bottom:24px;">Traditional Photography vs. Live Web Photos</h3>
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--color-border);">
+              <span style="font-size:0.82rem;color:var(--color-mid);">Professional photographer session</span>
+              <span style="color:var(--color-white);font-weight:600;">$1,500–$3,000</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--color-border);">
+              <span style="font-size:0.82rem;color:var(--color-mid);">Locations available</span>
+              <span style="color:var(--color-white);font-weight:600;">1–2</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--color-border);">
+              <span style="font-size:0.82rem;color:var(--color-mid);">Usable final images</span>
+              <span style="color:var(--color-white);font-weight:600;">10–20</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--color-border);">
+              <span style="font-size:0.82rem;color:var(--color-mid);">Turnaround time</span>
+              <span style="color:var(--color-white);font-weight:600;">1–2 weeks</span>
+            </div>
+            <div style="margin-top:24px;padding-top:24px;border-top:2px solid var(--color-accent);">
+              <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--color-border);">
+                <span style="font-size:0.82rem;color:var(--color-accent);font-weight:600;">Live Web Photos — Professional</span>
+                <span style="color:var(--color-accent);font-weight:700;">$249</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--color-border);">
+                <span style="font-size:0.82rem;color:var(--color-mid);">Locations available</span>
+                <span style="color:var(--color-white);font-weight:600;">6+</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--color-border);">
+                <span style="font-size:0.82rem;color:var(--color-mid);">Final portfolio images</span>
+                <span style="color:var(--color-white);font-weight:600;">20</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:14px 0;">
+                <span style="font-size:0.82rem;color:var(--color-mid);">Turnaround time</span>
+                <span style="color:var(--color-white);font-weight:600;">48 hours</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section-alt" id="how-it-works">
+      <div class="container">
+        <span class="section-label spark">The Process</span>
+        <h2 class="section-title">Here's Exactly How It Works</h2>
+        <div class="lwp-steps">
+          <div class="step">
+            <div class="step-number">01</div>
+            <h3>Take 20 Photos</h3>
+            <p>Use your phone. You don't need a ring light or a fancy background. We need clear photos of your face from multiple angles — front, three-quarter, slight profile. Good natural light, indoors or outside. That's it.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">02</div>
+            <h3>Submit & Choose Scenes</h3>
+            <p>Upload your photos through our contact form. Tell us which scenes you want: office desk, café, outdoors, trading floor, casual lifestyle, formal executive. We have over 20 scene options across three style tiers.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">03</div>
+            <h3>Receive Your Portfolio</h3>
+            <p>Within 48 hours, your complete professional portfolio arrives — high-resolution, print-ready, web-optimized versions of every image. Ready to upload to LinkedIn, your website, and anywhere else you need to look the part.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE OPTIONS -->
+    <section class="section">
+      <div class="container">
+        <span class="section-label">Available Scenes</span>
+        <h2 class="section-title">Every Setting. Every Context.</h2>
+        <p class="section-intro">Here's a sample of scene options available across our portfolio packages. More scenes are added regularly.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;">
+          <div style="background:var(--color-bg-card);padding:32px;">
+            <div style="font-size:1.5rem;margin-bottom:12px;">🏢</div>
+            <h3 style="font-size:1rem;margin-bottom:8px;">Executive Office</h3>
+            <p style="font-size:0.85rem;color:var(--color-mid);margin:0;">At the desk, in front of bookshelves, in a conference room — the classic professional setting.</p>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;">
+            <div style="font-size:1.5rem;margin-bottom:12px;">☕</div>
+            <h3 style="font-size:1rem;margin-bottom:8px;">Coffee Shop / Café</h3>
+            <p style="font-size:0.85rem;color:var(--color-mid);margin:0;">Working remotely, casual meeting setup, warm ambient background. Approachable and modern.</p>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;">
+            <div style="font-size:1.5rem;margin-bottom:12px;">🌆</div>
+            <h3 style="font-size:1rem;margin-bottom:8px;">Urban Street / City</h3>
+            <p style="font-size:0.85rem;color:var(--color-mid);margin:0;">Walking on a city sidewalk, in front of glass buildings, candid movement shots.</p>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;">
+            <div style="font-size:1.5rem;margin-bottom:12px;">🌿</div>
+            <h3 style="font-size:1rem;margin-bottom:8px;">Outdoor / Park</h3>
+            <p style="font-size:0.85rem;color:var(--color-mid);margin:0;">Natural light, green surroundings, relaxed professional aesthetic. Great for consultants and coaches.</p>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;">
+            <div style="font-size:1.5rem;margin-bottom:12px;">📊</div>
+            <h3 style="font-size:1rem;margin-bottom:8px;">Trading Floor / Finance</h3>
+            <p style="font-size:0.85rem;color:var(--color-mid);margin:0;">Bloomberg-terminal backgrounds, financial services aesthetic. Perfect for advisors and analysts.</p>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;">
+            <div style="font-size:1.5rem;margin-bottom:12px;">🎯</div>
+            <h3 style="font-size:1rem;margin-bottom:8px;">Studio / Clean Background</h3>
+            <p style="font-size:0.85rem;color:var(--color-mid);margin:0;">Pure white, gradient grey, or solid color background. Timeless, versatile, always works.</p>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;">
+            <div style="font-size:1.5rem;margin-bottom:12px;">🎤</div>
+            <h3 style="font-size:1rem;margin-bottom:8px;">Stage & Keynote</h3>
+            <p style="font-size:0.85rem;color:var(--color-mid);margin:0;">On stage, at the podium, or in front of an audience. Built for speakers and trainers.</p>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;">
+            <div style="font-size:1.5rem;margin-bottom:12px;">👥</div>
+            <h3 style="font-size:1rem;margin-bottom:8px;">Training & Workshops</h3>
+            <p style="font-size:0.85rem;color:var(--color-mid);margin:0;">Leading a room, coaching one-on-one, or facilitating a small group.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO IT'S FOR -->
+    <section class="section-alt">
+      <div class="container">
+        <span class="section-label">Ideal For</span>
+        <h2 class="section-title">Who Orders an AI Professional Portfolio</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:60px;">
+          <div style="background:var(--color-bg-card);padding:32px;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:12px;">⚖️</div>
+            <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-white);">Attorneys</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:12px;">🏠</div>
+            <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-white);">Realtors</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:12px;">💼</div>
+            <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-white);">Consultants</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:12px;">🚀</div>
+            <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-white);">Entrepreneurs</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:12px;">🎙️</div>
+            <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-white);">Speakers</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:12px;">📱</div>
+            <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-white);">Content Creators</div>
+          </div>
+          <div style="background:var(--color-bg-card);padding:32px;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:12px;">🎓</div>
+            <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-white);">Trainers & Coaches</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING CALLOUT -->
+    <section class="section">
+      <div class="container" style="text-align:center;">
+        <span class="section-label">Simple Pricing</span>
+        <h2 style="margin-bottom:12px;">Pick Your Package</h2>
+        <p style="color:var(--color-mid);max-width:500px;margin:0 auto 48px;">One-time fee. No subscription. No retainer. No studio booking. Just upload and receive.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:0 auto;">
+          <div style="background:var(--color-bg-card);padding:40px 32px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:left;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-mid);margin-bottom:12px;">Essential</div>
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:var(--color-white);line-height:1;">$149</div>
+            <div style="font-size:0.8rem;color:var(--color-mid);margin-bottom:20px;">10 images · 3 scenes · 48hr</div>
+            <a href="contact.html" class="lwp-btn lwp-btn-outline" style="font-size:0.72rem;padding:10px 20px;">ORDER</a>
+          </div>
+          <div style="background:var(--color-accent-fill);padding:40px 32px;text-align:left;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:12px;">Professional ★</div>
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:#fff;line-height:1;">$249</div>
+            <div style="font-size:0.8rem;color:rgba(255,255,255,0.8);margin-bottom:20px;">20 images · 6 scenes · 24hr</div>
+            <a href="contact.html" class="lwp-btn lwp-btn--onfill" style="font-size:0.72rem;padding:10px 20px;">ORDER</a>
+          </div>
+          <div style="background:var(--color-bg-card);padding:40px 32px;border-radius:var(--radius-card);box-shadow:var(--shadow-glow);text-align:left;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-mid);margin-bottom:12px;">Executive</div>
+            <div style="font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:var(--color-white);line-height:1;">$399</div>
+            <div style="font-size:0.8rem;color:var(--color-mid);margin-bottom:20px;">30 images · 10 scenes · rush</div>
+            <a href="contact.html" class="lwp-btn lwp-btn-outline" style="font-size:0.72rem;padding:10px 20px;">ORDER</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Lightbox for portfolio gallery -->
+    <div class="lightbox" id="portfolio-lightbox" role="dialog" aria-label="Portfolio image" aria-hidden="true">
+      <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <button class="lightbox-nav lightbox-prev" aria-label="Previous image">&lsaquo;</button>
+      <img decoding="async" alt="">
+      <button class="lightbox-nav lightbox-next" aria-label="Next image">&rsaquo;</button>
+    </div>
+
+    <script is:inline>
+    (function(){
+      // Each gallery (Jon's hero set and each sample-portfolio grid) is its own
+      // group: arrows step through the clicked gallery only.
+      var galleries = document.querySelectorAll('#portfolio-gallery, .portfolio-grid');
+      var lightbox = document.getElementById('portfolio-lightbox');
+      if (!galleries.length || !lightbox) return;
+      var lightboxImg = lightbox.querySelector('img');
+      var closeBtn = lightbox.querySelector('.lightbox-close');
+      var prevBtn = lightbox.querySelector('.lightbox-prev');
+      var nextBtn = lightbox.querySelector('.lightbox-next');
+      var thumbs = [];
+      var currentIndex = 0;
+
+      function setImage(i) {
+        lightboxImg.setAttribute('src', thumbs[i].getAttribute('src'));
+        lightboxImg.setAttribute('alt', thumbs[i].getAttribute('alt') || '');
+      }
+      function open(i) {
+        currentIndex = i;
+        setImage(i);
+        lightbox.classList.remove('swapping');
+        // Force reflow so the scale(0.94)+opacity(0) state is committed
+        // before the .open class transitions us to scale(1)+opacity(1)
+        void lightboxImg.offsetWidth;
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        lightbox.classList.remove('open');
+        lightbox.classList.remove('swapping');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      function show(delta) {
+        var n = thumbs.length;
+        currentIndex = (currentIndex + delta + n) % n;
+        // If reduced motion is preferred, swap instantly
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          setImage(currentIndex);
+          return;
+        }
+        // Brief fade-out, swap src mid-dip, fade back in
+        lightbox.classList.add('swapping');
+        setTimeout(function() {
+          setImage(currentIndex);
+          var done = function() { lightbox.classList.remove('swapping'); };
+          if (lightboxImg.complete && lightboxImg.naturalWidth) {
+            done();
+          } else {
+            lightboxImg.addEventListener('load', done, { once: true });
+          }
+        }, 180);
+      }
+
+      Array.prototype.forEach.call(galleries, function(gallery){
+        var group = gallery.querySelectorAll('.photo-frame img');
+        Array.prototype.forEach.call(group, function(img, i){
+          img.addEventListener('click', function(){
+            thumbs = group;
+            lightbox.classList.toggle('single', group.length < 2);
+            open(i);
+          });
+        });
+      });
+
+      lightbox.addEventListener('click', function(e){
+        if (e.target === lightbox) close();
+      });
+      lightboxImg.addEventListener('click', function(e){ e.stopPropagation(); });
+      closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+      prevBtn.addEventListener('click', function(e){ e.stopPropagation(); show(-1); });
+      nextBtn.addEventListener('click', function(e){ e.stopPropagation(); show(1); });
+
+      document.addEventListener('keydown', function(e){
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowRight') show(1);
+        else if (e.key === 'ArrowLeft') show(-1);
+      });
+    })();
+    </script>
+  </main>
+
+  <Footer />
+  <LwpScripts />
+</Base>

@@ -26,6 +26,7 @@ const LWS_NAMES = [
   "Hosting & Performance",
   "WordPress & Migration",
   "Running a Business Online",
+  "Photos & Images",
   "LWS News",
 ];
 
@@ -45,6 +46,7 @@ const CATEGORY = z.enum([
   "Hosting & Performance",
   "WordPress & Migration",
   "Running a Business Online",
+  "Photos & Images",
   "LWS News",
   /* Live Band Web Studios */
   "Getting the Gig",
