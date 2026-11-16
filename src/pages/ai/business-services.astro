@@ -1,7 +1,10 @@
 ---
 /**
- * /services/ai-business-services — ported from the live site
- * (livewebstudios.com/services/ai-business-services). Rebuilt on v3
+ * /ai/business-services. Moved here from /services/ai-business-services on
+ * 2026-11-16 (five-studio navigation, handoff section 4): it is a
+ * LiveAiStudios page now, in the orange theme, with the LiveAiStudios nav and
+ * ticker. Copy unchanged. The old address 301s here (public/_redirects).
+ * Ported from the live site (livewebstudios.com/services/ai-business-services). Rebuilt on v3
  * layouts/components. Hero illustration dropped per no-image rule.
  * EM DASH BAN applied. The "LiveAiStudios" card links to an /ecosystem
  * page not yet ported to v3 (flagged in the port report).
@@ -17,6 +20,7 @@ import { scenePhoto } from "../../lib/studioScenes";
 import Marquee from "../../components/Marquee.astro";
 import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
+import "../../styles/ai.css";
 
 const cards = [
   { ico: "◈", title: "Strategy & Roadmap", body: "We look at where you actually are and map which tools are worth the trouble. Sometimes the answer is that AI solves nothing here yet, and I will tell you that.",
@@ -40,7 +44,7 @@ const pageSchema = [
     "@type": "WebPage",
     name: "AI Business Services | Live Web Studios",
     description: "AI strategy, team training, tool selection, and custom workflow automation for businesses. AI consulting from Live Web Studios, Saddle Brook, NJ.",
-    url: "https://livewebstudios.com/services/ai-business-services",
+    url: "https://livewebstudios.com/ai/business-services",
     isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
   },
   {
@@ -48,7 +52,7 @@ const pageSchema = [
     "@type": "Service",
     name: "AI Business Services | Live Web Studios",
     description: "AI strategy, team training, tool selection, and custom workflow automation for businesses. AI consulting from Live Web Studios, Saddle Brook, NJ.",
-    url: "https://livewebstudios.com/services/ai-business-services",
+    url: "https://livewebstudios.com/ai/business-services",
     areaServed: "US",
     provider: {
       "@type": "LocalBusiness",
@@ -64,12 +68,12 @@ const pageSchema = [
 <Base preloadHero={scenePhoto("proofs")}
   title="AI Business Services | Live Web Studios"
   description="AI strategy, team training, tool selection, and custom workflow automation for businesses. AI consulting from Live Web Studios, Saddle Brook, NJ."
-  canonical="https://livewebstudios.com/services/ai-business-services"
+  canonical="https://livewebstudios.com/ai/business-services"
   jsonld={pageSchema}
 >
   <Nav />
 
-  <main>
+  <main class="theme-live-ai">
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
       <StudioBg scene="proofs" hero />
@@ -106,7 +110,7 @@ const pageSchema = [
             <li><strong>We stay on as the technology changes,</strong> which it does, constantly.</li>
           </ul>
           <p class="copy-kicker">No one-size-fits-all package. Every project starts with an honest look at where AI can help your specific business. If it cannot, we will tell you that too.</p>
-          <p>See how AI is changing website builds with our <a href="ai-platform.html">LWS AI Platform →</a>.</p>
+          <p>See how AI is changing website builds with our <a href="../services/ai-platform.html">LWS AI Platform →</a>.</p>
         </div>
         <Glass class="reveal" innerClass="portrait portrait--img portrait--tall">
           <img

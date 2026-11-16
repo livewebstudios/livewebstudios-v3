@@ -122,7 +122,13 @@ const schema =
    The bare /services and /industries index pages do NOT match: the pattern
    requires a segment after the slash, and those two run the ServiceCard grids
    over an Aurora instead. The .html suffix on built pages matches either way. */
-const isDetailPage = /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname);
+/* Three AI service pages moved from /services to /ai on 2026-11-16 (five-studio
+   navigation, handoff section 4). They keep the detail-page card treatment
+   they had: card designs are a later phase, so the move changes the chrome
+   around the cards, not the cards. */
+const isDetailPage =
+  /^\/(services|industries)\/[^/]+/.test(Astro.url.pathname) ||
+  /^\/ai\/(business-services|workflow|email-writing)(\.html|\/|$)/.test(Astro.url.pathname);
 ---
 
 <!doctype html>

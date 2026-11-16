@@ -30,7 +30,7 @@ AI is not a magic button that spits out a finished, professional website in 30 s
 
 **Replace an experienced eye.** Good web work isn't just code and content. It's knowing what order things go in, what to leave out, what actually turns a visitor into a customer. AI helps with that judgment. It doesn't replace it.
 
-**Questions about AI and your website?** Reach out anytime. [Explore our AI services →](../services/ai-business-services.html)
+**Questions about AI and your website?** Reach out anytime. [Explore our AI services →](../ai/business-services.html)
 
 ---
 

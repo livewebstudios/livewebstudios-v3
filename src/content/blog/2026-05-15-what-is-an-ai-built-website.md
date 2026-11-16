@@ -34,5 +34,5 @@ The end result is a site that:
 
 It's not magic. It's just a better process producing a better product.
 
-**Wondering whether this makes sense for your site?** [See our AI web services →](../services/ai-business-services.html) No pressure. Let's talk.
+**Wondering whether this makes sense for your site?** [See our AI web services →](../ai/business-services.html) No pressure. Let's talk.
 

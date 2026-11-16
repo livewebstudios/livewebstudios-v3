@@ -250,14 +250,15 @@ export const servicePanes: ServicePane[] = [
         ],
       },
       {
-        /* Session 4 moves three of these under /ai; the hrefs change there. */
+        /* Three of these moved under /ai on 2026-11-16 (handoff section 4).
+           AI Platform and AI Image stay under /services, cross-listed. */
         heading: "More AI services",
         links: [
           ["AI Platform", "services/ai-platform.html"],
-          ["AI Business Services", "services/ai-business-services.html"],
-          ["AI Workflow", "services/ai-workflow.html"],
+          ["AI Business Services", "ai/business-services.html"],
+          ["AI Workflow", "ai/workflow.html"],
           ["AI Image", "services/ai-image.html"],
-          ["Email Writing", "services/email-writing.html"],
+          ["Email Writing", "ai/email-writing.html"],
         ],
       },
       {
@@ -339,8 +340,8 @@ export const tickerItems: Record<StudioKey, TickerItem[]> = {
     { label: "SEO & Marketing", href: "services/seo.html" },
     { label: "Branding", href: "services/branding.html" },
     { label: "Logo Design", href: "services/logo-design.html" },
-    /* Session 4 moves this page under /ai; the href changes there. */
-    { label: "AI Workflow", href: "services/ai-workflow.html" },
+    /* A LiveAiStudios page since 2026-11-16 (handoff section 4). */
+    { label: "AI Workflow", href: "ai/workflow.html" },
     { label: "Consulting", href: "services/consulting.html" },
     { label: "Expert Witness", href: "services/expert-witness.html" },
   ],
@@ -364,8 +365,9 @@ export const tickerItems: Record<StudioKey, TickerItem[]> = {
     { label: "AI Content in Your Voice", href: "ai/services.html#content" },
     { label: "AI Video & Photos", href: "ai/services.html#media" },
     { label: "Monthly Search Reports", href: "ai/services.html#reporting" },
-    /* Session 4 moves these two under /ai; the hrefs change there. */
-    { label: "AI Workflow", href: "services/ai-workflow.html" },
+    /* AI Workflow moved under /ai on 2026-11-16. AI Platform did not: it
+       stays a Live Web Studios page and is cross-listed here. */
+    { label: "AI Workflow", href: "ai/workflow.html" },
     { label: "AI Platform", href: "services/ai-platform.html" },
   ],
   /* Defined now, rendered from session 5 on, when the Live Web Photos pages

@@ -1,6 +1,9 @@
 ---
 /**
- * /services/email-writing: AI email voice systems.
+ * /ai/email-writing: AI email voice systems. Moved here from
+ * /services/email-writing on 2026-11-16 (five-studio navigation, handoff
+ * section 4): a LiveAiStudios page now, in the orange theme, with the
+ * LiveAiStudios nav and ticker. Copy unchanged. The old address 301s here.
  * Structure mirrored from services/expert-witness.astro (Base, Nav, Footer,
  * page-head with a background, sec-pad sections alternating is-alt and
  * has-scan, Glass variant="inner" cards, sec-head with eyebrow + h2, numbered
@@ -22,6 +25,7 @@ import VideoBg from "../../components/VideoBg.astro";
 import StudioBg from "../../components/StudioBg.astro";
 import Marquee from "../../components/Marquee.astro";
 import { relPrefix } from "../../lib/relPrefix";
+import "../../styles/ai.css";
 
 const rel = relPrefix(Astro.url.pathname);
 
@@ -152,7 +156,7 @@ const faqs = [
   },
 ];
 
-const CANONICAL = "https://livewebstudios.com/services/email-writing";
+const CANONICAL = "https://livewebstudios.com/ai/email-writing";
 /* 140 chars. Google truncates a description around 155-160, and the previous
    one ran 172, so its tail was being cut. It also led on "the emails you
    dread" and "bad news", the framing Jon pulled out of the hero, and named
@@ -200,7 +204,7 @@ const pageSchema = [
 >
   <Nav />
 
-  <main>
+  <main class="theme-live-ai">
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
       <VideoBg src="jon-webdesk.mp4" scrim="hero" />

@@ -48,6 +48,21 @@
 /ai.html                                                               /ai                          301
 
 
+# ===== AI SERVICE PAGES MOVED INTO LiveAiStudios (Jon 2026-11-16) =====
+# Five-studio navigation, handoff section 4. Three AI pages left /services
+# for /ai. Clean, trailing-slash and .html forms of each old address.
+# AI Platform and AI Image did not move: they stay under /services.
+/services/ai-business-services                                         /ai/business-services        301
+/services/ai-business-services/                                        /ai/business-services        301
+/services/ai-business-services.html                                    /ai/business-services        301
+/services/ai-workflow                                                  /ai/workflow                 301
+/services/ai-workflow/                                                 /ai/workflow                 301
+/services/ai-workflow.html                                             /ai/workflow                 301
+/services/email-writing                                                /ai/email-writing            301
+/services/email-writing/                                               /ai/email-writing            301
+/services/email-writing.html                                           /ai/email-writing            301
+
+
 # ===== SISTER COMPANIES ON THEIR OWN DOMAIN =====
 # Jon 2026-09-12: Live Web Photos is livewebphotos.com, there is no local
 # page any more. The old URL is in the live sitemap and indexed, so it 301s
@@ -152,8 +167,8 @@ https://www.livewebstudios.com/*                                       https://l
 /services/logo-design-graphics                                         /services/logo-design        301
 /services/custom-web-app-development/                                  /services/consulting         301
 /services/custom-web-app-development                                   /services/consulting         301
-/services/ai-consulting-automation/                                    /services/ai-business-services 301
-/services/ai-consulting-automation                                     /services/ai-business-services 301
+/services/ai-consulting-automation/                                    /ai/business-services        301
+/services/ai-consulting-automation                                     /ai/business-services        301
 /services/boost-your-brand-drive-results/                              /services/seo                301
 /services/comprehensive-digital-marketing/                             /services/seo                301
 /services/monthly-marketing-reports/                                   /services/seo                301

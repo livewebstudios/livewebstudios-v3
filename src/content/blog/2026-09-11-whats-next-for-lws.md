@@ -38,4 +38,4 @@ Twenty-plus years of running this business taught me that the relationships are 
 
 ---
 
-*Browse all our services: [Website Design](../services/website-design.html) · [SEO](../services/seo.html) · [Hosting](../services/hosting.html) · [AI Services](../services/ai-business-services.html) · [Consulting](../services/consulting.html).*
+*Browse all our services: [Website Design](../services/website-design.html) · [SEO](../services/seo.html) · [Hosting](../services/hosting.html) · [AI Services](../ai/business-services.html) · [Consulting](../services/consulting.html).*

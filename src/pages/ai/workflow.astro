@@ -1,7 +1,10 @@
 ---
 /**
- * /services/ai-workflow — ported from the live site
- * (livewebstudios.com/services/ai-workflow). Rebuilt on v3 layouts/components.
+ * /ai/workflow. Moved here from /services/ai-workflow on 2026-11-16
+ * (five-studio navigation, handoff section 4): a LiveAiStudios page now, in
+ * the orange theme, with the LiveAiStudios nav and ticker. Copy unchanged.
+ * The old address 301s here (public/_redirects).
+ * Ported from the live site (livewebstudios.com/services/ai-workflow). Rebuilt on v3 layouts/components.
  * Hero illustration dropped per no-image rule. No em dashes in body copy.
  */
 import Base from "../../layouts/Base.astro";
@@ -15,6 +18,7 @@ import { scenePhoto } from "../../lib/studioScenes";
 import Marquee from "../../components/Marquee.astro";
 import { tickerFromFeatures } from "../../lib/studios";
 import HeroActions from "../../components/HeroActions.astro";
+import "../../styles/ai.css";
 
 const cards = [
   { ico: "▤", title: "Content Pipelines", body: "Blog posts, social, product descriptions. The draft gets written for you so the job becomes editing instead of staring at an empty page.",
@@ -40,7 +44,7 @@ const pageSchema = [
     "@type": "WebPage",
     name: "AI Workflow Automation | Live Web Studios",
     description: "Automate content, communications, reporting and lead qualification with AI workflows built for small business. Live Web Studios, Saddle Brook NJ.",
-    url: "https://livewebstudios.com/services/ai-workflow",
+    url: "https://livewebstudios.com/ai/workflow",
     isPartOf: { "@type": "WebSite", name: "Live Web Studios", url: "https://livewebstudios.com" },
   },
   {
@@ -48,7 +52,7 @@ const pageSchema = [
     "@type": "Service",
     name: "AI Workflow Automation | Live Web Studios",
     description: "Automate content, communications, reporting and lead qualification with AI workflows built for small business. Live Web Studios, Saddle Brook NJ.",
-    url: "https://livewebstudios.com/services/ai-workflow",
+    url: "https://livewebstudios.com/ai/workflow",
     areaServed: "US",
     provider: {
       "@type": "LocalBusiness",
@@ -64,12 +68,12 @@ const pageSchema = [
 <Base preloadHero={scenePhoto("room")}
   title="AI Workflow Automation | Live Web Studios"
   description="Automate content, communications, reporting and lead qualification with AI workflows built for small business. Live Web Studios, Saddle Brook NJ."
-  canonical="https://livewebstudios.com/services/ai-workflow"
+  canonical="https://livewebstudios.com/ai/workflow"
   jsonld={pageSchema}
 >
   <Nav />
 
-  <main>
+  <main class="theme-live-ai">
     <!-- PAGE HEAD -->
     <section class="page-head page-head--glass has-videobg">
       <StudioBg scene="room" hero />
