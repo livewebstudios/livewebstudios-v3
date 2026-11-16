@@ -32,7 +32,7 @@ export type AiService = {
   blurb: string;
   detail: string;
   shipped: string;
-  proof: string; // anchor on /ai/proof
+  proof: string; // anchor on /ai/proof; "" links to the top of the page
 };
 
 export const SERVICES: AiService[] = [
@@ -100,7 +100,10 @@ export const SERVICES: AiService[] = [
     detail:
       "Useful for firms with rules to follow and data to protect. We assess the workflow and name the risks. Then you get a short list of moves, in the order they pay off.",
     shipped: "AI guidance for a law firm, plus workflow reviews for working businesses.",
-    proof: "advice",
+    /* Was "advice", an anchor /ai/proof has never had, so the link already
+       landed at the top of that page. Empty says so on purpose and keeps the
+       link checker clean (five-studio navigation QA, 2026-11-16). */
+    proof: "",
   },
 ];
 

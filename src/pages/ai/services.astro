@@ -67,7 +67,7 @@ const jsonld = SERVICES.map((s) => ({
                 <p>{s.blurb}</p>
                 <p class="ai-card__shipped">
                   <span class="ai-card__label">Work we've delivered</span>
-                  <a href={`proof.html#${s.proof}`}>{s.shipped}</a>
+                  <a href={`proof.html${s.proof ? `#${s.proof}` : ""}`}>{s.shipped}</a>
                 </p>
                 <div class="ai-card__cta">
                   <a class="btn btn-ghost" href={`#${s.id}`}>How it works ↓</a>
@@ -97,7 +97,7 @@ const jsonld = SERVICES.map((s) => ({
                 <p>{s.detail}</p>
                 <p class="ai-card__shipped">
                   <span class="ai-card__label">Work we've delivered</span>
-                  <a href={`proof.html#${s.proof}`}>{s.shipped}</a>
+                  <a href={`proof.html${s.proof ? `#${s.proof}` : ""}`}>{s.shipped}</a>
                 </p>
                 <p><a class="btn btn-primary" href={`${rel}ai/start.html`}>Start with AI →</a></p>
               </div>

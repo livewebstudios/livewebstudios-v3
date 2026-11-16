@@ -39,7 +39,7 @@ const loops: Record<Scene, string> = {
 const focus: Record<Scene, string> = {
   desk: "72% 50%",
   rack: "70% 50%",
-  keys: "60% 55%",
+  keys: "76% 62%",
   proofs: "68% 50%",
   room: "66% 50%",
 };

@@ -376,6 +376,9 @@ const values = [
     .fh-portraits__p img { opacity: 0.9; }
   }
   @media (prefers-reduced-motion: reduce) { .fh-portraits__p { animation: none !important; } }
+  /* The hero glow drift and the scroll cue pulse had no guard (five-studio
+     navigation QA, 2026-11-16). Nothing about them changes otherwise. */
+  @media (prefers-reduced-motion: reduce) { .fh-hero__bg, .fh-scroll-cue__line { animation: none !important; } }
 
   /* Cursor-parallax orbs (green). */
   .fh-orb {

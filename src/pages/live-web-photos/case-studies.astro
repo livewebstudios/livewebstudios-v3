@@ -38,6 +38,10 @@ import "../../styles/lwp.css";
 
     <section class="section section-bg-arch" style="--lwp-bg:url('../images/lwp/bg-arch-texture.jpg')">
       <div class="container">
+        {/* Structural only, the way the service pages do it: the cards below
+            are h3s and the old page had nothing between them and the h1.
+            Hidden so no new copy shows; take the class off to show it. */}
+        <h2 class="visually-hidden">Case studies by industry</h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;">
 
           <a href="case-studies/real-estate.html" style="background:var(--color-bg-card);display:block;text-decoration:none;color:inherit;transition:background 0.2s;" onmouseover="this.style.background='#1c1c1c'" onmouseout="this.style.background='var(--color-bg-card)'">

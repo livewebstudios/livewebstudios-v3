@@ -470,6 +470,12 @@ section[id]{scroll-margin-top:calc(var(--strip-h) + var(--nav-h) + 4px)} /* clea
 .theme-live-band .card > .glass-inner::after{display:none}
 .theme-namesake .card > .glass-inner,
 .theme-live-band .card > .glass-inner{overflow:visible}
+/* The card art layer above is scaled 1.12 and Namesake cards do not clip it.
+   Where the cards run one to a row (about 700 to 820px wide) it reached 11px
+   past the right edge and the whole page scrolled sideways. Clipped at the
+   section edge, which is the viewport edge, so nothing on screen changes
+   (five-studio navigation QA, 2026-11-16, OPEN_QUESTIONS N2-5). */
+.theme-namesake .sec-pad{overflow-x:clip}
 @media (prefers-reduced-motion:reduce){
   /* The controller freezes at the focus plane; a parked line would read as
      a stray rule across every card, so it is dropped entirely. */

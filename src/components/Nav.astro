@@ -951,6 +951,18 @@ const paneTint: Record<string, { rgb: string; cols: string[] }> = {
     .sn-mega::before {
       display: none;
     }
+    /* Its own rule on purpose. About and the sub-site dropdowns centre
+       themselves under their trigger with `translate: -50% 0` on desktop.
+       The reset for that sat in the block above beside `transform: none`,
+       and the build's CSS minifier dropped it as a duplicate of the
+       transform, so in the built site (not in `astro dev`) these three
+       accordions opened half off the left edge of a phone. `0 0` rather
+       than `none`, and kept apart from any transform, so it survives. */
+    .sn-mega--about,
+    .sn-mega--drop {
+      translate: 0 0;
+      left: auto;
+    }
     .sn-dd.is-open > .sn-mega,
     .sitenav:not(.is-js) .sn-dd:focus-within > .sn-mega {
       display: grid;
