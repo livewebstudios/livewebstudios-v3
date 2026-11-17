@@ -231,7 +231,7 @@
 .lb-hero:not(.lb-hero--page) :is(.lb-hero__sub, .lb-hero__h1, .lb-eyebrow, .lb-feat__text) { text-shadow: 0 1px 14px rgb(0 0 0 / .75), 0 1px 3px rgb(0 0 0 / .6); }
 .lb-hero__content { align-self: center; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--lb-s-4); row-gap: var(--lb-s-10); padding-block: var(--lb-s-16) var(--lb-s-10); }
 .lb-hero__center { grid-column: 1 / -1; order: -1; display: grid; justify-items: center; gap: var(--lb-s-5); text-align: center; }
-.lb-hero__logo { width: clamp(200px, 22vw, 300px); height: auto; filter: drop-shadow(0 10px 24px #000000b3); }
+.lb-hero__logo { width: clamp(260px, 28vw, 400px); height: auto; filter: drop-shadow(0 10px 24px #000000b3); }
 .lb-hero .lb-eyebrow, .lb-hero__h1 { color: var(--lb-cream); }
 .lb-hero__h1 { font: 400 var(--lb-fs-mono) / 1.5 var(--lb-font-mono); letter-spacing: var(--lb-tracking-mono); text-transform: uppercase; max-width: 44rem; margin: 0; }
 .lb-hero__title { display: grid; justify-items: center; font-size: var(--lb-fs-hero); font-weight: var(--lb-fw-display); letter-spacing: -.02em; line-height: .98;
@@ -519,7 +519,7 @@
 .lb-hero[data-hero] { min-height: max(calc(100svh - var(--strip-h, 38px) - var(--nav-h, 84px)), 40rem); }
 .lb-hero[data-hero] .lb-hero__content { padding-block: var(--lb-s-10) var(--lb-s-8); }
 .lb-hero[data-hero] .lb-hero__center { gap: var(--lb-s-4); }
-.lb-hero[data-hero] .lb-hero__logo { width: clamp(170px, 15vw, 230px); }
+.lb-hero[data-hero] .lb-hero__logo { width: clamp(220px, 20vw, 310px); }
 .lb-hero[data-hero] .lb-hero__meters { width: min(100%, 27rem); padding: var(--lb-s-4); margin-top: 0; }
 
 /* Studio ticker (Jon 2026-11-16, five-studio navigation). The sitewide Marquee

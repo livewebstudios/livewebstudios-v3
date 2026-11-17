@@ -93,7 +93,7 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
       /* Local since 2026-11-16: Live Web Photos is the fourth studio on this
          site (handoff section 5). Same address the studio strip uses. */
       ["Live Web Photos", studioByKey("lwp").href, "images/studios/live-web-photos.png"],
-      ["Live Band Web Studios", "live-band-web-studios.html", "images/studios/live-band-web-studios.png"],
+      ["Live Band Web Studios", "live-band-web-studios.html", "images/logo-live-band-gold-v2.svg"],
     ],
     sub: {
       h: "Insights",
@@ -517,8 +517,9 @@ const cols: { h: string; href?: string; links: string[][] }[] = [
     max-width: 100%;
     height: auto;
   }
+  /* LBWS v2 lockup (964x300) is wider; at 150px it was only 47px tall. */
   .foot-logo-row:last-child img {
-    width: 150px;
+    width: 200px;
   }
   /* Second heading inside the Studios column (INSIGHTS). */
   .foot-col h3.foot-col__sub {

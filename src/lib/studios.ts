@@ -124,7 +124,7 @@ export const studioNav: Record<StudioKey, StudioNav> = {
      opens a dropdown of the four form pages. */
   band: {
     label: "Live Band Web Studios",
-    logo: { src: "images/logo-live-band-gold.png", alt: "Live Band Web Studios", width: 681, height: 300 },
+    logo: { src: "images/logo-live-band-gold-v2.svg", alt: "Live Band Web Studios", width: 964, height: 300 },
     links: [
       { label: "Home", href: "live-band-web-studios.html" },
       { label: "Pricing", href: "live-band-web-studios/pricing.html" },
