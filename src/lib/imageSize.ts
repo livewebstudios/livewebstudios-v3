@@ -103,6 +103,21 @@ function webp(b: Buffer): Dim | undefined {
  * Undefined is a usable answer: callers spread it, so the attributes are simply
  * omitted and the markup is exactly what it was before.
  */
+/* SVG: width/height on the root <svg>, else the viewBox. Added 2026-11-16
+   for the LBWS v2 logo (964x300 SVG) in the footer Studios column. */
+function svg(b: Buffer): Dim | undefined {
+  const tag = b.toString("utf8").match(/<svg\b[^>]*>/i)?.[0];
+  if (!tag) return undefined;
+  const num = (name: string) => {
+    const m = tag.match(new RegExp(`\\s${name}\\s*=\\s*["']\\s*([\\d.]+)(px)?\\s*["']`, "i"));
+    return m ? Math.round(parseFloat(m[1])) : undefined;
+  };
+  const w = num("width"), h = num("height");
+  if (w && h) return { width: w, height: h };
+  const vb = tag.match(/viewBox\s*=\s*["']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
+  return vb ? { width: Math.round(parseFloat(vb[1])), height: Math.round(parseFloat(vb[2])) } : undefined;
+}
+
 export function imageSize(src: string): Dim | undefined {
   if (!src) return undefined;
   /* Strip any ../ prefix a template already applied, plus the leading slash. */
@@ -112,7 +127,7 @@ export function imageSize(src: string): Dim | undefined {
   let dim: Dim | undefined;
   try {
     const head = readFileSync(join(PUBLIC, key)).subarray(0, 64 * 1024);
-    dim = png(head) ?? jpeg(head) ?? webp(head);
+    dim = png(head) ?? jpeg(head) ?? webp(head) ?? svg(head);
     if (!dim || !dim.width || !dim.height) dim = undefined;
   } catch {
     /* Missing file: leave the attributes off rather than failing the build.
