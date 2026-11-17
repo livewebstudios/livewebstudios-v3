@@ -139,7 +139,7 @@ export const REBUILDS: { name: string; industry: string; img: string; line: stri
   { name: "Küche+Cucina", industry: "Luxury Kitchen Showroom", img: "kuchecucina", href: "https://www.kuche-cucina.com/",
     line: "Custom kitchens, European cabinetry, closets and baths, with a hero film to match.",
     body: "A kitchen and fine interiors showroom: custom kitchens, European cabinetry, closets, and baths, presented with a hero film that sells the craft before a word is read." },
-  { name: "Eileen Alexander", industry: "Reiki & Wellness", img: "eileenalexander", href: "https://eileenalexander.netlify.app/demos/2-sanctuary/",
+  { name: "Eileen Alexander", industry: "Reiki & Wellness", img: "eileenalexander", href: "https://eileenalexander.netlify.app/",
     line: "Reiki, coaching, yoga and meditation in Saddle River, with sessions booked right from the page.",
     body: "A Saddle River practice offering Reiki, life and grief coaching, yoga, and meditation, in person or by Zoom. Built calm and warm, so booking a session feels as easy as showing up." },
   { name: "VÖID", industry: "Concept Store", img: "void", href: "https://v-id.netlify.app/",
